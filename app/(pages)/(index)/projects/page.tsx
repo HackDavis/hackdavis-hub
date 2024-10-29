@@ -1,14 +1,14 @@
 'use client';
 
 import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
-import LoginPage from '../_components/LoginPage/LoginPage';
+import LoginPage from 'app/(pages)/judging-app/_components/LoginPage/LoginPage';
 // import SearchBar from './_components/SearchBar';
-import ProjectPage from 'app/(pages)/(index)/_components/ProjectsPage/ProjectPage';
+import ProjectPage from '../_components/ProjectsPage/ProjectPage';
 
 export default function Judges() {
   return (
     <ProtectedDisplay loadingDisplay={'loading...'} failDisplay={<LoginPage />}>
-      <div>
+      <div className="tw-flex tw-flex-col tw-h-full tw-bg-[#F2F2F7]">
         <ProjectPage />
       </div>
     </ProtectedDisplay>
