@@ -1,4 +1,7 @@
 import React from 'react';
+import ProjectTab from './ProjectTab';
+import Image from 'next/image';
+import projectCow from '/public/judges/projects/project-cow.svg';
 
 const currentProject = {
   id: 117,
@@ -13,6 +16,22 @@ const nextProjects = [
 ];
 
 const UnjudgedPage = () => {
+  if (nextProjects.length === 0) {
+    return (
+      <div className="tw-flex tw-mt-[65px] tw-flex-col tw-items-center tw-h-[calc(100vh-100px)] tw-bg-[#F2F2F7]">
+        <span className="tw-text-[32px] tw-font-[700] tw-text-[#000000] tw-mb-[12px]">
+          You're Done!
+        </span>
+        <span className="tw-text-[16px] tw-font-[500] tw-text-[#000000]">
+          You've judged all your projects.
+        </span>
+        <span className="tw-text-[16px] tw-font-[500] tw-text-[#000000] tw-mb-[32px]">
+          Thank you so much!
+        </span>
+        <Image src={projectCow} alt="Project Cow" />
+      </div>
+    );
+  }
   return (
     <div className="tw-flex tw-flex-col tw-h-full tw-bg-[#F2F2F7]">
       <span className="tw-text-[32px] tw-font-semibold tw-text-[#000000] tw-mb-[12px]">
@@ -21,7 +40,7 @@ const UnjudgedPage = () => {
       <span className="tw-mb-[24px] tw-text-[18px] tw-font-normal tw-text-[#000000] tw-tracking-[0.36px] tw-leading-[26.1px] tw-font-[400]">
         Projects must be judged in order one by one order.
       </span>
-      <div className="tw-flex tw-items-center tw-justify-center tw-w-full tw-h-[100px] tw-bg-white tw-rounded-[16px] tw-gap-[16px] tw-mb-[20px]">
+      <div className="tw-flex tw-items-center tw-justify-center tw-w-full tw-py-[20px] tw-bg-white tw-rounded-[16px] tw-gap-[16px] tw-mb-[20px]">
         <span className="tw-text-[48px] tw-text-[#000000] tw-leading-[60px] tw-font-[600]">
           {currentProject.id}
         </span>
@@ -50,6 +69,15 @@ const UnjudgedPage = () => {
       <span className="tw-text-[32px] tw-font-[600] tw-tracking-[0.64px] tw-text-[#000000] tw-mb-[24px]">
         Next up:
       </span>
+      <div className="tw-flex tw-flex-col tw-gap-[16px] tw-mb-[58px] tw-opacity-50">
+        {nextProjects.map((project) => (
+          <ProjectTab
+            key={project.id}
+            number={project.id}
+            name={project.name}
+          />
+        ))}
+      </div>
     </div>
   );
 };
