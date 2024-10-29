@@ -1,11 +1,12 @@
 import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
 import JudgingHub from '../JudgingHub/JudgingHub';
+import LoginForm from './LoginForm';
 
 export default function LoginPage() {
   return (
     <ProtectedDisplay
       loadingDisplay={<div>Loading...</div>}
-      failDisplay={<div>Please log in to access the Judging App</div>}
+      failDisplay={<LoginForm />}
     >
       <JudgingHub />
     </ProtectedDisplay>

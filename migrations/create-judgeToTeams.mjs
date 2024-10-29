@@ -1,18 +1,18 @@
 export async function up(db) {
-  await db.createCollection('judgeGroupToTeams', {
+  await db.createCollection('judgeToTeams', {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        title: 'JudgeGroupToTeam Object Validation',
-        required: ['judge_group_id', 'team_id', 'round'],
+        title: 'JudgeToTeams Object Validation',
+        required: ['judge_id', 'team_id', 'round'],
         properties: {
           _id: {
             bsonType: 'objectId',
             description: '_id must be an ObjectId',
           },
-          judge_group_id: {
+          judge_id: {
             bsonType: 'objectId',
-            description: 'judge_group_id must be an ObjectId',
+            description: 'judge_id must be an ObjectId',
           },
           team_id: {
             bsonType: 'objectId',
@@ -31,5 +31,5 @@ export async function up(db) {
 }
 
 export async function down(db) {
-  await db.collection('judgeGroupToTeams').drop();
+  await db.collection('judgeToTeams').drop();
 }
