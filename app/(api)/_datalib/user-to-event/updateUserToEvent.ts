@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { ObjectId } from 'mongodb';
-
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import {
@@ -11,30 +9,43 @@ import {
   NotFoundError,
 } from '@utils/response/Errors';
 
-export const UpdateTeam = async (id: string, body: object) => {
+export const updateUserToEvent = async (userId: string, eventId: string, body: object) => {
   try {
-    const object_id = new ObjectId(id);
+    const user_object_id = new ObjectId(userId);
+    const event_object_id = new ObjectId(eventId);
+    
+    // checks if empty
     if (isBodyEmpty(body)) {
       throw new NoContentError();
     }
+    
     const parsedBody = await parseAndReplace(body);
-
     const db = await getDatabase();
-    const team = await db.collection('teams').updateOne(
-      {
-        _id: object_id,
-      },
-      parsedBody
+    
+    // Update user details if the user ID is provided
+    const userUpdateResult = await db.collection('users').updateOne(
+      { _id: user_object_id },
+      { $set: parsedBody }
     );
 
-    if (team.matchedCount === 0) {
-      throw new NotFoundError(`Team with id: ${id} not found.`);
+    // Update event details if the event ID is provided
+    const eventUpdateResult = await db.collection('events').updateOne(
+      { _id: event_object_id },
+      { $set: parsedBody }
+    );
+
+    // Check if either the user or event was updated
+    if (userUpdateResult.matchedCount === 0 && eventUpdateResult.matchedCount === 0) {
+      throw new NotFoundError(`No user with id: ${userId} or event with id: ${eventId} found.`);
     }
 
+    // success resposnse
     return NextResponse.json(
-      { ok: true, body: team, error: null },
+      { ok: true, userUpdated: userUpdateResult.modifiedCount > 0, error: null },
       { status: 200 }
     );
+
+    // catch block for errors
   } catch (e) {
     const error = e as HttpError;
     return NextResponse.json(
