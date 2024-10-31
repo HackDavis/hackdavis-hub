@@ -1,9 +1,10 @@
-import { NextRequest } from 'next/server';
-import { DeleteJudge } from '@datalib/judges/deleteJudge';
+import { NextRequest, NextResponse } from 'next/server';
+import { DeleteUserToEvent } from '@datalib/user-to-event/deleteUserToEvent';
 
 export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  return DeleteJudge(params.id);
+  return NextResponse.json(await DeleteUserToEvent(params.id));
 }
+
