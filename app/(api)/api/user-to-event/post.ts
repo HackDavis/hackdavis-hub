@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
-import { CreateJudge } from '@datalib/judges/createJudge';
+import { createUserToEvent } from '@datalib/user-to-event/createUserToEvent';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  return CreateJudge(body);
+  return createUserToEvent(body);
 }
