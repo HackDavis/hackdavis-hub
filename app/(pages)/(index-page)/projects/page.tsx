@@ -8,7 +8,7 @@ import ProjectPage from '../_components/ProjectsPage/ProjectPage';
 export default function Judges() {
   return (
     <ProtectedDisplay loadingDisplay={'loading...'} failDisplay={<LoginPage />}>
-      <div>
+      <div className="tw-flex tw-flex-col tw-h-full tw-bg-[#F2F2F7]">
         <ProjectPage />
       </div>
     </ProtectedDisplay>
