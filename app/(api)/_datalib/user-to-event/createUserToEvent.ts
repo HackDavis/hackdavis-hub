@@ -41,9 +41,10 @@ export async function createUserToEvent(body: object) {
     // catch block for error handling
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return {
+      ok: false,
+      body: null,
+      error: error.message || 'Internal Server Error',
+    };
   }
 };
