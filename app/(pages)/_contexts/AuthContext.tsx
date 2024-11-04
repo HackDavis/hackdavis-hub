@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useState, useEffect, useCallback } from 'react';
 import VerifyToken from '@actions/auth/verifyToken';
-import AuthTokenInt from 'app/_types/authToken';
+import AuthTokenInt from '@typeDefs/authToken';
 import DeleteAuthToken from '@actions/auth/deleteAuthToken';
 
 interface AuthProviderValue {

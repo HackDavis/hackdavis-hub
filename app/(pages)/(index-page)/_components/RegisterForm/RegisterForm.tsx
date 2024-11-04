@@ -5,7 +5,7 @@ import Register from '@actions/auth/register';
 
 import styles from './RegisterForm.module.scss';
 import Link from 'next/link';
-import AuthTokenInt from 'app/_types/authToken';
+import AuthTokenInt from '@typeDefs/authToken';
 import { useInvite } from '@hooks/useInvite';
 import { useRouter } from 'next/navigation';
 

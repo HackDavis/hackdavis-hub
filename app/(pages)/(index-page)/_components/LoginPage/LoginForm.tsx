@@ -6,7 +6,7 @@ import LoginAction from '@actions/auth/login';
 import styles from './LoginForm.module.scss';
 // import Link from 'next/link';
 import Image from 'next/image';
-import AuthTokenInt from 'app/_types/authToken';
+import AuthTokenInt from '@typeDefs/authToken';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');

@@ -11,8 +11,8 @@ import Submission from './ScoringSubComponents/Submission';
 
 import updateSubmission from '@actions/submissions/updateSubmission';
 
-import TeamInt from 'app/_types/teams';
-import SubmissionInt from 'app/_types/submissions';
+import TeamInt from '@typeDefs/team';
+import SubmissionInt from '@typeDefs/submission';
 import { useRouter } from 'next/navigation';
 
 const generalScoreNames = [
@@ -46,7 +46,7 @@ export default function ScoringForm({
   const [updateState, UpdateSubmission] = useFormState(updateSubmission, {
     ok: false,
     body: null,
-    error: null,
+    error: '',
   });
 
   const [ready, setReady] = useState(5 + team.tracks.length - already_done);
@@ -81,7 +81,10 @@ export default function ScoringForm({
         />
         <div>
           <Comments submission={submission.comments ?? ''} />
-          <Submission canSubmit={ready <= 0} error={updateState.error} />
+          <Submission
+            canSubmit={ready <= 0}
+            error={updateState.error ? updateState.error : ''}
+          />
         </div>
       </form>
     </div>
