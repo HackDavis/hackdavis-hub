@@ -9,49 +9,42 @@ import {
 
 export async function createUserToEvent(body: object) {
   try {
-    console.log('Received body:', body);
-
     if (isBodyEmpty(body)) {
-      console.log('Body is empty');
       throw new NoContentError();
     }
 
+    // general stuff
     const db = await getDatabase();
-    console.log('Connected to database');
-
     const parsedBody = await parseAndReplace(body);
-    console.log('Parsed body:', parsedBody);
-
     const currentDate = new Date().toISOString();
+
+    // adds new document into user_to_event collection (?)
     const creationStatus = await db.collection('user_to_event').insertOne({
       ...parsedBody,
       _last_modified: currentDate,
       _created_at: currentDate,
     });
-    console.log('Creation status:', creationStatus);
 
+    // finds a document in user_to_event collection given insertedId from crerationStatus
     const createdAssociation = await db.collection('user_to_event').findOne({
       _id: creationStatus.insertedId,
     });
-    console.log('Created association:', createdAssociation);
 
+    // error if document dne
     if (!createdAssociation) {
-      console.log('Created association not found');
       throw new HttpError('Failed to fetch the created association');
     }
 
-    // Returning a NextResponse directly
-    return NextResponse.json(
-      { ok: true, body: createdAssociation, error: null },
-      { status: 201 }
-    );
+    // success response
+    return { ok: true, body: createdAssociation, error: null };
 
+    // catch block for error handling
   } catch (e) {
     const error = e as HttpError;
-    console.log('Error:', error.message);
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return {
+      ok: false,
+      body: null,
+      error: error.message || 'Internal Server Error',
+    };
   }
 };
