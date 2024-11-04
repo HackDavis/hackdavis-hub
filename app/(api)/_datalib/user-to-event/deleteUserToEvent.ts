@@ -17,7 +17,7 @@ export const DeleteUserToEvent = async (id: string) => {
       _id: object_id,
     });
 
-    // if can't find doc to delete, show error
+    // if can't find doc to delete, throw NotFoundError instead
     if (deleteStatus.deletedCount === 0) {
       throw new NotFoundError(`Association with id: ${id} not found.`);
     }
@@ -28,7 +28,6 @@ export const DeleteUserToEvent = async (id: string) => {
       { status: 200 }
     );
 
-  // catch block for error handling
   } catch (e) {
     const error = e as HttpError;
     return NextResponse.json(
