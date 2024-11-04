@@ -11,8 +11,8 @@ import {
 
 export const updateUserToEvent = async (userId: string, eventId: string, body: object) => {
   try {
-    const user_object_id = new ObjectId(userId);
-    const event_object_id = new ObjectId(eventId);
+    const user_id = new ObjectId(userId);
+    const event_id = new ObjectId(eventId);
     
     // checks if empty
     if (isBodyEmpty(body)) {
@@ -24,13 +24,13 @@ export const updateUserToEvent = async (userId: string, eventId: string, body: o
     
     // Update user details if the user ID is provided
     const userUpdateResult = await db.collection('users').updateOne(
-      { _id: user_object_id },
+      { _id: user_id },
       { $set: parsedBody }
     );
 
     // Update event details if the event ID is provided
     const eventUpdateResult = await db.collection('events').updateOne(
-      { _id: event_object_id },
+      { _id: event_id },
       { $set: parsedBody }
     );
 

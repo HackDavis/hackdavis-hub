@@ -1,4 +1,4 @@
-// app/api/userToEvent/route.ts
+
 import { NextRequest } from 'next/server';
 import getQueries from '@utils/request/getQueries';
 import { GetUserToEvent } from '@datalib/user-to-event/getUserToEvent'; // Adjust the import path as needed
