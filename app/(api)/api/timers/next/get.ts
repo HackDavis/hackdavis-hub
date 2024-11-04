@@ -1,6 +1,7 @@
-import { type NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { GetNextTimer } from '@datalib/helpTimers/getHelpTimer';
 
 export async function GET(_: NextRequest) {
-  return GetNextTimer();
+  const res = await GetNextTimer();
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

@@ -1,9 +1,10 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { GetJudgeGroup } from '@datalib/judgeGroups/getJudgeGroup';
 
 export async function GET(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  return GetJudgeGroup(params.id);
+  const res = await GetJudgeGroup(params.id);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

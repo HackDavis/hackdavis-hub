@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
@@ -52,15 +51,9 @@ export const CreateSubmission = async (body: {
       _id: new ObjectId(creationStatus.insertedId),
     });
 
-    return NextResponse.json(
-      { ok: true, body: submission, error: null },
-      { status: 201 }
-    );
+    return { ok: true, body: submission, error: null, status: 201 };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

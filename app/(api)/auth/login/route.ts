@@ -10,11 +10,10 @@ import type AuthTokenInt from '@typeDefs/authToken';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const res = await Login(body);
-    const data = await res.json();
+    const data = await Login(body);
 
-    if (!data.ok) {
-      throw new NotAuthenticatedError(data.error);
+    if (!data.ok || !data.body) {
+      throw new NotAuthenticatedError(data.error as string);
     }
 
     const payload = jwt.decode(data.body) as AuthTokenInt;

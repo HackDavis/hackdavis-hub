@@ -33,7 +33,7 @@ const ProjectPage = () => {
   );
 
   return (
-    <div>
+    <div className="tw-flex tw-flex-col tw-h-full tw-bg-[#F2F2F7]">
       <div className="tw-flex tw-items-center tw-ml-[20px] tw-gap-[12px] tw-mt-[59px]">
         <FaChevronLeft fill="#005271" height={8.48} width={4.24} />
         <span className="tw-font-semibold tw-text-[18px] tw-tracking-[0.36px] tw-text-[#005271] tw-leading-[100%]">
@@ -45,7 +45,7 @@ const ProjectPage = () => {
           Project
         </span>
       </div>
-      <div className="tw-flex tw-px-[20px] tw-space-x-[8px] tw-bg-white tw-mb-[32px]">
+      <div className="tw-flex tw-px-[20px] tw-space-x-[8px] tw-mb-[32px]">
         <Button
           text="Unjudged"
           isSelected={selectedButton === 'Unjudged'}

@@ -15,7 +15,7 @@ export default function CsvIngestion() {
     const fileRes = await uploadFile(formData);
     setUploadRes(JSON.stringify(fileRes.ok));
 
-    if (fileRes.ok) {
+    if (fileRes.ok && fileRes.body) {
       setPending(true);
       const res = await ingestCSV(fileRes.body);
       setResponse(JSON.stringify(res));
