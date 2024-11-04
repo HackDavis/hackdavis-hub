@@ -1,7 +1,8 @@
 import { CreateSubmission } from '@datalib/submissions/createSubmission';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  return CreateSubmission(body);
+  const res = await CreateSubmission(body);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

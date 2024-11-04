@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
@@ -18,15 +17,9 @@ export const CreateHelpTimer = async (body: object) => {
       _id: new ObjectId(creationStatus.insertedId),
     });
 
-    return NextResponse.json(
-      { ok: true, body: helpTimer, error: null },
-      { status: 201 }
-    );
+    return { ok: true, body: helpTimer, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

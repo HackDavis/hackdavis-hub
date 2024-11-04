@@ -14,11 +14,10 @@ export default async function ResetPasswordAction(
 }> {
   try {
     const body = FormToJSON(formData) as { email: string; password: string };
-    const res = await ResetPassword(body);
-    const data = await res.json();
+    const data = await ResetPassword(body);
 
     if (!data.ok) {
-      throw new HttpError(data.error);
+      throw new HttpError(data.error as string);
     }
 
     return { ok: true, body: data || null, error: null };

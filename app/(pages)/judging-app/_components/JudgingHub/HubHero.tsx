@@ -1,4 +1,4 @@
-import JudgeInt from '@typeDefs/judges';
+import JudgeInt from '@typeDefs/judge';
 import styles from './HubHero.module.scss';
 import Image from 'next/image';
 import judgeHeroes from '/public/judges/hub/judgingheroes.svg';

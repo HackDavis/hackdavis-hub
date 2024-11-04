@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
@@ -32,15 +31,9 @@ export const UpdateJudgeGroup = async (id: string, body: object) => {
       throw new NotFoundError(`Judge Group with id: ${id} not found.`);
     }
 
-    return NextResponse.json(
-      { ok: true, body: judgeGroup, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: judgeGroup, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

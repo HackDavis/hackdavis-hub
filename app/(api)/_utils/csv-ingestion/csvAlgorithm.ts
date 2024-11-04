@@ -1,20 +1,11 @@
 import csv from 'csv-parser';
-import { NextResponse } from 'next/server';
 import trackData from '../../_data/tracks.json' assert { type: 'json' };
 import { Readable } from 'stream';
-
-interface parsedRecord {
-  name: string;
-  number: number;
-  tracks: string[];
-}
-
-interface track {
-  name: string;
-}
+import trackInt from '@typeDefs/track';
+import parsedRecordInt from '@typeDefs/parsedRecord';
 
 const validTracks: string[] = trackData
-  .map((track: track) => track.name)
+  .map((track: trackInt) => track.name)
   .filter((t) => t !== 'Best Hack for Social Good');
 
 function sortTracks(track1: string, track2: string, chosentracks: string) {
@@ -46,8 +37,8 @@ function sortTracks(track1: string, track2: string, chosentracks: string) {
 
 export default async function csvAlgorithm(blob: Blob) {
   try {
-    const parsePromise = new Promise<parsedRecord[]>((resolve, reject) => {
-      const output: parsedRecord[] = [];
+    const parsePromise = new Promise<parsedRecordInt[]>((resolve, reject) => {
+      const output: parsedRecordInt[] = [];
 
       const parseBlob = async () => {
         const buffer = Buffer.from(await blob.arrayBuffer());
@@ -83,9 +74,9 @@ export default async function csvAlgorithm(blob: Blob) {
 
     const results = await parsePromise;
 
-    return NextResponse.json({ ok: true, body: results, error: null });
+    return { ok: true, body: results, error: null };
   } catch (e) {
     const error = e as Error;
-    return NextResponse.json({ ok: false, body: null, error: error.message });
+    return { ok: false, body: null, error: error.message };
   }
 }
