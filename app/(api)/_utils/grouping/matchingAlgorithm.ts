@@ -1,5 +1,5 @@
-import JudgeGroup from '@typeDefs/judgeGroups';
-import Team from '@typeDefs/teams';
+import JudgeGroup from '@typeDefs/judgeGroup';
+import Team from '@typeDefs/team';
 import tracks from '../../_data/tracks.json' assert { type: 'json' };
 import JudgeGroupToTeam from '@typeDefs/judgeGroupToTeam';
 

@@ -7,12 +7,12 @@ import {
 import parseAndReplace from '@utils/request/parseAndReplace';
 
 export async function getSubmission(judge_id: string, team_id: string) {
-  const submissionRes = await GetSubmission(judge_id, team_id);
-  return submissionRes.json();
+  const submission = await GetSubmission(judge_id, team_id);
+  return submission;
 }
 
 export async function getManySubmissions(query: object = {}) {
   const newQuery = await parseAndReplace(query);
-  const submissionRes = await GetManySubmissions(newQuery);
-  return submissionRes.json();
+  const submissions = await GetManySubmissions(newQuery);
+  return submissions;
 }

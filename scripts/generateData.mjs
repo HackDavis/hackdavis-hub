@@ -23,7 +23,7 @@ function generateData(collectionName, numDocuments) {
     data.push({
       name: 'Admin',
       email: 'admin@hackdavis.io',
-      password: 'hackdavis123',
+      password: '$2a$10$oit1hC4hBaj9OX.WQxm3uOtb0qnPNk4iR9QhZmFm7/r1rAphAMAva',
       specialty: 'tech',
       role: 'admin',
     });
