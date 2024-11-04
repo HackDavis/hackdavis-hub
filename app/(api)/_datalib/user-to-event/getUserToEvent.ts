@@ -28,19 +28,6 @@ export const GetUserToEvent = async (query: object = {}) => {
           as: 'users',              // Change from 'teams' to 'users'
         },
       },
-      {
-        $project: {                // Project the necessary fields
-          _id: 1,                  // user_to_event ID
-          user_id: 1,
-          event_id: 1,
-          events: {
-            $arrayElemAt: ['$events', 0], // Get the first event document
-          },
-          users: {
-            $arrayElemAt: ['$users', 0],   // Get the first user document
-          },
-        },
-      },
     ]).toArray();
 
     return NextResponse.json(
