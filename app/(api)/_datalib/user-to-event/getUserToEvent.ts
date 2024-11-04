@@ -1,29 +1,52 @@
+// GetUserToEvent.ts
 import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { HttpError, NotFoundError } from '@utils/response/Errors';
+import { HttpError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
-export const GetUserToEvent = async (id: string, idType: 'user_id' | 'event_id') => {
+export const GetUserToEvent = async (query: object = {}) => {
   try {
-    // Validate and set up the query based on the id type
-    const object_id = new ObjectId(id);
     const db = await getDatabase();
-    const query = idType === 'user_id' ? { user_id: object_id } : { event_id: object_id };
 
-    const association = await db.collection('user_to_event').findOne(query);
+    const userEvents = await db.collection('user_to_event').aggregate([
+      {
+        $match: query,
+      },
+      {
+        $lookup: {
+          from: 'events',           // Your events collection name
+          localField: 'event_id',
+          foreignField: '_id',
+          as: 'events',             // Change from 'judgeGroups' to 'events'
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',            // Your users collection name
+          localField: 'user_id',
+          foreignField: '_id',
+          as: 'users',              // Change from 'teams' to 'users'
+        },
+      },
+      {
+        $project: {                // Project the necessary fields
+          _id: 1,                  // user_to_event ID
+          user_id: 1,
+          event_id: 1,
+          events: {
+            $arrayElemAt: ['$events', 0], // Get the first event document
+          },
+          users: {
+            $arrayElemAt: ['$users', 0],   // Get the first user document
+          },
+        },
+      },
+    ]).toArray();
 
-    // if associate for given id type doesnt exist, then error
-    if (!association) {
-      throw new NotFoundError(`Association with ${idType}: ${id} not found.`);
-    }
-
-    // success response
     return NextResponse.json(
-      { ok: true, body: association, error: null },
+      { ok: true, body: userEvents, error: null },
       { status: 200 }
     );
-
-  // catch block for error handling
   } catch (e) {
     const error = e as HttpError;
     return NextResponse.json(

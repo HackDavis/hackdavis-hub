@@ -1,19 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { GetUserToEvent } from '@datalib/user-to-event/getUserToEvent';
+// app/api/userToEvent/route.ts
+import { NextRequest } from 'next/server';
 import getQueries from '@utils/request/getQueries';
+import { GetUserToEvent } from '@datalib/user-to-event/getUserToEvent'; // Adjust the import path as needed
 
 export async function GET(request: NextRequest) {
-  const queries = await getQueries(request, 'events');
-  
-  const id = queries.id as string;
-  const idType = queries.idType as 'user_id' | 'event_id';
-
-  if (!id || !idType) {
-    return NextResponse.json(
-      { ok: false, body: null, error: "Missing 'id' or 'idType' in query parameters" },
-      { status: 400 }
-    );
-  }
-
-  return await GetUserToEvent(id, idType);
+  const queries = await getQueries(request, 'userToEvent'); // Fetch query parameters for userToEvent
+  return GetUserToEvent(queries); // Call the GetUserToEvent function with the queries
 }
