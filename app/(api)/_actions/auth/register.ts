@@ -6,8 +6,8 @@ import { Register } from '@datalib/auth/register';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 import FormToJSON from '@utils/form/FormToJSON';
 
-import type AuthTokenInt from 'app/_types/authToken';
-import type JudgeInt from 'app/_types/judges';
+import type AuthTokenInt from '@typeDefs/authToken';
+import type JudgeInt from '@typeDefs/judge';
 
 export default async function RegisterAction(
   prevState: any,
@@ -20,11 +20,10 @@ export default async function RegisterAction(
   try {
     const body = FormToJSON(formData) as JudgeInt;
 
-    const res = await Register(body);
-    const data = await res.json();
+    const data = await Register(body);
 
-    if (!data.ok) {
-      throw new NotAuthenticatedError(data.error);
+    if (!data.ok || !data.body) {
+      throw new NotAuthenticatedError(data.error as string);
     }
 
     const payload = jwt.decode(data.body) as AuthTokenInt;

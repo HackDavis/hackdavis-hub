@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 import jwt from 'jsonwebtoken';
 import { HttpError } from '@utils/response/Errors';
-import type AuthTokenInt from 'app/_types/authToken';
+import type AuthTokenInt from '@typeDefs/authToken';
 import { Register } from '@datalib/auth/register';
 import { GetManyJudges } from '@datalib/judges/getJudge';
 import getQueries from '@utils/request/getQueries';
@@ -14,8 +14,7 @@ export async function POST(request: NextRequest) {
   try {
     const { data: d, sig: s } = await getQueries(request, 'judges');
 
-    const judgesRes = await GetManyJudges();
-    const judges = await judgesRes.json();
+    const judges = await GetManyJudges();
 
     const verified = verifyHMACSignature(d as string, s as string);
     if (judges.body?.length !== 0 && !verified) {
@@ -32,11 +31,10 @@ export async function POST(request: NextRequest) {
       body['role'] = parsed?.role ?? body.role;
     }
 
-    const res = await Register(body);
-    const data = await res.json();
+    const data = await Register(body);
 
-    if (!data.ok) {
-      throw new HttpError(data.error);
+    if (!data.ok || !data.body) {
+      throw new HttpError(data.error as string);
     }
 
     const payload = jwt.decode(data.body) as AuthTokenInt;

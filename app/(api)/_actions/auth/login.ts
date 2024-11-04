@@ -6,8 +6,8 @@ import { Login } from '@datalib/auth/login';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 import FormToJSON from '@utils/form/FormToJSON';
 
-import type AuthTokenInt from 'app/_types/authToken';
-import JudgeInt from 'app/_types/judges';
+import type AuthTokenInt from '@typeDefs/authToken';
+import JudgeInt from '@typeDefs/judge';
 
 export default async function LoginAction(
   prevState: any,
@@ -19,11 +19,10 @@ export default async function LoginAction(
 }> {
   try {
     const body = FormToJSON(formData) as JudgeInt;
-    const res = await Login(body);
-    const data = await res.json();
+    const data = await Login(body);
 
-    if (!data.ok) {
-      throw new NotAuthenticatedError(data.error);
+    if (!data.ok || !data.body) {
+      throw new NotAuthenticatedError(data.error as string);
     }
 
     const payload = jwt.decode(data.body) as AuthTokenInt;
@@ -36,9 +35,9 @@ export default async function LoginAction(
       httpOnly: true,
     });
 
-    return { ok: true, body: payload || null };
+    return { ok: true, body: payload || null, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, error: error.message };
+    return { ok: false, body: null, error: error.message };
   }
 }

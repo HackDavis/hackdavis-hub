@@ -1,7 +1,7 @@
 'use server';
 
 import { getManyTeams } from '@actions/teams/getTeams';
-import Team from 'app/_types/teams';
+import Team from '@typeDefs/team';
 import rankTeams from '@utils/scoring/rankTeams';
 
 export default async function scoreTeams() {

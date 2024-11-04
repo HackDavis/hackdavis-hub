@@ -1,4 +1,4 @@
-import Judge from 'app/_types/judges';
+import Judge from '@typeDefs/judge';
 
 function createGroups(judgeArray: Judge[], groupType: string) {
   const groupArray: { type: string; judge_ids: object }[] = [];

@@ -2,7 +2,7 @@
 
 import { LinkManyJudgeGroupsToTeams } from '@datalib/judgeGroups/linkJudgeGroupToTeam';
 import matchingAlgorithm from '@utils/grouping/matchingAlgorithm';
-import JudgeGroupToTeam from 'app/_types/judgeGroupToTeam';
+import JudgeGroupToTeam from '@typeDefs/judgeGroupToTeam';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import { getManyJudgeGroups } from '@actions/judgeGroups/getJudgeGroup';
 import { getManyTeams } from '@actions/teams/getTeams';

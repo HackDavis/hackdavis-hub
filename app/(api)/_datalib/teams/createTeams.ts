@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 import parseAndReplace from '@utils/request/parseAndReplace';
@@ -8,7 +7,7 @@ import {
   BadRequestError,
   DuplicateError,
 } from '@utils/response/Errors';
-import Team from 'app/_types/teams';
+import Team from '@typeDefs/team';
 import tracks from '../../_data/tracks.json' assert { type: 'json' };
 
 export const CreateManyTeams = async (body: object[]) => {
@@ -72,15 +71,9 @@ export const CreateManyTeams = async (body: object[]) => {
       })
       .toArray();
 
-    return NextResponse.json(
-      { ok: true, body: await teams, error: null },
-      { status: 201 }
-    );
+    return { ok: true, body: await teams, error: null, status: 201 };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

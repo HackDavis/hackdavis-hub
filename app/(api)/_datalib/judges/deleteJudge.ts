@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError, NotFoundError } from '@utils/response/Errors';
@@ -16,15 +15,9 @@ export const DeleteJudge = async (id: string) => {
       throw new NotFoundError(`judge with id: ${id} not found.`);
     }
 
-    return NextResponse.json(
-      { ok: true, body: 'judge deleted', error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: 'judge deleted', error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

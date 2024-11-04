@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
@@ -67,15 +66,9 @@ export const CreateJudgeGroup = async (body: object) => {
         { $set: { judge_group_id: judgeGroupId } }
       );
 
-    return NextResponse.json(
-      { ok: true, body: judge_group, error: null },
-      { status: 201 }
-    );
+    return { ok: true, body: judge_group, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

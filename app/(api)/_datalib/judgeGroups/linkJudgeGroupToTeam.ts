@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
@@ -78,16 +77,10 @@ export const LinkManyJudgeGroupsToTeams = async (body: object[]) => {
       })
       .toArray();
 
-    return NextResponse.json(
-      { ok: true, body: await links, error: null },
-      { status: 201 }
-    );
+    return { ok: true, body: await links, error: null, status: 201 };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };
 
@@ -144,15 +137,9 @@ export const LinkJudgeGroupToTeam = async (body: {
       _id: new ObjectId(creationStatus.insertedId),
     });
 
-    return NextResponse.json(
-      { ok: true, body: judgeGroupToTeam, error: null },
-      { status: 201 }
-    );
+    return { ok: true, body: judgeGroupToTeam, error: null, status: 201 };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

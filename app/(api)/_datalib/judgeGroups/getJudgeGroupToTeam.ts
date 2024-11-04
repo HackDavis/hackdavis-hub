@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError } from '@utils/response/Errors';
 
@@ -31,15 +30,9 @@ export const GetManyJudgeGroupToTeams = async (query: object = {}) => {
       ])
       .toArray();
 
-    return NextResponse.json(
-      { ok: true, body: judgeGroupsToTeams, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: judgeGroupsToTeams, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };
