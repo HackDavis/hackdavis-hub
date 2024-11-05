@@ -6,7 +6,7 @@ interface JudgeInt {
   specialty: string;
   role: string;
   judge_group_id?: string;
-  submission_ids?: string[];
+  submission_ids?: string[]; //change to score_id?
 }
 
 export default JudgeInt;

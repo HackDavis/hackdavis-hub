@@ -4,7 +4,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Users Object Validation',
-        required: ['name', 'email', 'password', 'role'],
+        required: ['name', 'email', 'password', 'role', 'created_at'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -24,22 +24,37 @@ export async function up(db) {
             description: 'encrypted password must be a string',
           },
           specialties: {
-            //optional for hackers - how do i have it so that they can choose multiple?
+            //optional for hackers
+            //is this correct to have both array and enum?
+            bsonType: 'array',
             enum: ['tech', 'business', 'design'],
             description: 'specialties must be either tech, business, or design',
           },
           position: {
             //optional
+            //is this right? or just need enum is ok
             bsonType: 'string',
-            description: 'position must be an string',
+            enum: ['devloper', 'designer', 'pm', 'other'],
+            description:
+              'position must be either developer, designer, pm, or other',
           },
           role: {
             enum: ['hacker', 'judge', 'admin'],
             description: 'role must be either hacker, judge, or admin',
           },
           starter_kit_stage: {
-            enum: 'integer',
+            //optional
+            enum: 'int',
             description: 'start_kit_stage must be an integer',
+          },
+          is_beginner: {
+            //optional
+            bsonType: 'boolean',
+            description: 'is_beginner must be a boolean',
+          },
+          created_at: {
+            bsonType: 'date',
+            description: 'created_at must be a date',
           },
         },
         additionalProperties: false,

@@ -12,7 +12,7 @@ import Submission from './ScoringSubComponents/Submission';
 import updateSubmission from '@actions/submissions/updateSubmission';
 
 import TeamInt from '@typeDefs/team';
-import SubmissionInt from '@typeDefs/submission';
+import SubmissionInt from '@typeDefs/score';
 import { useRouter } from 'next/navigation';
 
 const generalScoreNames = [
