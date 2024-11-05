@@ -13,15 +13,15 @@ export const updateUserToEvent = async (userId: string, eventId: string, body: o
   try {
     const user_id = new ObjectId(userId);
     const event_id = new ObjectId(eventId);
-    
-    // checks if empty
+
+    // Check if the body is empty
     if (isBodyEmpty(body)) {
       throw new NoContentError();
     }
-    
+
     const parsedBody = await parseAndReplace(body);
     const db = await getDatabase();
-    
+
     // Update user details if the user ID is provided
     const userUpdateResult = await db.collection('users').updateOne(
       { _id: user_id },
@@ -35,17 +35,19 @@ export const updateUserToEvent = async (userId: string, eventId: string, body: o
     );
 
     // Check if either the user or event was updated
-    if (userUpdateResult.matchedCount === 0 && eventUpdateResult.matchedCount === 0) {
+    const userUpdated = userUpdateResult.modifiedCount > 0;
+    const eventUpdated = eventUpdateResult.modifiedCount > 0;
+
+    if (!userUpdated && !eventUpdated) {
       throw new NotFoundError(`No user with id: ${userId} or event with id: ${eventId} found.`);
     }
 
-    // success resposnse
+    // Success response
     return NextResponse.json(
-      { ok: true, userUpdated: userUpdateResult.modifiedCount > 0, error: null },
+      { ok: true, userUpdated, eventUpdated, error: null },
       { status: 200 }
     );
 
-    // catch block for errors
   } catch (e) {
     const error = e as HttpError;
     return NextResponse.json(

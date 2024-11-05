@@ -14,18 +14,18 @@ export const GetUserToEvent = async (query: object = {}) => {
       },
       {
         $lookup: {
-          from: 'events',           // Your events collection name
+          from: 'events',           
           localField: 'event_id',
           foreignField: '_id',
-          as: 'events',             // Change from 'judgeGroups' to 'events'
+          as: 'events',             
         },
       },
       {
         $lookup: {
-          from: 'users',            // Your users collection name
+          from: 'users',           
           localField: 'user_id',
           foreignField: '_id',
-          as: 'users',              // Change from 'teams' to 'users'
+          as: 'users',             
         },
       },
     ]).toArray();
