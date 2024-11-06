@@ -9,13 +9,13 @@ export const DeleteUserToEvent = async (query: object = {}) => {
   try {
     const db = await getDatabase();
 
-    // Log query to see its structure + DELETE LATER
+    // TESTING PURPOSES: Log query to see its structure + DELETE LATER
     console.log("Query being used for deletion:", query);
 
     // Perform delete operation based on the query object
     const deleteStatus = await db.collection('user-to-event').deleteMany(query);
     
-    // delete
+    // TESTING PURPOSES: delete later
     console.log(deleteStatus);
 
     // If no documents matched the query, return a not-found message

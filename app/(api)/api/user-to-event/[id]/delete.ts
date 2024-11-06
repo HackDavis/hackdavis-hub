@@ -1,14 +1,13 @@
 // DELETE handler
 import { NextRequest, NextResponse } from 'next/server';
 import { DeleteUserToEvent } from '@datalib/user-to-event/deleteUserToEvent';
-import { ObjectId } from 'mongodb';
 
 export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
-  const query = { _id: new ObjectId(id) };
+  const query = { _id: new Object(id) };
 
   // Return the response from DeleteUserToEvent
   return await DeleteUserToEvent(query);
