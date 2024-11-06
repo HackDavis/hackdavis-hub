@@ -1,30 +1,31 @@
+// DeleteUserToEvent function
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
-
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import NotFoundError from '@utils/response/NotFoundError';
 import HttpError from '@utils/response/HttpError';
 
-// take in string of object_id (association id) to delete 
-export const DeleteUserToEvent = async (id: string) => {
+export const DeleteUserToEvent = async (query: object = {}) => {
   try {
-    // just renames id to object_id 
-    const object_id = new ObjectId(id);
     const db = await getDatabase();
 
-    // delete association
-    const deleteStatus = await db.collection('user-to-event').deleteOne({
-      _id: object_id,
-    });
+    // Log query to see its structure + DELETE LATER
+    console.log("Query being used for deletion:", query);
 
-    // if can't find doc to delete, throw NotFoundError instead
+    // Perform delete operation based on the query object
+    const deleteStatus = await db.collection('user-to-event').deleteMany(query);
+    
+    // delete
+    console.log(deleteStatus);
+
+    // If no documents matched the query, return a not-found message
     if (deleteStatus.deletedCount === 0) {
-      throw new NotFoundError(`Association with id: ${id} not found.`);
+      throw new NotFoundError(`No matching associations found for the provided query.`);
     }
 
-    // confirmation of deletion
+    // Confirmation response of deleted count
     return NextResponse.json(
-      { ok: true, body: 'Association deleted.', error: null },
+      { ok: true, body: `${deleteStatus.deletedCount} association(s) deleted.`, error: null },
       { status: 200 }
     );
 

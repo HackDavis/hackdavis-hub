@@ -23,7 +23,7 @@ export const updateUserToEvent = async (userId: string, eventId: string, body: o
     const db = await getDatabase();
 
     // Update user details if the user ID is provided
-    const userUpdateResult = await db.collection('users').updateOne(
+    const userUpdateResult = await db.collection('teams').updateOne(
       { _id: user_id },
       { $set: parsedBody }
     );
@@ -47,7 +47,6 @@ export const updateUserToEvent = async (userId: string, eventId: string, body: o
       { ok: true, userUpdated, eventUpdated, error: null },
       { status: 200 }
     );
-
   } catch (e) {
     const error = e as HttpError;
     return NextResponse.json(

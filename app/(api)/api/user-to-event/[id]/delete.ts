@@ -1,13 +1,30 @@
+// DELETE handler
 import { NextRequest, NextResponse } from 'next/server';
 import { DeleteUserToEvent } from '@datalib/user-to-event/deleteUserToEvent';
+import { ObjectId } from 'mongodb';
 
 export async function DELETE(
+  _: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+  const query = { _id: new ObjectId(id) };
+
+  // Return the response from DeleteUserToEvent
+  return await DeleteUserToEvent(query);
+}
+
+
+/* export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
 
-  const result = await DeleteUserToEvent(id);
+  // Create the query object to pass to DeleteUserToEvent
+  const query = { _id: id };
+
+  const result = await DeleteUserToEvent(query);
 
   // Check if the result was successful or returned an error
   if (result.ok) {
@@ -15,4 +32,4 @@ export async function DELETE(
   } else {
     return NextResponse.json(result, { status: 400 });
   }
-}
+} */
