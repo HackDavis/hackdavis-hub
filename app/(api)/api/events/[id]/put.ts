@@ -6,5 +6,6 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const body = await request.json();
-  return NextResponse.json(await updateEvent(params.id, body));
+  const res = await updateEvent(params.id, body);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

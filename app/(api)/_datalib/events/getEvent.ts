@@ -3,8 +3,8 @@ import { HttpError, NotFoundError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
 /**
- *   Retrieves a user from the database by id
- *   @param query - ID of User
+ *   Retrieves an event from the database by id
+ *   @param query - ID of Event
  *   @returns: {
  *     ok: boolean,
  *     body: object | null,

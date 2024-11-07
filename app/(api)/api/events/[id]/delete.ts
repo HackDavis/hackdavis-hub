@@ -5,5 +5,6 @@ export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  return NextResponse.json(await deleteEvent(params.id));
+  const res = await deleteEvent(params.id);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

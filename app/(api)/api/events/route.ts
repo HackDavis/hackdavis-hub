@@ -1,9 +1,8 @@
-// import authenticated from '@utils/authentication/authenticated';
-import { POST } from './post';
-import { GET } from './get';
+import authenticated from '@utils/authentication/authenticated';
+import { POST as post } from './post';
+import { GET as get } from './get';
 
-//commented out for testing
-// const POST = authenticated(post);
-// const GET = authenticated(get);
+const POST = authenticated(post);
+const GET = authenticated(get);
 
 export { POST, GET };

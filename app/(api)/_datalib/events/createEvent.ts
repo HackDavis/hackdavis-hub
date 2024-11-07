@@ -1,6 +1,10 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import parseAndReplace from '@utils/request/parseAndReplace';
-import { HttpError, NoContentError } from '@utils/response/Errors';
+import {
+  DuplicateError,
+  HttpError,
+  NoContentError,
+} from '@utils/response/Errors';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 
 export async function createEvent(body: object) {
@@ -10,12 +14,16 @@ export async function createEvent(body: object) {
     }
     const parsedBody = await parseAndReplace(body);
     const db = await getDatabase();
-    const currentDate = new Date().toISOString();
-    const creationStatus = await db.collection('events').insertOne({
-      ...parsedBody,
-      _last_modified: currentDate,
-      _created_at: currentDate,
+
+    //duplicate event
+    const existingEvent = await db.collection('events').findOne({
+      name: parsedBody.name,
     });
+    if (existingEvent) {
+      throw new DuplicateError('Duplicate: event already exists.');
+    }
+
+    const creationStatus = await db.collection('events').insertOne(parsedBody);
 
     const createdEvent = await db.collection('events').findOne({
       _id: creationStatus.insertedId,
