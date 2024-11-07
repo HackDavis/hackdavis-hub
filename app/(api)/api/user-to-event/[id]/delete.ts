@@ -6,11 +6,9 @@ export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-
   // Return the response from DeleteUserToEvent
   return DeleteUserToEvent(params.id);
 }
-
 
 /* export async function DELETE(
   request: NextRequest,
