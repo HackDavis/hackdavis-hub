@@ -21,18 +21,35 @@ export async function up(db) {
             description: 'team_id must be an ObjectId',
           },
           scores: {
-            //change to JSON?
-            //add the comments here
-            bsonType: 'array',
-            description: 'scores must be an array of integers',
-            minItems: 5,
-            maxItems: 5,
-            items: {
-              bsonType: 'int',
-              minimum: 1,
-              maximum: 5,
-              description: 'score must be an integer',
+            bsonType: 'object',
+            description: 'scores must be a JSON',
+            properties: {
+              social_good: {
+                bsonType: 'int',
+                minimum: 1,
+                maximum: 5,
+                description: 'social_good must be an integer',
+              },
+              creativity: {
+                bsonType: 'int',
+                minimum: 1,
+                maximum: 5,
+                description: 'creativity must be an integer',
+              },
+              presentation: {
+                bsonType: 'int',
+                minimum: 1,
+                maximum: 5,
+                description: 'presentation must be an integer',
+              },
+              comments: {
+                bsonType: 'string',
+                minimum: 1,
+                maximum: 5,
+                description: 'comments must be an string',
+              },
             },
+            additionalProperties: true,
           },
           is_scored: {
             bsonType: 'boolean',
