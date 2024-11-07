@@ -9,7 +9,11 @@ import {
   NotFoundError,
 } from '@utils/response/Errors';
 
-export const updateUserToEvent = async (userId: string, eventId: string, body: object) => {
+export const updateUserToEvent = async (
+  userId: string,
+  eventId: string,
+  body: object
+) => {
   try {
     // FOR TESTING ONLY delete later
     console.log('Received userId:', userId);
@@ -28,24 +32,23 @@ export const updateUserToEvent = async (userId: string, eventId: string, body: o
     const db = await getDatabase();
 
     // Update user details if the user ID is provided
-    const userUpdateResult = await db.collection('teams').updateOne(
-      { _id: user_id },
-      { $set: parsedBody }
-    );
+    const userUpdateResult = await db
+      .collection('users')
+      .updateOne({ _id: user_id }, { $set: parsedBody });
 
     // Update event details if the event ID is provided
-    const eventUpdateResult = await db.collection('events').updateOne(
-      { _id: event_id },
-      { $set: parsedBody }
-    );
+    const eventUpdateResult = await db
+      .collection('events')
+      .updateOne({ _id: event_id }, { $set: parsedBody });
 
     // Check if either the user or event was updated
     const userUpdated = userUpdateResult.modifiedCount > 0;
     const eventUpdated = eventUpdateResult.modifiedCount > 0;
 
-
     if (!userUpdated && !eventUpdated) {
-      throw new NotFoundError(`No user with id: ${userId} or event with id: ${eventId} found.`);
+      throw new NotFoundError(
+        `No user with id: ${userId} or event with id: ${eventId} found.`
+      );
     }
 
     // Success response

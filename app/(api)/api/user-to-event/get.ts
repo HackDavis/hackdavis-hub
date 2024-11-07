@@ -1,4 +1,3 @@
-
 import { NextRequest } from 'next/server';
 import getQueries from '@utils/request/getQueries';
 import { GetUserToEvent } from '@datalib/userToEvent/getUserToEvent'; // Adjust the import path as needed
