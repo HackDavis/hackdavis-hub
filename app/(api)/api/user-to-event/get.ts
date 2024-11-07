@@ -1,7 +1,7 @@
 
 import { NextRequest } from 'next/server';
 import getQueries from '@utils/request/getQueries';
-import { GetUserToEvent } from '@datalib/user_to_event/getUserToEvent'; // Adjust the import path as needed
+import { GetUserToEvent } from '@datalib/userToEvent/getUserToEvent'; // Adjust the import path as needed
 
 export async function GET(request: NextRequest) {
   const queries = await getQueries(request, 'userToEvent'); // Fetch query parameters for userToEvent
