@@ -1,6 +1,6 @@
 // app/api/userToEvent/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { GetUserToEvent } from '@datalib/user-to-event/getUserToEvent';
+import { GetUserToEvent } from '@datalib/user_to_event/getUserToEvent';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params;

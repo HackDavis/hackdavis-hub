@@ -1,16 +1,14 @@
 // DELETE handler
 import { NextRequest, NextResponse } from 'next/server';
-import { DeleteUserToEvent } from '@datalib/user-to-event/deleteUserToEvent';
+import { DeleteUserToEvent } from '@datalib/user_to_event/deleteUserToEvent';
 
 export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-
   // Return the response from DeleteUserToEvent
   return DeleteUserToEvent(params.id);
 }
-
 
 /* export async function DELETE(
   request: NextRequest,
