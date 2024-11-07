@@ -11,6 +11,11 @@ import {
 
 export const updateUserToEvent = async (userId: string, eventId: string, body: object) => {
   try {
+    // FOR TESTING ONLY delete later
+    console.log('Received userId:', userId);
+    console.log('Received eventId:', eventId);
+    console.log('Received body for update:', body);
+
     const user_id = new ObjectId(userId);
     const event_id = new ObjectId(eventId);
 
@@ -37,6 +42,7 @@ export const updateUserToEvent = async (userId: string, eventId: string, body: o
     // Check if either the user or event was updated
     const userUpdated = userUpdateResult.modifiedCount > 0;
     const eventUpdated = eventUpdateResult.modifiedCount > 0;
+
 
     if (!userUpdated && !eventUpdated) {
       throw new NotFoundError(`No user with id: ${userId} or event with id: ${eventId} found.`);
