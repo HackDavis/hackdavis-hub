@@ -85,8 +85,8 @@ export default function LoginForm() {
           <Image
             src="/login/LogIn_DrumStick.svg"
             alt="froggie_drumstick"
-            width={20}
-            height={20}
+            width={10}
+            height={10}
             className={styles.drumstick}
           />
           <Image
