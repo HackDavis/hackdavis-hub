@@ -6,7 +6,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Teams Object Validation',
-        required: ['number', 'name', 'tracks', 'hacker_ids', 'created_at'],
+        required: ['number', 'name', 'tracks', 'hacker_ids'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -30,13 +30,14 @@ export async function up(db) {
             description: 'tracks must be an array of strings',
           },
           hacker_ids: {
-            //specificy the type of element
             bsonType: 'array',
+            maxItems: 4,
+            minItems: 1,
             description: 'hacker_ids must be an array of ids',
-          },
-          created_at: {
-            bsonType: 'date',
-            description: 'created_at must be a date',
+            items: {
+              bsonType: 'objectId',
+              description: 'hacker_id must be an objectId',
+            },
           },
         },
         additionalProperties: false,

@@ -1,11 +1,11 @@
 import csv from 'csv-parser';
 import trackData from '../../_data/tracks.json' assert { type: 'json' };
 import { Readable } from 'stream';
-import trackInt from '@typeDefs/track';
-import parsedRecordInt from '@typeDefs/parsedRecord';
+import Track from '@typeDefs/track';
+import parsedRecord from '@typeDefs/parsedRecord';
 
 const validTracks: string[] = trackData
-  .map((track: trackInt) => track.name)
+  .map((track: Track) => track.name)
   .filter((t) => t !== 'Best Hack for Social Good');
 
 function sortTracks(track1: string, track2: string, chosentracks: string) {
@@ -37,8 +37,8 @@ function sortTracks(track1: string, track2: string, chosentracks: string) {
 
 export default async function csvAlgorithm(blob: Blob) {
   try {
-    const parsePromise = new Promise<parsedRecordInt[]>((resolve, reject) => {
-      const output: parsedRecordInt[] = [];
+    const parsePromise = new Promise<parsedRecord[]>((resolve, reject) => {
+      const output: parsedRecord[] = [];
 
       const parseBlob = async () => {
         const buffer = Buffer.from(await blob.arrayBuffer());

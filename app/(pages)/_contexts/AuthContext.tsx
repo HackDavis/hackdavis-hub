@@ -1,22 +1,22 @@
 'use client';
 import { createContext, useState, useEffect, useCallback } from 'react';
 import VerifyToken from '@actions/auth/verifyToken';
-import AuthTokenInt from '@typeDefs/authToken';
+import authToken from '@typeDefs/authToken';
 import DeleteAuthToken from '@actions/auth/deleteAuthToken';
 
 interface AuthProviderValue {
-  user: AuthTokenInt;
+  user: authToken;
   loading: boolean;
-  login: (user: AuthTokenInt) => void;
+  login: (user: authToken) => void;
   logout: () => void;
 }
 
-export type { AuthTokenInt, AuthProviderValue };
+export type { authToken, AuthProviderValue };
 
 export const AuthContext = createContext({});
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthTokenInt | null>(null);
+  const [user, setUser] = useState<authToken | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
         return;
       }
-      const userData = data.body as AuthTokenInt;
+      const userData = data.body as authToken;
 
       setUser(userData);
       setLoading(false);
@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     updateAuth();
   }, []);
 
-  const login = useCallback((user: AuthTokenInt | null) => {
+  const login = useCallback((user: authToken | null) => {
     setUser(user);
   }, []);
 

@@ -11,7 +11,7 @@ import Submission from './ScoringSubComponents/Submission';
 
 import updateSubmission from '@actions/submissions/updateSubmission';
 
-import TeamInt from '@typeDefs/team';
+import Team from '@typeDefs/team';
 import SubmissionInt from '@typeDefs/score';
 import { useRouter } from 'next/navigation';
 
@@ -27,7 +27,7 @@ export default function ScoringForm({
   team,
   submission,
 }: {
-  team: TeamInt;
+  team: Team;
   submission: SubmissionInt;
 }) {
   const scores = submission.scores ?? generalScoreNames.map((_) => -1);

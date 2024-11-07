@@ -1,7 +1,7 @@
-interface parsedRecordInt {
+interface parsedRecord {
   name: string;
   number: number;
   tracks: string[];
 }
 
-export default parsedRecordInt;
+export default parsedRecord;
