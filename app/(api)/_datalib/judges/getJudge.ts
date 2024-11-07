@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError, NotFoundError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
@@ -16,16 +15,10 @@ export const GetJudge = async (id: string) => {
       throw new NotFoundError(`judge with id: ${id} not found.`);
     }
 
-    return NextResponse.json(
-      { ok: true, body: judge, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: judge, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };
 
@@ -34,15 +27,9 @@ export const GetManyJudges = async (query: object = {}) => {
     const db = await getDatabase();
 
     const judge = await db.collection('judges').find(query).toArray();
-    return NextResponse.json(
-      { ok: true, body: judge, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: judge, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

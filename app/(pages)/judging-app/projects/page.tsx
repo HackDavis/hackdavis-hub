@@ -1,9 +1,9 @@
 'use client';
 
 import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
-import LoginPage from '../_components/LoginPage/LoginPage';
+import LoginPage from 'app/(pages)/judging-app/_components/LoginPage/LoginPage';
 // import SearchBar from './_components/SearchBar';
-import ProjectPage from '../_components/ProjectsPage/ProjectPage';
+import ProjectPage from './_components/ProjectPage';
 
 export default function Judges() {
   return (

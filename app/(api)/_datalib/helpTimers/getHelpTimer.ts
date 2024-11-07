@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError } from '@utils/response/Errors';
 
@@ -33,16 +32,10 @@ export const GetNextTimer = async () => {
       throw new HttpError('No upcoming event');
     }
 
-    return NextResponse.json(
-      { ok: true, body: timers_sorted[out_index], error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: timers_sorted[out_index], error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };
 
@@ -52,15 +45,9 @@ export const GetHelpTimers = async (query: object = {}) => {
 
     const timers = await db.collection('helpTimers').find(query).toArray();
 
-    return NextResponse.json(
-      { ok: true, body: timers, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: timers, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

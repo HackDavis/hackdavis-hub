@@ -2,10 +2,7 @@ import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 import parseAndReplace from '@utils/request/parseAndReplace';
-import {
-  NoContentError,
-  HttpError,
-} from '@utils/response/Errors';
+import { NoContentError, HttpError } from '@utils/response/Errors';
 
 export async function createUserToEvent(body: object) {
   try {
@@ -45,7 +42,6 @@ export async function createUserToEvent(body: object) {
       { ok: true, body: createdAssociation, error: null },
       { status: 201 }
     );
-
   } catch (e) {
     const error = e as HttpError;
     console.log('Error:', error.message);
@@ -54,4 +50,4 @@ export async function createUserToEvent(body: object) {
       { status: error.status || 400 }
     );
   }
-};
+}

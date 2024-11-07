@@ -7,5 +7,4 @@ import { DELETE } from './[id]/delete';
 // const POST = authenticated(post);
 // const GET = authenticated(get);
 
-
 export { POST, GET, /*PUT, */ DELETE };

@@ -1,5 +1,3 @@
-import { NextResponse } from 'next/server';
-
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { ObjectId } from 'mongodb';
 
@@ -31,15 +29,9 @@ export const UpdateTeam = async (id: string, body: object) => {
       throw new NotFoundError(`Team with id: ${id} not found.`);
     }
 
-    return NextResponse.json(
-      { ok: true, body: team, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: team, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

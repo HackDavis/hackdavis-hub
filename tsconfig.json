@@ -29,7 +29,7 @@
       "@utils/*": ["app/(api)/_utils/*"],
       "@apidata/*": ["app/(api)/_data/*"],
       "@datalib/*": ["app/(api)/_datalib/*"],
-      "@typeDefs/*": ["app/(api)/_types/*"]
+      "@typeDefs/*": ["app/_types/*"]
     }
   },
   "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
