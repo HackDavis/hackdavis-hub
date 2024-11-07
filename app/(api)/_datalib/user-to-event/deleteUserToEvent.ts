@@ -5,15 +5,16 @@ import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import NotFoundError from '@utils/response/NotFoundError';
 import HttpError from '@utils/response/HttpError';
 
-export const DeleteUserToEvent = async (query: object = {}) => {
+export const DeleteUserToEvent = async (id: string) => {
   try {
     const db = await getDatabase();
+    const object_id = new ObjectId(id);
 
     // TESTING PURPOSES: Log query to see its structure + DELETE LATER
-    console.log("Query being used for deletion:", query);
+    console.log("Query being used for deletion:", id);
 
     // Perform delete operation based on the query object
-    const deleteStatus = await db.collection('user-to-event').deleteMany(query);
+    const deleteStatus = await db.collection('user-to-event').deleteOne({_id: object_id})
     
     // TESTING PURPOSES: delete later
     console.log(deleteStatus);

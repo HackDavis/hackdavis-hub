@@ -6,11 +6,9 @@ export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { id } = params;
-  const query = { _id: new Object(id) };
 
   // Return the response from DeleteUserToEvent
-  return await DeleteUserToEvent(query);
+  return DeleteUserToEvent(params.id);
 }
 
 
