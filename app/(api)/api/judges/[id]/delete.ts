@@ -1,9 +1,10 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { DeleteJudge } from '@datalib/judges/deleteJudge';
 
 export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  return DeleteJudge(params.id);
+  const res = await DeleteJudge(params.id);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

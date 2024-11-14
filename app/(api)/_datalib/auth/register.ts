@@ -11,7 +11,7 @@ import {
   NotAuthenticatedError,
 } from '@utils/response/Errors';
 import { GetManyJudges } from '@datalib/judges/getJudge';
-import JudgeInt from '@typeDefs/judges';
+import JudgeInt from '@typeDefs/judge';
 
 export async function Register(body: JudgeInt) {
   try {
@@ -19,15 +19,17 @@ export async function Register(body: JudgeInt) {
     const hashedPassword = await hash(password as string, 10);
 
     // Find Judge
-    const judgeRes = await GetManyJudges({ email });
-    const judgeData = await judgeRes.json();
+    const judgeData = await GetManyJudges({ email });
     if (!judgeData.ok || judgeData.body.length !== 0) {
       throw new DuplicateError('Judge already exists');
     }
 
     // Create Judge
-    const res = await CreateJudge({ email, password: hashedPassword, ...rest });
-    const data = await res.json();
+    const data = await CreateJudge({
+      email,
+      password: hashedPassword,
+      ...rest,
+    });
 
     if (!data.ok) {
       throw new HttpError('Failed to create judge');
@@ -44,15 +46,14 @@ export async function Register(body: JudgeInt) {
       throw new NotAuthenticatedError('Invalid login credentials');
     }
 
-    return NextResponse.json(
-      { ok: true, body: response, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: response, error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status || 400,
+    };
   }
 }

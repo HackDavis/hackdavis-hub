@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { UpdateJudge } from '@datalib/judges/updateJudge';
 
 export async function PUT(
@@ -6,5 +6,6 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const body = await request.json();
-  return UpdateJudge(params.id, body);
+  const res = await UpdateJudge(params.id, body);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

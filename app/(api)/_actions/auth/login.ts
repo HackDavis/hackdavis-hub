@@ -3,7 +3,8 @@
 import { Login } from '@datalib/auth/login';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 import FormToJSON from '@utils/form/FormToJSON';
-import JudgeInt from '@typeDefs/judges';
+
+import JudgeInt from '@typeDefs/judge';
 
 export default async function LoginAction(
   prevState: any,
@@ -15,16 +16,15 @@ export default async function LoginAction(
 }> {
   try {
     const body = FormToJSON(formData) as JudgeInt;
-    const res = await Login(body);
-    const data = await res.json();
+    const data = await Login(body);
 
-    if (!data.ok) {
-      throw new NotAuthenticatedError(data.error);
+    if (!data.ok || !data.body) {
+      throw new NotAuthenticatedError(data.error as string);
     }
 
     return { ok: true, body: null, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, error: error.message };
+    return { ok: false, body: null, error: error.message };
   }
 }

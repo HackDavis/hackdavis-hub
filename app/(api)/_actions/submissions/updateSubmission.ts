@@ -23,5 +23,5 @@ export default async function updateSubmission(
   };
 
   const updateRes = await UpdateSubmission(judge_id, team_id, updateBody);
-  return await updateRes.json();
+  return updateRes;
 }

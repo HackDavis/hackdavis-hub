@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import HttpError from '@utils/response/HttpError';
 import { ObjectId } from 'mongodb';
@@ -11,16 +10,10 @@ export const GetManySubmissions = async (query: object = {}) => {
       .find(query)
       .toArray();
 
-    return NextResponse.json(
-      { ok: true, body: submissions, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: submissions, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };
 
@@ -41,15 +34,9 @@ export const GetSubmission = async (judge_id: string, team_id: string) => {
       );
     }
 
-    return NextResponse.json(
-      { ok: true, body: submission, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: submission, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

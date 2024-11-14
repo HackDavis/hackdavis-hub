@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { NotFoundError, HttpError } from '@utils/response/Errors';
@@ -13,16 +12,10 @@ export const DeleteManyJudgeGroups = async (query: object = {}) => {
       .collection('judges')
       .updateMany(query, { $unset: { judge_group_id: '' } });
 
-    return NextResponse.json(
-      { ok: true, body: 'Judge Groups deleted', error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: 'Judge Groups deleted', error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };
 
@@ -47,15 +40,9 @@ export const DeleteJudgeGroup = async (id: string) => {
         { $unset: { judge_group_id: '' } }
       );
 
-    return NextResponse.json(
-      { ok: true, body: 'Judge Group deleted', error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: 'Judge Group deleted', error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

@@ -8,5 +8,5 @@ export default async function uploadFile(formData: FormData) {
   const blob = new Blob([data], { type: file.type });
 
   const res = await csvAlgorithm(blob);
-  return await res.json();
+  return res;
 }

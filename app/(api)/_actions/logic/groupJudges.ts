@@ -12,7 +12,7 @@ export default async function groupJudges() {
   try {
     const allPromises = await Promise.all(
       groups.map(async (group) => {
-        return await (await CreateJudgeGroup(group)).json();
+        return await CreateJudgeGroup(group);
       })
     );
 
