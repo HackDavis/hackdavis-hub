@@ -28,6 +28,11 @@ export async function Login(body: { email: string; password: string }) {
     return { ok: true, body: response, error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message, status: 400 };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status || 400,
+    };
   }
 }

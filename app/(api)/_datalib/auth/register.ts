@@ -1,6 +1,5 @@
 'use server';
 
-import { NextResponse } from 'next/server';
 import { hash } from 'bcryptjs';
 import { signIn } from 'auth';
 

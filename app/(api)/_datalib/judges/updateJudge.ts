@@ -30,9 +30,14 @@ export const UpdateJudge = async (id: string, body: object) => {
       throw new NotFoundError(`Judge with id: ${id} not found.`);
     }
 
-    return { ok: true, body: judge, error: null };
+    return { ok: true, body: judge, error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status || 400,
+    };
   }
 };
