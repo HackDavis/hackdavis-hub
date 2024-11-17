@@ -3,5 +3,6 @@ import { createEvent } from '@datalib/events/createEvent';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  return NextResponse.json(await createEvent(body));
+  const res = await createEvent(body);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

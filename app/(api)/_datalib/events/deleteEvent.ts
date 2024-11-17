@@ -19,7 +19,7 @@ export async function deleteEvent(id: string) {
 
     return {
       ok: true,
-      body: null,
+      body: 'Event deleted.',
       error: null,
     };
   } catch (e) {
