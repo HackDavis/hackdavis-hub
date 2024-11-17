@@ -3,6 +3,7 @@ import styles from './JudgingHub.module.scss';
 import HubHero from './HubHero';
 import TableLocations from './TableLocations';
 import ViewProjects from './ViewProjects';
+import Waiting from './Waiting';
 import { useJudgeGroup } from '@hooks/useJudgeGroup';
 
 export default function JudgingHub() {
@@ -12,6 +13,7 @@ export default function JudgingHub() {
     <div className={styles.container}>
       <ViewProjects />
       <HubHero user={user} loading={loading} members={members} />
+      <Waiting />
       {/* <JudgingList projects={unjudgedTeams} /> */}
       <TableLocations />
     </div>
