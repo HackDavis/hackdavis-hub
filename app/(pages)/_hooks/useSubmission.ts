@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from './useAuth';
+import { useSession } from 'next-auth/react';
+
 import { getSubmission } from '@actions/submissions/getSubmission';
 
 export function useSubmission(team_id: string): any {
-  const { user, loading: authLoading } = useAuth();
+  const { data: session, status } = useSession();
+  const user = session?.user;
   const [submission, setSubmssion] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -14,10 +16,10 @@ export function useSubmission(team_id: string): any {
       setSubmssion(submission);
       setLoading(false);
     };
-    if (!authLoading && user) {
-      getSubmissionWrapper(user._id);
+    if (status === 'authenticated' && user) {
+      getSubmissionWrapper(user.id ?? '');
     }
-  }, [authLoading, user, team_id]);
+  }, [status, user, team_id]);
 
   return { submission, loading };
 }

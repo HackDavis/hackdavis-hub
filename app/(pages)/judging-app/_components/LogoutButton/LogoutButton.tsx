@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@hooks/useAuth';
+import { signOut } from 'auth';
 
 export default function LogoutButton({
   children,
@@ -9,9 +9,14 @@ export default function LogoutButton({
   children?: React.ReactNode;
   style?: object;
 }) {
-  const { logout } = useAuth();
   return (
-    <button style={style} onClick={logout}>
+    <button
+      style={style}
+      onClick={async () => {
+        'use server';
+        await signOut();
+      }}
+    >
       {children}
     </button>
   );

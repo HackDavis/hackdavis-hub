@@ -1,7 +1,6 @@
 'use client';
 
 import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
-import LoginPage from '../_components/LoginPage/LoginPage';
 
 type Props = {
   children: React.ReactNode;
@@ -9,7 +8,7 @@ type Props = {
 
 export default function ScoringLayout({ children }: Props) {
   return (
-    <ProtectedDisplay loadingDisplay={'loading...'} failDisplay={<LoginPage />}>
+    <ProtectedDisplay allowedRoles="admin judge" failRedirectPath="/login">
       {children}
     </ProtectedDisplay>
   );

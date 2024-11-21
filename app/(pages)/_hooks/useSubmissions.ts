@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from './useAuth';
+import { useSession } from 'next-auth/react';
+
 import { getManySubmissions } from '@actions/submissions/getSubmission';
 import { getManyTeams } from '@actions/teams/getTeams';
 
 export function useSubmissions(): any {
-  const { user, loading: authLoading } = useAuth();
+  const { data: session, status } = useSession();
+  const user = session?.user;
   const [submissions, setSubmssions] = useState<any>(null);
   const [teams, setTeams] = useState<any>(null);
   const [judgedTeams, setJudgedTeams] = useState<any>([]);
@@ -67,10 +69,10 @@ export function useSubmissions(): any {
       setSubmssions(submissions);
       setLoading(false);
     };
-    if (!authLoading && user) {
-      getSubmissionsWrapper(user._id);
+    if (status === 'authenticated' && user) {
+      getSubmissionsWrapper(user.id ?? '');
     }
-  }, [authLoading, user]);
+  }, [status, user]);
 
   return { submissions, teams, judgedTeams, unjudgedTeams, loading };
 }

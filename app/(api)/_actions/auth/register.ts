@@ -1,12 +1,8 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
 import { Register } from '@datalib/auth/register';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 import FormToJSON from '@utils/form/FormToJSON';
-
-import type AuthTokenInt from '@typeDefs/authToken';
 import type JudgeInt from '@typeDefs/judge';
 
 export default async function RegisterAction(
@@ -14,7 +10,7 @@ export default async function RegisterAction(
   formData: FormData
 ): Promise<{
   ok: boolean;
-  body?: AuthTokenInt | null;
+  body?: null;
   error?: string | null;
 }> {
   try {
@@ -26,17 +22,7 @@ export default async function RegisterAction(
       throw new NotAuthenticatedError(data.error as string);
     }
 
-    const payload = jwt.decode(data.body) as AuthTokenInt;
-
-    cookies().set({
-      name: 'auth_token',
-      value: data.body,
-      expires: payload.exp * 1000,
-      secure: true,
-      httpOnly: true,
-    });
-
-    return { ok: true, body: payload, error: null };
+    return { ok: true, body: null, error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };

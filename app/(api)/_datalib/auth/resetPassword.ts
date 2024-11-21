@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { GetManyJudges } from '@datalib/judges/getJudge';
 import { UpdateJudge } from '@datalib/judges/updateJudge';
 import { HttpError } from '@utils/response/Errors';
+import { signOut } from 'auth';
 
 export async function ResetPassword(body: { email: string; password: string }) {
   try {
@@ -23,9 +24,16 @@ export async function ResetPassword(body: { email: string; password: string }) {
       },
     });
 
-    return { ok: true, body: updateData, error: null };
+    await signOut();
+
+    return { ok: true, body: updateData, error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status || 400,
+    };
   }
 }

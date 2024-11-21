@@ -1,10 +1,10 @@
 export async function up(db) {
-  await db.createCollection('users', {
+  await db.createCollection('judges', {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        title: 'Users Object Validation',
-        required: ['name', 'email', 'password', 'team_id', 'specialty', 'role'],
+        title: 'Judge Object Validation',
+        required: ['name', 'email', 'password', 'specialty', 'role'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -23,17 +23,17 @@ export async function up(db) {
             bsonType: 'string',
             description: 'encrypted password must be a string',
           },
-          team_id: {
-            bsonType: 'objectId',
-            description: 'team_id must be an ObjectId',
-          },
           specialty: {
             enum: ['tech', 'business', 'design'],
             description: 'specialty must be either tech, business, or design',
           },
+          judge_group_id: {
+            bsonType: 'objectId',
+            description: 'judge_group_id must be an ObjectId',
+          },
           role: {
-            enum: ['hacker', 'judge', 'admin'],
-            description: 'role must be either hacker, judge, or admin',
+            enum: ['judge', 'admin'],
+            description: 'role must be either judge or admin',
           },
         },
         additionalProperties: false,
@@ -43,5 +43,5 @@ export async function up(db) {
 }
 
 export async function down(db) {
-  await db.collection('users').drop();
+  await db.collection('judges').drop();
 }

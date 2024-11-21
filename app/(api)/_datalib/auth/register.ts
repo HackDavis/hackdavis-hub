@@ -1,16 +1,21 @@
 'use server';
-import bcrypt from 'bcryptjs';
+
+import { hash } from 'bcryptjs';
+import { signIn } from 'auth';
 
 import { CreateJudge } from '@datalib/judges/createJudge';
-import { DuplicateError, HttpError } from '@utils/response/Errors';
+import {
+  DuplicateError,
+  HttpError,
+  NotAuthenticatedError,
+} from '@utils/response/Errors';
 import { GetManyJudges } from '@datalib/judges/getJudge';
-import { createAuthToken } from './authToken';
 import JudgeInt from '@typeDefs/judge';
 
 export async function Register(body: JudgeInt) {
   try {
     const { email, password, ...rest } = body;
-    const hashedPassword = await bcrypt.hash(password as string, 10);
+    const hashedPassword = await hash(password as string, 10);
 
     // Find Judge
     const judgeData = await GetManyJudges({ email });
@@ -29,10 +34,25 @@ export async function Register(body: JudgeInt) {
       throw new HttpError('Failed to create judge');
     }
 
-    const token = await createAuthToken(data.body);
-    return { ok: true, body: token, error: null };
+    // Sign In
+    const response = await signIn('credentials', {
+      email: email,
+      password: password,
+      redirect: false,
+    });
+
+    if (!response?.ok) {
+      throw new NotAuthenticatedError('Invalid login credentials');
+    }
+
+    return { ok: true, body: response, error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status || 400,
+    };
   }
 }

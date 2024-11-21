@@ -1,6 +1,5 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useFormState } from 'react-dom';
-import { useAuth } from '@hooks/useAuth';
 import ResetPassword from '@actions/auth/resetPassword';
 import styles from './ResetPasswordForm.module.scss';
 import Link from 'next/link';
@@ -22,7 +21,6 @@ export default function ResetPasswordForm() {
     body: null,
     error: null,
   });
-  const { logout } = useAuth();
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -57,13 +55,12 @@ export default function ResetPasswordForm() {
   useEffect(() => {
     if (resetState.ok === true) {
       setError('');
-      logout();
       router.push('/judges');
     } else {
       const err = resetState.error as string;
       setError(err);
     }
-  }, [resetState, logout, router]);
+  }, [resetState, router]);
 
   useEffect(() => {
     validateForm(password, passwordDupe);

@@ -1,4 +1,4 @@
-import AdminProtected from '@components/AdminProtected/AdminProtected';
+import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,11 +11,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AdminProtected
-      loadingDisplay={'loading...'}
-      failDisplay={"you aren't the admin 😡"}
-    >
+    <ProtectedDisplay allowedRoles="admin" failRedirectPath="/">
       {children}
-    </AdminProtected>
+    </ProtectedDisplay>
   );
 }

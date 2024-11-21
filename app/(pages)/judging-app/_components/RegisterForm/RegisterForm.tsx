@@ -1,13 +1,11 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useFormState } from 'react-dom';
-import { useAuth } from '@hooks/useAuth';
-import Register from '@actions/auth/register';
-
-import styles from './RegisterForm.module.scss';
-import Link from 'next/link';
-import AuthTokenInt from '@typeDefs/authToken';
-import { useInvite } from '@hooks/useInvite';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+import Register from '@actions/auth/register';
+import { useInvite } from '@hooks/useInvite';
+import styles from './RegisterForm.module.scss';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -26,7 +24,6 @@ export default function RegisterForm() {
     body: null,
     error: null,
   });
-  const { login } = useAuth();
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -74,15 +71,13 @@ export default function RegisterForm() {
 
   useEffect(() => {
     if (registerState.ok === true) {
-      const user = registerState.body as AuthTokenInt;
       setError('');
-      login(user);
       router.push('/');
     } else {
       const err = registerState.error as string;
       setError(err);
     }
-  }, [registerState, login, router]);
+  }, [registerState, router]);
 
   useEffect(() => {
     validateForm(email, password, passwordDupe);

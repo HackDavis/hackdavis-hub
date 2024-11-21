@@ -5,7 +5,7 @@ export async function up(db) {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        title: 'Teams Object Validation',
+        title: 'Team Object Validation',
         required: ['number', 'name', 'tracks'],
         properties: {
           _id: {

@@ -1,14 +1,11 @@
 'use server';
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-
-import jwt from 'jsonwebtoken';
 import { HttpError } from '@utils/response/Errors';
-import type AuthTokenInt from '@typeDefs/authToken';
 import { Register } from '@datalib/auth/register';
 import { GetManyJudges } from '@datalib/judges/getJudge';
 import getQueries from '@utils/request/getQueries';
 import { verifyHMACSignature } from '@utils/invite/hmac';
+import { signIn } from 'auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,21 +34,22 @@ export async function POST(request: NextRequest) {
       throw new HttpError(data.error as string);
     }
 
-    const payload = jwt.decode(data.body) as AuthTokenInt;
+    const registeredJudge = data.body;
 
-    cookies().set({
-      name: 'auth_token',
-      value: data.body,
-      expires: payload.exp * 1000,
-      secure: true,
-      httpOnly: true,
+    const response = await signIn('credentials', {
+      email: registeredJudge.email,
+      password: registeredJudge.password,
+      redirect: false,
     });
 
-    return NextResponse.json({ ok: true, body: payload }, { status: 200 });
+    return NextResponse.json(
+      { ok: true, body: response, error: null },
+      { status: 200 }
+    );
   } catch (e) {
     const error = e as HttpError;
     return NextResponse.json(
-      { ok: false, error: error.message },
+      { ok: false, body: null, error: error.message },
       { status: error.status || 400 }
     );
   }

@@ -1,14 +1,15 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useFormState } from 'react-dom';
-import { useAuth } from '@hooks/useAuth';
-import LoginAction from '@actions/auth/login';
-
-import styles from './LoginForm.module.scss';
-// import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import AuthTokenInt from '@typeDefs/authToken';
+// import Link from 'next/link';
+
+import LoginAction from '@actions/auth/login';
+import styles from './LoginForm.module.scss';
 
 export default function LoginForm() {
+  const router = useRouter();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -19,7 +20,6 @@ export default function LoginForm() {
     body: null,
     error: null,
   });
-  const { login } = useAuth();
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -41,13 +41,13 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (loginState.ok === true) {
-      const user = loginState.body as AuthTokenInt;
-      login(user);
+      setError('');
+      router.push('/');
     } else {
       const err = loginState.error as string;
       setError(err);
     }
-  }, [loginState, login]);
+  }, [loginState, router]);
 
   useEffect(() => {
     validateForm(email, password);

@@ -1,14 +1,11 @@
-import { useAuth } from '@hooks/useAuth';
-import styles from './JudgingHub.module.scss';
 import HubHero from './HubHero';
 import TableLocations from './TableLocations';
 import ViewProjects from './ViewProjects';
+import styles from './JudgingHub.module.scss';
 import Waiting from './Waiting';
 import { useJudgeGroup } from '@hooks/useJudgeGroup';
 
-export default function JudgingHub() {
-  const { user, loading } = useAuth();
-  const { members } = useJudgeGroup();
+export default async function JudgingHub() {
   return (
     <div className={styles.container}>
       <ViewProjects />
