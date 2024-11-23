@@ -9,7 +9,9 @@ export default function LoginPage() {
         <Image src="/login/hd_logo.svg" alt="hd_logo" height={50} width={50} />
       </div>
       <div className={styles.section}>
-        <h3>Welcome Judges!</h3>
+        <h3>
+          <b>Welcome Judges!</b>
+        </h3>
         <p>Enter your username and password.</p>
       </div>
       <div className={styles.section}>

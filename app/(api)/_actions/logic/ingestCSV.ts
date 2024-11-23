@@ -1,9 +1,9 @@
 'use server';
 
 import { CreateManyTeams } from '@datalib/teams/createTeams';
-import parsedRecordInt from '@typeDefs/parsedRecord';
+import ParsedRecord from '@typeDefs/parsedRecord';
 
-export default async function ingestCSV(parsedData: parsedRecordInt[]) {
+export default async function ingestCSV(parsedData: ParsedRecord[]) {
   const res = await CreateManyTeams(parsedData);
   return { ok: res.ok, error: res.error };
 }

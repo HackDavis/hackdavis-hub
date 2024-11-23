@@ -6,26 +6,26 @@ import { Login } from '@datalib/auth/login';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 import FormToJSON from '@utils/form/FormToJSON';
 
-import type AuthTokenInt from '@typeDefs/authToken';
-import JudgeInt from '@typeDefs/judge';
+import type AuthToken from '@typeDefs/authToken';
+import User from '@typeDefs/user';
 
 export default async function LoginAction(
   prevState: any,
   formData: FormData
 ): Promise<{
   ok: boolean;
-  body?: AuthTokenInt | null;
+  body?: AuthToken | null;
   error?: string | null;
 }> {
   try {
-    const body = FormToJSON(formData) as JudgeInt;
+    const body = FormToJSON(formData) as User;
     const data = await Login(body);
 
     if (!data.ok || !data.body) {
       throw new NotAuthenticatedError(data.error as string);
     }
 
-    const payload = jwt.decode(data.body) as AuthTokenInt;
+    const payload = jwt.decode(data.body) as AuthToken;
 
     cookies().set({
       name: 'auth_token',

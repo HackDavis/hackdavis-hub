@@ -4,7 +4,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Users Object Validation',
-        required: ['name', 'email', 'password', 'team_id', 'specialty', 'role'],
+        required: ['name', 'email', 'password', 'role'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -23,17 +23,32 @@ export async function up(db) {
             bsonType: 'string',
             description: 'encrypted password must be a string',
           },
-          team_id: {
-            bsonType: 'objectId',
-            description: 'team_id must be an ObjectId',
-          },
-          specialty: {
-            enum: ['tech', 'business', 'design'],
-            description: 'specialty must be either tech, business, or design',
-          },
           role: {
             enum: ['hacker', 'judge', 'admin'],
             description: 'role must be either hacker, judge, or admin',
+          },
+          specialties: {
+            bsonType: 'array',
+            description: 'specialties must be an array of valid string values',
+            items: {
+              enum: ['tech', 'business', 'design'],
+              description: 'specialty must be either tech, business, or design',
+            },
+          },
+          position: {
+            enum: ['developer', 'designer', 'pm', 'other'],
+            description:
+              'position must be either developer, designer, pm, or other',
+          },
+          is_beginner: {
+            bsonType: 'boolean',
+            description: 'is_beginner must be a boolean',
+          },
+          starter_kit_stage: {
+            bsonType: 'int',
+            maximum: 4,
+            minimum: 1,
+            description: 'start_kit_stage must be an integer',
           },
         },
         additionalProperties: false,

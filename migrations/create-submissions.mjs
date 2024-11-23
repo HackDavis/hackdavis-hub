@@ -1,4 +1,4 @@
-import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
+// import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
 
 export async function up(db) {
   await db.createCollection('submissions', {
@@ -6,7 +6,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Submissions Object Validation',
-        required: ['judge_id', 'team_id'],
+        required: ['judge_id', 'team_id', 'scores', 'is_scored'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -21,42 +21,38 @@ export async function up(db) {
             description: 'team_id must be an ObjectId',
           },
           scores: {
-            bsonType: 'array',
-            description: 'scores must be an array of integers',
-            minItems: 5,
-            maxItems: 5,
-            items: {
-              bsonType: 'int',
-              minimum: 1,
-              maximum: 5,
-              description: 'score must be an integer',
-            },
-          },
-          correlations: {
-            bsonType: 'array',
-            description: 'correlations must be an array of correlations',
-            minItems: 1,
-            maxItems: 5,
-            items: {
-              bsonType: 'object',
-              required: ['track', 'score'],
-              properties: {
-                track: {
-                  enum: tracks.map((track) => track.name),
-                  description: 'track must be one of the valid tracks',
-                },
-                score: {
-                  bsonType: 'int',
-                  minimum: 1,
-                  maximum: 5,
-                  description: 'score must be an integer between 1 and 5',
-                },
+            bsonType: 'object',
+            description: 'scores must be a JSON object',
+            required: ['social_good', 'creativity', 'presentation', 'comments'],
+            properties: {
+              social_good: {
+                bsonType: 'int',
+                minimum: 1,
+                maximum: 5,
+                description: 'social_good score must be an integer',
+              },
+              creativity: {
+                bsonType: 'int',
+                minimum: 1,
+                maximum: 5,
+                description: 'creativity score must be an integer',
+              },
+              presentation: {
+                bsonType: 'int',
+                minimum: 1,
+                maximum: 5,
+                description: 'presentation score must be an integer',
+              },
+              comments: {
+                bsonType: 'string',
+                description: 'comments must be a string',
               },
             },
+            additionalProperties: true,
           },
-          comments: {
-            bsonType: 'string',
-            description: 'comments must be a string',
+          is_scored: {
+            bsonType: 'boolean',
+            description: 'is_scored must be boolean',
           },
         },
         additionalProperties: false,

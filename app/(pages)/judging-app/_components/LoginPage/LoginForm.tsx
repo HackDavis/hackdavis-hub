@@ -6,7 +6,7 @@ import LoginAction from '@actions/auth/login';
 import styles from './LoginForm.module.scss';
 // import Link from 'next/link';
 import Image from 'next/image';
-import AuthTokenInt from '@typeDefs/authToken';
+import AuthToken from '@typeDefs/authToken';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -41,7 +41,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (loginState.ok === true) {
-      const user = loginState.body as AuthTokenInt;
+      const user = loginState.body as AuthToken;
       login(user);
     } else {
       const err = loginState.error as string;
@@ -85,8 +85,8 @@ export default function LoginForm() {
           <Image
             src="/login/LogIn_DrumStick.svg"
             alt="froggie_drumstick"
-            width={20}
-            height={20}
+            width={10}
+            height={10}
             className={styles.drumstick}
           />
           <Image
