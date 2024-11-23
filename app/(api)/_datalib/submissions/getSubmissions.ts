@@ -1,5 +1,5 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import HttpError from '@utils/response/HttpError';
+import { HttpError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
 export const GetManySubmissions = async (query: object = {}) => {

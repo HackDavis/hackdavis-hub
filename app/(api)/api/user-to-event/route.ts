@@ -1,10 +1,6 @@
-// import authenticated from '@utils/authentication/authenticated';
-import { POST } from './post';
-import { GET } from './get';
-// import { PUT } from './[id]/put';
-import { DELETE } from './[id]/delete';
+import authenticated from '@utils/authentication/authenticated';
+import { GET as get } from './get';
 
-// const POST = authenticated(post);
-// const GET = authenticated(get);
+const GET = authenticated(get);
 
-export { POST, GET, /*PUT, */ DELETE };
+export { GET };

@@ -1,8 +1,9 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import getQueries from '@utils/request/getQueries';
-import { GetUserToEvent } from '@datalib/userToEvent/getUserToEvent'; // Adjust the import path as needed
+import { GetUserToEvents } from '@datalib/userToEvents/getUserToEvent';
 
 export async function GET(request: NextRequest) {
-  const queries = await getQueries(request, 'userToEvent'); // Fetch query parameters for userToEvent
-  return GetUserToEvent(queries); // Call the GetUserToEvent function with the queries
+  const queries = await getQueries(request, 'userToEvents');
+  const res = await GetUserToEvents(queries);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

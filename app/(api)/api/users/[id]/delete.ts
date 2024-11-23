@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GetEvent } from '@datalib/events/getEvent';
+import { DeleteUser } from '@datalib/users/deleteUser';
 
-export async function GET(
+export async function DELETE(
   _: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const res = await GetEvent(params.id);
+  const res = await DeleteUser(params.id);
   return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

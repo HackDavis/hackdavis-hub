@@ -1,27 +1,17 @@
 import matchTeams from '@actions/logic/matchTeams';
-import groupJudges from '@actions/logic/groupJudges';
-import deleteManyJudgeGroups from '@actions/judgeGroups/deleteJudgeGroup';
-import deleteManyJudgeGroupsToTeams from '@actions/judgeGroupsToTeams/deleteJudgeGroupToTeam';
 import scoreTeams from '@actions/logic/scoreTeams';
 import { useFormState } from 'react-dom';
 
 import styles from './JudgeTeamGrouping.module.scss';
 import { useState } from 'react';
+import deleteManySubmissions from '@actions/submissions/deleteSubmission';
 
 export default function JudgeTeamGrouping() {
   const [trackResults, scoreAction] = useFormState(scoreTeams, null);
-  const [grouping, setGrouping] = useState('');
   const [matching, setMatching] = useState('');
 
   return (
     <div className={styles.body}>
-      <button
-        onClick={async () => setGrouping(JSON.stringify(await groupJudges()))}
-      >
-        Group Judges
-      </button>
-      <p>groups: {grouping}</p>
-
       <button
         onClick={async () => setMatching(JSON.stringify(await matchTeams()))}
       >
@@ -56,24 +46,15 @@ export default function JudgeTeamGrouping() {
       </form>
 
       <div className={styles.delete}>
+        {/* TODO: only delete unscored? when was this used last year? */}
         <button
           onClick={async () => {
-            await deleteManyJudgeGroups();
-            setGrouping('groups deleted');
+            await deleteManySubmissions();
+            setMatching('Submissions deleted');
           }}
           className={styles.deleteButton}
         >
-          Delete All Judge Groups
-        </button>
-
-        <button
-          onClick={async () => {
-            await deleteManyJudgeGroupsToTeams();
-            setMatching('links deleted');
-          }}
-          className={styles.deleteButton}
-        >
-          Delete All Links
+          Delete All Judge-Team Matches
         </button>
       </div>
     </div>

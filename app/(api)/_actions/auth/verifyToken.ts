@@ -1,6 +1,6 @@
 'use server';
 
-import { verifyAuthToken } from '@datalib/auth/authToken';
+import { VerifyAuthToken } from '@datalib/auth/authToken';
 import { cookies } from 'next/headers';
 
 export default async function VerifyToken() {
@@ -11,5 +11,5 @@ export default async function VerifyToken() {
   }
   const token = cookie.value;
 
-  return verifyAuthToken(token);
+  return VerifyAuthToken(token);
 }

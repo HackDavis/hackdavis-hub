@@ -1,7 +1,7 @@
 import jwt, { Secret } from 'jsonwebtoken';
 import { NextRequest } from 'next/server';
 
-import NotAuthenticatedError from '@utils/response/NotAuthenticatedError';
+import { NotAuthenticatedError } from '@utils/response/Errors';
 
 interface DecodedToken {
   userId: string;
