@@ -51,7 +51,7 @@ export async function up(db) {
             additionalProperties: true,
           },
           is_scored: {
-            bsonType: 'boolean',
+            bsonType: 'bool',
             description: 'is_scored must be boolean',
           },
         },
