@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import NotFoundError from '@utils/response/NotFoundError';
-import HttpError from '@utils/response/HttpError';
+import { NotFoundError, HttpError } from '@utils/response/Errors';
 
 export const DeleteSubmission = async (judge_id: string, team_id: string) => {
   try {
@@ -22,6 +21,19 @@ export const DeleteSubmission = async (judge_id: string, team_id: string) => {
     }
 
     return { ok: true, body: 'Submission deleted.', error: null };
+  } catch (e) {
+    const error = e as HttpError;
+    return { ok: false, body: null, error: error.message };
+  }
+};
+
+export const DeleteManySubmissions = async (query: object = {}) => {
+  try {
+    const db = await getDatabase();
+
+    await db.collection('submissions').deleteMany(query);
+
+    return { ok: true, body: 'Submissions deleted', error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };

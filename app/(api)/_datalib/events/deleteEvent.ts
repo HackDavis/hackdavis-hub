@@ -2,7 +2,7 @@ import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError, NotFoundError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
-export async function deleteEvent(id: string) {
+export async function DeleteEvent(id: string) {
   try {
     const db = await getDatabase();
     const objectId = ObjectId.createFromHexString(id);

@@ -1,11 +1,13 @@
 import { ObjectId } from 'mongodb';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import NotFoundError from '@utils/response/NotFoundError';
-import HttpError from '@utils/response/HttpError';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 import parseAndReplace from '@utils/request/parseAndReplace';
-import NoContentError from '@utils/response/NoContentError';
+import {
+  NoContentError,
+  NotFoundError,
+  HttpError,
+} from '@utils/response/Errors';
 
 export const UpdateSubmission = async (
   judge_id: string,

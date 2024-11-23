@@ -2,16 +2,7 @@ import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError, NotFoundError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
-/**
- *   Retrieves an event from the database by id
- *   @param query - ID of Event
- *   @returns: {
- *     ok: boolean,
- *     body: object | null,
- *     error: number | null
- *   }
- */
-export async function getEvent(id: string) {
+export async function GetEvent(id: string) {
   try {
     const db = await getDatabase();
     const objectId = ObjectId.createFromHexString(id);
@@ -36,7 +27,7 @@ export async function getEvent(id: string) {
   }
 }
 
-export async function getEvents(query: object) {
+export async function GetEvents(query: object) {
   try {
     const db = await getDatabase();
     const events = await db.collection('events').find(query).toArray();
