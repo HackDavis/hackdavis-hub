@@ -27,3 +27,16 @@ export const DeleteSubmission = async (judge_id: string, team_id: string) => {
     return { ok: false, body: null, error: error.message };
   }
 };
+
+export const DeleteManySubmissions = async (query: object = {}) => {
+  try {
+    const db = await getDatabase();
+
+    await db.collection('submissions').deleteMany(query);
+
+    return { ok: true, body: 'Submissions deleted', error: null };
+  } catch (e) {
+    const error = e as HttpError;
+    return { ok: false, body: null, error: error.message };
+  }
+};
