@@ -1,6 +1,6 @@
 import { auth_expiration } from '@apidata/configs';
 import jwt, { Secret } from 'jsonwebtoken';
-import AuthTokenInt from '@typeDefs/authToken';
+import AuthToken from '@typeDefs/authToken';
 import HttpError from '@utils/response/HttpError';
 
 export async function createAuthToken(data: object) {
@@ -11,7 +11,7 @@ export async function createAuthToken(data: object) {
 
 export async function verifyAuthToken(token: string) {
   try {
-    const decodedToken = jwt.decode(token) as AuthTokenInt;
+    const decodedToken = jwt.decode(token) as AuthToken;
 
     // Ensure the token is not expired
     const currentTimestamp = Math.floor(Date.now() / 1000);

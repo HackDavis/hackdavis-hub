@@ -5,9 +5,9 @@ import { CreateJudge } from '@datalib/judges/createJudge';
 import { DuplicateError, HttpError } from '@utils/response/Errors';
 import { GetManyJudges } from '@datalib/judges/getJudge';
 import { createAuthToken } from './authToken';
-import JudgeInt from '@typeDefs/judge';
+import User from '@typeDefs/user';
 
-export async function Register(body: JudgeInt) {
+export async function Register(body: User) {
   try {
     const { email, password, ...rest } = body;
     const hashedPassword = await bcrypt.hash(password as string, 10);

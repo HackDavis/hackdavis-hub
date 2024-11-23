@@ -1,4 +1,4 @@
-interface AuthTokenInt {
+interface AuthToken {
   _id: string;
   name: string;
   email: string;
@@ -10,4 +10,4 @@ interface AuthTokenInt {
   exp: number;
 }
 
-export default AuthTokenInt;
+export default AuthToken;

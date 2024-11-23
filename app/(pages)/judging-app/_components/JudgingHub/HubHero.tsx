@@ -1,11 +1,11 @@
-import JudgeInt from '@typeDefs/judge';
+import User from '@typeDefs/user';
 import Image from 'next/image';
 import judgeHeroes from '/public/judges/hub/judgingheroes.svg';
 
 export default function HubHero({
   loading,
 }: {
-  user: JudgeInt;
+  user: User;
   loading: boolean;
   members: string[];
 }) {

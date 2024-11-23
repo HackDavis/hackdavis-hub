@@ -1,7 +1,7 @@
 import JudgeGroup from '@typeDefs/judgeGroup';
 import Team from '@typeDefs/team';
 import tracks from '../../_data/tracks.json' assert { type: 'json' };
-import JudgeGroupToTeam from '@typeDefs/judgeGroupToTeam';
+import JudgeGroupToTeam from '@typeDefs/judgeToTeam';
 
 export default function matchingAlgorithm(
   judgeGroups: JudgeGroup[],
@@ -41,7 +41,7 @@ export default function matchingAlgorithm(
         teamAssignments[idx].teams++;
 
         matches.push({
-          judge_group_id: {
+          judge_id: {
             '*convertId': {
               id: teamAssignments[idx].judgeGroup._id,
             },

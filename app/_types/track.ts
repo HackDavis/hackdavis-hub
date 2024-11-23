@@ -1,5 +1,5 @@
-interface trackInt {
+interface Track {
   name: string;
 }
 
-export default trackInt;
+export default Track;

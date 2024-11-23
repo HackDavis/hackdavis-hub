@@ -5,7 +5,7 @@ import Register from '@actions/auth/register';
 
 import styles from './RegisterForm.module.scss';
 import Link from 'next/link';
-import AuthTokenInt from '@typeDefs/authToken';
+import AuthToken from '@typeDefs/authToken';
 import { useInvite } from '@hooks/useInvite';
 import { useRouter } from 'next/navigation';
 
@@ -74,7 +74,7 @@ export default function RegisterForm() {
 
   useEffect(() => {
     if (registerState.ok === true) {
-      const user = registerState.body as AuthTokenInt;
+      const user = registerState.body as AuthToken;
       setError('');
       login(user);
       router.push('/');
