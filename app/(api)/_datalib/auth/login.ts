@@ -2,15 +2,15 @@
 import bcrypt from 'bcryptjs';
 
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
-import { GetManyJudges } from '@datalib/judges/getJudge';
-import { createAuthToken } from './authToken';
+import { GetManyUsers } from '@datalib/users/getUser';
+import { CreateAuthToken } from './authToken';
 
 export async function Login(body: { email: string; password: string }) {
   try {
     const { email, password } = body;
 
     // Find Judge
-    const data = await GetManyJudges({ email });
+    const data = await GetManyUsers({ email });
     if (!data.ok || data.body.length === 0) {
       throw new NotAuthenticatedError('Judge not found');
     }
@@ -26,7 +26,7 @@ export async function Login(body: { email: string; password: string }) {
       throw new NotAuthenticatedError('Email or Password do not match');
     }
 
-    const token = await createAuthToken(judge);
+    const token = await CreateAuthToken(judge);
     return { ok: true, body: token, error: null };
   } catch (e) {
     const error = e as HttpError;

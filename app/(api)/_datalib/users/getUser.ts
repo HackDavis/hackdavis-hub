@@ -2,32 +2,32 @@ import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError, NotFoundError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
-export const GetJudge = async (id: string) => {
+export const GetUser = async (id: string) => {
   try {
     const object_id = new ObjectId(id);
     const db = await getDatabase();
 
-    const judge = await db.collection('judges').findOne({
+    const user = await db.collection('users').findOne({
       _id: object_id,
     });
 
-    if (judge === null) {
-      throw new NotFoundError(`judge with id: ${id} not found.`);
+    if (user === null) {
+      throw new NotFoundError(`user with id: ${id} not found.`);
     }
 
-    return { ok: true, body: judge, error: null };
+    return { ok: true, body: user, error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
   }
 };
 
-export const GetManyJudges = async (query: object = {}) => {
+export const GetManyUsers = async (query: object = {}) => {
   try {
     const db = await getDatabase();
 
-    const judge = await db.collection('judges').find(query).toArray();
-    return { ok: true, body: judge, error: null };
+    const users = await db.collection('users').find(query).toArray();
+    return { ok: true, body: users, error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };

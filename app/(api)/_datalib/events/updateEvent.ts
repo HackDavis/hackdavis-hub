@@ -8,7 +8,7 @@ import {
   NotFoundError,
 } from '@utils/response/Errors';
 
-export async function updateEvent(id: string, body: object) {
+export async function UpdateEvent(id: string, body: object) {
   try {
     if (isBodyEmpty(body)) {
       throw new NoContentError();

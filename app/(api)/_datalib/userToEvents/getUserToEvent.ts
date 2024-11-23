@@ -1,14 +1,12 @@
-// GetUserToEvent.ts
-import { NextResponse } from 'next/server';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError } from '@utils/response/Errors';
 
-export const GetUserToEvent = async (query: object = {}) => {
+export const GetUserToEvents = async (query: object = {}) => {
   try {
     const db = await getDatabase();
 
     const userEvents = await db
-      .collection('user_to_event')
+      .collection('userToEvents')
       .aggregate([
         {
           $match: query,
@@ -32,15 +30,9 @@ export const GetUserToEvent = async (query: object = {}) => {
       ])
       .toArray();
 
-    return NextResponse.json(
-      { ok: true, body: userEvents, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: userEvents, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return { ok: false, body: null, error: error.message };
   }
 };

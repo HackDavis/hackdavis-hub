@@ -1,4 +1,5 @@
 'use server';
+// TODO: Refactor for 2025
 
 // import matchingAlgorithm from '@utils/grouping/matchingAlgorithm';
 // import JudgeGroupToTeam from '@typeDefs/judgeToTeam';
@@ -6,8 +7,6 @@
 // import { getManyTeams } from '@actions/teams/getTeams';
 // import { createSubmission } from '@actions/submissions/createSubmission';
 // import { getManyJudges } from '@actions/judges/getJudge';
-
-// TODO: Refactor for 2025
 
 // function checkMatches(matches: JudgeGroupToTeam[], teamsLength: number) {
 //   if (matches.length < 2 * teamsLength) return false;

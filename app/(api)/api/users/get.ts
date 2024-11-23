@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GetManyJudges } from '@datalib/judges/getJudge';
+import { GetManyUsers } from '@datalib/users/getUser';
 import getQueries from '@utils/request/getQueries';
 
 export async function GET(request: NextRequest) {
-  const queries = await getQueries(request, 'judges');
-  const res = await GetManyJudges(queries);
+  const queries = await getQueries(request, 'users');
+  const res = await GetManyUsers(queries);
   return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }

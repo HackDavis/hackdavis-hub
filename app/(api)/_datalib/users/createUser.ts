@@ -4,13 +4,13 @@ import isBodyEmpty from '@utils/request/isBodyEmpty';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import {
   HttpError,
-  NotFoundError,
   NoContentError,
+  DuplicateError,
 } from '@utils/response/Errors';
 
-export const UpdateJudge = async (id: string, body: object) => {
+export const CreateUser = async (body: object) => {
   try {
-    const object_id = new ObjectId(id);
+    // empty
     if (isBodyEmpty(body)) {
       throw new NoContentError();
     }
@@ -19,18 +19,19 @@ export const UpdateJudge = async (id: string, body: object) => {
 
     const db = await getDatabase();
 
-    const judge = await db.collection('judges').updateOne(
-      {
-        _id: object_id,
-      },
-      parsedBody
-    );
-
-    if (judge === null) {
-      throw new NotFoundError(`Judge with id: ${id} not found.`);
+    // duplicate
+    const existingUser = await db.collection('users').findOne({
+      email: parsedBody.email,
+    });
+    if (existingUser) {
+      throw new DuplicateError('Duplicate: user already exists.');
     }
+    const creationStatus = await db.collection('users').insertOne(parsedBody);
+    const user = await db.collection('users').findOne({
+      _id: new ObjectId(creationStatus.insertedId),
+    });
 
-    return { ok: true, body: judge, error: null };
+    return { ok: true, body: user, error: null, status: 201 };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
