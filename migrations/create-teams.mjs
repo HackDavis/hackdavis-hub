@@ -22,7 +22,7 @@ export async function up(db) {
           },
           tracks: {
             bsonType: 'array',
-            maxItems: 6,
+            maxItems: 5,
             items: {
               enum: tracks.map((track) => track.name),
               description: 'track must be one of the valid tracks',

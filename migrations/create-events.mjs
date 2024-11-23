@@ -4,7 +4,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Events Object Validation',
-        required: ['name', 'type', 'location', 'star_time', 'end_time', 'tags'],
+        required: ['name', 'type', 'location', 'start_time', 'end_time'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -15,7 +15,6 @@ export async function up(db) {
             description: 'name must be a string',
           },
           host: {
-            //optional
             bsonType: 'string',
             description: 'host must be a string',
           },

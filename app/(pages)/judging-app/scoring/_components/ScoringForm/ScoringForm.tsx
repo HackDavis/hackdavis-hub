@@ -12,7 +12,7 @@ import Submission from './ScoringSubComponents/Submission';
 import updateSubmission from '@actions/submissions/updateSubmission';
 
 import Team from '@typeDefs/team';
-import SubmissionInt from '@typeDefs/score';
+import SubmissionType from '@typeDefs/submission';
 import { useRouter } from 'next/navigation';
 
 const generalScoreNames = [
@@ -28,19 +28,14 @@ export default function ScoringForm({
   submission,
 }: {
   team: Team;
-  submission: SubmissionInt;
+  submission: SubmissionType;
 }) {
-  const scores = submission.scores ?? generalScoreNames.map((_) => -1);
-  const corrs = (
-    submission.correlations ??
-    team.tracks.map((track: string) => {
-      return { track, score: -1 };
-    })
-  ).map((corr: any) => corr.score);
+  const scores =
+    (submission.scores
+      .randomKeyThatNeedsToBeReplacedWhenThisComponentIsRefactored as number[]) ??
+    generalScoreNames.map((_) => -1);
 
-  const already_done =
-    (submission.correlations ? team.tracks.length : 0) +
-    (submission.scores ? generalScoreNames.length : 0);
+  const already_done = submission.scores ? generalScoreNames.length : 0;
 
   const router = useRouter();
   const [updateState, UpdateSubmission] = useFormState(updateSubmission, {
@@ -73,14 +68,8 @@ export default function ScoringForm({
           setReady={setReady}
           submission={scores}
         />
-        <ScoringInput
-          inputNameHeader="Specific Tracks"
-          inputScoreNames={team.tracks}
-          setReady={setReady}
-          submission={corrs}
-        />
         <div>
-          <Comments submission={submission.comments ?? ''} />
+          <Comments submission={submission.scores.comments ?? ''} />
           <Submission
             canSubmit={ready <= 0}
             error={updateState.error ? updateState.error : ''}

@@ -1,11 +1,11 @@
 // import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
 
 export async function up(db) {
-  await db.createCollection('scores', {
+  await db.createCollection('submissions', {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        title: 'Scores Object Validation',
+        title: 'Submissions Object Validation',
         required: ['judge_id', 'team_id', 'scores', 'is_scored'],
         properties: {
           _id: {
@@ -22,31 +22,30 @@ export async function up(db) {
           },
           scores: {
             bsonType: 'object',
-            description: 'scores must be a JSON',
+            description: 'scores must be a JSON object',
+            required: ['social_good', 'creativity', 'presentation', 'comments'],
             properties: {
               social_good: {
                 bsonType: 'int',
                 minimum: 1,
                 maximum: 5,
-                description: 'social_good must be an integer',
+                description: 'social_good score must be an integer',
               },
               creativity: {
                 bsonType: 'int',
                 minimum: 1,
                 maximum: 5,
-                description: 'creativity must be an integer',
+                description: 'creativity score must be an integer',
               },
               presentation: {
                 bsonType: 'int',
                 minimum: 1,
                 maximum: 5,
-                description: 'presentation must be an integer',
+                description: 'presentation score must be an integer',
               },
               comments: {
                 bsonType: 'string',
-                minimum: 1,
-                maximum: 5,
-                description: 'comments must be an string',
+                description: 'comments must be a string',
               },
             },
             additionalProperties: true,
@@ -63,5 +62,5 @@ export async function up(db) {
 }
 
 export async function down(db) {
-  await db.collection('scores').drop();
+  await db.collection('submissions').drop();
 }

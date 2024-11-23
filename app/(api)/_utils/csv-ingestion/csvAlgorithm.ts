@@ -2,7 +2,7 @@ import csv from 'csv-parser';
 import trackData from '../../_data/tracks.json' assert { type: 'json' };
 import { Readable } from 'stream';
 import Track from '@typeDefs/track';
-import parsedRecord from '@typeDefs/parsedRecord';
+import ParsedRecord from '@typeDefs/parsedRecord';
 
 const validTracks: string[] = trackData
   .map((track: Track) => track.name)
@@ -37,8 +37,8 @@ function sortTracks(track1: string, track2: string, chosentracks: string) {
 
 export default async function csvAlgorithm(blob: Blob) {
   try {
-    const parsePromise = new Promise<parsedRecord[]>((resolve, reject) => {
-      const output: parsedRecord[] = [];
+    const parsePromise = new Promise<ParsedRecord[]>((resolve, reject) => {
+      const output: ParsedRecord[] = [];
 
       const parseBlob = async () => {
         const buffer = Buffer.from(await blob.arrayBuffer());

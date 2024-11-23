@@ -6,7 +6,7 @@ import { Register } from '@datalib/auth/register';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 import FormToJSON from '@utils/form/FormToJSON';
 
-import type authToken from '@typeDefs/authToken';
+import type AuthToken from '@typeDefs/authToken';
 import type User from '@typeDefs/user';
 
 export default async function RegisterAction(
@@ -14,7 +14,7 @@ export default async function RegisterAction(
   formData: FormData
 ): Promise<{
   ok: boolean;
-  body?: authToken | null;
+  body?: AuthToken | null;
   error?: string | null;
 }> {
   try {
@@ -26,7 +26,7 @@ export default async function RegisterAction(
       throw new NotAuthenticatedError(data.error as string);
     }
 
-    const payload = jwt.decode(data.body) as authToken;
+    const payload = jwt.decode(data.body) as AuthToken;
 
     cookies().set({
       name: 'auth_token',

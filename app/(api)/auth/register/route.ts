@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 import jwt from 'jsonwebtoken';
 import { HttpError } from '@utils/response/Errors';
-import type authToken from '@typeDefs/authToken';
+import type AuthToken from '@typeDefs/authToken';
 import { Register } from '@datalib/auth/register';
 import { GetManyJudges } from '@datalib/judges/getJudge';
 import getQueries from '@utils/request/getQueries';
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       throw new HttpError(data.error as string);
     }
 
-    const payload = jwt.decode(data.body) as authToken;
+    const payload = jwt.decode(data.body) as AuthToken;
 
     cookies().set({
       name: 'auth_token',
