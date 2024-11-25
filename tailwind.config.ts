@@ -10,6 +10,10 @@ const config: Config = {
   prefix: 'tw-',
   theme: {
     extend: {
+      fontFamily: {
+        metropolis: ['Metropolis', 'sans-serif'],
+        proxima: ['Proxima Nova', 'sans-serif'],
+      },
       borderColor: {
         border: 'hsl(var(--border))',
       },

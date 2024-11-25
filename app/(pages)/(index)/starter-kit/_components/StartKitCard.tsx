@@ -12,9 +12,11 @@ export default function StartKitCard({
   children,
 }: StartKitCardProps) {
   return (
-    <Card>
-      <p>{subtitle}</p>
-      <h2>{title}</h2>
+    <Card className="tw-border tw-border-black">
+      <p className="tw-text-sm tw-font-metropolis">{subtitle}</p>
+      <h2 className="tw-text-3xl tw-font-semibold tw-font-metropolis">
+        {title}
+      </h2>
       {children}
     </Card>
   );
