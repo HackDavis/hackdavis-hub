@@ -10,5 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default function JudgesLayout({ children }: Props) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return (
+    <AuthProvider>
+      <div className="tw-mx-auto tw-min-w-[370px] tw-max-w-[500px]">
+        {children}
+      </div>
+    </AuthProvider>
+  );
 }
