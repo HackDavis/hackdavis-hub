@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface StartKitCardProps {
   subtitle: string;
@@ -12,12 +12,14 @@ export default function StartKitCard({
   children,
 }: StartKitCardProps) {
   return (
-    <Card className="tw-border tw-border-black">
-      <p className="tw-text-sm tw-font-metropolis">{subtitle}</p>
-      <h2 className="tw-text-3xl tw-font-semibold tw-font-metropolis">
-        {title}
-      </h2>
-      {children}
+    <Card className="tw-border tw-border-black tw-h-fit tw-p-4 tw-bg-transparent">
+      <CardContent className="tw-p-4">
+        <p className="tw-text-sm tw-font-metropolis">{subtitle}</p>
+        <h2 className="tw-text-3xl tw-font-semibold tw-font-metropolis">
+          {title}
+        </h2>
+        {children}
+      </CardContent>
     </Card>
   );
 }
