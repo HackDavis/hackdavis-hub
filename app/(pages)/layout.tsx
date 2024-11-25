@@ -1,4 +1,4 @@
-import '@globals/globals.scss';
+import '@globals/globals.css';
 import fonts from 'app/(pages)/_globals/fonts';
 import metadata from '@globals/metadata.json';
 

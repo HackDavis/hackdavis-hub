@@ -10,6 +10,15 @@ const config: Config = {
   prefix: 'tw-',
   theme: {
     extend: {
+      borderColor: {
+        border: 'hsl(var(--border))',
+      },
+      backgroundColor: {
+        background: 'hsl(var(--background))',
+      },
+      textColor: {
+        foreground: 'hsl(var(--foreground))',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
