@@ -3,14 +3,14 @@
 import { hash } from 'bcryptjs';
 import { signIn } from 'auth';
 
-import { CreateJudge } from '@datalib/judges/createJudge';
+import { CreateUser } from '@datalib/users/createUser';
 import {
   DuplicateError,
   HttpError,
   NotAuthenticatedError,
 } from '@utils/response/Errors';
-import { GetManyJudges } from '@datalib/judges/getJudge';
-import JudgeInt from '@typeDefs/judge';
+import { GetManyUsers } from '@datalib/users/getUser';
+import User from '@typeDefs/user';
 
 export async function Register(body: User) {
   try {

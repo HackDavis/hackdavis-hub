@@ -2,7 +2,7 @@ import NextAuth, { DefaultSession } from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import { compare } from 'bcryptjs';
-import { GetManyJudges } from '@datalib/judges/getJudge';
+import { GetManyUsers } from '@datalib/users/getUser';
 
 declare module 'next-auth' {
   interface User {
@@ -37,7 +37,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const data = await GetManyJudges({
+          const data = await GetManyUsers({
             email: credentials.email as string,
           });
 

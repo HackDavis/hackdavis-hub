@@ -1,7 +1,7 @@
 'use server';
 
 import { Register } from '@datalib/auth/register';
-import { CreateJudge } from '@datalib/judges/createJudge';
+import { CreateUser } from '@datalib/users/createUser';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 
 export default async function RegisterAction(
@@ -13,7 +13,7 @@ export default async function RegisterAction(
   error?: string | null;
 }> {
   try {
-    const data = await CreateJudge();
+    const data = await CreateUser();
 
     if (!data.ok || !data.body) {
       throw new NotAuthenticatedError(data.error as string);
