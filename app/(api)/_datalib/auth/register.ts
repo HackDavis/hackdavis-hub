@@ -52,7 +52,7 @@ export async function Register(body: JudgeInt) {
       ok: false,
       body: null,
       error: error.message,
-      status: error.status || 400,
+      status: error.status,
     };
   }
 }

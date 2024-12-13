@@ -33,7 +33,7 @@ export async function ResetPassword(body: { email: string; password: string }) {
       ok: false,
       body: null,
       error: error.message,
-      status: error.status || 400,
+      status: error.status,
     };
   }
 }

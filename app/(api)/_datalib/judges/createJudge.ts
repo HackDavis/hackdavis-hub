@@ -34,6 +34,11 @@ export const CreateJudge = async (body: object) => {
     return { ok: true, body: judge, error: null, status: 201 };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status,
+    };
   }
 };

@@ -1,5 +1,5 @@
-import { AuthProvider } from '../_contexts/AuthContext';
+import { SessionProvider } from 'next-auth/react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <SessionProvider>{children}</SessionProvider>;
 }

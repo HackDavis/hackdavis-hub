@@ -1,34 +1,24 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 export default function ProtectedDisplay({
-  children,
   allowedRoles,
-  failRedirectPath,
+  children,
 }: {
-  children: React.ReactNode;
   allowedRoles: string;
-  failRedirectPath: string;
+  children: React.ReactNode;
 }) {
-  const router = useRouter();
   const { data: session, status } = useSession();
 
   if (status === 'loading') {
     return <div>Loading...</div>;
   }
 
-  if (!session || status !== 'authenticated') {
-    router.push(failRedirectPath);
-  }
-
   const roles = allowedRoles.split(' ');
-  for (const role of roles) {
-    if (role === session?.user.role) {
-      return children;
-    }
+  if (session?.user.role && roles.includes(session?.user.role)) {
+    return children;
+  } else {
+    return <div>Error in Protected Display</div>;
   }
-
-  router.push(failRedirectPath);
 }

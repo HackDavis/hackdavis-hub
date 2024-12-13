@@ -15,9 +15,14 @@ export const DeleteJudge = async (id: string) => {
       throw new NotFoundError(`judge with id: ${id} not found.`);
     }
 
-    return { ok: true, body: 'judge deleted', error: null };
+    return { ok: true, body: 'judge deleted', error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status,
+    };
   }
 };

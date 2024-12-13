@@ -25,11 +25,16 @@ export const GetJudge = async (id: string) => {
 export const GetManyJudges = async (query: object = {}) => {
   try {
     const db = await getDatabase();
-
     const judge = await db.collection('judges').find(query).toArray();
-    return { ok: true, body: judge, error: null };
+
+    return { ok: true, body: judge, error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status,
+    };
   }
 };

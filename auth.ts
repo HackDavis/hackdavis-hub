@@ -22,7 +22,7 @@ declare module 'next-auth/jwt' {
   }
 }
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { auth, handlers, signIn, signOut } = NextAuth({
   session: {
     strategy: 'jwt',
   },
@@ -32,34 +32,39 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: {},
-        password: {},
+        email: { label: 'email', type: 'text' },
+        password: { label: 'password', type: 'password' },
       },
       async authorize(credentials) {
-        const email = credentials.email as string;
-        const res = await GetManyJudges({ email });
-        const data = await res.json();
+        try {
+          const data = await GetManyJudges({
+            email: credentials.email as string,
+          });
 
-        if (!data.ok || data.body.length !== 1) {
+          if (!data.body || data.body.length !== 1) {
+            return null;
+          }
+
+          const judge = data.body[0];
+
+          const passwordCorrect = await compare(
+            credentials.password as string,
+            judge.password
+          );
+
+          if (passwordCorrect) {
+            return {
+              id: judge._id,
+              email: judge.email,
+              role: judge.role,
+            };
+          }
+
+          return null;
+        } catch (e) {
+          console.error('Auth error: ', e);
           return null;
         }
-
-        const judge = data.body[0];
-
-        const passwordCorrect = await compare(
-          credentials.password as string,
-          judge.password
-        );
-
-        if (passwordCorrect) {
-          return {
-            id: judge._id,
-            email: judge.email,
-            role: judge.role,
-          };
-        }
-
-        return null;
       },
     }),
   ],

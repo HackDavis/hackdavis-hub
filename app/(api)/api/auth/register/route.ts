@@ -1,5 +1,5 @@
 'use server';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { HttpError } from '@utils/response/Errors';
 import { Register } from '@datalib/auth/register';
 import { GetManyJudges } from '@datalib/judges/getJudge';
@@ -42,15 +42,14 @@ export async function POST(request: NextRequest) {
       redirect: false,
     });
 
-    return NextResponse.json(
-      { ok: true, body: response, error: null },
-      { status: 200 }
-    );
+    return { ok: true, body: response, error: null, status: 200 };
   } catch (e) {
     const error = e as HttpError;
-    return NextResponse.json(
-      { ok: false, body: null, error: error.message },
-      { status: error.status || 400 }
-    );
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+      status: error.status || 400,
+    };
   }
 }
