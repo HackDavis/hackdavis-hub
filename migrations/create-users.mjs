@@ -41,7 +41,7 @@ export async function up(db) {
               'position must be either developer, designer, pm, or other',
           },
           is_beginner: {
-            bsonType: 'bool',
+            bsonType: 'boolean',
             description: 'is_beginner must be a boolean',
           },
           starter_kit_stage: {

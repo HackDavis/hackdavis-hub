@@ -4,94 +4,46 @@ import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
 
 function generateData(collectionName, numDocuments) {
   const specialties = ['tech', 'business', 'design'];
-  const numSpecialties = 2;
-  const hackerPositions = ['developer', 'designer', 'pm', 'other'];
-  const eventTypes = ['workshop', 'meal', 'general', 'activity'];
+  const fakeTracks = Array.from(
+    { length: Math.ceil(Math.random() * 5) },
+    () => tracks[Math.floor(Math.random() * tracks.length)].name
+  );
 
   let data = [];
-
-  if (collectionName === 'users') {
-    const judges = Array.from({ length: numDocuments }, () => ({
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      specialties: faker.helpers.arrayElements(specialties, numSpecialties),
-      role: 'judge',
-    }));
-
-    const hackers = Array.from({ length: numDocuments }, () => ({
+  if (collectionName === 'judges') {
+    data = Array.from({ length: numDocuments }, () => ({
       name: faker.person.firstName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      position: faker.helpers.arrayElement(hackerPositions),
-      is_beginner: faker.datatype.boolean(),
-      starter_kit_stage: faker.number.int({ min: 1, max: 4 }),
-      role: 'hacker',
+      specialty: specialties[Math.floor(Math.random() * specialties.length)],
+      judge_group_id: new ObjectId(),
+      role: 'judge',
     }));
-
-    data = [...judges, ...hackers];
   } else if (collectionName === 'admin') {
     data.push({
       name: 'Admin',
       email: 'admin@hackdavis.io',
       password: '$2a$10$oit1hC4hBaj9OX.WQxm3uOtb0qnPNk4iR9QhZmFm7/r1rAphAMAva',
+      specialty: 'tech',
       role: 'admin',
     });
   } else if (collectionName === 'teams') {
     data = Array.from({ length: numDocuments }, () => ({
       number: faker.number.int({ min: 1, max: 1000 }),
       name: faker.lorem.word(),
-      tracks: faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
-        faker.number.int({ min: 1, max: 5 })
-      ),
+      tracks: fakeTracks,
     }));
   } else if (collectionName === 'submissions') {
-    data = Array.from({ length: numDocuments }, () => {
-      const scores = {
-        social_good: faker.number.int({ min: 1, max: 5 }),
-        creativity: faker.number.int({ min: 1, max: 5 }),
-        presentation: faker.number.int({ min: 1, max: 5 }),
-        comments: faker.lorem.sentence(),
-      };
-      const randomTracks = faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
-        faker.number.int({ min: 1, max: 5 })
-      );
-      randomTracks.map((t) => {
-        scores[t] = Array.from({ length: 5 }, () =>
-          faker.number.int({ min: 1, max: 5 })
-        );
-      });
-
-      return {
-        judge_id: new ObjectId(),
-        team_id: new ObjectId(),
-        scores: scores,
-        is_scored: faker.datatype.boolean(),
-      };
-    });
-  } else if (collectionName === 'events') {
-    data = Array.from({ length: numDocuments }, () => {
-      const eventType = faker.helpers.arrayElement(eventTypes);
-      const isWorkshop = eventType === 'workshop';
-      const startTime = faker.date.between({
-        from: '2025-04-19T00:00:00.000Z',
-        to: '2025-04-20T23:59:59.999Z',
-      });
-
-      return {
-        name: faker.company.catchPhrase(),
-        type: eventType,
-        host: isWorkshop ? faker.company.name() : '',
-        location: faker.location.street(),
-        start_time: startTime,
-        end_time: faker.date.soon({ days: 2, refDate: startTime }),
-        tags: isWorkshop
-          ? faker.helpers.arrayElements(hackerPositions, { min: 1 })
-          : [],
-      };
-    });
+    data = Array.from({ length: numDocuments }, () => ({
+      judge_id: new ObjectId(),
+      team_id: new ObjectId(),
+      scores: Array.from({ length: 5 }, () => Math.ceil(Math.random() * 5)),
+      correlations: Array.from(fakeTracks, (fakeTrack) => ({
+        track: fakeTrack,
+        score: Math.ceil(Math.random() * 5),
+      })),
+      comments: faker.lorem.sentence(),
+    }));
   }
 
   return data;
