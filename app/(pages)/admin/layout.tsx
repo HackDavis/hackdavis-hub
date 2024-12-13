@@ -1,5 +1,6 @@
 import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
 import { Metadata } from 'next';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: 'HackDavis Admin Panel',
@@ -11,8 +12,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ProtectedDisplay allowedRoles="admin" failRedirectPath="/">
-      {children}
-    </ProtectedDisplay>
+    <SessionProvider>
+      <ProtectedDisplay allowedRoles="admin">{children}</ProtectedDisplay>
+    </SessionProvider>
   );
 }
