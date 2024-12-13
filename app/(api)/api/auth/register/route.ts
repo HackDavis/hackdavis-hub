@@ -2,22 +2,23 @@
 import { NextRequest } from 'next/server';
 import { HttpError } from '@utils/response/Errors';
 import { Register } from '@datalib/auth/register';
-import { GetManyJudges } from '@datalib/judges/getJudge';
+import { GetManyUsers } from '@datalib/users/getUser';
 import getQueries from '@utils/request/getQueries';
 import { verifyHMACSignature } from '@utils/invite/hmac';
 import { signIn } from 'auth';
 
 export async function POST(request: NextRequest) {
   try {
-    const { data: d, sig: s } = await getQueries(request, 'judges');
+    const { data: d, sig: s } = await getQueries(request, 'users');
 
-    const judges = await GetManyJudges();
+    const users = await GetManyUsers();
 
     const verified = verifyHMACSignature(d as string, s as string);
-    if (judges.body?.length !== 0 && !verified) {
+    if (users.body?.length !== 0 && !verified) {
       throw new HttpError('Bad Invite Token');
     }
 
+    // TODO: rework for hacker registration
     const body = await request.json();
     if (d) {
       const dd = atob(d);

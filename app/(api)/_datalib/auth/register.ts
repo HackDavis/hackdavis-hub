@@ -12,26 +12,26 @@ import {
 import { GetManyJudges } from '@datalib/judges/getJudge';
 import JudgeInt from '@typeDefs/judge';
 
-export async function Register(body: JudgeInt) {
+export async function Register(body: User) {
   try {
     const { email, password, ...rest } = body;
     const hashedPassword = await hash(password as string, 10);
 
-    // Find Judge
-    const judgeData = await GetManyJudges({ email });
-    if (!judgeData.ok || judgeData.body.length !== 0) {
-      throw new DuplicateError('Judge already exists');
+    // Find user
+    const userData = await GetManyUsers({ email });
+    if (!userData.ok || userData.body.length !== 0) {
+      throw new DuplicateError('User already exists');
     }
 
-    // Create Judge
-    const data = await CreateJudge({
+    // Create user
+    const data = await CreateUser({
       email,
       password: hashedPassword,
       ...rest,
     });
 
     if (!data.ok) {
-      throw new HttpError('Failed to create judge');
+      throw new HttpError('Failed to create user');
     }
 
     // Sign In

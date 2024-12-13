@@ -26,7 +26,7 @@ async function dbSeed(collectionNames, numDocuments, wipe) {
       }
 
       const collection = db.collection(
-        collectionName === 'admin' ? 'judges' : collectionName
+        collectionName === 'admin' ? 'users' : collectionName
       );
 
       if (wipe === 'y') {

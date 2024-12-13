@@ -1,8 +1,8 @@
 'use server';
 import bcrypt from 'bcryptjs';
 
-import { GetManyJudges } from '@datalib/judges/getJudge';
-import { UpdateJudge } from '@datalib/judges/updateJudge';
+import { GetManyUsers } from '@datalib/users/getUser';
+import { UpdateUser } from '@datalib/users/updateUser';
 import { HttpError } from '@utils/response/Errors';
 import { signOut } from 'auth';
 
@@ -11,14 +11,14 @@ export async function ResetPassword(body: { email: string; password: string }) {
     const { email, password } = body;
     const hashedPassword = await bcrypt.hash(password as string, 10);
 
-    // Find Judge
-    const judge_data = await GetManyJudges({ email });
-    if (!judge_data.ok || judge_data.body.length === 0) {
-      throw new HttpError('Judge not found');
+    // Find user
+    const user_data = await GetManyUsers({ email });
+    if (!user_data.ok || user_data.body.length === 0) {
+      throw new HttpError('user not found');
     }
 
-    // UpdateJudge
-    const updateData = await UpdateJudge(judge_data.body[0]._id, {
+    // UpdateUser
+    const updateData = await UpdateUser(user_data.body[0]._id, {
       $set: {
         password: hashedPassword,
       },

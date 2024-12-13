@@ -3,8 +3,8 @@ export async function up(db) {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
-        title: 'Judge Object Validation',
-        required: ['name', 'email', 'password', 'specialty', 'role'],
+        title: 'Users Object Validation',
+        required: ['name', 'email', 'password', 'role'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -27,17 +27,30 @@ export async function up(db) {
             enum: ['tech', 'business', 'design'],
             description: 'specialty must be either tech, business, or design',
           },
-          judge_group_id: {
-            bsonType: 'objectId',
-            description: 'judge_group_id must be an ObjectId',
-          },
-          role: {
-            enum: ['judge', 'admin'],
-            description: 'role must be either judge or admin',
+          bsonType: 'array',
+          description: 'specialties must be an array of valid string values',
+          items: {
+            enum: ['tech', 'business', 'design'],
+            description: 'specialty must be either tech, business, or design',
           },
         },
-        additionalProperties: false,
+        position: {
+          enum: ['developer', 'designer', 'pm', 'other'],
+          description:
+            'position must be either developer, designer, pm, or other',
+        },
+        is_beginner: {
+          bsonType: 'bool',
+          description: 'is_beginner must be a boolean',
+        },
+        starter_kit_stage: {
+          bsonType: 'int',
+          maximum: 4,
+          minimum: 1,
+          description: 'start_kit_stage must be an integer',
+        },
       },
+      additionalProperties: false,
     },
   });
 }

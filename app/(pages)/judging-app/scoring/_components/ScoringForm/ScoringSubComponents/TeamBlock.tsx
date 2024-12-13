@@ -1,4 +1,4 @@
-import TeamInt from '@typeDefs/team';
+import Team from '@typeDefs/team';
 import styles from './TeamBlock.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -41,7 +41,7 @@ const NoteBook = () => {
 const figmaLink =
   'https://www.figma.com/proto/9frZI5Kc9f2c8o4ZIZG8fX/Judging-Table-Map?page-id=0:1&type=design&node-id=1-4&viewport=134,164,0.69&t=Jfp4HXeR7nRs3B6R-1&scaling=min-zoom&mode=design';
 
-export default function TeamBlock({ team }: { team: TeamInt }) {
+export default function TeamBlock({ team }: { team: Team }) {
   /* retrieve these from backend */
   return (
     <div className={styles.teamBlock}>

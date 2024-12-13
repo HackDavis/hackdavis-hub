@@ -1,14 +1,8 @@
-import JudgeInt from '@typeDefs/judge';
+import User from '@typeDefs/user';
 import Image from 'next/image';
 import judgeHeroes from '/public/judges/hub/judgingheroes.svg';
 
-export default function HubHero({
-  loading,
-}: {
-  user: JudgeInt;
-  loading: boolean;
-  members: string[];
-}) {
+export default function HubHero({ loading }: { user: User; loading: boolean }) {
   if (loading) {
     return 'loading...';
   }
@@ -31,14 +25,6 @@ export default function HubHero({
             alt="Judging Animals"
             className="tw-right-0 tw-bottom-0"
           />
-        </div>
-        <div className="tw-w-[45%] tw-flex tw-flex-col tw-gap-4 tw-p-[11px] tw-right-4 tw-top-4 tw-rounded-[var(--b-radius)]">
-          {/* <p className="tw-text-base tw-font-medium">You're paired with...</p>
-          {members.map((member: string, index: number) => (
-            <p key={index} className="tw-text-[1.75rem] tw-font-semibold">
-              {member}
-            </p>
-          ))} */}
         </div>
       </div>
     </div>

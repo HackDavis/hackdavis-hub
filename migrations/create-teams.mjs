@@ -29,6 +29,16 @@ export async function up(db) {
             },
             description: 'tracks must be an array of strings',
           },
+          hacker_ids: {
+            bsonType: 'array',
+            maxItems: 4,
+            minItems: 1,
+            description: 'hacker_ids must be an array of ids',
+            items: {
+              bsonType: 'objectId',
+              description: 'hacker_id must be an objectId',
+            },
+          },
         },
         additionalProperties: false,
       },

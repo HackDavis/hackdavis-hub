@@ -3,7 +3,7 @@
 import nodemailer from 'nodemailer';
 import FormToJSON from '@utils/form/FormToJSON';
 import { generateHMACSignature } from '@utils/invite/hmac';
-import HttpError from '@utils/response/HttpError';
+import { HttpError } from '@utils/response/Errors';
 
 const senderEmail = process.env.SENDER_EMAIL;
 const password = process.env.SENDER_PWD;

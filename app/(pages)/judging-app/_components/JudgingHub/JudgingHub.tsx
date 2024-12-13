@@ -3,13 +3,13 @@ import TableLocations from './TableLocations';
 import ViewProjects from './ViewProjects';
 import styles from './JudgingHub.module.scss';
 import Waiting from './Waiting';
-import { useJudgeGroup } from '@hooks/useJudgeGroup';
 
-export default async function JudgingHub() {
+export default function JudgingHub() {
+  const { user, loading } = useAuth();
   return (
     <div className={styles.container}>
       <ViewProjects />
-      <HubHero user={user} loading={loading} members={members} />
+      <HubHero user={user} loading={loading} />
       <Waiting />
       {/* <JudgingList projects={unjudgedTeams} /> */}
       <TableLocations />

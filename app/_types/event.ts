@@ -1,4 +1,4 @@
-interface EventInt {
+interface Event {
   _id: string;
   name: string;
   host?: string;
@@ -9,4 +9,4 @@ interface EventInt {
   tags?: string[];
 }
 
-export default EventInt;
+export default Event;
