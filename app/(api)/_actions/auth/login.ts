@@ -1,7 +1,7 @@
 'use server';
 
 import { signIn } from '@/auth';
-import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
+import { HttpError } from '@utils/response/Errors';
 
 export default async function LoginAction(
   email?: FormDataEntryValue | null,
@@ -12,15 +12,11 @@ export default async function LoginAction(
   error?: string | null;
 }> {
   try {
-    const response = await signIn('credentials', {
+    await signIn('credentials', {
       email,
       password,
       redirect: false,
     });
-
-    if (!response.ok) {
-      throw new NotAuthenticatedError('Invalid login credentials');
-    }
 
     return { ok: true, body: null, error: null };
   } catch (e) {

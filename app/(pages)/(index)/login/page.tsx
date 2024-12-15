@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import Form from './form';
+import LoginForm from './_components/LoginForm';
 import { redirect } from 'next/navigation';
 
 export default async function LoginPage() {
@@ -7,5 +7,5 @@ export default async function LoginPage() {
   if (session) {
     redirect('/');
   }
-  return <Form />;
+  return <LoginForm />;
 }
