@@ -4,14 +4,13 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import HackerHub from './_components/HackerHub/HackerHub';
-import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
 import LogoutAction from '@actions/auth/logout';
 
 export default function Page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleLogout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
@@ -24,13 +23,13 @@ export default function Page() {
   };
 
   return (
-    <ProtectedDisplay allowedRoles="hacker admin">
+    <>
       <HackerHub />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogout}>
         <button type="submit" disabled={loading}>
           Sign Out
         </button>
       </form>
-    </ProtectedDisplay>
+    </>
   );
 }

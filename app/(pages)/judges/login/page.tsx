@@ -1,6 +1,8 @@
-import LoginForm from './LoginForm';
+'use client';
+
+import LoginForm from './_components/LoginForm';
 import Image from 'next/image';
-import styles from './LoginPage.module.scss';
+import styles from './page.module.scss';
 
 export default function LoginPage() {
   return (
@@ -15,7 +17,7 @@ export default function LoginPage() {
         <p>Enter your username and password.</p>
       </div>
       <div className={styles.section}>
-        <LoginForm></LoginForm>
+        <LoginForm />
       </div>
     </div>
   );

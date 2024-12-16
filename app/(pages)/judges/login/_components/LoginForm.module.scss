@@ -51,7 +51,7 @@
         border: none;
         border-radius: var(--b-radius);
         background-color: var(--background-secondary);
-        cursor: not-allowed;
+        cursor: pointer;
         width: 100%;
         
     }
@@ -63,11 +63,11 @@
         flex-direction: column;
     }
 
-    .valid {
+    .not_valid {
         background-color: var(--background-secondary-light);
         opacity: 0.7;
         color: var(--text-light);
-        cursor: pointer;
+        cursor: not-allowed;
     }
 
     .froggie_container {

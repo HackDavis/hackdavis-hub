@@ -8,8 +8,6 @@ type Props = {
 
 export default function ScoringLayout({ children }: Props) {
   return (
-    <ProtectedDisplay allowedRoles="admin judge" failRedirectPath="/login">
-      {children}
-    </ProtectedDisplay>
+    <ProtectedDisplay allowedRoles="admin judge">{children}</ProtectedDisplay>
   );
 }

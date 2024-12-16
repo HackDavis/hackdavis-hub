@@ -1,5 +1,4 @@
-import { useEffect, useState, ChangeEvent } from 'react';
-import { useFormState } from 'react-dom';
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 // import Link from 'next/link';
@@ -12,58 +11,51 @@ export default function LoginForm() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isValid, setIsValid] = useState(false);
+  const [valid, setValid] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const [loginState, Login] = useFormState(LoginAction, {
-    ok: false,
-    body: null,
-    error: null,
-  });
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
+    setLoading(true);
+    setError('');
+    const formData = new FormData(e.currentTarget);
+    const response = await LoginAction(
+      formData.get('email'),
+      formData.get('password')
+    );
+    setLoading(false);
 
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    if (response.ok) {
+      router.push('/judges');
+    } else {
+      setError('Invalid email or password.');
+    }
   };
 
   const validateForm = (email: string, password: string) => {
-    // Simple email validation
     const isEmailValid = /\S+@\S+\.\S+/.test(email);
-    // Password validation (example: minimum length of 6 characters)
     const isPasswordValid = password.length >= 6;
-
-    // Set isValid state based on email and password validity
-    setIsValid(isEmailValid && isPasswordValid);
+    setValid(isEmailValid && isPasswordValid);
   };
-
-  useEffect(() => {
-    if (loginState.ok === true) {
-      setError('');
-      router.push('/');
-    } else {
-      const err = loginState.error as string;
-      setError(err);
-    }
-  }, [loginState, router]);
 
   useEffect(() => {
     validateForm(email, password);
   }, [email, password]);
 
   return (
-    <form action={Login} className={styles.container}>
+    <form onSubmit={handleLogin} className={styles.container}>
       <div className={styles.fields}>
         <div className={styles.input_container}>
           <label htmlFor="email">Username</label>
           <input
             name="email"
             type="email"
-            // placeholder="Username"
             value={email}
-            onChange={handleEmailChange}
+            onInput={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
             className={`${error ? styles.error : null}`}
           />
         </div>
@@ -72,9 +64,10 @@ export default function LoginForm() {
           <input
             name="password"
             type="password"
-            // placeholder="Password"
             value={password}
-            onChange={handlePasswordChange}
+            onInput={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
             className={`${error ? styles.error : null}`}
           />
         </div>
@@ -98,9 +91,11 @@ export default function LoginForm() {
           />
         </div>
         <button
-          className={`${styles.login_button} ${isValid ? styles.valid : null}`}
+          className={`${styles.login_button} ${
+            valid ? null : styles.not_valid
+          }`}
           type="submit"
-          disabled={!isValid}
+          disabled={loading || !valid}
         >
           Log in →
         </button>
