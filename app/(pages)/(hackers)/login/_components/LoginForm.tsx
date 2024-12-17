@@ -28,7 +28,9 @@ export default function LoginForm() {
     setLoading(false);
 
     if (response.ok) {
-      router.push('/');
+      router.push('/judges');
+    } else if (response.error) {
+      setError(response.error);
     } else {
       setError('Invalid email or password.');
     }

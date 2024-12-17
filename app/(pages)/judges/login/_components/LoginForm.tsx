@@ -29,6 +29,8 @@ export default function LoginForm() {
 
     if (response.ok) {
       router.push('/judges');
+    } else if (response.error) {
+      setError(response.error);
     } else {
       setError('Invalid email or password.');
     }
@@ -36,7 +38,7 @@ export default function LoginForm() {
 
   const validateForm = (email: string, password: string) => {
     const isEmailValid = /\S+@\S+\.\S+/.test(email);
-    const isPasswordValid = password.length >= 6;
+    const isPasswordValid = password.length >= 6 && password.length <= 20;
     setValid(isEmailValid && isPasswordValid);
   };
 

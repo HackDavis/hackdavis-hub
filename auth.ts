@@ -2,6 +2,8 @@ import NextAuth, { DefaultSession } from 'next-auth';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import { compare } from 'bcryptjs';
+import { z } from 'zod';
+
 import { GetManyUsers } from '@datalib/users/getUser';
 
 declare module 'next-auth' {
@@ -22,6 +24,13 @@ declare module 'next-auth/jwt' {
   }
 }
 
+export const emailSchema = z.string().email('Invalid email address.');
+
+export const passwordSchema = z
+  .string()
+  .min(6, { message: 'Password must be at least 6 characters long.' })
+  .max(20, { message: 'Password cannot be longer than 20 characters.' });
+
 export const { auth, handlers, signIn, signOut } = NextAuth({
   session: {
     strategy: 'jwt',
@@ -37,33 +46,37 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         try {
+          const email = credentials.email as string;
+          const password = credentials.password as string;
+          emailSchema.parse(email);
+          passwordSchema.parse(password);
+
           const data = await GetManyUsers({
-            email: credentials.email as string,
+            email,
           });
 
           if (!data.body || data.body.length !== 1) {
-            return null;
+            throw new Error('Invalid email address or password.');
           }
 
           const judge = data.body[0];
 
-          const passwordCorrect = await compare(
-            credentials.password as string,
-            judge.password
-          );
-
-          if (passwordCorrect) {
-            return {
-              id: judge._id,
-              email: judge.email,
-              role: judge.role,
-            };
+          const passwordCorrect = await compare(password, judge.password);
+          if (!passwordCorrect) {
+            throw new Error('Invalid email address or password.');
           }
 
-          return null;
-        } catch (e) {
-          console.error('Auth error: ', e);
-          return null;
+          return {
+            id: judge._id,
+            email: judge.email,
+            role: judge.role,
+          };
+        } catch (error) {
+          if (error instanceof z.ZodError) {
+            const errorMessage = error.errors.map((e) => e.message).join(' ');
+            throw new Error(errorMessage);
+          }
+          throw error;
         }
       },
     }),

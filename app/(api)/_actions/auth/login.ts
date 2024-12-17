@@ -1,7 +1,6 @@
 'use server';
 
 import { signIn } from '@/auth';
-import { HttpError } from '@utils/response/Errors';
 
 export default async function LoginAction(
   email?: FormDataEntryValue | null,
@@ -12,19 +11,32 @@ export default async function LoginAction(
   error?: string | null;
 }> {
   try {
-    await signIn('credentials', {
+    const response = await signIn('credentials', {
       email,
       password,
       redirect: false,
     });
 
+    if (!response.ok) {
+      throw new Error(response.error);
+    }
+
     return { ok: true, body: null, error: null };
   } catch (e) {
-    const error = e as HttpError;
+    const error = e as Error;
+    const cause = error.cause as any;
+    if (cause.err.message) {
+      return {
+        ok: false,
+        body: null,
+        error: cause.err.message,
+      };
+    }
+
     return {
       ok: false,
       body: null,
-      error: error.message,
+      error: 'Authentication error.',
     };
   }
 }
