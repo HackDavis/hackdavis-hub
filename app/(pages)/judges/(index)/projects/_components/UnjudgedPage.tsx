@@ -37,7 +37,7 @@ const UnjudgedPage = () => {
       <span className="tw-text-[32px] tw-font-semibold tw-text-[#000000] tw-mb-[12px]">
         Current Project:
       </span>
-      <span className="tw-mb-[24px] tw-text-[18px] tw-font-normal tw-text-[#000000] tw-tracking-[0.36px] tw-leading-[26.1px] tw-font-[400]">
+      <span className="tw-mb-[24px] tw-text-[18px] tw-font-normal tw-text-[#000000] tw-tracking-[0.36px] tw-leading-[26.1px]">
         Projects must be judged in order one by one order.
       </span>
       <div className="tw-flex tw-items-center tw-justify-center tw-w-full tw-py-[20px] tw-bg-white tw-rounded-[16px] tw-gap-[16px] tw-mb-[20px]">

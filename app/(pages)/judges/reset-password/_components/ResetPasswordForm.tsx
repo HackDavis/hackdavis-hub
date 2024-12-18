@@ -1,10 +1,11 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useFormState } from 'react-dom';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+import { useInvite } from '@hooks/useInvite';
 import ResetPassword from '@actions/auth/resetPassword';
 import styles from './ResetPasswordForm.module.scss';
-import Link from 'next/link';
-import { useInvite } from '@hooks/useInvite';
-import { useRouter } from 'next/navigation';
 
 export default function ResetPasswordForm() {
   const router = useRouter();

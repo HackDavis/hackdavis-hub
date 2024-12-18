@@ -28,7 +28,7 @@ export default function LoginForm() {
     setLoading(false);
 
     if (response.ok) {
-      router.push('/judges');
+      router.push('/');
     } else if (response.error) {
       setError(response.error);
     } else {

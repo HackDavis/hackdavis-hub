@@ -34,7 +34,6 @@ export const GetManyUsers = async (query: object = {}) => {
       ok: false,
       body: null,
       error: error.message,
-      status: error.status,
     };
   }
 };

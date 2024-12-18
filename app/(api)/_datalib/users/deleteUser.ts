@@ -22,7 +22,6 @@ export const DeleteUser = async (id: string) => {
       ok: false,
       body: null,
       error: error.message,
-      status: error.status,
     };
   }
 };

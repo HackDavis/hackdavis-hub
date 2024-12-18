@@ -1,11 +1,12 @@
-import { useEffect, useState, ChangeEvent } from 'react';
-import { useFormState } from 'react-dom';
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { hash } from 'bcryptjs';
 
-import Register from '@actions/auth/register';
+import LoginAction from '@actions/auth/login';
 import { useInvite } from '@hooks/useInvite';
 import styles from './RegisterForm.module.scss';
+import { createUser } from '@actions/users/createUser';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -14,27 +15,50 @@ export default function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordDupe, setPasswordDupe] = useState('');
-  const [isValid, setIsValid] = useState(false);
+  const [valid, setValid] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [passwordDupeError, setPasswordDupeError] = useState(false);
 
-  const [registerState, RegisterAction] = useFormState(Register, {
-    ok: false,
-    body: null,
-    error: null,
-  });
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
+    setLoading(true);
+    setError('');
+    const formData = new FormData(e.currentTarget);
+    const emailString = formData.get('email') as string;
+    const passwordString = formData.get('password') as string;
+    const hashedPassword = await hash(passwordString, 10);
 
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
+    const userRes = await createUser(
+      data?.name ? data.name : 'HackDavis Admin',
+      emailString,
+      hashedPassword,
+      // data?.specialties ? data.specialties : ['tech'],
+      ['tech'],
+      data?.role ? data.role : 'judge'
+    );
 
-  const handlePasswordDupeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPasswordDupe(event.target.value);
+    if (!userRes.ok) {
+      setError(userRes.error ? userRes.error : 'Error creating account.');
+      setLoading(false);
+      return;
+    }
+
+    const response = await LoginAction(
+      formData.get('email'),
+      formData.get('password')
+    );
+    setLoading(false);
+
+    if (response.ok) {
+      router.push('/judges');
+    } else if (response.error) {
+      setError(response.error);
+    } else {
+      setError('Invalid email or password.');
+    }
   };
 
   const validateForm = (
@@ -48,8 +72,8 @@ export default function RegisterForm() {
     }
     setPasswordError(!isEmailValid);
 
-    // Password validation (example: minimum length of 6 characters)
-    const isPasswordValid = password.length >= 6 || password.length === 0;
+    const isPasswordValid =
+      password.length >= 6 || password.length <= 20 || password.length === 0;
     if (!isPasswordValid) {
       setError('Password is too short.');
     }
@@ -62,29 +86,25 @@ export default function RegisterForm() {
     }
     setPasswordDupeError(!passwordMatch);
 
-    // Set isValid state based on email and password validity
-    setIsValid(isEmailValid && isPasswordValid && passwordMatch);
+    setValid(isEmailValid && isPasswordValid && passwordMatch);
+    if (
+      email.length === 0 ||
+      password.length === 0 ||
+      passwordDupe.length === 0
+    ) {
+      setValid(false);
+    }
     if (isEmailValid && isPasswordValid && passwordMatch) {
       setError('');
     }
   };
 
   useEffect(() => {
-    if (registerState.ok === true) {
-      setError('');
-      router.push('/');
-    } else {
-      const err = registerState.error as string;
-      setError(err);
-    }
-  }, [registerState, router]);
-
-  useEffect(() => {
     validateForm(email, password, passwordDupe);
   }, [email, password, passwordDupe]);
 
   return (
-    <form action={RegisterAction} className={styles.container}>
+    <form onSubmit={handleRegister} className={styles.container}>
       <p className={styles.error_msg}>{error}</p>
       <div className={styles.fields}>
         <input
@@ -92,7 +112,9 @@ export default function RegisterForm() {
           type="email"
           placeholder="Email"
           value={data ? data.email : email}
-          onChange={handleEmailChange}
+          onInput={(e: ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
           readOnly={data ? true : false}
         />
         <input
@@ -100,14 +122,18 @@ export default function RegisterForm() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={handlePasswordChange}
+          onInput={(e: ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
           className={`${passwordError ? styles.error : null}`}
         />
         <input
           type="password"
           placeholder="Retype password"
           value={passwordDupe}
-          onChange={handlePasswordDupeChange}
+          onInput={(e: ChangeEvent<HTMLInputElement>) =>
+            setPasswordDupe(e.target.value)
+          }
           className={`${passwordDupeError ? styles.error : null}`}
         />
         <input
@@ -127,9 +153,9 @@ export default function RegisterForm() {
         />
       </div>
       <button
-        className={`${styles.login_button} ${isValid ? styles.valid : null}`}
+        className={`${styles.login_button} ${valid ? styles.valid : null}`}
         type="submit"
-        disabled={!isValid}
+        disabled={loading || !valid}
       >
         Create account
       </button>

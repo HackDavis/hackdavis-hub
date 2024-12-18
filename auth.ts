@@ -24,9 +24,9 @@ declare module 'next-auth/jwt' {
   }
 }
 
-export const emailSchema = z.string().email('Invalid email address.');
+const emailSchema = z.string().email('Invalid email address.');
 
-export const passwordSchema = z
+const passwordSchema = z
   .string()
   .min(6, { message: 'Password must be at least 6 characters long.' })
   .max(20, { message: 'Password cannot be longer than 20 characters.' });
@@ -51,12 +51,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           emailSchema.parse(email);
           passwordSchema.parse(password);
 
-          const data = await GetManyUsers({
-            email,
-          });
+          const data = await GetManyUsers({ email });
 
           if (!data.body || data.body.length !== 1) {
-            throw new Error('Invalid email address or password.');
+            throw new Error('Internal server error');
           }
 
           const judge = data.body[0];

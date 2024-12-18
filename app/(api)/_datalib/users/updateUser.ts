@@ -37,7 +37,6 @@ export const UpdateUser = async (id: string, body: object) => {
       ok: false,
       body: null,
       error: error.message,
-      status: error.status || 400,
     };
   }
 };

@@ -1,6 +1,7 @@
 'use server';
 
 import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 export default async function LoginAction(
   email?: FormDataEntryValue | null,
@@ -11,25 +12,24 @@ export default async function LoginAction(
   error?: string | null;
 }> {
   try {
-    const response = await signIn('credentials', {
+    await signIn('credentials', {
       email,
       password,
       redirect: false,
     });
 
-    if (!response.ok) {
-      throw new Error(response.error);
-    }
-
     return { ok: true, body: null, error: null };
-  } catch (e) {
-    const error = e as Error;
-    const cause = error.cause as any;
-    if (cause.err.message) {
+  } catch (error) {
+    if (
+      error instanceof AuthError &&
+      error.cause &&
+      error.cause.err &&
+      error.cause.err.message
+    ) {
       return {
         ok: false,
         body: null,
-        error: cause.err.message,
+        error: error.cause.err.message,
       };
     }
 
