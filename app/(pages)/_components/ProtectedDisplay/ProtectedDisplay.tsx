@@ -1,22 +1,24 @@
 'use client';
-import { useAuth } from '@hooks/useAuth';
+
+import { useSession } from 'next-auth/react';
 
 export default function ProtectedDisplay({
-  loadingDisplay,
-  failDisplay,
+  allowedRoles,
   children,
 }: {
-  loadingDisplay: React.ReactNode;
-  failDisplay: React.ReactNode;
+  allowedRoles: string;
   children: React.ReactNode;
 }) {
-  const { user, loading } = useAuth();
-  if (loading) {
-    return loadingDisplay;
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
   }
-  if (user === null) {
-    return failDisplay;
-  } else {
+
+  const roles = allowedRoles.split(' ');
+  if (session?.user.role && roles.includes(session?.user.role)) {
     return children;
+  } else {
+    return <div>Error in Protected Display</div>;
   }
 }
