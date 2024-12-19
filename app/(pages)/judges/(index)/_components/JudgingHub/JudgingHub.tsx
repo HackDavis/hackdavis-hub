@@ -1,3 +1,5 @@
+'use client';
+
 import HubHero from './HubHero';
 import TableLocations from './TableLocations';
 import ViewProjects from './ViewProjects';

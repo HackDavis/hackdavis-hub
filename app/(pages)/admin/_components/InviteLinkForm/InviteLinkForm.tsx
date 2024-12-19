@@ -2,7 +2,7 @@ import { useFormState } from 'react-dom';
 // import sendInvite from '@actions/invite/sendInvite';
 import sendEmail from '@actions/invite/sendEmail';
 import styles from './InviteLinkForm.module.scss';
-import FormSubmitConfirmation from '@components/FormSubmitConfirmation/FormSubmitConfirmation';
+import FormSubmitConfirmation from 'app/(pages)/admin/_components/FormSubmitConfirmation/FormSubmitConfirmation';
 import { useEffect, useState } from 'react';
 
 export default function InviteLinkForm() {
@@ -45,15 +45,20 @@ export default function InviteLinkForm() {
             <label className={styles.label}>Specialty</label>
             <div>
               <label>Technical</label>
-              <input type="radio" name="specialty" value="tech" required />
+              <input type="checkbox" name="specialty" value="tech" required />
             </div>
             <div>
               <label>Design</label>
-              <input type="radio" name="specialty" value="design" required />
+              <input type="checkbox" name="specialty" value="design" required />
             </div>
             <div>
               <label>Business</label>
-              <input type="radio" name="specialty" value="business" required />
+              <input
+                type="checkbox"
+                name="specialty"
+                value="business"
+                required
+              />
             </div>
           </div>
           <input name="role" type="hidden" value="judge" />

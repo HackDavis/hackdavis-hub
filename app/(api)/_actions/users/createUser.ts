@@ -2,19 +2,7 @@
 
 import { CreateUser } from '@datalib/users/createUser';
 
-export async function createUser(
-  name: string,
-  email: string,
-  password: string,
-  specialties: [string],
-  role: string
-) {
-  const response = await CreateUser({
-    name,
-    email,
-    password,
-    specialties,
-    role,
-  });
+export async function createUser(body: object) {
+  const response = await CreateUser(body);
   return response;
 }
