@@ -20,11 +20,7 @@ export default function LoginForm() {
 
     setLoading(true);
     setError('');
-    const formData = new FormData(e.currentTarget);
-    const response = await LoginAction(
-      formData.get('email'),
-      formData.get('password')
-    );
+    const response = await LoginAction(email, password);
     setLoading(false);
 
     if (response.ok) {

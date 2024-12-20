@@ -1,7 +1,8 @@
+'use client';
+
 import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { hash } from 'bcryptjs';
 
 import LoginAction from '@actions/auth/login';
 import { useInvite } from '@hooks/useInvite';
@@ -26,14 +27,11 @@ export default function RegisterForm() {
 
     setLoading(true);
     setError('');
-    const formData = new FormData(e.currentTarget);
-    const emailString = formData.get('email') as string;
-    const hashedPassword = await hash(formData.get('password') as string, 10);
 
     const userRes = await createUser({
       name: data?.name ? data.name : 'HackDavis Admin',
-      email: emailString,
-      password: hashedPassword,
+      email,
+      password,
       // specialties: data?.specialties ? data.specialties : ['tech'],
       specialties: ['tech'],
       role: data?.role ? data.role : 'judge',
@@ -45,10 +43,7 @@ export default function RegisterForm() {
       return;
     }
 
-    const response = await LoginAction(
-      formData.get('email'),
-      formData.get('password')
-    );
+    const response = await LoginAction(email, password);
     setLoading(false);
 
     if (response.ok) {

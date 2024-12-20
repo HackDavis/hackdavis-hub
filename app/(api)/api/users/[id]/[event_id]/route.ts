@@ -1,8 +1,4 @@
-import authenticated from '@utils/authentication/authenticated';
-import { POST as post } from './post';
-import { DELETE as del } from './delete';
-
-const POST = authenticated(post);
-const DELETE = authenticated(del);
+import { POST } from './post';
+import { DELETE } from './delete';
 
 export { POST, DELETE };

@@ -1,11 +1,9 @@
-'use client';
-
 import Image from 'next/image';
 
 import RegisterForm from './_components/RegisterForm';
 import styles from './page.module.scss';
 
-export default function Register() {
+export default async function Register() {
   return (
     <div className={styles.container}>
       <div className={styles.hero}>

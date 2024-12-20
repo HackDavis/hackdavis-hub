@@ -32,12 +32,7 @@ const passwordSchema = z
   .max(20, { message: 'Password cannot be longer than 20 characters.' });
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  session: {
-    strategy: 'jwt',
-  },
-  pages: {
-    signIn: '/',
-  },
+  session: { strategy: 'jwt' },
   providers: [
     Credentials({
       credentials: {

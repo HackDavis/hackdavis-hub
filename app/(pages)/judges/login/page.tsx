@@ -1,10 +1,16 @@
-'use client';
-
-import LoginForm from './_components/LoginForm';
+import { redirect } from 'next/navigation';
 import Image from 'next/image';
+
+import { auth } from '@/auth';
+import LoginForm from './_components/LoginForm';
 import styles from './page.module.scss';
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth();
+  if (session) {
+    redirect('/judges');
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.section}>

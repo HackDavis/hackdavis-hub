@@ -1,12 +1,13 @@
+'use client';
+
 import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { hash } from 'bcryptjs';
 
 import LoginAction from '@actions/auth/login';
 import { useInvite } from '@hooks/useInvite';
-import styles from './RegisterForm.module.scss';
 import { createUser } from '@actions/users/createUser';
+import styles from './RegisterForm.module.scss';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -26,19 +27,15 @@ export default function RegisterForm() {
 
     setLoading(true);
     setError('');
-    const formData = new FormData(e.currentTarget);
-    const emailString = formData.get('email') as string;
-    const passwordString = formData.get('password') as string;
-    const hashedPassword = await hash(passwordString, 10);
 
-    const userRes = await createUser(
-      data?.name ? data.name : 'HackDavis Admin',
-      emailString,
-      hashedPassword,
-      // data?.specialties ? data.specialties : ['tech'],
-      ['tech'],
-      data?.role ? data.role : 'admin'
-    );
+    const userRes = await createUser({
+      name: data?.name ? data.name : 'HackDavis Admin',
+      email,
+      password,
+      // specialties: data?.specialties ? data.specialties : ['tech'],
+      specialties: ['tech'],
+      role: data?.role ? data.role : 'judge',
+    });
 
     if (!userRes.ok) {
       setError(userRes.error ? userRes.error : 'Error creating account.');
@@ -46,10 +43,7 @@ export default function RegisterForm() {
       return;
     }
 
-    const response = await LoginAction(
-      formData.get('email'),
-      formData.get('password')
-    );
+    const response = await LoginAction(email, password);
     setLoading(false);
 
     if (response.ok) {
