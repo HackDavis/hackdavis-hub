@@ -30,6 +30,10 @@ export const GetManyUsers = async (query: object = {}) => {
     return { ok: true, body: users, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+    };
   }
 };

@@ -33,6 +33,10 @@ export const UpdateUser = async (id: string, body: object) => {
     return { ok: true, body: user, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+    };
   }
 };

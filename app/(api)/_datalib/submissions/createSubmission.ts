@@ -51,7 +51,7 @@ export const CreateSubmission = async (body: {
       _id: new ObjectId(creationStatus.insertedId),
     });
 
-    return { ok: true, body: submission, error: null, status: 201 };
+    return { ok: true, body: submission, error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
