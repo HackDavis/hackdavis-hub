@@ -4,10 +4,9 @@ import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-import LoginAction from '@actions/auth/login';
 import { useInvite } from '@hooks/useInvite';
-import { createUser } from '@actions/users/createUser';
 import styles from './RegisterForm.module.scss';
+import RegisterAction from '@actions/auth/register';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function RegisterForm() {
     setLoading(true);
     setError('');
 
-    const userRes = await createUser({
+    const response = await RegisterAction({
       name: data?.name ? data.name : 'HackDavis Admin',
       email,
       password,
@@ -36,14 +35,6 @@ export default function RegisterForm() {
       specialties: ['tech'],
       role: data?.role ? data.role : 'judge',
     });
-
-    if (!userRes.ok) {
-      setError(userRes.error ? userRes.error : 'Error creating account.');
-      setLoading(false);
-      return;
-    }
-
-    const response = await LoginAction(email, password);
     setLoading(false);
 
     if (response.ok) {

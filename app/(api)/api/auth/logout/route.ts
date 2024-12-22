@@ -3,8 +3,13 @@
 import { NextResponse } from 'next/server';
 
 import Logout from '@datalib/auth/logout';
+import authenticated from '@utils/authentication/authenticated';
 
-export async function POST() {
+async function post() {
   const res = await Logout();
   return NextResponse.json({ ...res }, { status: res.ok ? 200 : 401 });
 }
+
+const POST = authenticated(post);
+
+export { POST };

@@ -7,11 +7,10 @@ import styles from './JudgingHub.module.scss';
 import Waiting from './Waiting';
 
 export default function JudgingHub() {
-  const { user, loading } = useAuth();
   return (
     <div className={styles.container}>
       <ViewProjects />
-      <HubHero user={user} loading={loading} />
+      <HubHero />
       <Waiting />
       {/* <JudgingList projects={unjudgedTeams} /> */}
       <TableLocations />

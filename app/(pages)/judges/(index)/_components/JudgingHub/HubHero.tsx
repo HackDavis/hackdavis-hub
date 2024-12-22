@@ -1,12 +1,7 @@
-import User from '@typeDefs/user';
 import Image from 'next/image';
 import judgeHeroes from '/public/judges/hub/judgingheroes.svg';
 
-export default function HubHero({ loading }: { user: User; loading: boolean }) {
-  if (loading) {
-    return 'loading...';
-  }
-
+export default function HubHero() {
   return (
     <div className="tw-w-full tw-overflow-hidden tw-bg-[#f2f2f7] tw-flex tw-flex-col tw-justify-center tw-gap-4 tw-relative">
       <div className="tw-px-[5%] tw-pt-[50px] tw-pb-0 tw-flex tw-flex-col tw-gap-2 tw-z-[1]">

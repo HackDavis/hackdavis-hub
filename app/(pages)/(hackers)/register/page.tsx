@@ -1,9 +1,16 @@
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
+import { auth } from '@/auth';
 import RegisterForm from './_components/RegisterForm';
 import styles from './page.module.scss';
 
-export default async function Register() {
+export default async function RegisterPage() {
+  const session = await auth();
+  if (session) {
+    redirect('/');
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.hero}>

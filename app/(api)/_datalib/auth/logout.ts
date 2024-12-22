@@ -8,7 +8,7 @@ export default async function Logout() {
       redirect: false,
     });
 
-    return { ok: true, body: null, error: null };
+    return { ok: true, body: 'Successfully logged out', error: null };
   } catch (error) {
     if (error instanceof AuthError && error?.cause?.err?.message) {
       return {

@@ -10,7 +10,7 @@ export default async function Login(email: string, password: string) {
       redirect: false,
     });
 
-    return { ok: true, body: null, error: null };
+    return { ok: true, body: 'Successfully logged in', error: null };
   } catch (error) {
     if (error instanceof AuthError && error?.cause?.err?.message) {
       return {
