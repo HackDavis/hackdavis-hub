@@ -54,7 +54,7 @@ export const LinkUserToEvent = async (body: {
       _id: new ObjectId(creationStatus.insertedId),
     });
 
-    return { ok: true, body: userToEvent, error: null, status: 201 };
+    return { ok: true, body: userToEvent, error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };

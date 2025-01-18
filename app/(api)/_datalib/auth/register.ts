@@ -1,38 +1,29 @@
-'use server';
-import bcrypt from 'bcryptjs';
-
+import Login from '@datalib/auth/login';
 import { CreateUser } from '@datalib/users/createUser';
-import { DuplicateError, HttpError } from '@utils/response/Errors';
-import { GetManyUsers } from '@datalib/users/getUser';
-import { CreateAuthToken } from './authToken';
-import User from '@typeDefs/user';
+import HttpError from '@utils/response/HttpError';
 
-export async function Register(body: User) {
+export default async function Register(body: any) {
   try {
-    const { email, password, ...rest } = body;
-    const hashedPassword = await bcrypt.hash(password as string, 10);
+    const password = body.password;
+    const userRes = await CreateUser(body);
 
-    // Find user
-    const userData = await GetManyUsers({ email });
-    if (!userData.ok || userData.body.length !== 0) {
-      throw new DuplicateError('User already exists');
+    if (!userRes.ok) {
+      throw new HttpError(userRes.error ?? 'Error creating user');
     }
 
-    // Create user
-    const data = await CreateUser({
-      email,
-      password: hashedPassword,
-      ...rest,
-    });
+    const response = await Login(body.email, password);
 
-    if (!data.ok) {
-      throw new HttpError('Failed to create user');
+    if (!response.ok) {
+      throw new HttpError(userRes.error ?? 'Authentication error');
     }
 
-    const token = await CreateAuthToken(data.body);
-    return { ok: true, body: token, error: null };
+    return { ok: true, body: userRes.body, error: null };
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, error: error.message };
+    return {
+      ok: false,
+      body: null,
+      error: error.message,
+    };
   }
 }
