@@ -13,7 +13,9 @@ export default function AdminLayout({
 }) {
   return (
     <SessionProvider>
-      <ProtectedDisplay allowedRoles="admin">{children}</ProtectedDisplay>
+      <ProtectedDisplay allowedRoles={['admin']} failRedirectRoute="/login">
+        {children}
+      </ProtectedDisplay>
     </SessionProvider>
   );
 }
