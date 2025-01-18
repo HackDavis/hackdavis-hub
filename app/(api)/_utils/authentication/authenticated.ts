@@ -9,8 +9,12 @@ export default function authenticated(
   return async (request: NextRequest, params: object) => {
     try {
       const session = await auth();
+      if (!session) {
+        throw new NotAuthenticatedError('User not authenticated.');
+      }
+
       if (session?.user.role !== 'admin') {
-        throw new NotAuthenticatedError('User not authenticated');
+        throw new NotAuthenticatedError('Access Denied.');
       }
     } catch (e) {
       const error = e as HttpError;
