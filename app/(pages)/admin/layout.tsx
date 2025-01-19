@@ -1,4 +1,4 @@
-import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
+import ProtectedDisplay from '../_components/ProtectedDisplay/ProtectedDisplay';
 import { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 
