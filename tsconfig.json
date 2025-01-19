@@ -22,7 +22,7 @@
     "baseUrl": "./",
     "paths": {
       "@globals/*": ["app/(pages)/_globals/*"],
-      "@components/*": ["app/(pages)/_components/*"],
+      "@components/*": ["app/(pages)/components/*"],
       "@data/*": ["app/(pages)/_data/*"],
       "@hooks/*": ["app/(pages)/_hooks/*"],
       "@actions/*": ["app/(api)/_actions/*"],
