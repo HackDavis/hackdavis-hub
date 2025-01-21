@@ -34,7 +34,7 @@ export default function LoginForm() {
 
   const validateForm = (email: string, password: string) => {
     const isEmailValid = /\S+@\S+\.\S+/.test(email);
-    const isPasswordValid = password.length >= 6;
+    const isPasswordValid = password.length >= 6 && password.length <= 20;
     setValid(isEmailValid && isPasswordValid);
   };
 
