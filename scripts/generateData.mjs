@@ -2,9 +2,20 @@ import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
 import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
 
+function shuffleSpecialties(specialties) {
+  const shuffledSpecialties = [...specialties];
+  for (let i = shuffledSpecialties.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledSpecialties[i], shuffledSpecialties[j]] = [
+      shuffledSpecialties[j],
+      shuffledSpecialties[i],
+    ];
+  }
+  return shuffledSpecialties;
+}
+
 function generateData(collectionName, numDocuments) {
-  const specialties = ['tech', 'business', 'design'];
-  const numSpecialties = 2;
+  const specialties = [...new Set(tracks.map((track) => track.type))];
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['workshop', 'meal', 'general', 'activity'];
 
@@ -15,7 +26,7 @@ function generateData(collectionName, numDocuments) {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      specialties: faker.helpers.arrayElements(specialties, numSpecialties),
+      specialties: shuffleSpecialties(specialties),
       role: 'judge',
     }));
 

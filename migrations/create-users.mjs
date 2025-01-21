@@ -1,3 +1,7 @@
+import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
+
+const domains = [...new Set(tracks.map((track) => track.type))];
+
 export async function up(db) {
   await db.createCollection('users', {
     validator: {
@@ -30,8 +34,10 @@ export async function up(db) {
           specialties: {
             bsonType: 'array',
             description: 'specialties must be an array of valid string values',
+            maxItems: domains.length,
+            minItems: domains.length,
             items: {
-              enum: ['tech', 'business', 'design'],
+              enum: domains,
               description: 'specialty must be either tech, business, or design',
             },
           },
