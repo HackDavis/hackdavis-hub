@@ -58,20 +58,18 @@ export default function RegisterForm() {
     setPasswordError(!isEmailValid);
 
     const isPasswordValid =
-      password.length >= 6 || password.length <= 20 || password.length === 0;
+      (password.length >= 6 && password.length <= 20) || password.length === 0;
     if (!isPasswordValid) {
       setError('Password is too short.');
     }
     setPasswordError(!isPasswordValid);
 
-    const passwordMatch =
-      password === passwordDupe || passwordDupe.length === 0;
+    const passwordMatch = password === passwordDupe;
     if (!passwordMatch) {
       setError("Passwords don't match.");
     }
     setPasswordDupeError(!passwordMatch);
 
-    setValid(isEmailValid && isPasswordValid && passwordMatch);
     if (
       email.length === 0 ||
       password.length === 0 ||
@@ -79,8 +77,10 @@ export default function RegisterForm() {
     ) {
       setValid(false);
     }
+
     if (isEmailValid && isPasswordValid && passwordMatch) {
       setError('');
+      setValid(true);
     }
   };
 
