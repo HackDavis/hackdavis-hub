@@ -7,10 +7,10 @@ import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDispla
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      <h1> hi </h1>
       <StarterKitSlide title="Workshop 101" subtitle="JOIN US FOR">
         <EventPosting
           location="ARC Ballroom C"
+          color="#005271"
           time="11am - 12pm"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip"
         >
