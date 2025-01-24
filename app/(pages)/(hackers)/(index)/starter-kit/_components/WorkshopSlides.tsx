@@ -22,6 +22,10 @@ export default function WorkshopSlides({
                 src={Garage}
                 alt='HackDavis Mascots playing instruments in a garage'
             />
+
+          <div className={styles.Overlay}>
+              <p>Hello World</p>
+            </div>
         </div>
     </div>
   );
