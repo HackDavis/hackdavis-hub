@@ -25,7 +25,7 @@ export default function WorkshopSlides({
             />
 
             <div className={styles.Overlay}>
-                <p>insert google slides here</p>
+                <p className={styles.Text}>insert google slides here</p>
             </div>
 
         </div>
