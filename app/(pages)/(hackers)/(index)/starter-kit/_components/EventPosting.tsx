@@ -1,20 +1,33 @@
 import { Card, CardContent } from '@globals/components/ui/card';
 import styles from './EventPosting.module.scss'
+import { HiLocationMarker } from "react-icons/hi";
 
 interface EventPostingProps {
   location: string;
-  title: string;
-  children: React.ReactNode;
+  time: string;
+  description: string;
 }
 
 export default function EventPosting({
-  title,
+  time,
   location,
-  children,
+  description,
 }: EventPostingProps) {
   return (
     <div className={styles.EventContainer}>
-        <h1> meow </h1>
+        <div className={styles.EventInfoContainer}>
+            <div className={styles.EventInfo}>
+                {time}
+            </div>
+            <div className={styles.EventInfo}>
+                <HiLocationMarker className={styles.icon}/>
+            </div>
+            <div className={styles.EventInfo}>
+                {location}
+            </div>
+        </div>
+
+        <p> {description} </p>
     </div>
     // <Card className="tw-h-fit tw-p-4 tw-bg-transparent">
     //   <CardContent className="tw-p-4">
