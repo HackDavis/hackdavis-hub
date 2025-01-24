@@ -8,6 +8,7 @@ interface WorkshopSlidesProps {
 import styles from './WorkshopSlides.module.scss';
 import Image from 'next/image';
 import Garage from 'public/hackers/garage.svg'
+import ClosedGarage from 'public/hackers/closed_garage.svg'
 
 export default function WorkshopSlides({
   title,
@@ -23,9 +24,10 @@ export default function WorkshopSlides({
                 alt='HackDavis Mascots playing instruments in a garage'
             />
 
-          <div className={styles.Overlay}>
-              <p>Hello World</p>
+            <div className={styles.Overlay}>
+                <p>insert google slides here</p>
             </div>
+
         </div>
     </div>
   );

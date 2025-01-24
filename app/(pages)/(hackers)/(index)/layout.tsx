@@ -11,13 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       subtitle="HERE'S A RECAP OF THE WORKSHOP"
       title="In case you missed it..."
     >
-      <WorkshopSlides
-        subtitle="HERE'S A RECAP OF THE WORKSHOP"
-        title="In case you missed it..."
-        children="asdfsdf"
-      >
-        tests
-      </WorkshopSlides>
+      <WorkshopSlides/>
       
     </StarterKitSlide>
   

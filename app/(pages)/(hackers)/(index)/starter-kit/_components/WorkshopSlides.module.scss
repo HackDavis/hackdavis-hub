@@ -1,6 +1,5 @@
 .GarageContainer {
     display: flex;
-    border: 3px black solid;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -8,19 +7,21 @@
 }
 
 .Garage {
-    position: relative; /* Added to make .Overlay position relative to .Garage */
-    border: 3px red solid;
+    position: relative; 
     height: auto;
 }
 
 .Overlay {
     position: absolute;
-    bottom: 85%;
+    bottom: 85%; 
     left: 0;
     right: 0;
     background-color: #008CBA;
+    background-image: url('/hackers/closed_garage.svg'); 
+    background-size: cover;
+    background-position: bottom; 
     overflow: hidden;
-    width: 100%; /* Updated to span the width of the .Garage */
+    width: 100%; 
     height: 15%;
     transition: 0.5s ease;
 }
