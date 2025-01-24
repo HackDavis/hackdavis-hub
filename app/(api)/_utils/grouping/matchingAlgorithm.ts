@@ -1,23 +1,20 @@
-import JudgeGroup from '@typeDefs/judgeGroup';
+import User from '@typeDefs/user';
 import Team from '@typeDefs/team';
+import Submission from '@typeDefs/submission';
 import tracks from '../../_data/tracks.json' assert { type: 'json' };
-import JudgeGroupToTeam from '@typeDefs/judgeGroupToTeam';
 
-export default function matchingAlgorithm(
-  judgeGroups: JudgeGroup[],
-  teams: Team[]
-) {
+export default function matchingAlgorithm(judges: User[], teams: Team[]) {
   const filteredTeams = teams.map((team) => {
     while (team.tracks.length < 2) team.tracks.push('No Track');
     return team;
   });
 
-  const teamAssignments = judgeGroups.map((group) => ({
+  const teamAssignments = judges.map((group) => ({
     judgeGroup: group,
     teams: 0,
   }));
 
-  const matches: JudgeGroupToTeam[] = [];
+  const matches: Submission[] = [];
 
   for (const team of filteredTeams) {
     teamAssignments.sort((group1, group2) => group1.teams - group2.teams);
@@ -31,8 +28,8 @@ export default function matchingAlgorithm(
       let idx = 0;
       while (
         idx < teamAssignments.length &&
-        (teamAssignments[idx].judgeGroup.type !== foundTrack.type ||
-          pairedGroup === teamAssignments[idx].judgeGroup._id)
+        // teamAssignments[idx].judgeGroup.type !== foundTrack.type ||
+        pairedGroup === teamAssignments[idx].judgeGroup._id
       ) {
         idx++;
       }
@@ -40,19 +37,19 @@ export default function matchingAlgorithm(
       if (idx < teamAssignments.length) {
         teamAssignments[idx].teams++;
 
-        matches.push({
-          judge_group_id: {
-            '*convertId': {
-              id: teamAssignments[idx].judgeGroup._id,
-            },
-          },
-          team_id: {
-            '*convertId': {
-              id: team._id,
-            },
-          },
-          round: teamAssignments[idx].teams,
-        });
+        // matches.push({
+        //   judge_id: {
+        //     '*convertId': {
+        //       id: teamAssignments[idx].judgeGroup._id,
+        //     },
+        //   },
+        //   team_id: {
+        //     '*convertId': {
+        //       id: team._id,
+        //     },
+        //   },
+        //   round: teamAssignments[idx].teams,
+        // });
 
         pairedGroup = teamAssignments[idx].judgeGroup._id ?? '';
       }

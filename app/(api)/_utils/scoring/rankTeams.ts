@@ -3,50 +3,35 @@ import Submission from '@typeDefs/score';
 import { getManySubmissions } from '@actions/submissions/getSubmission';
 import tracks from '../../_data/tracks.json' assert { type: 'json' };
 
-interface Correlation {
-  track: string;
-  score: number;
-}
+// TODO: Rework calculateTrackScore
+// function calculateTrackScore(chosenTracks: string[], scores: Scores) {
+//   const finalScores = chosenTracks.map((chosenTrack) => {
+//     const weights = tracks.find((track) => track.name == chosenTrack)?.weights;
+//     if (weights === undefined) return 0;
+//     const score = weights.reduce((sum, weight, i) => {
+//       return sum + weight * scores[i];
+//     }, 0);
 
-function calculateTrackScore(
-  chosenTracks: string[],
-  scores: number[],
-  correlations: Correlation[]
-) {
-  const finalScores = chosenTracks.map((chosenTrack) => {
-    const weights = tracks.find((track) => track.name == chosenTrack)?.weights;
-    if (weights === undefined) return 0;
-    const score = weights.reduce((sum, weight, i) => {
-      return sum + weight * scores[i];
-    }, 0);
-    const correlationWeight = correlations.find(
-      (correlation) => correlation.track == chosenTrack
-    )?.score;
+//     if (score === undefined) {
+//       return 0;
+//     }
 
-    if (correlationWeight === undefined || score === undefined) {
-      return 0;
-    }
+//     return score! / 5;
+//   });
 
-    return (score! * correlationWeight!) / 5;
-  });
-
-  return finalScores;
-}
+//   return finalScores;
+// }
 
 function calculateScores(team: Team, submissions: Submission[]) {
-  let results: number[] = [0, 0, 0, 0, 0];
+  const results: number[] = [0, 0, 0, 0, 0];
 
   let submissionsCount = 0;
   for (const submission of submissions) {
-    if (submission.scores && submission.correlations) {
+    if (submission.scores) {
       submissionsCount++;
-      const scores = calculateTrackScore(
-        team.tracks,
-        submission.scores,
-        submission.correlations as Correlation[]
-      );
+      // const scores = calculateTrackScore(team.tracks, submission.scores);
 
-      results = results.map((res, i) => res + scores[i]);
+      // results = results.map((res, i) => res + scores[i]);
     }
   }
 
@@ -59,7 +44,7 @@ function calculateScores(team: Team, submissions: Submission[]) {
     number: team.number,
     name: team.name,
     scores: finalScores,
-    comments: submissions.map((submission) => submission.comments),
+    comments: submissions.map((submission) => submission.scores.comments),
   };
 }
 

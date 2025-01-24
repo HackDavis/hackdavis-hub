@@ -1,11 +1,8 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-import { Login } from '@datalib/auth/login';
-import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
-import FormToJSON from '@utils/form/FormToJSON';
+import Login from '@datalib/auth/login';
 
+<<<<<<< HEAD
 import type authToken from '@typeDefs/authToken';
 import User from '@typeDefs/user';
 
@@ -40,4 +37,8 @@ export default async function LoginAction(
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
   }
+=======
+export default async function LoginAction(email: string, password: string) {
+  return Login(email, password);
+>>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c
 }

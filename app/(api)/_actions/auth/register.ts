@@ -1,11 +1,8 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-import { Register } from '@datalib/auth/register';
-import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
-import FormToJSON from '@utils/form/FormToJSON';
+import Register from '@datalib/auth/register';
 
+<<<<<<< HEAD
 import type authToken from '@typeDefs/authToken';
 import type User from '@typeDefs/user';
 
@@ -41,4 +38,8 @@ export default async function RegisterAction(
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
   }
+=======
+export default async function RegisterAction(body: object) {
+  return Register(body);
+>>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c
 }

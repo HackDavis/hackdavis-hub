@@ -7,7 +7,7 @@ import {
 } from '@utils/response/Errors';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 
-export async function createEvent(body: object) {
+export async function CreateEvent(body: object) {
   try {
     if (isBodyEmpty(body)) {
       throw new NoContentError();
@@ -24,13 +24,12 @@ export async function createEvent(body: object) {
     }
 
     const creationStatus = await db.collection('events').insertOne(parsedBody);
-
     const createdEvent = await db.collection('events').findOne({
       _id: creationStatus.insertedId,
     });
 
     if (!createdEvent) {
-      throw new HttpError('Failed to fetch the created item');
+      throw new HttpError('Failed to fetch the created event');
     }
 
     return { ok: true, body: createdEvent, error: null };

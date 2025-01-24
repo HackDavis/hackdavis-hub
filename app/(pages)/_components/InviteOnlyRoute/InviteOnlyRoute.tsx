@@ -12,10 +12,10 @@ export default function InviteOnlyRoute({
   const { pending: pendingFirst, noUsers } = useFirstUser();
 
   if (pendingInvite || pendingFirst) {
-    return 'Loading...';
+    return <div>Loading...</div>;
   }
   if (!noUsers && data === null) {
-    return 'Bad Invite Link';
+    return <div>Bad Invite Link</div>;
   } else {
     return children;
   }
