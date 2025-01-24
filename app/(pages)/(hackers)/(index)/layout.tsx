@@ -1,16 +1,30 @@
 import { SessionProvider } from 'next-auth/react';
+import WorkshopSlides from './starter-kit/_components/WorkshopSlides';
 
 import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
+import StarterKitSlide from './starter-kit/_components/StarterKitSlide';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <SessionProvider>
-      <ProtectedDisplay
-        allowedRoles={['hacker', 'admin']}
-        failRedirectRoute="/login"
-      >
-        {children}
-      </ProtectedDisplay>
-    </SessionProvider>
+    <StarterKitSlide
+      subtitle="HERE'S A RECAP OF THE WORKSHOP"
+      title="In case you missed it..."
+      children=""
+    />
+
+    </StarterKitSlide>
+    <WorkshopSlides>
+      tests
+    </WorkshopSlides>
+
+    // <SessionProvider>
+
+    //   {/* <ProtectedDisplay
+    //     allowedRoles={['hacker', 'admin']}
+    //     failRedirectRoute="/login"
+    //   >
+    //     {children}
+    //   </ProtectedDisplay> */}
+    // </SessionProvider>
   );
 }
