@@ -2,16 +2,16 @@
     background-color: #FFFFFF;
     border: 1px black solid;
     border-radius: 12px;
-    padding: 5% 8%;
-    border-left: 10px solid #005271;
+    padding: 5%;
+    // border-left: 10px solid #005271;
 
     .EventInfoContainer {
         display: flex;
         width: 100%;
         // border: blue 3px solid;
         font-weight: bold;
-        font-size: 1rem;
-        padding-bottom: 2%;
+        font-size: 1.2rem;
+        padding-bottom: 1%;
         // gap: 3%;
 
         .EventInfo {
@@ -29,6 +29,6 @@
 
     p {
         font-weight: 400;
-        font-size: .8rem;
+        font-size: 1rem;
     }
 }
