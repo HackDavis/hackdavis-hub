@@ -1,0 +1,39 @@
+.GarageContainer {
+    display: flex;
+    border: 3px black solid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    .Garage {
+        border: 3px red solid;
+    }
+
+    .door-large {
+        height: 100%;
+        width: 100%;
+        display: block;
+        position: absolute;
+        transition: all 0.5s ease-in-out, border 0.1s ease;
+        background: #292929 repeat center center;
+        border: .0625em solid #181818;
+    }
+
+    #door2.active .door-large {
+        transform: translateY(-100%);
+    }
+
+    @keyframes bottomToTop {
+        0% {transform: translateY(0%);}
+        10% {transform: translateY(50%);}
+        20% {transform: translateY(75%);}
+        30% {transform: translateY(100%);}
+        40% {transform: translateY(50%);}
+        50% {transform: translateY(25%);}
+        60% {transform: translateY(0%);}
+        70% {transform: translateY(-25%);}
+        80% {transform: translateY(-50%);}
+        90% {transform: translateY(-75%);}
+        100% {transform: translateY(-100%);}
+    }
+}
