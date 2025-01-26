@@ -1,11 +1,25 @@
 import StarterKitSlide from './_components/StarterKitSlide';
+import ParentCarousel from './_components/ParentCarousel';
 import Image from 'next/image';
 
 export default function Page() {
   return (
     <main>
       <div>Start Kit Page</div>
-      <StarterKitSlide title="Hacking 101 Workshop" subtitle="JOIN US FOR OUR">
+      <ParentCarousel title="✦ Let's Begin!" color="#005271">
+        <StarterKitSlide
+          title="Hacking 101 Workshop"
+          subtitle="JOIN US FOR OUR"
+        >
+          <Image
+            src="/hackers/crossing_cow.svg"
+            alt="Example Image"
+            width={100}
+            height={100}
+          />
+        </StarterKitSlide>
+      </ParentCarousel>
+      {/* <StarterKitSlide title="Hacking 101 Workshop" subtitle="JOIN US FOR OUR">
         <Image
           src="/hackers/crossing_cow.svg"
           alt="Example Image"
@@ -23,7 +37,7 @@ export default function Page() {
           width={100}
           height={100}
         />
-      </StarterKitSlide>
+      </StarterKitSlide> */}
     </main>
   );
 }

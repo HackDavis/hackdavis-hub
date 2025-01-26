@@ -3,14 +3,10 @@
 import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-<<<<<<< HEAD:app/(pages)/judging-app/_components/LoginPage/LoginForm.tsx
-import authToken from '@typeDefs/authToken';
-=======
 // import Link from 'next/link';
 
 import LoginAction from '@actions/auth/login';
 import styles from './LoginForm.module.scss';
->>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c:app/(pages)/judges/login/_components/LoginForm.tsx
 
 export default function LoginForm() {
   const router = useRouter();
@@ -45,19 +41,6 @@ export default function LoginForm() {
   };
 
   useEffect(() => {
-<<<<<<< HEAD:app/(pages)/judging-app/_components/LoginPage/LoginForm.tsx
-    if (loginState.ok === true) {
-      const user = loginState.body as authToken;
-      login(user);
-    } else {
-      const err = loginState.error as string;
-      setError(err);
-    }
-  }, [loginState, login]);
-
-  useEffect(() => {
-=======
->>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c:app/(pages)/judges/login/_components/LoginForm.tsx
     validateForm(email, password);
   }, [email, password]);
 
