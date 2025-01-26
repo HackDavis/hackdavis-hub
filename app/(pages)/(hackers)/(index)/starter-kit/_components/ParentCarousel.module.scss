@@ -1,39 +1,55 @@
 .container{
     background: linear-gradient(to left top, #FFEDCF, #79CCD9, #97DBEF);
     width: 100vw;
-    height: 100vh;
+    // height: 100vh;
+    padding-bottom: 50px;
     
 }
 .header{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 0px 50px 0px 50px;
+    align-items: flex-start;
+    margin: 0px 80px 0px 80px;
+    top: 60px;
+    position: relative;
     p{
         font-size: 20px;
-        font-weight: 400px;
+        font-weight: 400;
+        line-height: 40px;
     }
     h2{
         font-size: 40px;
-        font-weight: 1000px;
+        font-weight: 700;
+    }
+    .header_text{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 50%;
+        top: 25px;
+        position: relative;
     }
 }
-.banner{
-    background-color: #005271;
-    font-size: 40px;
-    font-weight: bold;
-    color: #FFFFFF;
-    width: 25%;
-    text-align: center;
-    padding: 20px;
-    border-radius: 0px 12px 12px 0px;
-    // margin-top: 100px;
-}
+
 .carousel{
     background-color: rgba($color: #FFFFFF, $alpha: 0.5);
-    margin: 0px 50px 60px 50px;
+    margin: 0px 80px 60px 80px;
     border-radius: 12px;
     padding-top: 50px;
+    .carousel_navi{
+        display: flex;
+        justify-content: space-between;
+    }
+    .banner{
+        background-color: #005271; //should be a prop
+        font-size: 40px;
+        font-weight: 700;
+        color: #FFFFFF;
+        width: 25%;
+        text-align:right;
+        padding: 20px 40px;
+        border-radius: 0px 12px 12px 0px;
+    }
 }
 .children{
     padding: 50px;
