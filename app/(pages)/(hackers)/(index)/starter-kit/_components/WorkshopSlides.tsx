@@ -25,7 +25,8 @@ export default function WorkshopSlides({
             />
 
             <div className={styles.Overlay}>
-                <p className={styles.Text}>insert google slides here</p>
+                {/* <p className={styles.Text}>insert google slides here</p> */}
+                <iframe className={styles.Slides} src="https://docs.google.com/presentation/d/1Ns6j-0nFxoo3QZXAfNKe6f0Rbq79dkE5nzh1LFtkhsE/edit?usp=sharing"/>
             </div>
 
         </div>
