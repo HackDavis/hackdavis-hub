@@ -25,7 +25,7 @@ jobs:
         run: npm install
       
       - name: Run migrations
-        run: migrate-mongo up
+        run: npx migrate-mongo up
 
       - name: Lint and build code, then publish to Vercel
         run: >
