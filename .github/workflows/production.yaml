@@ -23,6 +23,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Run migrations
+        run: migrate-mongo up
 
       - name: Lint and build code, then publish to Vercel
         run: >
@@ -33,14 +36,14 @@ jobs:
           --prod
           --env MONGODB_URI=${{ secrets.MONGODB_URI }}
           --env BASE_URL=${{ vars.ENV_URL }}
-          --env JWT_SECRET=${{ secrets.JWT_SECRET }}
+          --env AUTH_SECRET=${{ secrets.AUTH_SECRET }}
           --env HMAC_INVITE_SECRET=${{ secrets.HMAC_INVITE_SECRET }}
           --env INVITE_TIMEOUT=${{ vars.INVITE_TIMEOUT }}
           --env SENDER_EMAIL=${{ vars.SENDER_EMAIL }}
           --env SENDER_PWD=${{ secrets.SENDER_PWD }}
           --build-env MONGODB_URI=${{ secrets.MONGODB_URI }}
           --build-env BASE_URL=${{ vars.ENV_URL }}
-          --build-env JWT_SECRET=${{ secrets.JWT_SECRET }}
+          --build-env AUTH_SECRET=${{ secrets.AUTH_SECRET }}
           --build-env HMAC_INVITE_SECRET=${{ secrets.HMAC_INVITE_SECRET }}
           --build-env INVITE_TIMEOUT=${{ vars.INVITE_TIMEOUT }}
           --build-env SENDER_EMAIL=${{ vars.SENDER_EMAIL }}
