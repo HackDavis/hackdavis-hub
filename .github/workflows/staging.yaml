@@ -28,6 +28,8 @@ jobs:
       
       - name: Run migrations
         run: npx migrate-mongo up
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       - name: Lint and build code, then publish to Vercel
         run: >

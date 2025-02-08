@@ -1,5 +1,3 @@
-// import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
-
 export async function up(db) {
   await db.createCollection('submissions', {
     validator: {
