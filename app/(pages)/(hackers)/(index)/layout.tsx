@@ -1,10 +1,10 @@
-import { SessionProvider } from 'next-auth/react';
+// import { SessionProvider } from 'next-auth/react';
 import WorkshopSlides from './starter-kit/_components/WorkshopSlides';
 
-import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
+// import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
 import StarterKitSlide from './starter-kit/_components/StarterKitSlide';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout(/* { children }: { children: React.ReactNode } */) {
   return (
     <StarterKitSlide
       subtitle="HERE'S A RECAP OF THE WORKSHOP"
