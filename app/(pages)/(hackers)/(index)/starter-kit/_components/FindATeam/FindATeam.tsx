@@ -5,12 +5,21 @@
 //   children: React.ReactNode;
 // }
 
+import StarterKitSlide from '../StarterKitSlide';
 import styles from './FindATeam.module.scss';
 // import Image from 'next/image';
 
 export default function FindATeam() {
   return (
-    // <Card className="tw-h-fit tw-p-4 tw-bg-transparent">
-    <div className={styles.Container}></div>
+    <div>
+      {' '}
+      {/* Add a wrapper div */}
+      <StarterKitSlide
+        subtitle="GUIDING THE QUESTIONS"
+        title="Finding the right fit"
+      >
+        <div className={styles.Container}></div>
+      </StarterKitSlide>
+    </div>
   );
 }
