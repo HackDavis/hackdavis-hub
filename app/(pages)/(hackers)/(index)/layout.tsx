@@ -4,7 +4,7 @@ import EventPosting from './starter-kit/_components/EventPosting';
 
 // import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout(/* { children }: { children: React.ReactNode } */) {
   return (
     <SessionProvider>
       <StarterKitSlide title="Workshop 101" subtitle="JOIN US FOR">
