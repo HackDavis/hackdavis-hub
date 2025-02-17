@@ -6,15 +6,12 @@ import StarterKitSlide from './starter-kit/_components/StarterKitSlide';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-  
-      <StarterKitSlide
+    <StarterKitSlide
       subtitle="HERE'S A RECAP OF THE WORKSHOP"
       title="In case you missed it..."
     >
-      <WorkshopSlides/>
-      
+      <WorkshopSlides />
     </StarterKitSlide>
-  
 
     // <SessionProvider>
 
