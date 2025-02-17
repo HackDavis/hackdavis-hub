@@ -22,16 +22,9 @@ export default function WorkshopSlides() {
         />
 
         <div className={styles.Overlay}>
-          {/* <p className={styles.Text}>insert google slides here</p> */}
           <iframe
             src="https://docs.google.com/presentation/d/e/2PACX-1vRwPegDb3tMoSINsOSQiDCdoC35qx6gojknjaKE1QyyFwjPVnGUAGB5jKtbsXT-F1paps4rOcr7gjWg/embed?start=false&loop=false&delayms=3000"
-            // frameBorder="0"
-            // width="960"
-            // height="569"
             className={styles.Slides}
-            // allowfullscreen="true"
-            // mozallowfullscreen="true"
-            // webkitallowfullscreen="true"
           ></iframe>
         </div>
       </div>
