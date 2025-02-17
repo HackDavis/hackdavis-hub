@@ -1,4 +1,8 @@
-import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
+import fs from 'fs';
+import path from 'path';
+
+const tracksPath = path.resolve(process.cwd(), 'app/(api)/_data/tracks.json');
+const tracks = JSON.parse(fs.readFileSync(tracksPath, 'utf8'));
 
 const domains = [...new Set(tracks.map((track) => track.type))];
 

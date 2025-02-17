@@ -1,9 +1,7 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
+import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 
-export default function ProtectedDisplay({
+export default async function ProtectedDisplay({
   allowedRoles,
   failRedirectRoute,
   children,
@@ -12,14 +10,10 @@ export default function ProtectedDisplay({
   failRedirectRoute: string;
   children: React.ReactNode;
 }) {
-  const { data: session, status } = useSession();
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
+  const session = await auth();
 
   if (session?.user.role && allowedRoles.includes(session?.user.role)) {
-    return children;
+    return <>{children}</>;
   } else if (session?.user.role === 'judge') {
     redirect('/judges');
   } else if (session?.user.role === 'hacker') {
