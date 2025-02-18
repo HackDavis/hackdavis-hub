@@ -1,7 +1,7 @@
 .Container {
     // background: var(--background-primary);
     background-color: #123041; //could not find this color in globals
-    padding: 10% 40% 10% 10%;
+    padding: 10% 40% 10% 7%;
     border-radius: 12px;
     // Background Image
     background-image: url('/hackers/PeepingAnimals.svg'); 
@@ -57,5 +57,71 @@
                 background: #AFD157;
             }
         }
+    }
+}
+
+.teamFormation {
+    display: flex;
+    background: #123041;
+    border-radius: 12px;
+    color: white;
+
+    /* Left panel (Title) */
+    .leftPanel {
+        border-radius: 12px 0px 0px 12px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #005271;
+    }
+
+    .leftPanel h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-light)
+    }
+
+    /* Right panel (Chat Bubbles) */
+    .rightPanel {
+        padding: 6%;
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    /* Base chat bubble styling */
+    .chatBubble {
+        padding: 5%;
+        border-radius: 12px;
+        font-size: 16px;
+        max-width: 80%;
+        position: relative;
+        transform: rotate(-2deg); /* Slightly slanted effect */
+    }
+
+    /* Blue Bubble */
+    .blueBubble {
+        background: #AEEFFF;
+        color: #123041;
+        align-self: flex-start;
+        transform: rotate(-2deg);
+    }
+
+    /* Green Bubble */
+    .greenBubble {
+        background: #AFD157;
+        color: #123041;
+        align-self: flex-end;
+        transform: rotate(3deg);
+    }
+
+    /* Links inside chat bubbles */
+    .chatBubble a {
+        color: #123041;
+        font-weight: bold;
+        text-decoration: underline;
     }
 }
