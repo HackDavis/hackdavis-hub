@@ -4,7 +4,8 @@
     padding: 10% 40% 10% 7%;
     border-radius: 12px;
     // Background Image
-    background-image: url('/hackers/PeepingAnimals.svg'); 
+    background: url('/hackers/PeepingAnimals.svg'),
+                linear-gradient(to right, #123041 99%, #005271 1%); 
     background-size: contain; 
     background-repeat: no-repeat;
     background-position: right center; 
