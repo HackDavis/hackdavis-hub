@@ -12,12 +12,10 @@ export default function StarterKitSlide({
   children,
 }: StarterKitSlideProps) {
   return (
-    <Card className="tw-h-fit tw-p-4 tw-bg-transparent">
-      <CardContent className="tw-p-4">
-        <p className="tw-text-sm tw-font-jakarta tw-tracking-[0.02em]">
-          {subtitle}
-        </p>
-        <h2 className="tw-text-2xl tw-font-bold tw-font-metropolis tw-tracking-[0.02em] tw-mb-4">
+    <Card className="h-fit p-4 bg-transparent">
+      <CardContent className="p-4">
+        <p className="text-sm font-jakarta tracking-[0.02em]">{subtitle}</p>
+        <h2 className="text-2xl font-bold font-metropolis tracking-[0.02em] mb-4">
           {title}
         </h2>
         {children}

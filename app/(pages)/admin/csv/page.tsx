@@ -19,10 +19,7 @@ export default function CsvIngestion() {
     <div>
       <div>
         <h4>Upload CSV:</h4>
-        <form
-          onSubmit={handler}
-          className="tw-flex tw-flex-col tw-py-4 tw-gap-2"
-        >
+        <form onSubmit={handler} className="flex flex-col py-4 gap-2">
           <input type="file" accept=".csv" name="file" id="file" />
           <button type="submit">Upload</button>
         </form>
