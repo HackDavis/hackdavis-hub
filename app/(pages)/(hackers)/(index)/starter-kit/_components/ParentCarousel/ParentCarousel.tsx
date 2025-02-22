@@ -1,6 +1,7 @@
 'use client';
 
 import styles from './ParentCarousel.module.scss';
+import { Carousel } from '@globals/components/ui/carousel';
 import Image from 'next/image';
 
 interface ParentCarouselProps {
@@ -33,8 +34,9 @@ export default function ParentCarousel({
           <p>
             SAY HI TO YOUR
             <br />
-            <h2>Starter Kit</h2>
+            <div className={styles.h2}>Starter Kit</div>
           </p>
+
           <Image src="/hackers/star.svg" alt="star" width={30} height={30} />
           <p className={styles.code_text}>
             A HACKDAVIS HUB
@@ -44,7 +46,7 @@ export default function ParentCarousel({
         </div>
         <Image
           src="/hackers/good_froggie.svg"
-          alt="judge bunny"
+          alt="good"
           width={255}
           height={150}
         />
@@ -52,15 +54,27 @@ export default function ParentCarousel({
       <div className={styles.carousel}>
         <div className={styles.carousel_navi}>
           <div
-            className={styles.banner}
+            className={
+              currentIndex === currentIndex ? styles.banner : styles.banner
+            }
             style={{ backgroundColor: `${color}` }}
           >
             {title}
           </div>
-          <button />
+          <div className={styles.bubbles_top}>
+            {Array.from({ length: totalCarousels }).map((_, index) => (
+              <div
+                key={index}
+                className={`${styles.bubble} ${
+                  currentIndex === index ? styles.active2 : ''
+                }`}
+              />
+            ))}
+          </div>
         </div>
         <div className={styles.children}>
-          {children}
+          <div className={styles.child_transition}>{children}</div>
+
           <div className={styles.navigation}>
             <button
               onClick={() => onNavigate('previous')}
@@ -72,9 +86,8 @@ export default function ParentCarousel({
               {Array.from({ length: totalCarousels }).map((_, index) => (
                 <div
                   key={index}
-                  className={`${styles.bubble} ${
-                    currentIndex === index ? styles.active : ''
-                  }`}
+                  className={`${styles.bubble} ${currentIndex === index ? styles.active : ''
+                    }`}
                 />
               ))}
             </div>
