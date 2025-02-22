@@ -18,8 +18,8 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
 }) => (
   <button
-    className={`${width} tw-h-[42px] tw-border-[1.5px] tw-border-[#005271] tw-border-solid tw-rounded-[20px] tw-text-[#005271] tw-text-lg tw-font-semibold tw-tracking-[0.36px] tw-flex tw-items-center tw-justify-center ${
-      isSelected ? 'tw-bg-[#9EE7E5]' : 'tw-bg-white'
+    className={`${width} h-[42px] border-[1.5px] border-[#005271] border-solid rounded-[20px] text-[#005271] text-lg font-semibold tracking-[0.36px] flex items-center justify-center ${
+      isSelected ? 'bg-[#9EE7E5]' : 'bg-white'
     }`}
     onClick={onClick}
   >
@@ -33,33 +33,33 @@ const ProjectPage = () => {
   );
 
   return (
-    <div className="tw-flex tw-flex-col tw-h-full tw-bg-[#F2F2F7]">
-      <div className="tw-flex tw-items-center tw-ml-[20px] tw-gap-[12px] tw-mt-[59px]">
+    <div className="flex flex-col h-full bg-[#F2F2F7]">
+      <div className="flex items-center ml-[20px] gap-[12px] mt-[59px]">
         <FaChevronLeft fill="#005271" height={8.48} width={4.24} />
-        <span className="tw-font-semibold tw-text-[18px] tw-tracking-[0.36px] tw-text-[#005271] tw-leading-[100%]">
+        <span className="font-semibold text-[18px] tracking-[0.36px] text-[#005271] leading-[100%]">
           Back to Projects
         </span>
       </div>
-      <div className="tw-flex tw-flex-col tw-px-[20px] tw-mt-[24px]">
-        <span className="tw-font-bold tw-text-[48px] tw-tracking-[0.96px] tw-text-[#000000] ">
+      <div className="flex flex-col px-[20px] mt-[24px]">
+        <span className="font-bold text-[48px] tracking-[0.96px] text-[#000000] ">
           Project
         </span>
       </div>
-      <div className="tw-flex tw-px-[20px] tw-space-x-[8px] tw-mb-[32px]">
+      <div className="flex px-[20px] space-x-[8px] mb-[32px]">
         <Button
           text="Unjudged"
           isSelected={selectedButton === 'Unjudged'}
-          width="tw-w-[136px]"
+          width="w-[136px]"
           onClick={() => setSelectedButton('Unjudged')}
         />
         <Button
           text="Scored"
           isSelected={selectedButton === 'Scored'}
-          width="tw-w-[114px]"
+          width="w-[114px]"
           onClick={() => setSelectedButton('Scored')}
         />
       </div>
-      <div className="tw-px-[20px]">
+      <div className="px-[20px]">
         {selectedButton === 'Unjudged' ? <UnjudgedPage /> : <ScoredPage />}
       </div>
     </div>

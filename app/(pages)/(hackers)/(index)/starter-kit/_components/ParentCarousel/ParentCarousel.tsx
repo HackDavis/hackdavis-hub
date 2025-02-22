@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './ParentCarousel.module.scss';
-import { Carousel } from '@globals/components/ui/carousel';
 import Image from 'next/image';
 
 interface ParentCarouselProps {
@@ -86,8 +85,9 @@ export default function ParentCarousel({
               {Array.from({ length: totalCarousels }).map((_, index) => (
                 <div
                   key={index}
-                  className={`${styles.bubble} ${currentIndex === index ? styles.active : ''
-                    }`}
+                  className={`${styles.bubble} ${
+                    currentIndex === index ? styles.active : ''
+                  }`}
                 />
               ))}
             </div>
