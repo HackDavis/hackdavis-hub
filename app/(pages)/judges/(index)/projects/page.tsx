@@ -5,7 +5,7 @@ import ProjectPage from './_components/ProjectPage';
 
 export default function Judges() {
   return (
-    <div className="tw-flex tw-flex-col tw-h-full tw-bg-[#F2F2F7]">
+    <div className="flex flex-col h-full bg-[#F2F2F7]">
       <ProjectPage />
     </div>
   );
