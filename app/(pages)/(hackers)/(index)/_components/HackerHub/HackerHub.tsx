@@ -1,7 +1,11 @@
+import UnderConstruction from './mvp/UnderConstruction';
+
 export default function HackerHub() {
   return (
     <main>
-      <div>HackerHub Main</div>
+      <div>
+        <UnderConstruction />
+      </div>
     </main>
   );
 }
