@@ -1,13 +1,21 @@
 import type { NextRequest, NextResponse } from 'next/server';
-import authenticate from './authenticate';
-import { HttpError } from '@utils/response/Errors';
+
+import { auth } from '@/auth';
+import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 
 export default function authenticated(
   handler: (request: NextRequest, params: any) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, params: object) => {
     try {
-      await authenticate(request);
+      const session = await auth();
+      if (!session) {
+        throw new NotAuthenticatedError('User not authenticated.');
+      }
+
+      if (session?.user.role !== 'admin') {
+        throw new NotAuthenticatedError('Access Denied.');
+      }
     } catch (e) {
       const error = e as HttpError;
       return Response.json(

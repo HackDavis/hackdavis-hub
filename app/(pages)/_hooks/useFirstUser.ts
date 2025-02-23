@@ -1,6 +1,6 @@
 'use client';
 
-import { getManyJudges } from '@actions/judges/getJudge';
+import { getManyUsers } from '@actions/users/getUser';
 import { useState, useEffect } from 'react';
 
 export function useFirstUser() {
@@ -9,8 +9,8 @@ export function useFirstUser() {
 
   useEffect(() => {
     const firstUserWrapper = async () => {
-      const judgeList = await getManyJudges();
-      setNoUsers(judgeList.body.length === 0);
+      const userList = await getManyUsers();
+      setNoUsers(userList.body.length === 0);
       setPending(false);
     };
 

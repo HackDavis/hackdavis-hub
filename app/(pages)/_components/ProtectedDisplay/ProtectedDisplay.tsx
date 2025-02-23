@@ -1,22 +1,24 @@
-'use client';
-import { useAuth } from '@hooks/useAuth';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
-export default function ProtectedDisplay({
-  loadingDisplay,
-  failDisplay,
+export default async function ProtectedDisplay({
+  allowedRoles,
+  failRedirectRoute,
   children,
 }: {
-  loadingDisplay: React.ReactNode;
-  failDisplay: React.ReactNode;
+  allowedRoles: string[];
+  failRedirectRoute: string;
   children: React.ReactNode;
 }) {
-  const { user, loading } = useAuth();
-  if (loading) {
-    return loadingDisplay;
-  }
-  if (user === null) {
-    return failDisplay;
+  const session = await auth();
+
+  if (session?.user.role && allowedRoles.includes(session?.user.role)) {
+    return <>{children}</>;
+  } else if (session?.user.role === 'judge') {
+    redirect('/judges');
+  } else if (session?.user.role === 'hacker') {
+    redirect('/');
   } else {
-    return children;
+    redirect(failRedirectRoute);
   }
 }

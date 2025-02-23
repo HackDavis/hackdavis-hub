@@ -1,4 +1,8 @@
-import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
+import fs from 'fs';
+import path from 'path';
+
+const tracksPath = path.resolve(process.cwd(), 'app/(api)/_data/tracks.json');
+const tracks = JSON.parse(fs.readFileSync(tracksPath, 'utf8'));
 
 export async function up(db) {
   await db.createCollection('teams', {
@@ -28,6 +32,16 @@ export async function up(db) {
               description: 'track must be one of the valid tracks',
             },
             description: 'tracks must be an array of strings',
+          },
+          hacker_ids: {
+            bsonType: 'array',
+            maxItems: 4,
+            minItems: 1,
+            description: 'hacker_ids must be an array of ids',
+            items: {
+              bsonType: 'objectId',
+              description: 'hacker_id must be an objectId',
+            },
           },
         },
         additionalProperties: false,
