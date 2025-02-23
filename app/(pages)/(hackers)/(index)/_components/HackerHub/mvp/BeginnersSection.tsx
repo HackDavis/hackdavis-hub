@@ -2,6 +2,8 @@ import styles from './BeginnersSection.module.scss';
 import Image from 'next/image';
 import hackathon from 'public/hackers/mvp/hackathon.svg';
 import arrow from 'public/hackers/mvp/arrow.svg';
+import grass_detail_light from 'public/hackers/mvp/grass_detail_light.svg';
+import grass_detail_dark from 'public/hackers/mvp/grass_detail_dark.svg';
 
 export default function BeginnersSection() {
   return (
@@ -18,9 +20,22 @@ export default function BeginnersSection() {
         </p>
       </div>
       <div className={styles.starterkit_cont}>
-        <div className={styles.hackathon_cont}>
-          <Image src={hackathon} alt="hackathon" />
+        <div className={styles.hack_w_grass}>
+          <div className={styles.hackathon_cont}>
+            <Image src={hackathon} alt="hackathon" />
+          </div>
+          <Image
+            src={grass_detail_dark}
+            alt="grass detail"
+            className={styles.grass_dark}
+          />
+          <Image
+            src={grass_detail_light}
+            alt="grass detail"
+            className={styles.grass_light}
+          />
         </div>
+
         <button>
           <Image src={arrow} alt="arrow" />
           TAKE ME TO THE STARTER KIT!
