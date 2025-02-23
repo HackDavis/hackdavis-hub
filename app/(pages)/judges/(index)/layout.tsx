@@ -14,12 +14,13 @@ export const metadata: Metadata = {
 export default function JudgesLayout({ children }: Props) {
   return (
     <SessionProvider>
-      <ProtectedDisplay
+      {/* <ProtectedDisplay
         allowedRoles={['admin', 'judge']}
         failRedirectRoute="/judges/login"
       >
         {children}
-      </ProtectedDisplay>
+      </ProtectedDisplay> */}
+      {children}
     </SessionProvider>
   );
 }

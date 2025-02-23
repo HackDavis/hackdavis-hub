@@ -177,15 +177,15 @@ export default function Page() {
       : yourMockScheduleData[activeDay];
 
   return (
-    <main className="tw-w-screen tw-px-[80px] tw-mt-[60px]">
-      <div className="tw-flex tw-flex-col tw-gap-8">
-        <div className="tw-flex tw-gap-4 tw-items-baseline">
+    <main className="w-screen px-[80px] mt-[60px]">
+      <div className="flex flex-col gap-8">
+        <div className="flex gap-4 items-baseline">
           <span
             onClick={() => setActiveTab('schedule')}
             className={`tw-tracking-[0.02em] tw-cursor-pointer tw-transition-all tw-duration-300 ${
               activeTab === 'schedule'
-                ? 'tw-text-[48px] tw-font-bold tw-text-black'
-                : 'tw-text-[32px] tw-font-semibold tw-text-[#00000040]'
+                ? 'text-[48px] font-bold text-black'
+                : 'text-[32px] font-semibold text-[#00000040]'
             }`}
           >
             Schedule
@@ -194,35 +194,35 @@ export default function Page() {
             onClick={() => setActiveTab('yourSchedule')}
             className={`tw-tracking-[0.02em] tw-cursor-pointer tw-transition-all tw-duration-300 ${
               activeTab === 'yourSchedule'
-                ? 'tw-text-[48px] tw-font-bold tw-text-black'
-                : 'tw-text-[32px] tw-font-semibold tw-text-[#00000040]'
+                ? 'text-[48px] font-bold text-black'
+                : 'text-[32px] font-semibold text-[#00000040]'
             }`}
           >
             Your Schedule
           </span>
         </div>
 
-        <div className="tw-flex tw-gap-[10px] tw-mb-[37px]">
+        <div className="flex gap-[10px] mb-[37px]">
           <button
             onClick={() => setActiveDay('Apr19')}
-            className={`tw-px-[24px] tw-py-[12px] tw-rounded-[20px] tw-transition-all tw-duration-300 
-              tw-text-center tw-text-[18px] tw-font-semibold tw-leading-[100%] tw-tracking-[0.36px]
+            className={`px-[24px] py-[12px] rounded-[20px] transition-all duration-300 
+              text-center text-[18px] font-semibold leading-[100%] tracking-[0.36px]
               ${
                 activeDay === 'Apr19'
-                  ? 'tw-bg-black tw-text-white'
-                  : 'tw-bg-white tw-text-black tw-border-[1.5px] tw-border-solid tw-border-black'
+                  ? 'bg-black text-white'
+                  : 'bg-white text-black border-[1.5px] border-solid border-black'
               }`}
           >
             Apr 19
           </button>
           <button
             onClick={() => setActiveDay('Apr20')}
-            className={`tw-px-[24px] tw-py-[12px] tw-rounded-[20px] tw-transition-all tw-duration-300 
-              tw-text-center tw-text-[18px] tw-font-semibold tw-leading-[100%] tw-tracking-[0.36px]
+            className={`px-[24px] py-[12px] rounded-[20px] transition-all duration-300 
+              text-center text-[18px] font-semibold leading-[100%] tracking-[0.36px]
               ${
                 activeDay === 'Apr20'
-                  ? 'tw-bg-black tw-text-white'
-                  : 'tw-bg-white tw-text-black tw-border-[1.5px] tw-border-solid tw-border-black'
+                  ? 'bg-black text-white'
+                  : 'bg-white text-black border-[1.5px] border-solid border-black'
               }`}
           >
             Apr 20
@@ -230,7 +230,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="tw-mb-[100px]">
+      <div className="mb-[100px]">
         {currentEvents.map((event) => (
           <CalendarItem
             key={event.id}
