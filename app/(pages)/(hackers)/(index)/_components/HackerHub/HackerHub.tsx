@@ -1,7 +1,11 @@
+import BeginnersSection from './mvp/BeginnersSection';
+
 export default function HackerHub() {
   return (
     <main>
-      <div>HackerHub Main</div>
+      <div>
+        <BeginnersSection />
+      </div>
     </main>
   );
 }

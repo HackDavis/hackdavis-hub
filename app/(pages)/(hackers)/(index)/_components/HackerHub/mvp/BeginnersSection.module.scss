@@ -1,0 +1,58 @@
+@import '@globals/mixins.scss';
+
+.container{
+    display: flex;
+    flex-direction: row;
+    padding: 10%;
+    justify-content: space-between;
+
+    @include mobile-l{
+        flex-direction: column;
+    }
+
+    h1{
+        color:  #AFD157;
+        font-family: Metropolis;
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 0.96px;
+    }
+    p{
+        color: #000;
+        font-family: "Plus Jakarta Sans";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 145%; /* 26.1px */
+        letter-spacing: 0.36px;
+    }
+    button{
+        width: 148px;
+        height: 283px;
+        border-radius: 1000px;
+        background-color: #AFD157;
+        color: #FFF;
+        justify-items: center;
+    }
+    .p_bold{
+        color: #AFD157;
+        font-weight: 700;
+    }
+}
+.starterkit_cont{
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+
+    .hackathon_cont{
+        border-radius: 16px;
+        background-color: #AFD157;
+        align-content: center;
+    }
+
+    @include mobile-l{
+        flex-direction: column-reverse;
+    }
+}
