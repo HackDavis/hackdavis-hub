@@ -9,16 +9,19 @@ const config: Config = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      '2xs': '375px',
+      xs: '425px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1540px',
+      '3xl': '1920px',
+    },
     container: {
       center: true,
       padding: '2rem',
-      screens: {
-        '2xs': '375px',
-        xs: '425px',
-        // sm 640, md 768, lg 1024, xl 1280
-        '2xl': '1540px',
-        '3xl': '1920px',
-      },
     },
     extend: {
       backgroundImage: {
@@ -67,6 +70,23 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        'background-light': 'var(--background-light)',
+        'background-dark': 'var(--background-dark)',
+        'foreground-light': 'var(--foreground-light)',
+        'foreground-dark': 'var(--foreground-dark)',
+        'highlight-blue': 'var(--highlight-blue)',
+        'highlight-yellow': 'var(--highlight-yellow)',
+        'text-dark': 'var(--text-dark)',
+        'text-light': 'var(--text-light)',
+        'sand-background-dark': 'var(--sand-background-dark)',
+        'sand-background-light': 'var(--sand-background-light)',
+        'sky-background': 'var(--sky-background)',
+        'sea-background': 'var(--sea-background)',
+        'water-background': 'var(--water-background)',
+        'grass-background-dark': 'var(--grass-background-dark)',
+        'grass-background-darker': 'var(--grass-background-darker)',
+        'grass-background-light': 'var(--grass-background-light)',
+        'sand-text-color': 'var(--sand-text-color)',
       },
       borderRadius: {
         lg: 'var(--radius)',
