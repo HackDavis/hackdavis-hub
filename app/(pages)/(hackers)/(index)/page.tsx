@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import HackerHub from './_components/HackerHub/HackerHub';
+import IndexHero from '../_components/IndexHero/IndexHero';
 import LogoutAction from '@actions/auth/logout';
 
 export default function Page() {
@@ -24,6 +25,7 @@ export default function Page() {
 
   return (
     <>
+      <IndexHero />
       <HackerHub />
       <form onSubmit={handleLogout}>
         <button type="submit" disabled={loading}>

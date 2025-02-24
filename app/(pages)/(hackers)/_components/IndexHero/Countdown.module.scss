@@ -1,0 +1,53 @@
+@use 'app/(pages)/_globals/mixins';
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 3%;
+}
+
+.labels {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+    &.space_around {
+        justify-content: space-around;
+    }
+}
+
+.countdown_text {
+    color: var(--background-secondary);
+    font-size: 9.875vw;
+    font-weight: 700;
+    text-align: center;
+
+    &.fixed_text {
+        width: 11vw;
+    }
+}
+
+.time_countdown {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+
+    gap: 38px;
+
+    > div {
+        text-align: center;
+    }
+
+    @include mixins.desktop-s {
+        gap: 24px;
+    }
+
+    @include mixins.tablet-l {
+        gap: 16px;
+    }
+}
+
+.seconds {
+    @include mixins.tablet-s {
+        transform: translateX(-15%);
+    }
+}
