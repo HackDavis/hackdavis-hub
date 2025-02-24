@@ -16,9 +16,9 @@ import WaterfallImage from '@public/Waterfall/waterfall.svg';
 
 export default function Waterfall() {
   return (
-    <div className="relative flex w-0 h-0 overflow-x-clip flex-col items-center justify-evenly bg-grass-background-darker lg:w-full lg:h-[calc(100vw*600/1440)] z-0">
+    <div className="relative flex w-0 h-0 overflow-x-clip flex-col items-center justify-evenly bg-grass-background-darker lg:w-full lg:h-[calc(100vw*600/1440)] z-10">
       {/* Top div with WaterfallGrass */}
-      <div className="absolute top-[-27%] 2xl:top-[-27%] w-[100%] aspect-[1440/463]">
+      <div className="absolute top-[-26.5%] w-[100%] aspect-[1440/463]">
         <Image src={WaterfallGrass} alt="Waterfall Grass" className="w-full" />
       </div>
 
@@ -39,13 +39,13 @@ export default function Waterfall() {
           <div className="relative z-40 aspect-[169/222] w-[calc(100vw*169/1440)] left-[calc(100vw*239/1440)] translate-y-[calc(-1*100vw*360/1440)]">
             <Image src={Cow} alt="Cow" className="w-full" />
           </div>
-          <div className="relative z-30 aspect-[509/200] w-[calc(100vw*509/1440)] translate-y-[calc(-1*100vw*425/1440)]">
+          <div className="relative z-30 aspect-[509/210] w-[calc(100vw*509/1440)] translate-y-[calc(-1*100vw*425/1440)]">
             <Image src={CowPlatform} alt="Cow Platform" className="w-full" />
           </div>
         </div>
 
         {/* Middle Item */}
-        <div className="relative z-10 top-[-5px] aspect-[206/700] w-[calc(100vw*206/1440)] translate-y-[calc(-1*100vw*1/1440)]">
+        <div className="relative z-10 aspect-[206/700] w-[calc(100vw*206/1440)] translate-y-[calc(-1*100vw*5/1440)] 2xl:translate-y-[calc(-1*100vw*5/1440)]">
           <Image src={WaterfallImage} className="w-full" alt="Waterfall" />
         </div>
 

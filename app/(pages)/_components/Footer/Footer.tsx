@@ -68,7 +68,7 @@ export default function Footer() {
               className={`aspect-square ${logoStyles}`}
               href="mailto:team@hackdavis.io"
             >
-              <FontAwesomeIcon icon={faEnvelope} />
+              <FontAwesomeIcon icon={faEnvelope} className="text-white" />
             </a>
             <a
               className={`aspect-[calc(640/512)] ${logoStyles}`}
@@ -76,7 +76,7 @@ export default function Footer() {
               target="#"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faMedium} />
+              <FontAwesomeIcon icon={faMedium} className="text-white" />
             </a>
             <a
               className={`aspect-[calc(320/512)] ${logoStyles}`}
@@ -84,7 +84,7 @@ export default function Footer() {
               target="#"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faFacebookF} />
+              <FontAwesomeIcon icon={faFacebookF} color="text-white" />
             </a>
             <a
               className={`aspect-square ${logoStyles}`}
@@ -92,7 +92,7 @@ export default function Footer() {
               target="#"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faTwitter} />
+              <FontAwesomeIcon icon={faTwitter} className="text-white" />
             </a>
             <a
               className={`aspect-[calc(448/512)] ${logoStyles}`}
@@ -100,7 +100,7 @@ export default function Footer() {
               target="#"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faInstagram} />
+              <FontAwesomeIcon icon={faInstagram} className="text-white" />
             </a>
             <a
               className={`aspect-[calc(640/512)] ${logoStyles}`}
@@ -108,7 +108,7 @@ export default function Footer() {
               target="#"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faDiscord} />
+              <FontAwesomeIcon icon={faDiscord} className="text-white" />
             </a>
           </div>
           <p className="pb-4 text-center font-metropolis text-xs text-white break-625:text-sm md:pb-6 md:text-base lg:pb-0 lg:text-sm xl:text-base 2xl:text-2xl">
@@ -121,7 +121,7 @@ export default function Footer() {
           className="md-4 lg-8 absolute right-6 top-[20%] flex cursor-pointer flex-row items-center gap-2 text-white transition-transform hover:scale-110 lg:relative lg:right-0 lg:top-0 lg:w-fit lg:justify-end lg:gap-3 2xl:gap-4"
           onClick={scrollToTop}
         >
-          <p className="text-xs break-400:text-sm sm:text-base lg:text-lg 2xl:text-3xl">
+          <p className="text-xs text-white break-400:text-sm sm:text-base lg:text-lg 2xl:text-3xl">
             BACK TO TOP
           </p>
           <Image
