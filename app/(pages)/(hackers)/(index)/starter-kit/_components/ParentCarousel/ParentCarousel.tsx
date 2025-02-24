@@ -1,7 +1,9 @@
 'use client';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import good_froggie from '@public/hackers/good_froggie.svg';
 import judge_bunny from '@public/hackers/judge_bunny.svg';
+import { type CarouselApi } from '@globals/components/ui/carousel';
 
 import {
   Carousel,
@@ -63,9 +65,9 @@ const carouselHeader = [
   },
 ];
 
-function Header() {
+function Header({ activeIndex }: { activeIndex: number }) {
   return (
-    <div className="border-2 border-red-300 flex gap-2 items-center justify-between px-4 -mb-6">
+    <div className="relative flex gap-2 items-center justify-between px-4 -mb-20 z-50">
       <Image src={judge_bunny} alt="judge_bunny" width={200} height={200} />
       <div className="flex gap-4">
         <div className="flex flex-col items-start gap-[5px] w-[189px] h-[65px]">
@@ -85,12 +87,47 @@ function Header() {
           </div>
         </div>
       </div>
-      <Image src={good_froggie} alt="good_froggie" width={300} height={300} />
+      <div className="flex flex-col items-center justify-center gap-4">
+        <Image src={good_froggie} alt="good_froggie" width={300} height={300} />
+        <CarouselIndicators activeIndex={activeIndex} />
+      </div>
+    </div>
+  );
+}
+
+function CarouselIndicators({ activeIndex }: { activeIndex: number }) {
+  return (
+    <div className="flex gap-2">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div
+          key={index}
+          style={{
+            width: '1rem',
+            height: '1rem',
+            borderRadius: '9999px',
+            border: '1px solid #005271',
+            backgroundColor: activeIndex === index ? '#9EE7E5' : '#005271',
+          }}
+        />
+      ))}
     </div>
   );
 }
 
 export function ParentCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    api.on('select', () => {
+      setActiveIndex(api.selectedScrollSnap());
+    });
+  }, [api]);
+
   return (
     <main
       className="w-full flex-col items-center justify-center p-8"
@@ -101,44 +138,40 @@ export function ParentCarousel() {
         minHeight: '100vh',
       }}
     >
-      <Header />
-      <div className="opacity-45 backdrop-blur">
-        <Carousel>
-          <CarouselContent>
-            {carouselHeader.map((item, index) => (
-              <CarouselItem key={index}>
-                <Card>
-                  <div className="pt-16">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="rounded-r-[12px] p-4 pl-12 w-[330px] h-[103px] relative flex items-center justify-center"
-                        style={{ backgroundColor: item.color }}
-                      >
-                        <p className="text-white text-3xl font-bold">
-                          {item.title}
-                        </p>
-                      </div>
+      <Header activeIndex={activeIndex} />
+      <Carousel className="relative z-0" setApi={setApi}>
+        <CarouselContent>
+          {carouselHeader.map((item, index) => (
+            <CarouselItem key={index}>
+              <Card className="bg-white/45 backdrop-blur">
+                <div className="pt-16">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="rounded-r-[12px] p-4 pl-12 w-[330px] h-[103px] relative flex items-center justify-center"
+                      style={{ backgroundColor: item.color }}
+                    >
+                      <p className="text-white text-3xl font-bold">
+                        {item.title}
+                      </p>
                     </div>
-                    <CardContent className="flex aspect-square items-center justify-center p-6 bg-transparent">
-                      <span className="text-4xl font-semibold">
-                        {index + 1}
-                      </span>
-                    </CardContent>
                   </div>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="flex justify-between mt-4 px-4">
-            <CarouselPrevious className="relative">
-              <span className="absolute -bottom-6">Back</span>
-            </CarouselPrevious>
-            <CarouselNext className="relative">
-              <span className="absolute -bottom-6">Next</span>
-            </CarouselNext>
-          </div>
-        </Carousel>
-      </div>
+                  <CardContent className="flex aspect-square items-center justify-center p-6 bg-transparent backdrop-blur">
+                    <span className="text-4xl font-semibold">{index + 1}</span>
+                  </CardContent>
+                </div>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="flex justify-between mt-4 px-4">
+          <CarouselPrevious className="relative">
+            <span className="absolute -bottom-6">Back</span>
+          </CarouselPrevious>
+          <CarouselNext className="relative">
+            <span className="absolute -bottom-6">Next</span>
+          </CarouselNext>
+        </div>
+      </Carousel>
     </main>
   );
 }

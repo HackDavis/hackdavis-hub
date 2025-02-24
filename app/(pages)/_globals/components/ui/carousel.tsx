@@ -19,6 +19,7 @@ type CarouselProps = {
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;
+  onSelect?: (api: CarouselApi) => void;
 };
 
 type CarouselContextProps = {
@@ -54,6 +55,7 @@ const Carousel = React.forwardRef<
       plugins,
       className,
       children,
+      onSelect,
       ...props
     },
     ref
@@ -68,14 +70,20 @@ const Carousel = React.forwardRef<
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
 
-    const onSelect = React.useCallback((api: CarouselApi) => {
-      if (!api) {
-        return;
-      }
+    const onSelectCallback = React.useCallback(
+      (api: CarouselApi) => {
+        if (!api) {
+          return;
+        }
 
-      setCanScrollPrev(api.canScrollPrev());
-      setCanScrollNext(api.canScrollNext());
-    }, []);
+        setCanScrollPrev(api.canScrollPrev());
+        setCanScrollNext(api.canScrollNext());
+        if (onSelect) {
+          onSelect(api);
+        }
+      },
+      [onSelect]
+    );
 
     const scrollPrev = React.useCallback(() => {
       api?.scrollPrev();
@@ -111,14 +119,15 @@ const Carousel = React.forwardRef<
         return;
       }
 
-      onSelect(api);
-      api.on('reInit', onSelect);
-      api.on('select', onSelect);
+      onSelectCallback(api);
+      api.on('reInit', onSelectCallback);
+      api.on('select', onSelectCallback);
 
       return () => {
-        api?.off('select', onSelect);
+        api?.off('select', onSelectCallback);
+        api?.off('reInit', onSelectCallback);
       };
-    }, [api, onSelect]);
+    }, [api, onSelectCallback]);
 
     return (
       <CarouselContext.Provider
@@ -137,7 +146,7 @@ const Carousel = React.forwardRef<
         <div
           ref={ref}
           onKeyDownCapture={handleKeyDown}
-          className={cn('relative', className)}
+          className={cn('relative z-0', className)}
           role="region"
           aria-roledescription="carousel"
           {...props}
