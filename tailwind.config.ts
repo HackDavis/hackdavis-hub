@@ -89,7 +89,6 @@ const config: Config = {
         'sand-text-color': 'var(--sand-text-color)',
         'sky-background-gradient': 'var(--sky-background-gradient)',
         'gradient-primary': 'var(--gradient-primary)',
-
       },
       borderRadius: {
         lg: 'var(--radius)',
