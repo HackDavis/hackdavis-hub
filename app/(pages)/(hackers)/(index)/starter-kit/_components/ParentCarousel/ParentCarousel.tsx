@@ -114,7 +114,7 @@ function CarouselIndicators({ activeIndex }: { activeIndex: number }) {
   );
 }
 
-export function ParentCarousel() {
+export function ParentCarousel({ children }: { children: React.ReactNode }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
 
@@ -155,20 +155,21 @@ export function ParentCarousel() {
                       </p>
                     </div>
                   </div>
-                  <CardContent className="flex aspect-square items-center justify-center p-6 bg-transparent backdrop-blur">
-                    <span className="text-4xl font-semibold">{index + 1}</span>
+                  <CardContent className="flex items-center justify-center p-6 bg-transparent backdrop-blur">
+                    {/* <span className="text-4xl font-semibold">{index + 1}</span> */}
+                    {children}
                   </CardContent>
                 </div>
               </Card>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="flex justify-between mt-4 px-4">
+        <div className="flex justify-between mt-4 px-4 border-2 border-red-500">
           <CarouselPrevious className="relative">
-            <span className="absolute -bottom-6">Back</span>
+            <span className="relative">Back</span>
           </CarouselPrevious>
           <CarouselNext className="relative">
-            <span className="absolute -bottom-6">Next</span>
+            <span className="relative">Next</span>
           </CarouselNext>
         </div>
       </Carousel>
