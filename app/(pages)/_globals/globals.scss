@@ -88,6 +88,8 @@
     --navbar-height: 80px;
 
     background-color: var(--background-light);
+
+    --sky-background-gradient: linear-gradient(284.39deg, #D5FCD1 9.72%, #B2E7DD 44.61%, #76D6E6 79.5%);
 }
 
 * {
@@ -200,4 +202,17 @@ button {
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
     }
+}
+
+@keyframes rotateVinyl {
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  0% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.animate-rotateVinyl {
+  animation: rotateVinyl 15s linear infinite;
 }

@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import HackerHub from './_components/HackerHub/HackerHub';
+import BigVinyl from './_components/BigVinyl/BigVinyl';
 import LogoutAction from '@actions/auth/logout';
 
 export default function Page() {
@@ -30,6 +31,8 @@ export default function Page() {
           Sign Out
         </button>
       </form>
+      <div className="h-[400px]">Spacer</div>
+      <BigVinyl />
     </>
   );
 }
