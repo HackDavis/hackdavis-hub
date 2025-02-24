@@ -67,7 +67,7 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
-        'sky-background-gradient': 'var(--sky-background-gradient)',
+        'sky-gradient': 'var(--sky-background-gradient)',
         'gradient-primary': 'var(--gradient-primary)',
       },
       borderRadius: {
