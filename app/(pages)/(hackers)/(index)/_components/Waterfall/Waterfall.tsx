@@ -16,7 +16,7 @@ import WaterfallImage from '@public/Waterfall/waterfall.svg';
 
 export default function Waterfall() {
   return (
-    <div className="relative flex w-full h-[calc(100vw*239/375)] overflow-x-clip flex-col items-center justify-evenly lg:bg-grass-background-darker lg:w-full lg:h-[calc(100vw*600/1440)] z-10">
+    <div className="relative flex w-0 lg:w-full overflow-x-clip flex-col items-center justify-evenly lg:bg-grass-background-darker lg:w-full lg:h-[calc(100vw*600/1440)] z-10">
       {/* Top div with WaterfallGrass */}
       <div className="absolute top-[-26.5%] w-0 lg:w-[100%] aspect-[1440/463]">
         <Image src={WaterfallGrass} alt="Waterfall Grass" className="w-full" />
