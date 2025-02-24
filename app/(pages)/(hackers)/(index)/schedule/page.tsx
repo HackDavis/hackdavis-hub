@@ -177,7 +177,7 @@ export default function Page() {
       : yourMockScheduleData[activeDay];
 
   return (
-    <main className="w-screen px-[80px] mt-[60px]">
+    <main className="w-full px-[80px] mt-[60px]">
       <div className="flex flex-col gap-8">
         <div className="flex gap-4 items-baseline">
           <span
