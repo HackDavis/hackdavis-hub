@@ -89,6 +89,19 @@
 
     background-color: var(--background-light);
 
+    --sand-background-dark: #E6BB7B;
+    --sand-background-light: #E5C28E;
+    --sand-texture: #DFAF67;
+    --sky-background: #4DB7D9;
+    --sea-background: #123041;
+    --water-background: #4DB7D9;
+    --water-edge: #2BACD5;
+    --grass-background-dark: #7FB732;
+    --grass-background-darker: #7BAD34;
+    --grass-background-light: #AFD157;
+    --card-background: #3A9FC4;
+    --sand-text-color: #58452B;
+
     --sky-background-gradient: linear-gradient(284.39deg, #D5FCD1 9.72%, #B2E7DD 44.61%, #76D6E6 79.5%);
 }
 
@@ -96,7 +109,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  color: var(--text-dark);
   font-family: var(--font-jakarta);
 }
 
