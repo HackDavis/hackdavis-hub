@@ -2,22 +2,22 @@
 
 .container {
     width: 100%;
-    height: 1242px;
+    aspect-ratio: calc(16 / 14);
     overflow-x: clip;
     background: linear-gradient(154deg, #76DEEB 45.75%, #FCFCD1 92.58%);
 
     position: relative;
 
-    @include mixins.desktop-m {
-        height: 1096px;
-    }
-
     @include mixins.desktop-s {
-        height: 900px;
+        aspect-ratio: calc(16 / 17);
     }
 
     @include mixins.tablet-l {
-        height: 1400px;
+        height: 1500px;
+    }
+
+    @include mixins.mobile-l {
+        height: 1350px;
     }
 }
 

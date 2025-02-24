@@ -19,11 +19,23 @@
     color: var(--background-secondary);
     font-size: 9.875vw;
     font-weight: 700;
-    text-align: center;
 
     &.fixed_text {
         width: 11vw;
     }
+
+    @include mixins.tablet-l {
+        text-align: center;
+    }
+}
+
+.days_countdown {
+    > p {
+        @include mixins.tablet-l {
+            text-align: center;
+        }
+    }
+
 }
 
 .time_countdown {
@@ -43,6 +55,10 @@
 
     @include mixins.tablet-l {
         gap: 16px;
+    }
+
+    &.countdown_text {
+        text-align: center;
     }
 }
 

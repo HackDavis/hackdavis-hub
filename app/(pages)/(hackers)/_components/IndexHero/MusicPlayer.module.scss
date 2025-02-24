@@ -30,6 +30,7 @@ $max-vinyl-width: 400px;
     padding: 8px 0;
     max-width: $max-vinyl-width;
     width: 100%;
+    position: relative;
 
     border-radius: 16px;
     border: 1.36px solid rgba(255, 255, 255, 0.10);
@@ -50,4 +51,24 @@ $max-vinyl-width: 400px;
     width: 100%;
     height: auto;
     max-width: $max-vinyl-width;
+}
+
+.tooltip {
+    display: none;
+
+    color: #123041;
+    font-family: 'Metropolis';
+    font-size: 0.5rem;
+    background-color: var(--background-light);
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -90%);
+
+    padding: 4px;
+    border-radius: 2px;
+
+    &.active {
+        display: block;
+    }
 }

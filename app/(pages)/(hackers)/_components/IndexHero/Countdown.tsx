@@ -29,12 +29,12 @@ export default function Countdown() {
     return () => clearInterval(timer);
   }, []);
 
-  const displayDays = !(timeLeft.days > 1);
+  const displayDays = timeLeft.days > 1;
   return (
     <div className={styles.container}>
       {displayDays ? (
         <div className={styles.days_countdown}>
-          <p>UNTIL DOE</p>
+          <p>UNTIL THE HACKATHON</p>
           <p className={styles.countdown_text}>{timeLeft.days} Days</p>
         </div>
       ) : (

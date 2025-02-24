@@ -11,8 +11,12 @@ export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [rotation, setRotation] = useState(0);
 
+  const [showTooltip, setShowTooltip] = useState(false);
+
   const animationRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number | null>(null);
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const rotate = (timestamp: number) => {
@@ -34,6 +38,20 @@ export default function MusicPlayer() {
     return () => cancelAnimationFrame(animationRef.current as number);
   }, [isPlaying]);
 
+  const handleHover = () => {
+    console.log('starting timer');
+    timeoutRef.current = setTimeout(() => {
+      setShowTooltip(true);
+    }, 600);
+  };
+
+  const cancelHover = () => {
+    console.log('ending timer');
+
+    clearTimeout(timeoutRef.current as NodeJS.Timeout);
+    setShowTooltip(false);
+  };
+
   return (
     <div className={styles.container}>
       <Image
@@ -45,12 +63,19 @@ export default function MusicPlayer() {
       <button
         className={styles.controls}
         onClick={() => setIsPlaying((prev: any) => !prev)}
+        onMouseEnter={handleHover}
+        onMouseLeave={cancelHover}
       >
         <Image
           src={isPlaying ? pauseIcon : playIcon}
           alt="play or pause icon"
           className={styles.icon}
         />
+        <div
+          className={`${styles.tooltip} ${showTooltip ? styles.active : null}`}
+        >
+          {isPlaying ? 'Pause' : 'Play'}
+        </div>
       </button>
     </div>
   );
