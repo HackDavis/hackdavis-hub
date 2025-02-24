@@ -128,11 +128,10 @@ export default function BigVinyl() {
 
       <div className="relative flex w-full">
         <div className='absolute w-0 aspect-[1262/315] lg:w-[calc(100vw*1262/1440)] left-[calc(100vw*16/1440)] top-[calc(-1*100vw*720/1440)]'> 
-            <Image src={sparkles} alt="Vinyl Sparkles" className='h-full w-full'/>
+            <Image src={sparkles} alt="Vinyl Sparkles" className="h-full w-full"/>
         </div>
       </div>
 
-      
     </div>
   );
 }
