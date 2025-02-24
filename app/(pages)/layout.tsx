@@ -1,17 +1,27 @@
+import type { Metadata } from 'next';
 import '@globals/globals.scss';
-import fonts from 'app/(pages)/_globals/fonts';
-import metadata from '@globals/metadata.json';
+import metadataJSON from '@app/(pages)/_globals/metadata.json';
+import fonts from './_globals/fonts';
+//import Navbar from '@app/(pages)/_components/Navbar/Navbar';
+import Footer from '@app/(pages)/_components/Footer/Footer';
+// import { Suspense } from 'react';
 
-export { metadata };
+export const metadata: Metadata = metadataJSON;
 
 export default function RootLayout({
-  children, // will be a page or nested layout
-}: {
+  children,
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
-      <body className={fonts}>{children}</body>
+      <body className={`${fonts} antialiased`}>
+        {/* <Suspense>
+          <Navbar />
+        </Suspense> */}
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

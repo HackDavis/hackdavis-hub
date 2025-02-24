@@ -21,6 +21,8 @@
     ],
     "baseUrl": "./",
     "paths": {
+      "@app/*": ["app/*"],
+      "@public/*": ["./public/*"],
       "@globals/*": ["app/(pages)/_globals/*"],
       "@components/*": ["app/(pages)/components/*"],
       "@data/*": ["app/(pages)/_data/*"],
