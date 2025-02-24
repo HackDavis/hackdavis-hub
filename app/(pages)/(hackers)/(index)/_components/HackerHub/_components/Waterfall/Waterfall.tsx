@@ -87,11 +87,7 @@ export default function Waterfall() {
       </div>
 
       <div className="relative z-10 aspect-[226/239] w-[calc(100vw*226/375)] bottom-[4%] sm:bottom-[-5%] right-[calc(100vw*40/375)] lg:w-0">
-        <Image
-          src={KeyboardDucky}
-          alt="Keyboard Ducky"
-          className="w-full"
-        />
+        <Image src={KeyboardDucky} alt="Keyboard Ducky" className="w-full" />
       </div>
     </div>
   );
