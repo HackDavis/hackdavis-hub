@@ -51,7 +51,7 @@ export default function Waterfall() {
 
         {/* Rightmost item */}
         <div className="flex flex-col items-end space-y-2 flex-1 z-10 top-[calc(100vw*240/1440)]">
-          <div className="relative z-10 aspect-[226/239] w-0 lg:w-[calc(100vw*226/1440)] right-[calc(100vw*154/1440)] translate-y-[calc(100vw*170/1440)]">
+          <div className="relative z-10 aspect-[227/230] w-0 lg:w-[calc(100vw*227/1440)] right-[calc(100vw*154/1440)] translate-y-[calc(100vw*157/1440)]">
             <Image
               src={KeyboardDucky}
               alt="Keyboard Ducky"
@@ -86,7 +86,7 @@ export default function Waterfall() {
         <Image src={MusicNotes} alt="Music Notes" className="w-full" />
       </div>
 
-      <div className="relative z-10 aspect-[226/239] w-[calc(100vw*226/375)] bottom-[4%] sm:bottom-[-5%] right-[calc(100vw*40/375)] lg:w-0">
+      <div className="relative z-10 aspect-[227/230] w-[calc(100vw*227/375)] right-[calc(100vw*40/375)] lg:w-0">
         <Image src={KeyboardDucky} alt="Keyboard Ducky" className="w-full" />
       </div>
     </div>
