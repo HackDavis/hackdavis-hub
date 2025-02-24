@@ -9,16 +9,19 @@ const config: Config = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      '2xs': '375px',
+      xs: '425px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1540px',
+      '3xl': '1920px',
+    },
     container: {
       center: true,
       padding: '2rem',
-      screens: {
-        '2xs': '375px',
-        xs: '425px',
-        // sm 640, md 768, lg 1024, xl 1280
-        '2xl': '1540px',
-        '3xl': '1920px',
-      },
     },
     extend: {
       backgroundImage: {
