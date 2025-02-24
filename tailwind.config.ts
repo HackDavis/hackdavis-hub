@@ -84,7 +84,6 @@ const config: Config = {
         'grass-background-darker': 'var(--grass-background-darker)',
         'grass-background-light': 'var(--grass-background-light)',
         'sand-text-color': 'var(--sand-text-color)',
-        'icon-white': 'var(--brand-icon-color)',
       },
       borderRadius: {
         lg: 'var(--radius)',
