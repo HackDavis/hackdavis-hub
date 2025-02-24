@@ -19,7 +19,7 @@
     }
 
     h1 {
-        color: #AFD157;
+        color: var(--grass-background-light);
         font-family: Metropolis;
         font-size: 3rem;
         font-style: normal;
@@ -38,7 +38,7 @@
     }
 
     p {
-        color: #000;
+        color: var(--text-dark);
         font-family: "Plus Jakarta Sans";
         font-size: 1.125rem;
         font-style: normal;
@@ -63,8 +63,8 @@
         aspect-ratio: 148 / 283;
         transform: scale(1);
         border-radius: 1000px;
-        background-color: #AFD157;
-        color: #FFF;
+        background-color: var(--grass-background-light);
+        color: var(--text-light);
         //positioning
         justify-content: center;
         align-items: center;
@@ -107,7 +107,7 @@
     }
 
     .p_bold {
-        color: #AFD157;
+        color: var(--grass-background-light);
         font-weight: 700;
 
         @include tablet-l {
@@ -143,7 +143,7 @@
     .hackathon_cont {
         //green border around image
         border-radius: 16px;
-        background-color: #AFD157;
+        background-color: var(--grass-background-light);
         align-content: center;
         height: auto;
         aspect-ratio: 383 / 283;
