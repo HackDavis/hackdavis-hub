@@ -131,6 +131,8 @@ export default function BigVinyl() {
             <Image src={sparkles} alt="Vinyl Sparkles" className='h-full w-full'/>
         </div>
       </div>
+
+      
     </div>
   );
 }

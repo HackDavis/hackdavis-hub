@@ -5,12 +5,12 @@ import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDispla
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      {/* <ProtectedDisplay
+      <ProtectedDisplay
         allowedRoles={['hacker', 'admin']}
         failRedirectRoute="/login"
-      > */}
+      >
         {children}
-      {/* </ProtectedDisplay> */}
+      </ProtectedDisplay>
     </SessionProvider>
   );
 }
