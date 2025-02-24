@@ -1,17 +1,18 @@
 @import '@globals/mixins.scss';
 
-.container{
+.container {
     display: flex;
     flex-direction: row;
     padding: 10%;
     justify-content: space-between;
+    gap: 10%;
 
-    @include mobile-l{
+    @include mobile-l {
         flex-direction: column;
     }
 
-    h1{
-        color:  #AFD157;
+    h1 {
+        color: #AFD157;
         font-family: Metropolis;
         font-size: 48px;
         font-style: normal;
@@ -19,28 +20,45 @@
         line-height: normal;
         letter-spacing: 0.96px;
 
-        @include mobile-l{
+        @include tablet-l {
+            font-size: 42px;
+        }
+
+        @include mobile-l {
             font-size: 36px;
             letter-spacing: 0.72px;
         }
     }
-    p{
+
+    p {
         color: #000;
         font-family: "Plus Jakarta Sans";
         font-size: 18px;
         font-style: normal;
         font-weight: 400;
-        line-height: 145%; /* 26.1px */
+        line-height: 145%;
+        /* 26.1px */
         letter-spacing: 0.36px;
-        @include mobile-l{
+
+        @include tablet-l {
+            font-size: 17px;
+        }
+
+        @include mobile-l {
             font-size: 16px;
             letter-spacing: 0.32px;
         }
     }
-    button{
+
+    button {
         display: flex;
-        width: 148px;
-        height: 283px;
+        width: 30%;
+        max-width: 148px;
+        min-width: 100px;
+        max-height: 260px;
+        height: auto;
+        aspect-ratio: 148 / 283;
+        transform: scale(1);
         border-radius: 1000px;
         background-color: #AFD157;
         color: #FFF;
@@ -51,14 +69,26 @@
         padding: 33px;
         gap: 5px;
 
-        @include mobile-l{
+        @include tablet-l {
+            max-height: 240px;
+        }
+
+        @include mobile-l {
             width: 100%;
             height: auto;
+            max-height: none;
+            max-width: none;
+            aspect-ratio: unset;
             flex-direction: row-reverse;
             align-content: center;
             justify-items: center;
             text-align: center;
         }
+
+        @include tablet-l {
+            font-size: 17px;
+        }
+
         //text:
         font-family: "Plus Jakarta Sans";
         font-size: 18px;
@@ -66,53 +96,70 @@
         font-size: 18px;
         font-style: normal;
         font-weight: 600;
-        line-height: 100%; /* 18px */
+        line-height: 100%;
+        /* 18px */
         letter-spacing: 0.36px;
     }
-    .p_bold{
+
+    .p_bold {
         color: #AFD157;
         font-weight: 700;
-        @include mobile-l{
+
+        @include mobile-l {
             font-weight: 400;
         }
     }
 }
-.starterkit_cont{
+
+.starterkit_cont {
+    //encapsulates image, button, grass
     display: flex;
     flex-direction: row;
     gap: 2%;
+    // width: 100%;
+    justify-content: flex-end;
 
-    @include mobile-l{
+    @include mobile-l {
         flex-direction: column-reverse;
         padding-top: 10%;
     }
-    
-    .hack_w_grass{
+
+    .hack_w_grass {
+        //covers image, grass
         display: flex;
         flex-direction: column;
         align-items: flex-end;
 
-        @include mobile-l{
+        @include mobile-l {
             flex-direction: column-reverse;
         }
     }
 
-    .hackathon_cont{
+    .hackathon_cont {
+        //green border around image
         border-radius: 16px;
         background-color: #AFD157;
         align-content: center;
-        height: 283px;
-        @include mobile-l{
-            height: auto;
+        height: auto;
+        aspect-ratio: 383 / 283;
+
+        @include mobile-l {
+            aspect-ratio: unset;
         }
     }
 
-    .grass_dark{
+    .hack_img {
+        // width: 100%;
+        min-width: 130px;
+        min-height: 240px;
+    }
+
+    .grass_dark {
         visibility: hidden;
         height: 0;
-        width:0;
+        width: 0;
 
-        @include mobile-l{
+        @include mobile-l {
             position: relative;
             visibility: visible;
             width: 27%;
@@ -122,13 +169,18 @@
         }
     }
 
-    .grass_light{
+    .grass_light {
         width: 24%;
         margin-top: 5%;
 
-        @include mobile-l{
+        @include tablet-l {
+            width: 44%;
+        }
+
+        @include mobile-l {
             position: relative;
             left: -10%;
+            width: 24%;
         }
     }
 }

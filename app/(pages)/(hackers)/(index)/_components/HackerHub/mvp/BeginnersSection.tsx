@@ -22,7 +22,11 @@ export default function BeginnersSection() {
       <div className={styles.starterkit_cont}>
         <div className={styles.hack_w_grass}>
           <div className={styles.hackathon_cont}>
-            <Image src={hackathon} alt="hackathon" />
+            <Image
+              src={hackathon}
+              alt="hackathon"
+              className={styles.hack_img}
+            />
           </div>
           <Image
             src={grass_detail_dark}
