@@ -82,13 +82,14 @@ export default function Waterfall() {
         />
       </div>
 
-      <div className="relative z-10 aspect-[134/164] w-0 lg:w-[calc(100vw*134/1440)] left-[calc(100vw*300/1440)] translate-y-[calc(-1*100vw*1150/1440)]">
+      {/* Temporarily removed */}
+      {/* <div className="relative z-10 aspect-[134/164] w-0 lg:w-[calc(100vw*134/1440)] left-[calc(100vw*300/1440)] translate-y-[calc(-1*100vw*1150/1440)]">
         <Image src={MusicNotes} alt="Music Notes" className="w-full" />
       </div>
 
       <div className="relative z-10 aspect-[227/230] w-[calc(100vw*227/375)] right-[calc(100vw*40/375)] lg:w-0">
         <Image src={KeyboardDucky} alt="Keyboard Ducky" className="w-full" />
-      </div>
+      </div> */}
     </div>
   );
 }
