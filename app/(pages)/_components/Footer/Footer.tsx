@@ -18,7 +18,7 @@ const scrollToTop = () => {
 
 export default function Footer() {
   const logoStyles =
-    'h-6 text-white transition hover:text-gray-300 break-400:h-8 md:h-12 lg:h-8 xl:h-12 2xl:h-15';
+    'h-6 text-white transition hover:text-gray-300 break-400:h-8 md:h-12 lg:h-8 xl:h-12 2xl:h-15 ';
   return (
     <footer className="relative z-10 flex w-full flex-col overflow-x-clip bg-grass-background-dark">
       {/* Footer Background Image */}
