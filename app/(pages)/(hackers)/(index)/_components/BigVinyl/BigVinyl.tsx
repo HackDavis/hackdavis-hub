@@ -38,14 +38,14 @@ export default function BigVinyl() {
 
         {/* Clouds Top Right - Only visible on md, lg, xl, 2xl */}
         <div className="relative hidden left-1/2 translate-x-[15%] translate-y-[-110%] md:block">
-          <div className="z-2 relative top-10 aspect-[1069/328] w-[calc(1069/1440*100vw)] scale-x-[-1] transform">
+          <div className="z-2 relative top-10 aspect-[1069/328] w-[calc(1069/1440*100vw)] top-[calc(40/1440*100vw)] scale-x-[-1] transform">
             <Image
               src={cloudTop}
               alt="Clouds Top Right Layer 1"
               className="h-full w-full"
             />
           </div>
-          <div className="relative top-[calc(-1*328/1440*100vw)] right-12 aspect-[1117/339] w-[calc(1117/1440*100vw)] scale-x-[-1] transform opacity-90">
+          <div className="relative top-[calc(-1*328/1440*100vw)] left-[calc(-1*45/1440*100vw)] aspect-[1117/339] w-[calc(1117/1440*100vw)] scale-x-[-1] transform opacity-90">
             <Image
               src={cloudTop}
               alt="Clouds Top Right Layer 2"
@@ -118,13 +118,13 @@ export default function BigVinyl() {
       {/* Top layer of clouds */}
       <div className="absolute flex h-[calc(100vw*190/375)] md:top-[calc(540/1440*100vw)] md:h-[calc(234/1440*100vw)] w-full justify-between z-10">
         <div className="left-1/2 hidden w-0 md:w-[calc(842/(2*1440)*100vw)] -translate-x-[80%] flex-col items-start md:flex">
-            <div className="relative top-10 z-10 aspect-[842/234] w-[calc(842/1440*100vw)]">
-              <Image
-                src={cloudBottom}
-                alt="Clouds Bottom Left Layer 1"
-                className="h-full w-full"
-              />
-            </div>
+          <div className="relative top-10 z-10 aspect-[842/234] w-[calc(842/1440*100vw)]">
+            <Image
+              src={cloudBottom}
+              alt="Clouds Bottom Left Layer 1"
+              className="h-full w-full"
+            />
+          </div>
         </div>
         <div className="relative left-1/2 md:translate-y-[20%] md:block">
           <div className="relative top-9 z-20 aspect-[675/187] w-[calc(100vw*675/375)] top-[calc(100vw*130/375)] md:top-0 md:aspect-[842/234] md:w-[calc(100vw*675/1440)] md:w-[calc(842/1440*100vw)] translate-x-[-25%] md:translate-x-[-40%] scale-x-[-1] transform">
@@ -139,8 +139,12 @@ export default function BigVinyl() {
 
       {/* Sparkles */}
       <div className="relative flex w-full">
-        <div className="absolute w-0 aspect-[1262/315] md:w-[calc(100vw*1262/1440)] left-[calc(100vw*16/1440)] top-[calc(-1*100vw*720/1440)]"> 
-            <Image src={sparkles} alt="Vinyl Sparkles" className="h-full w-full"/>
+        <div className="absolute w-0 aspect-[1262/315] md:w-[calc(100vw*1262/1440)] left-[calc(100vw*16/1440)] top-[calc(-1*100vw*720/1440)]">
+          <Image
+            src={sparkles}
+            alt="Vinyl Sparkles"
+            className="h-full w-full"
+          />
         </div>
       </div>
 
