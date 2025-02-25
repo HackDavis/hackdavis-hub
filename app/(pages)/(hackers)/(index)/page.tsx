@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import Waterfall from './_components/Waterfall/Waterfall';
 import BigVinyl from './_components/BigVinyl/BigVinyl';
+import IndexHero from '../_components/IndexHero/IndexHero';
 import LogoutAction from '@actions/auth/logout';
 
 export default function Page() {
@@ -25,6 +26,7 @@ export default function Page() {
 
   return (
     <main>
+      <IndexHero />
       <form onSubmit={handleLogout}>
         <button type="submit" disabled={loading}>
           Sign Out
