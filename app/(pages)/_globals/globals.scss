@@ -88,20 +88,25 @@
     --navbar-height: 80px;
 
     background-color: var(--background-light);
-}
 
-// html {
-//     max-width: 500px;
-//     min-width: 370px;
-//     margin-left: auto;
-//     margin-right: auto;
-// }
+    --sand-background-dark: #E6BB7B;
+    --sand-background-light: #E5C28E;
+    --sand-texture: #DFAF67;
+    --sky-background: #4DB7D9;
+    --sea-background: #123041;
+    --water-background: #4DB7D9;
+    --water-edge: #2BACD5;
+    --grass-background-dark: #7FB732;
+    --grass-background-darker: #7BAD34;
+    --grass-background-light: #AFD157;
+    --card-background: #3A9FC4;
+    --sand-text-color: #58452B;
+}
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  color: var(--text-dark);
   font-family: var(--font-jakarta);
 }
 
@@ -207,4 +212,17 @@ button {
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
     }
+}
+
+@keyframes rotateVinyl {
+  100% {
+    transform: translate(-50%, -51%) rotate(0deg);
+  }
+  0% {
+    transform: translate(-50%, -51%) rotate(360deg);
+  }
+}
+
+.animate-rotateVinyl {
+  animation: rotateVinyl 15s linear infinite;
 }
