@@ -7,6 +7,7 @@ import Waterfall from './_components/Waterfall/Waterfall';
 import BigVinyl from './_components/BigVinyl/BigVinyl';
 import IndexHero from '../_components/IndexHero/IndexHero';
 import LogoutAction from '@actions/auth/logout';
+import Footer from '@app/(pages)/_components/Footer/Footer';
 
 export default function Page() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function Page() {
       <div className="h-[400px]">Spacer</div>
       <BigVinyl />
       <Waterfall />
+      <Footer />
     </main>
   );
 }
