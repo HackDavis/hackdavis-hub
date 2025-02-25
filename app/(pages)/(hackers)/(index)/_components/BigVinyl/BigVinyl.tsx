@@ -19,15 +19,15 @@ export default function BigVinyl() {
       {/* First Row */}
       <div className="z-2 relative flex flex-row hidden h-0 w-full justify-between md:block md:h-[calc((300/1440)*100vw)]">
         {/* Clouds Top Left - Visible on md and up */}
-        <div className="relative left-1/2 w-full translate-x-[-90%] md:translate-x-[-85%]">
-          <div className="z-2 relative aspect-[1069/328] w-[calc(1069/1440*100vw)] top-[calc(100vw*40/1440)]">
+        <div className="relative w-full">
+          <div className="z-2 relative aspect-[1069/328] w-[calc(894/1440*100vw)] top-[calc(100vw*15/1440)] left-1/2 md:translate-x-[-127%]">
             <Image
               src={cloudTop}
               alt="Clouds Top Left Layer 1"
               className="h-full w-full"
             />
           </div>
-          <div className="relative top-[calc(-1*100vw*328/1440)] aspect-[1117/339] w-[calc(1117/1440*100vw)] opacity-90">
+          <div className="relative top-[calc(-1*100vw*275/1440)] aspect-[1117/339] w-[calc(894/1440*100vw)] opacity-90 left-1/2 md:translate-x-[-125%]">
             <Image
               src={cloudTop}
               alt="Clouds Top Left Layer 2"
@@ -37,8 +37,8 @@ export default function BigVinyl() {
         </div>
 
         {/* Clouds Top Right - Only visible on md, lg, xl, 2xl */}
-        <div className="relative hidden left-1/2 translate-x-[15%] translate-y-[-110%] md:block">
-          <div className="z-2 relative top-10 aspect-[1069/328] w-[calc(1069/1440*100vw)] top-[calc(40/1440*100vw)] scale-x-[-1] transform">
+        <div className="relative hidden left-1/2 translate-x-[15%] translate-y-[-95%] md:block">
+          <div className="z-2 relative aspect-[1069/328] w-[calc(1069/1440*100vw)] top-[calc(40/1440*100vw)] scale-x-[-1] transform opacity-100">
             <Image
               src={cloudTop}
               alt="Clouds Top Right Layer 1"
@@ -56,8 +56,8 @@ export default function BigVinyl() {
       </div>
 
       {/* Second Row */}
-      <div className="z-1 relative h-0 flex flex-row md:h-[calc(300/1440*100vw)] md:w-full ">
-        <div className="relative aspect-[842/248] top-[45%] w-[calc(842/1440*100vw)] left-[calc(100vw*158/1440)] translate-y-[calc(-1*154/1440*100vw)]">
+      <div className="z-1 relative h-0 flex flex-row md:h-[calc(200/1440*100vw)] md:w-full ">
+        <div className="relative aspect-[842/248] top-[45%] w-[calc(842/1440*100vw)] left-[calc(100vw*108/1440)] translate-y-[calc(-1*154/1440*100vw)]">
           <Image
             src={cloudCenterLeft}
             alt="Center Cloud Left"
@@ -116,9 +116,9 @@ export default function BigVinyl() {
       </div>
 
       {/* Top layer of clouds */}
-      <div className="absolute flex h-[calc(100vw*190/375)] md:top-[calc(540/1440*100vw)] md:h-[calc(234/1440*100vw)] w-full justify-between z-10">
+      <div className="absolute flex h-[calc(100vw*190/375)] md:top-[calc(500/1440*100vw)] md:h-[calc(234/1440*100vw)] w-full justify-between z-10">
         <div className="left-1/2 hidden w-0 md:w-[calc(842/(2*1440)*100vw)] -translate-x-[80%] flex-col items-start md:flex">
-          <div className="relative top-10 z-10 aspect-[842/234] w-[calc(842/1440*100vw)]">
+          <div className="relative z-10 aspect-[842/234] w-[calc(842/1440*100vw)]">
             <Image
               src={cloudBottom}
               alt="Clouds Bottom Left Layer 1"
@@ -126,7 +126,7 @@ export default function BigVinyl() {
             />
           </div>
         </div>
-        <div className="relative left-1/2 md:translate-y-[20%] md:block">
+        <div className="relative left-1/2 md:block">
           <div className="relative top-9 z-20 aspect-[675/187] w-[calc(100vw*675/375)] top-[calc(100vw*130/375)] md:top-0 md:aspect-[842/234] md:w-[calc(100vw*675/1440)] md:w-[calc(842/1440*100vw)] translate-x-[-25%] md:translate-x-[-40%] scale-x-[-1] transform">
             <Image
               src={cloudBottom}
@@ -139,7 +139,7 @@ export default function BigVinyl() {
 
       {/* Sparkles */}
       <div className="relative flex w-full">
-        <div className="absolute w-0 aspect-[1262/315] md:w-[calc(100vw*1262/1440)] left-[calc(100vw*16/1440)] top-[calc(-1*100vw*720/1440)]">
+        <div className="absolute w-0 aspect-[1262/315] md:w-[calc(100vw*1262/1440)] left-[calc(-1*100vw*20/1440)] top-[calc(-1*100vw*670/1440)] z-20">
           <Image
             src={sparkles}
             alt="Vinyl Sparkles"
