@@ -28,6 +28,7 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--gradient-stops))',
+        'gradient-primary': 'var(--gradient-primary)',
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -87,8 +88,6 @@ const config: Config = {
         'grass-background-darker': 'var(--grass-background-darker)',
         'grass-background-light': 'var(--grass-background-light)',
         'sand-text-color': 'var(--sand-text-color)',
-        'sky-background-gradient': 'var(--sky-background-gradient)',
-        'gradient-primary': 'var(--gradient-primary)',
       },
       borderRadius: {
         lg: 'var(--radius)',

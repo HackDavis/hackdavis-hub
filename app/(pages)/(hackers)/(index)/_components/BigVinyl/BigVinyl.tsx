@@ -15,7 +15,7 @@ import keyboardDucky from '@public/Waterfall/keyboard_ducky.svg';
 
 export default function BigVinyl() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-evenly overflow-hidden bg-cyan-500">
+    <div className="relative flex w-full flex-col items-center justify-evenly overflow-hidden bg-gradient-primary">
       {/* First Row */}
       <div className="z-2 relative flex flex-row hidden h-0 w-full justify-between md:block md:h-[calc((300/1440)*100vw)]">
         {/* Clouds Top Left - Visible on md and up */}
