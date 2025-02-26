@@ -1,5 +1,5 @@
 'use client';
-import { ParentCarousel } from './_components/ParentCarousel/ParentCarousel';
+import { ParentCarousel } from '../../_components/StarterKitSlide/ParentCarousel/ParentCarousel';
 
 export default function Page() {
   return (

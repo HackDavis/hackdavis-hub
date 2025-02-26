@@ -27,12 +27,10 @@ export default function TableLocations() {
  */
   return (
     <div className={styles.container}>
-      <p>
-        <div className={styles.header}>
-          If you have any questions, please ask a HackDavis director (dark blue
-          shirt)!
-        </div>
-      </p>
+      <div className={styles.header}>
+        If you have any questions, please ask a HackDavis director (dark blue
+        shirt)!
+      </div>
       <div className={styles.vinyl_container}>
         <Image src={vinyl} alt="Vinyl" className={styles.vinyl} />
         <Image src={bunnyHand} alt="Bunny hand" className={styles.bunny_hand} />
