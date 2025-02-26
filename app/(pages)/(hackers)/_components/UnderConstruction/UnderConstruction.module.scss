@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     gap: 5%;
+    padding: 320px 0px;
     h1{
         color: #AFD157;
         font-family: Metropolis;
@@ -24,11 +25,11 @@
         line-height: 145%; /* 26.1px */
         letter-spacing: 0.36px;
     }
-    @include mobile-l{
-        visibility: hidden;
-        padding: 0;
-        margin: 0;
-        height:0;
+    @include desktop-l{
+        padding: 240px 0px;
+    }
+    @include tablet-l{
+        display: none;
     }
 
 }

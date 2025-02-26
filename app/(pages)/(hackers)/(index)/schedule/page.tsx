@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import CalendarItem from '../_components/HackerHub/CalendarItem';
+import CalendarItem from '../../_components/Schedule/CalendarItem';
 type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOP' | 'MENU';
 
 interface Event {
