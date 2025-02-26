@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
-import Waterfall from './_components/Waterfall/Waterfall';
+import Waterfall from '../_components/Waterfall/Waterfall';
 import LogoutAction from '@actions/auth/logout';
 
 export default function Page() {
