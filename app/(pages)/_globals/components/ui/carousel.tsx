@@ -214,7 +214,7 @@ const CarouselPrevious = React.forwardRef<
       variant="ghost"
       size="lg"
       className={cn(
-        'absolute flex flex-row justify-center items-center',
+        'flex flex-row justify-center items-center',
         'w-[150px] h-[58px] px-4 gap-[10px]',
         'border-2 border-[#005271] rounded-[100px]',
         'font-jakarta font-bold text-[18px] leading-[145%] tracking-[0.02em] text-[#005271]',

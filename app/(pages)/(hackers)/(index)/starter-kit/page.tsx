@@ -4,7 +4,11 @@ import { ParentCarousel } from './_components/ParentCarousel/ParentCarousel';
 export default function Page() {
   return (
     <main className="w-full" style={{ backgroundColor: '#95DAEE' }}>
-      <ParentCarousel />
+      <ParentCarousel>
+        <div>
+          <h1>Hello</h1>
+        </div>
+      </ParentCarousel>
     </main>
   );
 }
