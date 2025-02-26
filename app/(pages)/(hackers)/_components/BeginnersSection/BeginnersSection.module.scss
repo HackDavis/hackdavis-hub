@@ -1,31 +1,40 @@
 @import '@globals/mixins.scss';
 
 .container {
-    display: flex;
-    flex-direction: row;
-    padding: 10%;
-    justify-content: space-between;
-    gap: 10%;
-    align-items: flex-start;
+    padding: 10% 120px;
+    
+    @include desktop-m {
+        padding: 4% 64px;
+    }
 
     @include desktop-s {
-        padding: 4%;
-        align-items: flex-end;
+        padding: 4% 48px;
     }
 
     @include tablet-l {
-        align-items: unset;
+        padding: 20% 20px;
+    }
+}
+
+.main_content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    @include tablet-l {
         flex-direction: column;
+        gap: 32px;
+        align-items: unset;
     }
 
     h1 {
         color: var(--grass-background-light);
         font-family: Metropolis;
         font-size: 3rem;
-        font-style: normal;
         font-weight: 700;
-        line-height: normal;
         letter-spacing: 0.96px;
+        margin-bottom: 8px;
 
         @include desktop-s {
             font-size: 2rem;
@@ -34,6 +43,7 @@
         @include tablet-l {
             font-size: 2.25rem;
             letter-spacing: 0.72px;
+            margin-bottom: 16px;
         }
     }
 
@@ -45,154 +55,146 @@
         line-height: 145%;
         /* 26.1px */
         letter-spacing: 0.36px;
+        width: 60%;
+
+        @include desktop-m {
+            font-size: 1rem;
+        }
+
+        @include desktop-s {
+            width: 70%;
+            font-size: 0.875rem;
+        }
 
         @include tablet-l {
-            font-size: 1rem;
-            letter-spacing: 0.32px;
+            width: 100%;
         }
     }
+    .top_line {
+        width: 100%;
+        text-wrap: balance;
+
+        @include tablet-l {
+            text-wrap: unset;
+        }
+    }
+}
+
+.hackathon_cont {
+    display: flex;
+    gap: 16px;
+    height: 100%;
+    
+    @include tablet-l {
+        width: 100%;
+        flex-direction: column-reverse;
+        gap: 0px;
+    }
+    
+    .hack_img {
+        position: relative;
+        border-radius: 16px;
+        background-color: var(--grass-background-light);
+        height: 100%;
+        min-width: 383px;
+        aspect-ratio: 383 / 283;
+
+        @include desktop-m {
+            min-width: 300px;
+        }
+
+        @include desktop-s {
+            min-width: 250px;
+        }
+        
+        .grass_light {
+            position: absolute;
+            right: 0;
+            bottom: -40px;
+
+            @include tablet-l {
+                display: none;
+            }
+        }
+    }
+}
+
+.button {
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
     button {
         display: flex;
-        width: 30%;
         max-width: 148px;
         min-width: 100px;
-        max-height: 260px;
-        height: auto;
-        aspect-ratio: 148 / 283;
-        transform: scale(1);
+        height: 100%;
         border-radius: 1000px;
         background-color: var(--grass-background-light);
         color: var(--text-light);
-        //positioning
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        padding: 33px;
+        padding: 0 16px;
         gap: 5px;
-        //text:
+        font-family: var(--font-jakarta);
         font-size: 1.125rem;
         text-align: center;
-        font-style: normal;
         font-weight: 600;
         line-height: 100%;
         /* 18px */
         letter-spacing: 0.36px;
-
+    
         @include desktop-m {
-            max-height: 220px;
+            font-size: 1rem;
         }
-
-        @include desktop-s {
-            max-height: 200px;
-        }
-
+    
         @include tablet-l {
             width: 100%;
-            height: auto;
-            max-height: none;
             max-width: none;
             aspect-ratio: unset;
+            padding: 24px 72px;
+            text-wrap: balance;
             flex-direction: row-reverse;
-            align-content: center;
-            justify-items: center;
-            text-align: center;
-        }
-
-        @include mobile-l {
-            font-size: 1.063rem;
+            gap: 24px;
+            justify-content: center;
         }
     }
 
-    .p_bold {
-        color: var(--grass-background-light);
-        font-weight: 700;
+    .grass_dark, .grass_light {
+        display: none;
 
         @include tablet-l {
-            font-weight: 400;
-        }
-    }
-}
-
-.starterkit_cont {
-    //encapsulates image, button, grass
-    display: flex;
-    flex-direction: row;
-    gap: 2%;
-    // width: 100%;
-    justify-content: flex-end;
-
-    @include tablet-l {
-        flex-direction: column-reverse;
-        padding-top: 10%;
-    }
-
-    .hack_w_grass {
-        //covers image, grass
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-
-        @include tablet-l {
-            flex-direction: column-reverse;
-        }
-    }
-
-    .hackathon_cont {
-        //green border around image
-        border-radius: 16px;
-        background-color: var(--grass-background-light);
-        align-content: center;
-        height: auto;
-        aspect-ratio: 383 / 283;
-
-        @include tablet-l {
-            width: 100%
-        }
-    }
-
-    .hack_img {
-        min-width: 130px;
-        min-height: 240px;
-
-        @include desktop-m {
-            min-height: 220px;
-        }
-
-        @include desktop-s {
-            min-height: 200px;
-        }
-
-        @include tablet-l {
-            width: 100%;
-            min-width: unset;
-            min-height: unset;
-        }
-    }
-
-    .grass_dark {
-        visibility: hidden;
-        height: 0;
-        width: 0;
-
-        @include tablet-l {
+            display: block;
+            width: 25%;
             position: relative;
-            visibility: visible;
-            width: 27%;
-            height: auto;
-            margin: 5%;
-            left: -40%;
+            padding: 16px 0;
+        }
+
+        @include tablet-s {
+            padding: 12px 0;
         }
     }
 
     .grass_light {
-        width: 24%;
-        margin-top: 5%;
+        right: 48px;
+        align-self: flex-end;
+    }
 
-        @include tablet-l {
-            //mobile / tablet
-            position: relative;
-            left: -10%;
-        }
+    .grass_dark {
+        left: 80px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

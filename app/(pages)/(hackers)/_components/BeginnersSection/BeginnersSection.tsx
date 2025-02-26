@@ -8,43 +8,53 @@ import grass_detail_dark from 'public/hackers/mvp/grass_detail_dark.svg';
 export default function BeginnersSection() {
   return (
     <div className={styles.container}>
-      <div>
-        <p>NOT SURE WHERE TO START? DON’T WORRY, WE GOT YOU :)</p>
-        <h1>For beginners</h1>
-        <br />
-        <p>
-          We’ve created a <span className={styles.p_bold}>Starter kit</span> for
-          all
-          <br /> beginner hackers to get their hack <br /> started! Inside
-          includes: resources, <br /> past winning hacks, and more.
-        </p>
-      </div>
-      <div className={styles.starterkit_cont}>
-        <div className={styles.hack_w_grass}>
-          <div className={styles.hackathon_cont}>
-            <Image
-              src={hackathon}
-              alt="hackathon"
-              className={styles.hack_img}
-            />
-          </div>
-          <Image
-            src={grass_detail_dark}
-            alt="grass detail"
-            className={styles.grass_dark}
-          />
-          <Image
+      <div className={styles.main_content}>
+        <div>
+          <p className={styles.top_line}>
+            NOT SURE WHERE TO START? DON’T WORRY, WE GOT YOU :)
+          </p>
+          <h1>For beginners</h1>
+          <p className={styles.description}>
+            We’ve created a <strong>Starter kit</strong> for all beginner
+            hackers to get their hack started! Inside includes: resources, past
+            winning hacks, and more.
+          </p>
+          {/* <Image
             src={grass_detail_light}
             alt="grass detail"
             className={styles.grass_light}
-          />
+          /> */}
         </div>
-
-        <button>
-          <Image src={arrow} alt="arrow" />
-          TAKE ME TO THE STARTER KIT!
-        </button>
+        <div className={styles.hackathon_cont}>
+          <div className={styles.hack_img}>
+            <Image src={hackathon} alt="hackathon" fill />
+            <Image
+              src={grass_detail_light}
+              alt="grass detail"
+              className={styles.grass_light}
+              // style={{ position: 'absolute', right: 0, bottom: '-40px' }}
+            />
+          </div>
+          <div className={styles.button}>
+            <button>
+              <Image src={arrow} alt="arrow" />
+              TAKE ME TO THE STARTER KIT!
+            </button>
+            <Image
+              src={grass_detail_light}
+              alt="grass detail"
+              className={styles.grass_light}
+            />
+            <Image
+              src={grass_detail_dark}
+              alt="grass detail"
+              className={styles.grass_dark}
+            />
+          </div>
+        </div>
       </div>
+      {/* <div className={styles.hack_w_grass}>
+      </div> */}
     </div>
   );
 }
