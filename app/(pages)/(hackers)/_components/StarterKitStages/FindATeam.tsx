@@ -1,5 +1,6 @@
 import StarterKitSlide from '../StarterKit/StarterKitSlide';
 import EventPosting from '../StarterKit/EventPosting';
+import TeamFormationComponent from '../TeamFormation/TeamFormation';
 
 export default function FindATeam() {
   return (
@@ -11,6 +12,7 @@ export default function FindATeam() {
           time="11am - 12pm"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip"
         ></EventPosting>
+        <TeamFormationComponent />
       </StarterKitSlide>
     </div>
   );
