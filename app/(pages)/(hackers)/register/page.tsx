@@ -14,6 +14,10 @@ export default async function RegisterPage() {
 
   const data = await getInviteData();
 
+  if (data?.role === 'judge') {
+    redirect('/judges/register');
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.hero}>
