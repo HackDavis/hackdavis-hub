@@ -217,7 +217,7 @@ const CarouselPrevious = React.forwardRef<
         'flex justify-center items-center',
         'w-full h-fit p-2',
         'border-2 border-solid border-background-secondary rounded-[100px] bg-transparent shadow-none',
-        'font-jakarta text-[9px] md:text-[18px] leading-3 tracking-[0.18px] text-background-secondary',
+        'font-jakarta text-xs xs:text-base md:text-lg leading-3 tracking-[0.18px] text-background-secondary',
         'hover:bg-background-secondary hover:text-white',
         className
       )}
@@ -246,7 +246,7 @@ const CarouselNext = React.forwardRef<
         'flex justify-center items-center',
         'w-full h-fit p-2',
         'border-2 border-solid border-background-secondary bg-background-secondary rounded-[100px]',
-        'font-jakarta text-[9px] md:text-[18px] leading-3 tracking-[0.18px] text-white',
+        'font-jakarta text-xs xs:text-base md:text-lg leading-3 tracking-[0.18px] text-white',
         'hover:bg-background-primary',
         className
       )}
