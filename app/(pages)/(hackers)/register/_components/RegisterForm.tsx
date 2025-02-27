@@ -4,14 +4,12 @@ import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-import { useInvite } from '@hooks/useInvite';
 import styles from './RegisterForm.module.scss';
 import RegisterAction from '@actions/auth/register';
 
-export default function RegisterForm() {
+export default function RegisterForm(data: any) {
   const router = useRouter();
 
-  const { data } = useInvite('register');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordDupe, setPasswordDupe] = useState('');

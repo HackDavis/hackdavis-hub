@@ -4,12 +4,15 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import RegisterForm from './_components/RegisterForm';
 import styles from './page.module.scss';
+import { getInviteData } from '@actions/invite/getInviteData';
 
 export default async function RegisterPage() {
   const session = await auth();
   if (session) {
     redirect('/');
   }
+
+  const data = await getInviteData();
 
   return (
     <div className={styles.container}>
@@ -24,7 +27,7 @@ export default async function RegisterPage() {
           <p>Welcome to HackDavis,</p>
           <h1>Judges!</h1>
         </div>
-        <RegisterForm />
+        <RegisterForm data={data} />
       </div>
       <div className={styles.computer_container}>
         <Image

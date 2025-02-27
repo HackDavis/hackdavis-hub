@@ -9,7 +9,7 @@ import IndexHero from '../_components/IndexHero/IndexHero';
 import UnderConstruction from '../_components/UnderConstruction/UnderConstruction';
 import BeginnersSection from '../_components/BeginnersSection/BeginnersSection';
 import LogoutAction from '@actions/auth/logout';
-import Footer from '@app/(pages)/_components/Footer/Footer';
+import Footer from '@components/Footer/Footer';
 
 export default function Page() {
   const router = useRouter();

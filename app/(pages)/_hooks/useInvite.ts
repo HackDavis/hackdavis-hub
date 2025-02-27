@@ -7,9 +7,6 @@ import { useState, useEffect } from 'react';
 
 interface InviteData {
   email: string;
-  name?: string;
-  specialty?: string;
-  role?: string;
   exp: number;
 }
 
