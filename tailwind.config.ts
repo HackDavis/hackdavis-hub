@@ -71,6 +71,8 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        'background-primary': 'var(--background-primary)',
+        'background-secondary': 'var(--background-secondary)',
         'background-light': 'var(--background-light)',
         'background-dark': 'var(--background-dark)',
         'foreground-light': 'var(--foreground-light)',

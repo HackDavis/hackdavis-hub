@@ -10,7 +10,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Teams Object Validation',
-        required: ['number', 'name', 'tracks'],
+        required: ['number', 'name', 'tracks', 'hacker_ids'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -26,7 +26,7 @@ export async function up(db) {
           },
           tracks: {
             bsonType: 'array',
-            maxItems: 5,
+            maxItems: 6,
             items: {
               enum: tracks.map((track) => track.name),
               description: 'track must be one of the valid tracks',
