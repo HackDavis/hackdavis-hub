@@ -10,7 +10,7 @@ const scoredProjects = [
 
 const ScoredPage = () => {
   return (
-    <div className="tw-flex tw-flex-col tw-mt-[4px] tw-gap-[16px] tw-mb-[120px]">
+    <div className="flex flex-col mt-[4px] gap-[16px] mb-[120px]">
       {scoredProjects.map((project) => (
         <ProjectTab key={project.id} number={project.id} name={project.name} />
       ))}

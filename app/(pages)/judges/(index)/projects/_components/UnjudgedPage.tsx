@@ -18,14 +18,14 @@ const nextProjects = [
 const UnjudgedPage = () => {
   if (nextProjects.length === 0) {
     return (
-      <div className="tw-flex tw-mt-[65px] tw-flex-col tw-items-center tw-h-[calc(100vh-100px)] tw-bg-[#F2F2F7]">
-        <span className="tw-text-[32px] tw-font-[700] tw-text-[#000000] tw-mb-[12px]">
+      <div className="flex mt-[65px] flex-col items-center h-[calc(100vh-100px)] bg-[#F2F2F7]">
+        <span className="text-[32px] font-[700] text-[#000000] mb-[12px]">
           You're Done!
         </span>
-        <span className="tw-text-[16px] tw-font-[500] tw-text-[#000000]">
+        <span className="text-[16px] font-[500] text-[#000000]">
           You've judged all your projects.
         </span>
-        <span className="tw-text-[16px] tw-font-[500] tw-text-[#000000] tw-mb-[32px]">
+        <span className="text-[16px] font-[500] text-[#000000] mb-[32px]">
           Thank you so much!
         </span>
         <Image src={projectCow} alt="Project Cow" />
@@ -33,18 +33,18 @@ const UnjudgedPage = () => {
     );
   }
   return (
-    <div className="tw-flex tw-flex-col tw-h-full tw-bg-[#F2F2F7]">
-      <span className="tw-text-[32px] tw-font-semibold tw-text-[#000000] tw-mb-[12px]">
+    <div className="flex flex-col h-full bg-[#F2F2F7]">
+      <span className="text-[32px] font-semibold text-[#000000] mb-[12px]">
         Current Project:
       </span>
-      <span className="tw-mb-[24px] tw-text-[18px] tw-font-normal tw-text-[#000000] tw-tracking-[0.36px] tw-leading-[26.1px]">
+      <span className="mb-[24px] text-[18px] font-normal text-[#000000] tracking-[0.36px] leading-[26.1px]">
         Projects must be judged in order one by one order.
       </span>
-      <div className="tw-flex tw-items-center tw-justify-center tw-w-full tw-py-[20px] tw-bg-white tw-rounded-[16px] tw-gap-[16px] tw-mb-[20px]">
-        <span className="tw-text-[48px] tw-text-[#000000] tw-leading-[60px] tw-font-[600]">
+      <div className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]">
+        <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
           {currentProject.id}
         </span>
-        <span className="tw-text-[24px] tw-text-[#000000] tw-tracking-[0.48px] tw-leading-[30px] tw-font-[500]">
+        <span className="text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
           {currentProject.name}
         </span>
         <svg
@@ -62,14 +62,14 @@ const UnjudgedPage = () => {
           />
         </svg>
       </div>
-      <div className="tw-flex tw-h-[284px] tw-bg-[#D9D9D9] tw-rounded-[24px] tw-mb-[20px]"></div>
-      <button className="tw-bg-[#005271] tw-text-white tw-rounded-[8px] tw-py-[15px] tw-text-[18px] tw-font-[600] tw-tracking-[0.36px] tw-leading-[18px] tw-mb-[32px]">
+      <div className="flex h-[284px] bg-[#D9D9D9] rounded-[24px] mb-[20px]"></div>
+      <button className="bg-[#005271] text-white rounded-[8px] py-[15px] text-[18px] font-[600] tracking-[0.36px] leading-[18px] mb-[32px]">
         View Project
       </button>
-      <span className="tw-text-[32px] tw-font-[600] tw-tracking-[0.64px] tw-text-[#000000] tw-mb-[24px]">
+      <span className="text-[32px] font-[600] tracking-[0.64px] text-[#000000] mb-[24px]">
         Next up:
       </span>
-      <div className="tw-flex tw-flex-col tw-gap-[16px] tw-mb-[58px] tw-opacity-50">
+      <div className="flex flex-col gap-[16px] mb-[58px] opacity-50">
         {nextProjects.map((project) => (
           <ProjectTab
             key={project.id}
