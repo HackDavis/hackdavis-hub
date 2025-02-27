@@ -25,7 +25,7 @@ const questions = [
   },
 ];
 
-export default function FindATeam() {
+export default function Team() {
   return (
     <div>
       <StarterKitSlide
