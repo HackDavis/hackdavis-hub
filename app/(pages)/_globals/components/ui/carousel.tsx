@@ -206,28 +206,26 @@ const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
 >(({ className, ...props }, ref) => {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  const { scrollPrev, canScrollPrev } = useCarousel();
 
   return (
     <Button
       ref={ref}
-      variant="ghost"
+      variant="outline"
       size="lg"
       className={cn(
-        'flex flex-row justify-center items-center',
-        'w-[150px] h-[58px] px-4 gap-[10px]',
-        'border-2 border-[#005271] rounded-[100px]',
-        'font-jakarta font-bold text-[18px] leading-[145%] tracking-[0.02em] text-[#005271]',
-        orientation === 'horizontal'
-          ? '-left-12 top-1/2 -translate-y-1/2'
-          : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
+        'flex justify-center items-center',
+        'w-full h-fit p-2',
+        'border-2 border-solid border-background-secondary rounded-[100px] bg-transparent shadow-none',
+        'font-jakarta text-[9px] md:text-[18px] leading-3 tracking-[0.18px] text-background-secondary',
+        'hover:bg-background-secondary hover:text-white',
         className
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <span className="flex-none order-0">Back</span>
+      Back
     </Button>
   );
 });
@@ -237,7 +235,7 @@ const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
 >(({ className, ...props }, ref) => {
-  const { orientation, scrollNext, canScrollNext } = useCarousel();
+  const { scrollNext, canScrollNext } = useCarousel();
 
   return (
     <Button
@@ -245,20 +243,18 @@ const CarouselNext = React.forwardRef<
       variant="default"
       size="lg"
       className={cn(
-        'absolute flex flex-row justify-center items-center',
-        'w-[150px] h-[58px] px-4 gap-[10px]',
-        'bg-[#005271] rounded-[100px]',
-        'font-jakarta font-bold text-[18px] leading-[145%] tracking-[0.02em] text-white',
-        orientation === 'horizontal'
-          ? '-right-12 top-1/2 -translate-y-1/2'
-          : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
+        'flex justify-center items-center',
+        'w-full h-fit p-2',
+        'border-2 border-solid border-background-secondary bg-background-secondary rounded-[100px]',
+        'font-jakarta text-[9px] md:text-[18px] leading-3 tracking-[0.18px] text-white',
+        'hover:bg-background-primary',
         className
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
-      <span className="flex-none order-0">Next</span>
+      Next
     </Button>
   );
 });
