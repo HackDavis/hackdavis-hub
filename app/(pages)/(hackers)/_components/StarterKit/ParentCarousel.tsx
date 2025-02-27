@@ -66,10 +66,26 @@ const carouselHeader = [
   },
 ];
 
-function Star({fillColor, className}: {fillColor: string, className?: string}) {
-  return <svg className={className} viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M11.3607 0.928762C11.733 -0.0772852 13.1559 -0.0772852 13.5282 0.928762L16.1614 8.04481C16.2784 8.36111 16.5278 8.61049 16.8441 8.72753L23.9601 11.3607C24.9662 11.733 24.9662 13.1559 23.9601 13.5282L16.8441 16.1614C16.5278 16.2784 16.2784 16.5278 16.1614 16.8441L13.5282 23.9601C13.1559 24.9662 11.733 24.9662 11.3607 23.9601L8.72753 16.8441C8.61049 16.5278 8.36111 16.2784 8.04481 16.1614L0.928762 13.5282C-0.0772852 13.1559 -0.0772852 11.733 0.928762 11.3607L8.04481 8.72753C8.36111 8.61049 8.61049 8.36111 8.72753 8.04481L11.3607 0.928762Z" fill={fillColor}/>
+function Star({
+  fillColor,
+  className,
+}: {
+  fillColor: string;
+  className?: string;
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.3607 0.928762C11.733 -0.0772852 13.1559 -0.0772852 13.5282 0.928762L16.1614 8.04481C16.2784 8.36111 16.5278 8.61049 16.8441 8.72753L23.9601 11.3607C24.9662 11.733 24.9662 13.1559 23.9601 13.5282L16.8441 16.1614C16.5278 16.2784 16.2784 16.5278 16.1614 16.8441L13.5282 23.9601C13.1559 24.9662 11.733 24.9662 11.3607 23.9601L8.72753 16.8441C8.61049 16.5278 8.36111 16.2784 8.04481 16.1614L0.928762 13.5282C-0.0772852 13.1559 -0.0772852 11.733 0.928762 11.3607L8.04481 8.72753C8.36111 8.61049 8.61049 8.36111 8.72753 8.04481L11.3607 0.928762Z"
+        fill={fillColor}
+      />
     </svg>
+  );
 }
 
 function Header({ activeIndex }: { activeIndex: number }) {
@@ -91,7 +107,7 @@ function Header({ activeIndex }: { activeIndex: number }) {
             </h3>
           </div>
           <Star
-            fillColor='#005271'
+            fillColor="#005271"
             className="aspect-square mb-[3px] xs:mb-[6px] md:mb-0 w-[15px] xs:w-[20px] md:w-[15px] lg:w-[25px]"
           />
         </div>
@@ -131,8 +147,8 @@ function CarouselButtons({ activeIndex }: { activeIndex: number }) {
       ) : (
         <CarouselNext className="static w-full" />
       )}
-      <div className='hidden md:block'>
-        <CarouselIndicators activeIndex={activeIndex} elongateActive/>
+      <div className="hidden md:block">
+        <CarouselIndicators activeIndex={activeIndex} elongateActive />
       </div>
       {activeIndex === 0 ? (
         <a href="/">
@@ -150,15 +166,25 @@ function CarouselButtons({ activeIndex }: { activeIndex: number }) {
   );
 }
 
-function CarouselIndicators({ activeIndex, elongateActive }: { activeIndex: number, elongateActive?: boolean }) {
+function CarouselIndicators({
+  activeIndex,
+  elongateActive,
+}: {
+  activeIndex: number;
+  elongateActive?: boolean;
+}) {
   return (
-    <div className={`flex gap-1 md:gap-2 2xs:pr-6 ${elongateActive ? "md:pr-0" : "md:pr-12 lg:pr-16 xl:pr-20"} self-end`}>
+    <div
+      className={`flex gap-1 md:gap-2 2xs:pr-6 ${
+        elongateActive ? 'md:pr-0' : 'md:pr-12 lg:pr-16 xl:pr-20'
+      } self-end`}
+    >
       {Array.from({ length: 4 }).map((_, index) => (
         <div
           key={index}
           style={{
             backgroundColor: activeIndex === index ? '#9EE7E5' : '#005271',
-            aspectRatio: activeIndex === index && elongateActive ? '3' : '1', 
+            aspectRatio: activeIndex === index && elongateActive ? '3' : '1',
             transition: 'all 0.3s ease',
           }}
           className="h-2 xs:h-3 lg:h-4 rounded-full border border-background-secondary"
@@ -192,19 +218,32 @@ export function ParentCarousel({ children }: { children: React.ReactNode }) {
       }}
     >
       <Header activeIndex={activeIndex} />
-      <Carousel className="relative flex flex-col z-0 bg-white/45 backdrop-blur border-none rounded-xl pb-6 md:pb-12 lg:pb-16 xl:pb-24 overflow-x-clip" setApi={setApi}>
+      <Carousel
+        className="relative flex flex-col z-0 bg-white/45 backdrop-blur border-none rounded-xl pb-6 md:pb-12 lg:pb-16 xl:pb-24 overflow-x-clip"
+        setApi={setApi}
+      >
         <div className="relative flex items-center gap-2 md:mt-10 lg:mt-14">
-          <div className="invisible p-4 pl-8 md:p-6 md:pl-12 lg:pl-16 xl:p-8 xl:pl-24 flex items-center justify-center md:justify-between md:gap-4"> <p className="text-white text-lg xs:text-xl md:text-3xl xl:text-4xl font-bold text-nowrap">.</p></div>
+          <div className="invisible p-4 pl-8 md:p-6 md:pl-12 lg:pl-16 xl:p-8 xl:pl-24 flex items-center justify-center md:justify-between md:gap-4">
+            {' '}
+            <p className="text-white text-lg xs:text-xl md:text-3xl xl:text-4xl font-bold text-nowrap">
+              .
+            </p>
+          </div>
           {carouselHeader.map((item, index) => (
             <div
               key={index}
               className="absolute top-0 left-0 rounded-r-[12px] p-4 pl-8 md:p-6 md:pl-12 lg:pl-16 xl:p-8 xl:pl-24 flex items-center justify-center md:justify-between md:gap-4 transition-transform duration-300 ease-in-out"
               style={{
                 backgroundColor: item.color,
-                transform: `translateX(${activeIndex === index ? '0' : '-100%'})`
+                transform: `translateX(${
+                  activeIndex === index ? '0' : '-100%'
+                })`,
               }}
             >
-              <Star fillColor="#fff" className="hidden md:block w-[20px] h-[20px]" />
+              <Star
+                fillColor="#fff"
+                className="hidden md:block w-[20px] h-[20px]"
+              />
               <p className="text-white text-lg xs:text-xl md:text-3xl xl:text-4xl font-bold text-nowrap">
                 {item.title}
               </p>
@@ -214,7 +253,7 @@ export function ParentCarousel({ children }: { children: React.ReactNode }) {
         <CarouselContent>
           {carouselHeader.map((_, index) => (
             <CarouselItem key={index}>
-              <Card className='bg-transparent border-none shadow-none'>
+              <Card className="bg-transparent border-none shadow-none">
                 <div className="p-6 md:p-12 lg:p-16 xl:p-24">
                   <CardContent className="flex flex-col gap-8 md:gap-12 xl:gap-16 p-0">
                     {children}
