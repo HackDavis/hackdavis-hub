@@ -12,7 +12,7 @@ export default function LetsBegin() {
                 description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip"
             ></EventPosting>
         </StarterKitSlide>
-        <StarterKitSlide title="In case you missed it..." subtitle="HERE's A RECAP OF THE WORKSHOP">
+        <StarterKitSlide title="In case you missed it..." subtitle="HERE'S A RECAP OF THE WORKSHOP">
             <WorkshopSlides/>
         </StarterKitSlide>
     </div>
