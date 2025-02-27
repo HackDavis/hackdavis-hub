@@ -32,9 +32,9 @@ interface FilterType {
 const filters: FilterType[] = [
   { id: 'GENERAL', label: 'GENERAL', color: '#9EE7E5' },
   { id: 'ACTIVITIES', label: 'ACTIVITIES', color: '#FFC5AB' },
-  { id: 'WORKSHOP', label: 'WORKSHOPS', color: '#AFD157' },
-  { id: 'MENU', label: 'MENU', color: '#FFC53D' },
-  { id: 'RECOMMENDED', label: 'RECOMMENDED', color: '#BBABDD' },
+  // { id: 'WORKSHOP', label: 'WORKSHOPS', color: '#AFD157' },
+  // { id: 'MENU', label: 'MENU', color: '#FFC53D' },
+  // { id: 'RECOMMENDED', label: 'RECOMMENDED', color: '#BBABDD' },
 ];
 
 const mockScheduleData: ScheduleData = {
@@ -84,10 +84,13 @@ const mockScheduleData: ScheduleData = {
   ],
 };
 
-const yourMockScheduleData: ScheduleData = {
-  Apr19: [],
-  Apr20: [],
-};
+// const yourMockScheduleData: ScheduleData = {
+//   Apr19: [],
+//   Apr20: [],
+// };
+
+// for MVP only:
+const yourMockScheduleData: ScheduleData = mockScheduleData;
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'yourSchedule'>(
