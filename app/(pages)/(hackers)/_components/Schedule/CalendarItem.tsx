@@ -7,7 +7,7 @@ interface CalendarItemProps {
   title: string;
   type: EventType;
   startTime: string;
-  endTime: string;
+  endTime?: string;
   location?: string;
   speakers?: {
     name: string;
@@ -48,36 +48,42 @@ const CalendarItem: React.FC<CalendarItemProps> = ({
   location,
 }) => {
   const bgColor = getBgColor(type);
-  const timeDisplay =
-    startTime === endTime
-      ? formatTime(startTime)
-      : `${formatTime(startTime)} - ${formatTime(endTime)}`;
+
+  // Handle different time display scenarios
+  let timeDisplay;
+  if (!endTime) {
+    timeDisplay = formatTime(startTime);
+  } else if (startTime === endTime) {
+    timeDisplay = formatTime(startTime);
+  } else {
+    timeDisplay = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+  }
 
   return (
     <div
-      className="w-full h-[133px] flex-shrink-0 rounded-[16px] px-[42px] mt-[48px] flex flex-col justify-center"
+      className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[40px] mb-[16px] flex flex-col justify-center"
       style={{ backgroundColor: bgColor }}
     >
-      <h2 className="text-black font-metropolis text-[36px] font-bold leading-[40px] tracking-[0.72px] mb-2">
+      <h2 className="text-black font-metropolis text-[28px] font-semibold leading-[40px] tracking-[0.72px]">
         {title}
       </h2>
-      <div className="flex items-center gap-2">
-        <span className="text-black font-plus-jakarta-sans text-[18px] font-normal leading-[145%] tracking-[0.36px]">
+      <div className="flex items-center">
+        <span className="text-black font-plus-jakarta-sans text-[18px] font-normal leading-[145%] tracking-[0.36px] mr-[16px]">
           {timeDisplay}
         </span>
         {location && (
-          <>
+          <div className="flex items-center">
             <Image
               src="/index/schedule/location.svg"
               alt="location icon"
               width={11}
               height={13.44}
-              className="tw-mx-2"
+              className="mr-2"
             />
             <span className="text-black font-plus-jakarta-sans text-[18px] font-normal leading-[145%] tracking-[0.36px]">
               {location}
             </span>
-          </>
+          </div>
         )}
       </div>
     </div>
