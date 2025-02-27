@@ -56,7 +56,7 @@ $max-vinyl-width: 400px;
 .tooltip {
     display: none;
 
-    color: #123041;
+    color: var(--text-dark);
     font-family: 'Metropolis';
     font-size: 0.5rem;
     background-color: var(--background-light);
