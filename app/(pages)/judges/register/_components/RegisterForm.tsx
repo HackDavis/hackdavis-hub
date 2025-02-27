@@ -1,13 +1,6 @@
 'use client';
 
-<<<<<<< HEAD:app/(pages)/judging-app/_components/RegisterForm/RegisterForm.tsx
-import styles from './RegisterForm.module.scss';
-import Link from 'next/link';
-import authToken from '@typeDefs/authToken';
-import { useInvite } from '@hooks/useInvite';
-=======
 import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
->>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c:app/(pages)/judges/register/_components/RegisterForm.tsx
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -91,21 +84,6 @@ export default function RegisterForm() {
   };
 
   useEffect(() => {
-<<<<<<< HEAD:app/(pages)/judging-app/_components/RegisterForm/RegisterForm.tsx
-    if (registerState.ok === true) {
-      const user = registerState.body as authToken;
-      setError('');
-      login(user);
-      router.push('/');
-    } else {
-      const err = registerState.error as string;
-      setError(err);
-    }
-  }, [registerState, login, router]);
-
-  useEffect(() => {
-=======
->>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c:app/(pages)/judges/register/_components/RegisterForm.tsx
     validateForm(email, password, passwordDupe);
   }, [email, password, passwordDupe]);
 

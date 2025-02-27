@@ -115,7 +115,6 @@ function Header({ activeIndex }: { activeIndex: number }) {
 }
 
 function CarouselButtons({ activeIndex }: { activeIndex: number }) {
-  console.log('activeIndex', activeIndex);
   return (
     <div className="flex flex-col gap-2 md:flex-row-reverse">
       {activeIndex === 3 ? (
@@ -155,7 +154,7 @@ function CarouselIndicators({ activeIndex }: { activeIndex: number }) {
           style={{
             backgroundColor: activeIndex === index ? '#9EE7E5' : '#005271',
           }}
-          className="w-2 h-2 lg:w-4 lg:h-4 rounded-full border border-[#005271]"
+          className="w-2 h-2 xs:w-3 xs:h-3 lg:w-4 lg:h-4 rounded-full border border-[#005271]"
         />
       ))}
     </div>
@@ -178,7 +177,7 @@ export function ParentCarousel({ children }: { children: React.ReactNode }) {
 
   return (
     <main
-      className="w-full flex-col items-center justify-center p-8 pt-36 overflow-hidden"
+      className="w-full flex-col items-center justify-center p-8 pt-24 overflow-hidden"
       style={{
         background:
           'linear-gradient(136.61deg, #97DBEF 12.93%, #79CCD9 48.22%, #FFEDCF 83.5%)',

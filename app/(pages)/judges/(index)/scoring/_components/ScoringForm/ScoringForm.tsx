@@ -12,11 +12,7 @@ import Submission from './ScoringSubComponents/Submission';
 import updateSubmission from '@actions/submissions/updateSubmission';
 
 import Team from '@typeDefs/team';
-<<<<<<< HEAD:app/(pages)/judging-app/scoring/_components/ScoringForm/ScoringForm.tsx
-import SubmissionInt from '@typeDefs/score';
-=======
 import SubmissionType from '@typeDefs/submission';
->>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c:app/(pages)/judges/(index)/scoring/_components/ScoringForm/ScoringForm.tsx
 import { useRouter } from 'next/navigation';
 
 const generalScoreNames = [
@@ -32,11 +28,7 @@ export default function ScoringForm({
   submission,
 }: {
   team: Team;
-<<<<<<< HEAD:app/(pages)/judging-app/scoring/_components/ScoringForm/ScoringForm.tsx
-  submission: SubmissionInt;
-=======
   submission: SubmissionType;
->>>>>>> 95b4e4b5adb199a409d29786cc4d53cbe5e0ba0c:app/(pages)/judges/(index)/scoring/_components/ScoringForm/ScoringForm.tsx
 }) {
   const scores =
     (submission.scores
