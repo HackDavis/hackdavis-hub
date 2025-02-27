@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo } from 'react';
-import CalendarItem from '../_components/HackerHub/CalendarItem';
+import CalendarItem from '../../_components/Schedule/CalendarItem';
 type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOP' | 'MENU';
 import Image from 'next/image';
 
