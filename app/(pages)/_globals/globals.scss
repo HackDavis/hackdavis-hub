@@ -2,105 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
-}
-
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
 @font-face {
-    font-family: 'Metropolis';
-    src: url('/fonts/Metropolis/TrueType/Metropolis-ExtraLight.ttf') format('truetype');
-    font-weight: 200;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Metropolis';
-    src: url('/fonts/Metropolis/TrueType/Metropolis-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Metropolis';
-    src: url('/fonts/Metropolis/TrueType/Metropolis-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Metropolis';
-    src: url('/fonts/Metropolis/TrueType/Metropolis-Medium.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Metropolis';
-    src: url('/fonts/Metropolis/TrueType/Metropolis-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'Metropolis';
-    src: url('/fonts/Metropolis/TrueType/Metropolis-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-  }
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis/TrueType/Metropolis-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis/TrueType/Metropolis-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis/TrueType/Metropolis-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis/TrueType/Metropolis-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis/TrueType/Metropolis-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis/TrueType/Metropolis-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
 
 :root {
-    /* variables */
-    --background-primary: #173A52;
-    --background-secondary: #005271;
-    --background-secondary-light: #136E90;
-    --background-tertiary: #E5EEF1;
-    --background-light: white;
+  /* variables */
+  --background-primary: #173A52;
+  --background-secondary: #005271;
+  --background-secondary-light: #136E90;
+  --background-tertiary: #E5EEF1;
+  --background-light: white;
 
 
-    --text-light: white;
-    --text-gray: #868974;
-    --text-gray-light: #E0DFD8;
-    --text-dark: black;
-    --text-error: #F95A5A;
+  --text-light: white;
+  --text-gray: #868974;
+  --text-gray-light: #E0DFD8;
+  --text-dark: #123041;
+  --text-error: #F95A5A;
 
-    --gradient-primary: linear-gradient(284deg, #FCFCD1 9.72%, #B2E7DD 44.61%, #76D6E6 79.5%);
+  --gradient-primary: linear-gradient(284deg, #FCFCD1 9.72%, #B2E7DD 44.61%, #76D6E6 79.5%);
 
-    --hd-yellow: #F6D995;
-    --hd-orange: #FFC53D;
+  --hd-yellow: #F6D995;
+  --hd-orange: #FFC53D;
 
-    /* spacers */
-    --tiny-spacer: 8px;
-    --small-spacer: 16px;
-    --spacer: 24px;
-    --small-medium-spacer: 32px;
-    --medium-spacer: 48px;
-    --large-spacer: 80px;
-    
-    /* border radius */
-    --b-radius: 8px;
-    --b-radius-large: 16px;
+  /* spacers */
+  --tiny-spacer: 8px;
+  --small-spacer: 16px;
+  --spacer: 24px;
+  --small-medium-spacer: 32px;
+  --medium-spacer: 48px;
+  --large-spacer: 80px;
 
-    /* navbar */
-    --navbar-height: 80px;
+  /* border radius */
+  --b-radius: 8px;
+  --b-radius-large: 16px;
 
-    background-color: var(--background-light);
+  /* navbar */
+  --navbar-height: 80px;
 
-    --sand-background-dark: #E6BB7B;
-    --sand-background-light: #E5C28E;
-    --sand-texture: #DFAF67;
-    --sky-background: #4DB7D9;
-    --sea-background: #123041;
-    --water-background: #4DB7D9;
-    --water-edge: #2BACD5;
-    --grass-background-dark: #7FB732;
-    --grass-background-darker: #7BAD34;
-    --grass-background-light: #AFD157;
-    --card-background: #3A9FC4;
-    --sand-text-color: #58452B;
+  background-color: var(--background-light);
+
+  --sand-background-dark: #E6BB7B;
+  --sand-background-light: #E5C28E;
+  --sand-texture: #DFAF67;
+  --sky-background: #4DB7D9;
+  --sea-background: #123041;
+  --water-background: #4DB7D9;
+  --water-edge: #2BACD5;
+  --grass-background-dark: #7FB732;
+  --grass-background-darker: #7BAD34;
+  --grass-background-light: #AFD157;
+  --card-background: #3A9FC4;
+  --sand-text-color: #58452B;
 }
 
 * {
@@ -116,115 +112,124 @@ a {
 }
 
 h1 {
-    font-size: 4rem;
-}
-h2 {
-    font-size: 2.5rem;
-}
-h3 {
-    font-size: 2rem;
-}
-h4 {
-    font-size: 1.5rem;
-}
-p {
-    font-size: 1rem;
+  font-size: 4rem;
 }
 
-input[type="email"], input[type="password"], input[type="text"] {
-    padding: 10px 8px;
-    border-radius: var(--b-radius);
-    border: 1px solid rgba(0, 0, 0, 0.27);
-    font-size: 1rem;
-    font-weight: 600;
+h2 {
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1rem;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  padding: 10px 8px;
+  border-radius: var(--b-radius);
+  border: 1px solid rgba(0, 0, 0, 0.27);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 ::placeholder {
-    color: #A7AEB0;
-    font-size: 1rem;
-    font-weight: 600;
+  color: #A7AEB0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 button {
-    border: none;
-    border-radius: 4px;
-    padding: 12px;
-    background-color: var(--hd-orange);
-    font-weight: 500;
-    font-family: 'Proxima Nova';
-    font-size: 1.25rem;
-    box-shadow: 0 3.874px 61.987px 0 rgba(255, 197, 61, .16);
-    color: #173a52;
-    cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  background-color: var(--hd-orange);
+  font-weight: 500;
+  font-family: 'Proxima Nova';
+  font-size: 1.25rem;
+  box-shadow: 0 3.874px 61.987px 0 rgba(255, 197, 61, .16);
+  color: #173a52;
+  cursor: pointer;
 }
 
 @layer base {
   :root {
-        --background: 0 0% 100%;
-        --foreground: 240 10% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 240 10% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 240 10% 3.9%;
-        --primary: 240 5.9% 10%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 240 4.8% 95.9%;
-        --secondary-foreground: 240 5.9% 10%;
-        --muted: 240 4.8% 95.9%;
-        --muted-foreground: 240 3.8% 46.1%;
-        --accent: 240 4.8% 95.9%;
-        --accent-foreground: 240 5.9% 10%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 5.9% 90%;
-        --input: 240 5.9% 90%;
-        --ring: 240 10% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-    }
-  .dark {
-        --background: 240 10% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 240 10% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 240 10% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 240 5.9% 10%;
-        --secondary: 240 3.7% 15.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 240 3.7% 15.9%;
-        --muted-foreground: 240 5% 64.9%;
-        --accent: 240 3.7% 15.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 3.7% 15.9%;
-        --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-    }
-}
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
 
-.bg-footer-grass {
-  background-image: url('/Footer/grass.svg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 @keyframes rotateVinyl {
   100% {
     transform: translate(-50%, -51%) rotate(0deg);
   }
+
   0% {
     transform: translate(-50%, -51%) rotate(360deg);
   }
