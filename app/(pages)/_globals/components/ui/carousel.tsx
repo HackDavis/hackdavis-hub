@@ -215,7 +215,7 @@ const CarouselPrevious = React.forwardRef<
       size="lg"
       className={cn(
         'flex justify-center items-center',
-        'w-full h-fit p-2',
+        'w-full md:w-[150px] h-fit p-2',
         'border-2 border-solid border-background-secondary rounded-[100px] bg-transparent shadow-none',
         'font-jakarta text-xs xs:text-base md:text-lg leading-3 tracking-[0.18px] text-background-secondary',
         'hover:bg-background-secondary hover:text-white',
@@ -244,7 +244,7 @@ const CarouselNext = React.forwardRef<
       size="lg"
       className={cn(
         'flex justify-center items-center',
-        'w-full h-fit p-2',
+        'w-full md:w-[150px] h-fit p-2',
         'border-2 border-solid border-background-secondary bg-background-secondary rounded-[100px]',
         'font-jakarta text-xs xs:text-base md:text-lg leading-3 tracking-[0.18px] text-white',
         'hover:bg-background-primary',
