@@ -1,3 +1,3 @@
 export default function Ideate() {
-    return <h1>Stage Three</h1>
+  return <h1>Stage Three</h1>;
 }

@@ -16,10 +16,7 @@ export default function EventPosting({
   color,
 }: EventPostingProps) {
   return (
-    <div
-      className={styles.EventContainer}
-      style={{ borderLeft: `10px solid ${color}` }}
-    >
+    <div className={styles.EventContainer} style={{ borderColor: `${color}` }}>
       <div className={styles.EventInfoContainer}>
         <div className={styles.EventInfo}>{time}</div>
         <div className={styles.EventInfo}>
@@ -30,16 +27,5 @@ export default function EventPosting({
 
       <p> {description} </p>
     </div>
-    // <Card className="tw-h-fit tw-p-4 tw-bg-transparent">
-    //   <CardContent className="tw-p-4">
-    //     <p className="tw-text-sm tw-font-jakarta tw-tracking-[0.02em]">
-    //       {location}
-    //     </p>
-    //     <h2 className="tw-text-2xl tw-font-bold tw-font-metropolis tw-tracking-[0.02em] tw-mb-4">
-    //       {title}
-    //     </h2>
-    //     {children}
-    //   </CardContent>
-    // </Card>
   );
 }

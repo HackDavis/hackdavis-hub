@@ -24,7 +24,7 @@ const carouselHeader = [
   {
     title: "Let's Begin!",
     color: '#005271',
-    component:   <LetsBegin />,
+    component: <LetsBegin />,
     slides: [
       {
         title: 'Hacking 101 Workshop',
@@ -204,7 +204,7 @@ function CarouselIndicators({
 }
 
 export function ParentCarousel() {
-  // TODO: resume wherever user left off 
+  // TODO: resume wherever user left off
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
 
@@ -265,9 +265,7 @@ export function ParentCarousel() {
             <CarouselItem key={index}>
               <Card className="bg-transparent border-none shadow-none">
                 <div className="p-6 md:p-12 lg:p-16 xl:p-24">
-                  <CardContent className="p-0">
-                    {item.component}
-                  </CardContent>
+                  <CardContent className="p-0"> {item.component} </CardContent>
                 </div>
               </Card>
             </CarouselItem>

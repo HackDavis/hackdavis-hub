@@ -1,33 +1,100 @@
+@import "@globals/mixins.scss";
+
 .EventContainer {
     background-color: #FFFFFF;
     border-radius: 12px;
-    padding: 5%;
+    padding: 40px;
     color: var(--text-dark);
+    border-left: 10px solid;
 
     .EventInfoContainer {
         display: flex;
         width: 100%;
-        // border: blue 3px solid;
         font-weight: bold;
         font-size: 1.2rem;
-        padding-bottom: 1%;
-        // gap: 3%;
+        padding-bottom: 16px;
+        text-wrap: nowrap;
 
         .EventInfo {
-            // border: 3px red solid;
             flex-direction: row;
-
-            .icon {
-                // border: 1px black solid;
-                height: 100%;
-                width: 100%;
-                padding-left: 1rem;
-            }
+            
+        }
+        
+        .icon {
+            height: 100%;
+            width: 100%;
+            font-size: 1.5rem;
+            padding-left: 1rem;
         }
     }
 
     p {
         font-weight: 400;
         font-size: 1rem;
+    }
+}
+
+@include tablet-s {
+    .EventContainer {
+        padding: 24px;
+        border-radius: 10px;
+        border-left: 8px solid;
+
+        .EventInfoContainer {
+            padding-bottom: 12px;
+            font-size: 1rem;
+
+            .icon {
+                font-size: 1.2rem;
+            }
+        }
+
+        p {
+            font-size: 0.8rem;
+        }
+    }
+}
+
+@include mobile-l {
+    .EventContainer {
+        padding: 16px;
+        border-radius: 6px;
+        border-left: 4px solid;
+
+        .EventInfoContainer {
+            padding-bottom: 8px;
+            font-size: 0.8rem;
+
+            .icon {
+                font-size: 1rem;
+                padding-left: 8px;
+            }
+        }
+
+        p {
+            font-size: 0.6rem;
+        }
+    }
+}
+
+@include mobile-m {
+    .EventContainer {
+        padding: 12px;
+        border-radius: 4px;
+        border-left: 2px solid;
+
+        .EventInfoContainer {
+            padding-bottom: 8px;
+            font-size: 0.6rem;
+
+            .icon {
+                font-size: 0.75rem;
+                padding-left: 8px;
+            }
+        }
+
+        p {
+            font-size: 0.5rem;
+        }
     }
 }
