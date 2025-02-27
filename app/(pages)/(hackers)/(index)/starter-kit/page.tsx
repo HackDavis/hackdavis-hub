@@ -1,4 +1,4 @@
-import StarterKitSlide from './_components/StarterKitSlide';
+import StarterKitSlide from '../../_components/StarterKit/StarterKitSlide';
 import Image from 'next/image';
 
 export default function Page() {

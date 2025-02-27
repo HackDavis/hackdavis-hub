@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
-import HackerHub from './_components/HackerHub/HackerHub';
+import HackerHub from '../_components/HackerHub/HackerHub';
 import LogoutAction from '@actions/auth/logout';
 
 export default function Page() {

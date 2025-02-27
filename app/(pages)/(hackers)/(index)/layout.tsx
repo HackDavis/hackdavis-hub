@@ -1,6 +1,6 @@
 import { SessionProvider } from 'next-auth/react';
-import StarterKitSlide from './starter-kit/_components/StarterKitSlide';
-import EventPosting from './starter-kit/_components/EventPosting';
+import StarterKitSlide from '../_components/StarterKit/StarterKitSlide';
+import EventPosting from '../_components/StarterKit/EventPosting';
 
 // import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
 
