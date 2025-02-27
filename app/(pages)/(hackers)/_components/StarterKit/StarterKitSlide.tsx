@@ -12,8 +12,8 @@ export default function StarterKitSlide({
   children,
 }: StarterKitSlideProps) {
   return (
-    <Card className="h-fit p-4 bg-transparent">
-      <CardContent className="p-4">
+    <Card className="h-fit w-full p-0 bg-transparent shadow-none border-none text-text-dark">
+      <CardContent className="p-0">
         <p className="text-sm font-jakarta tracking-[0.02em]">{subtitle}</p>
         <h2 className="text-2xl font-bold font-metropolis tracking-[0.02em] mb-4">
           {title}

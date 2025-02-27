@@ -7,6 +7,8 @@ import vinyl from 'public/index/hero/vinyl.svg';
 import pauseIcon from 'public/index/hero/pause-icon.svg';
 import playIcon from 'public/index/hero/play-icon.svg';
 
+// TODO: add  "Coming Soon" on mobile
+
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [rotation, setRotation] = useState(0);

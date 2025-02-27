@@ -6,6 +6,11 @@ import judge_bunny from '@public/hackers/judge_bunny.svg';
 import { type CarouselApi } from '@globals/components/ui/carousel';
 import { Button } from '@app/(pages)/_globals/components/ui/button';
 
+import LetsBegin from '../../_components/StarterKitStages/LetsBegin';
+import FindATeam from '../../_components/StarterKitStages/FindATeam';
+import Ideate from '../../_components/StarterKitStages/Ideate';
+import Resources from '../../_components/StarterKitStages/Resources';
+
 import {
   Carousel,
   CarouselContent,
@@ -19,6 +24,7 @@ const carouselHeader = [
   {
     title: "Let's Begin!",
     color: '#005271',
+    component:   <LetsBegin />,
     slides: [
       {
         title: 'Hacking 101 Workshop',
@@ -33,6 +39,7 @@ const carouselHeader = [
   {
     title: 'Find a Team',
     color: '#AFD157',
+    component: <FindATeam />,
     slides: [
       {
         title: 'In case you missed it...',
@@ -43,6 +50,7 @@ const carouselHeader = [
   {
     title: 'Ideate',
     color: '#FFC53D',
+    component: <Ideate />,
     slides: [
       {
         title: 'Hacking 101 Workshop',
@@ -53,6 +61,7 @@ const carouselHeader = [
   {
     title: 'Resources',
     color: '#005271',
+    component: <Resources />,
     slides: [
       {
         title: 'Hacking 101 Workshop',
@@ -102,7 +111,7 @@ function Header({ activeIndex }: { activeIndex: number }) {
             <p className="font-jakarta text-[0.5rem] xs:text-xs lg:text-sm xl:text-base font-normal leading-normal md:leading-[15px] lg:leading-[20px] text-background-secondary flex-none order-0 self-stretch">
               SAY HI TO YOUR
             </p>
-            <h3 className="font-metropolis text-lg xs:text-2xl md:text-xl lg:text-2xl xl:text-4xl font-bold leading-5 md:leading-[30px] lg:leading-[40px] tracking-[0.02em] text-[#123041] flex-none order-1">
+            <h3 className="font-metropolis text-lg xs:text-2xl md:text-xl lg:text-2xl xl:text-4xl font-bold leading-5 md:leading-[30px] lg:leading-[40px] tracking-[0.02em] text-background-primary-dark flex-none order-1">
               Starter Kit
             </h3>
           </div>
@@ -194,7 +203,8 @@ function CarouselIndicators({
   );
 }
 
-export function ParentCarousel({ children }: { children: React.ReactNode }) {
+export function ParentCarousel() {
+  // TODO: resume wherever user left off 
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
 
@@ -210,7 +220,7 @@ export function ParentCarousel({ children }: { children: React.ReactNode }) {
 
   return (
     <main
-      className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 overflow-hidden"
+      className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 xl:p-16 overflow-hidden"
       style={{
         background:
           'linear-gradient(136.61deg, #97DBEF 12.93%, #79CCD9 48.22%, #FFEDCF 83.5%)',
@@ -251,12 +261,12 @@ export function ParentCarousel({ children }: { children: React.ReactNode }) {
           ))}
         </div>
         <CarouselContent>
-          {carouselHeader.map((_, index) => (
+          {carouselHeader.map((item, index) => (
             <CarouselItem key={index}>
               <Card className="bg-transparent border-none shadow-none">
                 <div className="p-6 md:p-12 lg:p-16 xl:p-24">
-                  <CardContent className="flex flex-col gap-8 md:gap-12 xl:gap-16 p-0">
-                    {children}
+                  <CardContent className="p-0">
+                    {item.component}
                   </CardContent>
                 </div>
               </Card>
