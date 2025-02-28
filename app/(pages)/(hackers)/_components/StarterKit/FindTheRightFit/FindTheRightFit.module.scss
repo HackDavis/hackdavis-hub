@@ -3,7 +3,7 @@
 .Container {
     // background: var(--background-primary);
     background-color: #123041; //could not find this color in globals
-    padding: 10% 40% 10% 7%;
+    padding: 10% 40% 10% 5%;
     border-radius: 12px;
     // Background Image
     background: url('/hackers/mvp/PeepingAnimals.svg'),
@@ -61,13 +61,20 @@
             }
         }
     }
+    
+    .animals {
+        border: 3px solid red;
+        background-color: white;
+        padding: 5%;
+    }
+
 }
 
 @include desktop-s {
     .Container {
         // background: var(--background-primary);
-        background-color: #123041; //could not find this color in globals
-        padding: 10% 7% 10% 7%;
+        background-color: var(--sea-background); //could not find this color in globals
+        padding: 10% 7% 10% 5%;
         border-radius: 12px;
         background-image: none;
     
@@ -120,6 +127,12 @@
                 }
             }
         }
+
+        .animals {
+            border: 3px solid red;
+            background-color: white;
+            padding: 5%;
+        }
     }
 }
 
@@ -127,7 +140,7 @@
     .Container {
         // background: var(--background-primary);
         background-color: #123041; //could not find this color in globals
-        padding: 10% 7% 10% 7%;
+        padding: 10% 7% 10% 5%;
         border-radius: 12px;
         background-image: none;
     

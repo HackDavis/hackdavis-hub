@@ -30,6 +30,9 @@ export default function FindTheRightFit() {
             ))}
           </div>
         </div>
+        <div className={styles.animals}>
+          <p>insert animals here</p>
+        </div>
       </div>
     </StarterKitSlide>
   );
