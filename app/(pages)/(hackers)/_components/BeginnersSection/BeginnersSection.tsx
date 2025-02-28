@@ -1,5 +1,6 @@
 import styles from './BeginnersSection.module.scss';
 import Image from 'next/image';
+import Link from 'next/link';
 import hackathon from 'public/hackers/mvp/hackathon.svg';
 import arrow from 'public/hackers/mvp/arrow.svg';
 import grass_detail_light from 'public/hackers/mvp/grass_detail_light.svg';
@@ -36,10 +37,12 @@ export default function BeginnersSection() {
             />
           </div>
           <div className={styles.button}>
-            <button>
-              <Image src={arrow} alt="arrow" />
-              TAKE ME TO THE STARTER KIT!
-            </button>
+            <Link href="/starter-kit" className="h-full w-full">
+              <button>
+                <Image src={arrow} alt="arrow" />
+                TAKE ME TO THE STARTER KIT!
+              </button>
+            </Link>
             <Image
               src={grass_detail_light}
               alt="grass detail"

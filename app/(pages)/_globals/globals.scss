@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -70,7 +60,7 @@
   --text-light: white;
   --text-gray: #868974;
   --text-gray-light: #E0DFD8;
-  --text-dark: black;
+  --text-dark: #123041;
   --text-error: #F95A5A;
 
   --gradient-primary: linear-gradient(284deg, #FCFCD1 9.72%, #B2E7DD 44.61%, #76D6E6 79.5%);
@@ -224,6 +214,14 @@ button {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
