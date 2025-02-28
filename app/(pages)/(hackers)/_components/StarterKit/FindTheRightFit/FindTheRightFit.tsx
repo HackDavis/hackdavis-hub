@@ -1,5 +1,7 @@
 import StarterKitSlide from '../StarterKitSlide';
 import styles from './FindTheRightFit.module.scss';
+import Animals from 'public/hackers/mvp/PeepingAnimals.png'
+import Image from 'next/image';
 
 const questions = [
   {
@@ -31,7 +33,7 @@ export default function FindTheRightFit() {
           </div>
         </div>
         <div className={styles.animals}>
-          <p>insert animals here</p>
+          <Image src={Animals} alt="Animals Peeping Behind Wall" className={styles.animals} />
         </div>
       </div>
     </StarterKitSlide>
