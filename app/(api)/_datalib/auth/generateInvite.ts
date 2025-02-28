@@ -1,12 +1,15 @@
 import { generateHMACSignature } from '@utils/invite/hmac';
 import InviteData from '@typeDefs/inviteData';
-import HttpError from '@utils/response/HttpError';
+import { HttpError, BadRequestError } from '@utils/response/Errors';
 
 export default async function GenerateInvite(data: InviteData) {
   try {
-    const role = data.role;
-    if (role !== 'hacker' && role !== 'judge') {
-      throw new HttpError('Unknown role. Choose either hacker or judge.');
+    if (!data.email || !data.name || !data.role) {
+      throw new BadRequestError('Email, name, and role fields are required.');
+    }
+
+    if (data.role !== 'hacker' && data.role !== 'judge') {
+      throw new BadRequestError('Unknown role. Choose either hacker or judge.');
     }
 
     data['exp'] =

@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 
-import styles from './RegisterForm.module.scss';
 import RegisterAction from '@actions/auth/register';
+import styles from './RegisterForm.module.scss';
 
-export default function RegisterForm(data: any) {
+export default function RegisterForm({ data }: any) {
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
+  const name = data?.name ? data.name : 'HackDavis Admin';
+  const role = data?.role ? data.role : 'admin';
+
+  const [email, setEmail] = useState(data?.email ? data.email : '');
   const [password, setPassword] = useState('');
   const [passwordDupe, setPasswordDupe] = useState('');
   const [valid, setValid] = useState(false);
@@ -26,17 +28,14 @@ export default function RegisterForm(data: any) {
     setError('');
 
     const response = await RegisterAction({
-      name: data?.name ? data.name : 'HackDavis Admin',
+      name,
       email,
       password,
-      // specialties: data?.specialties ? data.specialties : ['tech'],
-      specialties: ['tech'],
-      role: data?.role ? data.role : 'judge',
+      role,
     });
-    setLoading(false);
 
     if (response.ok) {
-      router.push('/judges');
+      router.push('');
     } else if (response.error) {
       setError(response.error);
     } else {
@@ -58,7 +57,7 @@ export default function RegisterForm(data: any) {
     const isPasswordValid =
       (password.length >= 6 && password.length <= 20) || password.length === 0;
     if (!isPasswordValid) {
-      setError('Password is too short.');
+      setError('Password must be between 6 and 20 characters.');
     }
     setPasswordError(!isPasswordValid);
 
@@ -75,7 +74,6 @@ export default function RegisterForm(data: any) {
     ) {
       setValid(false);
     }
-
     if (isEmailValid && isPasswordValid && passwordMatch) {
       setError('');
       setValid(true);
@@ -87,64 +85,49 @@ export default function RegisterForm(data: any) {
   }, [email, password, passwordDupe]);
 
   return (
-    <form onSubmit={handleRegister} className={styles.container}>
-      <p className={styles.error_msg}>{error}</p>
-      <div className={styles.fields}>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={data ? data.email : email}
-          onInput={(e: ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-          readOnly={data ? true : false}
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onInput={(e: ChangeEvent<HTMLInputElement>) =>
-            setPassword(e.target.value)
-          }
-          className={`${passwordError ? styles.error : null}`}
-        />
-        <input
-          type="password"
-          placeholder="Retype password"
-          value={passwordDupe}
-          onInput={(e: ChangeEvent<HTMLInputElement>) =>
-            setPasswordDupe(e.target.value)
-          }
-          className={`${passwordDupeError ? styles.error : null}`}
-        />
-        <input
-          name="name"
-          type="hidden"
-          defaultValue={data ? data.name : 'HackDavis Admin'}
-        />
-        <input
-          name="specialty"
-          type="hidden"
-          defaultValue={data ? data.specialty : 'tech'}
-        />
-        <input
-          name="role"
-          type="hidden"
-          defaultValue={data ? data.role : 'admin'}
-        />
-      </div>
-      <button
-        className={`${styles.login_button} ${valid ? styles.valid : null}`}
-        type="submit"
-        disabled={loading || !valid}
-      >
-        Create account
-      </button>
-      <div className={styles.not_judge}>
-        Not a judge? <Link href="/hackers">Click here</Link>
-      </div>
-    </form>
+    <div>
+      <h1>Hi {name}!</h1>
+      <form onSubmit={handleRegister} className={styles.container}>
+        <p className={styles.error_msg}>{error}</p>
+        <div className={styles.fields}>
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={data ? data.email : email}
+            onInput={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
+            readOnly={data ? true : false}
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onInput={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
+            className={`${passwordError ? styles.error : null}`}
+          />
+          <input
+            type="password"
+            placeholder="Retype password"
+            value={passwordDupe}
+            onInput={(e: ChangeEvent<HTMLInputElement>) =>
+              setPasswordDupe(e.target.value)
+            }
+            className={`${passwordDupeError ? styles.error : null}`}
+          />
+        </div>
+        <button
+          className={`${styles.login_button} ${valid ? styles.valid : null}`}
+          type="submit"
+          disabled={loading || !valid}
+        >
+          Next
+        </button>
+      </form>
+    </div>
   );
 }
