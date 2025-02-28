@@ -32,9 +32,7 @@ export default function FindTheRightFit() {
             ))}
           </div>
         </div>
-        <div className={styles.animals}>
-          <Image src={Animals} alt="Animals Peeping Behind Wall" className={styles.animals} />
-        </div>
+        <Image src={Animals} alt="Animals Peeping Behind Wall" className={styles.peepingAnimals} />
       </div>
     </StarterKitSlide>
   );
