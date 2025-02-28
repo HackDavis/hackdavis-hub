@@ -7,7 +7,7 @@ import Link from 'next/link';
 import RegisterAction from '@actions/auth/register';
 import styles from './RegisterForm.module.scss';
 
-export default function RegisterForm() {
+export default function RegisterForm({ data }: any) {
   const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -25,14 +25,7 @@ export default function RegisterForm() {
     setLoading(true);
     setError('');
 
-    const response = await RegisterAction({
-      name: data?.name ? data.name : 'HackDavis Admin',
-      email,
-      password,
-      // specialties: data?.specialties ? data.specialties : ['tech'],
-      specialties: ['tech'],
-      role: data?.role ? data.role : 'judge',
-    });
+    const response = await RegisterAction({});
     setLoading(false);
 
     if (response.ok) {
@@ -117,21 +110,6 @@ export default function RegisterForm() {
             setPasswordDupe(e.target.value)
           }
           className={`${passwordDupeError ? styles.error : null}`}
-        />
-        <input
-          name="name"
-          type="hidden"
-          defaultValue={data ? data.name : 'HackDavis Admin'}
-        />
-        <input
-          name="specialty"
-          type="hidden"
-          defaultValue={data ? data.specialty : 'tech'}
-        />
-        <input
-          name="role"
-          type="hidden"
-          defaultValue={data ? data.role : 'admin'}
         />
       </div>
       <button
