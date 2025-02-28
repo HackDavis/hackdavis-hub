@@ -66,19 +66,51 @@
             }
         }
     }
-    
-    .animals {
-        flex-shrink: 0; // Prevents shrinking
-        display: flex;
-        align-items: center; // Ensures the image stays vertically aligned
-        justify-content: flex-end;
-        // max-width: 30%;
-        border: 3px solid red;
-        // height: 100%;
 
-        img { 
-            width: auto; 
-            height: auto; 
+    .peepingAnimals {
+        border-radius: 12px;
+    }
+
+}
+
+@include monitor-s {
+    .questions {
+        padding-top: 5%;
+        padding-bottom: 5%;
+        // padding-right: 50px;
+        padding-left: 50px;
+        flex: 1;
+        flex-direction: column; // Keeps content aligned properly
+        justify-content: center; // Vertically centers content inside
+
+        h3 {
+            text-align: left;
+            // font-size: 32px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.64px;
+            color: var(--text-light);
+            padding-bottom: 35px;
+        }
+
+        .questionBoxes {
+            display: flex;
+            flex-direction: column;
+            color: var(--text-light);
+            gap: 32px;
+
+            .qbox {
+                padding: 3%;
+                border-radius: 12px;
+                background: var(----grass-background-light);
+                color: var(--text-light);
+                justify-content: center;
+                align-items: center;
+                align-self: stretch;
+                text-align: center;
+                width: 100%;
+            }
         }
     }
 
