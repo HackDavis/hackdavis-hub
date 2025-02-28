@@ -19,12 +19,9 @@ export const UpdateUser = async (id: string, body: object) => {
 
     const db = await getDatabase();
 
-    const user = await db.collection('users').updateOne(
-      {
-        _id: object_id,
-      },
-      parsedBody
-    );
+    const user = await db
+      .collection('users')
+      .updateOne({ _id: object_id }, { $set: parsedBody });
 
     if (user === null) {
       throw new NotFoundError(`user with id: ${id} not found.`);

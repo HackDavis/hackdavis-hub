@@ -3,6 +3,7 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
+import { storeRegisterInfo } from '@actions/auth/editRegisterInfo';
 import RegisterAction from '@actions/auth/register';
 import styles from './RegisterForm.module.scss';
 
@@ -32,14 +33,18 @@ export default function RegisterForm({ data }: any) {
       email,
       password,
       role,
+      starter_kit_stage: 1,
     });
 
     if (response.ok) {
-      router.push('');
-    } else if (response.error) {
-      setError(response.error);
+      if (role === 'admin') {
+        router.push('/');
+      } else {
+        await storeRegisterInfo(response.body._id, role);
+        router.push('/register/details');
+      }
     } else {
-      setError('Invalid email or password.');
+      setError(response.error ?? 'Invalid email or password.');
     }
   };
 
