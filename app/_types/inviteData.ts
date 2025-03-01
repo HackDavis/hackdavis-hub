@@ -1,6 +1,6 @@
 interface InviteData {
   email: string;
-  name: string;
+  name?: string;
   role: string;
   exp?: number;
 }

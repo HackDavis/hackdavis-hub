@@ -33,7 +33,7 @@ export default function DetailForm({ data, id }: any) {
     if (userRes.ok) {
       router.push('/');
     } else {
-      setError(userRes.error ?? 'Error creating user');
+      setError(userRes.error ?? 'Error updating details');
     }
 
     setLoading(false);

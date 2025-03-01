@@ -36,13 +36,13 @@ export default async function ProtectedDisplay({
     } else if (authorized) {
       return <>{children}</>;
     } else {
-      redirect('/judges');
+      redirect('/');
     }
   } else if (session.user.role === 'judge') {
     if (authorized) {
       return <>{children}</>;
     } else {
-      redirect('/');
+      redirect('/judges');
     }
   } else {
     return <>{children}</>;
