@@ -225,6 +225,18 @@ button {
   }
 }
 
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 @keyframes rotateVinyl {
   100% {
     transform: translate(-50%, -51%) rotate(0deg);

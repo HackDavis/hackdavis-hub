@@ -1,8 +1,11 @@
 'use client';
 import { useState, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
+import Footer from '@app/(pages)/_components/Footer/Footer';
 type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOP' | 'MENU';
 import Image from 'next/image';
+
+import headerGrass from '@public/hackers/schedule/header_grass.svg';
 
 interface Event {
   id: number;
@@ -152,22 +155,21 @@ export default function Page() {
 
   return (
     <main className="w-full">
-      <div className="absolute left-[-41px] top-[-78px] min-w-[1110px] overflow-visible z-0">
+      <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip">
         <Image
-          src="/hackers/schedule/header_grass.svg"
+          src={headerGrass}
           alt="header-grass"
-          width={1583}
-          height={351}
-          className="w-[1583px] h-[351px]"
+          className="w-[calc(100vw*380/375)] lg:w-[calc(100vw*1583/1440)] margin-auto"
+          // objectFit="fill"
         />
       </div>
-      <div className="px-[151px] mt-[150px]">
+      <div className="md:px-[calc(100vw*76/768)] lg:md:px-[calc(100vw*151/1440)] mt-[100px] md:mt-[calc(100vw*150/1440)]">
         <div className="flex flex-col gap-8">
-          <div className="flex justify-between items-center relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-[#8F8F8F33]">
-            <div className="flex gap-8 items-baseline">
+          <div className="flex justify-evenly md:justify-between items-center relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-[#8F8F8F33]">
+            <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
               <span
                 onClick={() => setActiveTab('schedule')}
-                className={`relative cursor-pointer font-metropolis text-[48px] font-bold leading-normal tracking-[0.96px] ${
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-5xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 ${
                   activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
@@ -177,7 +179,7 @@ export default function Page() {
               </span>
               <span
                 onClick={() => setActiveTab('yourSchedule')}
-                className={`relative cursor-pointer font-metropolis text-[48px] font-bold leading-normal tracking-[0.96px] ${
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-5xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 ${
                   activeTab === 'yourSchedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
@@ -187,7 +189,7 @@ export default function Page() {
               </span>
             </div>
 
-            <div className="flex gap-[10px] pt-[10px]">
+            <div className="hidden md:flex lg:pt-[10px]">
               <div
                 className="relative flex w-[202px] h-[48px] border-[1.5px] border-black rounded-[22px]"
                 style={{ borderStyle: 'dashed' }}
@@ -220,7 +222,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="flex gap-4 mt-[28px]">
+        <div className="px-[calc(100vw*32/375)] flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
           {filters.map((filter) => (
             <button
               key={filter.id}
@@ -259,10 +261,10 @@ export default function Page() {
           ))}
         </div>
 
-        <div className="mb-[100px] mt-[48px]">
+        <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
           {Object.entries(groupedEvents).map(([timeKey, events]) => (
             <div key={timeKey} className="relative mb-[24px]">
-              <div className="font-plus-jakarta-sans text-[18px] font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
+              <div className="font-plus-jakarta-sans text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
                 {timeKey}
               </div>
               <div>
@@ -284,6 +286,8 @@ export default function Page() {
           ))}
         </div>
       </div>
+      <div className="h-[calc(100vw*60/375)] md:h-0"></div>
+      <Footer />
     </main>
   );
 }
