@@ -1,0 +1,58 @@
+@import "@globals/mixins.scss";
+
+.container {
+    background-color: #005271;
+    // display: flex;
+    // flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    border-radius: 12px;
+    padding-top: 6%;
+    z-index: -4;
+}
+.judges{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    
+}
+.img{
+    position: relative;
+    width: 30%;
+    bottom: -65px;
+    z-index: 0;
+    @include tablet-l{
+        width: 40%;
+        bottom: -50px;
+    }
+}
+.table{
+    background-color: #173A52;
+    border-radius: 12px 12px 0px 0px;
+    border: 4.52px solid var(--gradient, #D5FCD1);
+    padding: 5% 15% 5% 15%;
+    margin: 0 20% 0 20%;
+    text-align: center;
+    z-index: 2999999999999999;
+    @include tablet-l{
+        margin: 0 10% 0 10%;
+    }
+    
+}
+.link{
+    text-decoration: underline;
+    color: white;
+    font-family: Metropolis;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: 0.72px;
+    @include tablet-l{
+        font-size: 16px;
+        line-height: 13.814px; /* 86.338% */
+        letter-spacing: 0.32px;
+    }
+    
+}
