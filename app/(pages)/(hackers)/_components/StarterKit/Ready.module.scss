@@ -31,7 +31,7 @@
         letter-spacing: 0.64px;
     }
 }
-.judges{
+.image_cont{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -43,6 +43,103 @@
         z-index: 0;
         @include tablet-l{
             width: 47%;
+        }
+    }
+    .star1{
+        position: relative;
+        width: 4%;
+        bottom: 300px;
+
+        @include desktop-m{
+            bottom: 250px;
+        }
+
+        @include desktop-s{
+            bottom: 230px;
+        }
+
+        @include tablet-l{
+            width: 7%;
+            bottom: 370px;
+            left: 30px;
+        }
+        @include tablet-s{
+            bottom: 300px;
+        }
+        @include mobile-l{
+            bottom: 270px;
+        }
+
+        @include mobile-m{
+            bottom: 250px;
+        }
+    }
+    .star2{
+        position: relative;
+        width: 10%;
+        bottom: 190px;
+
+        @include desktop-m{
+            bottom: 150px;
+        }
+
+        @include desktop-s{
+            bottom: 130px;
+        }
+
+        @include tablet-l{
+            visibility: hidden;
+            height: 0;
+            width: 0;
+        }
+    }
+    .star3{
+        position: relative;
+        width: 8%;
+        bottom: 140px;
+
+        @include desktop-m{
+            bottom: 90px;
+        }
+
+        @include desktop-s{
+            bottom: 70px;
+        }
+
+        @include tablet-l{
+            visibility: hidden;
+            height: 0;
+            width: 0;
+        }
+    }
+    .star4{
+        position: relative;
+        width: 4%;
+        bottom: 280px;
+
+        @include desktop-m{
+            bottom: 200px;
+        }
+
+        @include desktop-s{
+            bottom: 180px;
+        }
+
+        @include tablet-l{
+            width: 7%;
+            bottom: 390px;
+            right: 30px;
+        }
+        @include tablet-s{
+            bottom: 340px;
+        }
+
+        @include mobile-l{
+            bottom: 320px;
+        }
+
+        @include mobile-m{
+            bottom: 300px;
         }
     }
     

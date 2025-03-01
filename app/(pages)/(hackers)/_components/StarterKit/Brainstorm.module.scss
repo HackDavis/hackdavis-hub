@@ -81,9 +81,21 @@
         
         .img{
             position: relative;
-            bottom: -33px;
+            bottom: -70px;
             width: 26%;
             z-index: 0;
+
+            @include monitor-s{
+                bottom: -60px;
+            }
+
+            @include desktop-l{
+                bottom: -40px;
+            }
+
+            @include desktop-m {
+                bottom: -30px;
+            }
             @include tablet-l{
                 width: 44%;
                 bottom: -20px;
