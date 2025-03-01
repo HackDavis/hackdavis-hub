@@ -9,6 +9,10 @@
     border-radius: 12px;
     padding-top: 6%;
     z-index: -4;
+
+    @include tablet-l{
+        padding-top: 2%;
+    }
 }
 .judges{
     display: flex;
