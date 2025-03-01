@@ -12,6 +12,9 @@ interface PastProjectDisplayProps {
   description: string;
 }
 
+const devPostLink =
+  'https://hackdavis-2024.devpost.com/project-gallery?_gl=1%2A50gpw%2A_gcl_au%2AMTc2MTUwMzcxOS4xNzQwODA4MTQ4%2A_ga%2AMjEwNzI2OTk2My4xNzQwODA4MTQ4%2A_ga_0YHJK3Y10M%2AMTc0MDgwODE0Ny4xLjEuMTc0MDgwODE3OS4wLjAuMA';
+
 const pastProjects: PastProjectDisplayProps[] = [
   {
     image: patientSimImage,
@@ -74,7 +77,7 @@ export default function Ideate() {
                 description={project.description}
               />
             ))}
-            <div className="flex flex-col gap-8 md:gap-12 xl:gap-16 items-center">
+            <div className="flex flex-col gap-8 md:gap-12 xl:gap-16 items-center mt-5 md:mt-10">
               <Card className="h-fit bg-transparent shadow-none border-none text-text-light w-[calc(100vw*219/375)] md:w-[calc(100vw*971/1440)]">
                 <CardContent className="p-0 flex flex-col md:items-center md:gap-0 md:flex-row-reverse md:justify-center">
                   {/* Text Container */}
@@ -84,7 +87,7 @@ export default function Ideate() {
                     </p>
                     <h2 className="text-lg xs:xl md:text-2xl font-bold font-metropolis tracking-[0.02em] mb-4">
                       <a
-                        href="https://hackdavis-2024.devpost.com/project-gallery?_gl=1%2A50gpw%2A_gcl_au%2AMTc2MTUwMzcxOS4xNzQwODA4MTQ4%2A_ga%2AMjEwNzI2OTk2My4xNzQwODA4MTQ4%2A_ga_0YHJK3Y10M%2AMTc0MDgwODE0Ny4xLjEuMTc0MDgwODE3OS4wLjAuMA"
+                        href={devPostLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="underline"
