@@ -1,0 +1,49 @@
+
+@import "@globals/mixins.scss";
+
+.container {
+    background-color: #005271;
+    justify-content: center;
+    align-items: flex-end;
+    border-radius: 12px;
+    padding-top: 6%;
+    text-align: center;
+    p{
+        color: #FFF;
+        font-family: "Plus Jakarta Sans";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 145%; /* 26.1px */
+        letter-spacing: 0.36px;
+        @include tablet-l{
+            margin: 0 10% 0 10% ;
+        }
+    }
+
+    h3{
+        color:  #FFF;
+        font-family: "Plus Jakarta Sans";
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: 0.64px;
+    }
+}
+.judges{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+
+    .img{
+        position: relative;
+        width: 28%;
+        z-index: 0;
+        @include tablet-l{
+            width: 47%;
+        }
+    }
+    
+}

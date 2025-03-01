@@ -1,0 +1,102 @@
+
+@import "@globals/mixins.scss";
+
+.container {
+    background-color: #005271;
+    justify-content: center;
+    align-items: flex-end;
+    border-radius: 12px;
+    padding-top: 6%;
+    text-align: center;
+    h3{
+        color: #FFF;
+        font-family: "Plus Jakarta Sans";
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: 0.64px;
+    }
+    p{
+        color: #123041;
+        font-family: "Plus Jakarta Sans";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 145%;
+        letter-spacing: 0.36px;
+    }
+
+    .questions{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 2%;
+        text-align: left;
+
+        @include tablet-l{
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        .problem{
+            background-color: #9EE7E5;
+            border-radius: 12px;
+            width: 20%;
+            padding: 10px;
+            @include tablet-l{
+                width: 90%;
+                margin-bottom: 3%;
+            }
+        }
+        .user{
+            background-color: #AFD157;
+            border-radius: 12px;
+            width: 25%;
+            padding: 10px;
+            @include tablet-l{
+                width: 90%;
+                margin-bottom: 3%;
+            }
+        }
+        .solution{
+            background-color: #FFC53D;
+            border-radius: 12px;
+            width: 20%;
+            padding: 10px;
+            @include tablet-l{
+                width: 90%;
+            }
+        }
+    }
+
+    .judges{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        align-content: center;
+        
+        
+        .img{
+            position: relative;
+            bottom: -33px;
+            width: 26%;
+            z-index: 0;
+            @include tablet-l{
+                width: 44%;
+                bottom: -20px;
+            }
+        }
+    }
+
+    .micrphones{
+        width: 100%;
+        z-index: 1;
+
+        @include tablet-l{
+            width: 200%;
+        }
+    }
+}
