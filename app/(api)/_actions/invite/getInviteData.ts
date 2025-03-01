@@ -14,7 +14,7 @@ export async function getInviteData() {
     return null;
   } else {
     const data = cookies().get('data');
-    if (data === undefined) redirect('/');
+    if (!data) redirect('/');
 
     const dataJson = atob(data.value);
     return JSON.parse(dataJson) as InviteData;

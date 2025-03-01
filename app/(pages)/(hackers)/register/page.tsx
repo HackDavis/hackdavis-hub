@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import RegisterForm from './_components/RegisterForm';
-import CompleteRegistration from '@components/CompleteRegistration/CompleteRegistration';
 import styles from './page.module.scss';
 
 export default async function RegisterPage() {
@@ -19,10 +18,8 @@ export default async function RegisterPage() {
   }
 
   return (
-    <CompleteRegistration>
-      <div className={styles.container}>
-        <RegisterForm data={data} />
-      </div>
-    </CompleteRegistration>
+    <div className={styles.container}>
+      <RegisterForm data={data} />
+    </div>
   );
 }

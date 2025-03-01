@@ -3,7 +3,6 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { storeRegisterInfo } from '@actions/auth/editRegisterInfo';
 import RegisterAction from '@actions/auth/register';
 import styles from './RegisterForm.module.scss';
 
@@ -40,7 +39,6 @@ export default function RegisterForm({ data }: any) {
       if (role === 'admin') {
         router.push('/');
       } else {
-        await storeRegisterInfo(response.body._id, role);
         router.push('/register/details');
       }
     } else {

@@ -4,7 +4,6 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { updateUser } from '@actions/users/updateUser';
-import { deleteRegisterInfo } from '@actions/auth/editRegisterInfo';
 import styles from './DetailForm.module.scss';
 
 export default function DetailForm({ data, id }: any) {
@@ -32,7 +31,6 @@ export default function DetailForm({ data, id }: any) {
     });
 
     if (userRes.ok) {
-      await deleteRegisterInfo();
       router.push('/');
     } else {
       setError(userRes.error ?? 'Error creating user');
