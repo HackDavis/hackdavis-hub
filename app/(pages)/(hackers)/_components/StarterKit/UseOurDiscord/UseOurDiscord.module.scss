@@ -14,12 +14,13 @@
         align-items: center;
         justify-content: center;
         background-color: #005271;
-    }
 
-    .leftPanel h2 {
-        font-weight: 600;
-        color: var(--text-light)
-    }
+        h2 {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 2.5rem; // default 
+        }  
+    }  
 
     /* Right panel (Chat Bubbles) */
     .rightPanel {
@@ -84,11 +85,12 @@
             align-items: center;
             justify-content: center;
             background-color: #005271;
-        }
-    
-        .leftPanel h2 {
-            font-weight: 600;
-            color: var(--text-light)
+
+            h3 {
+                font-size: 2rem;
+                font-weight: 600;
+                color: var(--text-light)
+            }
         }
     
         /* Right panel (Chat Bubbles) */
@@ -157,11 +159,6 @@
             background-color: #005271;
         }
     
-        .leftPanel h2 {
-            font-weight: 600;
-            color: var(--text-light)
-        }
-    
         /* Right panel (Chat Bubbles) */
         .rightPanel {
             padding-left: 10%;
@@ -228,11 +225,12 @@
             justify-content: center;
             background-color: #005271;
             padding: 3% 5%;
-        }
-    
-        .leftPanel h2 {
-            font-weight: 600;
-            color: var(--text-light)
+
+            h2 {
+                font-weight: 600;
+                color: var(--text-light);
+                font-size: 1.8rem; // Default size
+            }  
         }
     
         /* Right panel (Chat Bubbles) */
@@ -302,12 +300,12 @@
             justify-content: center;
             background-color: #005271;
             padding: 3% 5%;
-        }
-    
-        .leftPanel h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--text-light)
+
+            h2 {
+                font-weight: 600;
+                color: var(--text-light);
+                font-size: 1.2rem; // Default size
+            }  
         }
     
         /* Right panel (Chat Bubbles) */
