@@ -21,8 +21,8 @@ export default function ResourceCard({
   };
 
   return (
-    <div className="flex flex-row bg-[#005271] rounded-xl overflow-hidden text-white font-jakarta w-full">
-      <div className="relative w-[200px] min-w-[200px] ">
+    <div className="flex flex-row flex-wrap md:flex-nowrap bg-[#005271] rounded-xl md:rounded-xl p-2 md:p-0 gap-4 md:gap-0 overflow-hidden text-white font-jakarta w-full">
+      <div className="relative w-full md:w-[200px] md:min-w-[200px] h-[150px] md:h-full">
         {loading ? (
           <div className="w-full h-full flex items-center justify-center bg-gray-800">
             <p>Loading...</p>
@@ -36,12 +36,12 @@ export default function ResourceCard({
             <img
               src={preview.images[0]}
               alt={preview.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-lg md:rounded-none"
             />
           </div>
         ) : (
           <div
-            className="w-full h-full flex items-center justify-center"
+            className="w-full h-full flex items-center justify-center rounded-lg md:rounded-none"
             style={placeholderImageStyle}
           >
             <p className="text-white text-sm font-semibold px-4 text-center">
@@ -51,16 +51,16 @@ export default function ResourceCard({
         )}
       </div>
 
-      <div className="p-4 flex flex-col flex-1">
-        <h2 className="text-xl font-bold mb-1">{preview.title}</h2>
-        <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+      <div className="p-2 md:p-4 flex flex-col flex-1">
+        <h2 className="text-lg md:text-xl font-bold mb-1">{preview.title}</h2>
+        <p className="text-gray-300 text-xs md:text-sm mb-3 line-clamp-2">
           {preview.description}
         </p>
         <a
           href={resource.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-row justify-center items-center px-6 py-2 gap-2.5 w-[107px] h-[42px] bg-[#9EE7E5] rounded-[50px] text-black text-sm font-medium hover:opacity-90 transition-opacity mt-auto"
+          className="flex flex-row justify-center items-center px-4 md:px-6 py-2 gap-2.5 w-[90px] md:w-[107px] h-[36px] md:h-[42px] bg-[#9EE7E5] rounded-[50px] text-black text-xs md:text-sm font-medium hover:opacity-90 transition-opacity mt-auto"
         >
           Watch
         </a>

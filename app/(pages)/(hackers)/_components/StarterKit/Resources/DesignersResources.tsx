@@ -41,9 +41,9 @@ const designerResources = [
 
 export default function DesignersResources() {
   return (
-    <main className="relative h-[560px] flex flex-col items-center bg-[#123041] p-12 rounded-xl overflow-hidden">
-      <div className="w-full max-h-full overflow-y-auto pr-4 pb-6 custom-scrollbar">
-        <div className="flex flex-col gap-6">
+    <main className="relative h-[560px] flex flex-col items-center bg-[#123041] p-4 md:p-8 lg:p-12 rounded-xl overflow-hidden">
+      <div className="w-full max-h-full overflow-y-auto pr-2 md:pr-3 lg:pr-4 pb-4 md:pb-5 lg:pb-6 custom-scrollbar">
+        <div className="flex flex-col gap-4 md:gap-5 lg:gap-6 items-center">
           {designerResources.map((resource) => (
             <ResourceCard key={resource.name} resource={resource} />
           ))}
