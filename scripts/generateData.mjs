@@ -59,6 +59,7 @@ function generateData(collectionName, numDocuments) {
         tracks.map((t) => t.name),
         faker.number.int({ min: 1, max: 5 })
       ),
+      active: true,
     }));
   } else if (collectionName === 'submissions') {
     data = Array.from({ length: numDocuments }, () => {
