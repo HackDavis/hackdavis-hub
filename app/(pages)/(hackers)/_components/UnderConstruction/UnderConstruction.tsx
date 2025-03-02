@@ -14,7 +14,7 @@ export default function UnderConstruction() {
         </h1>
         <p>
           Sit tight for exciting things like our <br />
-          <b>Starter kit</b> or our <b>Prize Tracks</b>!
+          <b>Prize Tracks</b> and our <b>Workshops</b>!
         </p>
       </div>
     </div>
