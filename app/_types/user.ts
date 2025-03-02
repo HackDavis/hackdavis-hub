@@ -7,7 +7,7 @@ interface User {
   specialties?: string[];
   position?: string;
   is_beginner?: boolean;
-  starter_kit_stage?: number;
+  has_checked_in: boolean;
 }
 
 export default User;

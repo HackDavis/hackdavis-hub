@@ -16,8 +16,8 @@ function shuffleSpecialties(specialties) {
 
 function generateData(collectionName, numDocuments) {
   const specialties = [...new Set(tracks.map((track) => track.type))];
-  const hackerPositions = ['developer', 'designer', 'pm', 'other'];
-  const eventTypes = ['workshop', 'meal', 'general', 'activity'];
+  const hackerPositions = ['developer', 'designer', 'pm', 'other', 'beginner'];
+  const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
   let data = [];
 
@@ -28,6 +28,7 @@ function generateData(collectionName, numDocuments) {
       password: faker.internet.password(),
       specialties: shuffleSpecialties(specialties),
       role: 'judge',
+      has_checked_in: false,
     }));
 
     const hackers = Array.from({ length: numDocuments }, () => ({
@@ -36,7 +37,7 @@ function generateData(collectionName, numDocuments) {
       password: faker.internet.password(),
       position: faker.helpers.arrayElement(hackerPositions),
       is_beginner: faker.datatype.boolean(),
-      starter_kit_stage: faker.number.int({ min: 1, max: 4 }),
+      has_checked_in: true,
       role: 'hacker',
     }));
 
@@ -47,10 +48,12 @@ function generateData(collectionName, numDocuments) {
       email: 'admin@hackdavis.io',
       password: '$2a$10$oit1hC4hBaj9OX.WQxm3uOtb0qnPNk4iR9QhZmFm7/r1rAphAMAva',
       role: 'admin',
+      has_checked_in: true,
     });
   } else if (collectionName === 'teams') {
     data = Array.from({ length: numDocuments }, () => ({
-      number: faker.number.int({ min: 1, max: 1000 }),
+      teamNumber: faker.number.int({ min: 1, max: 200 }),
+      tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
         tracks.map((t) => t.name),
@@ -59,26 +62,28 @@ function generateData(collectionName, numDocuments) {
     }));
   } else if (collectionName === 'submissions') {
     data = Array.from({ length: numDocuments }, () => {
-      const scores = {
-        social_good: faker.number.int({ min: 1, max: 5 }),
-        creativity: faker.number.int({ min: 1, max: 5 }),
-        presentation: faker.number.int({ min: 1, max: 5 }),
-        comments: faker.lorem.sentence(),
-      };
       const randomTracks = faker.helpers.arrayElements(
         tracks.map((t) => t.name),
-        faker.number.int({ min: 1, max: 5 })
       );
-      randomTracks.map((t) => {
-        scores[t] = Array.from({ length: 5 }, () =>
-          faker.number.int({ min: 1, max: 5 })
-        );
-      });
+      const scores = randomTracks.map((t) => 
+        ({
+          trackName: t,
+          rawScores: Array.from({ length: 5 }, () =>
+            faker.number.int({ min: 1, max: 5 })
+          ),
+          finalTrackScore: null
+        })
+      );
 
       return {
         judge_id: new ObjectId(),
         team_id: new ObjectId(),
+        social_good: faker.number.int({ min: 1, max: 5 }),
+        creativity: faker.number.int({ min: 1, max: 5 }),
+        presentation: faker.number.int({ min: 1, max: 5 }),
         scores: scores,
+        comments: Math.random() > 0.5 ? faker.lorem.sentence() : null,
+        queuePosition: null,
         is_scored: faker.datatype.boolean(),
       };
     });
@@ -95,7 +100,7 @@ function generateData(collectionName, numDocuments) {
         name: faker.company.catchPhrase(),
         type: eventType,
         host: isWorkshop ? faker.company.name() : '',
-        location: faker.location.street(),
+        location: Math.random() > 0.5 ? faker.location.street() : '',
         start_time: startTime,
         end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
