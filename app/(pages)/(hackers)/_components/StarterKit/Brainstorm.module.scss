@@ -1,0 +1,160 @@
+
+@import "@globals/mixins.scss";
+
+.container {
+    background-color: #005271;
+    border-radius: 12px;
+    padding-top: 6%;
+    text-align: center;
+    overflow: hidden;
+    h3{
+        color: #FFF;
+        font-family: var(--font-jakarta);
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: 0.64px;
+
+        @include desktop-l {
+            font-size: 2rem;
+        }
+        @include tablet-l {
+            font-size: 1.25rem;
+            padding: 0px 32px;
+            text-wrap: balance;
+            padding-top: 16px;
+        }
+        @include mobile-l {
+            font-size: 1rem;
+        }
+    }
+    p{
+        color: #123041;
+        font-family: var(--font-jakarta);
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 145%;
+        letter-spacing: 0.36px;
+
+        @include monitor-s {
+            font-size: 1.125rem;
+        }
+        @include desktop-l {
+            font-size: 1rem;
+        }
+        @include desktop-s {
+            font-size: 0.75rem;
+        }
+    }
+
+    .questions{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 24px;
+        text-align: left;
+        padding: 48px 150px 0px;
+
+        @include monitor-s{
+            padding: 48px 100px 0px;
+        }
+        @include desktop-l{
+            padding: 24px 50px 0px;
+        }
+        @include desktop-s{
+            padding: 16px 32px 0px;
+            gap: 16px;
+        }
+
+        @include tablet-l{
+            padding: 8px 16px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .problem, .user, .solution{
+            border-radius: 12px;
+            // width: 20%;
+            padding: 32px;
+
+            @include desktop-l{
+                padding: 24px;
+            }
+            @include desktop-m{
+                padding: 16px;
+            }
+            @include desktop-s{
+                padding: 10px;
+            }
+
+            @include tablet-l{
+                width: 90%;
+                // margin-bottom: 3%;
+
+            }
+        }
+
+        .problem{
+            background-color: #9EE7E5;
+        }
+        .user{
+            background-color: #AFD157;
+            // width: 28%;
+        }
+        .solution{
+            background-color: #FFC53D;
+        }
+    }
+
+    .judges{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        align-content: center;
+        
+        
+        .img{
+            position: relative;
+            bottom: -70px;
+            width: 52%;
+            z-index: 0;
+
+            @include monitor-s{
+                bottom: -60px;
+            }
+
+            @include desktop-l{
+                bottom: -40px;
+            }
+
+            @include desktop-s {
+                bottom: -28px;
+            }
+            @include tablet-l{
+                bottom: -20px;
+            }
+            @include tablet-s{
+                bottom: -16px;
+            }
+            @include mobile-l{
+                bottom: -10px;
+            }
+            @include mobile-m{
+                bottom: -8.5px;
+            }
+        }
+    }
+
+    .micrphones{
+        width: 100%;
+        position: relative;
+        z-index: 1;
+
+        @include tablet-l{
+            width: 200%;
+        }
+    }
+}
