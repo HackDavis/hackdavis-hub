@@ -1,7 +1,7 @@
 'use server';
 
 import { ObjectId } from 'mongodb';
-import { GetUserToEvents } from '@app/(api)/_datalib/userToEvents/getUserToEvent';
+import { GetUserToEvents } from '@datalib/userToEvents/getUserToEvent';
 
 export async function getUserEvents(userId: string) {
   try {
