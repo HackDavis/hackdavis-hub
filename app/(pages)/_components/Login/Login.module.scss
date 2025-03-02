@@ -1,16 +1,19 @@
 @use 'app/(pages)/_globals/mixins';
 
 .container {
-    background-blend-mode: multiply;
-    background-color: var(--gradient-primary); 
-    background-image: url('/hackers/mvp/BottomGrass.svg');
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: contain; 
+    background-image: 
+        url('/hackers/mvp/BottomGrass.svg'), 
+        url('/hackers/mvp/Clouds.svg'),      
+        // sorry i couldnt find the same colors in globals TT
+        linear-gradient(284deg, rgba(213, 252, 209, 0.60) 9.72%, rgba(178, 231, 221, 0.60) 44.61%, rgba(118, 214, 230, 0.60) 79.5%);         
 
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: bottom center, top center, center;
+    background-size: 100% auto;
+    
     height: 100vh;
     position: relative;
-    overflow: hidden;
+    // overflow: hidden;
 
     // children go in here btw
     .overlayContent {
@@ -37,19 +40,5 @@
                 width: 32px;
             }
         }
-
-        .clouds {
-            width: 100%;
-            // z-index: 0;
-            overflow: hidden;
-        }
-
-        .grass {
-            margin-top: -35%;
-            width: 100%;
-            flex-direction: end;
-            bottom: 0;
-        }
-
     }
 }

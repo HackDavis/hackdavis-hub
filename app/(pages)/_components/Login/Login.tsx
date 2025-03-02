@@ -17,8 +17,6 @@ export default async function RegistrationLogin({
 
       <div className={styles.scenery}>
         <Image src={Logo} alt="hackdavis logo" className={styles.logo} />
-        <Image src={Clouds} alt="clouds" className={styles.clouds} />
-        {/* <Image src={BottomGrass} alt="grass" className={styles.grass} /> */}
       </div>
     </div>
   );
