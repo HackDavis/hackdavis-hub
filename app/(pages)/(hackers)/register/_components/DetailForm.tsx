@@ -26,8 +26,10 @@ export default function DetailForm({ data, id }: any) {
     const is_beginner = formData.get('beginner') !== null;
 
     const userRes = await updateUser(id, {
-      position,
-      is_beginner,
+      $set: {
+        position,
+        is_beginner,
+      },
     });
 
     if (userRes.ok) {

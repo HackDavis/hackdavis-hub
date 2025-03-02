@@ -21,7 +21,7 @@ export const UpdateUser = async (id: string, body: object) => {
 
     const user = await db
       .collection('users')
-      .updateOne({ _id: object_id }, { $set: parsedBody });
+      .updateOne({ _id: object_id }, parsedBody);
 
     if (user === null) {
       throw new NotFoundError(`user with id: ${id} not found.`);

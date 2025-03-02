@@ -2,10 +2,13 @@ import { generateHMACSignature } from '@utils/invite/hmac';
 import InviteData from '@typeDefs/inviteData';
 import { HttpError, BadRequestError } from '@utils/response/Errors';
 
-export default async function GenerateInvite(data: InviteData) {
+export default async function GenerateInvite(
+  data: InviteData,
+  type: string = 'invite'
+) {
   try {
-    if (!data.email || !data.name || !data.role) {
-      throw new BadRequestError('Email, name, and role fields are required.');
+    if (!data.email || !data.role) {
+      throw new BadRequestError('Email and role fields are required.');
     }
 
     if (data.role !== 'hacker' && data.role !== 'judge') {
@@ -22,7 +25,7 @@ export default async function GenerateInvite(data: InviteData) {
     const data_encoded = btoa(JSON.stringify(data));
 
     const hmac_sig = generateHMACSignature(data_encoded);
-    const hmac_url = `${process.env.BASE_URL}/invite/${data_encoded}&${hmac_sig}`;
+    const hmac_url = `${process.env.BASE_URL}/${type}/${data_encoded}&${hmac_sig}`;
 
     return { ok: true, body: hmac_url, error: null };
   } catch (e) {

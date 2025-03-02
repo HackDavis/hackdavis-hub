@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import { GetManyUsers } from '@datalib/users/getUser';
 import { UpdateUser } from '@datalib/users/updateUser';
 import { HttpError } from '@utils/response/Errors';
-import { signOut } from 'auth';
 
 export async function ResetPassword(body: { email: string; password: string }) {
   try {
@@ -23,8 +22,6 @@ export async function ResetPassword(body: { email: string; password: string }) {
         password: hashedPassword,
       },
     });
-
-    await signOut();
 
     return { ok: true, body: updateData, error: null, status: 200 };
   } catch (e) {

@@ -1,9 +1,10 @@
 'use server';
 
 import nodemailer from 'nodemailer';
-import FormToJSON from '@utils/form/FormToJSON';
-import { generateHMACSignature } from '@utils/invite/hmac';
-import { HttpError } from '@utils/response/Errors';
+import InviteData from '@typeDefs/inviteData';
+import GenerateInvite from '@datalib/invite/generateInvite';
+import { HttpError, NotFoundError } from '@utils/response/Errors';
+import { GetManyUsers } from '@datalib/users/getUser';
 
 const senderEmail = process.env.SENDER_EMAIL;
 const password = process.env.SENDER_PWD;
@@ -14,21 +15,23 @@ interface Response {
   error: string | null;
 }
 
-export default async function sendEmail(
-  prevState: any,
-  formData: FormData
-): Promise<Response> {
+export async function sendEmail(data: InviteData): Promise<Response> {
   try {
-    const data = FormToJSON(formData);
-    data['exp'] =
-      Date.now() +
-      1000 * 60 * (parseInt(process.env.INVITE_TIMEOUT as string) ?? 30);
-    const data_encoded = btoa(JSON.stringify(data));
+    const users = await GetManyUsers({
+      email: data.email,
+    });
 
-    const hmac_sig = generateHMACSignature(data_encoded);
-    const hmac_url = `${process.env.BASE_URL}/judges${data.slug}?data=${data_encoded}&sig=${hmac_sig}`;
+    if (!users.ok || users.body.length === 0) {
+      throw new NotFoundError(`User with email ${data.email} not found.`);
+    }
 
-    const { name, email } = data;
+    const invite = await GenerateInvite(data, 'reset');
+
+    if (!invite.ok) {
+      throw new HttpError('Failed to generate invite.');
+    }
+
+    const invite_link = invite.body;
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -103,27 +106,26 @@ export default async function sendEmail(
     </head>
     <body>
     <div class="container">
-      <h3 class="welcome-text">Welcome to HackDavis Judging,</h3>
-      <h3 class="name-text">${name}</h3>
+      <h3 class="welcome-text">Reset Password Request for the HackDavis Hub</h3>
       <p class="make-account">
-        Please make an account on our Judging Portal with the following invite
-        link. Do <span>NOT</span> share this link
-        with anyone.
+        Please reset your password for the HackDavis Hub using the following invite
+        link. Do <span>NOT</span> share this link with anyone. If you didn't request
+        a password reset, you can safely ignore this email.
       </p>
-      <a class="button" href="${hmac_url}">Register</a>
+      <a class="button" href="${invite_link}">Reset Password</a>
       <div>
-        <p class="bottom-text">Your invite link is:</p>
-        <p class="bottom-text">${hmac_url}</p>
+        <p class="bottom-text">Your reset password link is:</p>
+        <p class="bottom-text">${invite_link}</p>
       </div>
      </div>
     </body>
     </html>
     `;
     const mailOptions = {
-      from: `${name} <${senderEmail}>`,
-      to: email,
-      subject: `HackDavis Judging App Invite`,
-      replyTo: email,
+      from: senderEmail,
+      to: data.email,
+      subject: `HackDavis Hub Password Reset Link`,
+      replyTo: data.email,
       html: msg,
     };
 
@@ -132,7 +134,7 @@ export default async function sendEmail(
         if (error) {
           resolve({ ok: false, body: null, error: error.message });
         } else {
-          resolve({ ok: true, body: hmac_url, error: null });
+          resolve({ ok: true, body: invite_link, error: null });
         }
       });
     });
