@@ -6,6 +6,22 @@
     border-radius: 12px;
     color: white;
 
+    @include desktop-s{
+        flex-direction: column;
+    }
+
+    p {
+        font-size: 1rem;
+
+        @include tablet-l {
+            font-size: 0.75rem;
+        }
+
+        @include mobile-l {
+            font-size: 0.5rem;
+        }
+    }
+
     /* Left panel (Title) */
     .leftPanel {
         border-radius: 12px 0px 0px 12px;
@@ -13,12 +29,29 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #005271;
+        background-color: var(--background-secondary);
+
+        @include tablet-l {
+            padding: 3% 5%;
+        }
 
         h2 {
             font-weight: 600;
             color: var(--text-light);
             font-size: 2.5rem; // default 
+
+            @include monitor-s {
+                font-size: 2rem;
+            }
+
+            @include mobile-l {
+                font-size: 1.2rem; // Default size
+            }
+            
+            @include tablet-l {
+                font-size: 1.8rem; // Default size
+            }
+
         }  
     }  
 
@@ -31,6 +64,15 @@
         flex-direction: column;
         gap: 60px;
         align-items: center;
+                
+        @include desktop-s {
+            padding-bottom: 10%;
+            flex: 1;
+        }
+
+        @include tablet-l {
+            padding: 6% 10%;
+        }
     }
 
     /* Base chat bubble styling */
@@ -38,16 +80,24 @@
         padding: 7% 5%;
         margin-top: 20px;
         border-radius: 12px;
-        font-size: 16px;
+        font-size: 1rem;
         // max-width: 80%;
         position: relative;
         transform: rotate(-2deg); /* Slightly slanted effect */
+
+        @include tablet-l {
+            margin-top: 10px;
+        } 
+
+        @include mobile-l {
+            margin-top: 0;
+        } 
     }
 
     /* Blue Bubble */
     .blueBubble {
         background: #AEEFFF;
-        color: #123041;
+        color: var(--sea-background);
         align-self: flex-start;
         transform: rotate(-2deg);
     }
@@ -55,305 +105,9 @@
     /* Green Bubble */
     .greenBubble {
         margin-left: -10px;
-        background: #AFD157;
+        background: var(--grass-background-light);
         color: #123041;
         align-self: flex-end;
         transform: rotate(3deg);
-    }
-
-    /* Links inside chat bubbles */
-    .chatBubble a {
-        color: #123041;
-        font-weight: normal;
-        text-decoration: none;
-        cursor: pointer;
-    }
-}
-
-@include monitor-s {
-    .teamFormation {
-        display: flex;
-        background: #123041;
-        border-radius: 12px;
-        color: white;
-    
-        /* Left panel (Title) */
-        .leftPanel {
-            border-radius: 12px 0px 0px 12px;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #005271;
-
-            h3 {
-                font-size: 2rem;
-                font-weight: 600;
-                color: var(--text-light)
-            }
-        }
-    
-        /* Right panel (Chat Bubbles) */
-        .rightPanel {
-            padding-left: 10%;
-            padding: 6%;
-            flex: 1.5;
-            display: flex-start;
-            flex-direction: column;
-            gap: 60px;
-            align-items: center;
-        }
-    
-        /* Base chat bubble styling */
-        .chatBubble {
-            padding: 7% 5%;
-            margin-top: 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            // max-width: 80%;
-            position: relative;
-            transform: rotate(-2deg); /* Slightly slanted effect */
-        }
-    
-        /* Blue Bubble */
-        .blueBubble {
-            background: #AEEFFF;
-            color: #123041;
-            align-self: flex-start;
-            transform: rotate(-2deg);
-        }
-    
-        /* Green Bubble */
-        .greenBubble {
-            margin-left: -10px;
-            background: #AFD157;
-            color: #123041;
-            align-self: flex-end;
-            transform: rotate(3deg);
-        }
-    
-        /* Links inside chat bubbles */
-        .chatBubble a {
-            color: #123041;
-            font-weight: normal;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    }
-}
-
-@include desktop-s {
-    .teamFormation {
-        display: flex;
-        background: #123041;
-        border-radius: 12px;
-        color: white;
-
-        /* Left panel (Title) */
-        .leftPanel {
-            border-radius: 12px 0px 0px 12px;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #005271;
-        }
-    
-        /* Right panel (Chat Bubbles) */
-        .rightPanel {
-            padding-left: 10%;
-            padding: 6%;
-            flex: 1;
-            display: flex-start;
-            flex-direction: column;
-            gap: 60px;
-            align-items: center;
-        }
-    
-        /* Base chat bubble styling */
-        .chatBubble {
-            padding: 7% 5%;
-            margin-top: 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            // max-width: 80%;
-            position: relative;
-            transform: rotate(-2deg); /* Slightly slanted effect */
-        }
-    
-        /* Blue Bubble */
-        .blueBubble {
-            background: #AEEFFF;
-            color: #123041;
-            align-self: flex-start;
-            transform: rotate(-2deg);
-        }
-    
-        /* Green Bubble */
-        .greenBubble {
-            margin-left: -10px;
-            background: #AFD157;
-            color: #123041;
-            align-self: flex-end;
-            transform: rotate(3deg);
-        }
-    
-        /* Links inside chat bubbles */
-        .chatBubble a {
-            color: #123041;
-            font-weight: normal;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    }
-}
-
-@include tablet-l {
-    .teamFormation {
-        display: flex;
-        background: #123041;
-        border-radius: 12px;
-        color: white;
-        flex-direction: column;
-
-        /* Left panel (Title) */
-        .leftPanel {
-            border-radius: 12px 12px 0px 0px;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #005271;
-            padding: 3% 5%;
-
-            h2 {
-                font-weight: 600;
-                color: var(--text-light);
-                font-size: 1.8rem; // Default size
-            }  
-        }
-    
-        /* Right panel (Chat Bubbles) */
-        .rightPanel {
-            padding-left: 10%;
-            padding: 6%;
-            padding-bottom: 10%;
-            flex: 1;
-            display: flex-start;
-            flex-direction: column;
-            gap: 60px;
-            align-items: center;
-        }
-    
-        /* Base chat bubble styling */
-        .chatBubble {
-            padding: 7% 5%;
-            margin-top: 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            // max-width: 80%;
-            position: relative;
-            transform: rotate(-2deg); /* Slightly slanted effect */
-        }
-    
-        /* Blue Bubble */
-        .blueBubble {
-            background: #AEEFFF;
-            color: #123041;
-            align-self: flex-start;
-            transform: rotate(-2deg);
-        }
-    
-        /* Green Bubble */
-        .greenBubble {
-            margin-left: -10px;
-            background: #AFD157;
-            color: #123041;
-            align-self: flex-end;
-            transform: rotate(3deg);
-        }
-    
-        /* Links inside chat bubbles */
-        .chatBubble a {
-            color: #123041;
-            font-weight: normal;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    }
-}
-
-@include mobile-l {
-    .teamFormation {
-        display: flex;
-        background: #123041;
-        border-radius: 12px;
-        color: white;
-        flex-direction: column;
-
-        /* Left panel (Title) */
-        .leftPanel {
-            border-radius: 12px 12px 0px 0px;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #005271;
-            padding: 3% 5%;
-
-            h2 {
-                font-weight: 600;
-                color: var(--text-light);
-                font-size: 1.2rem; // Default size
-            }  
-        }
-    
-        /* Right panel (Chat Bubbles) */
-        .rightPanel {
-            padding-left: 10%;
-            padding: 6%;
-            padding-bottom: 10%;
-            flex: 1;
-            display: flex-start;
-            flex-direction: column;
-            gap: 60px;
-            align-items: center;
-        }
-    
-        /* Base chat bubble styling */
-        .chatBubble {
-            padding: 7% 5%;
-            margin-top: 20px;
-            border-radius: 12px;
-            font-size: 1rem;
-            // max-width: 80%;
-            position: relative;
-            transform: rotate(-2deg); /* Slightly slanted effect */
-        }
-    
-        /* Blue Bubble */
-        .blueBubble {
-            background: #AEEFFF;
-            color: #123041;
-            align-self: flex-start;
-            transform: rotate(-2deg);
-        }
-    
-        /* Green Bubble */
-        .greenBubble {
-            margin-left: -10px;
-            background: #AFD157;
-            color: #123041;
-            align-self: flex-end;
-            transform: rotate(3deg);
-        }
-    
-        /* Links inside chat bubbles */
-        .chatBubble a {
-            color: #123041;
-            font-weight: normal;
-            text-decoration: none;
-            cursor: pointer;
-        }
     }
 }

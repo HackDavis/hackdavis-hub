@@ -20,7 +20,7 @@ const questions = [
 
 export default function FindTheRightFit() {
   return (
-    <StarterKitSlide subtitle="GUIDING QUESTIONS" title="Finding the right fit">
+    <StarterKitSlide subtitle="GUIDING QUESTIONS TO" title="Find the Right Fit">
       <div className={styles.Container}>
         <div className={styles.questions}>
           <h3>Ask yourself questions like...</h3>

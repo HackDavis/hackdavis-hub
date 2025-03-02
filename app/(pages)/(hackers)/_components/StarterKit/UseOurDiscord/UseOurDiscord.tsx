@@ -1,9 +1,9 @@
 import styles from './UseOurDiscord.module.scss';
-// import Image from 'next/image';
+import StarterKitSlide from '../StarterKitSlide';
 
 export default function UseOurDiscordComponent() {
   return (
-    <div>
+    <StarterKitSlide title="Use our Discord" subtitle="ALTERNATIVELY...">
       <div className={styles.teamFormation}>
         <div className={styles.leftPanel}>
           <h2>#find-a-team</h2>
@@ -35,6 +35,6 @@ export default function UseOurDiscordComponent() {
           </div>
         </div>
       </div>
-    </div>
+    </StarterKitSlide>
   );
 }
