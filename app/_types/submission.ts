@@ -14,5 +14,5 @@ export default interface Submission {
   scores: TrackScore[];
   comments?: string;
   is_scored: boolean;
-  queuePosition: number;
+  queuePosition: number | null;
 }
