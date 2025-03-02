@@ -1,6 +1,9 @@
+@use 'app/(pages)/_globals/mixins';
+
 .container {
     background: var(--gradient-primary);
     height: 100%;
+    position: relative;
 
     // children go in here btw
     .overlayContent {
@@ -30,10 +33,11 @@
     .scenery {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
 
         .logo {
             margin-left: 5%;
-            margin-top: 1%;
+            margin-top: 2%;
 
             img {
                 width: 32px;
@@ -45,7 +49,10 @@
         }
 
         .grass {
+            margin-top: -35%;
             width: 100%;
+            flex-direction: end;
+            bottom: 0;
         }
 
     }
