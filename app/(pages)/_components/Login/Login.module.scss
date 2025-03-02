@@ -2,8 +2,13 @@
 
 .container {
     background: var(--gradient-primary);
-    height: 100%;
+    height: 100vh; 
     position: relative;
+
+    background-image: url('/hackers/mvp/BottomGrass.svg');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain; 
 
     // children go in here btw
     .overlayContent {
