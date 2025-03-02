@@ -30,6 +30,7 @@
     "csv-parse": "^5.5.5",
     "csv-parser": "^3.0.0",
     "dotenv": "^16.4.5",
+    "embla-carousel-auto-height": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "embla-carousel-wheel-gestures": "^8.0.0-rc05",
     "font-awesome-icons": "^1.6.0",
