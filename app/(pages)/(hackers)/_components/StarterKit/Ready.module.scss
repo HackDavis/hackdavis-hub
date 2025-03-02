@@ -10,7 +10,7 @@
     text-align: center;
     p{
         color: #FFF;
-        font-family: "Plus Jakarta Sans";
+        font-family: var(--font-jakarta);
         font-size: 18px;
         font-style: normal;
         font-weight: 400;
@@ -23,7 +23,7 @@
 
     h3{
         color:  #FFF;
-        font-family: "Plus Jakarta Sans";
+        font-family: var(--font-jakarta);
         font-size: 32px;
         font-style: normal;
         font-weight: 600;
