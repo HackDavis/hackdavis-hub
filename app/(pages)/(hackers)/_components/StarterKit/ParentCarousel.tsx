@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import good_froggie from '@public/hackers/good_froggie.svg';
 import judge_bunny from '@public/hackers/judge_bunny.svg';
 import { type CarouselApi } from '@globals/components/ui/carousel';
+import AutoHeight from 'embla-carousel-auto-height';
 import { Button } from '@app/(pages)/_globals/components/ui/button';
 
 import LetsBegin from '../../_components/StarterKitStages/LetsBegin';
@@ -231,6 +232,7 @@ export function ParentCarousel() {
       <Carousel
         className="relative flex flex-col z-0 bg-white/45 backdrop-blur border-none rounded-xl pb-6 md:pb-12 lg:pb-16 xl:pb-24 overflow-x-clip"
         setApi={setApi}
+        plugins={[AutoHeight()]}
       >
         <div className="relative flex items-center gap-2 md:mt-10 lg:mt-14">
           <div className="invisible p-4 pl-8 md:p-6 md:pl-12 lg:pl-16 xl:p-8 xl:pl-24 flex items-center justify-center md:justify-between md:gap-4">
