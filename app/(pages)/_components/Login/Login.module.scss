@@ -1,14 +1,16 @@
 @use 'app/(pages)/_globals/mixins';
 
 .container {
-    background: var(--gradient-primary);
-    height: 100vh; 
-    position: relative;
-
+    background-blend-mode: multiply;
+    background-color: var(--gradient-primary); 
     background-image: url('/hackers/mvp/BottomGrass.svg');
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: contain; 
+
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
 
     // children go in here btw
     .overlayContent {
@@ -21,19 +23,6 @@
         border-radius: 8px;
       }
 
-    // .imageWrapper {
-    //     border: 3px solid blue;
-    //     display: flex;
-    //     height: 100%;
-    //     width: auto;
-    //     padding: 5%;
-
-    //     img {
-    //         justify-content: flex-end;
-    //         border: 3px solid red;
-    //         right: 0;
-    //     }
-    // }
 
     .scenery {
         display: flex;
@@ -50,7 +39,9 @@
         }
 
         .clouds {
-            width: 100%
+            width: 100%;
+            // z-index: 0;
+            overflow: hidden;
         }
 
         .grass {

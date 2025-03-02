@@ -2,7 +2,7 @@ import styles from './Login.module.scss';
 import Image from 'next/image';
 // import MusicAnimals from 'public/hackers/mvp/MusicAnimals.svg';
 import Clouds from 'public/hackers/mvp/Clouds.svg';
-import BottomGrass from 'public/hackers/mvp/BottomGrass.svg';
+// import BottomGrass from 'public/hackers/mvp/BottomGrass.svg';
 import Logo from 'public/hackers/mvp/HDLogo.svg';
 
 export default async function RegistrationLogin({
@@ -12,17 +12,7 @@ export default async function RegistrationLogin({
 }) {
   return (
     <div className={styles.container}>
-      {/* <div className={styles.imageWrapper}>
-        <Image
-          src={MusicAnimals}
-          alt="animals peeping"
-          fill
-          //   style={{ objectFit: 'contain' }}
-          className={styles.animals}
-        />
-      </div> */}
-
-      {/* Overlayed Content */}
+      {/* put children in here ! */}
       <div className={styles.overlayContent}>{children}</div>
 
       <div className={styles.scenery}>
