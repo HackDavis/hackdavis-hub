@@ -3,11 +3,10 @@
 
 .container {
     background-color: #005271;
-    justify-content: center;
-    align-items: flex-end;
     border-radius: 12px;
     padding-top: 6%;
     text-align: center;
+    overflow: hidden;
     h3{
         color: #FFF;
         font-family: var(--font-jakarta);
