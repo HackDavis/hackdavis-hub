@@ -16,7 +16,7 @@ function shuffleSpecialties(specialties) {
 
 function generateData(collectionName, numDocuments) {
   const specialties = [...new Set(tracks.map((track) => track.type))];
-  const hackerPositions = ['developer', 'designer', 'pm', 'other', 'beginner'];
+  const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
   let data = [];
@@ -103,7 +103,9 @@ function generateData(collectionName, numDocuments) {
         start_time: startTime,
         end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
-          ? faker.helpers.arrayElements(hackerPositions, { min: 1 })
+          ? faker.helpers.arrayElements([...hackerPositions, 'beginner'], {
+              min: 1,
+            })
           : [],
       };
     });
