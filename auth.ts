@@ -8,11 +8,13 @@ import { GetManyUsers } from '@datalib/users/getUser';
 
 declare module 'next-auth' {
   interface User {
+    id?: string | undefined;
     role: string;
   }
 
   interface Session extends DefaultSession {
     user: {
+      id: string | undefined;
       role: string;
     } & DefaultSession['user'];
   }
@@ -20,6 +22,7 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   interface JWT {
+    id: string;
     role: string;
   }
 }
@@ -52,17 +55,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             throw new Error('Internal server error');
           }
 
-          const judge = data.body[0];
+          const user = data.body[0];
 
-          const passwordCorrect = await compare(password, judge.password);
+          const passwordCorrect = await compare(password, user.password);
           if (!passwordCorrect) {
             throw new Error('Invalid email address or password.');
           }
 
           return {
-            id: judge._id,
-            email: judge.email,
-            role: judge.role,
+            id: user._id,
+            email: user.email,
+            role: user.role,
           };
         } catch (error) {
           if (error instanceof z.ZodError) {
@@ -77,11 +80,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id ?? '';
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
+      session.user.id = token.id;
       session.user.role = token.role;
       return session;
     },

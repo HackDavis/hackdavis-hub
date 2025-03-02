@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import LoginAction from '@actions/auth/login';
 import styles from './LoginForm.module.scss';
@@ -64,6 +65,7 @@ export default function LoginForm() {
       <button type="submit" disabled={loading || !valid}>
         Log in →
       </button>
+      <Link href="/login/forgot-password">Forgot Password?</Link>
     </form>
   );
 }
