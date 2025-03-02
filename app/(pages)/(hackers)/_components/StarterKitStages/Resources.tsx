@@ -1,6 +1,7 @@
 import StarterKitSlide from '../StarterKit/StarterKitSlide';
-import ResourceHelp from '../StarterKit/ResourceHelp';
-import DesignersResources from '../StarterKit/DesignersResources';
+import ResourceHelp from '../StarterKit/Resources/ResourceHelp';
+import DesignersResources from '../StarterKit/Resources/DesignersResources';
+import DevelopersResources from '../StarterKit/Resources/DevelopersResources';
 export default function Resources() {
   return (
     <div className="flex flex-col gap-8 md:gap-12 xl:gap-16">
@@ -10,6 +11,9 @@ export default function Resources() {
       </StarterKitSlide>
       <StarterKitSlide title="Designers" subtitle="MORE RESOURCES FOR">
         <DesignersResources />
+      </StarterKitSlide>
+      <StarterKitSlide title="Developers" subtitle="MORE RESOURCES FOR">
+        <DevelopersResources />
       </StarterKitSlide>
     </div>
   );
