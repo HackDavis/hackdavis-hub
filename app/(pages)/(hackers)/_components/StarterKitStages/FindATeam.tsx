@@ -1,5 +1,7 @@
 import StarterKitSlide from '../StarterKit/StarterKitSlide';
-import EventPosting from '../StarterKit/EventPosting';
+import EventPosting from '../StarterKit/EventPosting/EventPosting';
+import FindTheRightFit from '../StarterKit/FindTheRightFit/FindTheRightFit';
+import UseOurDiscordComponent from '../StarterKit/UseOurDiscord/UseOurDiscord';
 
 export default function FindATeam() {
   return (
@@ -12,6 +14,8 @@ export default function FindATeam() {
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip"
         ></EventPosting>
       </StarterKitSlide>
+      <FindTheRightFit />
+      <UseOurDiscordComponent />
     </div>
   );
 }
