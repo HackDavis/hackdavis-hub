@@ -45,7 +45,7 @@ export default function DesignersResources() {
       <div className="w-full max-h-full overflow-y-auto pr-2 md:pr-3 lg:pr-4 pb-4 md:pb-5 lg:pb-6 custom-scrollbar">
         <div className="flex flex-col gap-4 md:gap-5 lg:gap-6 items-center">
           {designerResources.map((resource) => (
-            <ResourceCard key={resource.name} resource={resource} />
+            <ResourceCard key={resource.name} resource={resource} default_img_path='/starterKit/designer_default.svg' />
           ))}
         </div>
       </div>

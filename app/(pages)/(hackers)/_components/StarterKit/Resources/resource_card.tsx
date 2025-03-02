@@ -6,8 +6,10 @@ export interface resource_type {
 
 export default function ResourceCard({
   resource,
+  default_img_path
 }: {
   resource: resource_type;
+  default_img_path: string;
 }) {
   // Use the custom hook
   const { preview, loading, error } = useLinkPreview(
@@ -15,43 +17,29 @@ export default function ResourceCard({
     resource.name
   );
 
-  // Default image placeholder - a simple gradient background
-  const placeholderImageStyle = {
-    background: 'linear-gradient(135deg, #2a5298 0%, #1e3c72 100%)',
-  };
-
   return (
     <div className="flex flex-row flex-wrap md:flex-nowrap bg-[#005271] rounded-xl md:rounded-xl p-2 md:p-0 gap-4 md:gap-0 overflow-hidden text-white font-jakarta w-full">
-      <div className="relative w-full md:w-[200px] md:min-w-[200px] h-[150px] md:h-full">
+      <div className="relative w-1/4">
         {loading ? (
           <div className="w-full h-full flex items-center justify-center bg-gray-800">
             <p>Loading...</p>
           </div>
-        ) : preview.images.length > 0 ? (
+        ) : 
           <div className="relative w-full h-full">
             {/* using image here since we would need to add all the link
                 previews to the next config
             */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={preview.images[0]}
+              src={preview.images.length > 0 ? preview.images[0] : default_img_path}
               alt={preview.title}
-              className="w-full h-full object-cover rounded-lg md:rounded-none"
+              className="absolute h-full w-full object-cover"
             />
           </div>
-        ) : (
-          <div
-            className="w-full h-full flex items-center justify-center rounded-lg md:rounded-none"
-            style={placeholderImageStyle}
-          >
-            <p className="text-white text-sm font-semibold px-4 text-center">
-              {error ? 'Failed to load image' : preview.title}
-            </p>
-          </div>
-        )}
+        }
       </div>
 
-      <div className="p-2 md:p-4 flex flex-col flex-1">
+      <div className="p-2 md:p-4 flex flex-col flex-1 max-w-3/4">
         <h2 className="text-lg md:text-xl font-bold mb-1">{preview.title}</h2>
         <p className="text-gray-300 text-xs md:text-sm mb-3 line-clamp-2">
           {preview.description}

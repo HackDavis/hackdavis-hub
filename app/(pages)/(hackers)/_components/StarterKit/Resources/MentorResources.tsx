@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import bunny_duck_mentor from '@public/starter_kit_resources/rabbit_duck_mentor.svg';
+import bunny_duck_mentor from '@public/starterKIt/rabbit_duck_mentor.svg';
 export default function MentorResources() {
   return (
     <main className="relative p-12 pb-0 h-[300px] md:h-[400px] lg:h-[560px] flex flex-col justify-end items-center bg-[#005271] rounded-xl overflow-hidden">

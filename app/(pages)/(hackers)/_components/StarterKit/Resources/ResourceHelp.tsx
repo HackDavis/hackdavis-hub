@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import Froggy_Image from 'public/starter_kit_resources/Froggy.svg';
-import Cow_Tada from 'public/starter_kit_resources/Cow_tada.svg';
-import Star from 'public/starter_kit_resources/Star.svg';
+import Froggy_Image from 'public/starterKIt/Froggy.svg';
+import Cow_Tada from 'public/starterKIt/Cow_tada.svg';
+import Star from 'public/starterKIt/Star.svg';
 export default function ResourceHelp() {
   return (
     <main className="relative flex flex-col items-center rounded-xl bg-[--background-secondary] px-6 pt-10 xs:px-10 xs:pt-14 sm:px-12 md:pt-16 overflow-y-clip">
