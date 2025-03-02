@@ -16,7 +16,7 @@ function shuffleSpecialties(specialties) {
 
 function generateData(collectionName, numDocuments) {
   const specialties = [...new Set(tracks.map((track) => track.type))];
-  const hackerPositions = ['developer', 'designer', 'pm', 'other'];
+  const hackerPositions = ['developer', 'designer', 'pm', 'other', 'beginner'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
   let data = [];
@@ -52,8 +52,8 @@ function generateData(collectionName, numDocuments) {
     });
   } else if (collectionName === 'teams') {
     data = Array.from({ length: numDocuments }, () => ({
-      teamNumber: faker.number.int({ min: 1, max: 1000 }),
-      tableNumber: faker.number.int({ min: 1, max: 1000 }),
+      teamNumber: faker.number.int({ min: 1, max: 200 }),
+      tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
         tracks.map((t) => t.name),
@@ -102,7 +102,7 @@ function generateData(collectionName, numDocuments) {
         host: isWorkshop ? faker.company.name() : '',
         location: Math.random() > 0.5 ? faker.location.street() : '',
         start_time: startTime,
-        end_time: Math.random() > 0.5 ? faker.date.soon({ days: 2, refDate: startTime }) : '',
+        end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
           ? faker.helpers.arrayElements(hackerPositions, { min: 1 })
           : [],
