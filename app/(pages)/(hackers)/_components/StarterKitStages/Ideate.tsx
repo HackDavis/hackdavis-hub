@@ -1,64 +1,7 @@
-import Image, { StaticImageData } from 'next/image';
 import StarterKitSlide from '../StarterKit/StarterKitSlide';
-import patientSimImage from '@public/hackers/starter-kit/ideate/patient_sim_ai.png';
-import nomadImage from '@public/hackers/starter-kit/ideate/nomad.png';
-import podium from '@public/hackers/starter-kit/ideate/podium.svg';
-import { Card, CardContent } from '@globals/components/ui/card';
-
-interface PastProjectDisplayProps {
-  image: StaticImageData;
-  title: string;
-  subtitle: string;
-  description: string;
-}
-
-const devPostLink =
-  'https://hackdavis-2024.devpost.com/project-gallery?_gl=1%2A50gpw%2A_gcl_au%2AMTc2MTUwMzcxOS4xNzQwODA4MTQ4%2A_ga%2AMjEwNzI2OTk2My4xNzQwODA4MTQ4%2A_ga_0YHJK3Y10M%2AMTc0MDgwODE0Ny4xLjEuMTc0MDgwODE3OS4wLjAuMA';
-
-const pastProjects: PastProjectDisplayProps[] = [
-  {
-    image: patientSimImage,
-    title: 'PatientSimAI',
-    subtitle: 'Best Hack for Social Good',
-    description:
-      'PatientSimAI is a web app using AI and GPT-4 to simulate patient interactions, aiding clinical training, enhancing medical education, and building practical skills.',
-  },
-  {
-    image: nomadImage,
-    title: 'nomad /\\',
-    subtitle: 'Best Hack for Social Good',
-    description:
-      'Users can place pins for homeless individuals or lost animals, alerting organizations to assist. The app also encourages donations, volunteering, and offers local business rewards.',
-  },
-];
+import PreviousHacks from '../StarterKit/PreviousHacks';
 
 export default function Ideate() {
-  function PastProjectDisplay({
-    image,
-    title,
-    subtitle,
-    description,
-  }: PastProjectDisplayProps) {
-    return (
-      <div className="bg-background-secondary w-[calc(100vw*219/375)] aspect-[219/232] rounded-[6px] p-4 mt-[15px] mb-[15px] mx-auto md:w-[calc(100vw*971/1440)] md:aspect-[971/231] md:rounded-[12px] md:p-[18px]">
-        <div className="flex flex-col gap-[16px] md:flex-row md:items-center md:gap-[32px]">
-          <div className="flex-shrink-0 mx-auto md:mx-0 aspect-[195/97] w-[calc(100vw*195/375)] md:aspect-[280/195] md:w-[calc(100vw*280/1440)] pt-1">
-            <Image
-              src={image}
-              alt={title}
-              className="w-full h-full object-fill rounded-[12px]"
-            />
-          </div>
-          <div className="flex flex-col gap-[4px] md:gap-[calc(100vw*8/1440)] mx-auto">
-            <h2 className="text-white text-2xl font-bold">{title}</h2>
-            <p className="text-[#FFC53D] text-base">{subtitle}</p>
-            <p className="text-white text-xs pb-[8px]">{description}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-8 md:gap-12 xl:gap-16">
       {/* ensure the content, esp text, within each component horizontally lines up with the content inside other components */}
@@ -66,49 +9,7 @@ export default function Ideate() {
         title="Previous Winning Hacks"
         subtitle="YOU CAN REFERENCE"
       >
-        <div className="bg-sea-background rounded-[12px] flex flex-col">
-          <div className="items-center pt-[20px]">
-            {pastProjects.map((project, index) => (
-              <PastProjectDisplay
-                key={index}
-                image={project.image}
-                title={project.title}
-                subtitle={project.subtitle}
-                description={project.description}
-              />
-            ))}
-            <div className="flex flex-col gap-8 md:gap-12 xl:gap-16 items-center mt-5 md:mt-10">
-              <Card className="h-fit bg-transparent shadow-none border-none text-text-light w-[calc(100vw*219/375)] md:w-[calc(100vw*971/1440)]">
-                <CardContent className="p-0 flex flex-col md:items-center md:gap-0 md:flex-row-reverse md:justify-center">
-                  {/* Text Container */}
-                  <div className="flex flex-col md:px-0">
-                    <p className="text-[0.5rem] xs:text-xs md:text-sm font-jakarta tracking-[0.02em]">
-                      YOU CAN VIEW MORE ON
-                    </p>
-                    <h2 className="text-lg xs:xl md:text-2xl font-bold font-metropolis tracking-[0.02em] mb-4">
-                      <a
-                        href={devPostLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline"
-                      >
-                        DevPost
-                      </a>
-                    </h2>
-                  </div>
-                  {/* Image Container */}
-                  <div className="right-[-30px] bottom-[-5px] aspect-[264/170] md:h-[calc(100vw*399/1440)]">
-                    <Image
-                      src={podium}
-                      alt="Cow Frog and Duck standing on a podium holding trophies"
-                      className="w-full h-full object-fill"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
+        <PreviousHacks />
       </StarterKitSlide>
     </div>
   );
