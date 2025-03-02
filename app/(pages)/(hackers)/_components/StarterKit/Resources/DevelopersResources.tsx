@@ -109,7 +109,7 @@ const developerResources = [
 
 export default function DevelopersResources() {
   return (
-    <main className="relative h-[560px] flex flex-col items-center bg-[#123041] p-12 rounded-xl pt-24 overflow-hidden">
+    <main className="relative h-[560px] flex flex-col items-center bg-[#123041] p-12 rounded-xl overflow-hidden">
       <div className="w-full max-h-full overflow-y-auto pr-4 pb-6 custom-scrollbar">
         <div className="flex flex-col gap-6">
           {developerResources.map((resource) => (
