@@ -1,4 +1,52 @@
 .container {
     background: var(--gradient-primary);
-    padding: 15%;
+    height: 100%;
+
+    // children go in here btw
+    .overlayContent {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); 
+        z-index: 1; 
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+    // .imageWrapper {
+    //     border: 3px solid blue;
+    //     display: flex;
+    //     height: 100%;
+    //     width: auto;
+    //     padding: 5%;
+
+    //     img {
+    //         justify-content: flex-end;
+    //         border: 3px solid red;
+    //         right: 0;
+    //     }
+    // }
+
+    .scenery {
+        display: flex;
+        flex-direction: column;
+
+        .logo {
+            margin-left: 5%;
+            margin-top: 1%;
+
+            img {
+                width: 32px;
+            }
+        }
+
+        .clouds {
+            width: 100%
+        }
+
+        .grass {
+            width: 100%;
+        }
+
+    }
 }
