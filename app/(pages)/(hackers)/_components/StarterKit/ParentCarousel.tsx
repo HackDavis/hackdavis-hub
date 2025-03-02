@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import good_froggie from '@public/hackers/good_froggie.svg';
 import judge_bunny from '@public/hackers/judge_bunny.svg';
 import { type CarouselApi } from '@globals/components/ui/carousel';
+
 import AutoHeight from 'embla-carousel-auto-height';
-import { Button } from '@app/(pages)/_globals/components/ui/button';
+import { Button } from '@globals/components/ui/button';
 
 import LetsBegin from '../../_components/StarterKitStages/LetsBegin';
 import FindATeam from '../../_components/StarterKitStages/FindATeam';

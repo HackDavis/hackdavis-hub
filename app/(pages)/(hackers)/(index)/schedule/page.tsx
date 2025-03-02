@@ -1,7 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
-import Footer from '@app/(pages)/_components/Footer/Footer';
+import Footer from '@components/Footer/Footer';
 type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOP' | 'MENU';
 import Image from 'next/image';
 

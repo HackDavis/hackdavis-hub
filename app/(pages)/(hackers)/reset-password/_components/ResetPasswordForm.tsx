@@ -3,16 +3,12 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
-import RegisterAction from '@actions/auth/register';
-import styles from './RegisterForm.module.scss';
+import ResetPasswordAction from '@actions/auth/resetPassword';
+import styles from './ResetPasswordForm.module.scss';
 
-export default function RegisterForm({ data }: any) {
+export default function ResetPasswordForm({ data }: any) {
   const router = useRouter();
 
-  const name = data?.name ? data.name : 'HackDavis Admin';
-  const role = data?.role ? data.role : 'admin';
-
-  const [email, setEmail] = useState(data?.email ? data.email : '');
   const [password, setPassword] = useState('');
   const [passwordDupe, setPasswordDupe] = useState('');
   const [valid, setValid] = useState(false);
@@ -21,26 +17,19 @@ export default function RegisterForm({ data }: any) {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordDupeError, setPasswordDupeError] = useState(false);
 
-  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+  const handleReset = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
     setError('');
 
-    const response = await RegisterAction({
-      name,
-      email,
+    const response = await ResetPasswordAction({
+      email: data.email,
       password,
-      role,
-      starter_kit_stage: 1,
     });
 
     if (response.ok) {
-      if (role === 'admin') {
-        router.push('/');
-      } else {
-        router.push('/register/details');
-      }
+      router.push('/login');
     } else {
       setError(response.error ?? 'Invalid email or password.');
     }
@@ -48,17 +37,7 @@ export default function RegisterForm({ data }: any) {
     setLoading(false);
   };
 
-  const validateForm = (
-    email: string,
-    password: string,
-    passwordDupe: string
-  ) => {
-    const isEmailValid = /\S+@\S+\.\S+/.test(email) || email.length === 0;
-    if (!isEmailValid) {
-      setError('Email invalid format.');
-    }
-    setPasswordError(!isEmailValid);
-
+  const validateForm = (password: string, passwordDupe: string) => {
     const isPasswordValid =
       (password.length >= 6 && password.length <= 20) || password.length === 0;
     if (!isPasswordValid) {
@@ -72,39 +51,24 @@ export default function RegisterForm({ data }: any) {
     }
     setPasswordDupeError(!passwordMatch);
 
-    if (
-      email.length === 0 ||
-      password.length === 0 ||
-      passwordDupe.length === 0
-    ) {
+    if (password.length === 0 || passwordDupe.length === 0) {
       setValid(false);
     }
-    if (isEmailValid && isPasswordValid && passwordMatch) {
+    if (isPasswordValid && passwordMatch) {
       setError('');
       setValid(true);
     }
   };
 
   useEffect(() => {
-    validateForm(email, password, passwordDupe);
-  }, [email, password, passwordDupe]);
+    validateForm(password, passwordDupe);
+  }, [password, passwordDupe]);
 
   return (
     <div>
-      <h1>Hi {name}!</h1>
-      <form onSubmit={handleRegister} className={styles.container}>
+      <form onSubmit={handleReset} className={styles.container}>
         <p className={styles.error_msg}>{error}</p>
         <div className={styles.fields}>
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={data ? data.email : email}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
-            readOnly={data ? true : false}
-          />
           <input
             name="password"
             type="password"
@@ -130,7 +94,7 @@ export default function RegisterForm({ data }: any) {
           type="submit"
           disabled={loading || !valid}
         >
-          Next
+          Reset Password
         </button>
       </form>
     </div>

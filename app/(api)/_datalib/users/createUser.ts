@@ -33,9 +33,10 @@ export const CreateUser = async (body: object) => {
 
     // admin
     if (parsedBody.role === 'admin') {
-      const existingAdmin = await db.collection('users').find({
+      const existingAdmin = await db.collection('users').findOne({
         role: 'admin',
       });
+
       if (existingAdmin) {
         throw new DuplicateError('Duplicate: admin already exists');
       }

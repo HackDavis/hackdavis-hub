@@ -64,6 +64,7 @@ function generateData(collectionName, numDocuments) {
     data = Array.from({ length: numDocuments }, () => {
       const randomTracks = faker.helpers.arrayElements(
         tracks.map((t) => t.name),
+        faker.number.int({ min: 1, max: 6 })
       );
       const scores = randomTracks.map((t) => 
         ({
@@ -74,7 +75,6 @@ function generateData(collectionName, numDocuments) {
           finalTrackScore: null
         })
       );
-
       return {
         judge_id: new ObjectId(),
         team_id: new ObjectId(),
@@ -82,7 +82,7 @@ function generateData(collectionName, numDocuments) {
         creativity: faker.number.int({ min: 1, max: 5 }),
         presentation: faker.number.int({ min: 1, max: 5 }),
         scores: scores,
-        comments: Math.random() > 0.5 ? faker.lorem.sentence() : null,
+        comments: Math.random() > 0.5 ? faker.lorem.sentence() : '',
         queuePosition: null,
         is_scored: faker.datatype.boolean(),
       };

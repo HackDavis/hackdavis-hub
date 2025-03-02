@@ -4,14 +4,12 @@ import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-import { useInvite } from '@hooks/useInvite';
 import RegisterAction from '@actions/auth/register';
 import styles from './ResetPasswordForm.module.scss';
 
-export default function ResetPasswordForm() {
+export default function ResetPasswordForm({ data }: any) {
   const router = useRouter();
 
-  const { data } = useInvite('reset');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordDupe, setPasswordDupe] = useState('');
@@ -28,14 +26,7 @@ export default function ResetPasswordForm() {
     setLoading(true);
     setError('');
 
-    const response = await RegisterAction({
-      name: data?.name ? data.name : 'HackDavis Admin',
-      email,
-      password,
-      // specialties: data?.specialties ? data.specialties : ['tech'],
-      specialties: ['tech'],
-      role: data?.role ? data.role : 'judge',
-    });
+    const response = await RegisterAction({});
     setLoading(false);
 
     if (response.ok) {
