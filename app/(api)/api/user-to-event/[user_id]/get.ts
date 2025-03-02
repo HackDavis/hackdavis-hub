@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GetUserToEvents } from '@app/(api)/_datalib/userToEvents/getUserToEvent';
+import { GetUserToEvents } from '@datalib/userToEvents/getUserToEvent';
 import { ObjectId } from 'mongodb';
 
 export async function GET(

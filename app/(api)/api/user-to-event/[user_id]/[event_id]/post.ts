@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { LinkUserToEvent } from '@app/(api)/_datalib/userToEvents/linkUserToEvent';
+import { LinkUserToEvent } from '@datalib/userToEvents/linkUserToEvent';
 
 export async function POST(
   request: NextRequest,

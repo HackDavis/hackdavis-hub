@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GetUserToEvents } from '@app/(api)/_datalib/userToEvents/getUserToEvent';
+import { GetUserToEvents } from '@datalib/userToEvents/getUserToEvent';
 import getQueries from '@utils/request/getQueries';
 
 export async function GET(request: NextRequest) {
