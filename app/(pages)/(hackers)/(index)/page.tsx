@@ -29,16 +29,14 @@ export default function Page() {
 
   return (
     <main>
-      <IndexHero />
-      <UnderConstruction />
-      <BeginnersSection />
       <form onSubmit={handleLogout}>
         <button type="submit" disabled={loading}>
           Sign Out
         </button>
       </form>
-      {/* Remove when adding vinyl or other components on top, just to see the whole flowers component */}
-      <div className="h-[400px]">Spacer</div>
+      <IndexHero />
+      <BeginnersSection />
+      <UnderConstruction />
       <BigVinyl />
       <Waterfall />
       <Footer />
