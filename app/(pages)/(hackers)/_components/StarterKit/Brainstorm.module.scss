@@ -69,9 +69,12 @@
         }
 
         @include tablet-l{
-            padding: 8px 16px;
+            padding: 16px 32px;
             flex-direction: column;
             align-items: center;
+        }
+        @include mobile-l{
+            padding: 16px;
         }
 
         .problem, .user, .solution{
@@ -90,9 +93,7 @@
             }
 
             @include tablet-l{
-                width: 90%;
-                // margin-bottom: 3%;
-
+                width: 100%;
             }
         }
 
@@ -101,7 +102,6 @@
         }
         .user{
             background-color: #AFD157;
-            // width: 28%;
         }
         .solution{
             background-color: #FFC53D;
