@@ -1,18 +1,19 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
 import Footer from '@app/(pages)/_components/Footer/Footer';
-type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOP' | 'MENU';
 import Image from 'next/image';
-
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
+import { getEvents } from '@actions/events/getEvent';
+
+type EventType = 'general' | 'activities' | 'workshops' | 'meals';
 
 interface Event {
   id: number;
-  title: string;
+  name: string;
   type: EventType;
-  startTime: string;
-  endTime?: string;
+  start_time: string;
+  end_time?: string;
   location?: string;
   speakers?: {
     name: string;
@@ -23,7 +24,7 @@ interface Event {
 }
 
 interface ScheduleData {
-  [key: string]: Event[];
+  [dayKey: string]: Event[];
 }
 
 interface FilterType {
@@ -33,67 +34,12 @@ interface FilterType {
 }
 
 const filters: FilterType[] = [
-  { id: 'GENERAL', label: 'GENERAL', color: '#9EE7E5' },
-  { id: 'ACTIVITIES', label: 'ACTIVITIES', color: '#FFC5AB' },
-  // { id: 'WORKSHOP', label: 'WORKSHOPS', color: '#AFD157' },
-  // { id: 'MENU', label: 'MENU', color: '#FFC53D' },
-  // { id: 'RECOMMENDED', label: 'RECOMMENDED', color: '#BBABDD' },
+  { id: 'general', label: 'GENERAL', color: '#9EE7E5' },
+  { id: 'activity', label: 'ACTIVITIES', color: '#FFC5AB' },
+  { id: 'workshop', label: 'WORKSHOPS', color: '#AFD157' },
+  { id: 'menu', label: 'MENU', color: '#FFC53D' },
+  // { id: 'recommended', label: 'RECOMMENDED', color: '#BBABDD' },
 ];
-
-const mockScheduleData: ScheduleData = {
-  Apr19: [
-    {
-      id: 1,
-      title: 'Check-in Starts',
-      type: 'GENERAL',
-      startTime: '2024-04-19T14:30:00Z',
-    },
-    {
-      id: 2,
-      title: 'Team Mixer',
-      type: 'ACTIVITIES',
-      startTime: '2024-04-19T15:30:00Z',
-      endTime: '2024-04-19T17:00:00Z',
-      location: 'ARC Ballroom B',
-    },
-    {
-      id: 3,
-      title: 'Opening Ceremony',
-      type: 'GENERAL',
-      startTime: '2024-04-19T17:00:00Z',
-      endTime: '2024-04-19T18:00:00Z',
-    },
-    {
-      id: 4,
-      title: 'Hacking Starts',
-      type: 'GENERAL',
-      startTime: '2024-04-19T18:00:00Z',
-    },
-    {
-      id: 5,
-      title: 'Check-in Closes',
-      type: 'GENERAL',
-      startTime: '2024-04-19T23:00:00Z',
-    },
-  ],
-  Apr20: [
-    {
-      id: 6,
-      title: 'Closing Ceremony',
-      type: 'GENERAL',
-      startTime: '2024-04-20T22:00:00Z',
-      endTime: '2024-04-20T23:00:00Z',
-    },
-  ],
-};
-
-// const yourMockScheduleData: ScheduleData = {
-//   Apr19: [],
-//   Apr20: [],
-// };
-
-// for MVP only:
-const yourMockScheduleData: ScheduleData = mockScheduleData;
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'yourSchedule'>(
@@ -101,32 +47,66 @@ export default function Page() {
   );
   const [activeDay, setActiveDay] = useState<'Apr19' | 'Apr20'>('Apr19');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
 
+  // Fetch events from the server action on mount.
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        // Pass an empty query object; adjust if needed.
+        const response = await getEvents({});
+        if (response.ok) {
+          const events: Event[] = response.body;
+          // Group events by day key, e.g. "Apr19" or "Apr20".
+          const groupedByDay = events.reduce((acc: ScheduleData, event) => {
+            const date = new Date(event.start_time);
+            const dayKey = date
+              .toLocaleString('en-US', { month: 'short', day: 'numeric' })
+              .replace(' ', '');
+            if (!acc[dayKey]) {
+              acc[dayKey] = [];
+            }
+            acc[dayKey].push(event);
+            return acc;
+          }, {});
+          setScheduleData(groupedByDay);
+        } else {
+          console.error('Error fetching events:', response.error);
+        }
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    }
+    fetchEvents();
+  }, []);
+
+  // Get current events for the active day, filtering by activeFilters.
   const currentEvents = useMemo(() => {
-    const unfilteredEvents =
-      activeTab === 'schedule'
-        ? mockScheduleData[activeDay]
-        : yourMockScheduleData[activeDay];
-
+    if (!scheduleData) return [];
+    // For MVP, both tabs use the same data.
+    const unfilteredEvents = scheduleData[activeDay] || [];
     if (activeFilters.length === 0) {
       return unfilteredEvents;
     }
-
-    return unfilteredEvents.filter(
-      (event) =>
-        activeFilters.includes(event.type) ||
-        (activeFilters.includes('RECOMMENDED') &&
-          event.tags?.includes('RECOMMENDED'))
+    return unfilteredEvents.filter((event) =>
+      activeFilters.includes(event.type)
     );
-  }, [activeTab, activeDay, activeFilters]);
+  }, [activeTab, activeDay, activeFilters, scheduleData]);
 
-  // Group events by start time
+  // First, sort the current events by start time (ascending)
+  const sortedEvents = useMemo(() => {
+    return [...currentEvents].sort(
+      (a, b) =>
+        new Date(a.start_time).getTime() - new Date(b.start_time).getTime()
+    );
+  }, [currentEvents]);
+
+  // Group sorted events by their start time (converted to PST) for display.
   const groupedEvents = useMemo(() => {
-    const groups: { [key: string]: Event[] } = {};
-
-    currentEvents.forEach((event) => {
-      const date = new Date(event.startTime);
-      // Convert to PST
+    const groups: { [timeKey: string]: Event[] } = {};
+    sortedEvents.forEach((event) => {
+      const date = new Date(event.start_time);
+      // Convert to PST.
       const pstDate = new Date(
         date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
       );
@@ -143,7 +123,18 @@ export default function Page() {
     });
 
     return groups;
-  }, [currentEvents]);
+  }, [sortedEvents]);
+
+  // Sort the group entries by time.
+  const sortedGroupedEntries = useMemo(() => {
+    return Object.entries(groupedEvents).sort((a, b) => {
+      // Create dummy dates using an arbitrary day.
+      const dummyDay = '01/01/2000';
+      const dateA = new Date(`${dummyDay} ${a[0]}`);
+      const dateB = new Date(`${dummyDay} ${b[0]}`);
+      return dateA.getTime() - dateB.getTime();
+    });
+  }, [groupedEvents]);
 
   const toggleFilter = (filterId: string) => {
     setActiveFilters((prev) =>
@@ -194,7 +185,7 @@ export default function Page() {
                 style={{ borderStyle: 'dashed' }}
               >
                 <div
-                  className={`absolute top-auto bottom-auto transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
+                  className={`absolute transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
                     activeDay === 'Apr19'
                       ? 'left-[1.5px] top-[1.5px]'
                       : 'left-[98.5px] top-[1.5px]'
@@ -246,7 +237,7 @@ export default function Page() {
               }}
               onMouseEnter={(e) => {
                 if (!activeFilters.includes(filter.id)) {
-                  e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
+                  e.currentTarget.style.backgroundColor = filter.color + '80';
                 }
               }}
               onMouseLeave={(e) => {
@@ -261,28 +252,32 @@ export default function Page() {
         </div>
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
-          {Object.entries(groupedEvents).map(([timeKey, events]) => (
-            <div key={timeKey} className="relative mb-[24px]">
-              <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
-                {timeKey}
+          {scheduleData ? (
+            sortedGroupedEntries.map(([timeKey, events]) => (
+              <div key={timeKey} className="relative mb-[24px]">
+                <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
+                  {timeKey}
+                </div>
+                <div>
+                  {events.map((event) => (
+                    <CalendarItem
+                      key={event.id}
+                      name={event.name}
+                      type={event.type}
+                      start_time={event.start_time}
+                      end_time={event.end_time}
+                      location={event.location}
+                      speakers={event.speakers}
+                      tags={event.tags}
+                      attendeeCount={event.attendeeCount}
+                    />
+                  ))}
+                </div>
               </div>
-              <div>
-                {events.map((event) => (
-                  <CalendarItem
-                    key={event.id}
-                    title={event.title}
-                    type={event.type}
-                    startTime={event.startTime}
-                    endTime={event.endTime}
-                    location={event.location}
-                    speakers={event.speakers}
-                    tags={event.tags}
-                    attendeeCount={event.attendeeCount}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div>Loading events…</div>
+          )}
         </div>
       </div>
       <div className="h-[calc(100vw*60/375)] md:h-0"></div>
