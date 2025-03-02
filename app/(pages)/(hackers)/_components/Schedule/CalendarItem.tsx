@@ -56,19 +56,21 @@ const CalendarItem: React.FC<CalendarItemProps> = ({
   } else if (startTime === endTime) {
     timeDisplay = formatTime(startTime);
   } else {
-    timeDisplay = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+    timeDisplay = `${formatTime(startTime).slice(0, -2)} - ${formatTime(
+      endTime
+    )}`;
   }
 
   return (
     <div
-      className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[40px] mb-[16px] flex flex-col justify-center"
+      className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] lg:px-[40px] mb-[16px] flex flex-col justify-center"
       style={{ backgroundColor: bgColor }}
     >
-      <h2 className="text-black font-metropolis text-[28px] font-semibold leading-[40px] tracking-[0.72px]">
+      <h2 className="text-black font-metropolis text-2xl font-semibold leading-[40px] tracking-[0.72px]">
         {title}
       </h2>
       <div className="flex items-center">
-        <span className="text-black font-plus-jakarta-sans text-[18px] font-normal leading-[145%] tracking-[0.36px] mr-[16px]">
+        <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
           {timeDisplay}
         </span>
         {location && (
@@ -78,9 +80,9 @@ const CalendarItem: React.FC<CalendarItemProps> = ({
               alt="location icon"
               width={11}
               height={13.44}
-              className="mr-2"
+              className="mr-2 xs:mr-3 md:mr-4 lg:mr-5"
             />
-            <span className="text-black font-plus-jakarta-sans text-[18px] font-normal leading-[145%] tracking-[0.36px]">
+            <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
               {location}
             </span>
           </div>
