@@ -15,7 +15,7 @@ interface Response {
   error: string | null;
 }
 
-export async function sendEmail(data: InviteData): Promise<Response> {
+export default async function sendEmail(data: InviteData): Promise<Response> {
   try {
     const users = await GetManyUsers({
       email: data.email,

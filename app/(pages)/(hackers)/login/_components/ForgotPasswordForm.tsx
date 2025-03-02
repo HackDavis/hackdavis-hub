@@ -3,7 +3,7 @@
 import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 
 import styles from './ForgotPasswordForm.module.scss';
-import { sendEmail } from '@actions/invite/sendEmail';
+import sendEmail from '@actions/invite/sendEmail';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');

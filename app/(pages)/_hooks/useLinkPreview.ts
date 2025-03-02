@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchLinkPreview } from '@app/(api)/_actions/starter_kit/getLinkPreview';
+import { fetchLinkPreview } from '@actions/starter_kit/getLinkPreview';
 
 interface LinkPreview {
   title: string;
