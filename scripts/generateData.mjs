@@ -82,7 +82,7 @@ function generateData(collectionName, numDocuments) {
         creativity: faker.number.int({ min: 1, max: 5 }),
         presentation: faker.number.int({ min: 1, max: 5 }),
         scores: scores,
-        comments: Math.random() > 0.5 ? faker.lorem.sentence() : null,
+        comments: Math.random() > 0.5 ? faker.lorem.sentence() : '',
         queuePosition: null,
         is_scored: faker.datatype.boolean(),
       };
