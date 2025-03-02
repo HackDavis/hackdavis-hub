@@ -18,8 +18,8 @@ export default function ResourceCard({
   );
 
   return (
-    <div className="flex flex-row flex-wrap md:flex-nowrap bg-[#005271] rounded-xl md:rounded-xl p-2 md:p-0 gap-4 md:gap-0 overflow-hidden text-white font-jakarta w-full">
-      <div className="relative w-1/4">
+    <div className="flex flex-row flex-wrap md:flex-nowrap bg-[#005271] rounded-lg md:rounded-xl p-2 xs:p-4 md:p-0 2xs:gap-4 md:gap-0 overflow-hidden text-white font-jakarta w-full">
+      <div className="relative w-full aspect-video md:w-1/4 md:aspect-auto rounded-lg overflow-clip bg-secondary">
         {loading ? (
           <div className="w-full h-full flex items-center justify-center bg-gray-800">
             <p>Loading...</p>
@@ -39,7 +39,7 @@ export default function ResourceCard({
         }
       </div>
 
-      <div className="p-2 md:p-4 flex flex-col flex-1 max-w-3/4">
+      <div className="py-2 md:p-4 flex flex-col flex-1 w-full md:max-w-3/4">
         <h2 className="text-lg md:text-xl font-bold mb-1">{preview.title}</h2>
         <p className="text-gray-300 text-xs md:text-sm mb-3 line-clamp-2">
           {preview.description}
