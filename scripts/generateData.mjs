@@ -66,15 +66,13 @@ function generateData(collectionName, numDocuments) {
         tracks.map((t) => t.name),
         faker.number.int({ min: 1, max: 6 })
       );
-      const scores = randomTracks.map((t) => 
-        ({
-          trackName: t,
-          rawScores: Array.from({ length: 5 }, () =>
-            faker.number.int({ min: 1, max: 5 })
-          ),
-          finalTrackScore: null
-        })
-      );
+      const scores = randomTracks.map((t) => ({
+        trackName: t,
+        rawScores: Array.from({ length: 5 }, () =>
+          faker.number.int({ min: 1, max: 5 })
+        ),
+        finalTrackScore: null,
+      }));
       return {
         judge_id: new ObjectId(),
         team_id: new ObjectId(),

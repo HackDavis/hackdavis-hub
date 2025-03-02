@@ -12,10 +12,7 @@ export default function ResourceCard({
   default_img_path: string;
 }) {
   // Use the custom hook
-  const { preview, loading, error } = useLinkPreview(
-    resource.url,
-    resource.name
-  );
+  const { preview, loading } = useLinkPreview(resource.url, resource.name);
 
   return (
     <div className="flex flex-row flex-wrap md:flex-nowrap bg-[#005271] rounded-lg md:rounded-xl p-2 xs:p-4 md:p-0 2xs:gap-4 md:gap-0 overflow-hidden text-white font-jakarta w-full">
