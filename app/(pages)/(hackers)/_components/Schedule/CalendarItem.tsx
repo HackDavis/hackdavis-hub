@@ -70,7 +70,7 @@ const CalendarItem: React.FC<CalendarItemProps> = ({
         {title}
       </h2>
       <div className="flex items-center">
-        <span className="text-black font-plus-jakarta-sans text-sm font-normal leading-[145%] tracking-[0.36px] mr-[10px] lg:mr-[16px]">
+        <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
           {timeDisplay}
         </span>
         {location && (
@@ -80,9 +80,9 @@ const CalendarItem: React.FC<CalendarItemProps> = ({
               alt="location icon"
               width={11}
               height={13.44}
-              className="mr-2"
+              className="mr-2 xs:mr-3 md:mr-4 lg:mr-5"
             />
-            <span className="text-black font-plus-jakarta-sans text-sm font-normal leading-[145%] tracking-[0.36px]">
+            <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
               {location}
             </span>
           </div>

@@ -160,16 +160,15 @@ export default function Page() {
           src={headerGrass}
           alt="header-grass"
           className="w-[calc(100vw*380/375)] lg:w-[calc(100vw*1583/1440)] margin-auto"
-          // objectFit="fill"
         />
       </div>
-      <div className="md:px-[calc(100vw*76/768)] lg:md:px-[calc(100vw*151/1440)] mt-[100px] md:mt-[calc(100vw*150/1440)]">
+      <div className="pb-24 md:pb-44 md:px-[calc(100vw*76/768)] lg:md:px-[calc(100vw*151/1440)] mt-[100px] md:mt-[calc(100vw*150/1440)]">
         <div className="flex flex-col gap-8">
-          <div className="flex justify-evenly md:justify-between items-center relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-[#8F8F8F33]">
+          <div className="flex justify-evenly md:justify-between items-center relative border-b-4 border-[#8F8F8F33]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
               <span
                 onClick={() => setActiveTab('schedule')}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-5xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 ${
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
                   activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
@@ -179,7 +178,7 @@ export default function Page() {
               </span>
               <span
                 onClick={() => setActiveTab('yourSchedule')}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-5xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 ${
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
                   activeTab === 'yourSchedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
@@ -189,13 +188,13 @@ export default function Page() {
               </span>
             </div>
 
-            <div className="hidden md:flex lg:pt-[10px]">
+            <div className="fixed bottom-4 z-20 md:static md:flex lg:pt-[10px]">
               <div
-                className="relative flex w-[202px] h-[48px] border-[1.5px] border-black rounded-[22px]"
+                className="relative bg-[#ffffffe6] md:bg-transparent flex items-center w-[202px] h-[48px] md:border-[1.5px] md:border-black rounded-[22px]"
                 style={{ borderStyle: 'dashed' }}
               >
                 <div
-                  className={`absolute transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
+                  className={`absolute top-auto bottom-auto transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
                     activeDay === 'Apr19'
                       ? 'left-[1.5px] top-[1.5px]'
                       : 'left-[98.5px] top-[1.5px]'
@@ -203,7 +202,7 @@ export default function Page() {
                 />
                 <button
                   onClick={() => setActiveDay('Apr19')}
-                  className={`relative z-10 flex-1 font-plus-jakarta-sans text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
+                  className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
                     activeDay === 'Apr19' ? 'text-white' : 'text-black'
                   }`}
                 >
@@ -211,7 +210,7 @@ export default function Page() {
                 </button>
                 <button
                   onClick={() => setActiveDay('Apr20')}
-                  className={`relative z-10 flex-1 font-plus-jakarta-sans text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
+                  className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
                     activeDay === 'Apr20' ? 'text-white' : 'text-black'
                   }`}
                 >
@@ -222,7 +221,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="px-[calc(100vw*32/375)] flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
+        <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
           {filters.map((filter) => (
             <button
               key={filter.id}
@@ -231,7 +230,7 @@ export default function Page() {
                 relative flex w-[163px] h-[45px] px-[38px] py-[13px]
                 justify-center items-center
                 rounded-[22.5px] border-[1.5px]
-                font-plus-jakarta-sans text-[16px] font-semibold leading-[100%] tracking-[0.32px]
+                font-jakarta text-[16px] font-semibold leading-[100%] tracking-[0.32px]
                 text-[#123041] transition-all duration-200
                 ${
                   activeFilters.includes(filter.id)
@@ -264,7 +263,7 @@ export default function Page() {
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
           {Object.entries(groupedEvents).map(([timeKey, events]) => (
             <div key={timeKey} className="relative mb-[24px]">
-              <div className="font-plus-jakarta-sans text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
+              <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
                 {timeKey}
               </div>
               <div>
