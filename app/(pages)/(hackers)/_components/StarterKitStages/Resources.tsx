@@ -1,6 +1,6 @@
 import StarterKitSlide from '../StarterKit/StarterKitSlide';
 import ResourceHelp from '../StarterKit/ResourceHelp';
-
+import DesignersResources from '../StarterKit/DesignersResources';
 export default function Resources() {
   return (
     <div className="flex flex-col gap-8 md:gap-12 xl:gap-16">
@@ -8,9 +8,9 @@ export default function Resources() {
       <StarterKitSlide title="You're Ready!" subtitle="AND NOW">
         <ResourceHelp />
       </StarterKitSlide>
-      {/* <StarterKitSlide title="Designers" subtitle="MORE RESOURCES FOR">
-        <WorkshopSlides />
-      </StarterKitSlide> */}
+      <StarterKitSlide title="Designers" subtitle="MORE RESOURCES FOR">
+        <DesignersResources />
+      </StarterKitSlide>
     </div>
   );
 }
