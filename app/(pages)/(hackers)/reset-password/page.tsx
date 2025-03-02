@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
-import RegisterForm from './_components/RegisterForm';
+import ResetPasswordForm from './_components/ResetPasswordForm';
 import styles from './page.module.scss';
 
 export default async function RegisterPage() {
@@ -14,12 +14,12 @@ export default async function RegisterPage() {
   const data = await getInviteData();
 
   if (data?.role === 'judge') {
-    redirect('/judges/register');
+    redirect('/judges/reset-password');
   }
 
   return (
     <div className={styles.container}>
-      <RegisterForm data={data} />
+      <ResetPasswordForm data={data} />
     </div>
   );
 }
