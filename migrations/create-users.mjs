@@ -12,7 +12,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Users Object Validation',
-        required: ['name', 'email', 'password', 'role'],
+        required: ['name', 'email', 'password', 'role', 'has_checked_in'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -54,11 +54,9 @@ export async function up(db) {
             bsonType: 'bool',
             description: 'is_beginner must be a boolean',
           },
-          starter_kit_stage: {
-            bsonType: 'int',
-            maximum: 4,
-            minimum: 1,
-            description: 'start_kit_stage must be an integer',
+          has_checked_in: {
+            bsonType: 'bool',
+            description: 'has_checked_in must be a boolean',
           },
         },
         additionalProperties: false,

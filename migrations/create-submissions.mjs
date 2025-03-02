@@ -4,7 +4,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Submissions Object Validation',
-        required: ['judge_id', 'team_id', 'scores', 'is_scored'],
+        required: ['judge_id', 'team_id', 'scores', 'social_good', 'creativity', 'presentation', 'scores', 'is_scored', 'queuePosition'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -18,39 +18,62 @@ export async function up(db) {
             bsonType: 'objectId',
             description: 'team_id must be an ObjectId',
           },
+          social_good: {
+            bsonType: 'int',
+            minimum: 1,
+            maximum: 5,
+            description: 'social_good score must be an integer',
+          },
+          creativity: {
+            bsonType: 'int',
+            minimum: 1,
+            maximum: 5,
+            description: 'creativity score must be an integer',
+          },
+          presentation: {
+            bsonType: 'int',
+            minimum: 1,
+            maximum: 5,
+            description: 'presentation score must be an integer',
+          },
           scores: {
-            bsonType: 'object',
-            description: 'scores must be a JSON object',
-            required: ['social_good', 'creativity', 'presentation', 'comments'],
-            properties: {
-              social_good: {
-                bsonType: 'int',
-                minimum: 1,
-                maximum: 5,
-                description: 'social_good score must be an integer',
-              },
-              creativity: {
-                bsonType: 'int',
-                minimum: 1,
-                maximum: 5,
-                description: 'creativity score must be an integer',
-              },
-              presentation: {
-                bsonType: 'int',
-                minimum: 1,
-                maximum: 5,
-                description: 'presentation score must be an integer',
-              },
-              comments: {
-                bsonType: 'string',
-                description: 'comments must be a string',
-              },
+            bsonType: 'array',
+            description: 'scores must be an array',
+            items: {
+              bsonType: 'object',
+              required: ['trackName', 'rawScores', 'finalTrackScore'],
+              properties: {
+                trackName: {
+                  bsonType: 'string',
+                  description: 'trackName must be a string',
+                },
+                rawScores: {
+                  bsonType: 'array',
+                  description: 'rawScores must be an array',
+                  items: {
+                    bsonType: 'int',
+                    description: 'rawScores must be an array of integers',
+                  },
+                },
+                finalTrackScore: {
+                  bsonType: 'int' || null,
+                  description: 'finalTrackScore must be an integer or null',
+                }
+              }
             },
-            additionalProperties: true,
+            comments: {
+              bsonType: 'string',
+              description: 'comments must be a string',
+            },
+            additionalProperties: false,
           },
           is_scored: {
             bsonType: 'bool',
             description: 'is_scored must be boolean',
+          },
+          queuePosition: {
+            bsonType: 'int',
+            description: 'queuePosition must be an integer',
           },
         },
         additionalProperties: false,
