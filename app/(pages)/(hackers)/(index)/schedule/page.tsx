@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
-import Footer from '@app/(pages)/_components/Footer/Footer';
+import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
@@ -262,6 +262,7 @@ export default function Page() {
                   {events.map((event) => (
                     <CalendarItem
                       key={event.id}
+                      id={event.id}
                       name={event.name}
                       type={event.type}
                       start_time={event.start_time}
