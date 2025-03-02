@@ -9,9 +9,6 @@ export default function Resources() {
 
       <h1>Stage 4 (Replace this w the components)</h1>
       {/* ensure the content, esp text, within each component horizontally lines up with the content inside other components */}
-      <StarterKitSlide title="Brainstorm" subtitle="IT’S TIME TO">
-        <Ready />
-      </StarterKitSlide>
     </div>
   );
 }
