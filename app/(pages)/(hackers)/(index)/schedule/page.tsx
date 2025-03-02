@@ -6,7 +6,7 @@ import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 
-type EventType = 'general' | 'activities' | 'workshops' | 'meals';
+type EventType = 'general' | 'activity' | 'workshop' | 'meal';
 
 interface Event {
   id: number;
@@ -37,7 +37,7 @@ const filters: FilterType[] = [
   { id: 'general', label: 'GENERAL', color: '#9EE7E5' },
   { id: 'activity', label: 'ACTIVITIES', color: '#FFC5AB' },
   { id: 'workshop', label: 'WORKSHOPS', color: '#AFD157' },
-  { id: 'menu', label: 'MENU', color: '#FFC53D' },
+  { id: 'meal', label: 'MENU', color: '#FFC53D' },
   // { id: 'recommended', label: 'RECOMMENDED', color: '#BBABDD' },
 ];
 

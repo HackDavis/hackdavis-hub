@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 
-type EventType = 'general' | 'activity' | 'workshop' | 'menu';
+type EventType = 'general' | 'activity' | 'workshop' | 'meal';
 
 interface CalendarItemProps {
+  id: number;
   name: string;
   type: EventType;
   start_time: string;
