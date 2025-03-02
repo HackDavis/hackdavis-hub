@@ -1,8 +1,5 @@
 import styles from './Login.module.scss';
 import Image from 'next/image';
-// import MusicAnimals from 'public/hackers/mvp/MusicAnimals.svg';
-import Clouds from 'public/hackers/mvp/Clouds.svg';
-// import BottomGrass from 'public/hackers/mvp/BottomGrass.svg';
 import Logo from 'public/hackers/mvp/HDLogo.svg';
 
 export default async function RegistrationLogin({
