@@ -38,19 +38,19 @@ function PastProjectDisplay({
     description,
   }: PastProjectDisplayProps) {
     return (
-      <div className="bg-background-secondary w-[calc(100vw*219/375)] aspect-[219/232] rounded-[6px] p-4 mt-[15px] mb-[15px] mx-auto md:w-[calc(100vw*971/1440)] md:aspect-[971/231] md:rounded-[12px] md:p-[18px]">
-        <div className="flex flex-col gap-[16px] md:flex-row md:items-center md:gap-[32px]">
-          <div className="flex-shrink-0 mx-auto md:mx-0 aspect-[195/97] w-[calc(100vw*195/375)] md:aspect-[280/195] md:w-[calc(100vw*280/1440)] pt-1">
+      <div className="bg-background-secondary rounded-[12px] w-full px-2 py-4 xs:px-3 md:rounded-[12px] md:p-8 2xl:p-12">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
+          <div className="flex-shrink-0 aspect-[195/97] w-full md:aspect-[280/195] md:w-1/3">
             <Image
               src={image}
               alt={title}
               className="w-full h-full object-fill rounded-[12px]"
             />
           </div>
-          <div className="flex flex-col gap-[4px] md:gap-[calc(100vw*8/1440)] mx-auto">
-            <h2 className="text-white text-2xl font-bold">{title}</h2>
-            <p className="text-[#FFC53D] text-base">{subtitle}</p>
-            <p className="text-white text-xs pb-[8px]">{description}</p>
+          <div className="flex flex-col gap-2 md:gap-2">
+            <h2 className="text-white text-lg md:text-2xl lg:text-3xl font-bold 2xl:text-6xl">{title}</h2>
+            <p className="text-[var(--hd-orange)] text-xs md:text-base lg:text-lg 2xl:text-2xl">{subtitle}</p>
+            <p className="text-white text-xs md:text-base lg:text-lg 2xl:text-2xl">{description}</p>
           </div>
         </div>
       </div>
@@ -58,8 +58,7 @@ function PastProjectDisplay({
   }
 
 export default function PreviousHacks() {
-    return <div className="bg-sea-background rounded-[12px] flex flex-col">
-    <div className="items-center pt-[20px]">
+    return <div className="bg-sea-background rounded-[12px] flex flex-col items-center 2xs:p-8 2xs:pb-0 p-4 pb-0 lg:p-8 lg:pb-0 gap-4 md:gap-6 lg:gap-8 2xl:gap-10 overflow-hidden">
       {pastProjects.map((project, index) => (
         <PastProjectDisplay
           key={index}
@@ -69,8 +68,7 @@ export default function PreviousHacks() {
           description={project.description}
         />
       ))}
-      <div className="flex flex-col gap-8 md:gap-12 xl:gap-16 items-center mt-5 md:mt-10">
-        <Card className="h-fit bg-transparent shadow-none border-none text-text-light w-[calc(100vw*219/375)] md:w-[calc(100vw*971/1440)]">
+        <Card className="bg-transparent shadow-none border-none text-text-light w-full pt-4">
           <CardContent className="p-0 flex flex-col md:items-center md:gap-0 md:flex-row-reverse md:justify-center">
             {/* Text Container */}
             <div className="flex flex-col md:px-0">
@@ -89,7 +87,7 @@ export default function PreviousHacks() {
               </h2>
             </div>
             {/* Image Container */}
-            <div className="right-[-30px] bottom-[-5px] aspect-[264/170] md:h-[calc(100vw*399/1440)]">
+            <div className="-right-8 -bottom-1 aspect-[264/170] md:w-3/5">
               <Image
                 src={podium}
                 alt="Cow Frog and Duck standing on a podium holding trophies"
@@ -98,7 +96,5 @@ export default function PreviousHacks() {
             </div>
           </CardContent>
         </Card>
-      </div>
-    </div>
   </div>
 }
