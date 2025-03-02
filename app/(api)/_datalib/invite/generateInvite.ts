@@ -15,13 +15,12 @@ export default async function GenerateInvite(
       throw new BadRequestError('Unknown role. Choose either hacker or judge.');
     }
 
-    data['exp'] =
-      Date.now() +
-      1000 *
-        60 *
-        60 *
-        24 *
-        (parseInt(process.env.INVITE_TIMEOUT as string) ?? 7);
+    const exp =
+      type === 'invite'
+        ? (process.env.INVITE_TIMEOUT as string)
+        : (process.env.RESET_TIMEOUT as string);
+
+    data['exp'] = Date.now() + 1000 * 60 * 60 * 24 * (parseInt(exp) ?? 7);
     const data_encoded = btoa(JSON.stringify(data));
 
     const hmac_sig = generateHMACSignature(data_encoded);
