@@ -17,9 +17,7 @@ export default function Resources() {
       <StarterKitSlide title="Developers" subtitle="MORE RESOURCES FOR">
         <DevelopersResources />
       </StarterKitSlide>
-      <StarterKitSlide title="Talk with a Mentor" subtitle="STILL FEELIN STUCK">
-        <MentorResources />
-      </StarterKitSlide>
+      <MentorResources />
     </div>
   );
 }
