@@ -41,10 +41,10 @@ function calculateScores(team: Team, submissions: Submission[]) {
   }));
 
   return {
-    number: team.number,
+    number: team.tableNumber,
     name: team.name,
     scores: finalScores,
-    comments: submissions.map((submission) => submission.scores.comments),
+    comments: submissions.map((submission) => submission.comments),
   };
 }
 
