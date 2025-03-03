@@ -16,7 +16,7 @@ function shuffleSpecialties(specialties) {
 
 function generateData(collectionName, numDocuments) {
   const specialties = [...new Set(tracks.map((track) => track.type))];
-  const hackerPositions = ['developer', 'designer', 'pm', 'other', 'beginner'];
+  const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
   let data = [];
@@ -59,6 +59,7 @@ function generateData(collectionName, numDocuments) {
         tracks.map((t) => t.name),
         faker.number.int({ min: 1, max: 5 })
       ),
+      active: true,
     }));
   } else if (collectionName === 'submissions') {
     data = Array.from({ length: numDocuments }, () => {
@@ -66,15 +67,13 @@ function generateData(collectionName, numDocuments) {
         tracks.map((t) => t.name),
         faker.number.int({ min: 1, max: 6 })
       );
-      const scores = randomTracks.map((t) => 
-        ({
-          trackName: t,
-          rawScores: Array.from({ length: 5 }, () =>
-            faker.number.int({ min: 1, max: 5 })
-          ),
-          finalTrackScore: null
-        })
-      );
+      const scores = randomTracks.map((t) => ({
+        trackName: t,
+        rawScores: Array.from({ length: 5 }, () =>
+          faker.number.int({ min: 1, max: 5 })
+        ),
+        finalTrackScore: null,
+      }));
       return {
         judge_id: new ObjectId(),
         team_id: new ObjectId(),
@@ -104,7 +103,9 @@ function generateData(collectionName, numDocuments) {
         start_time: startTime,
         end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
-          ? faker.helpers.arrayElements(hackerPositions, { min: 1 })
+          ? faker.helpers.arrayElements([...hackerPositions, 'beginner'], {
+              min: 1,
+            })
           : [],
       };
     });

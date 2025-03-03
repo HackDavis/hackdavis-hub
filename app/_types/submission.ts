@@ -1,7 +1,7 @@
 export interface TrackScore {
-  trackName: string,
-  rawScores: number[],
-  finalTrackScore: number | null
+  trackName: string;
+  rawScores: number[];
+  finalTrackScore: number | null;
 }
 
 export default interface Submission {
