@@ -6,6 +6,7 @@ export default async function GenerateInvite(
   data: InviteData,
   type: string = 'invite'
 ) {
+  console.log(data);
   try {
     if (!data.email || !data.role) {
       throw new BadRequestError('Email and role fields are required.');

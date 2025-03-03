@@ -1,6 +1,6 @@
 import styles from './ScoringForm.module.scss';
-import RadioSelect from '@app/(pages)/_components/RadioSelect/RadioSelect';
-import tracks from '@app/_data/tracks';
+import RadioSelect from '@components/RadioSelect/RadioSelect';
+import tracks from '@data/tracks';
 import { useRef, useState } from 'react';
 
 interface ScoringFormProps {
@@ -41,7 +41,7 @@ export default function ScoringForm({ submission_id }: ScoringFormProps) {
   return (
     <form onSubmit={onSubmit} className={styles.form}>
       <div className={styles.comments_container}>
-        <h2>Comments</h2>
+        <h2 className={styles.category_header}>Comments</h2>
         <p>Write down some thoughts here!</p>
         <textarea
           className={styles.comment_box}
@@ -71,7 +71,9 @@ export default function ScoringForm({ submission_id }: ScoringFormProps) {
           ))}
         </div>
       ))}
-      <button type="submit">Submit Scores</button>
+      <button type="submit" className={styles.submit_button}>
+        Submit Scores
+      </button>
     </form>
   );
 }
