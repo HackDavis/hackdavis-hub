@@ -1,5 +1,4 @@
 'use client';
-import ScoringForm from '../_components/ScoringForm/ScoringForm';
 import { useTeam } from '@hooks/useTeam';
 import { useSubmission } from '@hooks/useSubmission';
 export default function Scoring({ params }: { params: { team_id: string } }) {
@@ -16,5 +15,5 @@ export default function Scoring({ params }: { params: { team_id: string } }) {
     return 'something went wrong.';
   }
 
-  return <ScoringForm team={team.body} submission={submission.body} />;
+  return <div> Scoring yay </div>;
 }

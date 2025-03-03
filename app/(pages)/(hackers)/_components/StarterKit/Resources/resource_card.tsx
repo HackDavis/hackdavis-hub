@@ -1,4 +1,4 @@
-import { useLinkPreview } from '@app/(pages)/_hooks/useLinkPreview';
+import { useLinkPreview } from '@hooks/useLinkPreview';
 export interface resource_type {
   name: string;
   url: string;
@@ -6,16 +6,13 @@ export interface resource_type {
 
 export default function ResourceCard({
   resource,
-  default_img_path
+  default_img_path,
 }: {
   resource: resource_type;
   default_img_path: string;
 }) {
   // Use the custom hook
-  const { preview, loading, error } = useLinkPreview(
-    resource.url,
-    resource.name
-  );
+  const { preview, loading } = useLinkPreview(resource.url, resource.name);
 
   return (
     <div className="flex flex-row flex-wrap md:flex-nowrap bg-[#005271] rounded-lg md:rounded-xl p-2 xs:p-4 md:p-0 2xs:gap-4 md:gap-0 overflow-hidden text-white font-jakarta w-full">
@@ -24,19 +21,21 @@ export default function ResourceCard({
           <div className="w-full h-full flex items-center justify-center bg-gray-800">
             <p>Loading...</p>
           </div>
-        ) : 
+        ) : (
           <div className="relative w-full h-full">
             {/* using image here since we would need to add all the link
                 previews to the next config
             */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={preview.images.length > 0 ? preview.images[0] : default_img_path}
+              src={
+                preview.images.length > 0 ? preview.images[0] : default_img_path
+              }
               alt={preview.title}
               className="absolute h-full w-full object-cover"
             />
           </div>
-        }
+        )}
       </div>
 
       <div className="py-2 md:p-4 flex flex-col flex-1 w-full md:max-w-3/4">

@@ -1,9 +1,10 @@
 interface Team {
-  _id: string;
-  number: number;
+  _id?: string;
+  teamNumber: number;
+  tableNumber: number;
   name: string;
   tracks: string[];
-  hacker_ids: string[];
+  active: boolean;
 }
 
 export default Team;
