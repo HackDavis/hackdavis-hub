@@ -44,28 +44,32 @@ export default function LoginForm() {
   }, [email, password]);
 
   return (
-    <form onSubmit={handleLogin} className={styles.container}>
-      <label htmlFor="email">Email</label>
-      <input
-        name="email"
-        type="email"
-        value={email}
-        onInput={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-      />
-      <label htmlFor="password">Password</label>
-      <input
-        name="password"
-        type="password"
-        value={password}
-        onInput={(e: ChangeEvent<HTMLInputElement>) =>
-          setPassword(e.target.value)
-        }
-      />
-      <p className={styles.error_msg}>{error}</p>
-      <button type="submit" disabled={loading || !valid}>
-        Log in →
-      </button>
-      <Link href="/login/forgot-password">Forgot Password?</Link>
-    </form>
+    <div className={styles.container}>
+      <form onSubmit={handleLogin}>
+        <label htmlFor="email">Email</label>
+        <input
+          name="email"
+          type="email"
+          value={email}
+          onInput={(e: ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
+        />
+        <label htmlFor="password">Password</label>
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onInput={(e: ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
+        />
+        <p className={styles.error_msg}>{error}</p>
+        <button type="submit" disabled={loading || !valid}>
+          Log in →
+        </button>
+        <Link href="/login/forgot-password">Forgot Password?</Link>
+      </form>
+    </div>
   );
 }
