@@ -23,7 +23,7 @@ export default async function ProtectedDisplay({
   const user = await getUser(id);
 
   if (!user.ok) {
-    LogoutAction();
+    await LogoutAction();
     redirect(failRedirectRoute);
   }
 
