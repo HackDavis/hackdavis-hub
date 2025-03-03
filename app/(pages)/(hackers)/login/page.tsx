@@ -4,7 +4,7 @@ import { auth } from '@/auth';
 // import LoginForm from './_components/LoginForm';
 
 // hay added
-import RegistrationLogin from '@app/(pages)/_components/Login/Login';
+import RegistrationLogin from '@components/Login/Login';
 
 export default async function LoginPage() {
   const session = await auth();
