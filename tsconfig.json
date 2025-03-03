@@ -33,7 +33,6 @@
       "@datalib/*": ["app/(api)/_datalib/*"],
       "@typeDefs/*": ["app/_types/*"],
       "@/auth": ["auth.ts"],
-      "@public/*": ["public/*"]
     }
   },
   "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
