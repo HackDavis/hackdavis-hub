@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import '@globals/globals.scss';
-import metadataJSON from '@app/(pages)/_globals/metadata.json';
+import metadataJSON from '@globals/metadata.json';
 import fonts from './_globals/fonts';
 import { SessionProvider } from 'next-auth/react';
 //import Navbar from '@app/(pages)/_components/Navbar/Navbar';

@@ -4,7 +4,7 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Events Object Validation',
-        required: ['name', 'type', 'location', 'start_time', 'end_time'],
+        required: ['name', 'type', 'start_time'],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -19,7 +19,7 @@ export async function up(db) {
             description: 'host must be a string',
           },
           type: {
-            enum: ['workshop', 'meal', 'general', 'activity'],
+            enum: ['WORKSHOPS', 'MEALS', 'GENERAL', 'ACTIVITIES'],
             description:
               'type must be a valid event type: workshop, meal, general, activity',
           },
@@ -38,6 +38,11 @@ export async function up(db) {
           tags: {
             bsonType: 'array',
             description: 'tags must be an array of strings',
+            items: {
+              enum: ['developer', 'designer', 'pm', 'other', 'beginner'],
+              description:
+                'tags must be an array of valid hacker positions: developer, designer, pm, other, beginner',
+            }
           },
         },
         additionalProperties: false,
