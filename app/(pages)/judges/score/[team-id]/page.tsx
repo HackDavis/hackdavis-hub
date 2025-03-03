@@ -1,9 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-// import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import styles from './page.module.scss';
-import ScoringForm from '@app/(pages)/_components/ScoringForm/ScoringForm';
+import ScoringForm from '@components/ScoringForm/ScoringForm';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import leftArrow from '@public/judges/scoring/left-arrow.svg';
 
 interface ScoringFormProps {
   params: {
@@ -19,13 +23,17 @@ const judgingCategories = [
 ];
 
 export default function ScoreTeam({ params }: ScoringFormProps) {
-  // const { data } = useSession();
+  const { data } = useSession();
+  console.log(data?.user);
   const [showInfo, setShowInfo] = useState(false);
 
   return (
     <div className={styles.container}>
-      <button>{`< Back to Projects`}</button>
-      <h1>Table {params['team-id']}</h1>
+      <Link className={styles.back_button} href="/judges">
+        <Image src={leftArrow} alt="left arrow" />
+        Back to projects
+      </Link>
+      <h1 className={styles.project_label}>Table {params['team-id']}</h1>
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${showInfo ? styles.active : null}`}
@@ -43,15 +51,15 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
       <div style={{ display: showInfo ? 'none' : 'block' }}>
         <ScoringForm submission_id="12345" />
       </div>
-      <div style={{ display: showInfo ? 'block' : 'none' }}>
+      <div
+        className={`${styles.info_container} ${showInfo ? styles.show : null}`}
+      >
         <p>Judging categories Table {params['team-id']} signed up for:</p>
-        <div className={styles.category_cards}>
-          {judgingCategories.map((category) => (
-            <p key={category} className={styles.category_card}>
-              {category}
-            </p>
-          ))}
-        </div>
+        {judgingCategories.map((category) => (
+          <p key={category} className={styles.category_card}>
+            {category}
+          </p>
+        ))}
       </div>
     </div>
   );
