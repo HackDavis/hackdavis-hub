@@ -1,7 +1,7 @@
 'use client';
 
 // import SearchBar from './_components/SearchBar';
-import ProjectPage from './_components/ProjectPage';
+import ProjectPage from '../../_components/Projects/ProjectPage';
 
 export default function Judges() {
   return (
