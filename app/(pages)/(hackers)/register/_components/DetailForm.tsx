@@ -39,10 +39,8 @@ const characters = [
   },
 ];
 
-export default function DetailForm({ data, id }: any) {
+export default function DetailForm({ id, name }: any) {
   const router = useRouter();
-
-  const name = data?.name ? data.name : 'HackDavis Admin';
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

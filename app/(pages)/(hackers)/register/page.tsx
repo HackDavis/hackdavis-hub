@@ -4,12 +4,11 @@ import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import RegisterForm from './_components/RegisterForm';
 import LoginBackground from '../_components/LoginBackground/LoginBackground';
+import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
 
 export default async function RegisterPage() {
   const session = await auth();
-  if (session) {
-    redirect('/');
-  }
+  if (session) redirect('/');
 
   const data = await getInviteData();
 
@@ -18,8 +17,10 @@ export default async function RegisterPage() {
   }
 
   return (
-    <LoginBackground>
-      <RegisterForm data={data} />
-    </LoginBackground>
+    <InviteOnlyRoute>
+      <LoginBackground>
+        <RegisterForm data={data} />
+      </LoginBackground>
+    </InviteOnlyRoute>
   );
 }
