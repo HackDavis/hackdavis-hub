@@ -34,6 +34,7 @@ export default function RegisterForm({ data }: any) {
       email,
       password,
       role,
+      has_checked_in: true,
     });
 
     if (response.ok) {
