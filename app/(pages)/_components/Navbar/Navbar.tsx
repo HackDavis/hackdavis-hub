@@ -54,12 +54,8 @@ export default function Navbar() {
   );
   const [showNavbar, setShowNavbar] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-
   const handleLogout = async () => {
-    setLoading(true);
     const response = await LogoutAction();
-    setLoading(false);
 
     if (response.ok) {
       router.push('/login');
