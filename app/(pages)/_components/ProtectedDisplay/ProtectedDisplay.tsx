@@ -24,7 +24,13 @@ export default async function ProtectedDisplay({
 
   if (!user.ok) {
     await LogoutAction();
-    redirect(failRedirectRoute);
+    // redirect(failRedirectRoute);
+    return (
+      <div>
+        User was manually deleted from the database, clear cookies and
+        re-register.
+      </div>
+    );
   }
 
   if (session.user.role === 'hacker') {

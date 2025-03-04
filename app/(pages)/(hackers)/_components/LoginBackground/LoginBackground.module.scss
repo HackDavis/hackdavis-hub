@@ -1,0 +1,41 @@
+@use 'app/(pages)/_globals/mixins';
+
+.container {
+    background-image: 
+        url('/hackers/mvp/BottomGrass.svg'), 
+        url('/hackers/mvp/Clouds.svg'),      
+        // sorry i couldnt find the same colors in globals TT
+        linear-gradient(284deg, rgba(213, 252, 209, 0.60) 9.72%, rgba(178, 231, 221, 0.60) 44.61%, rgba(118, 214, 230, 0.60) 79.5%);         
+
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: bottom center, top center, center;
+    background-size: 100% auto;
+    
+    height: 100vh;
+    position: relative;
+    // overflow: hidden;
+
+    // children go in here btw
+    .overlayContent {
+        position: absolute;
+        z-index: 1; 
+        border-radius: 8px;
+        width: 100%;
+      }
+
+
+    .scenery {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .logo {
+            margin-left: 5%;
+            margin-top: 2%;
+
+            img {
+                width: 32px;
+            }
+        }
+    }
+}

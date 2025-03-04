@@ -2,11 +2,17 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import LoginForm from './_components/LoginForm';
+import LoginBackground from 'app/(pages)/(hackers)/_components/LoginBackground/LoginBackground';
 
 export default async function LoginPage() {
   const session = await auth();
   if (session) {
     redirect('/');
   }
-  return <LoginForm />;
+
+  return (
+    <LoginBackground>
+      <LoginForm />
+    </LoginBackground>
+  );
 }

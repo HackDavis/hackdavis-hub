@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
+import Image from 'next/image';
 
-import styles from './ForgotPasswordForm.module.scss';
 import sendEmail from '@actions/invite/sendEmail';
+import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
+import styles from './ForgotPasswordForm.module.scss';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
@@ -48,22 +50,42 @@ export default function ForgotPasswordForm() {
   }, [email]);
 
   return (
-    <div>
-      <form onSubmit={handleForgotPassword}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
+        <div className={styles.header_text}>
+          <h1>Hi Hacker!</h1>
+          <p>Please enter your new password below!</p>
+        </div>
+      </div>
+      <form onSubmit={handleForgotPassword} className={styles.form}>
         <p className={styles.error_msg}>{error}</p>
         <p>{sentMessage}</p>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onInput={(e: ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-        />
-        <button type="submit" disabled={loading || !valid}>
-          Reset Password
-        </button>
+        <div className={styles.fields}>
+          <div>
+            <label htmlFor="email">EMAIL</label>
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
+            />
+          </div>
+        </div>
+
+        <div className={styles.bottom}>
+          <div />
+          <button
+            type="submit"
+            disabled={loading || !valid}
+            className={`${styles.forgot_button} ${valid ? styles.valid : null}`}
+          >
+            Send Email →
+          </button>
+        </div>
       </form>
     </div>
   );

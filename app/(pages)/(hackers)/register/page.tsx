@@ -3,13 +3,12 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import RegisterForm from './_components/RegisterForm';
-import styles from './page.module.scss';
+import LoginBackground from '../_components/LoginBackground/LoginBackground';
+import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
 
 export default async function RegisterPage() {
   const session = await auth();
-  if (session) {
-    redirect('/');
-  }
+  if (session) redirect('/');
 
   const data = await getInviteData();
 
@@ -18,8 +17,10 @@ export default async function RegisterPage() {
   }
 
   return (
-    <div className={styles.container}>
-      <RegisterForm data={data} />
-    </div>
+    <InviteOnlyRoute>
+      <LoginBackground>
+        <RegisterForm data={data} />
+      </LoginBackground>
+    </InviteOnlyRoute>
   );
 }
