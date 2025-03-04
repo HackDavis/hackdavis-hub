@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import RegisterForm from './_components/RegisterForm';
-import styles from './page.module.scss';
+import LoginBackground from '../_components/LoginBackground/LoginBackground';
 
 export default async function RegisterPage() {
   const session = await auth();
@@ -18,8 +18,8 @@ export default async function RegisterPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <LoginBackground>
       <RegisterForm data={data} />
-    </div>
+    </LoginBackground>
   );
 }

@@ -54,11 +54,7 @@ export default function LoginForm() {
       setPasswordError('');
     }
 
-    if (isEmailValid && isPasswordValid) {
-      setValid(true);
-    } else {
-      setValid(false);
-    }
+    setValid(isEmailValid && isPasswordValid);
   };
 
   useEffect(() => {
@@ -78,16 +74,14 @@ export default function LoginForm() {
         </div>
       </div>
       <form onSubmit={handleLogin} className={styles.form}>
-        <div className={styles.error_box}>
-          <p className={styles.error_msg}>{emailError}</p>
-        </div>
+        <p className={styles.error_msg}>{emailError}</p>
         <div className={styles.fields}>
           <div>
             <label htmlFor="email">EMAIL</label>
             <input
               name="email"
               type="email"
-              placeholder="Enter your email here"
+              placeholder="Email"
               value={email}
               onInput={(e: ChangeEvent<HTMLInputElement>) =>
                 setEmail(e.target.value)
@@ -95,13 +89,12 @@ export default function LoginForm() {
             />
           </div>
           <div>
-            <div className={styles.error_box}>
-              <p className={styles.error_msg}>{passwordError}</p>
-            </div>
+            <p className={styles.error_msg}>{passwordError}</p>
             <label htmlFor="password">PASSWORD</label>
             <input
               name="password"
               type="password"
+              placeholder="Password"
               value={password}
               onInput={(e: ChangeEvent<HTMLInputElement>) =>
                 setPassword(e.target.value)

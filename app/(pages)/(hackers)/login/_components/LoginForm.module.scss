@@ -163,10 +163,7 @@
   cursor: pointer;
 }
 
-.error_box {
-  min-height: 16px;
-}
-
 .error_msg {
   color: var(--text-error);
+  font-size: 0.75rem;
 }

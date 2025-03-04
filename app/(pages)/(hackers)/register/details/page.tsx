@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import DetailForm from '../_components/DetailForm';
-import styles from './page.module.scss';
+import LoginBackground from '../../_components/LoginBackground/LoginBackground';
 
 export default async function DetailPage() {
   const session = await auth();
@@ -16,8 +16,8 @@ export default async function DetailPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <LoginBackground>
       <DetailForm data={data} id={session.user.id} />
-    </div>
+    </LoginBackground>
   );
 }
