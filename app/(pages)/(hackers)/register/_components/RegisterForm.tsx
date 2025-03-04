@@ -34,7 +34,6 @@ export default function RegisterForm({ data }: any) {
       email,
       password,
       role,
-      starter_kit_stage: 1,
     });
 
     if (response.ok) {
