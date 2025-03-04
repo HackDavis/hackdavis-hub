@@ -81,9 +81,11 @@
 
 .monospace {
     font-family: "DM Mono";
+    font-size: 18px;
 }
 
 .info {
+    font-size: 18px;
     @include mixins.tablet-l {
         display: none;
     }

@@ -41,15 +41,12 @@ export default function MusicPlayer() {
   }, [isPlaying]);
 
   const handleHover = () => {
-    console.log('starting timer');
     timeoutRef.current = setTimeout(() => {
       setShowTooltip(true);
     }, 600);
   };
 
   const cancelHover = () => {
-    console.log('ending timer');
-
     clearTimeout(timeoutRef.current as NodeJS.Timeout);
     setShowTooltip(false);
   };
