@@ -50,11 +50,7 @@ export default function RegisterForm({ data }: any) {
     setLoading(false);
   };
 
-  const validateForm = (
-    email: string,
-    password: string,
-    passwordDupe: string
-  ) => {
+  const validateForm = (password: string, passwordDupe: string) => {
     const isPasswordValid = password.length >= 6 && password.length <= 20;
     if (!isPasswordValid) {
       setPasswordError(
@@ -79,8 +75,8 @@ export default function RegisterForm({ data }: any) {
   };
 
   useEffect(() => {
-    validateForm(email, password, passwordDupe);
-  }, [email, password, passwordDupe]);
+    validateForm(password, passwordDupe);
+  }, [password, passwordDupe]);
 
   return (
     <div className={styles.container}>
@@ -92,7 +88,7 @@ export default function RegisterForm({ data }: any) {
             Welcome to the HackerHub! The HackDavis team made this all for your
             hacking needs &lt;3
             <br />
-            Let’s get you started by making a password with us.
+            Let&#39;s get you started by making a password with us.
           </p>
         </div>
       </div>
