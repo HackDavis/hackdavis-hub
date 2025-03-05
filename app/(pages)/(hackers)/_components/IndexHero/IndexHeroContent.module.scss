@@ -82,10 +82,16 @@
 .monospace {
     font-family: "DM Mono";
     font-size: 18px;
+    @include mixins.desktop-s {
+        font-size: 17px;
+    }
 }
 
 .info {
     font-size: 18px;
+    @include mixins.desktop-s {
+        font-size: 17px;
+    }
     @include mixins.tablet-l {
         display: none;
     }
