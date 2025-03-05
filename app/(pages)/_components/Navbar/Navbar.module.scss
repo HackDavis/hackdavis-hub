@@ -28,6 +28,10 @@
     margin-right: auto;
     padding: 0 24px;
 
+    @include desktop-m {
+        width: calc(100% - 32px * 2);
+    }
+
     @include tablet-l {
         flex-direction: column;
         justify-content: center;
@@ -54,6 +58,7 @@
     transition: all 1s;
     height: 28px;
     width: 28px;
+    pointer-events: auto;
 
     @include tablet-l {
         margin-top: 20%;

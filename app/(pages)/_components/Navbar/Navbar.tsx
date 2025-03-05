@@ -28,16 +28,16 @@ const sections = [
   {
     id: 'schedule',
     page: '/schedule',
-    baseColor: '#FFFFFF',
+    baseColor: '#1589BE',
     activeColor: '#FFC53D',
-    background: 'rgba(136, 136, 136, 0.50)',
+    background: 'rgba(255, 255, 255, 0.50)',
   },
   {
     id: 'starter-kit',
     page: '/starter-kit',
-    baseColor: '#FFFFFF',
-    activeColor: '#FFC53D',
-    background: 'rgba(136, 136, 136, 0.50)',
+    baseColor: '#1589BE',
+    activeColor: '#AFD157',
+    background: 'rgba(255, 255, 255, 0.50)',
   },
 ];
 
@@ -114,6 +114,8 @@ export default function Navbar() {
         }
       }
 
+      i = i < 0 ? 0 : i;
+
       setActiveLink(
         currScroll > pageSections[i].sectionEnd ? '' : pageSections[i].id
       );
@@ -155,12 +157,13 @@ export default function Navbar() {
   };
 
   const getLogoColor = () => {
-    const currentSection = sections.find(
-      (section) => activeSection === section.id
-    );
-    if (!currentSection) return '#005271';
+    // const currentSection = sections.find(
+    //   (section) => activeSection === section.id
+    // );
+    // if (!currentSection) return '#005271';
+    return '#005271';
 
-    return currentSection.activeColor;
+    // return currentSection.activeColor;
   };
 
   const getLinkColor = (link: NavLink) => {
