@@ -19,6 +19,7 @@ export default function ForgotPasswordForm() {
 
     setLoading(true);
     setError('');
+    setSentMessage('');
 
     const response = await sendEmail({
       email,
@@ -59,15 +60,13 @@ export default function ForgotPasswordForm() {
         </div>
       </div>
       <form onSubmit={handleForgotPassword} className={styles.form}>
-        <p className={styles.error_msg}>{error}</p>
-        <p>{sentMessage}</p>
         <div className={styles.fields}>
           <div>
             <label htmlFor="email">EMAIL</label>
             <input
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder="Enter your email here"
               value={email}
               onInput={(e: ChangeEvent<HTMLInputElement>) =>
                 setEmail(e.target.value)
@@ -77,7 +76,8 @@ export default function ForgotPasswordForm() {
         </div>
 
         <div className={styles.bottom}>
-          <div />
+          <p className={styles.error_msg}>{error}</p>
+          <p>{sentMessage}</p>
           <button
             type="submit"
             disabled={loading || !valid}

@@ -81,7 +81,7 @@ export default function LoginForm() {
             <input
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder="Enter your email here"
               value={email}
               onInput={(e: ChangeEvent<HTMLInputElement>) =>
                 setEmail(e.target.value)
@@ -94,7 +94,7 @@ export default function LoginForm() {
             <input
               name="password"
               type="password"
-              placeholder="Password"
+              // placeholder="Enter password here"
               value={password}
               onInput={(e: ChangeEvent<HTMLInputElement>) =>
                 setPassword(e.target.value)

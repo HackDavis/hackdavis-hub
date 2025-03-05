@@ -84,7 +84,7 @@ export default function ResetPasswordForm({ data }: any) {
             <input
               name="password"
               type="password"
-              placeholder="Password"
+              // placeholder="Password"
               value={password}
               onInput={(e: ChangeEvent<HTMLInputElement>) =>
                 setPassword(e.target.value)
@@ -97,7 +97,7 @@ export default function ResetPasswordForm({ data }: any) {
             <label htmlFor="password">RETYPE NEW PASSWORD</label>
             <input
               type="password"
-              placeholder="Retype password"
+              // placeholder="Retype password"
               value={passwordDupe}
               onInput={(e: ChangeEvent<HTMLInputElement>) =>
                 setPasswordDupe(e.target.value)
