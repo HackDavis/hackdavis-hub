@@ -1,104 +1,174 @@
-@use 'app/(pages)/_globals/mixins';
-
-$scale: 1.04;
-
-.relative_wrapper {
-    position: relative;
-    height: var(--navbar-height);
-    width: 100%;
-}
+@import '@globals/mixins.scss';
 
 .container {
     position: fixed;
-    z-index: 10;
+    top: 12px;
     width: 100%;
-    height: var(--navbar-height);
-    padding: 0 var(--medium-spacer);
-    
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    pointer-events: none;
 
-    background-color: var(--primary);
+    transition: all 0.4s;
+    z-index: 100000;
+}
 
-    >h2 {
-        color: var(--text-light);
+.navigation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    gap: 43px;
+    width: calc(100% - 64px * 2);
+    height: 50px;
+    backdrop-filter: blur(30px);
+    border-radius: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+
+    @include tablet-l {
+        flex-direction: column;
+        justify-content: center;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        padding: 0;
+        gap: 0;
+        background: rgba(74, 74, 74, 0.50) !important;
+        backdrop-filter: blur(12.5px);
+        transform: translateY(-100%);
+        transition: transform 0.4s;
+        border-radius: 0;
+
+        &.visible {
+            transform: translateY(0%);
+        }
     }
 }
 
-.nav_container {
+.logo {
+    transition: all 1s;
+    height: 28px;
+    width: 28px;
+
+    @include tablet-l {
+        margin-top: 20%;
+        color: var(--text-light) !important;
+        height: 120px;
+        width: 120px;
+    }
+}
+
+.links {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    flex-shrink: 0;
-    gap: var(--spacer);
+    pointer-events: auto;
+    gap: 48px;
+    border-radius: 40px;
+    padding: 16px 48px;
 
-    .links {
+    .link {
+        color: var(--text-light);
+        font-family: var(--font-metropolis);
+        font-weight: 400;
+        font-size: 1rem;
+        letter-spacing: 0.36px;
+        line-height: 100%;
+        transition: transform 0.3s, color 0.5s ease-out;
+
+        &:hover {
+            transform: translateY(-0.1rem);
+        }
+
+        &.active {
+            font-weight: 700;
+        }
+    }
+
+    @include tablet-l {
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin-top: 10%;
+        border: none;
+        border-radius: 0;
+        background: none !important;
+        backdrop-filter: none;
+
+        .link {
+            font-weight: 400;
+            color: var(--text-light) !important;
+
+            &:hover {
+                transform: none;
+            }
+
+            &.active {
+                color: var(--text-light) !important;
+            }
+        }
+    }
+}
+
+.items {
+    align-self: baseline;
+    pointer-events: none;
+
+    .mlh_banner {
+        margin-right: 108px;
+        align-self: baseline;
+    }
+  
+    @include tablet-l {
         display: flex;
         flex-direction: row;
-        gap: var(--spacer);
-        color: var(--text-light);
+        justify-content: space-between;
+        width: 100%;
 
-        >* {
-            padding: var(--tiny-spacer);
-            @include mixins.tablet {
-                text-align: center;
-                padding: var(--small-spacer);
+        .hamburger {
+            margin: 32px 32px;
+            pointer-events: auto;
+            transition: all 0.3s ease-in-out;
+        
+            &_line {
+                width: 30px;
+                height: 3px;
+                margin: 5px auto;
+                display: block;
+                transition: all 0.3s ease-in-out;
             }
-        }
-
-        >*:hover {
-            transform: scale($scale);
-            @include mixins.tablet {
-                transform: none;
-                border-bottom: solid 2px var(--primary);
-            }
-        }
-
-        @include mixins.tablet {
-            position: absolute;
-            z-index: -1;
-            top: 100%;
-            left: 0;
-            right: 0;
-            height: 0;
-            overflow: hidden;
             
-            flex-direction: column;
-            gap: 0;
-            background-color: var(--light-background);
-            color: var(--text-dark);
-
-            transition: all 0.25s ease-in;
-
+            &:hover {
+                cursor: pointer;
+            }
+        
+            &_active {
+                margin: 32px 32px;
+                pointer-events: auto;
+                animation: smallbig 0.6s forwards;
+        
+                .hamburger_line {
+                    background-color: var(--text-light) !important;
+        
+                    &:nth-child(1) {
+                        transform: translateY(8px) rotate(45deg);
+                    }
+        
+                    &:nth-child(2) {
+                        opacity: 0;
+                    }
+        
+                    &:nth-child(3) {
+                        transform: translateY(-8px) rotate(-45deg);
+                    }
+                }
+            }
         }
-    }
-
-    @include mixins.tablet {
-        .links.active {
-            height: calc(100vh - var(--navbar-height));
-        }
-    }
-
-    .menu {
-        display: none;
-        background: none;
-        border: none;
-        font-size: 2rem;
-        cursor: pointer;
-
-        * {
-            color: var(--text-light);
-        }
-        @include mixins.tablet {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
-
-    .menu:hover {
-        transform: scale($scale);
     }
 }
