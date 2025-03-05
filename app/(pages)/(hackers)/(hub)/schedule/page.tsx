@@ -154,7 +154,7 @@ export default function Page() {
   };
 
   return (
-    <main className="w-full">
+    <main id="schedule" className="w-full">
       <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip">
         <Image
           src={headerGrass}
