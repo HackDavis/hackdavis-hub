@@ -222,7 +222,7 @@ export function ParentCarousel() {
 
   return (
     <main
-      className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 xl:p-16 overflow-hidden"
+      className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 xl:p-16 xl:pt-32 overflow-hidden"
       style={{
         background:
           'linear-gradient(136.61deg, #97DBEF 12.93%, #79CCD9 48.22%, #FFEDCF 83.5%)',
