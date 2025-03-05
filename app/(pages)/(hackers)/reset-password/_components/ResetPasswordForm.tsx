@@ -2,8 +2,10 @@
 
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import ResetPasswordAction from '@actions/auth/resetPassword';
+import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import styles from './ResetPasswordForm.module.scss';
 
 export default function ResetPasswordForm({ data }: any) {
@@ -13,15 +15,15 @@ export default function ResetPasswordForm({ data }: any) {
   const [passwordDupe, setPasswordDupe] = useState('');
   const [valid, setValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordDupeError, setPasswordDupeError] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordDupeError, setPasswordDupeError] = useState('');
 
   const handleReset = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
-    setError('');
+    setPasswordError('');
+    setPasswordDupeError('');
 
     const response = await ResetPasswordAction({
       email: data.email,
@@ -31,33 +33,34 @@ export default function ResetPasswordForm({ data }: any) {
     if (response.ok) {
       router.push('/login');
     } else {
-      setError(response.error ?? 'Invalid email or password.');
+      setPasswordError(response.error ?? 'Failed to reset password');
     }
 
     setLoading(false);
   };
 
   const validateForm = (password: string, passwordDupe: string) => {
-    const isPasswordValid =
-      (password.length >= 6 && password.length <= 20) || password.length === 0;
+    const isPasswordValid = password.length >= 6 && password.length <= 20;
     if (!isPasswordValid) {
-      setError('Password must be between 6 and 20 characters.');
+      setPasswordError(
+        password.length === 0
+          ? ''
+          : 'Password must be between 6 and 20 characters.'
+      );
+    } else {
+      setPasswordError('');
     }
-    setPasswordError(!isPasswordValid);
 
     const passwordMatch = password === passwordDupe;
     if (!passwordMatch) {
-      setError("Passwords don't match.");
+      setPasswordDupeError(
+        passwordDupe.length === 0 ? '' : "Passwords don't match."
+      );
+    } else {
+      setPasswordDupeError('');
     }
-    setPasswordDupeError(!passwordMatch);
 
-    if (password.length === 0 || passwordDupe.length === 0) {
-      setValid(false);
-    }
-    if (isPasswordValid && passwordMatch) {
-      setError('');
-      setValid(true);
-    }
+    setValid(isPasswordValid && passwordMatch);
   };
 
   useEffect(() => {
@@ -65,37 +68,55 @@ export default function ResetPasswordForm({ data }: any) {
   }, [password, passwordDupe]);
 
   return (
-    <div>
-      <form onSubmit={handleReset} className={styles.container}>
-        <p className={styles.error_msg}>{error}</p>
-        <div className={styles.fields}>
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
-            className={`${passwordError ? styles.error : null}`}
-          />
-          <input
-            type="password"
-            placeholder="Retype password"
-            value={passwordDupe}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              setPasswordDupe(e.target.value)
-            }
-            className={`${passwordDupeError ? styles.error : null}`}
-          />
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
+        <div className={styles.header_text}>
+          <h1>Hi Hacker!</h1>
+          <p>Please enter your new password below!</p>
         </div>
-        <button
-          className={`${styles.login_button} ${valid ? styles.valid : null}`}
-          type="submit"
-          disabled={loading || !valid}
-        >
-          Reset Password
-        </button>
+      </div>
+      <form onSubmit={handleReset} className={styles.form}>
+        <p className={styles.error_msg}>{passwordError}</p>
+        <div className={styles.fields}>
+          <div>
+            <label htmlFor="email">NEW PASSWORD</label>
+            <input
+              name="password"
+              type="password"
+              // placeholder="Password"
+              value={password}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
+              className={`${passwordError ? styles.error : null}`}
+            />
+          </div>
+          <div>
+            <p className={styles.error_msg}>{passwordDupeError}</p>
+            <label htmlFor="password">RETYPE NEW PASSWORD</label>
+            <input
+              type="password"
+              // placeholder="Retype password"
+              value={passwordDupe}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                setPasswordDupe(e.target.value)
+              }
+              className={`${passwordDupeError ? styles.error : null}`}
+            />
+          </div>
+        </div>
+
+        <div className={styles.bottom}>
+          <div />
+          <button
+            type="submit"
+            disabled={loading || !valid}
+            className={`${styles.reset_button} ${valid ? styles.valid : null}`}
+          >
+            Reset Password →
+          </button>
+        </div>
       </form>
     </div>
   );
