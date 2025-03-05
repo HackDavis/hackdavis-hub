@@ -54,7 +54,7 @@ const mockScheduleData: ScheduleData = {
       type: 'ACTIVITIES',
       startTime: '2024-04-19T15:30:00Z',
       endTime: '2024-04-19T17:00:00Z',
-      location: 'ARC Ballroom B',
+      location: 'ARC Ballroom A',
     },
     {
       id: 3,
