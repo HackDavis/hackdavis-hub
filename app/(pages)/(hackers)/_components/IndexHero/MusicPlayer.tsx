@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './MusicPlayer.module.scss';
-import vinyl from 'public/index/hero/vinyl.svg';
+import vinyl from 'public/judges/hub/vinyl.svg';
 import pauseIcon from 'public/index/hero/pause-icon.svg';
 import playIcon from 'public/index/hero/play-icon.svg';
 
