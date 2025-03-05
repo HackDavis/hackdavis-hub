@@ -59,6 +59,9 @@ export default function MusicPlayer() {
         className={styles.vinyl}
         style={{ transform: `rotate(${rotation}deg)` }}
       />
+      <p className="font-jakarta text-left text-background-secondary leading-[145%] tracking-[0.32px] w-full max-w-[400px]">
+        COMING SOON...
+      </p>
       <button
         className={styles.controls}
         onClick={() => setIsPlaying((prev: any) => !prev)}
