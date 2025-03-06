@@ -54,8 +54,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
           const response = await GetManyUsers({ email });
 
-          if (!response.body || response.body.length === 0) {
-            throw new Error('Internal server error');
+          if (!response.ok || response.body.length === 0) {
+            throw new Error(response.error ?? 'User not found.');
           }
 
           const user = response.body[0];
