@@ -28,6 +28,10 @@
       @include tablet-s {
         font-size: 1.25rem;
       }
+
+      @include mobile-l {
+        font-size: 1rem;
+      }
     }
 
     p {
@@ -40,6 +44,10 @@
       @include tablet-s {
         font-size: 0.875rem;
       }
+
+      @include mobile-l {
+        font-size: 0.75rem;
+      }
     }
   }
 }
@@ -49,11 +57,15 @@
   flex-direction: column;
   align-self: center;
   align-items: center;
-  width: 60%;
+  width: 70%;
   margin-top: 5%;
 
   @include desktop-m {
     width: 80%;
+  }
+
+  @include tablet-l {
+    padding-bottom: 32px;
   }
 }
 
@@ -64,11 +76,18 @@
   height: 100%;
   width: 100%;
 
-  @include desktop-s {
+  @include desktop-m {
+    gap: 20px;
+  }
+  @include tablet-l {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    width: 50%;
-    gap: 0;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  @include mobile-l {
+    gap: 0
   }
 }
 
@@ -76,21 +95,22 @@
   display: flex;
   align-self: flex-end;
   height: 100%;
-  padding: 32px;
+  // margin: 32px;
 
-  @include desktop-s {
-    padding: 16px;
-  }
-}
+  // @include desktop-s {
+  //   margin: 16px;
+  // }
 
-.selected {
-  border-radius: 20px;
-  border: 1px dashed #005271;
-  padding: 31px;
 
-  @include desktop-s {
-    padding: 15px;
-  }
+  &.selected {
+    border-radius: 20px;
+    border: 1px dashed #005271;
+    // padding-bottom: 31px;
+  
+    @include desktop-s {
+      // padding-bottom: 15px;
+    }
+  }  
 }
 
 .radioInput {
@@ -115,18 +135,38 @@
   display: flex;
   margin-bottom: 16px;
   transition: transform 0.2s;
+
+  &.selected {
+    filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.60));
+  }
 }
 
 .characterImage:hover {
-  transform: translateY(-10px);
+  // transform: translateY(-10px);
+  filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.60));
 }
 
 .characterLabel {
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  text-wrap: nowrap;
+  padding-bottom: 32px;
+
+  @include desktop-l {
+    font-size: 1rem;
+  }
+
+  @include desktop-m {
+    font-size: 0.875rem;
+    padding-bottom: 16px;
+  }
+
+  &.selected {
+    color: #005271;
+  }
 }
 
 .bottom {
@@ -135,6 +175,12 @@
   justify-content: space-between;
   width: 100%;
   margin-top: 28px;
+
+  @include tablet-l {
+    flex-direction: column;
+    align-items: end;
+    gap: 20px;
+  }
 }
 
 .beginnerOption {
@@ -189,7 +235,7 @@
 
   @include tablet-l {
     padding: 8px 16px;
-    font-size: 0.75rem;
+    font-size: 1rem;
     letter-spacing: 0.24px;
   }
 }

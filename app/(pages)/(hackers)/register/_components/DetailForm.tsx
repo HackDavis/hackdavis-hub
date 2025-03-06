@@ -116,10 +116,17 @@ export default function DetailForm({ id, name }: any) {
                 <Image
                   src={image}
                   alt={alt}
-                  objectFit="fit"
-                  className={styles.characterImage}
+                  className={`${styles.characterImage} ${
+                    selectedPosition === role ? styles.selected : ''
+                  }`}
                 />
-                <span className={styles.characterLabel}>{label}</span>
+                <span
+                  className={`${styles.characterLabel} ${
+                    selectedPosition === role ? styles.selected : ''
+                  }`}
+                >
+                  {label}
+                </span>
               </label>
             </div>
           ))}
