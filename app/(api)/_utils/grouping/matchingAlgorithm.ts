@@ -1,40 +1,43 @@
-import fs from 'fs/promises';
+// @actions/logic/matchTeams.ts
 import User from '@typeDefs/user';
 import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
+import tracks from '@apidata/tracks.json' assert { type: 'json' };
 
-// Extend the Team interface for this file only.
-interface ExtendedTeam extends Team {
-  sortedTrackDomains: string[];
-}
-
-// Assume these server actions are available for fetching data.
 import { getManyUsers } from '@actions/users/getUser';
 import { getManyTeams } from '@actions/teams/getTeams';
 
 interface Judge {
   user: User;
-  domainMatchScores: { [domain: string]: number }; // Ranked domains: higher score means better expertise.
+  domainMatchScores: { [domain: string]: number }; // Higher score means better expertise.
   teamsAssigned: number;
   priority: number;
 }
 
-// Constant alpha to penalize judges for more assignments.
+// Build a map from track name to track type.
+const trackMap = new Map<string, string>(
+  tracks.map((track: { name: string; type: string }) => [
+    track.name,
+    track.type,
+  ])
+);
+
 const ALPHA = 0.1;
 
 /**
- * Generate submissions by matching judges to teams.
+ * Match teams with judges and return an array of minimal submissions.
+ * Each submission only contains the judge_id and team_id.
  */
-export async function generateSubmissions(): Promise<Submission[]> {
-  // Fetch all judges who are checked in.
+export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
+  // Fetch all judges.
   const judgesResponse = await getManyUsers({
-    role: 'Judge',
-    has_checked_in: true,
+    role: 'judge',
+    has_checked_in: false, // TODO: CHANGE THIS LATER TO CHECKED IN FOR DOE
   });
   if (!judgesResponse.ok) {
     throw new Error(`Failed to fetch judges: ${judgesResponse.error}`);
   }
-  const users: User[] = judgesResponse.body;
+  const users = judgesResponse.body as User[];
 
   // Convert fetched users into Judge objects.
   const judgesQueue: Judge[] = users.map((user) => ({
@@ -42,7 +45,7 @@ export async function generateSubmissions(): Promise<Submission[]> {
     domainMatchScores: user.specialties
       ? user.specialties.reduce(
           (acc, domain, index) => {
-            // Example: assign a decreasing score for each ranked domain.
+            // Assign a decreasing score for each ranked domain.
             acc[domain] = 10 - index;
             return acc;
           },
@@ -50,7 +53,7 @@ export async function generateSubmissions(): Promise<Submission[]> {
         )
       : {},
     teamsAssigned: 0,
-    priority: 0, // Initialize priority to 0 (will be updated per team).
+    priority: 0,
   }));
 
   // Fetch teams.
@@ -58,53 +61,53 @@ export async function generateSubmissions(): Promise<Submission[]> {
   if (!teamsResponse.ok) {
     throw new Error(`Failed to fetch teams: ${teamsResponse.error}`);
   }
-  // Cast the fetched teams to ExtendedTeam to include sortedTrackDomains.
-  const modifiedTeams = teamsResponse.body as ExtendedTeam[];
+  const modifiedTeams = teamsResponse.body as Team[];
 
-  // Helper function: Get specialty match score for a given team and judge for the specified track index.
+  // Convert each team's tracks from name to type and keep only unique values.
+  modifiedTeams.forEach((team) => {
+    if (team.tracks && team.tracks.length) {
+      team.tracks = Array.from(
+        new Set(
+          team.tracks.map(
+            (trackName: string) => trackMap.get(trackName) || trackName
+          )
+        )
+      );
+    }
+  });
+
+  // Helper: Get specialty match score for a given team and judge for the specified track index.
   function getSpecialtyMatchScore(
-    team: ExtendedTeam,
+    team: Team,
     judge: Judge,
     trackIndex: number
   ): number {
-    const domain = team.sortedTrackDomains
-      ? team.sortedTrackDomains[trackIndex]
-      : '';
-    // Return the judge's match score for that domain, or 0 if not found.
+    const domain = team.tracks ? team.tracks[trackIndex] : '';
     return domain ? judge.domainMatchScores[domain] ?? 0 : 0;
   }
 
-  // Update the entire judges array (the "queue") based on the current team and track index.
-  function updateQueue(
-    team: ExtendedTeam,
-    trackIndex: number,
-    judges: Judge[]
-  ): void {
+  // Update the judges' priority based on the current team's track domain.
+  function updateQueue(team: Team, trackIndex: number, judges: Judge[]): void {
     for (const judge of judges) {
       const specialtyScore = getSpecialtyMatchScore(team, judge, trackIndex);
-      // Higher specialty score should lower the "priority" value.
       judge.priority = specialtyScore - ALPHA * judge.teamsAssigned;
     }
-    // Sort the judges in ascending order (lowest priority value first).
     judges.sort((a, b) => a.priority - b.priority);
   }
 
-  // Array to hold submissions.
-  const submissions: Submission[] = [];
-  const rounds = 3;
+  // Array to hold the minimal submissions.
+  const submissions: Partial<Submission>[] = [];
 
-  // For each team, perform assignment rounds.
+  // For each team, assign a submission for each unique track.
   for (const team of modifiedTeams) {
-    // Ensure the team has enough sortedTrackDomains.
-    if (!team.sortedTrackDomains || team.sortedTrackDomains.length < rounds) {
-      console.warn(
-        `Team ${team._id} does not have enough sorted track domains.`
-      );
+    if (!team.tracks || team.tracks.length === 0) {
+      console.warn(`Team ${team._id} has no tracks.`);
       continue;
     }
 
+    // Use the number of unique tracks as the number of rounds.
+    const rounds = team.tracks.length;
     for (let i = 0; i < rounds; i++) {
-      // Update the judges array based on the current team's i-th domain.
       updateQueue(team, i, judgesQueue);
 
       // The judge at index 0 is the best match.
@@ -114,73 +117,17 @@ export async function generateSubmissions(): Promise<Submission[]> {
         break;
       }
 
-      // Create a submission using the selected judge.
-      const submission: Submission = {
+      // Create a minimal submission with just the judge_id and team_id.
+      const submission: Partial<Submission> = {
         judge_id: selectedJudge.user._id as string,
         team_id: team._id as string,
-        social_good: 0,
-        creativity: 0,
-        presentation: 0,
-        scores: team.sortedTrackDomains.map((trackName) => ({
-          trackName,
-          rawScores: [0, 0, 0, 0, 0], // Example: initialize raw scores array.
-          finalTrackScore: null,
-        })),
-        comments: '',
-        is_scored: false,
-        queuePosition: 0, // Optionally record the judge's position.
       };
 
       submissions.push(submission);
-
-      // Increase the number of teams assigned for this judge.
       selectedJudge.teamsAssigned += 1;
     }
   }
 
-  console.log('Final submissions:', submissions);
-  return submissions;
-}
-
-/**
- * Convert an array of submissions to a CSV string.
- */
-function convertSubmissionsToCSV(submissions: Submission[]): string {
-  // Define CSV header columns.
-  const headers = [
-    'judge_id',
-    'team_id',
-    'social_good',
-    'creativity',
-    'presentation',
-    'scores',
-    'comments',
-    'is_scored',
-    'queuePosition',
-  ];
-  const rows = submissions.map((sub) => {
-    return [
-      sub.judge_id,
-      sub.team_id,
-      sub.social_good,
-      sub.creativity,
-      sub.presentation,
-      JSON.stringify(sub.scores), // flatten the scores object as JSON
-      sub.comments ? sub.comments : '',
-      sub.is_scored,
-      sub.queuePosition,
-    ].join(',');
-  });
-  return headers.join(',') + '\n' + rows.join('\n');
-}
-
-/**
- * Main function: generate submissions, convert to CSV, and save to file.
- */
-export async function generateAndSaveSubmissions(): Promise<Submission[]> {
-  const submissions = await generateSubmissions();
-  const csvString = convertSubmissionsToCSV(submissions);
-  await fs.writeFile('submissions.csv', csvString, 'utf8');
-  console.log('Submissions saved to submissions.csv');
+  console.log('Matched submissions:', submissions);
   return submissions;
 }
