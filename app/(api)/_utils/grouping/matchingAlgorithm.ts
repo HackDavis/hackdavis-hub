@@ -76,12 +76,17 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
     }
   });
 
+  // Log the number of judges and teams.
+  console.log('Number of judges:', judgesQueue.length);
+  console.log('Number of teams:', modifiedTeams.length);
+
   // Helper: Get specialty match score for a given team and judge for the specified track index.
   function getSpecialtyMatchScore(
     team: Team,
     judge: Judge,
     trackIndex: number
   ): number {
+    // Use the track at index if available.
     const domain = team.tracks ? team.tracks[trackIndex] : '';
     return domain ? judge.domainMatchScores[domain] ?? 0 : 0;
   }
@@ -98,17 +103,20 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
   // Array to hold the minimal submissions.
   const submissions: Partial<Submission>[] = [];
 
-  // For each team, assign a submission for each unique track.
+  // For each team, assign a submission for each round.
+  // Each team should be judged at least 3 times.
   for (const team of modifiedTeams) {
     if (!team.tracks || team.tracks.length === 0) {
       console.warn(`Team ${team._id} has no tracks.`);
       continue;
     }
 
-    // Use the number of unique tracks as the number of rounds.
-    const rounds = team.tracks.length;
+    // Ensure at least 3 rounds.
+    const rounds = Math.max(team.tracks.length, 3);
     for (let i = 0; i < rounds; i++) {
-      updateQueue(team, i, judgesQueue);
+      // If there are fewer unique tracks than rounds, use the last track for extra rounds.
+      const trackIndex = i < team.tracks.length ? i : team.tracks.length - 1;
+      updateQueue(team, trackIndex, judgesQueue);
 
       // The judge at index 0 is the best match.
       const selectedJudge = judgesQueue[0];
@@ -128,6 +136,6 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
     }
   }
 
-  console.log('Matched submissions:', submissions);
+  //console.log('Matched submissions:', submissions);
   return submissions;
 }
