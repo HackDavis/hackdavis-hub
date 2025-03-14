@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const tracks = require('../app/(api)/_data/tracks.json');
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -104,8 +106,8 @@ function generateData(collectionName, numDocuments) {
         end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
           ? faker.helpers.arrayElements([...hackerPositions, 'beginner'], {
-              min: 1,
-            })
+            min: 1,
+          })
           : [],
       };
     });
