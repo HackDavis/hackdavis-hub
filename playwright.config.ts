@@ -1,9 +1,13 @@
 // import { defineConfig, devices } from '@playwright/test';
 import { defineConfig } from '@playwright/test';
-import path from 'path';
+// import path from 'path';
+// import { fileURLToPath } from 'url';
 // require('dotenv').config();
 
-export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/user.json');
+// export const STORAGE_STATE = path.join(
+//   path.dirname(fileURLToPath(import.meta.url)),
+//   'playwright/.auth/user.json'
+// );
 // console.log(devices);
 // https://playwright.dev/docs/test-configuration.
 export default defineConfig({
@@ -31,13 +35,13 @@ export default defineConfig({
       name: 'integration tests: API and database',
       testMatch: '**/*db.spec.ts',
       dependencies: ['setup'],
-      use: { storageState: STORAGE_STATE },
+      // use: { storageState: STORAGE_STATE },
     },
     {
       name: 'integration tests: UI and server actions',
       testMatch: '**/*actions.spec.ts',
       dependencies: ['setup'],
-      use: { storageState: STORAGE_STATE },
+      // use: { storageState: STORAGE_STATE },
     },
   ],
 
