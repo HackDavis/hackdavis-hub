@@ -1,4 +1,8 @@
-import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
+import fs from 'fs';
+import path from 'path';
+
+const tracksPath = path.resolve(process.cwd(), 'app/(api)/_data/tracks.json');
+const tracks = JSON.parse(fs.readFileSync(tracksPath, 'utf8'));
 
 export async function up(db) {
   await db.createCollection('teams', {
@@ -6,15 +10,19 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Teams Object Validation',
-        required: ['number', 'name', 'tracks'],
+        required: ['teamNumber', 'tableNumber', 'name', 'tracks', 'active'],
         properties: {
           _id: {
             bsonType: 'objectId',
             description: '_id must be an ObjectId',
           },
-          number: {
+          teamNumber: {
             bsonType: 'int',
-            description: 'number must be an integer',
+            description: 'teamNumber must be an integer',
+          },
+          tableNumber: {
+            bsonType: 'int',
+            description: 'tableNumber must be an integer',
           },
           name: {
             bsonType: 'string',
@@ -22,22 +30,16 @@ export async function up(db) {
           },
           tracks: {
             bsonType: 'array',
-            maxItems: 5,
+            maxItems: 6,
             items: {
               enum: tracks.map((track) => track.name),
               description: 'track must be one of the valid tracks',
             },
             description: 'tracks must be an array of strings',
           },
-          hacker_ids: {
-            bsonType: 'array',
-            maxItems: 4,
-            minItems: 1,
-            description: 'hacker_ids must be an array of ids',
-            items: {
-              bsonType: 'objectId',
-              description: 'hacker_id must be an objectId',
-            },
+          active: {
+            bsonType: 'bool',
+            description: 'active must be a boolean',
           },
         },
         additionalProperties: false,

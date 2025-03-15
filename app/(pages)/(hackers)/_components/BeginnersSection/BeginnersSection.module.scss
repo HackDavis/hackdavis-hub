@@ -1,0 +1,200 @@
+@import '@globals/mixins.scss';
+
+.container {
+    padding: 15% 120px 7.5%;
+    
+    @include desktop-m {
+        padding: 15% 64px 7.5%;
+    }
+
+    @include desktop-s {
+        padding: 15% 48px 7.5%;
+    }
+
+    @include mobile-l {
+        padding: 20% 20px 7.5%;
+    }
+}
+
+.main_content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    @include tablet-l {
+        flex-direction: column;
+        gap: 32px;
+        align-items: unset;
+    }
+
+    h1 {
+        color: var(--grass-background-light);
+        font-family: Metropolis;
+        font-size: 3rem;
+        font-weight: 700;
+        letter-spacing: 0.96px;
+        margin-bottom: 8px;
+
+        @include desktop-s {
+            font-size: 2rem;
+        }
+
+        @include tablet-l {
+            font-size: 2.25rem;
+            letter-spacing: 0.72px;
+            margin-bottom: 16px;
+        }
+    }
+
+    p {
+        color: var(--text-dark);
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 145%;
+        /* 26.1px */
+        letter-spacing: 0.36px;
+        width: 60%;
+
+        @include desktop-m {
+            font-size: 1rem;
+        }
+
+        @include desktop-s {
+            width: 70%;
+            font-size: 0.875rem;
+        }
+
+        @include tablet-l {
+            width: 100%;
+        }
+    }
+    .top_line {
+        width: 100%;
+        text-wrap: balance;
+
+        @include tablet-l {
+            text-wrap: unset;
+        }
+    }
+}
+
+.hackathon_cont {
+    display: flex;
+    gap: 16px;
+    height: 100%;
+    
+    @include tablet-l {
+        width: 100%;
+        flex-direction: column-reverse;
+        gap: 0px;
+    }
+    
+    .hack_img {
+        position: relative;
+        border-radius: 16px;
+        background-color: var(--grass-background-light);
+        height: 100%;
+        min-width: 383px;
+        aspect-ratio: 383 / 283;
+
+        @include desktop-m {
+            min-width: 300px;
+        }
+
+        @include desktop-s {
+            min-width: 250px;
+        }
+        
+        .grass_light {
+            position: absolute;
+            right: 0;
+            bottom: -40px;
+
+            @include tablet-l {
+                display: none;
+            }
+        }
+    }
+}
+
+.button {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    button {
+        display: flex;
+        max-width: 148px;
+        min-width: 100px;
+        height: 100%;
+        border-radius: 1000px;
+        background-color: var(--grass-background-light);
+        color: var(--text-light);
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 0 16px;
+        gap: 5px;
+        font-family: var(--font-jakarta);
+        font-size: 1.125rem;
+        text-align: center;
+        font-weight: 600;
+        line-height: 100%;
+        /* 18px */
+        letter-spacing: 0.36px;
+    
+        @include desktop-m {
+            font-size: 1rem;
+        }
+    
+        @include tablet-l {
+            width: 100%;
+            max-width: none;
+            aspect-ratio: unset;
+            padding: 24px 72px;
+            text-wrap: balance;
+            flex-direction: row-reverse;
+            gap: 24px;
+            justify-content: center;
+        }
+    }
+
+    .grass_dark, .grass_light {
+        display: none;
+
+        @include tablet-l {
+            display: block;
+            width: 25%;
+            position: relative;
+            padding: 16px 0;
+        }
+
+        @include tablet-s {
+            padding: 12px 0;
+        }
+    }
+
+    .grass_light {
+        right: 48px;
+        align-self: flex-end;
+    }
+
+    .grass_dark {
+        left: 80px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

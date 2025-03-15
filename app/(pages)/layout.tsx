@@ -1,17 +1,18 @@
+import type { Metadata } from 'next';
 import '@globals/globals.scss';
-import fonts from 'app/(pages)/_globals/fonts';
-import metadata from '@globals/metadata.json';
+import metadataJSON from '@globals/metadata.json';
+import fonts from './_globals/fonts';
 
-export { metadata };
+export const metadata: Metadata = metadataJSON;
 
 export default function RootLayout({
-  children, // will be a page or nested layout
-}: {
+  children,
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
-      <body className={fonts}>{children}</body>
+      <body className={`${fonts} antialiased`}>{children}</body>
     </html>
   );
 }

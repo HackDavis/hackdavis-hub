@@ -1,9 +1,10 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
-export default function ProtectedDisplay({
+import { auth } from '@/auth';
+import { getUser } from '@actions/users/getUser';
+import LogoutAction from '@actions/auth/logout';
+
+export default async function ProtectedDisplay({
   allowedRoles,
   failRedirectRoute,
   children,
@@ -12,19 +13,44 @@ export default function ProtectedDisplay({
   failRedirectRoute: string;
   children: React.ReactNode;
 }) {
-  const { data: session, status } = useSession();
+  const session = await auth();
+  if (!session) redirect(failRedirectRoute);
 
-  if (status === 'loading') {
-    return <div>Loading...</div>;
+  const authorized = allowedRoles.includes(session.user.role);
+
+  const id = session.user.id;
+  if (!id) redirect(failRedirectRoute);
+  const user = await getUser(id);
+
+  if (!user.ok) {
+    await LogoutAction();
+    // redirect(failRedirectRoute);
+    return (
+      <div>
+        User was manually deleted from the database, clear cookies and
+        re-register.
+      </div>
+    );
   }
 
-  if (session?.user.role && allowedRoles.includes(session?.user.role)) {
-    return children;
-  } else if (session?.user.role === 'judge') {
-    redirect('/judges');
-  } else if (session?.user.role === 'hacker') {
-    redirect('/');
+  if (session.user.role === 'hacker') {
+    if (
+      user.body.position === undefined ||
+      user.body.is_beginner === undefined
+    ) {
+      redirect('/register/details');
+    } else if (authorized) {
+      return <>{children}</>;
+    } else {
+      redirect('/');
+    }
+  } else if (session.user.role === 'judge') {
+    if (authorized) {
+      return <>{children}</>;
+    } else {
+      redirect('/judges');
+    }
   } else {
-    redirect(failRedirectRoute);
+    return <>{children}</>;
   }
 }
