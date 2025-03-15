@@ -82,10 +82,6 @@ export const test = base.extend<MongoFixture>({
   adminUser: async ({ seedData, request }, use) => {
     seedData('admin', 1);
 
-    console.log(`base_url: ${process.env.BASE_URL}`);
-    console.log(`admin_email: ${process.env.ADMIN_EMAIL}`);
-    console.log(`admin_password: ${process.env.ADMIN_PASSWORD}`);
-
     const adminUser = {
       email: process.env.ADMIN_EMAIL,
       password: process.env.ADMIN_PASSWORD,
