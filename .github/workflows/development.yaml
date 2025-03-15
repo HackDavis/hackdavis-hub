@@ -18,7 +18,7 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v4
         with:
-          node-version: "21.1.0"
+          node-version: "21.7.3"
 
       - name: Install dependencies
         run: npm install
@@ -27,6 +27,16 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: npm run build
+
+      - name: Run tests
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          BASE_URL: ${{ vars.ENV_URL }} 
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }} 
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }} 
+          ADMIN_PASSWORD_HASHED: ${{ secrets.ADMIN_PASSWORD_HASHED }} 
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }} 
+        run: npm run test
 
       - name: Success
         run: echo "🚧 Build successful 🚧"

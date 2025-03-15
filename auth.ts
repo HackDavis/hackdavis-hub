@@ -61,6 +61,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const user = response.body[0];
 
           const passwordCorrect = await compare(password, user.password);
+          console.log('Auth password:', passwordCorrect);
           if (!passwordCorrect) {
             throw new Error('Invalid email address or password.');
           }
@@ -71,6 +72,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             role: user.role,
           };
         } catch (error) {
+          console.error('Detailed auth error:', error);
+          console.error('Error stack:', (error as Error).stack);
           if (error instanceof z.ZodError) {
             const errorMessage = error.errors.map((e) => e.message).join(' ');
             throw new Error(errorMessage);
@@ -97,4 +100,5 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
   },
   secret: process.env.AUTH_SECRET,
+  trustHost: true,
 });
