@@ -30,9 +30,8 @@ jobs:
 
       - name: Debug compiled files
         run: |
-          cat .next/server/chunks/4154.js | head -n 200
-          echo "=== Checking for authorize function around line 9966 ==="
-          cat .next/server/chunks/4154.js | tail -n +9950 | head -n 50
+          echo "=== Printing 20 lines around line 9966 ==="
+          sed -n '9956,9976p' .next/server/chunks/4154.js
 
       - name: Run tests
         run: BASE_URL=${{ vars.ENV_URL }} ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }} ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }} ADMIN_PASSWORD_HASHED=${{ secrets.ADMIN_PASSWORD_HASHED }} AUTH_SECRET=${{ secrets.AUTH_SECRET }} npm run test:debug
