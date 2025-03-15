@@ -1,22 +1,27 @@
-'use client';
+import { cookies } from 'next/headers';
 
-import { useInvite } from '@hooks/useInvite';
-import { useFirstUser } from '@hooks/useFirstUser';
+import verifyInvite from '@actions/invite/verifyInvite';
+import { getManyUsers } from '@actions/users/getUser';
 
-export default function InviteOnlyRoute({
+export default async function InviteOnlyRoute({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { pending: pendingInvite, data } = useInvite();
-  const { pending: pendingFirst, noUsers } = useFirstUser();
+  const data = cookies().get('data');
+  const sig = cookies().get('sig');
 
-  if (pendingInvite || pendingFirst) {
-    return <div>Loading...</div>;
-  }
-  if (!noUsers && data === null) {
+  const users = await getManyUsers();
+  const noUsers = users.body.length === 0;
+
+  if (
+    (data === undefined ||
+      sig === undefined ||
+      !(await verifyInvite(data.value, sig.value))) &&
+    !noUsers
+  ) {
     return <div>Bad Invite Link</div>;
   } else {
-    return children;
+    return <>{children}</>;
   }
 }

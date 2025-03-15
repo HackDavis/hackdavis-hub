@@ -56,7 +56,7 @@ export async function up(db) {
                   },
                 },
                 finalTrackScore: {
-                  bsonType: 'int' || null,
+                  bsonType: ['int', 'null'],
                   description: 'finalTrackScore must be an integer or null',
                 }
               },
@@ -72,7 +72,7 @@ export async function up(db) {
             description: 'is_scored must be boolean',
           },
           queuePosition: {
-            bsonType: 'int',
+            bsonType: ['int', 'null'],
             description: 'queuePosition must be an integer',
           },
         },

@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import good_froggie from '@public/hackers/good_froggie.svg';
 import judge_bunny from '@public/hackers/judge_bunny.svg';
 import { type CarouselApi } from '@globals/components/ui/carousel';
+
 import AutoHeight from 'embla-carousel-auto-height';
-import { Button } from '@app/(pages)/_globals/components/ui/button';
+import { Button } from '@globals/components/ui/button';
 
 import LetsBegin from '../../_components/StarterKitStages/LetsBegin';
 import FindATeam from '../../_components/StarterKitStages/FindATeam';
@@ -221,7 +222,7 @@ export function ParentCarousel() {
 
   return (
     <main
-      className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 xl:p-16 overflow-hidden"
+      className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 xl:p-16 xl:pt-32 overflow-hidden"
       style={{
         background:
           'linear-gradient(136.61deg, #97DBEF 12.93%, #79CCD9 48.22%, #FFEDCF 83.5%)',
