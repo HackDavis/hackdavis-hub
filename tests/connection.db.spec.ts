@@ -38,3 +38,9 @@ test('generating collections with 10 documents', async ({ db, seedData }) => {
 
   await Promise.all(findPromises);
 });
+
+test('admin login', async ({ adminUser }) => {
+  expect(adminUser.ok).toBe(true);
+  expect(adminUser.body).toBe('Successfully logged in');
+  expect(adminUser.error).toBe(null);
+});
