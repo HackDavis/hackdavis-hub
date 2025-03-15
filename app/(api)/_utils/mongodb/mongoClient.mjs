@@ -4,6 +4,10 @@ const uri = process.env.MONGODB_URI;
 let cachedClient = null;
 
 export async function getClient() {
+  if (global.__TEST_CLIENT__) {
+    return global.__TEST_CLIENT__;
+  }
+
   if (cachedClient) {
     return cachedClient;
   }

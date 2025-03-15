@@ -1,22 +1,12 @@
 import { test as base } from '@playwright/test';
 import { MongoClient, Db } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-// import { up } from 'migrate-mongo';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
 
 // https://playwright.dev/docs/test-fixtures
 type MongoFixture = {
   mongoServer: MongoMemoryServer;
   mongoClient: MongoClient;
   db: Db;
-};
-
-const getTestClient = async (mongoServer: MongoMemoryServer) => {
-  const uri = mongoServer.getUri();
-  const client = new MongoClient(uri);
-  await client.connect();
-  return client;
 };
 
 export const test = base.extend<MongoFixture>({
@@ -28,13 +18,15 @@ export const test = base.extend<MongoFixture>({
   },
 
   mongoClient: async ({ mongoServer }, use) => {
-    const testClient = await getTestClient(mongoServer);
+    const uri = mongoServer.getUri();
+    const testClient = new MongoClient(uri);
+    await testClient.connect();
+
+    (global as any).__TEST_CLIENT__ = testClient;
 
     await use(testClient);
-    //   (global as any).getClient = () => getTestClient;
-    //   await use(testClient);
-    //   delete (global as any).getClient;
 
+    delete (global as any).__TEST_CLIENT__;
     await testClient.close();
   },
 
@@ -42,7 +34,7 @@ export const test = base.extend<MongoFixture>({
     { mongoClient }: { mongoClient: MongoClient },
     use: (db: Db) => Promise<void>
   ) => {
-    const db = mongoClient.db('test-db');
+    const db = mongoClient.db();
     await use(db);
   },
 });
