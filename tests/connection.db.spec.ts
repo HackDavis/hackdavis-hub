@@ -40,6 +40,7 @@ test('generating collections with 10 documents', async ({ db, seedData }) => {
 });
 
 test('admin login', async ({ adminUser }) => {
+  console.log(adminUser);
   expect(adminUser.ok).toBe(true);
   expect(adminUser.body).toBe('Successfully logged in');
   expect(adminUser.error).toBe(null);
