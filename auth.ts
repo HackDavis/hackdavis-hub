@@ -47,14 +47,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         try {
-          console.log('Auth credentials:', credentials);
           const email = credentials.email as string;
           const password = credentials.password as string;
           emailSchema.parse(email);
           passwordSchema.parse(password);
 
           const response = await GetManyUsers({ email });
-          console.log('Auth getManyUsers response:', response);
 
           if (!response.ok || response.body.length === 0) {
             throw new Error(response.error ?? 'User not found.');

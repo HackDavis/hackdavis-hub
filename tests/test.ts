@@ -3,6 +3,7 @@ import { MongoClient, Db } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import migrate from 'migrate-mongo';
 import generateData from '../scripts/generateData.mjs';
+import { getClient, flushCache } from '@utils/mongodb/mongoClient.mjs';
 
 // https://playwright.dev/docs/test-fixtures
 type MongoFixture = {
@@ -24,14 +25,12 @@ export const test = base.extend<MongoFixture>({
 
   mongoClient: async ({ mongoServer }, use) => {
     const uri = mongoServer.getUri();
-    const testClient = new MongoClient(uri);
+    const testClient = await getClient(uri);
     await testClient.connect();
-
-    (global as any).__TEST_CLIENT__ = testClient;
 
     await use(testClient);
 
-    delete (global as any).__TEST_CLIENT__;
+    flushCache();
     await testClient.close();
   },
 

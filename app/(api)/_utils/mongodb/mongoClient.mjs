@@ -1,17 +1,15 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI;
+const defaultUri = process.env.MONGODB_URI;
 let cachedClient = null;
 
-export async function getClient() {
-  if (global.__TEST_CLIENT__) {
-    return global.__TEST_CLIENT__;
-  }
-
+export async function getClient(uri) {
   if (cachedClient) {
+    console.log('reusing cached client');
     return cachedClient;
   }
-  const client = new MongoClient(uri);
+  console.log('using uri', uri || defaultUri);
+  const client = new MongoClient(uri || defaultUri);
   cachedClient = client;
   return cachedClient;
 }
@@ -19,4 +17,8 @@ export async function getClient() {
 export async function getDatabase() {
   const client = await getClient();
   return client.db();
+}
+
+export async function flushCache() {
+  cachedClient = null;
 }

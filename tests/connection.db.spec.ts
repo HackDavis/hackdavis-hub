@@ -6,8 +6,8 @@ test('testing connection to in-memory database', async ({
   mongoClient,
   db,
 }) => {
+  console.log('testing connection to in-memory database');
   expect(mongoServer.getUri()).toBe;
-  expect((global as any).__TEST_CLIENT__).toBeTruthy();
   expect((mongoClient as any).s.url).toBe(mongoServer.getUri());
   expect(db.databaseName).toBe('test');
 });
@@ -16,6 +16,7 @@ test('testing migration', async ({ db }) => {
   const dbCollections = (await db.listCollections().toArray()).map(
     (c) => c.name
   );
+  console.log('testing migration');
   expect(dbCollections).toContain('events');
   expect(dbCollections).toContain('submissions');
   expect(dbCollections).toContain('teams');
@@ -25,6 +26,7 @@ test('testing migration', async ({ db }) => {
 });
 
 test('generating collections with 10 documents', async ({ db, seedData }) => {
+  console.log('generating collections with 10 documents');
   await seedData('all', 10);
 
   const dbCollections = (await db.listCollections().toArray())
@@ -39,7 +41,10 @@ test('generating collections with 10 documents', async ({ db, seedData }) => {
   await Promise.all(findPromises);
 });
 
-test('admin login', async ({ adminUser }) => {
+test('admin login', async ({ mongoServer, mongoClient, adminUser }) => {
+  expect((mongoClient as any).s.url).toBe(mongoServer.getUri());
+
+  console.log('admin login');
   console.log(adminUser);
   expect(adminUser.ok).toBe(true);
   expect(adminUser.body).toBe('Successfully logged in');

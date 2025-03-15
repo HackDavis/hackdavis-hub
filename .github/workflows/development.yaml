@@ -29,7 +29,14 @@ jobs:
         run: npm run build
 
       - name: Run tests
-        run: BASE_URL=${{ vars.ENV_URL }} ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }} ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }} ADMIN_PASSWORD_HASHED=${{ secrets.ADMIN_PASSWORD_HASHED }} AUTH_SECRET=${{ secrets.AUTH_SECRET }} npm run test:debug
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          BASE_URL: ${{ vars.ENV_URL }} 
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }} 
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }} 
+          ADMIN_PASSWORD_HASHED: ${{ secrets.ADMIN_PASSWORD_HASHED }} 
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }} 
+        run: npm run test
 
       - name: Success
         run: echo "🚧 Build successful 🚧"
