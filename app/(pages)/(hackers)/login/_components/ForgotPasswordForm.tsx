@@ -1,54 +1,42 @@
 'use client';
 
-import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+import useAuthForm from '@hooks/useAuthForm';
 import sendEmail from '@actions/invite/sendEmail';
 import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import styles from './ForgotPasswordForm.module.scss';
 
 export default function ForgotPasswordForm() {
-  const [email, setEmail] = useState('');
-  const [valid, setValid] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [sentMessage, setSentMessage] = useState('');
-
-  const handleForgotPassword = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setLoading(true);
-    setError('');
-    setSentMessage('');
-
-    const response = await sendEmail({
-      email,
+  const handleFormSubmit = async (fields: any) => {
+    return sendEmail({
+      email: fields.email,
       role: 'hacker',
     });
-
-    if (response.ok) {
-      setSentMessage('Password reset email sent!');
-    } else {
-      setError(response.error ?? 'Error sending password reset email');
-    }
-
-    setLoading(false);
   };
 
-  const validateForm = (email: string) => {
-    const isEmailValid = /\S+@\S+\.\S+/.test(email);
-    if (!isEmailValid) {
-      setValid(false);
-      setError(email.length === 0 ? '' : 'Invalid email format.');
-    } else {
-      setValid(true);
-      setError('');
-    }
-  };
+  const {
+    fields,
+    errors,
+    loading,
+    valid,
+    submitted,
+    handleChange,
+    handleSubmit,
+  } = useAuthForm({
+    initialValues: {
+      email: '',
+    },
+    onSubmit: handleFormSubmit,
+  });
+  const [sentMessage, setSentMessage] = useState('');
 
   useEffect(() => {
-    validateForm(email);
-  }, [email]);
+    if (!loading && !errors.submit && submitted) {
+      setSentMessage('Password reset email sent!');
+    }
+  }, [loading, errors.submit, submitted]);
 
   return (
     <div className={styles.container}>
@@ -59,25 +47,24 @@ export default function ForgotPasswordForm() {
           <p>Please enter your new password below!</p>
         </div>
       </div>
-      <form onSubmit={handleForgotPassword} className={styles.form}>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.fields}>
           <div>
+            <p className={styles.error_msg}>{errors.email}</p>
+            <p>{sentMessage}</p>
             <label htmlFor="email">EMAIL</label>
             <input
               name="email"
               type="email"
               placeholder="Enter your email here"
-              value={email}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
+              value={fields.email}
+              onInput={handleChange}
             />
           </div>
         </div>
 
         <div className={styles.bottom}>
-          <p className={styles.error_msg}>{error}</p>
-          <p>{sentMessage}</p>
           <button
             type="submit"
             disabled={loading || !valid}

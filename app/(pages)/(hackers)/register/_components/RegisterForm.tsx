@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+import useAuthForm from '@hooks/useAuthForm';
 import RegisterAction from '@actions/auth/register';
 import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import styles from './RegisterForm.module.scss';
@@ -14,69 +15,42 @@ export default function RegisterForm({ data }: any) {
   const name = data?.name ? data.name : 'HackDavis Admin';
   const role = data?.role ? data.role : 'admin';
 
-  const [email, setEmail] = useState(data?.email ? data.email : '');
-  const [password, setPassword] = useState('');
-  const [passwordDupe, setPasswordDupe] = useState('');
-  const [valid, setValid] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
-  const [passwordDupeError, setPasswordDupeError] = useState('');
-
-  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setLoading(true);
-    setPasswordError('');
-    setPasswordDupeError('');
-
-    const response = await RegisterAction({
+  const handleFormSubmit = async (fields: any) => {
+    return RegisterAction({
       name,
-      email,
-      password,
+      email: fields.email,
+      password: fields.password,
       role,
       has_checked_in: true,
     });
+  };
 
-    if (response.ok) {
+  const {
+    fields,
+    errors,
+    loading,
+    valid,
+    submitted,
+    handleChange,
+    handleSubmit,
+  } = useAuthForm({
+    initialValues: {
+      email: data?.email || '',
+      password: '',
+      passwordDupe: '',
+    },
+    onSubmit: handleFormSubmit,
+  });
+
+  useEffect(() => {
+    if (!loading && !errors.submit && submitted) {
       if (role === 'admin') {
         router.push('/');
       } else {
         router.push('/register/details');
       }
-    } else {
-      setPasswordError(response.error ?? 'Error registering user.');
     }
-
-    setLoading(false);
-  };
-
-  const validateForm = (password: string, passwordDupe: string) => {
-    const isPasswordValid = password.length >= 6 && password.length <= 20;
-    if (!isPasswordValid) {
-      setPasswordError(
-        password.length === 0
-          ? ''
-          : 'Password must be between 6 and 20 characters.'
-      );
-    } else {
-      setPasswordError('');
-    }
-
-    const passwordMatch = password === passwordDupe;
-    if (!passwordMatch) {
-      setPasswordDupeError(
-        passwordDupe.length === 0 ? '' : "Passwords don't match."
-      );
-    } else {
-      setPasswordDupeError('');
-    }
-
-    setValid(isPasswordValid && passwordMatch);
-  };
-
-  useEffect(() => {
-    validateForm(password, passwordDupe);
-  }, [password, passwordDupe]);
+  }, [loading, errors.submit, submitted, role, router]);
 
   return (
     <div className={styles.container}>
@@ -85,54 +59,48 @@ export default function RegisterForm({ data }: any) {
         <div className={styles.header_text}>
           <h1>Hi {name}!</h1>
           <p>
-            Welcome to the HackerHub! The HackDavis team made this all for your
+            Welcome to the HackerHub! The HackDavis team made this for all your
             hacking needs &lt;3
             <br />
             Let&#39;s get you started by making a password with us.
           </p>
         </div>
       </div>
-      <form onSubmit={handleRegister} className={styles.form}>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <p className={styles.error_msg}>{errors.submit}</p>
         <div className={styles.fields}>
           <div>
             <label htmlFor="email">EMAIL</label>
             <input
               name="email"
               type="email"
-              placeholder="Enter your email here"
-              value={data ? data.email : email}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
+              value={data ? data.email : fields.email}
+              onInput={handleChange}
               readOnly={data ? true : false}
             />
           </div>
 
           <div>
-            <p className={styles.error_msg}>{passwordError}</p>
+            <p className={styles.error_msg}>{errors.password}</p>
             <label htmlFor="password">PASSWORD</label>
             <input
               name="password"
               type="password"
-              // placeholder="Password"
-              value={password}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
+              value={fields.password}
+              onInput={handleChange}
             />
           </div>
 
           <div>
-            <p className={styles.error_msg}>{passwordDupeError}</p>
+            <p className={styles.error_msg}>{errors.passwordDupe}</p>
             <label htmlFor="passwordDupe">RETYPE PASSWORD</label>
             <input
+              name="passwordDupe"
               type="password"
-              // placeholder="Retype password"
-              value={passwordDupe}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setPasswordDupe(e.target.value)
-              }
-              className={`${passwordDupeError ? styles.error : null}`}
+              value={fields.passwordDupe}
+              onInput={handleChange}
+              className={`${errors.passwordDupe ? styles.error : null}`}
             />
           </div>
         </div>

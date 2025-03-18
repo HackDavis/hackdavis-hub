@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import useAuthForm from '@hooks/useAuthForm';
 import LoginAction from '@actions/auth/login';
 import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import styles from './LoginForm.module.scss';
@@ -12,54 +13,31 @@ import styles from './LoginForm.module.scss';
 export default function LoginForm() {
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [valid, setValid] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setLoading(true);
-    setEmailError('');
-    setPasswordError('');
-    const response = await LoginAction(email, password);
-    setLoading(false);
-
-    if (response.ok) {
-      router.push('/');
-    } else if (response.error) {
-      setEmailError(response.error);
-    } else {
-      setEmailError('Invalid email or password.');
-    }
+  const handleFormSubmit = async (fields: any) => {
+    return LoginAction(fields.email, fields.password);
   };
 
-  const validateForm = (email: string, password: string) => {
-    const isEmailValid = /\S+@\S+\.\S+/.test(email);
-    if (!isEmailValid) {
-      setEmailError(email.length === 0 ? '' : 'Invalid email format');
-    } else {
-      setEmailError('');
-    }
-
-    const isPasswordValid = password.length >= 6 && password.length <= 20;
-    if (!isPasswordValid) {
-      setPasswordError(
-        password.length === 0 ? '' : 'Password is between 6 and 20 characters.'
-      );
-    } else {
-      setPasswordError('');
-    }
-
-    setValid(isEmailValid && isPasswordValid);
-  };
+  const {
+    fields,
+    errors,
+    loading,
+    valid,
+    submitted,
+    handleChange,
+    handleSubmit,
+  } = useAuthForm({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: handleFormSubmit,
+  });
 
   useEffect(() => {
-    validateForm(email, password);
-  }, [email, password]);
+    if (!loading && !errors.submit && submitted) {
+      router.push('/');
+    }
+  }, [loading, errors.submit, submitted, router]);
 
   return (
     <div className={styles.container}>
@@ -73,32 +51,29 @@ export default function LoginForm() {
           </p>
         </div>
       </div>
-      <form onSubmit={handleLogin} className={styles.form}>
-        <p className={styles.error_msg}>{emailError}</p>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <p className={styles.error_msg}>{errors.submit}</p>
         <div className={styles.fields}>
           <div>
+            <p className={styles.error_msg}>{errors.email}</p>
             <label htmlFor="email">EMAIL</label>
             <input
               name="email"
               type="email"
               placeholder="Enter your email here"
-              value={email}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
+              value={fields.email}
+              onInput={handleChange}
             />
           </div>
           <div>
-            <p className={styles.error_msg}>{passwordError}</p>
+            <p className={styles.error_msg}>{errors.password}</p>
             <label htmlFor="password">PASSWORD</label>
             <input
               name="password"
               type="password"
-              // placeholder="Enter password here"
-              value={password}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
+              value={fields.password}
+              onInput={handleChange}
             />
           </div>
         </div>

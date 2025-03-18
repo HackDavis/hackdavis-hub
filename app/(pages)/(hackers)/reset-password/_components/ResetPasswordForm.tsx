@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+import useAuthForm from '@hooks/useAuthForm';
 import ResetPasswordAction from '@actions/auth/resetPassword';
 import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import styles from './ResetPasswordForm.module.scss';
@@ -11,61 +12,35 @@ import styles from './ResetPasswordForm.module.scss';
 export default function ResetPasswordForm({ data }: any) {
   const router = useRouter();
 
-  const [password, setPassword] = useState('');
-  const [passwordDupe, setPasswordDupe] = useState('');
-  const [valid, setValid] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
-  const [passwordDupeError, setPasswordDupeError] = useState('');
-
-  const handleReset = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setLoading(true);
-    setPasswordError('');
-    setPasswordDupeError('');
-
-    const response = await ResetPasswordAction({
-      email: data.email,
-      password,
+  const handleFormSubmit = async (fields: any) => {
+    return ResetPasswordAction({
+      email: fields.email,
+      password: fields.password,
     });
-
-    if (response.ok) {
-      router.push('/login');
-    } else {
-      setPasswordError(response.error ?? 'Failed to reset password');
-    }
-
-    setLoading(false);
   };
 
-  const validateForm = (password: string, passwordDupe: string) => {
-    const isPasswordValid = password.length >= 6 && password.length <= 20;
-    if (!isPasswordValid) {
-      setPasswordError(
-        password.length === 0
-          ? ''
-          : 'Password must be between 6 and 20 characters.'
-      );
-    } else {
-      setPasswordError('');
-    }
-
-    const passwordMatch = password === passwordDupe;
-    if (!passwordMatch) {
-      setPasswordDupeError(
-        passwordDupe.length === 0 ? '' : "Passwords don't match."
-      );
-    } else {
-      setPasswordDupeError('');
-    }
-
-    setValid(isPasswordValid && passwordMatch);
-  };
+  const {
+    fields,
+    errors,
+    loading,
+    valid,
+    submitted,
+    handleChange,
+    handleSubmit,
+  } = useAuthForm({
+    initialValues: {
+      email: data?.email,
+      password: '',
+      passwordDupe: '',
+    },
+    onSubmit: handleFormSubmit,
+  });
 
   useEffect(() => {
-    validateForm(password, passwordDupe);
-  }, [password, passwordDupe]);
+    if (!loading && !errors.submit && submitted) {
+      router.push('/login');
+    }
+  }, [loading, errors.submit, submitted, router]);
 
   return (
     <div className={styles.container}>
@@ -76,33 +51,29 @@ export default function ResetPasswordForm({ data }: any) {
           <p>Please enter your new password below!</p>
         </div>
       </div>
-      <form onSubmit={handleReset} className={styles.form}>
-        <p className={styles.error_msg}>{passwordError}</p>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <p className={styles.error_msg}>{errors.password}</p>
         <div className={styles.fields}>
           <div>
             <label htmlFor="email">NEW PASSWORD</label>
             <input
               name="password"
               type="password"
-              // placeholder="Password"
-              value={password}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
-              className={`${passwordError ? styles.error : null}`}
+              value={fields.password}
+              onInput={handleChange}
+              className={`${errors.password ? styles.error : null}`}
             />
           </div>
           <div>
-            <p className={styles.error_msg}>{passwordDupeError}</p>
+            <p className={styles.error_msg}>{errors.passwordDupe}</p>
             <label htmlFor="password">RETYPE NEW PASSWORD</label>
             <input
+              name="passwordDupe"
               type="password"
-              // placeholder="Retype password"
-              value={passwordDupe}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setPasswordDupe(e.target.value)
-              }
-              className={`${passwordDupeError ? styles.error : null}`}
+              value={fields.passwordDupe}
+              onInput={handleChange}
+              className={`${errors.passwordDupe ? styles.error : null}`}
             />
           </div>
         </div>
