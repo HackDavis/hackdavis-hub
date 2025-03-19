@@ -24,7 +24,7 @@
       "@public/*": ["./public/*"],
       "@globals/*": ["app/(pages)/_globals/*"],
       "@components/*": ["app/(pages)/_components/*"],
-      "@data/*": ["app/(pages)/_data/*"],
+      "@data/*": ["app/_data/*"],
       "@hooks/*": ["app/(pages)/_hooks/*"],
       "@actions/*": ["app/(api)/_actions/*"],
       "@utils/*": ["app/(api)/_utils/*"],
@@ -32,7 +32,6 @@
       "@datalib/*": ["app/(api)/_datalib/*"],
       "@typeDefs/*": ["app/_types/*"],
       "@/auth": ["auth.ts"],
-      "@public/*": ["public/*"]
     }
   },
   "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
