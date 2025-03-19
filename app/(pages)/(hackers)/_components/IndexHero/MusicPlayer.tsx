@@ -3,11 +3,9 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './MusicPlayer.module.scss';
-import vinyl from 'public/index/hero/vinyl.svg';
+import vinyl from 'public/judges/hub/vinyl.svg';
 import pauseIcon from 'public/index/hero/pause-icon.svg';
 import playIcon from 'public/index/hero/play-icon.svg';
-
-// TODO: add  "Coming Soon" on mobile
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -41,15 +39,12 @@ export default function MusicPlayer() {
   }, [isPlaying]);
 
   const handleHover = () => {
-    console.log('starting timer');
     timeoutRef.current = setTimeout(() => {
       setShowTooltip(true);
     }, 600);
   };
 
   const cancelHover = () => {
-    console.log('ending timer');
-
     clearTimeout(timeoutRef.current as NodeJS.Timeout);
     setShowTooltip(false);
   };
@@ -62,7 +57,7 @@ export default function MusicPlayer() {
         className={styles.vinyl}
         style={{ transform: `rotate(${rotation}deg)` }}
       />
-      <p className="font-jakarta text-left text-background-secondary leading-[145%] tracking-[0.32px] w-full max-w-[400px]">
+      <p className="font-jakarta text-left text-background-secondary leading-[145%] tracking-[0.32px] w-full max-w-[400px] md:hidden">
         COMING SOON...
       </p>
       <button

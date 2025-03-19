@@ -54,7 +54,7 @@ const mockScheduleData: ScheduleData = {
       type: 'ACTIVITIES',
       startTime: '2024-04-19T15:30:00Z',
       endTime: '2024-04-19T17:00:00Z',
-      location: 'ARC Ballroom B',
+      location: 'ARC Ballroom A',
     },
     {
       id: 3,
@@ -99,6 +99,9 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'yourSchedule'>(
     'schedule'
   );
+  const [hoveredTab, setHoveredTab] = useState<
+    'schedule' | 'yourSchedule' | null
+  >(null);
   const [activeDay, setActiveDay] = useState<'Apr19' | 'Apr20'>('Apr19');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
@@ -154,7 +157,7 @@ export default function Page() {
   };
 
   return (
-    <main className="w-full">
+    <main id="schedule" className="w-full">
       <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip">
         <Image
           src={headerGrass}
@@ -168,8 +171,11 @@ export default function Page() {
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
               <span
                 onClick={() => setActiveTab('schedule')}
+                onMouseEnter={() => setHoveredTab('schedule')}
+                onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === 'schedule'
+                  (activeTab === 'schedule' && hoveredTab === null) ||
+                  hoveredTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
                 }`}
@@ -178,8 +184,11 @@ export default function Page() {
               </span>
               <span
                 onClick={() => setActiveTab('yourSchedule')}
+                onMouseEnter={() => setHoveredTab('yourSchedule')}
+                onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === 'yourSchedule'
+                  (activeTab === 'yourSchedule' && hoveredTab === null) ||
+                  hoveredTab === 'yourSchedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
                 }`}
