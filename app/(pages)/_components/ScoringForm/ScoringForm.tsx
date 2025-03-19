@@ -17,7 +17,7 @@ const judgingCategories = [
 
 const SEP = '::';
 
-export default function ScoringForm({ submission_id }: ScoringFormProps) {
+export default function ScoringForm({ submission_id: _ }: ScoringFormProps) {
   const dataRef = useRef({});
   const [comment, setComment] = useState('');
 
