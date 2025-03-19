@@ -10,7 +10,7 @@ import {
 import Team from '@typeDefs/team';
 import tracks from '../../_data/tracks.json' assert { type: 'json' };
 
-export const CreateManyTeams = async (body: object[]) => {
+export const CreateManyTeams = async (body: Team[]) => {
   try {
     if (isBodyEmpty(body)) {
       throw new NoContentError();
@@ -18,19 +18,19 @@ export const CreateManyTeams = async (body: object[]) => {
     const parsedBody = await parseAndReplace(body);
 
     const seenNumbers = new Set();
-    const teamNumbers = parsedBody.map((team: { number: number }) => {
-      if (seenNumbers.has(team.number)) {
+    const teamNumbers = parsedBody.map((team: Team) => {
+      if (seenNumbers.has(team.teamNumber)) {
         throw new DuplicateError('Request contains duplicate team number(s)');
       }
-      seenNumbers.add(team.number);
-      return team.number;
+      seenNumbers.add(team.teamNumber);
+      return team.teamNumber;
     });
 
     const db = await getDatabase();
     const existingTeams = await db
       .collection('teams')
       .find({
-        number: {
+        teamNumber: {
           $in: teamNumbers,
         },
       })
