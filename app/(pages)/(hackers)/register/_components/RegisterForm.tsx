@@ -56,14 +56,8 @@ export default function RegisterForm({ data }: any) {
   return (
     <AuthForm
       title={`Hi ${name}!`}
-      subtitle={
-        <p>
-          Welcome to the HackerHub! The HackDavis team made this for all your
-          hacking needs &lt;3
-          <br />
-          Let&#39;s get you started by making a password with us.
-        </p>
-      }
+      subtitle={`Welcome to the HackerHub! The HackDavis team made this for all your hacking needs <3
+                Let's get you started by making a password with us.`}
       fields={formFields}
       buttonText="Next →"
       initialValues={{

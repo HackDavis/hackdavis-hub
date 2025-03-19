@@ -81,12 +81,6 @@ export default function useAuthForm(
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newErrors = validateForm(fields);
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -109,25 +103,28 @@ export default function useAuthForm(
     }
   };
 
-  const validateForm = (formValues: FieldValues): FieldErrors => {
+  const validateForm = (formValues: FieldValues): FieldErrors | null => {
     const newErrors: FieldErrors = {};
+    let allEmpty = true;
 
     Object.entries(validators).forEach(([field, validator]) => {
       const value = formValues[field];
       const error = validator(value, formValues);
-      if (error) {
-        newErrors[field] = error;
-      }
+      if (error !== '') allEmpty = false;
+      if (error) newErrors[field] = error;
     });
 
-    return newErrors;
+    return allEmpty ? null : newErrors;
   };
 
   useEffect(() => {
     const newErrors = validateForm(fields);
-    setErrors(newErrors);
-
-    setValid(Object.keys(newErrors).length === 0);
+    if (!newErrors) {
+      setValid(false);
+    } else {
+      setErrors(newErrors);
+      setValid(Object.keys(newErrors).length === 0);
+    }
   }, [fields]);
 
   return {

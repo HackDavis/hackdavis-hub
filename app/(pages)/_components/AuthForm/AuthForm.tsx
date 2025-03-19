@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, ReactNode } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -20,7 +20,7 @@ interface FormField {
 
 interface AuthFormProps {
   title: string;
-  subtitle: ReactNode;
+  subtitle: string;
   fields: FormField[];
   buttonText: string;
   linkText?: string;
@@ -66,7 +66,7 @@ export default function AuthForm({
         <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
         <div className={styles.header_text}>
           <h1>{title}</h1>
-          <p>{subtitle}</p>
+          <p style={{ whiteSpace: 'pre-line' }}>{subtitle}</p>
         </div>
       </div>
 
