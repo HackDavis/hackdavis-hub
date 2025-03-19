@@ -65,6 +65,7 @@ export default function ForgotPasswordForm() {
         </div>
 
         <div className={styles.bottom}>
+          <div />
           <button
             type="submit"
             disabled={loading || !valid}

@@ -2,13 +2,13 @@
 
 import Image from 'next/image';
 import Logo from 'public/hackers/mvp/HDLogo.svg';
-import styles from './LoginBackground.module.scss';
+import styles from './AuthFormBackground.module.scss';
 import grassAsset from '@public/hackers/mvp/grass_asset.svg';
 import mascots from '@public/hackers/mvp/peeking_around_wall.svg';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function LoginBackground({
+export default function AuthFormBackground({
   children,
 }: {
   children: React.ReactNode;

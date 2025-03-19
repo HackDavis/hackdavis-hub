@@ -4,7 +4,7 @@ import { auth } from '@/auth';
 import { getUser } from '@actions/users/getUser';
 import LogoutAction from '@actions/auth/logout';
 import DetailForm from '../_components/DetailForm';
-import LoginBackground from '../../_components/LoginBackground/LoginBackground';
+import AuthFormBackground from '../../_components/AuthFormBackground/AuthFormBackground';
 
 export default async function DetailPage() {
   const session = await auth();
@@ -19,8 +19,8 @@ export default async function DetailPage() {
   if (user.body.role === 'judge') redirect('/judges/register');
 
   return (
-    <LoginBackground>
+    <AuthFormBackground>
       <DetailForm id={session.user.id} name={user.body.name} />
-    </LoginBackground>
+    </AuthFormBackground>
   );
 }

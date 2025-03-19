@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import RegisterForm from './_components/RegisterForm';
-import LoginBackground from '../_components/LoginBackground/LoginBackground';
+import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
 import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
 
 export default async function RegisterPage() {
@@ -18,9 +18,9 @@ export default async function RegisterPage() {
 
   return (
     <InviteOnlyRoute>
-      <LoginBackground>
+      <AuthFormBackground>
         <RegisterForm data={data} />
-      </LoginBackground>
+      </AuthFormBackground>
     </InviteOnlyRoute>
   );
 }

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import LoginForm from './_components/LoginForm';
-import LoginBackground from 'app/(pages)/(hackers)/_components/LoginBackground/LoginBackground';
+import AuthFormBackground from 'app/(pages)/(hackers)/_components/AuthFormBackground/AuthFormBackground';
 
 export default async function LoginPage() {
   const session = await auth();
@@ -11,8 +11,8 @@ export default async function LoginPage() {
   }
 
   return (
-    <LoginBackground>
+    <AuthFormBackground>
       <LoginForm />
-    </LoginBackground>
+    </AuthFormBackground>
   );
 }
