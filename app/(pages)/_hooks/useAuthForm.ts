@@ -134,8 +134,8 @@ export default function useAuthForm(
     valid,
     submitted,
     setFieldValue,
+    setFieldError,
     handleChange,
     handleSubmit,
-    setFieldError,
   };
 }

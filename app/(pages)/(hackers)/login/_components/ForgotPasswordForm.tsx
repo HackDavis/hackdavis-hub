@@ -5,10 +5,13 @@ import sendEmail from '@actions/invite/sendEmail';
 
 export default function ForgotPasswordForm() {
   const onSubmit = async (fields: any) => {
-    return sendEmail({
-      email: fields.email,
-      role: 'hacker',
-    });
+    return sendEmail(
+      {
+        email: fields.email,
+        role: 'hacker',
+      },
+      'reset'
+    );
   };
 
   const onSuccess = () => {

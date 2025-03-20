@@ -3,7 +3,11 @@
 import nodemailer from 'nodemailer';
 import InviteData from '@typeDefs/inviteData';
 import GenerateInvite from '@datalib/invite/generateInvite';
-import { HttpError, NotFoundError } from '@utils/response/Errors';
+import {
+  DuplicateError,
+  HttpError,
+  NotFoundError,
+} from '@utils/response/Errors';
 import { GetManyUsers } from '@datalib/users/getUser';
 
 const senderEmail = process.env.SENDER_EMAIL;
@@ -15,20 +19,27 @@ interface Response {
   error: string | null;
 }
 
-export default async function sendEmail(data: InviteData): Promise<Response> {
+export default async function sendEmail(
+  data: InviteData,
+  type: string = 'invite'
+): Promise<Response> {
   try {
     const users = await GetManyUsers({
       email: data.email,
     });
 
-    if (!users.ok || users.body.length === 0) {
+    if (type === 'reset' && (!users.ok || users.body.length === 0)) {
       throw new NotFoundError(`User with email ${data.email} not found.`);
     }
 
-    const invite = await GenerateInvite(data, 'reset');
+    if (type === 'invite' && users.ok && users.body.length !== 0) {
+      throw new DuplicateError(`User with email ${data.email} already exists.`);
+    }
+
+    const invite = await GenerateInvite(data, type);
 
     if (!invite.ok) {
-      throw new HttpError('Failed to generate invite.');
+      throw new HttpError(invite.error ?? 'Failed to generate invite.');
     }
 
     const invite_link = invite.body;

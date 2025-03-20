@@ -154,6 +154,12 @@ export default function DetailForm({ id, name }: any) {
           </button>
         </div>
       </form>
+
+      {loading && (
+        <div className={styles.loading_container}>
+          <div className={styles.loader}></div>
+        </div>
+      )}
     </div>
   );
 }
