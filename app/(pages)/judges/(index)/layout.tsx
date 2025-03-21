@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { SessionProvider } from 'next-auth/react';
 
 import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
 
@@ -13,15 +12,13 @@ export const metadata: Metadata = {
 
 export default function JudgesLayout({ children }: Props) {
   return (
-    <SessionProvider>
-      <ProtectedDisplay
-        allowedRoles={['admin', 'judge']}
-        failRedirectRoute="/judges/login"
-      >
-        <div className="max-w-[500px] min-w-[370px] ml-auto mr-auto">
-          {children}
-        </div>
-      </ProtectedDisplay>
-    </SessionProvider>
+    <ProtectedDisplay
+      allowedRoles={['admin', 'judge']}
+      failRedirectRoute="/judges/login"
+    >
+      <div className="max-w-[500px] min-w-[370px] ml-auto mr-auto">
+        {children}
+      </div>
+    </ProtectedDisplay>
   );
 }
