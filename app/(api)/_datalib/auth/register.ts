@@ -32,7 +32,11 @@ export default async function Register(body: any) {
   } catch (e) {
     if (e instanceof z.ZodError) {
       const errorMessage = e.errors.map((error) => error.message).join(' ');
-      throw new Error(errorMessage);
+      return {
+        ok: false,
+        body: null,
+        error: errorMessage,
+      };
     }
 
     const error = e as HttpError;

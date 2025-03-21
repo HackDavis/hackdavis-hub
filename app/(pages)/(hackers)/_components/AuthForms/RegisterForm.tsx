@@ -58,7 +58,7 @@ export default function RegisterForm({ data }: any) {
       fields={formFields}
       buttonText="Next →"
       initialValues={{
-        email: data.email ?? '',
+        email: data?.email ?? '',
         password: '',
         passwordDupe: '',
       }}

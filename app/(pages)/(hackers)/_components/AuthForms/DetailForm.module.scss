@@ -3,6 +3,11 @@
 .container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @include tablet-l {
+    margin-top: 30%;
+  }
 }
 
 .header {
@@ -79,15 +84,21 @@
   @include desktop-m {
     gap: 20px;
   }
+
   @include tablet-l {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-content: space-between;
-    width: 100%;
+    gap: 0;
+    width: 50%;
+  }
+
+  @include tablet-s {
+    width: 75%;
   }
 
   @include mobile-l {
-    gap: 0
+    width: 85%;
   }
 }
 
@@ -141,7 +152,6 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  text-wrap: nowrap;
   padding-bottom: 32px;
 
   @include desktop-l {
