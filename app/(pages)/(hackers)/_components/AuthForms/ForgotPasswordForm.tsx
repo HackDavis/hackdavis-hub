@@ -30,8 +30,6 @@ export default function ForgotPasswordForm() {
 
   return (
     <AuthForm
-      title="Hi Hacker!"
-      subtitle="Please enter your new password below."
       fields={formFields}
       buttonText="Send Email →"
       initialValues={{

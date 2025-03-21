@@ -8,8 +8,8 @@ import RegisterAction from '@actions/auth/register';
 export default function RegisterForm({ data }: any) {
   const router = useRouter();
 
-  const name = data?.name ? data.name : 'HackDavis Admin';
-  const role = data?.role ? data.role : 'admin';
+  const name = data?.name ?? 'HackDavis Admin';
+  const role = data?.role ?? 'admin';
 
   const onSubmit = async (fields: any) => {
     return RegisterAction({
@@ -55,9 +55,6 @@ export default function RegisterForm({ data }: any) {
 
   return (
     <AuthForm
-      title={`Hi ${name}!`}
-      subtitle={`Welcome to the HackerHub! The HackDavis team made this for all your hacking needs <3
-                Let's get you started by making a password with us.`}
       fields={formFields}
       buttonText="Next →"
       initialValues={{

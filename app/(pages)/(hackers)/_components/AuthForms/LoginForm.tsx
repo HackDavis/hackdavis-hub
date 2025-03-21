@@ -35,8 +35,6 @@ export default function LoginForm() {
 
   return (
     <AuthForm
-      title="Hi Hacker!"
-      subtitle="Welcome to the HackerHub! The HackDavis team made this for all your hacking needs <3"
       fields={formFields}
       buttonText="Log in →"
       linkText="Forgot Password?"

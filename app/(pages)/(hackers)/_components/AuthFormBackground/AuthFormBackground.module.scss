@@ -1,4 +1,4 @@
-@use 'app/(pages)/_globals/mixins';
+@import 'app/(pages)/_globals/mixins';
 
 .container {
     background-image: 
@@ -10,7 +10,7 @@
     background-position: top center, center;
     background-size: 100%;
 
-    @include mixins.tablet-l {
+    @include tablet-l {
         background-position-y: 30px, 0;
         background-position-x: -50px, 0;
         background-size: 125%, 100%;
@@ -24,13 +24,50 @@
     flex-direction: column;
     justify-content: space-between;
 
-    // children go in here btw
+    .header {
+        display: flex;
+        flex-direction: row;
+        gap: 26px;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: max(114px, 6%);
+      
+        .header_text {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+      
+            h1 {
+                font-size: 1.75rem;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                letter-spacing: 0.56px;
+        
+                @include tablet-s {
+                    font-size: 1.25rem;
+                }
+            }
+      
+            p {
+                font-size: 1.125rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 145%;
+                letter-spacing: 0.36px;
+        
+                @include tablet-s {
+                    font-size: 0.875rem;
+                }
+            }
+        }
+    }
+
     .overlayContent {
         z-index: 1; 
         border-radius: 8px;
         width: 100%;
-      }
-
+    }
 
     .logo {
         position: absolute;
@@ -50,7 +87,7 @@
         .grass {
             width: 100%;
 
-            @include mixins.tablet-l {
+            @include tablet-l {
                 position: absolute;
                 bottom: 0;
             }
@@ -63,10 +100,10 @@
             height: 65vh;
             width: auto;
     
-            @include mixins.desktop-s {
+            @include desktop-s {
                 height: 50vh;
             }
-            @include mixins.tablet-l {
+            @include tablet-l {
                 position: relative;
                 height: 30vh;
                 margin-right: 0;

@@ -2,10 +2,8 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 import useAuthForm from '@hooks/useAuthForm';
-import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import styles from './AuthForm.module.scss';
 
 type FieldName = 'email' | 'password' | 'passwordDupe';
@@ -19,8 +17,6 @@ interface FormField {
 }
 
 interface AuthFormProps {
-  title: string;
-  subtitle: string;
   fields: FormField[];
   buttonText: string;
   linkText?: string;
@@ -31,8 +27,6 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({
-  title,
-  subtitle,
   fields,
   buttonText,
   linkText,
@@ -62,14 +56,6 @@ export default function AuthForm({
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
-        <div className={styles.header_text}>
-          <h1>{title}</h1>
-          <p style={{ whiteSpace: 'pre-line' }}>{subtitle}</p>
-        </div>
-      </div>
-
       <form onSubmit={handleSubmit} className={styles.form}>
         <p className={styles.error_msg}>{errors.submit}</p>
         <div className={styles.fields}>
@@ -84,6 +70,9 @@ export default function AuthForm({
                 value={formValues[field.name] || ''}
                 onInput={handleChange}
                 readOnly={field.readOnly}
+                style={{
+                  cursor: field.readOnly ? 'not-allowed' : 'auto',
+                }}
               />
             </div>
           ))}

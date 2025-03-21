@@ -95,21 +95,11 @@
   display: flex;
   align-self: flex-end;
   height: 100%;
-  // margin: 32px;
-
-  // @include desktop-s {
-  //   margin: 16px;
-  // }
 
 
   &.selected {
     border-radius: 20px;
     border: 1px dashed #005271;
-    // padding-bottom: 31px;
-  
-    @include desktop-s {
-      // padding-bottom: 15px;
-    }
   }  
 }
 
@@ -142,7 +132,6 @@
 }
 
 .characterImage:hover {
-  // transform: translateY(-10px);
   filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.60));
 }
 
@@ -266,9 +255,7 @@
 
 .loader {
   border: 8px solid #f3f3f3;
-  /* Light grey */
   border-top: 8px solid var(--background-secondary);
-  /* Blue */
   border-radius: 50%;
   width: 40px;
   height: 40px;

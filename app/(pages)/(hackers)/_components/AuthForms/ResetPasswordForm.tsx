@@ -38,8 +38,6 @@ export default function ResetPasswordForm({ data }: any) {
 
   return (
     <AuthForm
-      title="Hi Hacker!"
-      subtitle="Please enter your new password below!"
       fields={formFields}
       buttonText="Reset Password →"
       initialValues={{

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import { updateUser } from '@actions/users/updateUser';
-import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import DeveloperCow from 'public/hackers/mvp/developer_cow.svg';
 import DesignerBunny from 'public/hackers/mvp/designer_bunny.svg';
 import PmFroggy from 'public/hackers/mvp/pm_froggy.svg';
@@ -39,7 +38,7 @@ const characters = [
   },
 ];
 
-export default function DetailForm({ id, name }: any) {
+export default function DetailForm({ id }: any) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -80,18 +79,6 @@ export default function DetailForm({ id, name }: any) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
-        <div className={styles.header_text}>
-          <h1>Hi {name}!</h1>
-          <p>
-            One more thing before you enter the hub.
-            <br />
-            Choose what suits you the most:
-          </p>
-        </div>
-      </div>
-
       <form onSubmit={handleRegister} className={styles.form}>
         {error && <p className={styles.error_msg}>{error}</p>}
 

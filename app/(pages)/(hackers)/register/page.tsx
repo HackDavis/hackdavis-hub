@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
-import RegisterForm from './_components/RegisterForm';
+import RegisterForm from '../_components/AuthForms/RegisterForm';
 import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
 import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
 
@@ -18,7 +18,11 @@ export default async function RegisterPage() {
 
   return (
     <InviteOnlyRoute>
-      <AuthFormBackground>
+      <AuthFormBackground
+        title={`Hi ${data?.name ?? 'HackDavis Admin'}!`}
+        subtitle={`Welcome to the HackerHub! The HackDavis team made this for all your hacking needs <3
+                  Let's get you started by making a password with us.`}
+      >
         <RegisterForm data={data} />
       </AuthFormBackground>
     </InviteOnlyRoute>
