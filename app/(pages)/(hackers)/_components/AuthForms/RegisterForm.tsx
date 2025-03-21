@@ -14,7 +14,7 @@ export default function RegisterForm({ data }: any) {
   const onSubmit = async (fields: any) => {
     return RegisterAction({
       name,
-      email: fields.email,
+      email: data?.email ?? fields.email,
       password: fields.password,
       role,
       has_checked_in: true,
