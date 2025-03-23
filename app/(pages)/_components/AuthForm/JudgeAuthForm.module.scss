@@ -109,6 +109,7 @@
   text-align: center;
   background: rgba(136, 136, 136, 0.50);
   backdrop-filter: blur(10px);
+  z-index: 3;
 }
 
 .loader {

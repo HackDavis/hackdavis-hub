@@ -13,8 +13,8 @@ export default async function RegisterPage() {
 
   const data = await getInviteData();
 
-  if (data?.role === 'judge') {
-    redirect('/judges/reset-password');
+  if (data?.role === 'hacker') {
+    redirect('/reset-password');
   }
 
   return (
