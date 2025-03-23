@@ -8,7 +8,7 @@ export default function ForgotPasswordForm() {
     return sendEmail(
       {
         email: fields.email,
-        role: 'hacker',
+        role: 'judge',
       },
       'reset'
     );
@@ -22,15 +22,15 @@ export default function ForgotPasswordForm() {
     {
       name: 'email' as const,
       type: 'email',
-      label: 'EMAIL',
-      placeholder: 'Email',
+      label: 'Email',
+      placeholder: '',
       readOnly: false,
     },
   ];
 
   return (
     <AuthForm
-      role="hacker"
+      role="judge"
       fields={formFields}
       buttonText="Send Email →"
       initialValues={{

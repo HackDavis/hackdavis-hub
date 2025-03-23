@@ -44,7 +44,9 @@ export default async function ProtectedDisplay({
       redirect('/');
     }
   } else if (session.user.role === 'judge') {
-    if (authorized) {
+    if (user.body.specialties === undefined) {
+      redirect('/judges/register/details');
+    } else if (authorized) {
       return <>{children}</>;
     } else {
       redirect('/judges');

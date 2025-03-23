@@ -17,15 +17,15 @@ export default function RegisterForm({ data }: any) {
       email: data?.email ?? fields.email,
       password: fields.password,
       role,
-      has_checked_in: true,
+      has_checked_in: false,
     });
   };
 
   const onSuccess = () => {
     if (role === 'admin') {
-      router.push('/');
+      router.push('/judges');
     } else {
-      router.push('/register/details');
+      router.push('/judges/register/details');
     }
   };
 
@@ -33,29 +33,29 @@ export default function RegisterForm({ data }: any) {
     {
       name: 'email' as const,
       type: 'email',
-      label: 'EMAIL',
-      placeholder: 'Email',
+      label: 'Email',
+      placeholder: '',
       readOnly: data ? true : false,
     },
     {
       name: 'password' as const,
       type: 'password',
-      label: 'PASSWORD',
-      placeholder: 'Password',
+      label: 'Password',
+      placeholder: '',
       readOnly: false,
     },
     {
       name: 'passwordDupe' as const,
       type: 'password',
-      label: 'RETYPE PASSWORD',
-      placeholder: 'Retype Password',
+      label: 'Retype Password',
+      placeholder: '',
       readOnly: false,
     },
   ];
 
   return (
     <AuthForm
-      role="hacker"
+      role="judge"
       fields={formFields}
       buttonText="Next →"
       initialValues={{

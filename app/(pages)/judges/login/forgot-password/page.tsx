@@ -7,12 +7,12 @@ import AuthFormBackground from '../../_components/AuthFormBackground/AuthFormBac
 export default async function ForgotPasswordPage() {
   const session = await auth();
   if (session) {
-    redirect('/');
+    redirect('/judges');
   }
 
   return (
     <AuthFormBackground
-      title="Hi Hacker!"
+      title="Hello!"
       subtitle="Please enter your email below."
     >
       <ForgotPasswordForm />

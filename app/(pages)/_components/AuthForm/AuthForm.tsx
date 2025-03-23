@@ -2,10 +2,15 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import useAuthForm from '@hooks/useAuthForm';
-import styles from './AuthForm.module.scss';
+import Froggy from 'public/login/LogIn_Froggy.svg';
+import Drumstick from 'public/login/LogIn_DrumStick.svg';
+import hackerStyles from './HackerAuthForm.module.scss';
+import judgeStyles from './JudgeAuthForm.module.scss';
 
+type Role = 'hacker' | 'judge';
 type FieldName = 'email' | 'password' | 'passwordDupe';
 
 interface FormField {
@@ -17,6 +22,7 @@ interface FormField {
 }
 
 interface AuthFormProps {
+  role: Role;
   fields: FormField[];
   buttonText: string;
   linkText?: string;
@@ -27,6 +33,7 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({
+  role,
   fields,
   buttonText,
   linkText,
@@ -35,6 +42,8 @@ export default function AuthForm({
   onSubmit,
   onSuccess,
 }: AuthFormProps) {
+  const styles = role === 'hacker' ? hackerStyles : judgeStyles;
+
   const {
     fields: formValues,
     errors,
@@ -57,43 +66,69 @@ export default function AuthForm({
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <p className={styles.error_msg}>{errors.submit}</p>
-        <div className={styles.fields}>
-          {fields.map((field) => (
-            <div key={field.name}>
-              <p className={styles.error_msg}>{errors[field.name]}</p>
-              <label htmlFor={field.name}>{field.label}</label>
-              <input
-                name={field.name}
-                type={field.type}
-                placeholder={field.placeholder}
-                value={formValues[field.name] || ''}
-                onInput={handleChange}
-                readOnly={field.readOnly}
-                style={{
-                  cursor: field.readOnly ? 'not-allowed' : 'auto',
-                }}
-              />
-            </div>
-          ))}
-        </div>
+        <div className={styles.top_container}>
+          <p className={styles.error_msg}>{errors.submit}</p>
+          <div className={styles.fields}>
+            {fields.map((field) => (
+              <div key={field.name}>
+                <p className={styles.error_msg}>{errors[field.name]}</p>
+                <div className={styles.input_container}>
+                  <label htmlFor={field.name}>{field.label}</label>
+                  <input
+                    name={field.name}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    value={formValues[field.name] || ''}
+                    onInput={handleChange}
+                    readOnly={field.readOnly}
+                    style={{
+                      cursor: field.readOnly ? 'not-allowed' : 'auto',
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
 
-        <div className={styles.bottom}>
-          {linkText ? (
+          {linkText && (
             <Link href={linkHref ?? '/'} className={styles.forgot}>
               {linkText}
             </Link>
-          ) : (
-            <div />
+          )}
+        </div>
+
+        <div className={styles.bottom_container}>
+          {role === 'judge' && (
+            <div className={styles.froggy_container}>
+              <Image
+                src={Drumstick}
+                alt="froggy_drumstick"
+                width={10}
+                height={10}
+                className={styles.drumstick}
+              />
+              <Image
+                src={Froggy}
+                alt="froggy"
+                width={50}
+                height={50}
+                className={styles.froggy}
+              />
+            </div>
           )}
 
-          <button
-            type="submit"
-            disabled={loading || !valid}
-            className={`${styles.login_button} ${valid ? styles.valid : null}`}
-          >
-            {buttonText}
-          </button>
+          <div className={styles.bottom}>
+            <div />
+            <button
+              type="submit"
+              disabled={loading || !valid}
+              className={`${styles.submit_button} ${
+                valid ? styles.valid : null
+              }`}
+            >
+              {buttonText}
+            </button>
+          </div>
         </div>
       </form>
 

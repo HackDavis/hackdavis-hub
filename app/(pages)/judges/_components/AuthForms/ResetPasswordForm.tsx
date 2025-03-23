@@ -16,29 +16,29 @@ export default function ResetPasswordForm({ data }: any) {
   };
 
   const onSuccess = () => {
-    router.push('/login');
+    router.push('/judges/login');
   };
 
   const formFields = [
     {
       name: 'password' as const,
       type: 'password',
-      label: 'NEW PASSWORD',
-      placeholder: 'New Password',
+      label: 'New Password',
+      placeholder: '',
       readOnly: false,
     },
     {
       name: 'passwordDupe' as const,
       type: 'password',
-      label: 'RETYPE NEW PASSWORD',
-      placeholder: 'Retype New Password',
+      label: 'Retype New Password',
+      placeholder: '',
       readOnly: false,
     },
   ];
 
   return (
     <AuthForm
-      role="hacker"
+      role="judge"
       fields={formFields}
       buttonText="Reset Password →"
       initialValues={{

@@ -13,33 +13,33 @@ export default function LoginForm() {
   };
 
   const onSuccess = () => {
-    router.push('/');
+    router.push('/judges');
   };
 
   const formFields = [
     {
       name: 'email' as const,
       type: 'email',
-      label: 'EMAIL',
-      placeholder: 'Email',
+      label: 'Email',
+      placeholder: '',
       readOnly: false,
     },
     {
       name: 'password' as const,
       type: 'password',
-      label: 'PASSWORD',
-      placeholder: 'Password',
+      label: 'Password',
+      placeholder: '',
       readOnly: false,
     },
   ];
 
   return (
     <AuthForm
-      role="hacker"
+      role="judge"
       fields={formFields}
       buttonText="Log in →"
       linkText="Forgot Password?"
-      linkHref="/login/forgot-password"
+      linkHref="/judges/login/forgot-password"
       initialValues={{
         email: '',
         password: '',

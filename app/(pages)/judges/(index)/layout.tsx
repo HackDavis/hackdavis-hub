@@ -16,9 +16,7 @@ export default function JudgesLayout({ children }: Props) {
       allowedRoles={['admin', 'judge']}
       failRedirectRoute="/judges/login"
     >
-      <div className="max-w-[500px] min-w-[370px] ml-auto mr-auto">
-        {children}
-      </div>
+      {children}
     </ProtectedDisplay>
   );
 }
