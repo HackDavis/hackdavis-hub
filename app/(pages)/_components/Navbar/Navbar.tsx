@@ -120,6 +120,13 @@ export default function Navbar() {
           (section) => section.sectionStart !== 0 || section.sectionEnd !== 0
         );
 
+      // added
+      if (pageSections.length === 0) {
+        setActiveLink('');
+        setActiveSection('');
+        return;
+      }
+
       let i = pageSections.length - 1;
       for (i; i >= 0; i--) {
         if (currScroll >= pageSections[i].sectionStart) {
