@@ -32,6 +32,13 @@ const sections = [
     activeColor: '#FFC53D',
     background: 'rgba(255, 255, 255, 0.50)',
   },
+  {
+    id: 'project-info',
+    page: '/project-info',
+    baseColor: '#1589BE',
+    activeColor: '#FFC53D',
+    background: 'rgba(255, 255, 255, 0.50)',
+  },
   // {
   //   id: 'starter-kit',
   //   page: '/starter-kit',
@@ -75,6 +82,12 @@ export default function Navbar() {
     //   page: '/starter-kit',
     //   path: '/starter-kit',
     // },
+    {
+      ids: [],
+      body: 'PROJECT INFO',
+      page: '/project-info',
+      path: '/project-info',
+    },
     {
       ids: [],
       body: 'LOGOUT',
