@@ -1,0 +1,30 @@
+@import "@globals/mixins.scss";
+
+.container {
+    background: #76D6E6; // couldnt find this as a single color in globals
+    padding: 7% 5%;
+
+    h4 {
+        font-weight: bold;
+        padding-bottom: 1.5%;
+        color: var(--text-dark);
+    }
+
+    button {
+        display: inline-flex;
+        padding: 10px 20px;
+        background: var(--background-secondary);
+        color: var(--text-light);
+        border-radius: 8px;
+        font-weight: 500;
+        margin-right: 1%;
+        border: 1.5px solid var(--background-secondary);
+    }
+
+    button:active,
+    button:focus {
+        background: none;
+        border: 1.5px solid var(--background-secondary);
+        color: var(--background-secondary);
+    }
+}

@@ -1,5 +1,11 @@
 'use client';
 
+import WhatHappens from '../../_components/ProjectInfo/WhatHappens/WhatHappens';
+
 export default function Page() {
-  return <div> Project Info</div>;
+  return (
+    <main>
+      <WhatHappens />
+    </main>
+  );
 }
