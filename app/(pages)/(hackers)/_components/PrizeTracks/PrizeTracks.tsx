@@ -1,45 +1,33 @@
+'use client';
+
+import { Button } from '@globals/components/ui/button';
 import { prizes } from '@datalib/prizes/getPrizes';
 import type { Prize } from '@datalib/prizes/getPrizes';
-import Image from 'next/image';
-import { FaChevronRight } from 'react-icons/fa6';
+import PrizeGrid from './PrizeGrid';
+import { useState } from 'react';
 
 export default function PrizeTracks() {
+  const [filter, setFilter] = useState<string>('all');
+  const [filteredPrizes, setFilteredPrizes] = useState<Prize[]>(prizes);
+
+  const handleFilterChange = (selectedFilter: string) => {
+    setFilter(selectedFilter.toLowerCase());
+    setFilteredPrizes(() => {
+      if (selectedFilter.toLowerCase() === 'all') {
+        return prizes;
+      }
+      return prizes.filter(
+        (prize) => prize.category.toLowerCase() === selectedFilter.toLowerCase()
+      );
+    });
+  };
+
   return (
     <main className="flex flex-col gap-4 p-10">
       <Header />
-      <FilterRow />
+      <FilterRow currentFilter={filter} onFilterChange={handleFilterChange} />
       <div className="flex items-center justify-center w-full ">
-        <PrizeGrid items={prizes} />
-      </div>
-    </main>
-  );
-}
-
-function PrizeGrid({ items }: { items: Prize[] }) {
-  return (
-    <main className="grid sm:grid-cols-2 gap-12">
-      {items.map((item) => {
-        return <PrizeCard item={item} key={item.tracks} />;
-      })}
-    </main>
-  );
-}
-
-function PrizeCard({ item }: { item: Prize }) {
-  return (
-    <main className="flex bg-white p-4 border shadow-md max-w-[500px]">
-      <div className="flex flex-col w-1/2 justify-between">
-        <div className="flex flex-col">
-          <h6 className="font-bold">{item.tracks}</h6>
-          <p>{item.prize}</p>
-        </div>
-        <div className="flex gap-4 items-center">
-          <FaChevronRight />
-          <p>ELIGIBILITY CRITERIA</p>
-        </div>
-      </div>
-      <div className="relative w-1/2 border aspect-square">
-        <Image src={item.image} alt="prize image" fill></Image>
+        <PrizeGrid items={filteredPrizes} />
       </div>
     </main>
   );
@@ -59,7 +47,12 @@ interface FilterItem {
   color: string;
 }
 
-function FilterRow() {
+interface FilterRowProps {
+  currentFilter: string;
+  onFilterChange: (filter: string) => void;
+}
+
+function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
   const filters: FilterItem[] = [
     { track: 'ALL', color: '#C3F0EF' },
     { track: 'GENERAL', color: '#FFDBCA' },
@@ -75,17 +68,23 @@ function FilterRow() {
         const track = filter.track;
         const color = filter.color;
         return (
-          <div
+          <Button
             key={index}
             className="px-8 py-2 border-2 rounded-3xl border-dashed cursor-pointer relative overflow-hidden group"
             style={{ borderColor: color }}
+            variant="ghost"
+            onClick={() => onFilterChange(filter.track)}
           >
             <div
-              className="absolute inset-0 w-0 bg-opacity-20 transition-all duration-300 ease-out group-hover:w-full"
+              className={`absolute inset-0 transition-all duration-300 ease-out ${
+                currentFilter.toLowerCase() === track.toLowerCase()
+                  ? 'w-full'
+                  : 'w-0 group-hover:w-full'
+              } bg-opacity-20`}
               style={{ backgroundColor: color }}
             />
             <p className="font-semibold relative z-10">{track}</p>
-          </div>
+          </Button>
         );
       })}
     </div>
