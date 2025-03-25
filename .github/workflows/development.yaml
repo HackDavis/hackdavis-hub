@@ -26,16 +26,23 @@ jobs:
       - name: Build Next.js app
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          BASE_URL: ${{ vars.BASE_URL }} 
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }} 
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }} 
+          ADMIN_PASSWORD_HASHED: ${{ secrets.ADMIN_PASSWORD_HASHED }} 
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }} 
+          NODE_ENV: "test"
         run: npm run build
 
       - name: Run tests
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          BASE_URL: ${{ vars.ENV_URL }} 
+          BASE_URL: ${{ vars.BASE_URL }} 
           ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }} 
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }} 
           ADMIN_PASSWORD_HASHED: ${{ secrets.ADMIN_PASSWORD_HASHED }} 
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }} 
+          NODE_ENV: "test"
         run: npm run test
 
       - name: Success

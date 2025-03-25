@@ -1,8 +1,11 @@
 // import { defineConfig, devices } from '@playwright/test';
 import { defineConfig } from '@playwright/test';
-// import path from 'path';
+import dotenv from 'dotenv';
+import path from 'path';
 // import { fileURLToPath } from 'url';
-// require('dotenv').config();
+
+// Read from ".env" file.
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 // export const STORAGE_STATE = path.join(
 //   path.dirname(fileURLToPath(import.meta.url)),
@@ -35,67 +38,22 @@ export default defineConfig({
       name: 'integration tests: API and database',
       testMatch: '**/*db.spec.ts',
       dependencies: ['setup'],
-      // use: { storageState: STORAGE_STATE },
     },
     {
       name: 'integration tests: UI and server actions',
       testMatch: '**/*actions.spec.ts',
       dependencies: ['setup'],
-      // use: { storageState: STORAGE_STATE },
     },
   ],
 
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL,
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    // trace: 'retry-with-trace',
-    // storageState: './tests/_setup/storageState.json',
+    baseURL: 'http://localhost:3000',
   },
-
-  /* Configure projects for major browsers */
-  // projects: [
-  //   {
-  //     name: 'chromium',
-  //     use: { ...devices['Desktop Chrome'] },
-  //   },
-
-  //   {
-  //     name: 'firefox',
-  //     use: { ...devices['Desktop Firefox'] },
-  //   },
-
-  //   {
-  //     name: 'webkit',
-  //     use: { ...devices['Desktop Safari'] },
-  //   },
-
-  //   /* Test against mobile viewports. */
-  //   {
-  //     name: 'Mobile Chrome',
-  //     use: { ...devices['Pixel 5'] },
-  //   },
-  //   {
-  //     name: 'Mobile Safari',
-  //     use: { ...devices['iPhone 12'] },
-  //   },
-
-  //   /* Test against branded browsers. */
-  //   {
-  //     name: 'Microsoft Edge',
-  //     use: { ...devices['Desktop Edge'], channel: 'msedge' },
-  //   },
-  //   {
-  //     name: 'Google Chrome',
-  //     use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-  //   },
-  // ],
 
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'npm run start',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI, // TODO: CI
   },
 });

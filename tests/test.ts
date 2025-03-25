@@ -11,7 +11,6 @@ type MongoFixture = {
   mongoClient: MongoClient;
   db: Db;
   seedData: (collectionName: string, numDocs: number) => Promise<void>;
-  // loginAdmin: () => Promise<void>;
   adminUser: { ok: boolean; body: any; error: any };
 };
 
@@ -55,7 +54,7 @@ export const test = base.extend<MongoFixture>({
     const seedData = async (collectionName: string, numDocs: number) => {
       const collection = collectionName === 'admin' ? 'users' : collectionName;
       if (collection !== 'all') {
-        const data = generateData(collection, numDocs);
+        const data = generateData(collectionName, numDocs);
         if (data.length !== 0) await db.collection(collection).insertMany(data);
         return;
       }
@@ -79,7 +78,7 @@ export const test = base.extend<MongoFixture>({
     await use(seedData);
   },
   adminUser: async ({ seedData, request }, use) => {
-    seedData('admin', 1);
+    await seedData('admin', 1);
 
     const adminUser = {
       email: process.env.ADMIN_EMAIL,
@@ -87,7 +86,7 @@ export const test = base.extend<MongoFixture>({
     };
 
     const response = await request.post(
-      `${process.env.BASE_URL}/api/auth/login`,
+      `http://localhost:3000/api/auth/login`,
       {
         data: adminUser,
       }
