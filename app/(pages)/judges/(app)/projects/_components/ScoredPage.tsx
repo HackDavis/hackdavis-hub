@@ -1,18 +1,19 @@
-import React from 'react';
+'use client';
+
 import ProjectTab from './ProjectTab';
+interface ScoredPageProps {
+  projects: { _id: string; teamNumber: number; name: string }[];
+}
 
-const scoredProjects = [
-  { id: 17, name: 'Not Haptic Hand' },
-  { id: 20, name: 'Fun fun project' },
-  { id: 80, name: 'Happy name' },
-  { id: 36, name: 'Another Happy name' },
-];
-
-const ScoredPage = () => {
+const ScoredPage = ({ projects }: ScoredPageProps) => {
   return (
     <div className="flex flex-col mt-[4px] gap-[16px] mb-[120px]">
-      {scoredProjects.map((project) => (
-        <ProjectTab key={project.id} number={project.id} name={project.name} />
+      {projects.map((project) => (
+        <ProjectTab
+          key={project._id}
+          number={project.teamNumber}
+          name={project.name}
+        />
       ))}
     </div>
   );

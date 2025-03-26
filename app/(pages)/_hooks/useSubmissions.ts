@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 
 import { getManySubmissions } from '@actions/submissions/getSubmission';
 import { getManyTeams } from '@actions/teams/getTeams';
+import Submission from '@typeDefs/submission';
 
 export function useSubmissions(): any {
   const { data: session, status } = useSession();
@@ -39,12 +40,10 @@ export function useSubmissions(): any {
 
       const teams = teams_res.ok ? teams_res.body : [];
 
-      const judgedSubmissions = subs.filter((sub: { scores?: number[] }) =>
-        sub.scores ? true : false
-      );
+      const judgedSubmissions = subs.filter((sub: Submission) => sub.is_scored);
 
-      const unjudgedSubmissions = subs.filter((sub: { scores?: number[] }) =>
-        sub.scores ? false : true
+      const unjudgedSubmissions = subs.filter(
+        (sub: Submission) => !sub.is_scored
       );
 
       const judgedTeamIds = judgedSubmissions.map(

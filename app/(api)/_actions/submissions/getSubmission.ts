@@ -7,10 +7,13 @@ import {
 import parseAndReplace from '@utils/request/parseAndReplace';
 
 export async function getSubmission(judge_id: string, team_id: string) {
-  return GetSubmission(judge_id, team_id);
+  return JSON.parse(JSON.stringify(await GetSubmission(judge_id, team_id)));
 }
 
 export async function getManySubmissions(query: object = {}) {
   const newQuery = await parseAndReplace(query);
-  return GetManySubmissions(newQuery);
+  const submsissions = JSON.parse(
+    JSON.stringify(await GetManySubmissions(newQuery))
+  );
+  return submsissions;
 }
