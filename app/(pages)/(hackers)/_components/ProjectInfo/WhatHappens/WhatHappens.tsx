@@ -1,6 +1,7 @@
 'use client';
 import styles from './WhatHappens.module.scss';
 import { useState } from 'react';
+import SubmissionInfo from '../SubmissionInfo/SubmissionInfo';
 
 export default function WhatHappens() {
   const [activeTab, setActiveTab] = useState<'submission' | 'judging'>(
@@ -12,17 +13,24 @@ export default function WhatHappens() {
       <h4>What happens during the...</h4>
 
       <div>
-        <button onClick={() => setActiveTab('submission')}>
+        <button
+          className={activeTab === 'submission' ? styles.selected : ''}
+          onClick={() => setActiveTab('submission')}
+        >
           Submission Process
         </button>
-        <button onClick={() => setActiveTab('judging')}>Judging Process</button>
+        <button
+          className={activeTab === 'judging' ? styles.selected : ''}
+          onClick={() => setActiveTab('judging')}
+        >
+          Judging Process
+        </button>
       </div>
-
-      {/* Conditionally render the content */}
       <div>
         {activeTab === 'submission' && (
           <section>
             <h1>Submission info here</h1>
+            <SubmissionInfo />
           </section>
         )}
 
