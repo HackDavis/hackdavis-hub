@@ -23,7 +23,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   });
 
   if (!valid) {
-    return <div>Bad Invite Link</div>;
+    return <div>Your invite link is invalid or may have expired.</div>;
   } else {
     return (
       <div className={styles.loading_container}>
