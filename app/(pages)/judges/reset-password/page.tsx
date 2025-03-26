@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import ResetPasswordForm from '../_components/AuthForms/ResetPasswordForm';
 import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
+import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
 
 export default async function RegisterPage() {
   const session = await auth();
@@ -18,11 +19,13 @@ export default async function RegisterPage() {
   }
 
   return (
-    <AuthFormBackground
-      title="Hello!"
-      subtitle="Please enter your new password below."
-    >
-      <ResetPasswordForm data={data} />
-    </AuthFormBackground>
+    <InviteOnlyRoute>
+      <AuthFormBackground
+        title="Hello!"
+        subtitle="Please enter your new password below."
+      >
+        <ResetPasswordForm data={data} />
+      </AuthFormBackground>
+    </InviteOnlyRoute>
   );
 }

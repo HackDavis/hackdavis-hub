@@ -21,7 +21,7 @@ export default async function DetailPage() {
   return (
     <AuthFormBackground
       title={`Hi ${user.body.name}!`}
-      subtitle="One more thing before you begin judging. Please rank your expertise in these domains."
+      subtitle="One more thing before you begin judging. Please rank your expertise in these domains from most experience to least experience."
     >
       <DetailForm id={session.user.id} />
     </AuthFormBackground>
