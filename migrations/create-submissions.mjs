@@ -4,7 +4,16 @@ export async function up(db) {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Submissions Object Validation',
-        required: ['judge_id', 'team_id', 'scores', 'social_good', 'creativity', 'presentation', 'is_scored', 'queuePosition'],
+        required: [
+          'judge_id',
+          'team_id',
+          'scores',
+          'social_good',
+          'creativity',
+          'presentation',
+          'is_scored',
+          'queuePosition',
+        ],
         properties: {
           _id: {
             bsonType: 'objectId',
@@ -19,19 +28,19 @@ export async function up(db) {
             description: 'team_id must be an ObjectId',
           },
           social_good: {
-            bsonType: 'int',
+            bsonType: ['int', 'null'],
             minimum: 1,
             maximum: 5,
             description: 'social_good score must be an integer',
           },
           creativity: {
-            bsonType: 'int',
+            bsonType: ['int', 'null'],
             minimum: 1,
             maximum: 5,
             description: 'creativity score must be an integer',
           },
           presentation: {
-            bsonType: 'int',
+            bsonType: ['int', 'null'],
             minimum: 1,
             maximum: 5,
             description: 'presentation score must be an integer',
@@ -58,7 +67,7 @@ export async function up(db) {
                 finalTrackScore: {
                   bsonType: ['int', 'null'],
                   description: 'finalTrackScore must be an integer or null',
-                }
+                },
               },
               additionalProperties: false,
             },
