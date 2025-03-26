@@ -29,7 +29,6 @@ export default function WhatHappens() {
       <div>
         {activeTab === 'submission' && (
           <section>
-            <h1>Submission info here</h1>
             <SubmissionInfo />
           </section>
         )}
