@@ -9,7 +9,7 @@ import { getManyTeams } from '@actions/teams/getTeams';
 export function useSubmissions(): any {
   const { data: session, status } = useSession();
   const user = session?.user;
-  const [submissions, setSubmssions] = useState<any>(null);
+  const [submissions, setSubmissions] = useState<any>(null);
   const [teams, setTeams] = useState<any>(null);
   const [judgedTeams, setJudgedTeams] = useState<any>([]);
   const [unjudgedTeams, setUnjudgedTeams] = useState<any>([]);
@@ -66,7 +66,7 @@ export function useSubmissions(): any {
       setTeams(teams_res);
       setJudgedTeams(judgedTeams);
       setUnjudgedTeams(unjudgedTeams);
-      setSubmssions(submissions);
+      setSubmissions(submissions);
       setLoading(false);
     };
     if (status === 'authenticated' && user) {

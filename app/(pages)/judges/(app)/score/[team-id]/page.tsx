@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
 import styles from './page.module.scss';
 import ScoringForm from '@components/ScoringForm/ScoringForm';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { useSubmission } from '@hooks/useSubmission';
 
 import leftArrow from '@public/judges/scoring/left-arrow.svg';
 
@@ -23,9 +24,16 @@ const judgingCategories = [
 ];
 
 export default function ScoreTeam({ params }: ScoringFormProps) {
-  const { data } = useSession();
-  console.log(data?.user);
   const [showInfo, setShowInfo] = useState(false);
+  const { submission, loading } = useSubmission(params['team-id']);
+
+  if (loading) {
+    return 'loading...';
+  }
+
+  if (!submission.ok) {
+    return submission.error;
+  }
 
   return (
     <div className={styles.container}>
