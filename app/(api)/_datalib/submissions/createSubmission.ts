@@ -21,8 +21,6 @@ export const CreateSubmission = async (body: {
     const parsedBody = await parseAndReplace(body);
     const db = await getDatabase();
 
-    console.log(parsedBody);
-
     const judge = await db.collection('users').findOne({
       _id: parsedBody.judge_id,
       role: 'judge',
