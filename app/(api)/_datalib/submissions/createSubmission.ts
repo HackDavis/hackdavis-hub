@@ -21,6 +21,8 @@ export const CreateSubmission = async (body: {
     const parsedBody = await parseAndReplace(body);
     const db = await getDatabase();
 
+    console.log(parsedBody);
+
     const judge = await db.collection('users').findOne({
       _id: parsedBody.judge_id,
       role: 'judge',
@@ -44,9 +46,16 @@ export const CreateSubmission = async (body: {
       throw new DuplicateError('Submission already exists');
     }
 
-    const creationStatus = await db
-      .collection('submissions')
-      .insertOne(parsedBody);
+    const creationStatus = await db.collection('submissions').insertOne({
+      ...parsedBody,
+      social_good: null,
+      creativity: null,
+      presentation: null,
+      scores: [],
+      comments: '',
+      is_scored: false,
+      queuePosition: null,
+    });
     const submission = await db.collection('submissions').findOne({
       _id: new ObjectId(creationStatus.insertedId),
     });
