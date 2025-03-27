@@ -23,8 +23,14 @@ export default async function ProtectedDisplay({
   const user = await getUser(id);
 
   if (!user.ok) {
-    LogoutAction();
-    redirect(failRedirectRoute);
+    await LogoutAction();
+    // redirect(failRedirectRoute);
+    return (
+      <div>
+        User was manually deleted from the database, clear cookies and
+        re-register.
+      </div>
+    );
   }
 
   if (session.user.role === 'hacker') {

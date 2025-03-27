@@ -42,7 +42,7 @@ export default function Footer() {
       </div>
 
       {/* Content Container */}
-      <div className="mx-auto mt-[30%] flex w-3/4 flex-col items-center justify-around gap-8 break-400:mt-[25%] break-625:gap-12 md:mt-[20%] md:relative md:my-[15%] md:w-11/12 md:flex-row md:justify-between md:gap-0 md:px-0">
+      <div className="mx-auto mt-[30%] flex w-3/4 flex-col items-center justify-around gap-8 break-400:mt-[25%] break-625:gap-12 md:relative md:my-[15%] md:w-11/12 md:flex-row md:justify-between md:gap-0 md:px-0">
         {/* HackDavis Logo */}
         <div className="flex w-full flex-row items-center justify-center gap-4 md:w-1/3">
           <Image
