@@ -24,7 +24,20 @@
         width: 100%;
     }
   }
-  
+
+.stepContent6 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+    padding: 1% 5%;
+
+    p {
+        display: flex;
+        flex-direction: column;
+    }
+}
 
 .container {
     position: relative;

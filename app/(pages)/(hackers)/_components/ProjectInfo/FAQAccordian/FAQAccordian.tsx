@@ -11,6 +11,7 @@ import Step3 from 'public/hackers/project-info/Step3.svg';
 import Step4 from 'public/hackers/project-info/Step4.svg';
 import Step5 from 'public/hackers/project-info/Step5.svg';
 import Step6 from 'public/hackers/project-info/Step6.svg';
+import MusicPlayer from '../../IndexHero/MusicPlayer';
 
 const FAQAccordian = () => {
   const steps = [
@@ -75,9 +76,9 @@ const FAQAccordian = () => {
       step: 'Step 6',
       question: 'Step 6: Submit Project',
       answer: (
-        <div className={styles.stepContent}>
+        <div className={styles.stepContent6}>
           <Image className={styles.step6} src={Step6} alt="Step 6" />
-          <p>Submit project.</p>
+          <MusicPlayer />
         </div>
       ),
     },
