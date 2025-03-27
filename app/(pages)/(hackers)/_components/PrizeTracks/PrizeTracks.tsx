@@ -1,8 +1,8 @@
 'use client';
 
 import { Button } from '@globals/components/ui/button';
-import { prizes } from '@datalib/prizes/getPrizes';
-import type { Prize } from '@datalib/prizes/getPrizes';
+import { prizes } from '@apidata/getPrizes';
+import type { Prize } from '@apidata/getPrizes';
 import PrizeGrid from './PrizeGrid';
 import { useState } from 'react';
 
