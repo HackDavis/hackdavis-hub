@@ -43,6 +43,7 @@ export async function up(db) {
               description:
                 'tags must be an array of valid hacker positions: developer, designer, pm, other, beginner',
             },
+            uniqueItems: true,
           },
         },
         additionalProperties: false,
