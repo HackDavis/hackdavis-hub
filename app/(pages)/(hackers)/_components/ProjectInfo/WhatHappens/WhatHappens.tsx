@@ -31,21 +31,21 @@ export default function WhatHappens() {
               Judging Process
             </button>
           </div>
-        </div>
 
-        <div>
-          {activeTab === 'submission' && (
-            <section>
-              <SubmissionInfo />
-              <FAQAccordian />
-            </section>
-          )}
+          <div>
+            {activeTab === 'submission' && (
+              <section>
+                <SubmissionInfo />
+                <FAQAccordian />
+              </section>
+            )}
 
-          {activeTab === 'judging' && (
-            <section>
-              <h1>Judging info here</h1>
-            </section>
-          )}
+            {activeTab === 'judging' && (
+              <section>
+                <h1>Judging info here</h1>
+              </section>
+            )}
+          </div>
         </div>
       </div>
 
