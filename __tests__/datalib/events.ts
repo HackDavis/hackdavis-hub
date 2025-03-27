@@ -46,40 +46,76 @@ describe('CREATE: events', () => {
     const tempEvent3 = { ...mockEvent1 };
     delete (tempEvent3 as any).start_time;
 
-    [tempEvent1, tempEvent2, tempEvent3].forEach(async (event) => {
+    for (const event of [tempEvent1, tempEvent2, tempEvent3]) {
       const res = await CreateEvent(event);
       expect(res.ok).toBe(false);
       expect(res.body).toBe(null);
       expect(res.error).not.toBe(null);
       expect(res.error).toBe('Document failed validation');
-    });
+    }
   });
 
-  it('should create an event with missing optional fields', async () => {
-    // missing host
-    const tempEvent1 = { ...mockEvent2 };
-    delete (tempEvent1 as Event).host;
+  it('should fail to create an event with invalid field values for type and tags', async () => {
+    const tempEvent1 = { ...mockEvent1 };
+    tempEvent1.type = 'INVALID_TYPE';
 
-    // missing location
-    const tempEvent2 = { ...mockEvent2 };
-    delete (tempEvent2 as Event).location;
+    const tempEvent2 = { ...mockEvent1 };
+    tempEvent2.tags = ['INVALID_TAG'];
 
-    // missing end_time
-    const tempEvent3 = { ...mockEvent2 };
-    delete (tempEvent3 as Event).end_time;
+    for (const event of [tempEvent1, tempEvent2]) {
+      const { ok, body, error } = await CreateEvent(event);
+      expect(ok).toBe(false);
+      expect(body).toBe(null);
+      expect(error).toBe('Document failed validation');
+    }
+  });
 
-    // missing tags
-    const tempEvent4 = { ...mockEvent2 };
-    delete (tempEvent4 as Event).tags;
+  it('should create an event with missing optional field host', async () => {
+    const tempEvent = { ...mockEvent2 };
+    delete (tempEvent as Event).host;
 
-    [tempEvent1, tempEvent2, tempEvent3, tempEvent4].forEach(async (event) => {
-      const res = await CreateEvent(event);
-      expect(res.ok).toBe(true);
-      const insertedEvent = res.body as Event;
-      delete insertedEvent._id;
-      expect(res.body).toStrictEqual(insertedEvent);
-      expect(res.error).toBe(null);
-    });
+    const res = await CreateEvent(tempEvent);
+    expect(res.ok).toBe(true);
+    const insertedEvent = res.body as Event;
+    delete insertedEvent._id;
+    expect(res.body).toStrictEqual(insertedEvent);
+    expect(res.error).toBe(null);
+  });
+
+  it('should create an event with missing optional field location', async () => {
+    const tempEvent = { ...mockEvent2 };
+    delete (tempEvent as Event).location;
+
+    const res = await CreateEvent(tempEvent);
+    expect(res.ok).toBe(true);
+    const insertedEvent = res.body as Event;
+    delete insertedEvent._id;
+    expect(res.body).toStrictEqual(insertedEvent);
+    expect(res.error).toBe(null);
+  });
+
+  it('should create an event with missing optional field end_time', async () => {
+    const tempEvent = { ...mockEvent2 };
+    delete (tempEvent as Event).end_time;
+
+    const res = await CreateEvent(tempEvent);
+    expect(res.ok).toBe(true);
+    const insertedEvent = res.body as Event;
+    delete insertedEvent._id;
+    expect(res.body).toStrictEqual(insertedEvent);
+    expect(res.error).toBe(null);
+  });
+
+  it('should create an event with missing optional field tags', async () => {
+    const tempEvent = { ...mockEvent2 };
+    delete (tempEvent as Event).tags;
+
+    const res = await CreateEvent(tempEvent);
+    expect(res.ok).toBe(true);
+    const insertedEvent = res.body as Event;
+    delete insertedEvent._id;
+    expect(res.body).toStrictEqual(insertedEvent);
+    expect(res.error).toBe(null);
   });
 
   // it('should fail to create an event with start_time before April 19', async () => {
@@ -117,5 +153,15 @@ describe('CREATE: events', () => {
     expect(duplicate.ok).toBe(false);
     expect(duplicate.body).toBe(null);
     expect(duplicate.error).toBe('Duplicate: event already exists.');
+  });
+
+  it('should fail to create an event with duplicate tags', async () => {
+    const tempEvent = { ...mockEvent1 };
+    tempEvent.tags = ['pm', 'pm'];
+
+    const { ok, body, error } = await CreateEvent(tempEvent);
+    expect(ok).toBe(false);
+    expect(body).toBe(null);
+    expect(error).toBe('Document failed validation');
   });
 });
