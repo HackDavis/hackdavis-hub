@@ -10,12 +10,13 @@ beforeAll(async () => {
   client = await getClient();
   db = await getDatabase();
 
+  await db.dropDatabase();
   await migrate.config.set(migrationConfig);
   await migrate.up(db, client);
 });
 
 afterAll(async () => {
-  await db.dropDatabase();
+  await migrate.down(db, client);
   await client.close();
 });
 

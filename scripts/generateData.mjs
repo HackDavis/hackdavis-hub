@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import tracks from '../app/(api)/_data/tracks.json' assert { type: 'json' };
+import tracks from '../app/(api)/_data/tracks.json' with { type: 'json' };
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];

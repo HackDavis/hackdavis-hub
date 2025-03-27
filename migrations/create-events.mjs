@@ -42,7 +42,7 @@ export async function up(db) {
               enum: ['developer', 'designer', 'pm', 'other', 'beginner'],
               description:
                 'tags must be an array of valid hacker positions: developer, designer, pm, other, beginner',
-            }
+            },
           },
         },
         additionalProperties: false,
