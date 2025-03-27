@@ -5,27 +5,28 @@ import { UpdateEvent } from '@datalib/events/updateEvent';
 import { DeleteEvent } from '@datalib/events/deleteEvent';
 import Event from '@typeDefs/event';
 
-const mockEvent1 = {
-  name: 'Test Event 1',
-  host: 'Test Host 1',
-  type: 'WORKSHOPS',
-  location: 'Test Location',
-  start_time: new Date(),
-  end_time: new Date(),
-  tags: ['developer', 'beginner'],
-};
-const mockEvent2 = {
-  name: 'Test Event 2',
-  host: 'Test Host 1',
-  type: 'GENERAL',
-  location: 'Test Location',
-  start_time: new Date(),
-  end_time: new Date(),
-  tags: ['designer', 'pm'],
-};
+let mockEvent1: Event, mockEvent2: Event;
 
 beforeEach(async () => {
   await db.collection('events').deleteMany({});
+  mockEvent1 = {
+    name: 'Test Event 1',
+    host: 'Test Host 1',
+    type: 'WORKSHOPS',
+    location: 'Test Location',
+    start_time: new Date(),
+    end_time: new Date(),
+    tags: ['developer', 'beginner'],
+  };
+  mockEvent2 = {
+    name: 'Test Event 2',
+    host: 'Test Host 1',
+    type: 'GENERAL',
+    location: 'Test Location',
+    start_time: new Date(),
+    end_time: new Date(),
+    tags: ['designer', 'pm'],
+  };
 });
 
 describe('CREATE: events', () => {
@@ -67,10 +68,10 @@ describe('CREATE: events', () => {
   });
 
   it('should fail to create an event with invalid field values for type and tags', async () => {
-    const tempEvent1 = { ...mockEvent1 };
+    const tempEvent1 = { ...mockEvent1 } as any;
     tempEvent1.type = 'INVALID_TYPE';
 
-    const tempEvent2 = { ...mockEvent1 };
+    const tempEvent2 = { ...mockEvent1 } as any;
     tempEvent2.tags = ['INVALID_TAG'];
 
     for (const event of [tempEvent1, tempEvent2]) {
@@ -186,17 +187,12 @@ describe('READ: events', () => {
   });
 
   it('should retrieve an event by valid event ID', async () => {
-    const { body } = await CreateEvent(mockEvent1);
-    const insertedEvent = body;
+    const { body: insertedEvent } = await CreateEvent(mockEvent1);
     if (!insertedEvent._id) fail();
 
-    const {
-      ok,
-      body: event,
-      error,
-    } = await GetEvent(insertedEvent._id.toString());
+    const { ok, body, error } = await GetEvent(insertedEvent._id.toString());
     expect(ok).toBe(true);
-    expect(event).toStrictEqual(insertedEvent);
+    expect(body).toStrictEqual(insertedEvent);
     expect(error).toBe(null);
   });
 
@@ -216,7 +212,7 @@ describe('READ: events', () => {
 });
 
 describe('UPDATE: events', () => {
-  it('should update an event with no changes', async () => {
+  it('should fail to update an event with no changes', async () => {
     const { body: insertedEvent } = await CreateEvent(mockEvent1);
     if (!insertedEvent._id) fail();
 
