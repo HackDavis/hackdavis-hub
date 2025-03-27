@@ -12,7 +12,6 @@ export default function Clarifications() {
           <h3>
             <div className={styles.green_text}>EARLY </div> Submission
           </h3>
-          <br />
           <p>
             You are able to click “submit” BUT are still able to edit your
             devpost until the final submission time.
@@ -22,7 +21,6 @@ export default function Clarifications() {
           <h3>
             <div className={styles.pink_text}>FINAL </div> Submission
           </h3>
-          <br />
           <p>
             You are NOT able to edit your devpost after the final submission
             time or you’ll be disqualified.

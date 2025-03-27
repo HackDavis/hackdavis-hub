@@ -1,8 +1,14 @@
+@import "@globals/mixins.scss";
+
 .container{
     display: flex;
     flex-direction: row;
     gap: 5%;
-    
+
+    @include tablet-l{
+        flex-direction: column;
+    }
+
     .box{
         background-color: #123041;
         color: #FFF;
@@ -16,6 +22,9 @@
             rotate: -4deg;
             font-weight: 700;
             font-size: 36px;
+            @include tablet-l{
+                font-size: 18px;
+            }
         }
         .pink_text{
             color: #FFC5AB;
@@ -23,6 +32,9 @@
             rotate: -4deg;
             font-weight: 700;
             font-size: 36px;
+            @include tablet-l{
+                font-size: 18px;
+            }
         }
     }
     h3{
@@ -32,6 +44,9 @@
         letter-spacing: 0.56px;
         display: flex;
         justify-content: center;
+        @include tablet-l{
+            font-size: 14px;
+        }
     }
     p{
         // font-family: "Plus Jakarta Sans";
@@ -39,6 +54,9 @@
         font-weight: 400;
         line-height: 145%; /* 26.1px */
         letter-spacing: 0.36px;
+        @include tablet-l{
+            font-size: 10px;
+        }
     }
 }
 

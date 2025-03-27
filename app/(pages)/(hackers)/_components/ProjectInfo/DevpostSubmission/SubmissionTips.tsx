@@ -34,6 +34,7 @@ export default function SubmissionTips() {
             ))}
           </div>
         </div>
+
         <div className={styles.animalcontainer}>
           <Image
             src={Animals}
