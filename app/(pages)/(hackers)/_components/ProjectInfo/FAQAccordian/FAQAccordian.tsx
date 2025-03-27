@@ -1,14 +1,11 @@
 'use client';
 import React from 'react';
 import { Accordion, AccordionItem as Item } from '@szhsin/react-accordion';
-// import Image from 'next/image';
 import styles from './FAQAccordian.module.scss';
 import { CgChevronLeft } from 'react-icons/cg';
-
 import { PiStarFourFill } from 'react-icons/pi';
 
 const FAQAccordian = () => {
-  // Replace the FAQ data with your desired steps/questions
   const steps = [
     {
       step: 'Step 1',
@@ -59,23 +56,22 @@ const FAQAccordian = () => {
                 <div className={styles.questionItem}>
                   <PiStarFourFill />
                   <div className={styles.questionText}>
-                    <h6 className={styles.questionItem}>{step}</h6>
-                    <h3 className={styles.questionItem}>{question}</h3>
+                    <h6>{step}</h6>
+                    <h3>{question}</h3>
                   </div>
-
                   <div className={styles.plusIcons}>
-                    {/* “Closed” plus icon (rotated) */}
                     <div className={styles.dropDownPlus}>
                       <CgChevronLeft />
                     </div>
-                    {/* “Open” plus icon (normal orientation) */}
                   </div>
                 </div>
               </div>
             }
             buttonProps={{
               className: ({ isEnter }) =>
-                `${styles.itemBtn} ${isEnter ? styles.itemBtnExpanded : ''}`,
+                `${styles.itemBtn} ${isEnter ? styles.itemBtnExpanded : ''} ${
+                  index % 2 === 0 ? styles.even : styles.odd
+                }`,
             }}
             contentProps={{ className: styles.itemContent }}
           >
