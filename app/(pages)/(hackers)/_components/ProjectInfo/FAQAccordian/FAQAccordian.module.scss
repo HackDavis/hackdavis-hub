@@ -1,0 +1,176 @@
+@import "@globals/mixins.scss";
+
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    border-radius: 12px;
+
+    .FAQText {
+        color: var(--text-light);
+        font-family: Metropolis;
+        font-size: 4rem; //64px
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: 1.28px;
+        padding-bottom: 4%;
+    }
+    .questions {
+        border-radius: 12px;
+        color: var(--text-light);
+        font-family: Metropolis;
+        font-size: 1.25rem; //20px
+        font-style: normal;
+        font-weight: 700;
+        line-height: 45px; //manual enter
+        letter-spacing: 0.4px;
+        border: 3px solid black;
+    }
+    .questionItem {
+        color: var(--text-light);
+        font-family: Metropolis;
+        font-size: 1.25rem; //20px
+        font-style: normal;
+        line-height: 45px; //manual enter
+        letter-spacing: 0.4px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        // justify-content: space-between;
+        // width: 100%;
+        
+    }
+
+    .questionText{
+        display: flex;
+        flex-direction: column;
+        margin-left: 3%;
+
+        h3 {
+            color: var(--white);
+            font-size: 24px;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: 0.56px;
+            padding-top: 1%;
+        }
+
+        h6 {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 18px;
+            font-weight: 600;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: 0.4px;
+        }
+    }
+
+    .answer {
+        color: var(--text-light);
+        font-family: Metropolis;
+        font-size: 1.25rem; //20px
+        font-style: normal;
+        font-weight: 400;
+        line-height: 30px;
+        letter-spacing: 0.4px;
+        padding-bottom: 2%;
+    }
+    
+    // used for customizable Accordion item
+    .itemBtn {
+        cursor: pointer;
+        background-color: var(--background-secondary);
+        border-radius: 12px;
+        border: none;
+        text-align: start;
+        width: 100%;
+        padding: 2% 4%;
+        
+        .questionRow{
+            
+            // flex-direction: row;
+            // justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: 100%; //for lines to stretch throughout the FAQ section
+    
+            .dropDownPlus{
+                position: absolute;
+                height: 25px;
+                top: 30%;
+                right: 24px; // adjust as needed for padding from the edge
+                transform: rotate(-90deg); // default: pointing down
+                transition: transform 0.3s cubic-bezier(0, 0, 0, 1);
+                display: flex;
+                align-items: center;
+                
+                >img {
+                    max-width: none;
+                }
+            }
+        }
+    }
+
+    .itemBtnExpanded {
+        background-color: var(--background-secondary);
+        color: black;
+        z-index: 5;
+        
+        .questionRow{
+            align-items: center;
+
+            .dropDownPlus {
+                transform: rotate(90deg); /* Right -> Down */
+                transition: transform 0.3s cubic-bezier(0, 0, 0, 1);
+            }
+            
+            .itemBtnExpanded .dropDownPlus {
+                transform: rotate(-90deg); /* Right -> Up */
+            }
+            
+        }
+    }
+      
+    .itemContent {
+        transition: height 0.3s ease-in-out;
+        background-color: rgba(255, 255, 255, 0.5) ;
+        border-bottom-right-radius: 12px;
+        border-bottom-left-radius: 12px;
+        margin-top: -1%;
+        padding-top: 1%;
+
+        p {
+            color: var(--text-dark);
+            padding: 2%;
+        }
+    }   
+}
+
+// @include tablet {
+//     .container{
+//         .questions {
+//             font-size: 1rem;
+//         }
+//     }
+// }
+
+// @include phone {
+//     .container{
+//         .FAQText {
+//             font-size: 2.5rem; //40px
+//         }
+            
+//         .questions {
+//             font-size: 0.875rem; //14px
+//             line-height: 38px; //manual enter
+//         }
+            
+//         .answer {
+//             font-size: 0.75rem; //12px
+//             line-height: 21px;
+//         }
+//     }
+    
+// }

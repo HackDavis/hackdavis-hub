@@ -2,6 +2,7 @@
 import styles from './WhatHappens.module.scss';
 import { useState } from 'react';
 import SubmissionInfo from '../SubmissionInfo/SubmissionInfo';
+import FAQAccordian from '../FAQAccordian/FAQAccordian';
 
 export default function WhatHappens() {
   const [activeTab, setActiveTab] = useState<'submission' | 'judging'>(
@@ -30,6 +31,7 @@ export default function WhatHappens() {
         {activeTab === 'submission' && (
           <section>
             <SubmissionInfo />
+            <FAQAccordian />
           </section>
         )}
 
