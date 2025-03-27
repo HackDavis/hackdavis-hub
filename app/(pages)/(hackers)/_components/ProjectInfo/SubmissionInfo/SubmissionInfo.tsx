@@ -1,6 +1,7 @@
 import ResourceHelp from '../../StarterKit/Resources/ResourceHelp';
 import StarterKitSlide from '../../StarterKit/StarterKitSlide';
 import SubmissionTips from '../DevpostSubmission/SubmissionTips';
+import Clarifications from '../SubmissionClarification/Clarifications';
 import styles from './SubmissionInfo.module.scss';
 // import Image from 'next/image';
 
@@ -14,6 +15,7 @@ export default function SubmissionInfo() {
         <h4> Submission Process</h4>
       </div>
       <SubmissionTips />
+      <Clarifications />
       <StarterKitSlide title="You’re Ready!" subtitle="AND NOW">
         <ResourceHelp />
       </StarterKitSlide>
