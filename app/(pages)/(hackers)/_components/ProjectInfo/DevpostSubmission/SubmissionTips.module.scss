@@ -11,6 +11,7 @@
 
     @include desktop-s{
         flex-direction: column;
+        background: linear-gradient(to bottom, var(--text-dark) 50%, #005271 50%);
     }
     // background: linear-gradient(to right, #123041 98%, #005271 2%);
 
@@ -19,6 +20,7 @@
         flex: 1;
         flex-direction: column; // Keeps content aligned properly
         justify-content: center; // Vertically centers content inside
+        background: var(--text-dark);
 
         @include tablet-s {
             padding: 32px;
@@ -113,6 +115,7 @@
         min-height: 100%;
         width: 30%;
         overflow: visible;
+        background-color: var(--text-dark);
 
         @include desktop-l {
             width: 35%;
@@ -121,13 +124,19 @@
             width: 42%;
         }
         @include desktop-s{
-            height: 400px;
-            width: 42%;
+            height: 500px;
+            width: 60%;
+        }
+        @include tablet-l{
+            // width: 50%;
+            height: 300px;
+        }
+        @include mobile-l{
+            width: 60%;
+            height: 200px;
+            
         }
         
-        .peepingAnimals {
-            border-radius: 12px;
-        }
         
         img {
             height: 100%;
@@ -141,6 +150,12 @@
     display: flex;
     flex-direction: column;
     background-color: #005271;
+    
+
+    @include desktop-s{
+        background-color: transparent;
+        height: 0;
+    }
 
 
     .button_background{
@@ -153,9 +168,17 @@
         right: 30%;
 
         @include desktop-s{
-            position: unset;
+            top: -250px;
+            background-color: transparent;
+            left: -15%;
             display: flex;
             justify-content: flex-end;
+        }
+        @include tablet-l{
+            top: -150px;
+        }
+        @include mobile-l{
+            top: -100px;
         }
     }
 
@@ -188,12 +211,22 @@
         }
 
         @include desktop-s{
-            width: 94px;
-            height: 195px;
+            width: 188px;
+            height: 390px;
             padding: 0;
             border-radius: 500px;
             font-size: 10px;
             justify-content: center;
+            
+        }
+        @include tablet-l{
+            width: 141px;
+            height: 292px;
+        }
+        @include mobile-l{
+            width: 60px;
+            height: 186px;
+            
         }
 
     }
