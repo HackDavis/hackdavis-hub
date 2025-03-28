@@ -30,6 +30,7 @@
       "@apidata/*": ["app/(api)/_data/*"],
       "@datalib/*": ["app/(api)/_datalib/*"],
       "@typeDefs/*": ["app/_types/*"],
+      "@public/*": ["public/*"],
       "@/auth": ["auth.ts"],
     }
   },
