@@ -1,7 +1,7 @@
 export interface TrackScore {
-  trackName: string,
-  rawScores: number[],
-  finalTrackScore: number | null
+  trackName: string;
+  rawScores: number[];
+  finalTrackScore: number | null;
 }
 
 export default interface Submission {
@@ -14,5 +14,5 @@ export default interface Submission {
   scores: TrackScore[];
   comments?: string;
   is_scored: boolean;
-  queuePosition: number;
+  queuePosition: number | null;
 }
