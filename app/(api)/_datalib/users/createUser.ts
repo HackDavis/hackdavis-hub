@@ -39,6 +39,29 @@ export const CreateUser = async (body: object) => {
       }
     }
 
+    // judge
+    if (parsedBody.role === 'judge') {
+      if (
+        !Object.hasOwn(parsedBody, 'specialties') ||
+        parsedBody.specialties.length === 0 ||
+        parsedBody.has_checked_in
+      ) {
+        throw new HttpError(
+          'Judge user is missing specialties or has has_checked_in set to true'
+        );
+      }
+    }
+
+    // hacker
+    if (parsedBody.role === 'hacker') {
+      if (
+        !Object.hasOwn(parsedBody, 'position') ||
+        !Object.hasOwn(parsedBody, 'is_beginner')
+      ) {
+        throw new HttpError('Hacker user is missing position or is_beginner');
+      }
+    }
+
     const creationStatus = await db.collection('users').insertOne(parsedBody);
     const user = await db.collection('users').findOne({
       _id: new ObjectId(creationStatus.insertedId),

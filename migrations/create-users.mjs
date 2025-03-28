@@ -44,6 +44,7 @@ export async function up(db) {
               enum: domains,
               description: 'specialty must be either tech, business, or design',
             },
+            uniqueItems: true,
           },
           position: {
             enum: ['developer', 'designer', 'pm', 'other'],
