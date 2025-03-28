@@ -24,7 +24,6 @@ export default async function ProtectedDisplay({
 
   if (!user.ok) {
     await LogoutAction();
-    // redirect(failRedirectRoute);
     return (
       <div>
         User was manually deleted from the database, clear cookies and
@@ -45,7 +44,9 @@ export default async function ProtectedDisplay({
       redirect('/');
     }
   } else if (session.user.role === 'judge') {
-    if (authorized) {
+    if (user.body.specialties === undefined) {
+      redirect('/judges/register/details');
+    } else if (authorized) {
       return <>{children}</>;
     } else {
       redirect('/judges');

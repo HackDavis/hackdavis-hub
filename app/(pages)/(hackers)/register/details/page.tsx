@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getUser } from '@actions/users/getUser';
 import LogoutAction from '@actions/auth/logout';
-import DetailForm from '../_components/DetailForm';
-import LoginBackground from '../../_components/LoginBackground/LoginBackground';
+import DetailForm from '../../_components/AuthForms/DetailForm';
+import AuthFormBackground from '../../_components/AuthFormBackground/AuthFormBackground';
 
 export default async function DetailPage() {
   const session = await auth();
@@ -19,8 +19,12 @@ export default async function DetailPage() {
   if (user.body.role === 'judge') redirect('/judges/register');
 
   return (
-    <LoginBackground>
-      <DetailForm id={session.user.id} name={user.body.name} />
-    </LoginBackground>
+    <AuthFormBackground
+      title={`Hi ${user.body.name}!`}
+      subtitle={`One more thing before you enter the hub.
+                Choose what suits you the most:`}
+    >
+      <DetailForm id={session.user.id} />
+    </AuthFormBackground>
   );
 }

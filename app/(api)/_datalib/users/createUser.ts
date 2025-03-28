@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import { hash } from 'bcryptjs';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
@@ -22,8 +21,6 @@ export const CreateUser = async (body: object) => {
     if (!parsedBody.password) {
       throw new HttpError('Missing password');
     }
-
-    parsedBody.password = await hash(parsedBody.password, 10);
 
     const db = await getDatabase();
 
@@ -48,24 +45,8 @@ export const CreateUser = async (body: object) => {
 
     // judge
     if (parsedBody.role === 'judge') {
-      if (
-        !Object.hasOwn(parsedBody, 'specialties') ||
-        parsedBody.specialties.length === 0 ||
-        parsedBody.has_checked_in
-      ) {
-        throw new HttpError(
-          'Judge user is missing specialties or has has_checked_in set to true'
-        );
-      }
-    }
-
-    // hacker
-    if (parsedBody.role === 'hacker') {
-      if (
-        !Object.hasOwn(parsedBody, 'position') ||
-        !Object.hasOwn(parsedBody, 'is_beginner')
-      ) {
-        throw new HttpError('Hacker user is missing position or is_beginner');
+      if (parsedBody.has_checked_in) {
+        throw new HttpError('Judge user has has_checked_in set to true');
       }
     }
 

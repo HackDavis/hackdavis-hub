@@ -1,39 +1,31 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import Image from 'next/image';
-import styles from './page.module.scss';
-import ResetPasswordForm from './_components/ResetPasswordForm';
+import { auth } from '@/auth';
+import { getInviteData } from '@actions/invite/getInviteData';
+import ResetPasswordForm from '../_components/AuthForms/ResetPasswordForm';
+import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
+import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
 
-export default function ResetPassword() {
+export default async function RegisterPage() {
+  const session = await auth();
+  if (session) {
+    redirect('/judges');
+  }
+
+  const data = await getInviteData();
+
+  if (data?.role === 'hacker') {
+    redirect('/reset-password');
+  }
+
   return (
-    <div className={styles.container}>
-      <div className={styles.hero}>
-        <Image src="/judges/auth/judge_login_hero.png" alt="" fill />
-      </div>
-      <div className={styles.form_section}>
-        <div className={styles.logo_container}>
-          <Image src="/judges/auth/hd-logo.svg" alt="" fill />
-        </div>
-        <div className={styles.form_intro}>
-          <p>Welcome to HackDavis,</p>
-          <h1>Judges!</h1>
-        </div>
-        <ResetPasswordForm />
-      </div>
-      <div className={styles.computer_container}>
-        <Image
-          src="/judges/auth/computer.png"
-          alt=""
-          height={1600}
-          width={1600}
-          quality={100}
-          style={{
-            maxWidth: '100%',
-            height: 'auto',
-            objectFit: 'contain',
-          }}
-        />
-      </div>
-    </div>
+    <InviteOnlyRoute>
+      <AuthFormBackground
+        title="Hello!"
+        subtitle="Please enter your new password below."
+      >
+        <ResetPasswordForm data={data} />
+      </AuthFormBackground>
+    </InviteOnlyRoute>
   );
 }

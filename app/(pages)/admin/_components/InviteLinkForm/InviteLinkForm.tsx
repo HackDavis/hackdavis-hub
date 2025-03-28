@@ -1,77 +1,83 @@
-// import { useFormState } from 'react-dom';
-// // import sendInvite from '@actions/invite/sendInvite';
-// import sendEmail from '@actions/invite/sendEmail';
-// import styles from './InviteLinkForm.module.scss';
-// import FormSubmitConfirmation from 'app/(pages)/admin/_components/FormSubmitConfirmation/FormSubmitConfirmation';
-// import { useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
-// export default function InviteLinkForm() {
-//   const [loading, setLoading] = useState(false);
-//   const [resStatus, setResStatus] = useState<null | string>(null);
+import sendEmail from '@actions/invite/sendEmail';
+import FormSubmitConfirmation from 'app/(pages)/admin/_components/FormSubmitConfirmation/FormSubmitConfirmation';
+import styles from './InviteLinkForm.module.scss';
 
-//   const [inviteState, inviteAction] = useFormState(sendEmail, {
+export default function InviteLinkForm() {
+  const [inviteLink, setInviteLink] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [resStatus, setResStatus] = useState<null | string>(null);
 
-//   });
+  const handleInvite = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-//   useEffect(() => {
-//     if (inviteState.body || inviteState.error) {
-//       setLoading(false);
-//       setResStatus(inviteState.ok ? 'success' : 'failed');
-//     }
-//   }, [inviteState]);
+    setLoading(true);
 
-//   const handleClose = () => {
-//     setLoading(false);
-//     setResStatus(null);
-//     window.location.reload();
-//   };
+    const formData = new FormData(e.currentTarget);
 
-//   return (
-//     <>
-//       <form action={inviteAction} className={styles.form}>
-//         <h3>Invite a Judge</h3>
-//         <div className={styles.fields}>
-//           <div>
-//             <label className={styles.label}>Name</label>
-//             <input name="name" type="text" required />
-//           </div>
-//           <div>
-//             <label className={styles.label}>Email</label>
-//             <input name="email" type="email" required />
-//           </div>
-//           <div className={styles.specialty_select}>
-//             <label className={styles.label}>Specialty</label>
-//             <div>
-//               <label>Technical</label>
-//               <input type="checkbox" name="specialty" value="tech" required />
-//             </div>
-//             <div>
-//               <label>Design</label>
-//               <input type="checkbox" name="specialty" value="design" required />
-//             </div>
-//             <div>
-//               <label>Business</label>
-//               <input
-//                 type="checkbox"
-//                 name="specialty"
-//                 value="business"
-//                 required
-//               />
-//             </div>
-//           </div>
-//           <input name="role" type="hidden" value="judge" />
-//           <input name="slug" type="hidden" defaultValue="/register" />
-//         </div>
-//         <button type="submit" onClick={() => setLoading(true)}>
-//           Invite judge
-//         </button>
-//         <p className={styles.link_text}>{inviteState.body ?? ''}</p>
-//       </form>
-//       <FormSubmitConfirmation
-//         pending={loading}
-//         mailStatus={resStatus}
-//         handleClose={handleClose}
-//       />
-//     </>
-//   );
-// }
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const role = formData.get('role') as string;
+
+    const invite = await sendEmail({
+      email,
+      name,
+      role,
+    });
+
+    setLoading(false);
+
+    if (invite.body) {
+      setInviteLink(invite.body);
+      setError('');
+      setResStatus('success');
+    } else {
+      setError(invite.error ?? 'An unexpected error occurred.');
+      setResStatus('failed');
+    }
+  };
+
+  const handleClose = () => {
+    setLoading(false);
+    setResStatus(null);
+  };
+
+  return (
+    <>
+      <form onSubmit={handleInvite} className={styles.form}>
+        <h3>Invite a User</h3>
+        <div className={styles.fields}>
+          <p className={styles.error_msg}>{error}</p>
+          <div>
+            <label className={styles.label}>Name</label>
+            <input name="name" type="text" required />
+          </div>
+          <div>
+            <label className={styles.label}>Email</label>
+            <input name="email" type="email" required />
+          </div>
+          <div className={styles.role_select}>
+            <label className={styles.label}>Role</label>
+            <div>
+              <label>Hacker</label>
+              <input name="role" type="radio" value="hacker" />
+            </div>
+            <div>
+              <label>Judge</label>
+              <input name="role" type="radio" value="judge" />
+            </div>
+          </div>
+        </div>
+        <button type="submit">Invite User</button>
+        <p className={styles.link_text}>{inviteLink}</p>
+      </form>
+      <FormSubmitConfirmation
+        pending={loading}
+        mailStatus={resStatus}
+        handleClose={handleClose}
+      />
+    </>
+  );
+}
