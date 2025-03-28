@@ -113,3 +113,16 @@ export default async function parseAndReplace(obj) {
   });
   return res;
 }
+
+export async function prepareIdsInQuery(obj) {
+  for (const [key, val] of Object.entries(obj)) {
+    if (key.endsWith('_id') && typeof val === 'string') {
+      obj[key] = { '*convertId': { id: val } };
+    }
+
+    if (key.endsWith('_ids') && Array.isArray(val)) {
+      obj[key] = { '*convertIds': { ids: val } };
+    }
+  }
+  return obj;
+}

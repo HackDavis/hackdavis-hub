@@ -404,3 +404,5 @@ describe('DELETE: users', () => {
     );
   });
 });
+
+export { mockHacker, mockJudge, mockAdmin };
