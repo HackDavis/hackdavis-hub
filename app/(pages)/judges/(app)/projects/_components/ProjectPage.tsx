@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaChevronLeft } from 'react-icons/fa6';
 import UnjudgedPage from './UnjudgedPage';
 import ScoredPage from './ScoredPage';
+import { useSubmissions } from '@hooks/useSubmissions';
 
 interface ButtonProps {
   text: string;
@@ -32,6 +33,16 @@ const ProjectPage = () => {
     'Unjudged'
   );
 
+  const { submissions, unjudgedTeams, judgedTeams, loading } = useSubmissions();
+
+  if (loading) {
+    return 'loading...';
+  }
+
+  if (!submissions.ok) {
+    return submissions.error;
+  }
+
   return (
     <div className="flex flex-col h-full bg-[#F2F2F7]">
       <div className="flex items-center ml-[20px] gap-[12px] mt-[59px]">
@@ -60,7 +71,11 @@ const ProjectPage = () => {
         />
       </div>
       <div className="px-[20px]">
-        {selectedButton === 'Unjudged' ? <UnjudgedPage /> : <ScoredPage />}
+        {selectedButton === 'Unjudged' ? (
+          <UnjudgedPage projects={unjudgedTeams} />
+        ) : (
+          <ScoredPage projects={judgedTeams} />
+        )}
       </div>
     </div>
   );

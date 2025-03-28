@@ -3,20 +3,12 @@ import ProjectTab from './ProjectTab';
 import Image from 'next/image';
 import projectCow from '/public/judges/projects/project-cow.svg';
 
-const currentProject = {
-  id: 117,
-  name: 'Haptic Hand',
-};
+interface UnjudgedPageProps {
+  projects: { _id: string; teamNumber: number; name: string }[];
+}
 
-const nextProjects = [
-  { id: 17, name: 'Not Haptic Hand' },
-  { id: 20, name: 'Fun fun project' },
-  { id: 80, name: 'Happy name' },
-  { id: 36, name: 'Another Happy name' },
-];
-
-const UnjudgedPage = () => {
-  if (nextProjects.length === 0) {
+const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
+  if (projects.length === 0) {
     return (
       <div className="flex mt-[65px] flex-col items-center h-[calc(100vh-100px)] bg-[#F2F2F7]">
         <span className="text-[32px] font-[700] text-[#000000] mb-[12px]">
@@ -42,10 +34,10 @@ const UnjudgedPage = () => {
       </span>
       <div className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]">
         <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
-          {currentProject.id}
+          {projects?.[0]?.teamNumber}
         </span>
         <span className="text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
-          {currentProject.name}
+          {projects?.[0]?.name}
         </span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -70,10 +62,10 @@ const UnjudgedPage = () => {
         Next up:
       </span>
       <div className="flex flex-col gap-[16px] mb-[58px] opacity-50">
-        {nextProjects.map((project) => (
+        {projects.map((project) => (
           <ProjectTab
-            key={project.id}
-            number={project.id}
+            key={project._id}
+            number={project.teamNumber}
             name={project.name}
           />
         ))}

@@ -5,11 +5,11 @@ import parseAndReplace from '@utils/request/parseAndReplace';
 
 export async function getTeam(id: string) {
   const team = await GetTeam(id);
-  return team;
+  return JSON.parse(JSON.stringify(team));
 }
 
 export async function getManyTeams(query: object = {}) {
   const newQuery = await parseAndReplace(query);
   const teams = await GetManyTeams(newQuery);
-  return teams;
+  return JSON.parse(JSON.stringify(teams));
 }
