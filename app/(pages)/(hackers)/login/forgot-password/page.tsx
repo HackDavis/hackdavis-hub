@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import ForgotPasswordForm from '../_components/ForgotPasswordForm';
+import LoginBackground from '../../_components/LoginBackground/LoginBackground';
 
 export default async function ForgotPasswordPage() {
   const session = await auth();
@@ -10,8 +11,8 @@ export default async function ForgotPasswordPage() {
   }
 
   return (
-    <div>
+    <LoginBackground>
       <ForgotPasswordForm />
-    </div>
+    </LoginBackground>
   );
 }

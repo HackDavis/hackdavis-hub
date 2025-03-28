@@ -23,7 +23,7 @@ export default function Waterfall() {
       </div>
 
       {/* Bottom div with three sections in a row */}
-      <div className="w-0 h-0 md:h-auto md:w-full flex justify-between items-start z-10">
+      <div className="w-0 h-0 md:w-full flex justify-between items-start z-10">
         {/* Leftmost item */}
         <div className="flex flex-col space-y-2 flex-1">
           <div className="relative z-30 aspect-[245/271] w-0 md:w-[calc(100vw*245/1440)] left-[calc(100vw*150/1440)] translate-y-[calc(-1*100vw*40/1440)]">
@@ -39,13 +39,13 @@ export default function Waterfall() {
           <div className="relative z-40 aspect-[169/222] w-0 md:w-[calc(100vw*169/1440)] left-[calc(100vw*239/1440)] translate-y-[calc(-1*100vw*360/1440)]">
             <Image src={Cow} alt="Cow" className="w-full" />
           </div>
-          <div className="relative z-30 aspect-[509/210] w-0 md:w-[calc(100vw*509/1440)] translate-y-[calc(-1*100vw*425/1440)]">
+          <div className="relative z-30 aspect-[509/260] w-0 md:w-[calc(100vw*509/1440)] translate-y-[calc(-1*100vw*425/1440)]">
             <Image src={CowPlatform} alt="Cow Platform" className="w-full" />
           </div>
         </div>
 
         {/* Middle Item */}
-        <div className="relative z-10 aspect-[206/700] w-0 md:w-[calc(100vw*206/1440)] translate-y-[calc(-1*100vw*5/1440)] 2xl:translate-y-[calc(-1*100vw*5/1440)]">
+        <div className="relative z-10 aspect-[206/700] w-0 md:w-[calc(100vw*206/1440)] translate-y-[calc(-1*100vw*60/1440)] 2xl:translate-y-[calc(-1*100vw*5/1440)]">
           <Image src={WaterfallImage} className="w-full" alt="Waterfall" />
         </div>
 
@@ -74,7 +74,7 @@ export default function Waterfall() {
         </div>
       </div>
 
-      <div className="relative z-20 aspect-[536/220] w-0 md:w-[calc(100vw*536/1440)] md:translate-y-[calc(-1*100vw*560/1440)]">
+      <div className="relative z-20 aspect-[536/220] w-0 md:w-[calc(100vw*536/1440)] md:translate-y-[calc(1*100vw*350/1440)]">
         <Image
           src={WaterfallSplash}
           alt="Waterfall Splash"
