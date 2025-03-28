@@ -1,39 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
-
-type EventType = 'general' | 'activity' | 'workshop' | 'meal';
-
-interface CalendarItemProps {
-  id: number;
-  name: string;
-  type: EventType;
-  start_time: string;
-  end_time?: string;
-  location?: string;
-  speakers?: {
-    name: string;
-    company?: string;
-  }[];
-  tags?: string[];
-  attendeeCount?: number;
-}
+import { EventType } from '@typeDefs/event';
+import { EventDetails, filters } from '../../(hub)/schedule/page';
 
 const getBgColor = (type: EventType): string => {
-  const colors = {
-    general: 'rgba(158, 231, 229, 0.5)', // #9EE7E5
-    activity: 'rgba(255, 197, 171, 0.5)', // #FFC5AB
-    workshop: 'rgba(175, 209, 87, 0.5)', // #AFD157
-    meal: 'rgba(255, 197, 61, 0.5)', // #FFC53D
-  };
-  return colors[type];
+  const color =
+    filters.find((f) => f.label === type)?.color || 'rgba(0, 0, 0, 0)';
+
+  return color.replace('1)', '0.5)');
 };
 
-const formatTime = (timeStr: string): string => {
-  const date = new Date(timeStr);
-  // Convert to PST
-  const pstDate = new Date(
-    date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
-  );
+const formatTime = (pstDate: Date): string => {
   return pstDate.toLocaleString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
@@ -41,14 +18,12 @@ const formatTime = (timeStr: string): string => {
   });
 };
 
-const CalendarItem: React.FC<CalendarItemProps> = ({
-  name,
-  type,
-  start_time,
-  end_time,
-  location,
-}) => {
+const CalendarItem: React.FC<EventDetails> = ({ event, attendeeCount }) => {
+  const { name, host, type, location, start_time, end_time } = event;
   const bgColor = getBgColor(type);
+
+  // TODO: add host and attendee count and other UI elements
+  console.log(host, attendeeCount);
 
   // Handle different time display scenarios
   let timeDisplay;

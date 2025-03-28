@@ -5,81 +5,70 @@ import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
+import Event, { EventType } from '@typeDefs/event';
 
-type EventType = 'general' | 'activity' | 'workshop' | 'meal';
-
-interface Event {
-  id: number;
-  name: string;
-  type: EventType;
-  start_time: string;
-  end_time?: string;
-  location?: string;
-  speakers?: {
-    name: string;
-    company?: string;
-  }[];
-  tags?: string[];
+export interface EventDetails {
+  event: Event;
   attendeeCount?: number;
+  inCustomSchedule?: boolean;
 }
 
 interface ScheduleData {
-  [dayKey: string]: Event[];
+  [dayKey: string]: EventDetails[];
 }
 
-interface FilterType {
-  id: string;
-  label: string;
+interface EventFilter {
+  label: EventType;
   color: string;
 }
 
-const filters: FilterType[] = [
-  { id: 'general', label: 'GENERAL', color: '#9EE7E5' },
-  { id: 'activity', label: 'ACTIVITIES', color: '#FFC5AB' },
-  { id: 'workshop', label: 'WORKSHOPS', color: '#AFD157' },
-  { id: 'meal', label: 'MENU', color: '#FFC53D' },
-  // { id: 'recommended', label: 'RECOMMENDED', color: '#BBABDD' },
+export const filters: EventFilter[] = [
+  { label: 'GENERAL', color: 'rgba(158, 231, 229, 1)' },
+  { label: 'ACTIVITIES', color: 'rgba(255, 197, 171, 1)' },
+  { label: 'WORKSHOPS', color: 'rgba(175, 209, 87, 1)' },
+  { label: 'MEALS', color: 'rgba(255, 197, 61, 1)' },
+  // { label: 'RECOMMENDED', color: '#BBABDD' },
 ];
 
 export default function Page() {
-  const [activeTab, setActiveTab] = useState<'schedule' | 'yourSchedule'>(
-    'schedule'
+  const [activeTab, setActiveTab] = useState<'schedule' | 'custom'>('schedule');
+  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'custom' | null>(
+    null
   );
-  const [hoveredTab, setHoveredTab] = useState<
-    'schedule' | 'yourSchedule' | null
-  >(null);
-  const [activeDay, setActiveDay] = useState<'Apr19' | 'Apr20'>('Apr19');
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
+  const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
 
-  // Fetch events from the server action on mount.
   useEffect(() => {
     async function fetchEvents() {
       try {
-        // Pass an empty query object; adjust if needed.
+        // TODO: add custom schedule handling
         const response = await getEvents({});
-        if (response.ok) {
-          const events: Event[] = response.body;
-          // Group events by day key, e.g. "Apr19" or "Apr20".
-          const groupedByDay = events.reduce((acc: ScheduleData, event) => {
-            const date = new Date(event.start_time);
-            const dayKey = date
-              .toLocaleString('en-US', { month: 'short', day: 'numeric' })
-              .replace(' ', '');
-            if (!acc[dayKey]) {
-              acc[dayKey] = [];
-            }
-            acc[dayKey].push(event);
-            return acc;
-          }, {});
-          setScheduleData(groupedByDay);
-        } else {
-          console.error('Error fetching events:', response.error);
+        if (!response.ok) {
+          throw new Error(response.error || 'Internal server error');
         }
+
+        const events: Event[] = response.body;
+
+        // Group events by day key - "19" or "20".
+        const groupedByDay = events.reduce((acc: ScheduleData, event) => {
+          const dayKey = event.start_time.toLocaleString('en-US', {
+            timeZone: 'America/Los_Angeles',
+            day: 'numeric',
+          });
+          if (!acc[dayKey]) {
+            acc[dayKey] = [];
+          }
+          acc[dayKey].push({ event: event });
+          return acc;
+        }, {});
+
+        setScheduleData(groupedByDay);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
     }
+
     fetchEvents();
   }, []);
 
@@ -91,30 +80,33 @@ export default function Page() {
     if (activeFilters.length === 0) {
       return unfilteredEvents;
     }
-    return unfilteredEvents.filter((event) =>
-      activeFilters.includes(event.type)
+    return unfilteredEvents.filter((eventDetails) =>
+      activeFilters.includes(eventDetails.event.type)
     );
   }, [activeDay, activeFilters, scheduleData]);
   // }, [activeTab, activeDay, activeFilters, scheduleData]);
 
-  // First, sort the current events by start time (ascending)
+  // Sort the current events by start time (ascending)
   const sortedEvents = useMemo(() => {
     return [...currentEvents].sort(
       (a, b) =>
-        new Date(a.start_time).getTime() - new Date(b.start_time).getTime()
+        new Date(a.event.start_time).getTime() -
+        new Date(b.event.start_time).getTime()
     );
   }, [currentEvents]);
 
-  // Group sorted events by their start time (converted to PST) for display.
+  // Group sorted events by their start time (converted to PDT) for display.
   const groupedEvents = useMemo(() => {
-    const groups: { [timeKey: string]: Event[] } = {};
-    sortedEvents.forEach((event) => {
-      const date = new Date(event.start_time);
-      // Convert to PST.
+    const groups: { [timeKey: string]: EventDetails[] } = {};
+    sortedEvents.forEach((eventDetails) => {
+      // Convert to PDT.
       const pstDate = new Date(
-        date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
+        eventDetails.event.start_time.toLocaleString('en-US', {
+          timeZone: 'America/Los_Angeles',
+        })
       );
-      const timeKey = pstDate.toLocaleString('en-US', {
+
+      const timeKey = pstDate.toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
@@ -123,7 +115,7 @@ export default function Page() {
       if (!groups[timeKey]) {
         groups[timeKey] = [];
       }
-      groups[timeKey].push(event);
+      groups[timeKey].push(eventDetails);
     });
 
     return groups;
@@ -140,12 +132,11 @@ export default function Page() {
     });
   }, [groupedEvents]);
 
-  const toggleFilter = (filterId: string) => {
-    setActiveFilters((prev) =>
-      prev.includes(filterId)
-        ? prev.filter((id) => id !== filterId)
-        : [...prev, filterId]
-    );
+  const toggleFilter = (label: EventType) => {
+    const newFilters = activeFilters.includes(label)
+      ? [...activeFilters, label]
+      : activeFilters.filter((id) => id !== label);
+    setActiveFilters(newFilters);
   };
 
   return (
@@ -175,12 +166,12 @@ export default function Page() {
                 Schedule
               </span>
               <span
-                onClick={() => setActiveTab('yourSchedule')}
-                onMouseEnter={() => setHoveredTab('yourSchedule')}
+                onClick={() => setActiveTab('custom')}
+                onMouseEnter={() => setHoveredTab('custom')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  (activeTab === 'yourSchedule' && hoveredTab === null) ||
-                  hoveredTab === 'yourSchedule'
+                  (activeTab === 'custom' && hoveredTab === null) ||
+                  hoveredTab === 'custom'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
                 }`}
@@ -196,23 +187,23 @@ export default function Page() {
               >
                 <div
                   className={`absolute top-auto bottom-auto transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
-                    activeDay === 'Apr19'
+                    activeDay === '19'
                       ? 'left-[1.5px] top-[1.5px]'
                       : 'left-[98.5px] top-[1.5px]'
                   }`}
                 />
                 <button
-                  onClick={() => setActiveDay('Apr19')}
+                  onClick={() => setActiveDay('19')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === 'Apr19' ? 'text-white' : 'text-black'
+                    activeDay === '19' ? 'text-white' : 'text-black'
                   }`}
                 >
                   Apr 19
                 </button>
                 <button
-                  onClick={() => setActiveDay('Apr20')}
+                  onClick={() => setActiveDay('20')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === 'Apr20' ? 'text-white' : 'text-black'
+                    activeDay === '20' ? 'text-white' : 'text-black'
                   }`}
                 >
                   Apr 20
@@ -225,8 +216,8 @@ export default function Page() {
         <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
           {filters.map((filter) => (
             <button
-              key={filter.id}
-              onClick={() => toggleFilter(filter.id)}
+              key={filter.label}
+              onClick={() => toggleFilter(filter.label)}
               className={`
                 relative flex w-[163px] h-[45px] px-[38px] py-[13px]
                 justify-center items-center
@@ -234,24 +225,24 @@ export default function Page() {
                 font-jakarta text-[16px] font-semibold leading-[100%] tracking-[0.32px]
                 text-[#123041] transition-all duration-200
                 ${
-                  activeFilters.includes(filter.id)
+                  activeFilters.includes(filter.label)
                     ? `border-solid`
                     : 'border-dashed hover:bg-opacity-50'
                 }
               `}
               style={{
                 borderColor: filter.color,
-                backgroundColor: activeFilters.includes(filter.id)
+                backgroundColor: activeFilters.includes(filter.label)
                   ? filter.color
                   : 'transparent',
               }}
               onMouseEnter={(e) => {
-                if (!activeFilters.includes(filter.id)) {
+                if (!activeFilters.includes(filter.label)) {
                   e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
                 }
               }}
               onMouseLeave={(e) => {
-                if (!activeFilters.includes(filter.id)) {
+                if (!activeFilters.includes(filter.label)) {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }
               }}
@@ -271,15 +262,8 @@ export default function Page() {
                 <div>
                   {events.map((event) => (
                     <CalendarItem
-                      key={event.id}
-                      id={event.id}
-                      name={event.name}
-                      type={event.type}
-                      start_time={event.start_time}
-                      end_time={event.end_time}
-                      location={event.location}
-                      speakers={event.speakers}
-                      tags={event.tags}
+                      key={event.event._id}
+                      event={event.event}
                       attendeeCount={event.attendeeCount}
                     />
                   ))}
