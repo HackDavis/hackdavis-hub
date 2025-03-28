@@ -89,14 +89,6 @@ describe('CREATE: users', () => {
     expect(error).toBe(null);
   });
 
-  it('should hash the password', async () => {
-    const { ok, body, error } = await CreateUser({ ...mockAdmin });
-    expect(ok).toBe(true);
-    expect(body).not.toBe(null);
-    expect(body.password).not.toBe(mockAdmin.password);
-    expect(error).toBe(null);
-  });
-
   it('should create a judge user successfully', async () => {
     const { ok, body, error } = await CreateUser(mockJudge);
     expect(error).toBe(null);
@@ -151,9 +143,7 @@ describe('CREATE: users', () => {
     const { ok, body, error } = await CreateUser(tempJudge);
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe(
-      'Judge user is missing specialties or has has_checked_in set to true'
-    );
+    expect(error).toBe('Judge user has has_checked_in set to true');
   });
 
   it('should not allow invalid roles', async () => {

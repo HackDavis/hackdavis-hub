@@ -18,6 +18,10 @@ export const CreateUser = async (body: object) => {
 
     const parsedBody = await parseAndReplace(body);
 
+    if (!parsedBody.password) {
+      throw new HttpError('Missing password');
+    }
+
     const db = await getDatabase();
 
     // duplicate
@@ -36,6 +40,13 @@ export const CreateUser = async (body: object) => {
 
       if (existingAdmin) {
         throw new DuplicateError('Duplicate: admin already exists');
+      }
+    }
+
+    // judge
+    if (parsedBody.role === 'judge') {
+      if (parsedBody.has_checked_in) {
+        throw new HttpError('Judge user has has_checked_in set to true');
       }
     }
 
