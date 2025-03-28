@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import { hash } from 'bcryptjs';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
@@ -18,8 +17,6 @@ export const CreateUser = async (body: object) => {
     }
 
     const parsedBody = await parseAndReplace(body);
-
-    parsedBody.password = await hash(parsedBody.password, 10);
 
     const db = await getDatabase();
 

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { hash } from 'bcryptjs';
 
 import Login from '@datalib/auth/login';
 import { CreateUser } from '@datalib/users/createUser';
@@ -16,6 +17,7 @@ export default async function Register(body: any) {
     emailSchema.parse(body.email);
     passwordSchema.parse(body.password);
     const password = body.password;
+    body.password = await hash(body.password, 10);
     const userRes = await CreateUser(body);
 
     if (!userRes.ok) {
