@@ -1,25 +1,14 @@
 'use server';
 
-import { ObjectId } from 'mongodb';
 import { GetUserToEvents } from '@datalib/userToEvents/getUserToEvent';
+import { prepareIdsInQuery } from '@utils/request/parseAndReplace';
 
-export async function getUserEvents(userId: string) {
-  try {
-    const query = {
-      user_id: new ObjectId(userId),
-    };
+export async function getEventsForOneUser(user_id: string) {
+  const result = await GetUserToEvents(await prepareIdsInQuery({ user_id }));
+  return result;
+}
 
-    const result = await GetUserToEvents(query);
-
-    return result;
-  } catch (error) {
-    return {
-      ok: false,
-      body: null,
-      error:
-        error instanceof Error
-          ? error.message
-          : 'Failed to retrieve user events',
-    };
-  }
+export async function getUsersForOneEvent(event_id: string) {
+  const result = await GetUserToEvents(await prepareIdsInQuery({ event_id }));
+  return result;
 }

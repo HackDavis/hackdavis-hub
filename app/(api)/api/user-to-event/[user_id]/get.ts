@@ -1,23 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GetUserToEvents } from '@datalib/userToEvents/getUserToEvent';
-import { ObjectId } from 'mongodb';
+import { prepareIdsInQuery } from '@utils/request/parseAndReplace';
 
 export async function GET(
   _: NextRequest,
   { params }: { params: { user_id: string } }
 ) {
-  try {
-    const query = {
-      user_id: new ObjectId(params.user_id),
-    };
-
-    const res = await GetUserToEvents(query);
-
-    return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
-  } catch (error) {
-    return NextResponse.json(
-      { ok: false, error: 'Failed to retrieve user events' },
-      { status: 500 }
-    );
-  }
+  const query = await prepareIdsInQuery(params);
+  const res = await GetUserToEvents(query);
+  return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }
