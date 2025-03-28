@@ -45,6 +45,9 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'yourSchedule'>(
     'schedule'
   );
+  const [hoveredTab, setHoveredTab] = useState<
+    'schedule' | 'yourSchedule' | null
+  >(null);
   const [activeDay, setActiveDay] = useState<'Apr19' | 'Apr20'>('Apr19');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
@@ -91,7 +94,8 @@ export default function Page() {
     return unfilteredEvents.filter((event) =>
       activeFilters.includes(event.type)
     );
-  }, [activeTab, activeDay, activeFilters, scheduleData]);
+  }, [activeDay, activeFilters, scheduleData]);
+  // }, [activeTab, activeDay, activeFilters, scheduleData]);
 
   // First, sort the current events by start time (ascending)
   const sortedEvents = useMemo(() => {
@@ -145,7 +149,7 @@ export default function Page() {
   };
 
   return (
-    <main className="w-full">
+    <main id="schedule" className="w-full">
       <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip">
         <Image
           src={headerGrass}
@@ -159,8 +163,11 @@ export default function Page() {
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
               <span
                 onClick={() => setActiveTab('schedule')}
+                onMouseEnter={() => setHoveredTab('schedule')}
+                onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === 'schedule'
+                  (activeTab === 'schedule' && hoveredTab === null) ||
+                  hoveredTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
                 }`}
@@ -169,8 +176,11 @@ export default function Page() {
               </span>
               <span
                 onClick={() => setActiveTab('yourSchedule')}
+                onMouseEnter={() => setHoveredTab('yourSchedule')}
+                onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === 'yourSchedule'
+                  (activeTab === 'yourSchedule' && hoveredTab === null) ||
+                  hoveredTab === 'yourSchedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : 'text-[#8F8F8F]'
                 }`}
@@ -185,7 +195,7 @@ export default function Page() {
                 style={{ borderStyle: 'dashed' }}
               >
                 <div
-                  className={`absolute transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
+                  className={`absolute top-auto bottom-auto transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
                     activeDay === 'Apr19'
                       ? 'left-[1.5px] top-[1.5px]'
                       : 'left-[98.5px] top-[1.5px]'
@@ -237,7 +247,7 @@ export default function Page() {
               }}
               onMouseEnter={(e) => {
                 if (!activeFilters.includes(filter.id)) {
-                  e.currentTarget.style.backgroundColor = filter.color + '80';
+                  e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
                 }
               }}
               onMouseLeave={(e) => {
