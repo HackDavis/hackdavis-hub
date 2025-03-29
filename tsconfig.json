@@ -21,7 +21,6 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@public/*": ["./public/*"],
       "@globals/*": ["app/(pages)/_globals/*"],
       "@components/*": ["app/(pages)/_components/*"],
       "@data/*": ["app/(pages)/_data/*"],
@@ -35,6 +34,6 @@
       "@public/*": ["public/*"]
     }
   },
-  "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest.config.ts"],
   "exclude": ["node_modules"]
 }

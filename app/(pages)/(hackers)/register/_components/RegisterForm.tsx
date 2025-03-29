@@ -2,8 +2,10 @@
 
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import RegisterAction from '@actions/auth/register';
+import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import styles from './RegisterForm.module.scss';
 
 export default function RegisterForm({ data }: any) {
@@ -17,21 +19,22 @@ export default function RegisterForm({ data }: any) {
   const [passwordDupe, setPasswordDupe] = useState('');
   const [valid, setValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordDupeError, setPasswordDupeError] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordDupeError, setPasswordDupeError] = useState('');
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
-    setError('');
+    setPasswordError('');
+    setPasswordDupeError('');
 
     const response = await RegisterAction({
       name,
       email,
       password,
       role,
+      has_checked_in: true,
     });
 
     if (response.ok) {
@@ -41,96 +44,109 @@ export default function RegisterForm({ data }: any) {
         router.push('/register/details');
       }
     } else {
-      setError(response.error ?? 'Invalid email or password.');
+      setPasswordError(response.error ?? 'Error registering user.');
     }
 
     setLoading(false);
   };
 
-  const validateForm = (
-    email: string,
-    password: string,
-    passwordDupe: string
-  ) => {
-    const isEmailValid = /\S+@\S+\.\S+/.test(email) || email.length === 0;
-    if (!isEmailValid) {
-      setError('Email invalid format.');
-    }
-    setPasswordError(!isEmailValid);
-
-    const isPasswordValid =
-      (password.length >= 6 && password.length <= 20) || password.length === 0;
+  const validateForm = (password: string, passwordDupe: string) => {
+    const isPasswordValid = password.length >= 6 && password.length <= 20;
     if (!isPasswordValid) {
-      setError('Password must be between 6 and 20 characters.');
+      setPasswordError(
+        password.length === 0
+          ? ''
+          : 'Password must be between 6 and 20 characters.'
+      );
+    } else {
+      setPasswordError('');
     }
-    setPasswordError(!isPasswordValid);
 
     const passwordMatch = password === passwordDupe;
     if (!passwordMatch) {
-      setError("Passwords don't match.");
+      setPasswordDupeError(
+        passwordDupe.length === 0 ? '' : "Passwords don't match."
+      );
+    } else {
+      setPasswordDupeError('');
     }
-    setPasswordDupeError(!passwordMatch);
 
-    if (
-      email.length === 0 ||
-      password.length === 0 ||
-      passwordDupe.length === 0
-    ) {
-      setValid(false);
-    }
-    if (isEmailValid && isPasswordValid && passwordMatch) {
-      setError('');
-      setValid(true);
-    }
+    setValid(isPasswordValid && passwordMatch);
   };
 
   useEffect(() => {
-    validateForm(email, password, passwordDupe);
-  }, [email, password, passwordDupe]);
+    validateForm(password, passwordDupe);
+  }, [password, passwordDupe]);
 
   return (
-    <div>
-      <h1>Hi {name}!</h1>
-      <form onSubmit={handleRegister} className={styles.container}>
-        <p className={styles.error_msg}>{error}</p>
-        <div className={styles.fields}>
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={data ? data.email : email}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
-            readOnly={data ? true : false}
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
-            className={`${passwordError ? styles.error : null}`}
-          />
-          <input
-            type="password"
-            placeholder="Retype password"
-            value={passwordDupe}
-            onInput={(e: ChangeEvent<HTMLInputElement>) =>
-              setPasswordDupe(e.target.value)
-            }
-            className={`${passwordDupeError ? styles.error : null}`}
-          />
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
+        <div className={styles.header_text}>
+          <h1>Hi {name}!</h1>
+          <p>
+            Welcome to the HackerHub! The HackDavis team made this all for your
+            hacking needs &lt;3
+            <br />
+            Let&#39;s get you started by making a password with us.
+          </p>
         </div>
-        <button
-          className={`${styles.login_button} ${valid ? styles.valid : null}`}
-          type="submit"
-          disabled={loading || !valid}
-        >
-          Next
-        </button>
+      </div>
+      <form onSubmit={handleRegister} className={styles.form}>
+        <div className={styles.fields}>
+          <div>
+            <label htmlFor="email">EMAIL</label>
+            <input
+              name="email"
+              type="email"
+              placeholder="Enter your email here"
+              value={data ? data.email : email}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
+              readOnly={data ? true : false}
+            />
+          </div>
+
+          <div>
+            <p className={styles.error_msg}>{passwordError}</p>
+            <label htmlFor="password">PASSWORD</label>
+            <input
+              name="password"
+              type="password"
+              // placeholder="Password"
+              value={password}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
+            />
+          </div>
+
+          <div>
+            <p className={styles.error_msg}>{passwordDupeError}</p>
+            <label htmlFor="passwordDupe">RETYPE PASSWORD</label>
+            <input
+              type="password"
+              // placeholder="Retype password"
+              value={passwordDupe}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                setPasswordDupe(e.target.value)
+              }
+              className={`${passwordDupeError ? styles.error : null}`}
+            />
+          </div>
+        </div>
+
+        <div className={styles.bottom}>
+          <div />
+          <button
+            type="submit"
+            disabled={loading || !valid}
+            className={`${styles.login_button} ${valid ? styles.valid : null}`}
+          >
+            Next →
+          </button>
+        </div>
       </form>
     </div>
   );
