@@ -338,3 +338,5 @@ describe('DELETE: events', () => {
     );
   });
 });
+
+export { mockEvent1, mockEvent2 };
