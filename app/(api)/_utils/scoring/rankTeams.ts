@@ -1,6 +1,5 @@
 import Submission from '@typeDefs/submission';
-import { getManySubmissions } from '@actions/submissions/getSubmission';
-import { getManyTeams } from '@actions/teams/getTeams';
+import Team from '@typeDefs/team';
 
 // interface Team {
 //   _id?: string;
@@ -44,7 +43,7 @@ function calculateSubmissionScore(submission: Submission) {
   });
 }
 
-interface RankTeamsResults {
+export interface RankTeamsResults {
   [track_name: string]: {
     team: {
       team_id: string;
@@ -54,30 +53,47 @@ interface RankTeamsResults {
   }[];
 }
 
-export default async function RankTeams() {
+export interface RankTeamsProps {
+  teams: Team[];
+  submissions: Submission[];
+}
+// export default interface Submission {
+//   _id?: string;
+//   judge_id: string;
+//   team_id: string;
+//   social_good: number;
+//   creativity: number;
+//   presentation: number;
+//   scores: TrackScore[];
+//   comments?: string;
+//   is_scored: boolean;
+//   queuePosition: number | null;
+// }
+
+export default function RankTeams({ teams, submissions }: RankTeamsProps) {
   const results: RankTeamsResults = {};
 
-  // multiple teams
-  const team_response = await getManyTeams();
+  const group_team = (
+    acc: Record<string, Submission[]>,
+    submission: Submission
+  ) => {
+    if (!acc[submission.team_id]) {
+      acc[submission.team_id] = [];
+    }
+    acc[submission.team_id].push(submission);
+    return acc;
+  };
 
-  if (!team_response.ok) {
-    return 'Error getting teams';
-  }
-  const teams = team_response.body;
+  const submissionsByTeam = submissions.reduce(
+    group_team,
+    {} as Record<string, Submission[]>
+  ); // {"team_name": [{track_name: scorw}]}
 
   for (const team of teams) {
+    const teamSubmissions = submissionsByTeam[team._id as string] || [];
+
     // each team has many submissions from the judges
-    const submission_response = await getManySubmissions(team);
-
-    if (!submission_response.ok) {
-      return 'Error getting submissions';
-    }
-
-    const submissions = submission_response.body;
-
-    for (const submission of submissions) {
-      // each submission has multiple tracks
-      // [{track_name : score}, {track_name : score}] format
+    for (const submission of teamSubmissions) {
       const final_scores = calculateSubmissionScore(submission);
 
       // process each track score from this submission
@@ -94,7 +110,7 @@ export default async function RankTeams() {
           (item) => item.team.team_id === team._id
         );
 
-        if (existingTeamIndex) {
+        if (existingTeamIndex !== -1) {
           // - we update the score by adding it up
 
           const existing_team = results[track_name][existingTeamIndex];
@@ -103,15 +119,17 @@ export default async function RankTeams() {
 
           // - add the commends as well
           if (submission.comments) {
-            existing_team.team.comments.push(submission.commments);
+            existing_team.team.comments.push(submission.comments);
           }
         } else {
           // else we initialize a new team with the current score for that track
           results[track_name].push({
             team: {
-              team_id: team._id,
+              team_id: team._id as string,
               final_score: score,
-              comments: submission.comments ? submission.comments : [],
+              comments: submission.comments
+                ? [submission.comments]
+                : ([] as string[]),
             },
           });
         }

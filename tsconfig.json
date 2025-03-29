@@ -31,7 +31,9 @@
       "@datalib/*": ["app/(api)/_datalib/*"],
       "@typeDefs/*": ["app/_types/*"],
       "@/auth": ["auth.ts"],
-      "@public/*": ["public/*"]
+      "@public/*": ["public/*"],
+      "@mocks/*": ["__tests__/mocks"]
+
     }
   },
   "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest.config.ts"],
