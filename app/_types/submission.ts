@@ -1,6 +1,6 @@
 export interface TrackScore {
   trackName: string;
-  rawScores: number[];
+  rawScores: { [question: string]: number };
   finalTrackScore: number | null;
 }
 

@@ -1,111 +1,132 @@
-import Team from '@typeDefs/team';
 import Submission from '@typeDefs/submission';
 import { getManySubmissions } from '@actions/submissions/getSubmission';
-import tracks from '../../_data/tracks.json' assert { type: 'json' };
+import { getManyTeams } from '@actions/teams/getTeams';
 
-// TODO: Rework calculateTrackScore
-// function calculateTrackScore(chosenTracks: string[], scores: Scores) {
-//   const finalScores = chosenTracks.map((chosenTrack) => {
-//     const weights = tracks.find((track) => track.name == chosenTrack)?.weights;
-//     if (weights === undefined) return 0;
-//     const score = weights.reduce((sum, weight, i) => {
-//       return sum + weight * scores[i];
-//     }, 0);
-
-//     if (score === undefined) {
-//       return 0;
-//     }
-
-//     return score! / 5;
-//   });
-
-//   return finalScores;
+// interface Team {
+//   _id?: string;
+//   teamNumber: number;
+//   tableNumber: number;
+//   name: string;
+//   tracks: string[];
+//   active: boolean;
 // }
 
-function calculateScores(team: Team, submissions: Submission[]) {
-  const results: number[] = [0, 0, 0, 0, 0];
+// export interface TrackScore {
+//   trackName: string;
+//   rawScores: {[question: string] : number};
+//   finalTrackScore: number | null;
+// }
 
-  let submissionsCount = 0;
-  for (const submission of submissions) {
-    if (submission.scores) {
-      submissionsCount++;
-      // const scores = calculateTrackScore(team.tracks, submission.scores);
+// export default interface Submission {
+//   _id?: string;
+//   judge_id: string;
+//   team_id: string;
+//   social_good: number;
+//   creativity: number;
+//   presentation: number;
+//   scores: TrackScore[];
+//   comments?: string;
+//   is_scored: boolean;
+//   queuePosition: number | null;
+// }
 
-      // results = results.map((res, i) => res + scores[i]);
-    }
-  }
+function calculateSubmissionScore(submission: Submission) {
+  return submission.scores.map((track_score) => {
+    const total = Object.values(track_score.rawScores).reduce(
+      (sum, score) => sum + score,
+      0
+    );
 
-  const finalScores = results.map((res, i) => ({
-    track: team.tracks[i],
-    score: isNaN(res / submissionsCount) ? 0 : res / submissionsCount,
-  }));
-
-  return {
-    number: team.tableNumber,
-    name: team.name,
-    scores: finalScores,
-    comments: submissions.map((submission) => submission.comments),
-  };
+    return {
+      track_name: track_score.trackName,
+      score: total,
+    };
+  });
 }
 
-async function computeAllTeams(teams: Team[]) {
-  const teamScores = [];
+interface RankTeamsResults {
+  [track_name: string]: {
+    team: {
+      team_id: string;
+      final_score: number;
+      comments: string[];
+    };
+  }[];
+}
+
+export default async function RankTeams() {
+  const results: RankTeamsResults = {};
+
+  // multiple teams
+  const team_response = await getManyTeams();
+
+  if (!team_response.ok) {
+    return 'Error getting teams';
+  }
+  const teams = team_response.body;
 
   for (const team of teams) {
-    const submissions = (
-      await getManySubmissions({
-        team_id: {
-          '*convertId': {
-            id: team._id,
-          },
-        },
-      })
-    ).body;
+    // each team has many submissions from the judges
+    const submission_response = await getManySubmissions(team);
 
-    teamScores.push(calculateScores(team, submissions));
-  }
+    if (!submission_response.ok) {
+      return 'Error getting submissions';
+    }
 
-  return teamScores;
-}
+    const submissions = submission_response.body;
 
-export default async function rankTeams(teams: Team[]) {
-  const teamScores = await computeAllTeams(teams);
+    for (const submission of submissions) {
+      // each submission has multiple tracks
+      // [{track_name : score}, {track_name : score}] format
+      const final_scores = calculateSubmissionScore(submission);
 
-  const trackResults = [];
+      // process each track score from this submission
+      for (const trackScore of final_scores) {
+        const { track_name, score } = trackScore;
 
-  for (const track of tracks) {
-    if (track.name === 'No Track') continue;
+        // initilize the track in the results if havent done yet
+        if (!results[track_name]) {
+          results[track_name] = [];
+        }
 
-    const topEntries = [];
+        // if the team already exists in the track
+        const existingTeamIndex = results[track_name].findIndex(
+          (item) => item.team.team_id === team._id
+        );
 
-    for (const team of teamScores) {
-      const foundScore = team.scores.find(
-        (score) => score.track === track.name
+        if (existingTeamIndex) {
+          // - we update the score by adding it up
+
+          const existing_team = results[track_name][existingTeamIndex];
+
+          existing_team.team.final_score += score; // add the score up
+
+          // - add the commends as well
+          if (submission.comments) {
+            existing_team.team.comments.push(submission.commments);
+          }
+        } else {
+          // else we initialize a new team with the current score for that track
+          results[track_name].push({
+            team: {
+              team_id: team._id,
+              final_score: score,
+              comments: submission.comments ? submission.comments : [],
+            },
+          });
+        }
+      }
+    }
+
+    for (const track_name in results) {
+      // {track_name : team[]}
+
+      // sort each tracks with the result of team.final_score from highest to lowest
+      results[track_name].sort(
+        (a, b) => b.team.final_score - a.team.final_score
       );
-      if (foundScore === undefined) continue;
-
-      topEntries.push({
-        number: team.number,
-        name: team.name,
-        score: foundScore.score,
-        comments: team.comments,
-      });
     }
-
-    topEntries.sort((entry1, entry2) => entry2.score - entry1.score);
-    if (
-      track.name !== ('Best Hack for Life of Kai' as string) ||
-      track.name !== ('Best Hack for DCMH' as string) ||
-      track.name !== ('Best Hack for AggieHouse' as string)
-    ) {
-      topEntries.splice(10);
-    }
-
-    trackResults.push({
-      track: track.name,
-      topEntries,
-    });
   }
 
-  return trackResults;
+  return results;
 }
