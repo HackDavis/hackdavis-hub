@@ -15,6 +15,7 @@ interface AuthFormOptions {
   onSubmit?: (
     values: FieldValues
   ) => Promise<{ ok: boolean; body: string | null; error: string | null }>;
+  onSuccess?: () => void;
 }
 
 interface AuthFormReturn {
@@ -22,7 +23,6 @@ interface AuthFormReturn {
   errors: FieldErrors;
   loading: boolean;
   valid: boolean;
-  submitted: boolean;
   setFieldValue: (field: string, value: any) => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
@@ -52,18 +52,21 @@ const validators = {
     }
     return null;
   },
+  code: (value: string) => {
+    if (!value) return '';
+    return null;
+  },
 };
 
 export default function useAuthForm(
   options: AuthFormOptions = {}
 ): AuthFormReturn {
-  const { initialValues = {}, onSubmit } = options;
+  const { initialValues = {}, onSubmit, onSuccess } = options;
 
   const [fields, setFields] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [valid, setValid] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const setFieldValue = (field: string, value: any) => {
     setFields((prev) => ({ ...prev, [field]: value }));
@@ -84,14 +87,14 @@ export default function useAuthForm(
     setLoading(true);
 
     try {
-      if (onSubmit) {
+      if (onSubmit && onSuccess) {
         const result = await onSubmit(fields);
 
         if (!result.ok) {
-          throw new Error(result.error ?? 'Failed to register user.');
+          throw new Error(result.error ?? 'Error submitting form.');
         }
 
-        setSubmitted(true);
+        onSuccess();
       } else {
         throw new Error('No submit function specified');
       }
@@ -132,7 +135,6 @@ export default function useAuthForm(
     errors,
     loading,
     valid,
-    submitted,
     setFieldValue,
     setFieldError,
     handleChange,

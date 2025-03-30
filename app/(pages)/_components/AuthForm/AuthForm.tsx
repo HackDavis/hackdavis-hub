@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -11,7 +10,7 @@ import hackerStyles from './HackerAuthForm.module.scss';
 import judgeStyles from './JudgeAuthForm.module.scss';
 
 type Role = 'hacker' | 'judge';
-type FieldName = 'email' | 'password' | 'passwordDupe';
+type FieldName = 'email' | 'password' | 'passwordDupe' | 'code';
 
 interface FormField {
   name: FieldName;
@@ -49,19 +48,13 @@ export default function AuthForm({
     errors,
     loading,
     valid,
-    submitted,
     handleChange,
     handleSubmit,
   } = useAuthForm({
     initialValues,
     onSubmit,
+    onSuccess,
   });
-
-  useEffect(() => {
-    if (!loading && !errors.submit && submitted) {
-      onSuccess();
-    }
-  }, [loading, errors.submit, submitted, onSuccess]);
 
   return (
     <div className={styles.container}>
