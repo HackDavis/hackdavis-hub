@@ -1,11 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
 import { EventType } from '@typeDefs/event';
-import { EventDetails, filters } from '../../(hub)/schedule/page';
+import { EventDetails } from '../../(hub)/schedule/page';
+import { pageFilters } from '@typeDefs/filters';
 
 const getBgColor = (type: EventType): string => {
   const color =
-    filters.find((f) => f.label === type)?.color || 'rgba(0, 0, 0, 0)';
+    pageFilters.find((f) => f.label === type)?.color || 'rgba(0, 0, 0, 0)';
 
   return color.replace('1)', '0.5)');
 };

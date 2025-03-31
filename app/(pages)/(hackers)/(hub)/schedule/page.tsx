@@ -6,6 +6,7 @@ import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
+import { pageFilters } from '@typeDefs/filters';
 
 export interface EventDetails {
   event: Event;
@@ -16,19 +17,6 @@ export interface EventDetails {
 interface ScheduleData {
   [dayKey: string]: EventDetails[];
 }
-
-interface EventFilter {
-  label: EventType;
-  color: string;
-}
-
-export const filters: EventFilter[] = [
-  { label: 'GENERAL', color: 'rgba(158, 231, 229, 1)' },
-  { label: 'ACTIVITIES', color: 'rgba(255, 197, 171, 1)' },
-  { label: 'WORKSHOPS', color: 'rgba(175, 209, 87, 1)' },
-  { label: 'MEALS', color: 'rgba(255, 197, 61, 1)' },
-  // { label: 'RECOMMENDED', color: '#BBABDD' },
-];
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'custom'>('schedule');
@@ -214,7 +202,7 @@ export default function Page() {
         </div>
 
         <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
-          {filters.map((filter) => (
+          {pageFilters.map((filter) => (
             <button
               key={filter.label}
               onClick={() => toggleFilter(filter.label)}
