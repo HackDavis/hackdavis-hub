@@ -32,16 +32,25 @@ export default function AuthFormBackground({
 
   return (
     <div className={styles.container}>
-      <Image src={Logo} alt="hackdavis logo" className={styles.logo} />
-      <div className={styles.header}>
-        <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
-        <div className={styles.header_text}>
-          <h1>{title}</h1>
-          <p style={{ whiteSpace: 'pre-line' }}>{subtitle}</p>
+      <div className={styles.content}>
+        <div className={styles.header_container}>
+          <Image src={Logo} alt="hackdavis logo" className={styles.logo} />
+          <div className={styles.header}>
+            <Image
+              src={VocalAngelCow}
+              alt="Angel Cow"
+              height={100}
+              width={100}
+            />
+            <div className={styles.header_text}>
+              <h1>{title}</h1>
+              <p style={{ whiteSpace: 'pre-line' }}>{subtitle}</p>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className={styles.overlayContent}>{children}</div>
+        <div className={styles.overlayContent}>{children}</div>
+      </div>
 
       <div className={styles.grass_asset}>
         <Image

@@ -23,59 +23,52 @@
     flex-direction: column;
     justify-content: space-between;
 
-    .header {
-        display: flex;
-        flex-direction: row;
-        gap: 26px;
-        margin-left: 5%;
-        margin-right: 5%;
-        margin-top: max(114px, 6%);
-      
-        .header_text {
+    .content {
+        z-index: 1;
+
+        .header_container {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-      
-            h1 {
-                font-size: 1.75rem;
-                font-style: normal;
-                font-weight: 600;
-                line-height: normal;
-                letter-spacing: 0.56px;
-        
-                @include tablet-s {
-                    font-size: 1.25rem;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            gap: 26px;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-top: max(114px, 6%);
+          
+            .header_text {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+          
+                h1 {
+                    font-size: 1.75rem;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                    letter-spacing: 0.56px;
+            
+                    @include tablet-s {
+                        font-size: 1.25rem;
+                    }
                 }
-            }
-      
-            p {
-                font-size: 1.125rem;
-                font-style: normal;
-                font-weight: 400;
-                line-height: 145%;
-                letter-spacing: 0.36px;
-        
-                @include tablet-s {
-                    font-size: 0.875rem;
+          
+                p {
+                    font-size: 1.125rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 145%;
+                    letter-spacing: 0.36px;
+            
+                    @include tablet-s {
+                        font-size: 0.875rem;
+                    }
                 }
             }
         }
-    }
-
-    .overlayContent {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        width: 100vw;
-        height: 100vh;
-        z-index: 1;
-        border-radius: 8px;
     }
 
     .logo {
