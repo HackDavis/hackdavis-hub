@@ -21,20 +21,19 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@public/*": ["./public/*"],
       "@globals/*": ["app/(pages)/_globals/*"],
       "@components/*": ["app/(pages)/_components/*"],
-      "@data/*": ["app/(pages)/_data/*"],
+      "@data/*": ["app/_data/*"],
       "@hooks/*": ["app/(pages)/_hooks/*"],
       "@actions/*": ["app/(api)/_actions/*"],
       "@utils/*": ["app/(api)/_utils/*"],
       "@apidata/*": ["app/(api)/_data/*"],
       "@datalib/*": ["app/(api)/_datalib/*"],
       "@typeDefs/*": ["app/_types/*"],
+      "@public/*": ["public/*"],
       "@/auth": ["auth.ts"],
-      "@public/*": ["public/*"]
     }
   },
-  "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest.config.ts"],
   "exclude": ["node_modules"]
 }

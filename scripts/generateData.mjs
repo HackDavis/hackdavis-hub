@@ -1,8 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const tracks = require('../app/(api)/_data/tracks.json');
+import tracks from '../app/(api)/_data/tracks.json' with { type: 'json' };
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -47,8 +45,8 @@ function generateData(collectionName, numDocuments) {
   } else if (collectionName === 'admin') {
     data.push({
       name: 'Admin',
-      email: 'admin@hackdavis.io',
-      password: '$2a$10$oit1hC4hBaj9OX.WQxm3uOtb0qnPNk4iR9QhZmFm7/r1rAphAMAva',
+      email: process.env.ADMIN_EMAIL,
+      password: process.env.ADMIN_HASHED_PASSWORD,
       role: 'admin',
       has_checked_in: true,
     });
@@ -106,8 +104,8 @@ function generateData(collectionName, numDocuments) {
         end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
           ? faker.helpers.arrayElements([...hackerPositions, 'beginner'], {
-            min: 1,
-          })
+              min: 1,
+            })
           : [],
       };
     });
