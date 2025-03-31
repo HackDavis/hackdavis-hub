@@ -37,7 +37,7 @@ export default async function sendEmail(
       throw new DuplicateError(`User with email ${data.email} already exists.`);
     }
 
-    data.role = users.body[0].role;
+    if (type === 'reset') data.role = users.body[0].role;
     const invite = await GenerateInvite(data, type);
 
     if (!invite.ok) {
