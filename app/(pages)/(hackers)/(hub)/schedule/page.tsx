@@ -35,7 +35,6 @@ export default function Page() {
         if (!response.ok) {
           throw new Error(response.error || 'Internal server error');
         }
-
         const events: Event[] = response.body;
 
         // Group events by day key - "19" or "20".
@@ -47,7 +46,7 @@ export default function Page() {
           if (!acc[dayKey]) {
             acc[dayKey] = [];
           }
-          acc[dayKey].push({ event: event });
+          acc[dayKey].push({ event });
           return acc;
         }, {});
 
@@ -56,75 +55,66 @@ export default function Page() {
         console.error('Error fetching events:', error);
       }
     }
-
     fetchEvents();
   }, []);
 
-  // Get current events for the active day, filtering by activeFilters.
-  const currentEvents = useMemo(() => {
+  // Combined transformation: filtering, sorting, grouping and then sorting the groups.
+  const sortedGroupedEntries = useMemo(() => {
     if (!scheduleData) return [];
-    // For MVP, both tabs use the same data.
-    const unfilteredEvents = scheduleData[activeDay] || [];
-    if (activeFilters.length === 0) {
-      return unfilteredEvents;
-    }
-    return unfilteredEvents.filter((eventDetails) =>
-      activeFilters.includes(eventDetails.event.type)
-    );
-  }, [activeDay, activeFilters, scheduleData]);
-  // }, [activeTab, activeDay, activeFilters, scheduleData]);
 
-  // Sort the current events by start time (ascending)
-  const sortedEvents = useMemo(() => {
-    return [...currentEvents].sort(
+    // Filter events for the active day and by active filters.
+    const unfilteredEvents = scheduleData[activeDay] || [];
+    const filteredEvents =
+      activeFilters.length === 0
+        ? unfilteredEvents
+        : unfilteredEvents.filter((ed) =>
+            activeFilters.includes(ed.event.type)
+          );
+
+    // Sort the filtered events by start time.
+    const sortedEvents = [...filteredEvents].sort(
       (a, b) =>
         new Date(a.event.start_time).getTime() -
         new Date(b.event.start_time).getTime()
     );
-  }, [currentEvents]);
 
-  // Group sorted events by their start time (converted to PDT) for display.
-  const groupedEvents = useMemo(() => {
-    const groups: { [timeKey: string]: EventDetails[] } = {};
-    sortedEvents.forEach((eventDetails) => {
-      // Convert to PDT.
-      const pstDate = new Date(
-        eventDetails.event.start_time.toLocaleString('en-US', {
-          timeZone: 'America/Los_Angeles',
-        })
-      );
+    // Group events by their start time (converted to PDT).
+    const groups = sortedEvents.reduce(
+      (acc: { [key: string]: EventDetails[] }, ed) => {
+        const pstDate = new Date(
+          ed.event.start_time.toLocaleString('en-US', {
+            timeZone: 'America/Los_Angeles',
+          })
+        );
+        const timeKey = pstDate.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        });
+        if (!acc[timeKey]) {
+          acc[timeKey] = [];
+        }
+        acc[timeKey].push(ed);
+        return acc;
+      },
+      {}
+    );
 
-      const timeKey = pstDate.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      });
-
-      if (!groups[timeKey]) {
-        groups[timeKey] = [];
-      }
-      groups[timeKey].push(eventDetails);
-    });
-
-    return groups;
-  }, [sortedEvents]);
-
-  // Sort the group entries by time.
-  const sortedGroupedEntries = useMemo(() => {
-    return Object.entries(groupedEvents).sort((a, b) => {
-      // Create dummy dates using an arbitrary day.
+    // Sort the grouped entries by time.
+    return Object.entries(groups).sort((a, b) => {
       const dummyDay = '01/01/2000';
       const dateA = new Date(`${dummyDay} ${a[0]}`);
       const dateB = new Date(`${dummyDay} ${b[0]}`);
       return dateA.getTime() - dateB.getTime();
     });
-  }, [groupedEvents]);
+  }, [scheduleData, activeDay, activeFilters]);
 
   const toggleFilter = (label: EventType) => {
-    const newFilters = activeFilters.includes(label)
-      ? [...activeFilters, label]
-      : activeFilters.filter((id) => id !== label);
-    setActiveFilters(newFilters);
+    if (activeFilters.includes(label)) {
+      setActiveFilters(activeFilters.filter((id) => id !== label));
+    } else {
+      setActiveFilters([...activeFilters, label]);
+    }
   };
 
   return (
@@ -145,9 +135,10 @@ export default function Page() {
                 onMouseEnter={() => setHoveredTab('schedule')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  (activeTab === 'schedule' && hoveredTab === null) ||
-                  hoveredTab === 'schedule'
+                  activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
+                    : hoveredTab === 'schedule'
+                    ? 'text-gray-700'
                     : 'text-[#8F8F8F]'
                 }`}
               >
@@ -158,9 +149,10 @@ export default function Page() {
                 onMouseEnter={() => setHoveredTab('custom')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  (activeTab === 'custom' && hoveredTab === null) ||
-                  hoveredTab === 'custom'
+                  activeTab === 'custom'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
+                    : hoveredTab === 'custom'
+                    ? 'text-gray-700'
                     : 'text-[#8F8F8F]'
                 }`}
               >
