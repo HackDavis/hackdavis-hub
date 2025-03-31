@@ -17,13 +17,6 @@ interface ScoringFormProps {
   };
 }
 
-const judgingCategories = [
-  'Best Usage of MongoDB',
-  'Best Social Hack',
-  'Best Beginner Hack',
-  'Best Design',
-];
-
 export default function ScoreTeam({ params }: ScoringFormProps) {
   const [showInfo, setShowInfo] = useState(false);
   const { submission, loading: subLoading } = useSubmission(params['team-id']);
@@ -44,7 +37,7 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
 
   return (
     <div className={styles.container}>
-      <Link className={styles.back_button} href="/judges">
+      <Link className={styles.back_button} href="/judges/projects">
         <Image src={leftArrow} alt="left arrow" />
         Back to projects
       </Link>
@@ -64,13 +57,13 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
         </button>
       </div>
       <div style={{ display: showInfo ? 'none' : 'block' }}>
-        <ScoringForm submission={submission.body} />
+        <ScoringForm submission={submission.body} team={team.body} />
       </div>
       <div
         className={`${styles.info_container} ${showInfo ? styles.show : null}`}
       >
         <p>Judging categories Table {team.body.teamNumber} signed up for:</p>
-        {judgingCategories.map((category) => (
+        {team.body.tracks.map((category: string) => (
           <p key={category} className={styles.category_card}>
             {category}
           </p>
