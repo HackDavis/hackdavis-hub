@@ -17,7 +17,7 @@ export default function useActiveUser(failRedirectRoute: string) {
   useEffect(() => {
     const getActiveUser = async (id: string) => {
       const userRes = await getUser(id);
-      if (!userRes.ok) {
+      if (!userRes.ok || !userRes.body) {
         await LogoutAction();
         router.push('/error');
         return;

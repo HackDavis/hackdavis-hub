@@ -10,7 +10,7 @@ export default async function getActiveUser(failRedirectRoute: string) {
 
   const userRes = await getUser(session.user.id);
 
-  if (!userRes.ok) {
+  if (!userRes.ok || !userRes.body) {
     await LogoutAction();
     redirect('/error');
   }
