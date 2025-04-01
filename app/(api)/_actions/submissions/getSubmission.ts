@@ -6,6 +6,7 @@ import {
 } from '@datalib/submissions/getSubmissions';
 import parseAndReplace from '@utils/request/parseAndReplace';
 
+// TODO: replace parse and stringify with daniel's serialization util
 export async function getSubmission(judge_id: string, team_id: string) {
   return JSON.parse(JSON.stringify(await GetSubmission(judge_id, team_id)));
 }

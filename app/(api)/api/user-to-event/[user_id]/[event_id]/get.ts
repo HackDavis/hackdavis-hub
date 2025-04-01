@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DeleteUserToEvent } from '@datalib/userToEvents/deleteUserToEvent';
+import { GetUserToEvents } from '@datalib/userToEvents/getUserToEvent';
 import { prepareIdsInQuery } from '@utils/request/parseAndReplace';
 
-export async function DELETE(
+export async function GET(
   _: NextRequest,
   { params }: { params: { user_id: string; event_id: string } }
 ) {
-  const res = await DeleteUserToEvent(await prepareIdsInQuery(params));
+  const res = await GetUserToEvents(await prepareIdsInQuery(params));
   return NextResponse.json({ ...res }, { status: res.ok ? 200 : 500 });
 }
