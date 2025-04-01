@@ -8,11 +8,15 @@ import { GetManyUsers } from '@datalib/users/getUser';
 
 declare module 'next-auth' {
   interface User {
+    id?: string;
+    email?: string | null;
     role: string;
   }
 
   interface Session extends DefaultSession {
     user: {
+      id: string;
+      email: string;
       role: string;
     } & DefaultSession['user'];
   }
@@ -20,6 +24,8 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   interface JWT {
+    id: string;
+    email: string;
     role: string;
   }
 }
@@ -46,23 +52,23 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           emailSchema.parse(email);
           passwordSchema.parse(password);
 
-          const data = await GetManyUsers({ email });
+          const response = await GetManyUsers({ email });
 
-          if (!data.body || data.body.length !== 1) {
-            throw new Error('Internal server error');
+          if (!response.ok || response.body.length === 0) {
+            throw new Error(response.error ?? 'User not found.');
           }
 
-          const judge = data.body[0];
+          const user = response.body[0];
 
-          const passwordCorrect = await compare(password, judge.password);
+          const passwordCorrect = await compare(password, user.password);
           if (!passwordCorrect) {
             throw new Error('Invalid email address or password.');
           }
 
           return {
-            id: judge._id,
-            email: judge.email,
-            role: judge.role,
+            id: user._id,
+            email: user.email,
+            role: user.role,
           };
         } catch (error) {
           if (error instanceof z.ZodError) {
@@ -77,11 +83,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id ?? 'User ID not found';
+        token.email = user.email ?? 'User email not found';
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.email = token.email;
       session.user.role = token.role;
       return session;
     },

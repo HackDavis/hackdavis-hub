@@ -6,6 +6,7 @@ import {
   HttpError,
   NoContentError,
   NotFoundError,
+  BadRequestError,
 } from '@utils/response/Errors';
 
 export async function UpdateEvent(id: string, body: object) {
@@ -18,15 +19,47 @@ export async function UpdateEvent(id: string, body: object) {
     const objectId = ObjectId.createFromHexString(id);
     const parsedBody = await parseAndReplace(body);
 
-    const event = await db
-      .collection('users')
-      .updateOne({ _id: objectId }, parsedBody);
-
-    if (event.matchedCount === 0) {
+    // Validate the time fields before updating
+    const existingEvent = await db
+      .collection('events')
+      .findOne({ _id: objectId });
+    if (!existingEvent) {
       throw new NotFoundError(
         `Could not update event with ID: '${id}'. Event does not exist or ID is incorrect.`
       );
     }
+
+    const updatedStartTime = new Date(
+      parsedBody.$set.start_time || existingEvent.start_time
+    );
+    if (existingEvent.end_time || parsedBody.$set.end_time) {
+      const updatedEndTime = new Date(
+        parsedBody.$set.end_time || existingEvent.end_time
+      );
+
+      if (updatedStartTime.getTime() > updatedEndTime.getTime()) {
+        throw new BadRequestError(
+          'Failed to update event: end_time must be after start_time'
+        );
+      }
+    }
+
+    // check for duplicate name
+    if (parsedBody.$set.name) {
+      const existingEventWithName = await db
+        .collection('events')
+        .findOne({ name: parsedBody.$set.name });
+      if (existingEventWithName) {
+        throw new BadRequestError(
+          `Duplicate: event name ${parsedBody.$set.name} already in use by another event.`
+        );
+      }
+    }
+
+    // update if validation passes
+    const event = await db
+      .collection('events')
+      .updateOne({ _id: objectId }, parsedBody);
 
     return {
       ok: true,

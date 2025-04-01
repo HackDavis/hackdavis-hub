@@ -13,8 +13,8 @@ export default function UnderConstruction() {
           Under <br /> Construction...
         </h1>
         <p>
-          Sit tight for exciting things like our <br />
-          <b>Prize Tracks</b> and our <b>Workshops</b>!
+          Sit tight for exciting things like our <br /> <b>Starter Kit</b>,{' '}
+          <b>Prize Tracks</b> and <b>Workshops</b>!
         </p>
       </div>
     </div>

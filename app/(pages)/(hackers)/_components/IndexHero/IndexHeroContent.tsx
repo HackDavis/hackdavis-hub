@@ -9,7 +9,7 @@ export default function IndexHeroContent() {
   return (
     <div className={styles.container}>
       <p className={styles.date}>
-        APRIL 20-21
+        APRIL 19-20
         <br />
         2025
       </p>
@@ -26,7 +26,8 @@ export default function IndexHeroContent() {
         </p>
       </div>
       <p className={styles.notification}>
-        Hi hacker, it seems like you’re here a little early... Check back in <strong> later this month </strong> for more information!
+        Hi hacker, it seems like you’re here a little early... Check back in{' '}
+        <strong> later this month </strong> for more information!
       </p>
       <div className={styles.star_social_good}>
         <div className={styles.star_box}>

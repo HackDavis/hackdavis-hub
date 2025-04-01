@@ -19,6 +19,10 @@ export const CreateUser = async (body: object) => {
 
     const parsedBody = await parseAndReplace(body);
 
+    if (!parsedBody.password) {
+      throw new HttpError('Missing password');
+    }
+
     parsedBody.password = await hash(parsedBody.password, 10);
 
     const db = await getDatabase();
@@ -33,11 +37,35 @@ export const CreateUser = async (body: object) => {
 
     // admin
     if (parsedBody.role === 'admin') {
-      const existingAdmin = await db.collection('users').find({
+      const existingAdmin = await db.collection('users').findOne({
         role: 'admin',
       });
+
       if (existingAdmin) {
         throw new DuplicateError('Duplicate: admin already exists');
+      }
+    }
+
+    // judge
+    if (parsedBody.role === 'judge') {
+      if (
+        !Object.hasOwn(parsedBody, 'specialties') ||
+        parsedBody.specialties.length === 0 ||
+        parsedBody.has_checked_in
+      ) {
+        throw new HttpError(
+          'Judge user is missing specialties or has has_checked_in set to true'
+        );
+      }
+    }
+
+    // hacker
+    if (parsedBody.role === 'hacker') {
+      if (
+        !Object.hasOwn(parsedBody, 'position') ||
+        !Object.hasOwn(parsedBody, 'is_beginner')
+      ) {
+        throw new HttpError('Hacker user is missing position or is_beginner');
       }
     }
 
