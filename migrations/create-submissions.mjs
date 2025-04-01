@@ -28,19 +28,19 @@ export async function up(db) {
             description: 'team_id must be an ObjectId',
           },
           social_good: {
-            bsonType: 'int',
+            bsonType: ['int', 'null'],
             minimum: 1,
             maximum: 5,
             description: 'social_good score must be an integer',
           },
           creativity: {
-            bsonType: 'int',
+            bsonType: ['int', 'null'],
             minimum: 1,
             maximum: 5,
             description: 'creativity score must be an integer',
           },
           presentation: {
-            bsonType: 'int',
+            bsonType: ['int', 'null'],
             minimum: 1,
             maximum: 5,
             description: 'presentation score must be an integer',
