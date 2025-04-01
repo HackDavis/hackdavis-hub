@@ -63,7 +63,10 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
     }
 
     // validate form
-    const baseFilled = Object.values(baseQuestions).every(isNotNullish);
+    const baseFilled = Object.entries(baseQuestions).every(([key, value]) => {
+      // skip check for 'comments' as it is an optional field
+      return key === 'comments' || isNotNullish(value);
+    });
     const dynamicFilled = Object.values(dynamicQuestionsRef.current).every(
       isNotNullish
     );

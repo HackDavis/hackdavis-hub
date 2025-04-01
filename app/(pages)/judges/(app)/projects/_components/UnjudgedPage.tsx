@@ -34,14 +34,14 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         Projects must be judged in order one by one order.
       </span>
       <Link
-        href={`/judges/score/${projects?.[0]._id}`}
+        href={`/judges/score/${projects[0]._id}`}
         className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]"
       >
         <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
-          {projects?.[0].teamNumber}
+          {projects[0].teamNumber}
         </span>
         <span className="text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
-          {projects?.[0].name}
+          {projects[0].name}
         </span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -66,9 +66,12 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         Next up:
       </span>
       <div className="flex flex-col gap-[16px] mb-[58px] opacity-50">
-        {projects.map((project) => (
-          <ProjectTab key={project._id} team={project} />
-        ))}
+        {projects.map(
+          (project, idx) =>
+            idx !== 0 && (
+              <ProjectTab key={project._id} team={project} clickable={false} />
+            )
+        )}
       </div>
     </div>
   );
