@@ -10,8 +10,6 @@ import Step2 from 'public/hackers/project-info/Step2.svg';
 import Step3 from 'public/hackers/project-info/Step3.svg';
 import Step4 from 'public/hackers/project-info/Step4.svg';
 import Step5 from 'public/hackers/project-info/Step5.svg';
-import Step6 from 'public/hackers/project-info/Step6.svg';
-import MusicPlayer from '../../IndexHero/MusicPlayer';
 
 const JudgingProcessAccordian = () => {
   const steps = [
