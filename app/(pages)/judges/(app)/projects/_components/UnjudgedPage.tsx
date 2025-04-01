@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ProjectTab from './ProjectTab';
 import Image from 'next/image';
 import projectCow from '/public/judges/projects/project-cow.svg';
@@ -9,6 +10,13 @@ interface UnjudgedPageProps {
 }
 
 const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const handleReportTeam = () => {
+    setShowConfirmation(false);
+    // TODO: call report missing team server action here
+  };
+
   if (projects.length === 0) {
     return (
       <div className="flex mt-[65px] flex-col items-center h-[calc(100vh-100px)] bg-[#F2F2F7]">
@@ -59,9 +67,37 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         </svg>
       </Link>
       <div className="flex h-[284px] bg-[#D9D9D9] rounded-[24px] mb-[20px]"></div>
-      <button className="bg-[#005271] text-white rounded-[8px] py-[15px] text-[18px] font-[600] tracking-[0.36px] leading-[18px] mb-[32px]">
+      <button className="bg-[#005271] text-white rounded-[8px] py-[15px] text-[18px] font-[600] tracking-[0.36px] leading-[18px] mb-[20px]">
         View Project
       </button>
+      <div className="w-full flex gap-1 mb-[32px] rounded-[8px] text-[18px] font-[600] tracking-[0.36px] leading-[18px]">
+        <button
+          className={`w-full bg-text-error py-[16px] transition-all duration-300 ease-in-out ${
+            showConfirmation
+              ? 'bg-white text-text-error border-2 border-text-error pointer-events-none'
+              : 'text-white'
+          }`}
+          onClick={() => setShowConfirmation(true)}
+        >
+          {showConfirmation ? 'Are you sure?' : 'Flag Team as Missing'}
+        </button>
+        <button
+          className={`bg-[#005271] text-white px-[32px] py-[16px] transition-all duration-1000 ease-in-out ${
+            showConfirmation ? 'block' : 'hidden'
+          }`}
+          onClick={() => handleReportTeam()}
+        >
+          Yes
+        </button>
+        <button
+          className={`bg-white text-text-error border-2 border-text-error p-[16px] transition-all duration-1000 ease-in-out ${
+            showConfirmation ? 'block' : 'hidden'
+          } `}
+          onClick={() => setShowConfirmation(false)}
+        >
+          Cancel
+        </button>
+      </div>
       <span className="text-[32px] font-[600] tracking-[0.64px] text-[#000000] mb-[24px]">
         Next up:
       </span>
