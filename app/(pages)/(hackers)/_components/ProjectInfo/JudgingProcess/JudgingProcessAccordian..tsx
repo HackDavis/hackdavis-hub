@@ -16,8 +16,8 @@ import MusicPlayer from '../../IndexHero/MusicPlayer';
 const JudgingProcessAccordian = () => {
   const steps = [
     {
-      step: 'Step 1',
-      question: 'JUDGING',
+      step: '11:00 AM',
+      question: 'Submission Due',
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step1} src={Step1} alt="Step 1" />
@@ -31,8 +31,8 @@ const JudgingProcessAccordian = () => {
       ),
     },
     {
-      step: 'Step 2',
-      question: 'Register for the Event',
+      step: '11:00-11:30 AM',
+      question: 'Important Announcement',
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step2} src={Step2} alt="Step 2" />
@@ -41,8 +41,8 @@ const JudgingProcessAccordian = () => {
       ),
     },
     {
-      step: 'Step 3',
-      question: 'Create a Project',
+      step: '11:30 - 1:30 PM',
+      question: 'Demo Time',
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step3} src={Step3} alt="Step 3" />
@@ -54,8 +54,8 @@ const JudgingProcessAccordian = () => {
       ),
     },
     {
-      step: 'Step 4',
-      question: 'Invite Teammates',
+      step: '1:30 - 2:30 PM',
+      question: 'Break',
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step4} src={Step4} alt="Step 4" />
@@ -64,21 +64,11 @@ const JudgingProcessAccordian = () => {
       ),
     },
     {
-      step: 'Step 5',
-      question: 'Step 5: Fill Out Details',
+      step: '3:00 - 4:00 PM',
+      question: 'Closing Ceremony',
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step5} src={Step5} alt="Step 5" />
-        </div>
-      ),
-    },
-    {
-      step: 'Step 6',
-      question: 'Step 6: Submit Project',
-      answer: (
-        <div className={styles.stepContent6}>
-          <Image className={styles.step6} src={Step6} alt="Step 6" />
-          <MusicPlayer />
         </div>
       ),
     },
