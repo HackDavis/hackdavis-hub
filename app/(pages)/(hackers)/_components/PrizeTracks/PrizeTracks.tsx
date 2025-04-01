@@ -26,7 +26,7 @@ export default function PrizeTracks() {
     <main className="flex flex-col gap-4 p-10">
       <Header />
       <FilterRow currentFilter={filter} onFilterChange={handleFilterChange} />
-      <div className="flex items-center justify-center w-full ">
+      <div className="flex items-center justify-center w-full mt-8">
         <PrizeGrid items={filteredPrizes} />
       </div>
     </main>
@@ -37,7 +37,9 @@ function Header() {
   return (
     <div className="flex flex-col">
       <h6>CHECK OUT OUR</h6>
-      <h3 className="font-bold text-[#9EE7E5]">Prize Tracks</h3>
+      <h3 className="font-bold text-3xl text-[#9EE7E5] font-metropolis">
+        Prize Tracks
+      </h3>
     </div>
   );
 }
@@ -70,13 +72,13 @@ function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
         return (
           <Button
             key={index}
-            className="px-8 py-2 border-2 rounded-3xl border-dashed cursor-pointer relative overflow-hidden group"
+            className="px-8 py-2 border-2 rounded-3xl border-dashed cursor-pointer relative overflow-hidden group w-32"
             style={{ borderColor: color }}
             variant="ghost"
             onClick={() => onFilterChange(filter.track)}
           >
             <div
-              className={`absolute inset-0 transition-all duration-300 ease-out ${
+              className={`absolute inset-0 transition-all duration-300 ease-out cursor-pointer ${
                 currentFilter.toLowerCase() === track.toLowerCase()
                   ? 'w-full'
                   : 'w-0 group-hover:w-full'

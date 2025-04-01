@@ -2,7 +2,9 @@ export interface Prize {
   category: string;
   tracks: string;
   prize: string;
+  additionalPrize?: string;
   image: string;
+  additionalPrizeImage?: string;
   eligability_criteria: string;
 }
 
@@ -14,16 +16,11 @@ export const prizes: Prize[] = [
     category: 'General',
     tracks: 'Best Hack for Social Good - 1st Place',
     prize: 'iPads',
+    additionalPrize: 'Meta Quest',
     image: '/prizes/ipad.jpg',
+    additionalPrizeImage: '/prizes/hugging_face_icon.svg',
     eligability_criteria:
       'Encapsulate your authentic idea of "social good" can look like. All entries are automatically considered for this prize category.',
-  },
-  {
-    category: 'General',
-    tracks: 'Best Hack for Social Good - 2nd Place',
-    prize: 'Meta Quest',
-    image: '/prizes/hugging_face_icon.svg',
-    eligability_criteria: '',
   },
   {
     category: 'General',
