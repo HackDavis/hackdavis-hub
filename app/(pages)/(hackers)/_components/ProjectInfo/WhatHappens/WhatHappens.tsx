@@ -5,6 +5,8 @@ import { useState } from 'react';
 import SubmissionInfo from '../SubmissionInfo/SubmissionInfo';
 import FAQAccordian from '../FAQAccordian/FAQAccordian';
 import GrassDivider from 'public/hackers/project-info/GrassDivider.svg';
+import JudgingProcessAccordian from '../JudgingProcess/JudgingProcessAccordian.';
+import JudgingInfo from '../JudgingInfo/JudgingInfo';
 
 export default function WhatHappens() {
   const [activeTab, setActiveTab] = useState<'submission' | 'judging'>(
@@ -42,7 +44,8 @@ export default function WhatHappens() {
 
             {activeTab === 'judging' && (
               <section>
-                <h1>Judging info here</h1>
+                <JudgingInfo />
+                <JudgingProcessAccordian />
               </section>
             )}
           </div>
