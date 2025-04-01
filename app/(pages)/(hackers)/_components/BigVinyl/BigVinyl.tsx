@@ -17,7 +17,7 @@ export default function BigVinyl() {
   return (
     <div className="relative flex w-full flex-col items-center justify-evenly overflow-hidden bg-gradient-primary">
       {/* First Row */}
-      <div className="z-2 relative flex flex-row hidden h-0 w-full justify-between md:block md:h-[calc((300/1440)*100vw)]">
+      <div className="z-2 relative flex-row hidden h-0 w-full justify-between md:block md:h-[calc((300/1440)*100vw)]">
         {/* Clouds Top Left - Visible on md and up */}
         <div className="relative w-full">
           <div className="z-2 relative aspect-[1069/328] w-[calc(894/1440*100vw)] top-[calc(100vw*15/1440)] left-1/2 md:translate-x-[-127%]">
@@ -109,8 +109,8 @@ export default function BigVinyl() {
       </div>
 
       {/* Vinyl Row - Large screens center it, Small screens hide it */}
-      <div className="relative flex w-full hidden md:block z-10">
-        <div className="animate-rotateVinyl absolute left-1/2 left-[100%] aspect-square w-[150vw] -translate-x-[100%] md:left-[50%] md:w-[70vw] md:-translate-x-1/2 md:-translate-y-[50%]">
+      <div className="relative w-full hidden md:block z-10">
+        <div className="animate-rotateVinyl absolute left-[100%] aspect-square w-[150vw] -translate-x-[100%] md:left-[50%] md:w-[70vw] md:-translate-x-1/2 md:-translate-y-[50%]">
           <Image src={vinyl} alt="Big Vinyl Center" className="h-full w-full" />
         </div>
       </div>
@@ -127,7 +127,7 @@ export default function BigVinyl() {
           </div>
         </div>
         <div className="relative left-1/2 md:block">
-          <div className="relative top-9 z-20 aspect-[675/187] w-[calc(100vw*675/375)] top-[calc(100vw*130/375)] md:top-0 md:aspect-[842/234] md:w-[calc(100vw*675/1440)] md:w-[calc(842/1440*100vw)] translate-x-[-25%] md:translate-x-[-40%] scale-x-[-1] transform">
+          <div className="relative z-20 aspect-[675/187] w-[calc(100vw*675/375)] top-[calc(100vw*130/375)] md:top-0 md:aspect-[842/234]  md:w-[calc(842/1440*100vw)] translate-x-[-25%] md:translate-x-[-40%] scale-x-[-1] transform">
             <Image
               src={cloudBottom}
               alt="Clouds Bottom Right Layer 1"
