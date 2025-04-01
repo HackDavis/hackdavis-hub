@@ -1,29 +1,20 @@
 import { redirect } from 'next/navigation';
 
-import { auth } from '@/auth';
-import { getUser } from '@actions/users/getUser';
-import LogoutAction from '@actions/auth/logout';
 import DetailForm from '../../_components/AuthForms/DetailForm';
 import AuthFormBackground from '../../_components/AuthFormBackground/AuthFormBackground';
+import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 
 export default async function DetailPage() {
-  const session = await auth();
-  if (!session || !session.user.id) redirect('/judges');
+  const user = await getActiveUser('/judges/login');
 
-  const user = await getUser(session.user.id);
-  if (!user.ok) {
-    await LogoutAction();
-    redirect('/');
-  }
-
-  if (user.body.role === 'hacker') redirect('/register');
+  if (user.role === 'hacker') redirect('/register');
 
   return (
     <AuthFormBackground
-      title={`Hi ${user.body.name}!`}
+      title={`Hi ${user.name}!`}
       subtitle="One more thing before you begin judging. Please rank your expertise in these domains from most experience to least experience."
     >
-      <DetailForm id={session.user.id} />
+      <DetailForm id={user._id} />
     </AuthFormBackground>
   );
 }

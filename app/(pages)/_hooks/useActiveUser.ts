@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { getUser } from '@actions/users/getUser';
 import LogoutAction from '@actions/auth/logout';
 
-export default function useActiveUser() {
+export default function useActiveUser(failRedirectRoute: string) {
   const router = useRouter();
 
   const [user, setUser] = useState<any>(null);
@@ -19,7 +19,7 @@ export default function useActiveUser() {
       const userRes = await getUser(id);
       if (!userRes.ok) {
         await LogoutAction();
-        router.push('/');
+        router.push('/error');
         return;
       }
 
@@ -30,13 +30,12 @@ export default function useActiveUser() {
     if (status === 'loading') {
       return;
     } else if (status === 'unauthenticated') {
-      router.push('/login');
+      router.push(failRedirectRoute);
       return;
     } else if (session) {
-      const id = session.user.id;
-      getActiveUser(id);
+      getActiveUser(session.user.id);
     }
-  }, [session, status, router]);
+  }, [session, status, router, failRedirectRoute]);
 
   return { user, loading };
 }
