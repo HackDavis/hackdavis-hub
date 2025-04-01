@@ -28,7 +28,7 @@ export default function TableLocations() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        If you have any questions, please ask a HackDavis director (dark blue
+        If you have any questions, please ask a HackDavis director (bright white
         shirt)!
       </div>
       <div className={styles.vinyl_container}>

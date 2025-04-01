@@ -21,7 +21,7 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         <span className="text-[16px] font-[500] text-[#000000] mb-[32px]">
           Thank you so much!
         </span>
-        <Image src={projectCow} alt="Project Cow" />
+        <Image src={projectCow} alt="Project Cow" priority={true} />
       </div>
     );
   }

@@ -5,6 +5,7 @@ import UnjudgedPage from './UnjudgedPage';
 import ScoredPage from './ScoredPage';
 import { useSubmissions } from '@hooks/useSubmissions';
 import Link from 'next/link';
+import JudgeLoading from '../../_components/Loading/Loading';
 
 interface ButtonProps {
   text: string;
@@ -37,7 +38,7 @@ const ProjectPage = () => {
   const { submissions, unjudgedTeams, judgedTeams, loading } = useSubmissions();
 
   if (loading) {
-    return 'loading...';
+    return <JudgeLoading />;
   }
 
   if (!submissions.ok) {
