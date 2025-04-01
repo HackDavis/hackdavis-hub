@@ -57,11 +57,12 @@ export async function up(db) {
                   description: 'trackName must be a string',
                 },
                 rawScores: {
-                  bsonType: 'array',
-                  description: 'rawScores must be an array',
-                  items: {
+                  bsonType: 'object',
+                  description:
+                    'rawScores must be an object with string keys and number values',
+                  additionalProperties: {
                     bsonType: 'int',
-                    description: 'rawScores must be an array of integers',
+                    description: 'Each key in rawScores must map to an integer',
                   },
                 },
                 finalTrackScore: {

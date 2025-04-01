@@ -19,6 +19,7 @@ export default function HubHero() {
             src={judgeHeroes}
             alt="Judging Animals"
             className="right-0 bottom-0"
+            priority={true}
           />
         </div>
       </div>

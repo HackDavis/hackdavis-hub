@@ -1,10 +1,11 @@
-import React from 'react';
 import ProjectTab from './ProjectTab';
 import Image from 'next/image';
 import projectCow from '/public/judges/projects/project-cow.svg';
+import Team from '@typeDefs/team';
+import Link from 'next/link';
 
 interface UnjudgedPageProps {
-  projects: { _id: string; teamNumber: number; name: string }[];
+  projects: Team[];
 }
 
 const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
@@ -20,7 +21,7 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         <span className="text-[16px] font-[500] text-[#000000] mb-[32px]">
           Thank you so much!
         </span>
-        <Image src={projectCow} alt="Project Cow" />
+        <Image src={projectCow} alt="Project Cow" priority={true} />
       </div>
     );
   }
@@ -32,12 +33,15 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
       <span className="mb-[24px] text-[18px] font-normal text-[#000000] tracking-[0.36px] leading-[26.1px]">
         Projects must be judged in order one by one order.
       </span>
-      <div className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]">
+      <Link
+        href={`/judges/score/${projects[0]._id}`}
+        className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]"
+      >
         <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
-          {projects?.[0]?.teamNumber}
+          {projects[0].teamNumber}
         </span>
         <span className="text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
-          {projects?.[0]?.name}
+          {projects[0].name}
         </span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +57,7 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
             fill="#333333"
           />
         </svg>
-      </div>
+      </Link>
       <div className="flex h-[284px] bg-[#D9D9D9] rounded-[24px] mb-[20px]"></div>
       <button className="bg-[#005271] text-white rounded-[8px] py-[15px] text-[18px] font-[600] tracking-[0.36px] leading-[18px] mb-[32px]">
         View Project
@@ -62,13 +66,12 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         Next up:
       </span>
       <div className="flex flex-col gap-[16px] mb-[58px] opacity-50">
-        {projects.map((project) => (
-          <ProjectTab
-            key={project._id}
-            number={project.teamNumber}
-            name={project.name}
-          />
-        ))}
+        {projects.map(
+          (project, idx) =>
+            idx !== 0 && (
+              <ProjectTab key={project._id} team={project} clickable={false} />
+            )
+        )}
       </div>
     </div>
   );

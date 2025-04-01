@@ -4,6 +4,8 @@ import { FaChevronLeft } from 'react-icons/fa6';
 import UnjudgedPage from './UnjudgedPage';
 import ScoredPage from './ScoredPage';
 import { useSubmissions } from '@hooks/useSubmissions';
+import Link from 'next/link';
+import JudgeLoading from '../../_components/Loading/Loading';
 
 interface ButtonProps {
   text: string;
@@ -36,7 +38,7 @@ const ProjectPage = () => {
   const { submissions, unjudgedTeams, judgedTeams, loading } = useSubmissions();
 
   if (loading) {
-    return 'loading...';
+    return <JudgeLoading />;
   }
 
   if (!submissions.ok) {
@@ -44,13 +46,16 @@ const ProjectPage = () => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#F2F2F7]">
-      <div className="flex items-center ml-[20px] gap-[12px] mt-[59px]">
+    <div className="flex flex-col min-h-screen bg-[#F2F2F7]">
+      <Link
+        href={'/judges'}
+        className="flex items-center ml-[20px] gap-[12px] mt-[59px]"
+      >
         <FaChevronLeft fill="#005271" height={8.48} width={4.24} />
         <span className="font-semibold text-[18px] tracking-[0.36px] text-[#005271] leading-[100%]">
-          Back to Projects
+          Back to home
         </span>
-      </div>
+      </Link>
       <div className="flex flex-col px-[20px] mt-[24px]">
         <span className="font-bold text-[48px] tracking-[0.96px] text-[#000000] ">
           Project
