@@ -138,7 +138,7 @@ export default function Page() {
                   activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : hoveredTab === 'schedule'
-                    ? 'text-gray-700'
+                    ? 'text-black'
                     : 'text-[#8F8F8F]'
                 }`}
               >
@@ -152,7 +152,7 @@ export default function Page() {
                   activeTab === 'custom'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : hoveredTab === 'custom'
-                    ? 'text-gray-700'
+                    ? 'text-black'
                     : 'text-[#8F8F8F]'
                 }`}
               >
