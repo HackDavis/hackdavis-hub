@@ -5,12 +5,13 @@ import { Accordion, AccordionItem as Item } from '@szhsin/react-accordion';
 import styles from './FAQAccordian.module.scss';
 import { CgChevronLeft } from 'react-icons/cg';
 import { PiStarFourFill } from 'react-icons/pi';
-import Step1 from 'public/hackers/project-info/Step1.svg';
-import Step2 from 'public/hackers/project-info/Step2.svg';
+// import Step1 from 'public/hackers/project-info/Step1.svg';
+import Step1Overlay from 'public/hackers/project-info/Step1Overlay.svg';
+import Step2Overlay from 'public/hackers/project-info/Step2Overlay.svg';
 import Step3 from 'public/hackers/project-info/Step3.svg';
 import Step4 from 'public/hackers/project-info/Step4.svg';
 import Step5 from 'public/hackers/project-info/Step5.svg';
-import Step6 from 'public/hackers/project-info/Step6.svg';
+import Blank from 'public/hackers/project-info/Step6.svg';
 import MusicPlayer from '../../IndexHero/MusicPlayer';
 
 const FAQAccordian = () => {
@@ -20,7 +21,23 @@ const FAQAccordian = () => {
       question: 'Login to Devpost',
       answer: (
         <div className={styles.stepContent}>
-          <Image className={styles.step1} src={Step1} alt="Step 1" />
+          {/* <Image className={styles.step1} src={Step1} alt="Step 1" /> */}
+          <div className={styles.imageWrapper}>
+            <Image
+              src={Blank} // primary image
+              alt="Primary Step 1"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.primaryImage}
+            />
+            <Image
+              src={Step1Overlay} // your new overlay image
+              alt="Overlay"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.overlayImage}
+            />
+          </div>
           <p>
             When you click on the Devpost link, you should see this page. Click
             Join Hackathon. <br />
@@ -35,7 +52,23 @@ const FAQAccordian = () => {
       question: 'Register for the Event',
       answer: (
         <div className={styles.stepContent}>
-          <Image className={styles.step2} src={Step2} alt="Step 2" />
+          {/* <Image className={styles.step2} src={Step2} alt="Step 2" /> */}
+          <div className={`${styles.imageWrapper} ${styles.step2}`}>
+            <Image
+              src={Blank} // primary image
+              alt="Primary Step 1"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.primaryImage}
+            />
+            <Image
+              src={Step2Overlay} // your new overlay image
+              alt="Overlay"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.overlayImage}
+            />
+          </div>
           <p>Register for the event.</p>
         </div>
       ),
@@ -77,7 +110,7 @@ const FAQAccordian = () => {
       question: 'Step 6: Submit Project',
       answer: (
         <div className={styles.stepContent6}>
-          <Image className={styles.step6} src={Step6} alt="Step 6" />
+          <Image className={styles.step6} src={Blank} alt="Step 6" />
           <MusicPlayer />
         </div>
       ),
