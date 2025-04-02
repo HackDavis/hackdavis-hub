@@ -11,23 +11,14 @@ import Step3 from 'public/hackers/project-info/Step3.svg';
 import Step4 from 'public/hackers/project-info/Step4.svg';
 import Step5 from 'public/hackers/project-info/Step5.svg';
 import DemoTime from '../DemoTime/DemoTime';
+import SubmissionDue from '../SubmissionDue/SubmissionDue';
 
 const JudgingProcessAccordian = () => {
   const steps = [
     {
       step: '11:00 AM',
       question: 'Submission Due',
-      answer: (
-        <div className={styles.stepContent}>
-          <Image className={styles.step1} src={Step1} alt="Step 1" />
-          <p>
-            When you click on the Devpost link, you should see this page. Click
-            Join Hackathon. <br />
-            Log in or sign up for a Devpost account if you don’t have one
-            already.
-          </p>
-        </div>
-      ),
+      answer: <SubmissionDue />,
     },
     {
       step: '11:00-11:30 AM',
