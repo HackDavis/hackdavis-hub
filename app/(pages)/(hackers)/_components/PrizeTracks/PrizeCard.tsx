@@ -8,10 +8,11 @@ import { ChevronDown } from 'lucide-react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 interface PrizeCardProps {
   name: string;
-  prizeImages: string[];
+  prizeImages: StaticImport[];
   prizeNames: string[];
   criteria: string;
 }
@@ -82,7 +83,7 @@ export default function PrizeCard({
         boxShadow: '0px 8px 24px rgba(149,157,165,0.2)',
         border: 'none',
         '&::before': {
-          content: 'none', // Removes the ::before pseudo-element
+          content: 'none',
         },
       }}
       disableGutters={true}
@@ -133,7 +134,6 @@ export default function PrizeCard({
                       src={image}
                       alt={prizeNames[index]}
                       className={styles.prizeImage}
-                      fill
                     />
                   ))}
                 </div>
