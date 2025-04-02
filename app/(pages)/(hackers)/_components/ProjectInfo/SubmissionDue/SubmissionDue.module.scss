@@ -29,27 +29,45 @@
         flex-direction: row;        // Boxes will be in a row
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
         
         .box {
             display: flex;
             border-width: 2px 0px 2px 2px;
             border-style: solid;
             border-color: white;
-            padding: 2% 3%;
+            
+            p {
+                // border: 3px solid blue;
+                color: white;
+                text-align: center;
+                font-size: clamp(0.5rem, 5vw, 1.5rem); // Adjust the min, ideal, and max sizes as needed
+                white-space: nowrap;               // Prevent the text from wrapping
+                overflow: hidden;
+                // padding: 3% 5%;
+            }
+
+            .box3 {
+                // border: 3px solid pink;
+                flex: 1;
+                border-right: 2px solid white;
+
+                // p {
+                //     padding: 3% 5%;
+                // }
+            }
         }
         
         .box:nth-child(1) {
-            flex: 4; /* Makes the first box wider */
+            flex: 1; /* Makes the first box wider */
         }
         
         .box:nth-child(2) {
             flex: 2;
-        }
-        
-        .box:nth-child(3),
-        .box:nth-child(4) {
-            flex: 2;
-            border-right: 2px solid white;
+
+            // @include tablet-l {
+            //     border-right: 2px solid white;
+            // }
         }
     }
 }
