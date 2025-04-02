@@ -85,7 +85,6 @@
     }
 
     .step3 {
-        margin-left: -5%;
         .imageWrapper {
             width: 100%;
             display: flex;
@@ -142,35 +141,38 @@
           }
     }
 
-    .step5 {
-        .imageWrapper {
-            width: 100%;
-            display: flex;
-            position: relative;
-            margin-bottom: 1rem;
-            aspect-ratio: 16 / 8;
-          }      
-          
-          .primaryImage {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+    .stepContent5{
+        .overlayImage {
+            position: inherit;
+            border: 3px solid red;
             height: 100%;
-            padding: 5%;
-            z-index: 0;      
-          }
-          
-          .overlayImage {
-            padding: 33.8% 0% 0% 0%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 50%;
-            z-index: 2;           
-            pointer-events: none; 
-          }
+            width: 100%;
+            object-fit: contain;
+            color: transparent;
+            top: 31.5%;
+            z-index: 5;
+        }
+
+        .step5 {
+        
+            .imageWrapper {
+                width: 100%;
+                display: flex;
+                position: relative;
+                margin-bottom: 1rem;
+                aspect-ratio: 16 / 8;
+              }      
+              
+              .primaryImage {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                padding: 5%;
+                z-index: 0;      
+              }
+        }
     }
   }
 

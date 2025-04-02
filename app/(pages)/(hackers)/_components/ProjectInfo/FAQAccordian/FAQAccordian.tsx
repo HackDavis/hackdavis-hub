@@ -130,7 +130,7 @@ const FAQAccordian = () => {
       step: 'Step 5',
       question: 'Step 5: Fill Out Details',
       answer: (
-        <div className={styles.stepContent}>
+        <div className={`${styles.stepContent} ${styles.stepContent5}`}>
           <div className={`${styles.imageWrapper} ${styles.step5}`}>
             <Image
               src={Blank} // primary image
@@ -139,14 +139,14 @@ const FAQAccordian = () => {
               style={{ objectFit: 'contain' }}
               className={styles.primaryImage}
             />
-            <Image
-              src={Step5Overlay} // your new overlay image
-              alt="Overlay"
-              fill
-              style={{ objectFit: 'contain' }}
-              className={styles.overlayImage}
-            />
           </div>
+          <Image
+            src={Step5Overlay} // your new overlay image
+            alt="Overlay"
+            fill
+            style={{ objectFit: 'contain' }}
+            className={styles.overlayImage}
+          />
         </div>
       ),
     },
