@@ -1,3 +1,5 @@
+@import "@globals/mixins.scss";
+
 .container {
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
@@ -7,27 +9,78 @@
     flex-direction: row;
     justify-content: center;
     padding-top: 3%;
+    flex-wrap: wrap;
+    align-items: stretch;
+    padding: 2% 7%;
 
-    .child {
-        width: 40%;
+    @include tablet-s {
+        flex-direction: column;
+    }
+
+    .child1, .child2 {
+        flex: 1;              /* Both can grow/shrink equally */
+        display: flex;        /* Make each child a flex container */
+        flex-direction: column;
+        justify-content: center; /* Center content vertically if desired */
+        align-items: stretch;  /* Adjust as needed */
         line-height: 1.5;
+        flex-shrink: 1;
+
+        @include tablet-s {
+            width: 100%;
+            padding: 2% 7%;
+        }
+
+        .ImportantAnnouncementImage {
+            width: 100%;
+            padding: 5%;
+            object-fit: contain; /* Prevents cropping or overflow */
+            flex-shrink: 1;
+        }
 
         .text1 {
             background-color: white;
             padding: 2%;
             border-radius: 12px;
-            margin: 5%;
+            margin: 3% 0%;
+            font-size: 1rem;
+
+            @include desktop-s {
+                font-size: 0.1rem;
+            }
+
+            @include tablet-s {
+                font-size: 0.5rem;
+            }
         }
 
         .text2 {
             background-color: white;
             padding: 2%;
             border-radius: 12px;
-            margin: 5%;
+            margin: 3% 0%;
         }
 
         p { 
             padding: 2%;
         }
     }
+}
+
+// hammer styling
+
+.hammer {
+    max-width: 100%;
+    height: auto;
+}
+
+.bulletItem {
+    display: flex;
+    align-items: center; /* Vertically centers the image and text */
+    margin: 8px 0; /* Optional: adds vertical spacing between bullet items */
+}
+
+.bulletItem p {
+    margin: 0;
+    padding-left: 10px; /* Adjusts the space between the image and text */
 }

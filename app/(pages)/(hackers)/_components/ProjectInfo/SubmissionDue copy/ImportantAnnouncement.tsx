@@ -8,41 +8,69 @@ export default function ImportantAnnouncement() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.child}>
+        <div className={styles.child1}>
           <Image
-            className={styles.step2}
+            className={styles.ImportantAnnouncementImage}
             src={ImportantAnnouncementImage}
             alt="Two animals at a judging table"
           />
         </div>
-        <div className={styles.child}>
+        <div className={styles.child2}>
           <div className={styles.text1}>
-            <Image
-              className={styles.step2}
-              src={BlueHammer}
-              alt="Two animals at a judging table"
-            />
-            <p>Team numbers will be available on Devpost</p>
-            <p>
-              Each team member MUST input their team number on <b>HackerHub</b>
-            </p>
+            <div className={styles.bulletItem}>
+              <Image
+                className={styles.hammer}
+                src={GreenHammer}
+                alt="Two animals at a judging table"
+              />
+              <p>Team numbers will be available on Devpost</p>
+            </div>
+            <div className={styles.bulletItem}>
+              <Image
+                className={styles.hammer}
+                src={GreenHammer}
+                alt="Two animals at a judging table"
+              />
+              <p>
+                Each team member MUST input their team number on{' '}
+                <b>HackerHub</b>
+              </p>
+            </div>
           </div>
           <div className={styles.text2}>
-            <p>
-              HackerHub will provide you with a <b>table number</b> (NOT the
-              same as your team number)
-            </p>
-            <p>
-              Each team member MUST input their team number on <b>HackerHub</b>
-            </p>
-            <p>
-              Use this table number (NOT your team number) to find your table
-              for demos
-            </p>
-            <p>
-              Contact a HackDavis director if you and your team are not seeing
-              the same table number
-            </p>
+            <div className={styles.bulletItem}>
+              <Image
+                className={styles.hammer}
+                src={BlueHammer}
+                alt="Two animals at a judging table"
+              />
+              <p>
+                HackerHub will provide you with a table number (NOT the same as
+                your team number)
+              </p>
+            </div>
+            <div className={styles.bulletItem}>
+              <Image
+                className={styles.hammer}
+                src={BlueHammer}
+                alt="Two animals at a judging table"
+              />
+              <p>
+                Use this table number (NOT your team number) to find your table
+                for demos
+              </p>
+            </div>
+            <div className={styles.bulletItem}>
+              <Image
+                className={styles.hammer}
+                src={BlueHammer}
+                alt="Two animals at a judging table"
+              />
+              <p>
+                Contact a HackDavis director if you and your team are not seeing
+                the same table number
+              </p>
+            </div>
           </div>
         </div>
       </div>
