@@ -1,6 +1,8 @@
 import styles from './ImportantAnnouncement.module.scss';
 import Image from 'next/image';
 import ImportantAnnouncementImage from '@public/hackers/project-info/ImportantAnnouncement.svg';
+import BlueHammer from '@public/hackers/project-info/BlueHammer.svg';
+import GreenHammer from '@public/hackers/project-info/GreenHammer.svg';
 
 export default function ImportantAnnouncement() {
   return (
@@ -15,6 +17,11 @@ export default function ImportantAnnouncement() {
         </div>
         <div className={styles.child}>
           <div className={styles.text1}>
+            <Image
+              className={styles.step2}
+              src={BlueHammer}
+              alt="Two animals at a judging table"
+            />
             <p>Team numbers will be available on Devpost</p>
             <p>
               Each team member MUST input their team number on <b>HackerHub</b>
