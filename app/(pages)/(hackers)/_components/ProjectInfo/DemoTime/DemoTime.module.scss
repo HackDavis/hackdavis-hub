@@ -17,8 +17,12 @@
     }
     .right_panel{
         width: 90%;
-        padding: 2%;
+        padding: 3%;
         border-radius: 16px;
+
+        @include tablet-s{
+            padding: 6%;
+        }
     }
     .panel{
         display: flex;
@@ -33,5 +37,52 @@
         @include tablet-s{
             flex-direction: column;
         }
+
+        .hackathon_img{
+            width: 42%;
+            height: auto;
+            @include tablet-s{
+                width: 82%;
+            }
+        }
     }
+    .post_demo{
+        display: flex;
+        flex-direction: row;
+        @include tablet-s{
+            flex-direction: column;
+        }
+        .zero_judges_group{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-right: 5%;
+            @include tablet-s{
+                padding: 10%;
+                justify-content: center;
+            }
+
+            .no_judges{
+            padding: 16px 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.50);
+            width: 280px;
+            height: 52px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            }
+        }
+        
+        .check_out{
+            border-left: 1px solid black;
+            padding-left: 5%;
+            @include tablet-s{
+                padding-left: 0;
+                border: none;
+            }
+        }
+    }
+    
 }
