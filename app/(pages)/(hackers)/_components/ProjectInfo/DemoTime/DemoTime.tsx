@@ -1,6 +1,8 @@
 import styles from './DemoTime.module.scss';
 import hackathon from '@public/hackers/project-info/hackathon.svg';
 import cow_icon from '@public/hackers/project-info/cow_icon.svg';
+import froggy_icon from '@public/hackers/project-info/froggy_icon.svg';
+import ducky_icon from '@public/hackers/project-info/ducky_icon.svg';
 import Image from 'next/image';
 
 export default function DemoTime() {
@@ -55,17 +57,47 @@ export default function DemoTime() {
           className={styles.right_panel}
           style={{ backgroundColor: '#9EE7E5' }}
         >
-          <h3>You will not be visited by a judge in EVERY round.</h3>
-          <p>
-            <b>Why do some teams get more judges? Isn’t it unfair?</b> <br />
-            Some tracks are judged by MLH, partner NPOs, or sponsors selecting
-            their own winners. If your team hasn’t chosen these tracks, you’ll
-            be judged by the standard three judges. Extra judges from these
-            groups won’t affect your chances in other tracks, so having more
-            than three judges doesn’t give an advantage or disadvantage.
-          </p>
-          <p>MLH = Major League Hacking</p>
-          <p>NPO = Non-Profit Organizations</p>
+          <div className={styles.estimation_group}>
+            <div className={styles.estimation}>
+              <h3>
+                We’ll also show an estimate of when a team will be judged.
+              </h3>
+              <p>
+                Please note that these are estimates. Unforeseen situations may
+                <b>delay</b> or <b>hasten</b> a judge’s arrival at your table.
+              </p>
+            </div>
+            <div className={styles.character_group}>
+              <div className={styles.characters}>
+                <Image
+                  src={froggy_icon}
+                  alt="froggy icon"
+                  className={styles.icons}
+                />
+                <p className={styles.text_bubble}>
+                  You’re 4th in line for this judge
+                </p>
+              </div>
+              <br />
+              <div className={styles.characters}>
+                <Image src={cow_icon} alt="cow icon" className={styles.icons} />
+                <p className={styles.text_bubble}>
+                  You’re 7th in line for this judge
+                </p>
+              </div>
+              <br />
+              <div className={styles.characters}>
+                <Image
+                  src={ducky_icon}
+                  alt="ducky icon"
+                  className={styles.icons}
+                />
+                <p className={styles.text_bubble}>
+                  You’re 10th in line for this judge
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <br />

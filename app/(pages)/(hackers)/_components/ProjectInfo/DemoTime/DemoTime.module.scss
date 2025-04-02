@@ -46,6 +46,46 @@
             }
         }
     }
+    .estimation_group{
+        display: flex;
+        flex-direction: row;
+        @include tablet-s{
+            flex-direction: column;
+        }
+        .estimation{
+            padding-right: 5%;
+            @include tablet-s{
+                padding-right: 0;
+            }
+        }
+        .character_group{
+            border-left: 1px solid black;
+            padding-left: 5%;
+            @include tablet-s{
+                padding-left: 0;
+                border: none;
+            }
+            .characters{
+                display: flex;
+                flex-direction: row; 
+
+                .icons{
+                    width: 15%;
+                    padding-right: 2%;
+                }
+            }
+            
+            .text_bubble{
+                width: 484px;
+                height: 52px;
+                padding: 16px 10px;
+                background: rgba(255, 255, 255, 0.50);
+                border-radius: 12px;
+                text-align: center;
+            }
+        }
+        
+    }
     .post_demo{
         display: flex;
         flex-direction: row;
