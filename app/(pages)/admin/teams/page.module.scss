@@ -1,0 +1,20 @@
+.container {
+    padding: 48px;
+}
+
+.teams_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    border-radius: 8px;
+    border: 1.5px solid var(--teal-1, #005271);
+    background: var(--white, #FFF);
+    height: 80vh;
+    min-height: 400px;
+    overflow-y: scroll;
+}
+
+.search_bar {
+    position: relative;
+}
