@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import { revalidatePath } from 'next/cache';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 import parseAndReplace from '@utils/request/parseAndReplace';
@@ -44,8 +43,6 @@ export const UpdateUser = async (id: string, body: object) => {
     const user = await db
       .collection('users')
       .updateOne({ _id: object_id }, parsedBody);
-
-    revalidatePath('/');
 
     if (user.matchedCount === 0) {
       throw new NotFoundError(`user with id: ${id} not found.`);
