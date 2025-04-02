@@ -8,9 +8,9 @@ import { PiStarFourFill } from 'react-icons/pi';
 // import Step1 from 'public/hackers/project-info/Step1.svg';
 import Step1Overlay from 'public/hackers/project-info/Step1Overlay.svg';
 import Step2Overlay from 'public/hackers/project-info/Step2Overlay.svg';
-import Step3 from 'public/hackers/project-info/Step3.svg';
-import Step4 from 'public/hackers/project-info/Step4.svg';
-import Step5 from 'public/hackers/project-info/Step5.svg';
+import Step3Overlay from 'public/hackers/project-info/Step3Overlay.svg';
+import Step4Overlay from 'public/hackers/project-info/Step4Overlay.svg';
+import Step5Overlay from 'public/hackers/project-info/Step5Overlay.svg';
 import Blank from 'public/hackers/project-info/Step6.svg';
 import MusicPlayer from '../../IndexHero/MusicPlayer';
 
@@ -78,7 +78,22 @@ const FAQAccordian = () => {
       question: 'Create a Project',
       answer: (
         <div className={styles.stepContent}>
-          <Image className={styles.step3} src={Step3} alt="Step 3" />
+          <div className={`${styles.imageWrapper} ${styles.step3}`}>
+            <Image
+              src={Blank} // primary image
+              alt="Primary Step 1"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.primaryImage}
+            />
+            <Image
+              src={Step3Overlay} // your new overlay image
+              alt="Overlay"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.overlayImage}
+            />
+          </div>
           <p>
             Click Create project. Only one person per team has <br />
             to create a project and complete the next steps.
@@ -91,7 +106,22 @@ const FAQAccordian = () => {
       question: 'Invite Teammates',
       answer: (
         <div className={styles.stepContent}>
-          <Image className={styles.step4} src={Step4} alt="Step 4" />
+          <div className={`${styles.imageWrapper} ${styles.step4}`}>
+            <Image
+              src={Blank} // primary image
+              alt="Primary Step 1"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.primaryImage}
+            />
+            <Image
+              src={Step4Overlay} // your new overlay image
+              alt="Overlay"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.overlayImage}
+            />
+          </div>
           <p>Invite teammates.</p>
         </div>
       ),
@@ -101,7 +131,22 @@ const FAQAccordian = () => {
       question: 'Step 5: Fill Out Details',
       answer: (
         <div className={styles.stepContent}>
-          <Image className={styles.step5} src={Step5} alt="Step 5" />
+          <div className={`${styles.imageWrapper} ${styles.step5}`}>
+            <Image
+              src={Blank} // primary image
+              alt="Primary Step 1"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.primaryImage}
+            />
+            <Image
+              src={Step5Overlay} // your new overlay image
+              alt="Overlay"
+              fill
+              style={{ objectFit: 'contain' }}
+              className={styles.overlayImage}
+            />
+          </div>
         </div>
       ),
     },
