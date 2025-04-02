@@ -12,7 +12,7 @@ export default async function DetailPage() {
   return (
     <AuthFormBackground
       title={`Hi ${user.name}!`}
-      subtitle="One more thing before you begin judging. Please rank your expertise in these domains from most experience to least experience."
+      subtitle="One more thing before you begin judging. Please rank your expertise in these domains from most experience at the top to least experience at the bottom."
     >
       <DetailForm id={user._id} />
     </AuthFormBackground>

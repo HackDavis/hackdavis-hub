@@ -16,7 +16,7 @@ export default async function verifyCode(id: string, code: string) {
     });
 
     if (!res.ok) {
-      throw new Error('Failed to check in user.');
+      throw new Error(res.error ?? 'Failed to check in user.');
     }
 
     return {
