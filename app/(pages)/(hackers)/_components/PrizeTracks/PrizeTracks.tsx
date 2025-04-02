@@ -1,8 +1,8 @@
 'use client';
 
 import { Button } from '@globals/components/ui/button';
-import { prizes } from '@apidata/getPrizes';
-import type { Prize } from '@apidata/getPrizes';
+import { prizes } from '@data/prizes';
+import type { Prize } from '@data/prizes';
 import PrizeGrid from './PrizeGrid';
 import { useState } from 'react';
 
@@ -23,7 +23,7 @@ export default function PrizeTracks() {
   };
 
   return (
-    <main className="flex flex-col gap-4 p-10">
+    <main className="flex flex-col gap-4 p-[20px] xs:p-[48px] lg:p-[64px] xl:p-[120px] pt-0">
       <Header />
       <FilterRow currentFilter={filter} onFilterChange={handleFilterChange} />
       <div className="flex items-center justify-center w-full mt-8">
@@ -65,20 +65,20 @@ function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
   ];
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex gap-4 overflow-x-scroll md:overflow-x-auto">
       {filters.map((filter, index) => {
         const track = filter.track;
         const color = filter.color;
         return (
           <Button
             key={index}
-            className="px-8 py-2 border-2 rounded-3xl border-dashed cursor-pointer relative overflow-hidden group w-32"
+            className="px-8 py-2 border-2 rounded-3xl border-dashed cursor-pointer relative group w-32"
             style={{ borderColor: color }}
             variant="ghost"
             onClick={() => onFilterChange(filter.track)}
           >
             <div
-              className={`absolute inset-0 transition-all duration-300 ease-out cursor-pointer ${
+              className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer ${
                 currentFilter.toLowerCase() === track.toLowerCase()
                   ? 'w-full'
                   : 'w-0 group-hover:w-full'
