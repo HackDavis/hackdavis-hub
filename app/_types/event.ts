@@ -13,3 +13,4 @@ interface Event {
 }
 
 export default Event;
+export type { EventType, EventTag };

@@ -1,159 +1,120 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
 import Footer from '@components/Footer/Footer';
-type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOP' | 'MENU';
 import Image from 'next/image';
-
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
+import { getEvents } from '@actions/events/getEvent';
+import Event, { EventType } from '@typeDefs/event';
+import { pageFilters } from '@typeDefs/filters';
 
-interface Event {
-  id: number;
-  title: string;
-  type: EventType;
-  startTime: string;
-  endTime?: string;
-  location?: string;
-  speakers?: {
-    name: string;
-    company?: string;
-  }[];
-  tags?: string[];
+export interface EventDetails {
+  event: Event;
   attendeeCount?: number;
+  inCustomSchedule?: boolean;
 }
 
 interface ScheduleData {
-  [key: string]: Event[];
+  [dayKey: string]: EventDetails[];
 }
-
-interface FilterType {
-  id: string;
-  label: string;
-  color: string;
-}
-
-const filters: FilterType[] = [
-  { id: 'GENERAL', label: 'GENERAL', color: '#9EE7E5' },
-  { id: 'ACTIVITIES', label: 'ACTIVITIES', color: '#FFC5AB' },
-  // { id: 'WORKSHOP', label: 'WORKSHOPS', color: '#AFD157' },
-  // { id: 'MENU', label: 'MENU', color: '#FFC53D' },
-  // { id: 'RECOMMENDED', label: 'RECOMMENDED', color: '#BBABDD' },
-];
-
-const mockScheduleData: ScheduleData = {
-  Apr19: [
-    {
-      id: 1,
-      title: 'Check-in Starts',
-      type: 'GENERAL',
-      startTime: '2024-04-19T14:30:00Z',
-    },
-    {
-      id: 2,
-      title: 'Team Mixer',
-      type: 'ACTIVITIES',
-      startTime: '2024-04-19T15:30:00Z',
-      endTime: '2024-04-19T17:00:00Z',
-      location: 'ARC Ballroom A',
-    },
-    {
-      id: 3,
-      title: 'Opening Ceremony',
-      type: 'GENERAL',
-      startTime: '2024-04-19T17:00:00Z',
-      endTime: '2024-04-19T18:00:00Z',
-    },
-    {
-      id: 4,
-      title: 'Hacking Starts',
-      type: 'GENERAL',
-      startTime: '2024-04-19T18:00:00Z',
-    },
-    {
-      id: 5,
-      title: 'Check-in Closes',
-      type: 'GENERAL',
-      startTime: '2024-04-19T23:00:00Z',
-    },
-  ],
-  Apr20: [
-    {
-      id: 6,
-      title: 'Closing Ceremony',
-      type: 'GENERAL',
-      startTime: '2024-04-20T22:00:00Z',
-      endTime: '2024-04-20T23:00:00Z',
-    },
-  ],
-};
-
-// const yourMockScheduleData: ScheduleData = {
-//   Apr19: [],
-//   Apr20: [],
-// };
-
-// for MVP only:
-const yourMockScheduleData: ScheduleData = mockScheduleData;
 
 export default function Page() {
-  const [activeTab, setActiveTab] = useState<'schedule' | 'yourSchedule'>(
-    'schedule'
+  const [activeTab, setActiveTab] = useState<'schedule' | 'custom'>('schedule');
+  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'custom' | null>(
+    null
   );
-  const [hoveredTab, setHoveredTab] = useState<
-    'schedule' | 'yourSchedule' | null
-  >(null);
-  const [activeDay, setActiveDay] = useState<'Apr19' | 'Apr20'>('Apr19');
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
+  const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
+  const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
 
-  const currentEvents = useMemo(() => {
-    const unfilteredEvents =
-      activeTab === 'schedule'
-        ? mockScheduleData[activeDay]
-        : yourMockScheduleData[activeDay];
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        // TODO: add custom schedule handling
+        const response = await getEvents({});
+        if (!response.ok) {
+          throw new Error(response.error || 'Internal server error');
+        }
+        const events: Event[] = response.body;
 
-    if (activeFilters.length === 0) {
-      return unfilteredEvents;
-    }
+        // Group events by day key - "19" or "20".
+        const groupedByDay = events.reduce((acc: ScheduleData, event) => {
+          const dayKey = event.start_time.toLocaleString('en-US', {
+            timeZone: 'America/Los_Angeles',
+            day: 'numeric',
+          });
+          if (!acc[dayKey]) {
+            acc[dayKey] = [];
+          }
+          acc[dayKey].push({ event });
+          return acc;
+        }, {});
 
-    return unfilteredEvents.filter(
-      (event) =>
-        activeFilters.includes(event.type) ||
-        (activeFilters.includes('RECOMMENDED') &&
-          event.tags?.includes('RECOMMENDED'))
-    );
-  }, [activeTab, activeDay, activeFilters]);
-
-  // Group events by start time
-  const groupedEvents = useMemo(() => {
-    const groups: { [key: string]: Event[] } = {};
-
-    currentEvents.forEach((event) => {
-      const date = new Date(event.startTime);
-      // Convert to PST
-      const pstDate = new Date(
-        date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
-      );
-      const timeKey = pstDate.toLocaleString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      });
-
-      if (!groups[timeKey]) {
-        groups[timeKey] = [];
+        setScheduleData(groupedByDay);
+      } catch (error) {
+        console.error('Error fetching events:', error);
       }
-      groups[timeKey].push(event);
-    });
+    }
+    fetchEvents();
+  }, []);
 
-    return groups;
-  }, [currentEvents]);
+  // Combined transformation: filtering, sorting, grouping and then sorting the groups.
+  const sortedGroupedEntries = useMemo(() => {
+    if (!scheduleData) return [];
 
-  const toggleFilter = (filterId: string) => {
-    setActiveFilters((prev) =>
-      prev.includes(filterId)
-        ? prev.filter((id) => id !== filterId)
-        : [...prev, filterId]
+    // Filter events for the active day and by active filters.
+    const unfilteredEvents = scheduleData[activeDay] || [];
+    const filteredEvents =
+      activeFilters.length === 0
+        ? unfilteredEvents
+        : unfilteredEvents.filter((ed) =>
+            activeFilters.includes(ed.event.type)
+          );
+
+    // Sort the filtered events by start time.
+    const sortedEvents = [...filteredEvents].sort(
+      (a, b) =>
+        new Date(a.event.start_time).getTime() -
+        new Date(b.event.start_time).getTime()
     );
+
+    // Group events by their start time (converted to PDT).
+    const groups = sortedEvents.reduce(
+      (acc: { [key: string]: EventDetails[] }, ed) => {
+        const pstDate = new Date(
+          ed.event.start_time.toLocaleString('en-US', {
+            timeZone: 'America/Los_Angeles',
+          })
+        );
+        const timeKey = pstDate.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        });
+        if (!acc[timeKey]) {
+          acc[timeKey] = [];
+        }
+        acc[timeKey].push(ed);
+        return acc;
+      },
+      {}
+    );
+
+    // Sort the grouped entries by time.
+    return Object.entries(groups).sort((a, b) => {
+      const dummyDay = '01/01/2000';
+      const dateA = new Date(`${dummyDay} ${a[0]}`);
+      const dateB = new Date(`${dummyDay} ${b[0]}`);
+      return dateA.getTime() - dateB.getTime();
+    });
+  }, [scheduleData, activeDay, activeFilters]);
+
+  const toggleFilter = (label: EventType) => {
+    if (activeFilters.includes(label)) {
+      setActiveFilters(activeFilters.filter((id) => id !== label));
+    } else {
+      setActiveFilters([...activeFilters, label]);
+    }
   };
 
   return (
@@ -174,22 +135,24 @@ export default function Page() {
                 onMouseEnter={() => setHoveredTab('schedule')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  (activeTab === 'schedule' && hoveredTab === null) ||
-                  hoveredTab === 'schedule'
+                  activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
+                    : hoveredTab === 'schedule'
+                    ? 'text-black'
                     : 'text-[#8F8F8F]'
                 }`}
               >
                 Schedule
               </span>
               <span
-                onClick={() => setActiveTab('yourSchedule')}
-                onMouseEnter={() => setHoveredTab('yourSchedule')}
+                onClick={() => setActiveTab('custom')}
+                onMouseEnter={() => setHoveredTab('custom')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  (activeTab === 'yourSchedule' && hoveredTab === null) ||
-                  hoveredTab === 'yourSchedule'
+                  activeTab === 'custom'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
+                    : hoveredTab === 'custom'
+                    ? 'text-black'
                     : 'text-[#8F8F8F]'
                 }`}
               >
@@ -204,23 +167,23 @@ export default function Page() {
               >
                 <div
                   className={`absolute top-auto bottom-auto transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
-                    activeDay === 'Apr19'
+                    activeDay === '19'
                       ? 'left-[1.5px] top-[1.5px]'
                       : 'left-[98.5px] top-[1.5px]'
                   }`}
                 />
                 <button
-                  onClick={() => setActiveDay('Apr19')}
+                  onClick={() => setActiveDay('19')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === 'Apr19' ? 'text-white' : 'text-black'
+                    activeDay === '19' ? 'text-white' : 'text-black'
                   }`}
                 >
                   Apr 19
                 </button>
                 <button
-                  onClick={() => setActiveDay('Apr20')}
+                  onClick={() => setActiveDay('20')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === 'Apr20' ? 'text-white' : 'text-black'
+                    activeDay === '20' ? 'text-white' : 'text-black'
                   }`}
                 >
                   Apr 20
@@ -231,10 +194,10 @@ export default function Page() {
         </div>
 
         <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
-          {filters.map((filter) => (
+          {pageFilters.map((filter) => (
             <button
-              key={filter.id}
-              onClick={() => toggleFilter(filter.id)}
+              key={filter.label}
+              onClick={() => toggleFilter(filter.label)}
               className={`
                 relative flex w-[163px] h-[45px] px-[38px] py-[13px]
                 justify-center items-center
@@ -242,24 +205,24 @@ export default function Page() {
                 font-jakarta text-[16px] font-semibold leading-[100%] tracking-[0.32px]
                 text-[#123041] transition-all duration-200
                 ${
-                  activeFilters.includes(filter.id)
+                  activeFilters.includes(filter.label)
                     ? `border-solid`
                     : 'border-dashed hover:bg-opacity-50'
                 }
               `}
               style={{
                 borderColor: filter.color,
-                backgroundColor: activeFilters.includes(filter.id)
+                backgroundColor: activeFilters.includes(filter.label)
                   ? filter.color
                   : 'transparent',
               }}
               onMouseEnter={(e) => {
-                if (!activeFilters.includes(filter.id)) {
+                if (!activeFilters.includes(filter.label)) {
                   e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
                 }
               }}
               onMouseLeave={(e) => {
-                if (!activeFilters.includes(filter.id)) {
+                if (!activeFilters.includes(filter.label)) {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }
               }}
@@ -270,28 +233,26 @@ export default function Page() {
         </div>
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
-          {Object.entries(groupedEvents).map(([timeKey, events]) => (
-            <div key={timeKey} className="relative mb-[24px]">
-              <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
-                {timeKey}
+          {scheduleData ? (
+            sortedGroupedEntries.map(([timeKey, events]) => (
+              <div key={timeKey} className="relative mb-[24px]">
+                <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
+                  {timeKey}
+                </div>
+                <div>
+                  {events.map((event) => (
+                    <CalendarItem
+                      key={event.event._id}
+                      event={event.event}
+                      attendeeCount={event.attendeeCount}
+                    />
+                  ))}
+                </div>
               </div>
-              <div>
-                {events.map((event) => (
-                  <CalendarItem
-                    key={event.id}
-                    title={event.title}
-                    type={event.type}
-                    startTime={event.startTime}
-                    endTime={event.endTime}
-                    location={event.location}
-                    speakers={event.speakers}
-                    tags={event.tags}
-                    attendeeCount={event.attendeeCount}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div>Loading events…</div>
+          )}
         </div>
       </div>
       <div className="h-[calc(100vw*60/375)] md:h-0"></div>
