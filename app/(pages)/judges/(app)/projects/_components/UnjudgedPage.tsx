@@ -1,22 +1,23 @@
-import React from 'react';
+import { useState } from 'react';
 import ProjectTab from './ProjectTab';
 import Image from 'next/image';
 import projectCow from '/public/judges/projects/project-cow.svg';
+import Team from '@typeDefs/team';
+import Link from 'next/link';
 
-const currentProject = {
-  id: 117,
-  name: 'Haptic Hand',
-};
+interface UnjudgedPageProps {
+  projects: Team[];
+}
 
-const nextProjects = [
-  { id: 17, name: 'Not Haptic Hand' },
-  { id: 20, name: 'Fun fun project' },
-  { id: 80, name: 'Happy name' },
-  { id: 36, name: 'Another Happy name' },
-];
+const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
-const UnjudgedPage = () => {
-  if (nextProjects.length === 0) {
+  const handleReportTeam = () => {
+    setShowConfirmation(false);
+    // TODO: call report missing team server action here
+  };
+
+  if (projects.length === 0) {
     return (
       <div className="flex mt-[65px] flex-col items-center h-[calc(100vh-100px)] bg-[#F2F2F7]">
         <span className="text-[32px] font-[700] text-[#000000] mb-[12px]">
@@ -28,7 +29,7 @@ const UnjudgedPage = () => {
         <span className="text-[16px] font-[500] text-[#000000] mb-[32px]">
           Thank you so much!
         </span>
-        <Image src={projectCow} alt="Project Cow" />
+        <Image src={projectCow} alt="Project Cow" priority={true} />
       </div>
     );
   }
@@ -40,12 +41,15 @@ const UnjudgedPage = () => {
       <span className="mb-[24px] text-[18px] font-normal text-[#000000] tracking-[0.36px] leading-[26.1px]">
         Projects must be judged in order one by one order.
       </span>
-      <div className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]">
+      <Link
+        href={`/judges/score/${projects[0]._id}`}
+        className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]"
+      >
         <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
-          {currentProject.id}
+          {projects[0].teamNumber}
         </span>
         <span className="text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
-          {currentProject.name}
+          {projects[0].name}
         </span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -61,22 +65,49 @@ const UnjudgedPage = () => {
             fill="#333333"
           />
         </svg>
-      </div>
+      </Link>
       <div className="flex h-[284px] bg-[#D9D9D9] rounded-[24px] mb-[20px]"></div>
-      <button className="bg-[#005271] text-white rounded-[8px] py-[15px] text-[18px] font-[600] tracking-[0.36px] leading-[18px] mb-[32px]">
+      <button className="bg-[#005271] text-white rounded-[8px] py-[15px] text-[18px] font-[600] tracking-[0.36px] leading-[18px] mb-[20px]">
         View Project
       </button>
+      <div className="w-full flex gap-1 mb-[32px] rounded-[8px] text-[18px] font-[600] tracking-[0.36px] leading-[18px]">
+        <button
+          className={`w-full bg-text-error py-[16px] transition-all duration-300 ease-in-out ${
+            showConfirmation
+              ? 'bg-white text-text-error border-2 border-text-error pointer-events-none'
+              : 'text-white'
+          }`}
+          onClick={() => setShowConfirmation(true)}
+        >
+          {showConfirmation ? 'Are you sure?' : 'Flag Team as Missing'}
+        </button>
+        <button
+          className={`bg-[#005271] text-white px-[32px] py-[16px] transition-all duration-1000 ease-in-out ${
+            showConfirmation ? 'block' : 'hidden'
+          }`}
+          onClick={() => handleReportTeam()}
+        >
+          Yes
+        </button>
+        <button
+          className={`bg-white text-text-error border-2 border-text-error p-[16px] transition-all duration-1000 ease-in-out ${
+            showConfirmation ? 'block' : 'hidden'
+          } `}
+          onClick={() => setShowConfirmation(false)}
+        >
+          Cancel
+        </button>
+      </div>
       <span className="text-[32px] font-[600] tracking-[0.64px] text-[#000000] mb-[24px]">
         Next up:
       </span>
       <div className="flex flex-col gap-[16px] mb-[58px] opacity-50">
-        {nextProjects.map((project) => (
-          <ProjectTab
-            key={project.id}
-            number={project.id}
-            name={project.name}
-          />
-        ))}
+        {projects.map(
+          (project, idx) =>
+            idx !== 0 && (
+              <ProjectTab key={project._id} team={project} clickable={false} />
+            )
+        )}
       </div>
     </div>
   );
