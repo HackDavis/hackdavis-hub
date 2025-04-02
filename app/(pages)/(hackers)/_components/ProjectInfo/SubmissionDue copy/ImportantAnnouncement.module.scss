@@ -1,0 +1,9 @@
+.container {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex;
+
+    .child {
+        border: 3px solid pink;
+    }
+}

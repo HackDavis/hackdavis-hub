@@ -4,7 +4,7 @@ import styles from './SubmissionDue.module.scss';
 export default function SubmissionDue() {
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.SubDuecontainer}>
         <div className={styles.boxContainer}>
           <h1 className={styles.heading}> Rubric</h1>
           <div className={styles.box}></div>
