@@ -54,6 +54,7 @@ export const CreateSubmission = async (body: {
       is_scored: false,
       queuePosition: null,
     });
+
     const submission = await db.collection('submissions').findOne({
       _id: new ObjectId(creationStatus.insertedId),
     });

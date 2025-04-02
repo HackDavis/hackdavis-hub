@@ -81,6 +81,7 @@ const config: Config = {
         'highlight-yellow': 'var(--highlight-yellow)',
         'text-dark': 'var(--text-dark)',
         'text-light': 'var(--text-light)',
+        'text-error': 'var(--text-error)',
         'sand-background-dark': 'var(--sand-background-dark)',
         'sand-background-light': 'var(--sand-background-light)',
         'sky-background': 'var(--sky-background)',
