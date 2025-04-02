@@ -10,6 +10,7 @@ import Step2 from 'public/hackers/project-info/Step2.svg';
 import Step3 from 'public/hackers/project-info/Step3.svg';
 import Step4 from 'public/hackers/project-info/Step4.svg';
 import Step5 from 'public/hackers/project-info/Step5.svg';
+import DemoTime from '../DemoTime/DemoTime';
 
 const JudgingProcessAccordian = () => {
   const steps = [
@@ -41,15 +42,7 @@ const JudgingProcessAccordian = () => {
     {
       step: '11:30 - 1:30 PM',
       question: 'Demo Time',
-      answer: (
-        <div className={styles.stepContent}>
-          <Image className={styles.step3} src={Step3} alt="Step 3" />
-          <p>
-            Click Create project. Only one person per team has <br />
-            to create a project and complete the next steps.
-          </p>
-        </div>
-      ),
+      answer: <DemoTime />,
     },
     {
       step: '1:30 - 2:30 PM',
