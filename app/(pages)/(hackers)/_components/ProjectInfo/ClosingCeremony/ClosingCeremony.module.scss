@@ -1,3 +1,5 @@
+@import "@globals/mixins.scss";
+
 .container {
     position: relative; 
     z-index: 0;
@@ -12,9 +14,16 @@
       right: 0;
       left: 0;
       background: url(/hackers/project-info/ClosingCeremony.svg) no-repeat bottom right 15%;
-      background-size: contain;
+      background-size: 35% auto;
       z-index: 2; 
       pointer-events: none; 
+
+      @include tablet-l {
+        position: absolute;
+        padding-top: 50%;
+        background-size: contain;
+        border: 3px solid green;
+      }
     }
   
     .textBox {
@@ -28,6 +37,11 @@
       flex-direction: column;
       margin: 5%;
       padding: 3%;
+
+      @include tablet-l {
+        border: 3px solid black;
+        padding-bottom: 65%;
+      }
   
       h3 {
         font-size: 28px;
@@ -47,7 +61,24 @@
       }
   
       h3, p {
-        padding-right: 60%;
+        padding-right: 50%;
+
+        @include desktop-m {
+            padding-right: 45%
+        }
+
+        @include desktop-s {
+            // padding-right: 10%;
+
+            .p:nth-child(2) {
+                padding-right: 20%;
+                border: 3px solid pink;
+            }
+        }
+
+        @include tablet-l {
+            padding-right: 0;
+        }
       }
     }
   }
