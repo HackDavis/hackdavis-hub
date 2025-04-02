@@ -1,3 +1,5 @@
+@import "@globals/mixins.scss";
+
 .SubDuecontainer {
     background: url(/hackers/project-info/SubmissionDue.svg);
     background-size: contain;
@@ -9,65 +11,110 @@
     color: white;
     display: flex;
     flex-direction: column;
-    align-items: center; // centers children horizontally
+    align-items: center;
 
-    .heading {
-        font-size: 2rem;
-        text-align: center;
-        margin-bottom: 1rem; // creates spacing between the heading and boxContainer
+    @include tablet-l {
+        background: url(/hackers/project-info/SubmissionDueMobile.svg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        padding-top: 55%;
+        border: 3px solid black;
     }
 
+    @include tablet-s {
+        background: url(/hackers/project-info/SubmissionDueMobile.svg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        padding: 5%;
+        overflow: visible;
+        padding-top: 50%;
+        border: 3px solid white;
+    }
+
+    @include mobile-l {
+        background: url(/hackers/project-info/SubmissionDueMobile.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        padding: 5%;
+        padding-top: 40%;
+        border: 3px solid black;
+    }
+  
+    .heading {
+      font-size: 2rem;
+      text-align: center;
+      padding-bottom: 1.5%;
+    //   margin-bottom: 1rem;
+
+      @include desktop-m {
+        font-size: 1.5rem;
+      }
+
+      @include desktop-s {
+        font-size: 1.5rem;
+      }
+    }
+  
     .boxContainer {
-        width: 100%;
-        padding-left: 5%;
-        padding-right: 5%;
-        padding-bottom: 3%;
-        color: white;
-        z-index: 2;
-        text-align: center;
-        display: flex;              // Enables Flexbox layout for boxes
-        flex-direction: row;        // Boxes will be in a row
+      width: 100%;
+      padding: 0 5% 3%;
+      color: white;
+      z-index: 2;
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      
+      .box {
+        display: flex;
         justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
-        
-        .box {
-            display: flex;
-            border-width: 2px 0px 2px 2px;
-            border-style: solid;
-            border-color: white;
-            
-            p {
-                // border: 3px solid blue;
-                color: white;
-                text-align: center;
-                font-size: clamp(0.5rem, 5vw, 1.5rem); // Adjust the min, ideal, and max sizes as needed
-                white-space: nowrap;               // Prevent the text from wrapping
-                overflow: hidden;
-                // padding: 3% 5%;
-            }
+        text-align: center;
+        border-style: solid;
+        border-color: white;
+        border-width: 2px 0 2px 2px;
+  
+        p {
+          color: white;
+          text-align: center;
+          font-size: 1.5rem;
+          white-space: nowrap;
+          overflow: hidden;
+          padding: 1.5rem;
 
-            .box3 {
-                // border: 3px solid pink;
-                flex: 1;
-                border-right: 2px solid white;
+          @include desktop-m {
+            padding: 1rem;
+            font-size: 1.2rem;
+          }
 
-                // p {
-                //     padding: 3% 5%;
-                // }
-            }
+          @include desktop-s {
+            padding: 0.7rem;
+            font-size: 1rem;
+          }
         }
-        
-        .box:nth-child(1) {
-            flex: 1; /* Makes the first box wider */
-        }
-        
-        .box:nth-child(2) {
-            flex: 2;
-
-            // @include tablet-l {
-            //     border-right: 2px solid white;
-            // }
-        }
+      }
+      
+      .box:nth-child(1) {
+        display: flex;
+        flex: 4;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .box:nth-child(2) {
+        flex: 2;
+      }
     }
-}
+
+    .box3 {
+        flex: 1;
+        border-right: 2px solid white;
+      }
+  }
+  
