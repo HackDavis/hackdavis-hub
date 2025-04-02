@@ -1,23 +1,26 @@
-import { db } from '../../jest.setup';
-import { CreateEvent } from '@datalib/events/createEvent';
-import { GetEvent, GetEvents } from '@datalib/events/getEvent';
-import { UpdateEvent } from '@datalib/events/updateEvent';
-import { DeleteEvent } from '@datalib/events/deleteEvent';
-import Event from '@typeDefs/event';
-import scoreTeams from '@actions/logic/scoreTeams';
+// import { db } from '../../jest.setup';
+// import { CreateEvent } from '@datalib/events/createEvent';
+// import { GetEvent, GetEvents } from '@datalib/events/getEvent';
+// import { UpdateEvent } from '@datalib/events/updateEvent';
+// import { DeleteEvent } from '@datalib/events/deleteEvent';
+// import Event from '@typeDefs/event';
+// import scoreTeams from '@actions/logic/scoreTeams';
 import Team from '@typeDefs/team';
 import type { RankTeamsResults } from '@utils/scoring/rankTeams';
 import Submission from '@typeDefs/submission';
-import { CreateManyTeams } from '@datalib/teams/createTeams';
-import { CreateSubmission } from '@datalib/submissions/createSubmission';
-import User from '@typeDefs/user';
+// import { CreateManyTeams } from '@datalib/teams/createTeams';
+// import { CreateSubmission } from '@datalib/submissions/createSubmission';
+// import User from '@typeDefs/user';
+import rankTeams from '@utils/scoring/rankTeams';
+// import { ObjectId } from 'mongodb';
 
 let mockRankedResult: RankTeamsResults;
-let mockTeam: Team;
+let mockTeam1: Team;
 let mockTeam2: Team;
 let mockSubmissions: Submission[];
-let mockJudge1: User;
-let mockJudge2: User;
+// let mockJudge1: User;
+// let mockJudge2: User;
+let mockExpectedResults: RankTeamsResults;
 
 /*
 testing scoring 
@@ -34,7 +37,7 @@ testing scoring
 */
 
 beforeEach(() => {
-  mockTeam = {
+  mockTeam1 = {
     _id: 'team1',
     teamNumber: 1,
     tableNumber: 1,
@@ -50,23 +53,22 @@ beforeEach(() => {
     tracks: ['Best Mobile App', 'Best Web App', 'Best Hack for Social Good'],
     active: true,
   };
-  mockJudge1 = {
-    _id: 'judge1',
-    name: 'Judge One',
-    email: 'judge1@test.com',
-    password: 'temp',
-    role: 'judge',
-    has_checked_in: true,
-  };
-
-  mockJudge2 = {
-    _id: 'judge2',
-    name: 'Judge Two',
-    email: 'judge2@test.com',
-    password: 'temp',
-    role: 'judge',
-    has_checked_in: true,
-  };
+  // mockJudge1 = {
+  //   _id: 'judge1',
+  //   name: 'Judge One',
+  //   email: 'judge1@test.com',
+  //   password: 'temp',
+  //   role: 'judge',
+  //   has_checked_in: true,
+  // };
+  // mockJudge2 = {
+  //   _id: 'judge2',
+  //   name: 'Judge Two',
+  //   email: 'judge2@test.com',
+  //   password: 'temp',
+  //   role: 'judge',
+  //   has_checked_in: true,
+  // };
 
   mockRankedResult = {
     'Best Mobile App': [
@@ -227,65 +229,161 @@ beforeEach(() => {
       queuePosition: null,
     },
   ];
+
+  mockExpectedResults = {
+    'Best Mobile App': [
+      {
+        team: {
+          team_id: 'team1',
+          final_score: 60, // 20 + 25 + 15
+          comments: ['Great mobile implementation'],
+        },
+      },
+      {
+        team: {
+          team_id: 'team2',
+          final_score: 59, // 23 + 19 + 17
+          comments: ['Outstanding technical work'],
+        },
+      },
+    ],
+    'Best Web App': [
+      {
+        team: {
+          team_id: 'team2',
+          final_score: 70, // 25 + 24 + 21
+          comments: ['Outstanding technical work'],
+        },
+      },
+      {
+        team: {
+          team_id: 'team1',
+          final_score: 56, // 18 + 22 + 16
+          comments: ['Great mobile implementation'],
+        },
+      },
+    ],
+    'Best Hack for Social Good': [
+      {
+        team: {
+          team_id: 'team2',
+          final_score: 70, // 26 + 21 + 23
+          comments: ['Innovative solution with real-world application'],
+        },
+      },
+      {
+        team: {
+          team_id: 'team1',
+          final_score: 62, // 24 + 18 + 20
+          comments: ['Strong social impact'],
+        },
+      },
+    ],
+  };
 });
 
-describe('Scoring Normally', async () => {
-  await CreateManyTeams([mockTeam, mockTeam2]);
-
-  for (const mock_submission of mockSubmissions) {
-    await CreateSubmission({
-      judge_id: mockJudge1,
-      team_id: mockTeam,
+describe('Team Scoring Algorithm', () => {
+  test('rankTeams should calculate scores correctly and rank teams', () => {
+    // Call the ranking algorithm directly with our controlled input
+    const results = rankTeams({
+      teams: [mockTeam1, mockTeam2],
+      submissions: mockSubmissions,
     });
-  }
-  it('scoring should be the same as mockRankedResult'),
-    () => {
-      const ranked_result = scoreTeams();
+
+    // Verify the structure of the results
+    expect(Object.keys(results)).toEqual(
+      expect.arrayContaining([
+        'Best Mobile App',
+        'Best Web App',
+        'Best Hack for Social Good',
+      ])
+    );
+
+    // Check if each track has the correct teams ranked
+    for (const trackName in results) {
+      expect(results[trackName].length).toBe(
+        mockExpectedResults[trackName].length
+      );
+
+      // For each track, verify the team scores and order
+      for (let i = 0; i < results[trackName].length; i++) {
+        const resultTeam = results[trackName][i].team;
+        const expectedTeam = mockExpectedResults[trackName][i].team;
+
+        expect(resultTeam.team_id).toBe(expectedTeam.team_id);
+        expect(resultTeam.final_score).toBe(expectedTeam.final_score);
+        expect(resultTeam.comments).toEqual(
+          expect.arrayContaining(expectedTeam.comments)
+        );
+      }
+    }
+  });
+
+  test('rankTeams should handle missing submissions for teams', () => {
+    // Create a new team with no submissions
+    const mockTeam3: Team = {
+      _id: 'team3',
+      teamNumber: 3,
+      tableNumber: 3,
+      name: 'Team Three',
+      tracks: ['Best Mobile App', 'Best Web App'],
+      active: true,
     };
+
+    // Call the ranking algorithm
+    const results = rankTeams({
+      teams: [mockTeam1, mockTeam2, mockTeam3],
+      submissions: mockSubmissions,
+    });
+
+    // Team3 should not appear in results since it has no submissions
+    for (const trackName in results) {
+      const teamIds = results[trackName].map((item) => item.team.team_id);
+      expect(teamIds).not.toContain('team3');
+    }
+  });
+
+  test('rankTeams should handle empty submissions array', () => {
+    // Call the ranking algorithm with empty submissions
+    const results = rankTeams({
+      teams: [mockTeam1, mockTeam2],
+      submissions: [],
+    });
+
+    // Results should have track keys but empty arrays
+    expect(Object.keys(results).length).toBe(0);
+  });
+
+  /*
+  // Optional: Test with database integration if needed
+  test('rankTeams shouldwork with submissions from database', async () => {
+    // Skip this test if DB is not set up in test environment
+    if (!db) {
+      console.log('Skipping DB test - no database connection');
+      return;
+    }
+
+    // Insert teams and submissions into the test database
+    await db.collection('teams').insertMany([mockTeam1, mockTeam2]);
+    await db.collection('submissions').insertMany(mockSubmissions);
+
+    // Fetch from DB
+    const teams = await db.collection('teams').find({}).toArray();
+    const submissions = await db.collection('submissions').find({}).toArray();
+
+    // Call ranking algorithm with DB data
+    const results = rankTeams({ teams, submissions });
+
+    // Verify results (similar assertions as the first test)
+    expect(Object.keys(results)).toEqual(
+      expect.arrayContaining([
+        'Best Mobile App',
+        'Best Web App',
+        'Best Hack for Social Good',
+      ])
+    );
+  });
+  */
 });
 
-describe('READ: events', () => {
-  it('should retrieve no events from an empty database', async () => {
-    const { ok, body, error } = await GetEvents({});
-    expect(ok).toBe(true);
-    expect(body).toBeInstanceOf(Array);
-    expect(body.length).toBe(0);
-    expect(error).toBe(null);
-  });
-
-  it('should retrieve all events', async () => {
-    await CreateEvent(mockEvent1);
-    await CreateEvent(mockEvent2);
-
-    const { ok, body, error } = await GetEvents({});
-    expect(ok).toBe(true);
-    expect(body).toBeInstanceOf(Array);
-    expect(body.length).toBe(2);
-    expect(error).toBe(null);
-  });
-
-  it('should retrieve an event by valid event ID', async () => {
-    const { body: insertedEvent } = await CreateEvent(mockEvent1);
-    if (!insertedEvent._id) fail();
-
-    const { ok, body, error } = await GetEvent(insertedEvent._id.toString());
-    expect(ok).toBe(true);
-    expect(body).toStrictEqual(insertedEvent);
-    expect(error).toBe(null);
-  });
-
-  it('should fail to retrieve an event with a non-existent event ID', async () => {
-    const { ok, body, error } = await GetEvent('123412341234123412341234');
-    expect(ok).toBe(false);
-    expect(body).toBe(null);
-    expect(error).toBe('Event with id: 123412341234123412341234 not found.');
-  });
-
-  it('should fail to retrieve an event with a malformed event ID', async () => {
-    const { ok, body, error } = await GetEvent('1234');
-    expect(ok).toBe(false);
-    expect(body).toBe(null);
-    expect(error).toBe('hex string must be 24 characters');
-  });
-});
-export { mockSubmissions, mockRankedResult, mockTeam, mockTeam2 };
+export { mockSubmissions, mockRankedResult, mockTeam1, mockTeam2 };
