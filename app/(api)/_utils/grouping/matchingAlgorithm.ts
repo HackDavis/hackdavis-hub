@@ -22,13 +22,16 @@ const trackMap = new Map<string, string>(
   ])
 );
 
-const ALPHA = 0.1;
+const ALPHA = 2;
 
 /**
  * Match teams with judges and return an array of minimal submissions.
  * Each submission only contains the judge_id and team_id.
  */
-export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
+export default async function matchAllTeams(): Promise<{
+  submissions: Submission[];
+  teamsWithNoTracks: string[];
+}> {
   // Fetch all judges.
   const judgesResponse = await getManyUsers({
     role: 'judge',
@@ -46,7 +49,7 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
       ? user.specialties.reduce(
           (acc, domain, index) => {
             // Assign a decreasing score for each ranked domain.
-            acc[domain] = 10 - index;
+            acc[domain] = 1 / index;
             return acc;
           },
           {} as { [domain: string]: number }
@@ -69,7 +72,7 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
       team.tracks = Array.from(
         new Set(
           team.tracks.map(
-            (trackName: string) => trackMap.get(trackName) || trackName
+            (trackName: string) => trackMap.get(trackName) || trackName // TODO: make null for not found
           )
         )
       );
@@ -87,7 +90,11 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
     trackIndex: number
   ): number {
     // Use the track at index if available.
-    const domain = team.tracks ? team.tracks[trackIndex] : '';
+    const domain =
+      team.tracks && team.tracks.length > trackIndex
+        ? team.tracks[trackIndex]
+        : null;
+    // const domain = team?.tracks[trackIndex] || '';
     return domain ? judge.domainMatchScores[domain] ?? 0 : 0;
   }
 
@@ -97,38 +104,50 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
       const specialtyScore = getSpecialtyMatchScore(team, judge, trackIndex);
       judge.priority = specialtyScore - ALPHA * judge.teamsAssigned;
     }
-    judges.sort((a, b) => a.priority - b.priority);
+    judges.sort((a, b) => b.priority - a.priority);
   }
 
   // Array to hold the minimal submissions.
-  const submissions: Partial<Submission>[] = [];
+  const submissions: Submission[] = [];
+  const teamsWithNoTracks: string[] = [];
 
-  // For each team, assign a submission for each round.
-  // Each team should be judged at least 3 times.
-  for (const team of modifiedTeams) {
-    if (!team.tracks || team.tracks.length === 0) {
-      console.warn(`Team ${team._id} has no tracks.`);
-      continue;
-    }
-
-    // Ensure at least 3 rounds.
-    const rounds = Math.max(team.tracks.length, 3);
-    for (let i = 0; i < rounds; i++) {
+  const rounds = 3;
+  for (let i = 0; i < rounds; i++) {
+    // For each team, assign a submission for each round.
+    // Each team should be judged at least 3 times.
+    for (const team of modifiedTeams) {
+      if (!team.tracks || team.tracks.length === 0) {
+        teamsWithNoTracks.push(team._id ?? String(team.tableNumber));
+        console.warn(`Team ${team._id} has no tracks.`);
+        continue;
+      }
       // If there are fewer unique tracks than rounds, use the last track for extra rounds.
-      const trackIndex = i < team.tracks.length ? i : team.tracks.length - 1;
+      // const trackIndex = i < team.tracks.length ? i : team.tracks.length - 1;
+      const trackIndex = i;
       updateQueue(team, trackIndex, judgesQueue);
 
       // The judge at index 0 is the best match.
       const selectedJudge = judgesQueue[0];
       if (!selectedJudge) {
-        console.log(`No available judge for team ${team._id} on round ${i}`);
-        break;
+        throw new Error(`No judges in queue`);
       }
 
       // Create a minimal submission with just the judge_id and team_id.
-      const submission: Partial<Submission> = {
+      // const submission: Partial<Submission> = {
+      //   judge_id: selectedJudge.user._id as string,
+      //   team_id: team._id as string,
+      // };
+
+      const submission: Submission = {
         judge_id: selectedJudge.user._id as string,
         team_id: team._id as string,
+        social_good: null,
+        creativity: null,
+        presentation: null,
+        scores: [],
+        comments: '',
+        is_scored: false,
+        queuePosition: null,
       };
 
       submissions.push(submission);
@@ -136,6 +155,6 @@ export default async function matchAllTeams(): Promise<Partial<Submission>[]> {
     }
   }
 
-  //console.log('Matched submissions:', submissions);
-  return submissions;
+  console.log('No. of submissions:', submissions.length);
+  return { submissions, teamsWithNoTracks };
 }
