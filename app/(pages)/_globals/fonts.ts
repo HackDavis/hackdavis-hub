@@ -1,4 +1,9 @@
-import { Inter, Montserrat, Plus_Jakarta_Sans } from 'next/font/google';
+import {
+  Inter,
+  Montserrat,
+  Plus_Jakarta_Sans,
+  DM_Sans,
+} from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,7 +20,12 @@ const jakarta = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
 });
 
-const fonts = [inter, montserrat, jakarta];
+const dm_sans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+});
+
+const fonts = [inter, montserrat, jakarta, dm_sans];
 
 const font_variables = fonts.map((font) => font.variable);
 const font_string = font_variables.join(' ');

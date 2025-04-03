@@ -1,6 +1,6 @@
 export interface TrackScore {
   trackName: string;
-  rawScores: number[];
+  rawScores: { [question: string]: number };
   finalTrackScore: number | null;
 }
 
@@ -8,9 +8,9 @@ export default interface Submission {
   _id?: string;
   judge_id: string;
   team_id: string;
-  social_good: number;
-  creativity: number;
-  presentation: number;
+  social_good: number | null;
+  creativity: number | null;
+  presentation: number | null;
   scores: TrackScore[];
   comments?: string;
   is_scored: boolean;

@@ -5,11 +5,12 @@ import { useSession } from 'next-auth/react';
 
 import { getManySubmissions } from '@actions/submissions/getSubmission';
 import { getManyTeams } from '@actions/teams/getTeams';
+import Submission from '@typeDefs/submission';
 
 export function useSubmissions(): any {
   const { data: session, status } = useSession();
   const user = session?.user;
-  const [submissions, setSubmssions] = useState<any>(null);
+  const [submissions, setSubmissions] = useState<any>(null);
   const [teams, setTeams] = useState<any>(null);
   const [judgedTeams, setJudgedTeams] = useState<any>([]);
   const [unjudgedTeams, setUnjudgedTeams] = useState<any>([]);
@@ -39,12 +40,10 @@ export function useSubmissions(): any {
 
       const teams = teams_res.ok ? teams_res.body : [];
 
-      const judgedSubmissions = subs.filter((sub: { scores?: number[] }) =>
-        sub.scores ? true : false
-      );
+      const judgedSubmissions = subs.filter((sub: Submission) => sub.is_scored);
 
-      const unjudgedSubmissions = subs.filter((sub: { scores?: number[] }) =>
-        sub.scores ? false : true
+      const unjudgedSubmissions = subs.filter(
+        (sub: Submission) => !sub.is_scored
       );
 
       const judgedTeamIds = judgedSubmissions.map(
@@ -66,7 +65,7 @@ export function useSubmissions(): any {
       setTeams(teams_res);
       setJudgedTeams(judgedTeams);
       setUnjudgedTeams(unjudgedTeams);
-      setSubmssions(submissions);
+      setSubmissions(submissions);
       setLoading(false);
     };
     if (status === 'authenticated' && user) {
