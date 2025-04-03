@@ -13,7 +13,7 @@ export default async function ForgotPasswordPage() {
   return (
     <AuthFormBackground
       title="Hello!"
-      subtitle="Please enter your email below."
+      subtitle="Please enter your email below to receive a reset password email."
     >
       <ForgotPasswordForm />
     </AuthFormBackground>
