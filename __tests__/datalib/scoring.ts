@@ -1,18 +1,9 @@
-// import { db } from '../../jest.setup';
-// import { CreateEvent } from '@datalib/events/createEvent';
-// import { GetEvent, GetEvents } from '@datalib/events/getEvent';
-// import { UpdateEvent } from '@datalib/events/updateEvent';
-// import { DeleteEvent } from '@datalib/events/deleteEvent';
-// import Event from '@typeDefs/event';
-// import scoreTeams from '@actions/logic/scoreTeams';
+import { db } from '../../jest.setup';
 import Team from '@typeDefs/team';
 import type { RankTeamsResults } from '@utils/scoring/rankTeams';
 import Submission from '@typeDefs/submission';
-// import { CreateManyTeams } from '@datalib/teams/createTeams';
-// import { CreateSubmission } from '@datalib/submissions/createSubmission';
-// import User from '@typeDefs/user';
 import rankTeams from '@utils/scoring/rankTeams';
-// import { ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 let mockRankedResult: RankTeamsResults;
 let mockTeam1: Team;
@@ -53,22 +44,6 @@ beforeEach(() => {
     tracks: ['Best Mobile App', 'Best Web App', 'Best Hack for Social Good'],
     active: true,
   };
-  // mockJudge1 = {
-  //   _id: 'judge1',
-  //   name: 'Judge One',
-  //   email: 'judge1@test.com',
-  //   password: 'temp',
-  //   role: 'judge',
-  //   has_checked_in: true,
-  // };
-  // mockJudge2 = {
-  //   _id: 'judge2',
-  //   name: 'Judge Two',
-  //   email: 'judge2@test.com',
-  //   password: 'temp',
-  //   role: 'judge',
-  //   has_checked_in: true,
-  // };
 
   mockRankedResult = {
     'Best Mobile App': [
@@ -353,8 +328,8 @@ describe('Team Scoring Algorithm', () => {
     // Results should have track keys but empty arrays
     expect(Object.keys(results).length).toBe(0);
   });
-
-  /*
+});
+describe('Scoring Algo with DB integrations', () => {
   // Optional: Test with database integration if needed
   test('rankTeams shouldwork with submissions from database', async () => {
     // Skip this test if DB is not set up in test environment
@@ -363,16 +338,33 @@ describe('Team Scoring Algorithm', () => {
       return;
     }
 
+    // Create new ObjectIds for test data
+    const team1Id = new ObjectId();
+    const team2Id = new ObjectId();
+
     // Insert teams and submissions into the test database
-    await db.collection('teams').insertMany([mockTeam1, mockTeam2]);
-    await db.collection('submissions').insertMany(mockSubmissions);
+    await db.collection('teams').insertMany([
+      { ...mockTeam1, _id: team1Id },
+      { ...mockTeam2, _id: team2Id },
+    ]);
+
+    // Create new ObjectIds for each submission
+    const submissionsWithIds = mockSubmissions.map((sub) => ({
+      ...sub,
+      _id: new ObjectId(),
+    }));
+
+    await db.collection('submissions').insertMany(submissionsWithIds);
 
     // Fetch from DB
     const teams = await db.collection('teams').find({}).toArray();
     const submissions = await db.collection('submissions').find({}).toArray();
 
     // Call ranking algorithm with DB data
-    const results = rankTeams({ teams, submissions });
+    const results = rankTeams({
+      teams: teams as unknown as Team[],
+      submissions: submissions as unknown as Submission[],
+    });
 
     // Verify results (similar assertions as the first test)
     expect(Object.keys(results)).toEqual(
@@ -383,7 +375,6 @@ describe('Team Scoring Algorithm', () => {
       ])
     );
   });
-  */
 });
 
 export { mockSubmissions, mockRankedResult, mockTeam1, mockTeam2 };
