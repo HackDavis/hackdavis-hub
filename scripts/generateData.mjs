@@ -109,6 +109,28 @@ function generateData(collectionName, numDocuments) {
           : [],
       };
     });
+  } else if (collectionName === 'panels') {
+    const trackNames = [
+      'Best Beginner Track',
+      'Best Social Good Hack',
+      'Best Design Track',
+      'Best Pitch Track',
+      'Most Technically Complex Hack',
+    ];
+
+    const trackTypes = {
+      'Best Beginner Track': 'tech',
+      'Best Social Good Hack': 'tech',
+      'Best Design Track': 'design',
+      'Best Pitch Track': 'business',
+      'Most Technically Complex Hack': 'tech',
+    };
+
+    data = trackNames.map((trackName) => ({
+      track: trackName,
+      type: trackTypes[trackName],
+      users: [],
+    }));
   }
 
   return data;
