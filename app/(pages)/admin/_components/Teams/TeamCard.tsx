@@ -1,25 +1,42 @@
 'use client';
 
 import Team from '@typeDefs/team';
-import { useState } from 'react';
 import styles from './TeamCard.module.scss';
+import TrackList from './TrackList';
+import { IoLocationOutline } from 'react-icons/io5';
+import JudgeList from './JudgeList';
+import User from '@typeDefs/user';
 
+interface TeamWithJudges extends Team {
+  judges: User[];
+}
 interface TeamCardProps {
-  team: Team;
+  team: TeamWithJudges;
 }
 
 export default function TeamCard({ team }: TeamCardProps) {
-  const [expanded, setExpanded] = useState(false);
-
   return (
     <div className={styles.container}>
       <span className={styles.title}>
+        <p className={styles.table_number}>
+          <IoLocationOutline style={{ fontSize: '1.2rem' }} />{' '}
+          {team.tableNumber}
+        </p>
         Team {team.teamNumber}: {team.name}
       </span>
-      <p>_id: {team._id}</p>
-      <p>Table Number: {team.tableNumber}</p>
-      <p>Tracks: {JSON.stringify(team.tracks)}</p>
-      <p>Active: {JSON.stringify(team.active)}</p>
+      <hr></hr>
+      {/* <p>{team._id}</p> */}
+      <div className={styles.details}>
+        <TrackList team={team} />
+        <p
+          className={`${styles.active_indicator} ${
+            team.active ? styles.active : null
+          }`}
+        >
+          {team.active ? 'Active' : 'Inactive'}
+        </p>
+        <JudgeList judges={team.judges} />
+      </div>
     </div>
   );
 }
