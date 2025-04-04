@@ -6,7 +6,7 @@ import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
-import { pageFilters } from '@typeDefs/filters';
+import Filters from '@pages/(hackers)/_components/Schedule/Filters';
 import {
   Tooltip,
   TooltipContent,
@@ -219,45 +219,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-
-        <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
-          {pageFilters.map((filter) => (
-            <button
-              key={filter.label}
-              onClick={() => toggleFilter(filter.label)}
-              className={`
-                relative flex w-[163px] h-[45px] px-[38px] py-[13px]
-                justify-center items-center
-                rounded-[22.5px] border-[1.5px]
-                font-jakarta text-[16px] font-semibold leading-[100%] tracking-[0.32px]
-                text-[#123041] transition-all duration-200
-                ${
-                  activeFilters.includes(filter.label)
-                    ? `border-solid`
-                    : 'border-dashed hover:bg-opacity-50'
-                }
-              `}
-              style={{
-                borderColor: filter.color,
-                backgroundColor: activeFilters.includes(filter.label)
-                  ? filter.color
-                  : 'transparent',
-              }}
-              onMouseEnter={(e) => {
-                if (!activeFilters.includes(filter.label)) {
-                  e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!activeFilters.includes(filter.label)) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }
-              }}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
+        <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
           {scheduleData ? (
