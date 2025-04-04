@@ -136,6 +136,7 @@ export default function Page() {
         />
       </div>
       <div className="pb-24 md:pb-44 md:px-[calc(100vw*76/768)] lg:md:px-[calc(100vw*151/1440)] mt-[100px] md:mt-[calc(100vw*150/1440)]">
+        {/* Headers */}
         <div className="flex flex-col gap-8">
           <div className="flex justify-evenly md:justify-between items-center relative border-b-4 border-[#8F8F8F33]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
