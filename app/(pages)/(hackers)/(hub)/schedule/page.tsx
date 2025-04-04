@@ -6,6 +6,7 @@ import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
+import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
 import {
   Tooltip,
@@ -391,12 +392,19 @@ export default function Page() {
                   <p className="mb-4">
                     No events in your personal schedule yet.
                   </p>
-                  <button
+                  <Button
                     onClick={() => setActiveTab('schedule')}
-                    className="px-4 py-2 bg-[#00C4D7] text-white rounded-md hover:bg-[#00A3B3] transition-colors"
+                    className="px-8 py-2 border-2 border-black rounded-3xl border-dashed cursor-pointer relative group"
+                    variant="ghost"
                   >
-                    Browse the schedule to add events
-                  </button>
+                    <div
+                      className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer w-0 group-hover:w-full bg-opacity-20"
+                      style={{ backgroundColor: '#00C4D7' }}
+                    />
+                    <p className="font-semibold relative z-10">
+                      Browse the schedule to add events
+                    </p>
+                  </Button>
                 </div>
               ) : (
                 'No events found for this day and filters.'

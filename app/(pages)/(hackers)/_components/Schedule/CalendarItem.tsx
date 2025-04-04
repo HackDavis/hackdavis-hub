@@ -10,6 +10,13 @@ const getBgColor = (type: EventType): string => {
 
   return color.replace('1)', '0.5)');
 };
+const getActiveColor = (type: EventType): string => {
+  const activeColor =
+    pageFilters.find((f) => f.label === type)?.activeColor ||
+    'rgba(0, 0, 0, 0)';
+
+  return activeColor.replace('1)', '0.5)');
+};
 
 const formatTime = (pstDate: Date): string => {
   return pstDate.toLocaleString('en-US', {
@@ -91,10 +98,13 @@ export function CalendarItem({
           <div
             className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer ${
               inPersonalSchedule ? 'w-full' : 'w-0 group-hover:w-full'
-            } bg-opacity-20`}
-            style={{ backgroundColor: '#00C4D7' }}
+            }`}
+            style={{
+              backgroundColor: getActiveColor(type),
+              opacity: inPersonalSchedule ? 1 : 0.2,
+            }}
           />
-          <p className="font-semibold relative z-10">
+          <p className="font-semibold relative z-10 text-black">
             {inPersonalSchedule ? 'Remove' : 'Add'}
           </p>
         </Button>
