@@ -3,7 +3,7 @@
 import { getManyTeams } from '@actions/teams/getTeams';
 import { CreateSubmission } from '@datalib/submissions/createSubmission';
 import Submission from '@typeDefs/submission';
-import User from '@typeDefs/user';
+// import User from '@typeDefs/user';
 import matchAllTeams from '@utils/grouping/matchingAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
 

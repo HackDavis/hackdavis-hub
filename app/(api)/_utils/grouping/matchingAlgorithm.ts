@@ -22,7 +22,7 @@ const trackMap = new Map<string, string>(
   ])
 );
 
-const ALPHA = 3;
+const ALPHA = 4;
 
 /**
  * Match teams with judges and return an array of minimal submissions.
@@ -31,14 +31,22 @@ const ALPHA = 3;
 export default async function matchAllTeams(): Promise<{
   submissions: Submission[];
   teamsWithNoTracks: string[];
-  judgeTeamDistribution: { 
-    sum: number; 
-    count: number; 
-    average: number; 
-    min: number; 
-    max: number 
+  judgeTeamDistribution: {
+    sum: number;
+    count: number;
+    average: number;
+    min: number;
+    max: number;
   };
-  matchQualityStats: { [teamId: string]: { sum: number; average: number; min: number; max: number; count: number } };
+  matchQualityStats: {
+    [teamId: string]: {
+      sum: number;
+      average: number;
+      min: number;
+      max: number;
+      count: number;
+    };
+  };
 }> {
   // Fetch all judges.
   const judgesResponse = await getManyUsers({
@@ -79,9 +87,14 @@ export default async function matchAllTeams(): Promise<{
     if (team.tracks && team.tracks.length) {
       team.tracks = Array.from(
         new Set(
-          team.tracks.map(
-            (trackName: string) => trackMap.get(trackName) || trackName // TODO: make null for not found
-          )
+          team.tracks
+            .map((trackName: string) => trackMap.get(trackName) ?? null)
+            .filter(
+              (track: string | null): track is string =>
+                track !== null &&
+                track !== 'Best Hack for Social Good' &&
+                track !== "Hacker's Choice Award"
+            )
         )
       );
     }
@@ -110,7 +123,7 @@ export default async function matchAllTeams(): Promise<{
   function updateQueue(team: Team, trackIndex: number, judges: Judge[]): void {
     for (const judge of judges) {
       const specialtyScore = getSpecialtyMatchScore(team, judge, trackIndex);
-      judge.priority = specialtyScore - ALPHA * judge.teamsAssigned;
+      judge.priority = ALPHA * specialtyScore - judge.teamsAssigned;
     }
     judges.sort((a, b) => b.priority - a.priority);
   }
@@ -142,8 +155,8 @@ export default async function matchAllTeams(): Promise<{
       }
 
       const matchQuality = getSpecialtyMatchScore(
-        team, 
-        selectedJudge, 
+        team,
+        selectedJudge,
         trackIndex
       );
 
@@ -172,13 +185,14 @@ export default async function matchAllTeams(): Promise<{
   }
 
   console.log('No. of submissions:', submissions.length);
-  
+
   const judgeAssignments = judgesQueue.map((judge) => judge.teamsAssigned);
   const judgeTeamDistribution = {
     sum: judgeAssignments.reduce((acc, curr) => acc + curr, 0),
     count: judgeAssignments.length,
     average:
-    judgeAssignments.reduce((acc, curr) => acc + curr, 0) / judgeAssignments.length,
+      judgeAssignments.reduce((acc, curr) => acc + curr, 0) /
+      judgeAssignments.length,
     min: Math.min(...judgeAssignments),
     max: Math.max(...judgeAssignments),
     numJudges: judgesQueue.length,
@@ -186,14 +200,15 @@ export default async function matchAllTeams(): Promise<{
   };
 
   // Compute match quality statistics for each team.
-  const matchQualityStats: { 
-    [teamId: string]: { 
-      sum: number; 
-      average: number; 
-      min: number; 
-      max: number; 
-      count: number 
-    } } = {};
+  const matchQualityStats: {
+    [teamId: string]: {
+      sum: number;
+      average: number;
+      min: number;
+      max: number;
+      count: number;
+    };
+  } = {};
   for (const teamId in teamMatchQualities) {
     const qualities = teamMatchQualities[teamId];
     const sum = qualities.reduce((a, b) => a + b, 0);

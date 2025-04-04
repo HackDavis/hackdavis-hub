@@ -1,141 +1,50 @@
 [
   {
-    "name": "No Track",
-    "type": "business"
+    "type": "SWE",
+    "name": "Best Beginner Hack"
   },
   {
-    "name": "Best Hack for Social Good",
-    "weights": [0.5, 0.1, 0.1, 0.2, 0.1],
-    "type": "business"
+    "type": "SWE",
+    "name": "Best Interdisciplinary Hack"
   },
   {
-    "name": "Best Beginner Hack",
-    "weights": [0.35, 0.15, 0.1, 0.2, 0.2],
-    "type": "business"
+    "type": "Business",
+    "name": "Most Creative Hack"
   },
   {
-    "name": "Best Interdisciplinary Hack",
-    "weights": [0.35, 0.4, 0.05, 0.1, 0.1],
-    "type": "business"
+    "type": "SWE",
+    "name": "Best Hack for Social Justice"
   },
   {
-    "name": "Best Hardware Hack",
-    "weights": [0.35, 0.3, 0.05, 0.2, 0.1],
-    "type": "tech"
+    "type": "Hardware",
+    "name": "Best Hardware Hack"
   },
   {
-    "name": "Best Health Hack",
-    "weights": [0.35, 0.2, 0.15, 0.2, 0.1],
-    "type": "business"
+    "type": "SWE",
+    "name": "Most Technically Challenging Hack"
   },
   {
-    "name": "Best Hack for Social Justice",
-    "weights": [0.5, 0.1, 0.1, 0.2, 0.1],
-    "type": "business"
+    "type": "AIML",
+    "name": "Best AI/ML Hack"
   },
   {
-    "name": "Most Creative Hack",
-    "weights": [0.35, 0.05, 0.15, 0.3, 0.15],
-    "type": "business"
+    "type": "Design",
+    "name": "Best UI/UX Design"
   },
   {
-    "name": "Best Cybersecurity Hack",
-    "weights": [0.35, 0.3, 0.05, 0.2, 0.1],
-    "type": "tech"
+    "type": "Design",
+    "name": "Best User Research"
   },
   {
-    "name": "Best AI/ML Hack",
-    "weights": [0.35, 0.3, 0.05, 0.2, 0.1],
-    "type": "tech"
+    "type": "AIML",
+    "name": "Best Statistical Model"
   },
   {
-    "name": "Best use of Intel® Developer Cloud",
-    "weights": [0.35, 0.3, 0.05, 0.2, 0.1],
-    "type": "tech"
+    "type": "MedTech",
+    "name": "Best MedTech Hack"
   },
   {
-    "name": "Most Technically Challenging Hack",
-    "weights": [0.35, 0.4, 0.05, 0.1, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best UI/UX Prototyping",
-    "weights": [0.35, 0.05, 0.4, 0.1, 0.1],
-    "type": "design"
-  },
-  {
-    "name": "Best Overall Design",
-    "weights": [0.35, 0.05, 0.4, 0.1, 0.1],
-    "type": "design"
-  },
-  {
-    "name": "Best User Research",
-    "weights": [0.35, 0.05, 0.3, 0.2, 0.1],
-    "type": "design"
-  },
-  {
-    "name": "Best Interactive Media Hack",
-    "weights": [0.35, 0.05, 0.2, 0.2, 0.2],
-    "type": "design"
-  },
-  {
-    "name": "Best Finance & Tech",
-    "weights": [0.35, 0.2, 0.15, 0.2, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best Entrepreneurship Hack",
-    "weights": [0.35, 0.05, 0.1, 0.2, 0.3],
-    "type": "business"
-  },
-  {
-    "name": "Best Statistical Model",
-    "weights": [0.35, 0.4, 0.05, 0.1, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best DEI Hack Sponsored by Fidelity",
-    "weights": [0.5, 0.1, 0.1, 0.2, 0.1],
-    "type": "business"
-  },
-  {
-    "name": "Best Use of Kintone",
-    "weights": [0.35, 0.3, 0.05, 0.2, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best Use of .Tech Domain Name",
-    "weights": [0.35, 0.25, 0.05, 0.25, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best Use of TinyMCE",
-    "weights": [0.35, 0.3, 0.05, 0.2, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best Use of PropelAuth",
-    "weights": [0.35, 0.3, 0.05, 0.2, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Sauce Labs Raffle",
-    "weights": [0.35, 0.25, 0.05, 0.25, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best Hack for Life of Kai",
-    "weights": [0.35, 0.25, 0.05, 0.25, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best Hack for DCMH",
-    "weights": [0.35, 0.25, 0.05, 0.25, 0.1],
-    "type": "tech"
-  },
-  {
-    "name": "Best Hack for AggieHouse",
-    "weights": [0.35, 0.25, 0.05, 0.25, 0.1],
-    "type": "tech"
+    "type": "Business",
+    "name": "Best Entrepreneurship Hack"
   }
 ]
