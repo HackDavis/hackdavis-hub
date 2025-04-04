@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { EventType } from '@typeDefs/event';
 import { pageFilters } from '@typeDefs/filters';
+import { Button } from '@pages/_globals/components/ui/button';
 
 const getBgColor = (type: EventType): string => {
   const color =
@@ -56,33 +57,47 @@ export function CalendarItem({
       className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] lg:px-[40px] mb-[16px] flex flex-col justify-center"
       style={{ backgroundColor: bgColor }}
     >
-      <h2 className="text-black font-metropolis text-2xl font-semibold leading-[40px] tracking-[0.72px]">
-        {name}
-      </h2>
-      <div className="flex items-center">
-        <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
-          {timeDisplay}
-        </span>
-        {location && (
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-black font-metropolis text-2xl font-semibold leading-[40px] tracking-[0.72px] mb-2">
+            {name}
+          </h2>
           <div className="flex items-center">
-            <Image
-              src="/index/schedule/location.svg"
-              alt="location icon"
-              width={11}
-              height={13.44}
-              className="mr-2 xs:mr-3 md:mr-4 lg:mr-5"
-            />
-            <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
-              {location}
+            <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
+              {timeDisplay}
             </span>
+            {location && (
+              <div className="flex items-center">
+                <Image
+                  src="/index/schedule/location.svg"
+                  alt="location icon"
+                  width={11}
+                  height={13.44}
+                  className="mr-2 xs:mr-3 md:mr-4 lg:mr-5"
+                />
+                <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
+                  {location}
+                </span>
+              </div>
+            )}
           </div>
-        )}
-        <button
+        </div>
+
+        <Button
           onClick={inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule}
-          className="ml-auto flex items-center justify-center px-3 py-1 rounded-md text-sm font-medium text-white bg-[#00C4D7] hover:bg-[#00A3B3] transition-colors"
+          className="px-8 py-2 border-2 border-black rounded-3xl border-dashed cursor-pointer relative group w-32"
+          variant="ghost"
         >
-          {inPersonalSchedule ? 'Remove' : 'Add to Schedule'}
-        </button>
+          <div
+            className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer ${
+              inPersonalSchedule ? 'w-full' : 'w-0 group-hover:w-full'
+            } bg-opacity-20`}
+            style={{ backgroundColor: '#00C4D7' }}
+          />
+          <p className="font-semibold relative z-10">
+            {inPersonalSchedule ? 'Remove' : 'Add'}
+          </p>
+        </Button>
       </div>
     </div>
   );

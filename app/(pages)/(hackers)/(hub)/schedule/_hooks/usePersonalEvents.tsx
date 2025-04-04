@@ -57,10 +57,6 @@ export function usePersonalEvents(userId: string) {
             }
             return event;
           });
-        // const events = result.body
-        //   .filter((relation: UserToEventRelation) => relation.event)
-        //   .map((relation: UserToEventRelation) => relation.event as Event);
-        console.log('🚀 ~ :46 ~ fetchPersonalEvents ~ events:', events);
 
         setPersonalEvents(events);
       } else {
