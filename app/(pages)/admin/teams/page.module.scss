@@ -1,21 +1,73 @@
-.container {
-    padding: 48px;
-}
+@import '@globals/mixins.scss';
 
-.teams_list {
+$team-list-width: 800px;
+$data-gap: 24px;
+
+.container {
+    padding: 32px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 24px;
-    border-radius: 8px;
-    border: 1.5px solid var(--teal-1, #005271);
-    background: var(--white, #FFF);
-    height: 80vh;
-    min-height: 400px;
-    overflow-y: scroll;
-    max-width: 800px;
+}
+
+.page_title {
+    font-size: 2rem;
 }
 
 .search_bar {
     position: relative;
+
+    >input {
+        padding-left: 48px;
+        width: 100%;
+    }
+
+    .search_icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+    }
+}
+
+.data_portion {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: $data-gap;
+
+    @include desktop-m {
+        flex-direction: column;
+    }
+}
+
+.teams_list, .bar_chart_container {
+    height: 70vh;
+    min-height: 400px;
+    overflow-y: scroll;
+    padding: 24px;
+    border-radius: 8px;
+    border: 1.5px solid var(--teal-1, #005271);
+}
+
+.teams_list {
+    width: $team-list-width;
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    @include desktop-m {
+        width: 100%;
+    }
+}
+
+.bar_chart_container {
+    width: calc(100% - $team-list-width - $data-gap);
+    @include desktop-m {
+        width: 100%;
+    }
 }

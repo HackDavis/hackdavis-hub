@@ -5,6 +5,13 @@ import { useTeams } from '@pages/_hooks/useTeams';
 import styles from './page.module.scss';
 import TeamCard from '../_components/Teams/TeamCard';
 import Team from '@typeDefs/team';
+import User from '@typeDefs/user';
+import BarChart from '../_components/BarChart/BarChart';
+import { GoSearch } from 'react-icons/go';
+
+interface TeamWithJudges extends Team {
+  judges: User[];
+}
 
 export default function Teams() {
   const [search, setSearch] = useState('');
@@ -17,31 +24,48 @@ export default function Teams() {
     return teams.error;
   }
 
-  const teamData = teams.body
-    .filter((team: Team) =>
+  const teamData: TeamWithJudges[] = teams.body
+    .filter((team: TeamWithJudges) =>
       JSON.stringify(team).toLowerCase().includes(search.toLowerCase())
     )
-    .sort((a: Team, b: Team) => a.teamNumber - b.teamNumber);
+    .sort(
+      (a: TeamWithJudges, b: TeamWithJudges) => a.teamNumber - b.teamNumber
+    );
 
-  console.log(teamData);
+  const chartData = teamData.map((team) => ({
+    key: team._id as string,
+    label: team.name,
+    value: team.judges.length,
+    backgroundColor: '#9EE7E5',
+  }));
 
   return (
     <div className={styles.container}>
+      <h1 className={styles.page_title}>Team Manager</h1>
       <div className={styles.search_bar}>
-        <label htmlFor="search">Search</label>
         <input
           name="search"
           type="text"
           value={search}
+          placeholder="Filter teams"
           onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSearch(e.target.value)
           }
         />
+        <GoSearch className={styles.search_icon} />
       </div>
-      <div className={styles.teams_list}>
-        {teamData.map((team: Team) => (
-          <TeamCard key={team._id} team={team} />
-        ))}
+      <div className={styles.data_portion}>
+        <div className={styles.teams_list}>
+          {teamData.map((team: TeamWithJudges) => (
+            <TeamCard key={team._id} team={team} />
+          ))}
+        </div>
+        <div className={styles.bar_chart_container}>
+          <BarChart
+            data={chartData}
+            lines={[{ style: 'dashed 1px red', value: 3 }]}
+          />
+        </div>
       </div>
     </div>
   );

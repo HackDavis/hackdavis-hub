@@ -15,26 +15,24 @@ interface TeamCardProps {
 }
 
 export default function TeamCard({ team }: TeamCardProps) {
+  const backgroundColor = team.active ? 'white' : '#ffc6bf';
   return (
-    <div className={styles.container}>
-      <span className={styles.title}>
-        <p className={styles.table_number}>
-          <IoLocationOutline style={{ fontSize: '1.2rem' }} />{' '}
-          {team.tableNumber}
-        </p>
-        Team {team.teamNumber}: {team.name}
-      </span>
+    <div className={styles.container} style={{ backgroundColor }}>
+      <div className={styles.header}>
+        <span className={styles.title}>
+          <p className={styles.table_number}>
+            <IoLocationOutline style={{ fontSize: '1.2rem' }} />{' '}
+            {team.tableNumber}
+          </p>
+          Team {team.teamNumber}: {team.name}
+        </span>
+        <div className={styles.header_details}>
+          <p>{team._id}</p>
+        </div>
+      </div>
       <hr></hr>
-      {/* <p>{team._id}</p> */}
       <div className={styles.details}>
         <TrackList team={team} />
-        <p
-          className={`${styles.active_indicator} ${
-            team.active ? styles.active : null
-          }`}
-        >
-          {team.active ? 'Active' : 'Inactive'}
-        </p>
         <JudgeList judges={team.judges} />
       </div>
     </div>
