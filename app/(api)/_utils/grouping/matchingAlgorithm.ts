@@ -31,7 +31,13 @@ const ALPHA = 3;
 export default async function matchAllTeams(): Promise<{
   submissions: Submission[];
   teamsWithNoTracks: string[];
-  judgeTeamDistribution: { sum: number; count: number; average: number; min: number; max: number };
+  judgeTeamDistribution: { 
+    sum: number; 
+    count: number; 
+    average: number; 
+    min: number; 
+    max: number 
+  };
   matchQualityStats: { [teamId: string]: { sum: number; average: number; min: number; max: number; count: number } };
 }> {
   // Fetch all judges.
@@ -135,7 +141,11 @@ export default async function matchAllTeams(): Promise<{
         throw new Error(`No judges in queue`);
       }
 
-      const matchQuality = getSpecialtyMatchScore(team, selectedJudge, trackIndex);
+      const matchQuality = getSpecialtyMatchScore(
+        team, 
+        selectedJudge, 
+        trackIndex
+      );
 
       // Record the match quality for testing.
       const teamId = team._id as string;
@@ -143,7 +153,6 @@ export default async function matchAllTeams(): Promise<{
         teamMatchQualities[teamId] = [];
       }
       teamMatchQualities[teamId].push(matchQuality);
-
 
       const submission: Submission = {
         judge_id: selectedJudge.user._id as string,
@@ -168,7 +177,8 @@ export default async function matchAllTeams(): Promise<{
   const judgeTeamDistribution = {
     sum: judgeAssignments.reduce((acc, curr) => acc + curr, 0),
     count: judgeAssignments.length,
-    average: judgeAssignments.reduce((acc, curr) => acc + curr, 0) / judgeAssignments.length,
+    average:
+    judgeAssignments.reduce((acc, curr) => acc + curr, 0) / judgeAssignments.length,
     min: Math.min(...judgeAssignments),
     max: Math.max(...judgeAssignments),
     numJudges: judgesQueue.length,
@@ -176,7 +186,14 @@ export default async function matchAllTeams(): Promise<{
   };
 
   // Compute match quality statistics for each team.
-  const matchQualityStats: { [teamId: string]: { sum: number; average: number; min: number; max: number; count: number } } = {};
+  const matchQualityStats: { 
+    [teamId: string]: { 
+      sum: number; 
+      average: number; 
+      min: number; 
+      max: number; 
+      count: number 
+    } } = {};
   for (const teamId in teamMatchQualities) {
     const qualities = teamMatchQualities[teamId];
     const sum = qualities.reduce((a, b) => a + b, 0);
