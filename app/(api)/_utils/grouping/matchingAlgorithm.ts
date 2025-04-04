@@ -22,7 +22,7 @@ const trackMap = new Map<string, string>(
   ])
 );
 
-const ALPHA = 2;
+const ALPHA = 3;
 
 /**
  * Match teams with judges and return an array of minimal submissions.
@@ -31,6 +31,8 @@ const ALPHA = 2;
 export default async function matchAllTeams(): Promise<{
   submissions: Submission[];
   teamsWithNoTracks: string[];
+  judgeTeamDistribution: { sum: number; count: number; average: number; min: number; max: number };
+  matchQualityStats: { [teamId: string]: { sum: number; average: number; min: number; max: number; count: number } };
 }> {
   // Fetch all judges.
   const judgesResponse = await getManyUsers({
@@ -49,7 +51,7 @@ export default async function matchAllTeams(): Promise<{
       ? user.specialties.reduce(
           (acc, domain, index) => {
             // Assign a decreasing score for each ranked domain.
-            acc[domain] = 1 / index;
+            acc[domain] = index === 0 ? 1 : 1 / index;
             return acc;
           },
           {} as { [domain: string]: number }
@@ -110,6 +112,7 @@ export default async function matchAllTeams(): Promise<{
   // Array to hold the minimal submissions.
   const submissions: Submission[] = [];
   const teamsWithNoTracks: string[] = [];
+  const teamMatchQualities: { [teamId: string]: number[] } = {};
 
   const rounds = 3;
   for (let i = 0; i < rounds; i++) {
@@ -132,11 +135,15 @@ export default async function matchAllTeams(): Promise<{
         throw new Error(`No judges in queue`);
       }
 
-      // Create a minimal submission with just the judge_id and team_id.
-      // const submission: Partial<Submission> = {
-      //   judge_id: selectedJudge.user._id as string,
-      //   team_id: team._id as string,
-      // };
+      const matchQuality = getSpecialtyMatchScore(team, selectedJudge, trackIndex);
+
+      // Record the match quality for testing.
+      const teamId = team._id as string;
+      if (!teamMatchQualities[teamId]) {
+        teamMatchQualities[teamId] = [];
+      }
+      teamMatchQualities[teamId].push(matchQuality);
+
 
       const submission: Submission = {
         judge_id: selectedJudge.user._id as string,
@@ -156,5 +163,34 @@ export default async function matchAllTeams(): Promise<{
   }
 
   console.log('No. of submissions:', submissions.length);
-  return { submissions, teamsWithNoTracks };
+  
+  const judgeAssignments = judgesQueue.map((judge) => judge.teamsAssigned);
+  const judgeTeamDistribution = {
+    sum: judgeAssignments.reduce((acc, curr) => acc + curr, 0),
+    count: judgeAssignments.length,
+    average: judgeAssignments.reduce((acc, curr) => acc + curr, 0) / judgeAssignments.length,
+    min: Math.min(...judgeAssignments),
+    max: Math.max(...judgeAssignments),
+    numJudges: judgesQueue.length,
+    numTeams: modifiedTeams.length,
+  };
+
+  // Compute match quality statistics for each team.
+  const matchQualityStats: { [teamId: string]: { sum: number; average: number; min: number; max: number; count: number } } = {};
+  for (const teamId in teamMatchQualities) {
+    const qualities = teamMatchQualities[teamId];
+    const sum = qualities.reduce((a, b) => a + b, 0);
+    const count = qualities.length;
+    const average = count > 0 ? sum / count : 0;
+    const min = Math.min(...qualities);
+    const max = Math.max(...qualities);
+    matchQualityStats[teamId] = { sum, average, min, max, count };
+  }
+
+  return {
+    submissions,
+    teamsWithNoTracks,
+    judgeTeamDistribution,
+    matchQualityStats,
+  };
 }

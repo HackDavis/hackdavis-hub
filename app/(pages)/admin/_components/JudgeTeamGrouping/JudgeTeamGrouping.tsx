@@ -12,54 +12,91 @@ export default function JudgeTeamGrouping() {
   const [submissions, setSubmissions] = useState<
     { judge_id: string; team_id: string }[]
   >([]);
+  // New state to store the full match data
+  const [fullMatchData, setFullMatchData] = useState<any>(null);
 
   // Match teams and store the submissions locally.
   const handleMatchTeams = async () => {
     const result = await matchTeams();
     console.log('matchTeams result:', result);
 
-    let subs: { judge_id: string; team_id: string }[] = [];
+    let matchData: any = {};
     if (typeof result === 'string') {
-      // Find the start of the JSON array.
-      const jsonStart = result.indexOf('[');
-      if (jsonStart === -1) {
-        console.error('JSON array not found in the result');
-        return;
-      }
       try {
-        const jsonString = result.slice(jsonStart);
-        subs = JSON.parse(jsonString);
+        matchData = JSON.parse(result);
       } catch (error) {
         console.error('Error parsing JSON:', error);
         return;
       }
-    } else if (Array.isArray(result)) {
-      subs = result;
     } else {
-      console.error('Unexpected result type', result);
-      return;
+      matchData = result;
     }
 
+    // Extract submissions and the rest of the match data.
+    const { submissions: subs, ...otherMatchData } = matchData;
+
+    // Store submissions for CSV download.
     setSubmissions(subs);
-    setMatching(JSON.stringify(subs, null, 2));
+    // Store full match data for full CSV export.
+    setFullMatchData(matchData);
+    // Display all match data except the submissions.
+    setMatching(JSON.stringify(otherMatchData, null, 2));
   };
 
-  // Generate CSV content from submissions and trigger a download.
+  // Generate full CSV content from all match data and trigger a download.
   const downloadCSV = () => {
-    if (!submissions.length) {
-      alert('No submissions available.');
+    if (!fullMatchData) {
+      alert('No match data available.');
       return;
     }
-    const headers = ['judge_id', 'team_id'];
-    const rows = submissions.map((sub) => `${sub.judge_id},${sub.team_id}`);
-    const csvContent = headers.join(',') + '\n' + rows.join('\n');
+
+    let csvContent = '';
+
+    // Submissions Section
+    csvContent += 'Submissions\n';
+    csvContent += 'judge_id,team_id\n';
+    fullMatchData.submissions.forEach(
+      (sub: { judge_id: string; team_id: string }) => {
+        csvContent += `${sub.judge_id},${sub.team_id}\n`;
+      }
+    );
+    csvContent += '\n';
+
+    // Teams With No Tracks Section
+    csvContent += 'Teams With No Tracks\n';
+    csvContent += 'team_id\n';
+    fullMatchData.teamsWithNoTracks.forEach((teamId: string) => {
+      csvContent += `${teamId}\n`;
+    });
+    csvContent += '\n';
+
+    // Judge Team Distribution Section
+    csvContent += 'Judge Team Distribution\n';
+    csvContent += 'Metric,Value\n';
+    const dist = fullMatchData.judgeTeamDistribution;
+    csvContent += `sum,${dist.sum}\n`;
+    csvContent += `count,${dist.count}\n`;
+    csvContent += `average,${dist.average}\n`;
+    csvContent += `min,${dist.min}\n`;
+    csvContent += `max,${dist.max}\n`;
+    csvContent += `num_teams,${dist.numTeams}\n`;
+    csvContent += `num_judges,${dist.numJudges}\n`;
+    csvContent += '\n';
+
+    // Match Quality Stats Section
+    csvContent += 'Match Quality Stats\n';
+    csvContent += 'team_id,sum,average,min,max,count\n';
+    for (const teamId in fullMatchData.matchQualityStats) {
+      const stats = fullMatchData.matchQualityStats[teamId];
+      csvContent += `${teamId},${stats.sum},${stats.average},${stats.min},${stats.max},${stats.count}\n`;
+    }
 
     // Create a blob and a download link, then simulate a click.
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'submissions.csv';
+    link.download = `match_data_${dist.numTeams}t_${dist.numJudges}j.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -69,7 +106,7 @@ export default function JudgeTeamGrouping() {
     <div className={styles.body}>
       <button onClick={handleMatchTeams}>Match Teams</button>
       <div>
-        <p>Matching:</p>
+        <p>Match Data (excluding submissions):</p>
         <pre>{matching}</pre>
       </div>
       <button onClick={downloadCSV}>Download CSV</button>
@@ -100,7 +137,6 @@ export default function JudgeTeamGrouping() {
       </form>
 
       <div className={styles.delete}>
-        {/* TODO: only delete unscored? when was this used last year? */}
         <button
           onClick={async () => {
             await deleteManySubmissions();
