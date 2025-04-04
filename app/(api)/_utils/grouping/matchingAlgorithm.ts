@@ -22,13 +22,13 @@ const trackMap = new Map<string, string>(
   ])
 );
 
-const ALPHA = 4;
-
 /**
  * Match teams with judges and return an array of minimal submissions.
  * Each submission only contains the judge_id and team_id.
  */
-export default async function matchAllTeams(): Promise<{
+export default async function matchAllTeams(options?: {
+  alpha?: number;
+}): Promise<{
   submissions: Submission[];
   teamsWithNoTracks: string[];
   judgeTeamDistribution: {
@@ -48,6 +48,7 @@ export default async function matchAllTeams(): Promise<{
     };
   };
 }> {
+  const ALPHA = options?.alpha ?? 4;
   // Fetch all judges.
   const judgesResponse = await getManyUsers({
     role: 'judge',

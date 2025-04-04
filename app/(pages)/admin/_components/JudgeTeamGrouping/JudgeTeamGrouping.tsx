@@ -14,10 +14,11 @@ export default function JudgeTeamGrouping() {
   >([]);
   // New state to store the full match data
   const [fullMatchData, setFullMatchData] = useState<any>(null);
+  const [alpha, setAlpha] = useState<number>(4);
 
   // Match teams and store the submissions locally.
   const handleMatchTeams = async () => {
-    const result = await matchTeams();
+    const result = await matchTeams({ alpha });
     console.log('matchTeams result:', result);
 
     let matchData: any = {};
@@ -104,17 +105,48 @@ export default function JudgeTeamGrouping() {
 
   return (
     <div className={styles.body}>
-      <button onClick={handleMatchTeams}>Match Teams</button>
       <div>
-        <h2>Submissions</h2>
+        <label htmlFor="alphaInput" style={{ paddingLeft: 5, marginLeft: 10 }}>
+          Alpha value (default 4):
+        </label>
+        <input
+          id="alphaInput"
+          type="number"
+          value={alpha}
+          onChange={(e) => setAlpha(Number(e.target.value))}
+          placeholder="Alpha value (default 4)"
+          style={{ paddingLeft: 5, marginLeft: 10, marginTop: '20px' }}
+        />
+      </div>
+      <div className={styles.body}>
+        <button
+          onClick={handleMatchTeams}
+          style={{ marginTop: '10px', outline: '1px solid black' }}
+        >
+          Match Teams
+        </button>
+        <button
+          onClick={downloadCSV}
+          style={{ marginTop: '10px', outline: '1px solid black' }}
+        >
+          Download CSV
+        </button>
+      </div>
+
+      <div>
+        <h4>Submissions</h4>
         <pre>{JSON.stringify(submissions, null, 2)}</pre>
-        <h2>Match Data:</h2>
+        <h4>Match Data:</h4>
         <pre>{matching}</pre>
       </div>
-      <button onClick={downloadCSV}>Download CSV</button>
 
       <form action={scoreAction}>
-        <button type="submit">Score Teams</button>
+        <button
+          type="submit"
+          style={{ marginTop: '10px', outline: '1px solid black' }}
+        >
+          Score Teams
+        </button>
         {trackResults !== null
           ? trackResults.map((result) => (
               <div key={result.track}>

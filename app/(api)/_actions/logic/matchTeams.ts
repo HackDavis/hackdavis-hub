@@ -22,27 +22,35 @@ function checkMatches(matches: Submission[], teamsLength: number) {
   }
 
   mp.forEach((count) => {
-    if (count !== 2) valid = false;
+    if (count !== 3) valid = false;
   });
 
   return valid;
 }
 
-export default async function matchTeams() {
+export default async function matchTeams(
+  options: { alpha: number } = { alpha: 4 }
+) {
   // Generate submissions based on judge-team assignments.
   const teams = (await getManyTeams()).body;
 
-  const matchResults = await matchAllTeams();
+  const matchResults = await matchAllTeams({ alpha: options.alpha });
   const submissions = matchResults.submissions;
   const parsedSubmissions = await parseAndReplace(submissions);
+  console.log(submissions.length);
+  console.log(parsedSubmissions.length);
+  console.log(teams.length);
   const valid = checkMatches(parsedSubmissions, teams.length);
-
   if (valid) {
     for (const submission of submissions) {
-      await CreateSubmission({
+      console.log(submission.judge_id);
+      const res = await CreateSubmission({
         judge_id: { _id: submission.judge_id },
         team_id: { _id: submission.team_id },
       });
+      if (!res.ok) {
+        console.error(res.error);
+      }
     }
   }
 
