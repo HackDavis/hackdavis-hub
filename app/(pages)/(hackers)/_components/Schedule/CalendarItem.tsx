@@ -43,6 +43,7 @@ export function CalendarItem({
 }: CalendarItemProps) {
   const { name, host, type, location, start_time, end_time } = event;
   const bgColor = getBgColor(type);
+  const activeColor = getActiveColor(type);
 
   // TODO: add host and attendee count and other UI elements
   console.log(host, attendeeCount);
@@ -100,8 +101,7 @@ export function CalendarItem({
               inPersonalSchedule ? 'w-full' : 'w-0 group-hover:w-full'
             }`}
             style={{
-              backgroundColor: getActiveColor(type),
-              opacity: inPersonalSchedule ? 1 : 0.2,
+              backgroundColor: activeColor,
             }}
           />
           <p className="font-semibold relative z-10 text-black">

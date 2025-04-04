@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { getEventsForOneUser } from '@actions/userToEvents/getUserToEvent';
+import { getEventsForOneUser, getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
 import { deleteUserToEvent } from '@actions/userToEvents/deleteUserToEvent';
 import Event from '@typeDefs/event';
@@ -13,8 +13,13 @@ interface UserToEventRelation {
   event?: Event;
 }
 
-export function usePersonalEvents(userId: string) {
+interface usePersonalEventsProps{
+    userId: string;
+}
+
+export function usePersonalEvents({userId} : usePersonalEventsProps) {
   const [personalEvents, setPersonalEvents] = useState<Event[]>([]);
+  const [attendeeCount, setAttendeeCount] = useState<number>(0);
   const [userToEventRelations, setUserToEventRelations] = useState<
     UserToEventRelation[]
   >([]);
@@ -48,7 +53,7 @@ export function usePersonalEvents(userId: string) {
           .map((relation: any) => {
             // Get the first event from the events array
             const event = relation.events[0];
-            // Make sure dates are properly handled
+            // const attendeeCount = relation.events[0].
             if (event.start_time && typeof event.start_time === 'string') {
               event.start_time = new Date(event.start_time);
             }
@@ -57,6 +62,7 @@ export function usePersonalEvents(userId: string) {
             }
             return event;
           });
+
 
         setPersonalEvents(events);
       } else {
@@ -79,6 +85,8 @@ export function usePersonalEvents(userId: string) {
       setIsLoading(false);
     }
   }, [userId]);
+
+
 
   // Add an event to the user's personal schedule
   const addToPersonalSchedule = useCallback(

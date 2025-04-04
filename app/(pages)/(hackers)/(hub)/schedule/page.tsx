@@ -6,6 +6,8 @@ import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
+import { useEvents } from './_hooks/useEvents';
+import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
 import {
@@ -30,6 +32,7 @@ interface ScheduleData {
 
 export default function Page() {
   const { user, loading: userLoading } = useActiveUser('/auth/login');
+  const [eventAttendees, setEventAttendees] = useState<Record<string, number>>()
 
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
@@ -50,7 +53,7 @@ export default function Page() {
     removeFromPersonalSchedule,
     isInPersonalSchedule,
     refreshPersonalEvents,
-  } = usePersonalEvents(user?._id || '');
+  } = usePersonalEvents({userId: user?._id || ''});
 
   // Function to handle adding to personal schedule with loading state
   const handleAddToSchedule = async (eventId: string) => {
@@ -253,6 +256,42 @@ export default function Page() {
       setActiveFilters([...activeFilters, label]);
     }
   };
+
+  useEffect(() => {
+    // Fetch attendee counts for events shown in the current view
+    async function fetchAllEventAttendees() {
+      if (!dataToUse || !dataToUse[activeDay]) return;
+      
+      const events = dataToUse[activeDay];
+      const counts: Record<string, number> = {};
+      
+      for (const eventDetail of events) {
+        const eventId = eventDetail.event._id;
+
+        if (eventId) {
+
+          console.log("🚀 ~ :272 ~ fetchAllEventAttendees ~ eventId:", eventId)
+
+          try {
+            const result = await getUsersForOneEvent(eventId);
+
+            console.log("🚀 ~ :274 ~ fetchAllEventAttendees ~ result:", result)
+
+            if (result.ok && result.body) {
+              counts[eventId] = result.body.length;
+            }
+          } catch (err) {
+            console.error(`Error fetching attendees for event ${eventId}:`, err);
+          }
+        }
+      }
+      
+      console.log('All event attendee counts:', counts);
+      setEventAttendees(counts);
+    }
+    
+    fetchAllEventAttendees();
+  }, [dataToUse, activeDay]);
 
   // Determine if we're in a loading state
   const isLoading =

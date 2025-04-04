@@ -9,6 +9,9 @@ export async function getEventsForOneUser(user_id: string) {
 }
 
 export async function getUsersForOneEvent(event_id: string) {
+  console.log('Server action received event_id:', event_id);
+  console.log('Event ID type:', typeof event_id);
+
   const result = await GetUserToEvents(await prepareIdsInQuery({ event_id }));
   return result;
 }
