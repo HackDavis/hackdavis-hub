@@ -106,7 +106,9 @@ export default function JudgeTeamGrouping() {
     <div className={styles.body}>
       <button onClick={handleMatchTeams}>Match Teams</button>
       <div>
-        <p>Match Data (excluding submissions):</p>
+        <h2>Submissions</h2>
+        <pre>{JSON.stringify(submissions, null, 2)}</pre>
+        <h2>Match Data:</h2>
         <pre>{matching}</pre>
       </div>
       <button onClick={downloadCSV}>Download CSV</button>
