@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 16px;
 
-    .specialty_select {
+    .role_select {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -42,4 +42,8 @@
 
 .link_text {
     word-wrap: break-word;
+}
+
+.error_msg {
+    color: var(--text-error);
 }
