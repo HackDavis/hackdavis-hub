@@ -21,28 +21,59 @@ export function usePersonalEvents(userId: string) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.log('🚀 ~ :28 ~ fetchPersonalEvents ~ userId:', userId);
+
   // Fetch the user's events
   const fetchPersonalEvents = useCallback(async () => {
-    if (!userId) return;
+    if (!userId) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       setIsLoading(true);
       setError(null);
+      console.log('Fetching personal events for user:', userId);
       const result = await getEventsForOneUser(userId);
+      console.log('API response:', result);
 
       if (result.ok) {
         setUserToEventRelations(result.body);
 
         // Extract the events from the user-to-event relations if they exist
         const events = result.body
-          .filter((relation: UserToEventRelation) => relation.event)
-          .map((relation: UserToEventRelation) => relation.event as Event);
+          .filter(
+            (relation: any) => relation.events && relation.events.length > 0
+          )
+          .map((relation: any) => {
+            // Get the first event from the events array
+            const event = relation.events[0];
+            // Make sure dates are properly handled
+            if (event.start_time && typeof event.start_time === 'string') {
+              event.start_time = new Date(event.start_time);
+            }
+            if (event.end_time && typeof event.end_time === 'string') {
+              event.end_time = new Date(event.end_time);
+            }
+            return event;
+          });
+        // const events = result.body
+        //   .filter((relation: UserToEventRelation) => relation.event)
+        //   .map((relation: UserToEventRelation) => relation.event as Event);
+        console.log('🚀 ~ :46 ~ fetchPersonalEvents ~ events:', events);
 
         setPersonalEvents(events);
       } else {
-        setError(result.error || 'Failed to fetch personal events');
+        // If no events found, set empty array rather than error for new users
+        if (result.error?.includes('No matching userToEvent found')) {
+          setUserToEventRelations([]);
+          setPersonalEvents([]);
+        } else {
+          setError(result.error || 'Failed to fetch personal events');
+        }
       }
     } catch (err) {
+      console.error('Error in fetchPersonalEvents:', err);
       setError(
         `Error fetching personal events: ${
           err instanceof Error ? err.message : String(err)
@@ -61,7 +92,9 @@ export function usePersonalEvents(userId: string) {
       try {
         setIsLoading(true);
         setError(null);
+        console.log('Adding event to personal schedule:', { userId, eventId });
         const result = await createUserToEvent(userId, eventId);
+        console.log('Add to schedule response:', result);
 
         if (result.ok) {
           // Refresh the personal events after adding a new one
@@ -72,6 +105,7 @@ export function usePersonalEvents(userId: string) {
           return false;
         }
       } catch (err) {
+        console.error('Error in addToPersonalSchedule:', err);
         setError(
           `Error adding event to personal schedule: ${
             err instanceof Error ? err.message : String(err)

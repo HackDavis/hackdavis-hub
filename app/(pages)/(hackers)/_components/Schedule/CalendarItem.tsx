@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { EventType } from '@typeDefs/event';
-import { EventDetails } from '../../(hub)/schedule/page';
 import { pageFilters } from '@typeDefs/filters';
 
 const getBgColor = (type: EventType): string => {
@@ -19,7 +18,21 @@ const formatTime = (pstDate: Date): string => {
   });
 };
 
-const CalendarItem: React.FC<EventDetails> = ({ event, attendeeCount }) => {
+interface CalendarItemProps {
+  event: any;
+  attendeeCount?: number;
+  inPersonalSchedule?: boolean;
+  onAddToSchedule?: () => void;
+  onRemoveFromSchedule?: () => void;
+}
+
+export function CalendarItem({
+  event,
+  attendeeCount,
+  inPersonalSchedule = false,
+  onAddToSchedule,
+  onRemoveFromSchedule,
+}: CalendarItemProps) {
   const { name, host, type, location, start_time, end_time } = event;
   const bgColor = getBgColor(type);
 
@@ -64,9 +77,15 @@ const CalendarItem: React.FC<EventDetails> = ({ event, attendeeCount }) => {
             </span>
           </div>
         )}
+        <button
+          onClick={inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule}
+          className="ml-auto flex items-center justify-center px-3 py-1 rounded-md text-sm font-medium text-white bg-[#00C4D7] hover:bg-[#00A3B3] transition-colors"
+        >
+          {inPersonalSchedule ? 'Remove' : 'Add to Schedule'}
+        </button>
       </div>
     </div>
   );
-};
+}
 
 export default CalendarItem;

@@ -14,11 +14,13 @@ import {
   TooltipTrigger,
 } from '@globals/components/ui/tooltip';
 import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
+import useActiveUser from '@pages/_hooks/useActiveUser';
+import { usePersonalEvents } from './_hooks/usePersonalEvents';
 
 export interface EventDetails {
   event: Event;
   attendeeCount?: number;
-  inpersonalSchedule?: boolean;
+  inPersonalSchedule?: boolean;
 }
 
 interface ScheduleData {
@@ -26,6 +28,8 @@ interface ScheduleData {
 }
 
 export default function Page() {
+  const { user, loading: userLoading } = useActiveUser('/auth/login');
+
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
   );
@@ -35,11 +39,88 @@ export default function Page() {
   const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
   const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
+  const [isActionInProgress, setIsActionInProgress] = useState(false);
 
+  const {
+    personalEvents,
+    isLoading: personalEventsLoading,
+    error: personalEventsError,
+    addToPersonalSchedule,
+    removeFromPersonalSchedule,
+    isInPersonalSchedule,
+    refreshPersonalEvents,
+  } = usePersonalEvents(user?._id || '');
+
+  // Function to handle adding to personal schedule with loading state
+  const handleAddToSchedule = async (eventId: string) => {
+    setIsActionInProgress(true);
+    const success = await addToPersonalSchedule(eventId);
+
+    if (success) {
+      // If successful, update both tabs
+      await refreshPersonalEvents();
+
+      // Also update the main schedule data if we're on the schedule tab
+      if (activeTab === 'schedule') {
+        // Update the schedule data to reflect the change
+        if (scheduleData) {
+          const newScheduleData = { ...scheduleData };
+
+          // Mark the event as in personal schedule
+          Object.keys(newScheduleData).forEach((dayKey) => {
+            newScheduleData[dayKey] = newScheduleData[dayKey].map((item) => {
+              if (item.event._id === eventId) {
+                return { ...item, inPersonalSchedule: true };
+              }
+              return item;
+            });
+          });
+
+          setScheduleData(newScheduleData);
+        }
+      }
+    }
+
+    setIsActionInProgress(false);
+  };
+
+  // Function to handle removing from personal schedule with loading state
+  const handleRemoveFromSchedule = async (eventId: string) => {
+    setIsActionInProgress(true);
+    const success = await removeFromPersonalSchedule(eventId);
+
+    if (success) {
+      // If successful, update both tabs
+      await refreshPersonalEvents();
+
+      // Also update the main schedule data if we're on the schedule tab
+      if (activeTab === 'schedule') {
+        // Update the schedule data to reflect the change
+        if (scheduleData) {
+          const newScheduleData = { ...scheduleData };
+
+          // Mark the event as not in personal schedule
+          Object.keys(newScheduleData).forEach((dayKey) => {
+            newScheduleData[dayKey] = newScheduleData[dayKey].map((item) => {
+              if (item.event._id === eventId) {
+                return { ...item, inPersonalSchedule: false };
+              }
+              return item;
+            });
+          });
+
+          setScheduleData(newScheduleData);
+        }
+      }
+    }
+
+    setIsActionInProgress(false);
+  };
+
+  // Fetch regular schedule events
   useEffect(() => {
     async function fetchEvents() {
       try {
-        // TODO: add personal schedule handling
         const response = await getEvents({});
         if (!response.ok) {
           throw new Error(response.error || 'Internal server error');
@@ -55,7 +136,14 @@ export default function Page() {
           if (!acc[dayKey]) {
             acc[dayKey] = [];
           }
-          acc[dayKey].push({ event });
+
+          // Check if this event is in the user's personal schedule
+          const isPersonal = isInPersonalSchedule(event._id || '');
+
+          acc[dayKey].push({
+            event,
+            inPersonalSchedule: isPersonal,
+          });
           return acc;
         }, {});
 
@@ -64,21 +152,60 @@ export default function Page() {
         console.error('Error fetching events:', error);
       }
     }
-    fetchEvents();
-  }, []);
+
+    // Only fetch if we have the isInPersonalSchedule function available
+    if (!personalEventsLoading) {
+      fetchEvents();
+    }
+  }, [personalEvents, isInPersonalSchedule, personalEventsLoading]);
+
+  useEffect(() => {
+    if (activeTab === 'personal') {
+      refreshPersonalEvents();
+    }
+  }, [activeTab, refreshPersonalEvents]);
+
+  // Format personal events data
+  const personalScheduleData = useMemo(() => {
+    // Return empty object instead of null to avoid loading state
+    if (!personalEvents?.length) return {};
+
+    const groupedByDay = personalEvents.reduce((acc: ScheduleData, event) => {
+      const dayKey = event.start_time.toLocaleString('en-US', {
+        timeZone: 'America/Los_Angeles',
+        day: 'numeric',
+      });
+      if (!acc[dayKey]) {
+        acc[dayKey] = [];
+      }
+      acc[dayKey].push({
+        event,
+        inPersonalSchedule: true,
+      });
+      return acc;
+    }, {});
+
+    return groupedByDay;
+  }, [personalEvents]);
+
+  const dataToUse =
+    activeTab === 'personal' ? personalScheduleData : scheduleData;
 
   // Combined transformation: filtering, sorting, grouping and then sorting the groups.
   const sortedGroupedEntries = useMemo(() => {
-    if (!scheduleData) return [];
+    if (!dataToUse) return [];
 
     // Filter events for the active day and by active filters.
-    const unfilteredEvents = scheduleData[activeDay] || [];
+    const unfilteredEvents = dataToUse[activeDay] || [];
     const filteredEvents =
       activeFilters.length === 0
         ? unfilteredEvents
         : unfilteredEvents.filter((ed) =>
             activeFilters.includes(ed.event.type)
           );
+
+    // If no events found after filtering, return empty array
+    if (filteredEvents.length === 0) return [];
 
     // Sort the filtered events by start time.
     const sortedEvents = [...filteredEvents].sort(
@@ -116,7 +243,7 @@ export default function Page() {
       const dateB = new Date(`${dummyDay} ${b[0]}`);
       return dateA.getTime() - dateB.getTime();
     });
-  }, [scheduleData, activeDay, activeFilters]);
+  }, [dataToUse, activeDay, activeFilters]);
 
   const toggleFilter = (label: EventType) => {
     if (activeFilters.includes(label)) {
@@ -125,6 +252,10 @@ export default function Page() {
       setActiveFilters([...activeFilters, label]);
     }
   };
+
+  // Determine if we're in a loading state
+  const isLoading =
+    userLoading || personalEventsLoading || !scheduleData || isActionInProgress;
 
   return (
     <main id="schedule" className="w-full">
@@ -223,25 +354,54 @@ export default function Page() {
         <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
-          {scheduleData ? (
+          {isLoading ? (
+            <div className="text-center py-10">Loading events...</div>
+          ) : personalEventsError ? (
+            <div className="text-center py-10 text-red-500">
+              Error: {personalEventsError}
+            </div>
+          ) : sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">
                 <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
                   {timeKey}
                 </div>
                 <div>
-                  {events.map((event) => (
+                  {events.map((eventDetail) => (
                     <CalendarItem
-                      key={event.event._id}
-                      event={event.event}
-                      attendeeCount={event.attendeeCount}
+                      key={eventDetail.event._id}
+                      event={eventDetail.event}
+                      attendeeCount={eventDetail.attendeeCount}
+                      inPersonalSchedule={eventDetail.inPersonalSchedule}
+                      onAddToSchedule={() =>
+                        handleAddToSchedule(eventDetail.event._id || '')
+                      }
+                      onRemoveFromSchedule={() =>
+                        handleRemoveFromSchedule(eventDetail.event._id || '')
+                      }
                     />
                   ))}
                 </div>
               </div>
             ))
           ) : (
-            <div>Loading events…</div>
+            <div className="text-center py-10">
+              {activeTab === 'personal' ? (
+                <div>
+                  <p className="mb-4">
+                    No events in your personal schedule yet.
+                  </p>
+                  <button
+                    onClick={() => setActiveTab('schedule')}
+                    className="px-4 py-2 bg-[#00C4D7] text-white rounded-md hover:bg-[#00A3B3] transition-colors"
+                  >
+                    Browse the schedule to add events
+                  </button>
+                </div>
+              ) : (
+                'No events found for this day and filters.'
+              )}
+            </div>
           )}
         </div>
       </div>
