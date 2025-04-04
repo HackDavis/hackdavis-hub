@@ -7,11 +7,18 @@ import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
 import { pageFilters } from '@typeDefs/filters';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@globals/components/ui/tooltip';
+import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
 
 export interface EventDetails {
   event: Event;
   attendeeCount?: number;
-  inCustomSchedule?: boolean;
+  inpersonalSchedule?: boolean;
 }
 
 interface ScheduleData {
@@ -19,8 +26,10 @@ interface ScheduleData {
 }
 
 export default function Page() {
-  const [activeTab, setActiveTab] = useState<'schedule' | 'custom'>('schedule');
-  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'custom' | null>(
+  const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
+    'schedule'
+  );
+  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'personal' | null>(
     null
   );
   const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
@@ -30,7 +39,7 @@ export default function Page() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        // TODO: add custom schedule handling
+        // TODO: add personal schedule handling
         const response = await getEvents({});
         if (!response.ok) {
           throw new Error(response.error || 'Internal server error');
@@ -145,18 +154,36 @@ export default function Page() {
                 Schedule
               </span>
               <span
-                onClick={() => setActiveTab('custom')}
-                onMouseEnter={() => setHoveredTab('custom')}
+                onClick={() => setActiveTab('personal')}
+                onMouseEnter={() => setHoveredTab('personal')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === 'custom'
+                  activeTab === 'personal'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
-                    : hoveredTab === 'custom'
+                    : hoveredTab === 'personal'
                     ? 'text-black'
                     : 'text-[#8F8F8F]'
                 }`}
               >
-                Custom
+                {/* Personal */}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>Personal</TooltipTrigger>
+                    <TooltipContent side="bottom">
+                      <div className="flex gap-4 rounded-full items-center justify-between">
+                        <div className="relative rounded-full w-12 h-12">
+                          <Image
+                            src={TooltipCow}
+                            alt="Tooltip Cow"
+                            fill
+                          ></Image>
+                        </div>
+
+                        <p>Make your own schedule by adding events!</p>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </span>
             </div>
 
