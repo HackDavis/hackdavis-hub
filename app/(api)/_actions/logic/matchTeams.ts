@@ -2,8 +2,8 @@
 
 import { getManyTeams } from '@actions/teams/getTeams';
 import { CreateSubmission } from '@datalib/submissions/createSubmission';
+import JudgeToTeam from '@typeDefs/judgeToTeam';
 import Submission from '@typeDefs/submission';
-// import User from '@typeDefs/user';
 import matchAllTeams from '@utils/grouping/matchingAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
 
@@ -35,18 +35,14 @@ export default async function matchTeams(
   const teams = (await getManyTeams()).body;
 
   const matchResults = await matchAllTeams({ alpha: options.alpha });
-  const submissions = matchResults.submissions;
-  const parsedSubmissions = await parseAndReplace(submissions);
-  console.log(submissions.length);
-  console.log(parsedSubmissions.length);
-  console.log(teams.length);
-  const valid = checkMatches(parsedSubmissions, teams.length);
+  const judgeToTeam: JudgeToTeam[] = matchResults.judgeToTeam;
+  const parsedJudgeToTeam = await parseAndReplace(judgeToTeam);
+  const valid = checkMatches(parsedJudgeToTeam, teams.length);
   if (valid) {
-    for (const submission of submissions) {
-      console.log(submission.judge_id);
+    for (const submission of parsedJudgeToTeam) {
       const res = await CreateSubmission({
-        judge_id: { _id: submission.judge_id },
-        team_id: { _id: submission.team_id },
+        judge_id: submission.judge_id,
+        team_id: submission.team_id,
       });
       if (!res.ok) {
         console.error(res.error);

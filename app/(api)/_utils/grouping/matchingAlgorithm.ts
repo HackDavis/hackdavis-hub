@@ -1,11 +1,12 @@
 // @actions/logic/matchTeams.ts
 import User from '@typeDefs/user';
-import Submission from '@typeDefs/submission';
+import JudgeToTeam from '@typeDefs/judgeToTeam';
 import Team from '@typeDefs/team';
 import tracks from '@apidata/tracks.json' assert { type: 'json' };
 
 import { getManyUsers } from '@actions/users/getUser';
 import { getManyTeams } from '@actions/teams/getTeams';
+import { Construction } from 'lucide-react';
 
 interface Judge {
   user: User;
@@ -23,13 +24,13 @@ const trackMap = new Map<string, string>(
 );
 
 /**
- * Match teams with judges and return an array of minimal submissions.
+ * Match teams with judges and return an array of minimal judgeToTeam.
  * Each submission only contains the judge_id and team_id.
  */
 export default async function matchAllTeams(options?: {
   alpha?: number;
 }): Promise<{
-  submissions: Submission[];
+  judgeToTeam: JudgeToTeam[];
   teamsWithNoTracks: string[];
   judgeTeamDistribution: {
     sum: number;
@@ -129,8 +130,8 @@ export default async function matchAllTeams(options?: {
     judges.sort((a, b) => b.priority - a.priority);
   }
 
-  // Array to hold the minimal submissions.
-  const submissions: Submission[] = [];
+  // Array to hold the minimal judgeToTeam.
+  const judgeToTeam: JudgeToTeam[] = [];
   const teamsWithNoTracks: string[] = [];
   const teamMatchQualities: { [teamId: string]: number[] } = {};
 
@@ -167,25 +168,24 @@ export default async function matchAllTeams(options?: {
         teamMatchQualities[teamId] = [];
       }
       teamMatchQualities[teamId].push(matchQuality);
-
-      const submission: Submission = {
-        judge_id: selectedJudge.user._id as string,
-        team_id: team._id as string,
-        social_good: null,
-        creativity: null,
-        presentation: null,
-        scores: [],
-        comments: '',
-        is_scored: false,
-        queuePosition: null,
+      const submission: JudgeToTeam = {
+        judge_id: {
+          '*convertId': {
+            id: selectedJudge.user._id?.toString(),
+          },
+        },
+        team_id: {
+          '*convertId': {
+            id: team._id,
+          },
+        },
       };
 
-      submissions.push(submission);
+      judgeToTeam.push(submission);
       selectedJudge.teamsAssigned += 1;
     }
   }
-
-  console.log('No. of submissions:', submissions.length);
+  console.log('No. of judgeToTeam:', judgeToTeam.length);
 
   const judgeAssignments = judgesQueue.map((judge) => judge.teamsAssigned);
   const judgeTeamDistribution = {
@@ -221,7 +221,7 @@ export default async function matchAllTeams(options?: {
   }
 
   return {
-    submissions,
+    judgeToTeam,
     teamsWithNoTracks,
     judgeTeamDistribution,
     matchQualityStats,
