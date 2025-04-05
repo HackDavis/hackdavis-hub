@@ -14,7 +14,7 @@ const ProjectTab: React.FC<ProjectTabProps> = ({ team, clickable = true }) => {
       }`}
     >
       <span className="text-[48px] text-[#000000] leading-[60px] font-[600] mr-6">
-        {team.teamNumber}
+        {team.tableNumber}
       </span>
       <span className="max-w-[137px] break-words text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
         {team.name}
