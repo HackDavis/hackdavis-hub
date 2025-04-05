@@ -2,8 +2,9 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
-import ResetPasswordForm from './_components/ResetPasswordForm';
-import LoginBackground from '../_components/LoginBackground/LoginBackground';
+import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
+import ResetPasswordForm from '../_components/AuthForms/ResetPasswordForm';
+import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
 
 export default async function RegisterPage() {
   const session = await auth();
@@ -18,8 +19,13 @@ export default async function RegisterPage() {
   }
 
   return (
-    <LoginBackground>
-      <ResetPasswordForm data={data} />
-    </LoginBackground>
+    <InviteOnlyRoute>
+      <AuthFormBackground
+        title="Hi Hacker!"
+        subtitle="Please enter your new password below."
+      >
+        <ResetPasswordForm data={data} />
+      </AuthFormBackground>
+    </InviteOnlyRoute>
   );
 }

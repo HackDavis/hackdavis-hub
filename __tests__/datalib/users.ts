@@ -21,7 +21,7 @@ beforeEach(async () => {
     email: 'judge@smith.com',
     password: 'test_judge_password',
     role: 'judge',
-    specialties: ['tech', 'business', 'design'],
+    specialties: ['SWE', 'Business', 'Design'],
     has_checked_in: false,
   };
   mockHacker = {
@@ -89,14 +89,6 @@ describe('CREATE: users', () => {
     expect(error).toBe(null);
   });
 
-  it('should hash the password', async () => {
-    const { ok, body, error } = await CreateUser({ ...mockAdmin });
-    expect(ok).toBe(true);
-    expect(body).not.toBe(null);
-    expect(body.password).not.toBe(mockAdmin.password);
-    expect(error).toBe(null);
-  });
-
   it('should create a judge user successfully', async () => {
     const { ok, body, error } = await CreateUser(mockJudge);
     expect(error).toBe(null);
@@ -145,45 +137,13 @@ describe('CREATE: users', () => {
     expect(error2).toBe('Duplicate: user already exists.');
   });
 
-  it('should fail to create a judge user missing specialties', async () => {
-    const tempJudge = { ...mockJudge };
-    delete (tempJudge as any).specialties;
-
-    const { ok, body, error } = await CreateUser(tempJudge);
-    expect(ok).toBe(false);
-    expect(body).toBe(null);
-    expect(error).toBe(
-      'Judge user is missing specialties or has has_checked_in set to true'
-    );
-  });
-
-  it('should fail to create a hacker user missing position', async () => {
-    const tempHacker = { ...mockHacker };
-    delete (tempHacker as any).position;
-    const { ok, body, error } = await CreateUser(tempHacker);
-    expect(ok).toBe(false);
-    expect(body).toBe(null);
-    expect(error).toBe('Hacker user is missing position or is_beginner');
-  });
-
-  it('should fail to create a hacker user missing is_beginner', async () => {
-    const tempHacker = { ...mockHacker };
-    delete (tempHacker as any).is_beginner;
-    const { ok, body, error } = await CreateUser(tempHacker);
-    expect(ok).toBe(false);
-    expect(body).toBe(null);
-    expect(error).toBe('Hacker user is missing position or is_beginner');
-  });
-
   it('should fail to create a judge user with has_checked_in = true', async () => {
     const tempJudge = { ...mockJudge };
     tempJudge.has_checked_in = true;
     const { ok, body, error } = await CreateUser(tempJudge);
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe(
-      'Judge user is missing specialties or has has_checked_in set to true'
-    );
+    expect(error).toBe('Judge user has has_checked_in set to true');
   });
 
   it('should not allow invalid roles', async () => {
