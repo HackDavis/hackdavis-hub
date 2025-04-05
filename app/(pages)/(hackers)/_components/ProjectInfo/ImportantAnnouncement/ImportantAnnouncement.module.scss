@@ -13,6 +13,17 @@
     align-items: stretch;
     padding: 2% 7%;
 
+    p {
+        @include desktop-s {
+            font-size: 0.8rem !important;
+        }
+
+        @include tablet-s {
+            font-size: 0.8rem !important;
+            padding: 1%;
+        }
+    }
+
     @include tablet-s {
         flex-direction: column;
     }
@@ -36,33 +47,32 @@
             padding: 5%;
             object-fit: contain; /* Prevents cropping or overflow */
             flex-shrink: 1;
+
+            @include tablet-s {
+                padding: 0%;
+            }
         }
 
         .text1 {
-            background-color: white;
-            padding: 2%;
+            background-color: var(--background-light);
+            padding: 4%;
             border-radius: 12px;
-            margin: 3% 0%;
-            font-size: 1rem;
-
-            @include desktop-s {
-                font-size: 0.1rem;
-            }
+            margin: 2% 0%;
 
             @include tablet-s {
-                font-size: 0.5rem;
+                margin: 2%;
             }
         }
 
         .text2 {
-            background-color: white;
-            padding: 2%;
+            background-color: var(--background-light);
+            padding: 4%;
             border-radius: 12px;
             margin: 3% 0%;
-        }
 
-        p { 
-            padding: 2%;
+            @include tablet-s {
+                margin: 2%;
+            }
         }
     }
 }
@@ -72,15 +82,23 @@
 .hammer {
     max-width: 100%;
     height: auto;
+
+    @include desktop-s {
+        width: 30px;
+    }
+
+    @include tablet-s {
+        width: 30px;
+    }
 }
 
 .bulletItem {
     display: flex;
-    align-items: center; /* Vertically centers the image and text */
-    margin: 8px 0; /* Optional: adds vertical spacing between bullet items */
+    align-items: center; 
+    margin: 8px 0;
 }
 
 .bulletItem p {
     margin: 0;
-    padding-left: 10px; /* Adjusts the space between the image and text */
+    padding-left: 10px;
 }
