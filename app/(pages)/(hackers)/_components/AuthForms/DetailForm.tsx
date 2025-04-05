@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import { updateUser } from '@actions/users/updateUser';
+import Loader from '@components/Loader/Loader';
 import DeveloperCow from 'public/hackers/mvp/developer_cow.svg';
 import DesignerBunny from 'public/hackers/mvp/designer_bunny.svg';
 import PmFroggy from 'public/hackers/mvp/pm_froggy.svg';
@@ -142,11 +143,7 @@ export default function DetailForm({ id }: any) {
         </div>
       </form>
 
-      {loading && (
-        <div className={styles.loading_container}>
-          <div className={styles.loader}></div>
-        </div>
-      )}
+      {loading && <Loader />}
     </div>
   );
 }
