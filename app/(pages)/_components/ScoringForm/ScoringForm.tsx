@@ -15,21 +15,33 @@ interface ScoringFormProps {
 }
 
 const overallScoringCategory = [
-  { displayName: 'Social Good', name: 'social_good', guidelines: {
-    "1": "Solves a minor, niche problem, limited community impact.",
-    "3": "Solves a clear problem with moderate community impact and potential sustainability.",
-    "5": "Solves a significant problem with broad, lasting community impact and scalability."
-  }, },
-  { displayName: 'Creativity', name: 'creativity', guidelines: {
-    "1": "Solution is conventional or very similar to existing options.",
-    "3": "Solution offers some unique features or improvements over existing options.",
-    "5": "Solution introduces a novel approach with unique, groundbreaking elements."
-  }, },
-  { displayName: 'Presentation', name: 'presentation', guidelines: {
-    "1": "Pitch is unclear, lacks detail and team understanding.",
-    "3": "Pitch is clear with good detail, but delivery could be more engaging or team involvement is uneven.",
-    "5": "Pitch is compelling, engaging, well-delivered with strong team involvement and clear expertise."
-  }, },
+  {
+    displayName: 'Social Good',
+    name: 'social_good',
+    guidelines: {
+      '1': 'Solves a minor, niche problem, limited community impact.',
+      '3': 'Solves a clear problem with moderate community impact and potential sustainability.',
+      '5': 'Solves a significant problem with broad, lasting community impact and scalability.',
+    },
+  },
+  {
+    displayName: 'Creativity',
+    name: 'creativity',
+    guidelines: {
+      '1': 'Solution is conventional or very similar to existing options.',
+      '3': 'Solution offers some unique features or improvements over existing options.',
+      '5': 'Solution introduces a novel approach with unique, groundbreaking elements.',
+    },
+  },
+  {
+    displayName: 'Presentation',
+    name: 'presentation',
+    guidelines: {
+      '1': 'Pitch is unclear, lacks detail and team understanding.',
+      '3': 'Pitch is clear with good detail, but delivery could be more engaging or team involvement is uneven.',
+      '5': 'Pitch is compelling, engaging, well-delivered with strong team involvement and clear expertise.',
+    },
+  },
 ];
 
 const SEP = '::';

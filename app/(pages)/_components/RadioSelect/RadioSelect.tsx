@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 interface RadioSelectProps {
   question: string;
-  rubric: {[points : number]: string};
+  rubric: { [points: number]: string };
   initValue?: number | null;
   onChange: (value: number) => void;
 }
@@ -57,14 +57,18 @@ export default function RadioSelect({
         ))}
       </div>
       {/* {showTooltip && ( */}
-        <div className={`${styles.tooltip_text} ${showTooltip ? styles.expanded : ''}`}>
-          {Object.entries(rubric).map(([key, value]) => (
-            <p key={key}>
-              <span className={styles.tooltip_key}>{key}:{' '}</span>
-              {value}
-            </p>
-          ))}
-        </div>
+      <div
+        className={`${styles.tooltip_text} ${
+          showTooltip ? styles.expanded : ''
+        }`}
+      >
+        {Object.entries(rubric).map(([key, value]) => (
+          <p key={key}>
+            <span className={styles.tooltip_key}>{key}: </span>
+            {value}
+          </p>
+        ))}
+      </div>
       {/* )} */}
     </div>
   );

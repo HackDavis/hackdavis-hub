@@ -94,7 +94,8 @@ const tracks: Tracks = {
           5: 'Disciplines are seamlessly interwoven, creating a solution that could not exist without the collaboration of all involved fields.',
         },
       },
-      { // want to rephrase more, esp 5th
+      {
+        // want to rephrase more, esp 5th
         attribute: 'Innovation in Multidisciplinary Problem-Solving',
         guidelines: {
           1: 'The project uses familiar approaches without any real blending of disciplines.',
@@ -102,7 +103,8 @@ const tracks: Tracks = {
           5: 'The project presents a groundbreaking, new approach by merging disciplines in a way that produces creative solutions and exceeds the sum of its parts.',
         },
       },
-      { // dont like this too much, would rather replace w a new criterion
+      {
+        // dont like this too much, would rather replace w a new criterion
         attribute: 'Cross-Disciplinary Collaboration and Workflow',
         guidelines: {
           1: 'Limited communication or collaboration between disciplines, causing confusion or inefficiencies.',
@@ -166,15 +168,16 @@ const tracks: Tracks = {
       },
       {
         attribute: 'Advocacy and Awareness',
-        guidelines: { // dont like 3rd
+        guidelines: {
+          // dont like 3rd
           1: 'Doesn’t include any advocacy or awareness-raising elements.',
           3: 'Some sustainability with potential for scaling.',
           5: 'Actively advocates for social justice, raising awareness and prompting action from stakeholders.',
         },
       },
-      { // dont like 1 and 3
-        attribute:
-          'Real-World Applicability and Impact',
+      {
+        // dont like 1 and 3
+        attribute: 'Real-World Applicability and Impact',
         guidelines: {
           1: 'Has limited application to real-world social justice issues.',
           3: 'Has moderate real-world applicability, but needs further development for true impact.',
@@ -192,7 +195,8 @@ const tracks: Tracks = {
       'Effectively integrate a hardware component to your final project. The final project should be functional, user-friendly, and interactive.',
     domain: 'hardware',
     scoring_criteria: [
-      { // dont like 3rd
+      {
+        // dont like 3rd
         attribute: 'Hardware Integration and Functionality',
         guidelines: {
           1: 'Hardware is either non-functional or not integrated meaningfully into the project.',
@@ -200,7 +204,8 @@ const tracks: Tracks = {
           5: 'Hardware is seamlessly integrated, fully functional, and enhances the project’s overall performance.',
         },
       },
-      { // could improve 3rd and 5th
+      {
+        // could improve 3rd and 5th
         attribute: 'Creativity and Innovation in Hardware Design',
         guidelines: {
           1: 'Standard hardware design with minimal innovation.',
@@ -227,7 +232,8 @@ const tracks: Tracks = {
       'Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced techical tools + algorithms/data structures, integration of multiple technologies, quality of implementation, displays technical depth, graded on performance/scalability',
     domain: 'swe',
     scoring_criteria: [
-      { // dont like 3 and 4
+      {
+        // dont like 3 and 4
         attribute: 'Complexity of Problem Solved',
         guidelines: {
           1: 'The problem solved is basic or routine, with minimal technical challenges.',
@@ -243,12 +249,13 @@ const tracks: Tracks = {
           5: 'The project demonstrates flawless technical execution, with well-optimized, scalable solutions and robust engineering.',
         },
       },
-      { // like this kind of
+      {
+        // like this kind of
         attribute: 'Advanced Use of Technologies or Techniques',
         guidelines: {
           1: 'Uses basic or traditional technologies.',
           3: 'Uses a combination of standard and some advanced technologies.',
-          5: 'Utilizes highly specialized or emerging technologies.'
+          5: 'Utilizes highly specialized or emerging technologies.',
         },
       },
       {
@@ -278,7 +285,8 @@ const tracks: Tracks = {
       'Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms + ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. We encourage that models work accurately on unseen circumstances.',
     domain: 'aiml',
     scoring_criteria: [
-      { // dont like 5th
+      {
+        // dont like 5th
         attribute: 'Innovative Use of AI/ML Techniques',
         guidelines: {
           1: 'Employs basic techniques or is an LLM wrapper.',
@@ -288,13 +296,15 @@ const tracks: Tracks = {
       },
       {
         attribute: 'Model Performance and Accuracy',
-        guidelines: { // i think there was a better one
+        guidelines: {
+          // i think there was a better one
           1: 'Poor accuracy and generalization, producing unreliable results.',
           3: 'Performs decently, but there’s room for improvement in accuracy, robustness, or scalability.',
           5: 'Performs excellently, showing industry-grade capabilities.',
         },
       },
-      { // dont like 3rd
+      {
+        // dont like 3rd
         attribute: 'Real-World Impact and Applicability of AI/ML Solution',
         guidelines: {
           1: 'Limited or theoretical applicability, with minimal real-world use cases.',
@@ -372,7 +382,6 @@ const tracks: Tracks = {
           5: 'Highly innovative and unique, pushes boundaries.',
         },
       },
-      
     ],
   },
   'Best Entrepreneurship Hack': {
