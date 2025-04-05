@@ -35,18 +35,22 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
   }
   return (
     <div className="flex flex-col h-full bg-[#F2F2F7]">
-      <span className="text-[32px] font-semibold text-[#000000] mb-[12px]">
-        Current Project:
-      </span>
-      <span className="mb-[24px] text-[18px] font-normal text-[#000000] tracking-[0.36px] leading-[26.1px]">
-        Projects must be judged in order one by one order.
-      </span>
+      <p className="text-[32px] font-semibold text-[#000000] mb-[12px]">
+        Current project:
+      </p>
+      <p className="mb-[24px] text-[18px] font-normal text-[#000000] tracking-[0.36px] leading-[26.1px]">
+        Projects must be judged one by one in order.{'\n'}
+        <span className="text-[#A1A1A3]">
+          If the team is not at their table when you arrive, tab the{' '}
+          <span className="text-text-error">red button</span> below.
+        </span>
+      </p>
       <Link
         href={`/judges/score/${projects[0]._id}`}
         className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]"
       >
         <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
-          {projects[0].teamNumber}
+          {projects[0].tableNumber}
         </span>
         <span className="text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
           {projects[0].name}
@@ -67,12 +71,9 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         </svg>
       </Link>
       <div className="flex h-[284px] bg-[#D9D9D9] rounded-[24px] mb-[20px]"></div>
-      <button className="bg-[#005271] text-white rounded-[8px] py-[15px] text-[18px] font-[600] tracking-[0.36px] leading-[18px] mb-[20px]">
-        View Project
-      </button>
-      <div className="w-full flex gap-1 mb-[32px] rounded-[8px] text-[18px] font-[600] tracking-[0.36px] leading-[18px]">
+      <div className="w-full flex gap-1 mb-[32px] text-[18px] font-[600] tracking-[0.36px] leading-[18px]">
         <button
-          className={`w-full bg-text-error py-[16px] transition-all duration-300 ease-in-out ${
+          className={`w-full rounded-[8px] bg-text-error py-[16px] transition-all duration-300 ease-in-out ${
             showConfirmation
               ? 'bg-white text-text-error border-2 border-text-error pointer-events-none'
               : 'text-white'
@@ -82,7 +83,7 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
           {showConfirmation ? 'Are you sure?' : 'Flag Team as Missing'}
         </button>
         <button
-          className={`bg-[#005271] text-white px-[32px] py-[16px] transition-all duration-1000 ease-in-out ${
+          className={`bg-[#005271] text-white rounded-[8px] px-[32px] py-[16px] transition-all duration-1000 ease-in-out ${
             showConfirmation ? 'block' : 'hidden'
           }`}
           onClick={() => handleReportTeam()}
@@ -90,7 +91,7 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
           Yes
         </button>
         <button
-          className={`bg-white text-text-error border-2 border-text-error p-[16px] transition-all duration-1000 ease-in-out ${
+          className={`bg-white text-background-secondary border-2 border-background-secondary rounded-[8px] p-[16px] transition-all duration-1000 ease-in-out ${
             showConfirmation ? 'block' : 'hidden'
           } `}
           onClick={() => setShowConfirmation(false)}

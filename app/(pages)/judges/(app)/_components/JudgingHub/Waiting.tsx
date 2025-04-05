@@ -14,7 +14,7 @@ const TipCard = (tip: string) => {
 
 export default function Waiting() {
   return (
-    <div className="flex flex-col p-4  bg-[#f2f2f7] gap-4 py-8">
+    <div className="flex flex-col px-[20px] bg-[#f2f2f7] gap-4 py-8">
       <h3 className="font-bold text-2xl">
         While you're waiting, feel free to...
       </h3>

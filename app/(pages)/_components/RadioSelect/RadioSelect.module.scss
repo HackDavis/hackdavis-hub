@@ -8,11 +8,51 @@
     background-color: white;
 }
 
+.question_container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .question {
     font-size: 1.125rem;
     font-weight: 400;
     color: black;
     font-family: var(--font-dm-sans);
+}
+
+.tooltip_container {
+    margin-top: 4px;
+    margin-left: 8px;
+    min-width: 18px;
+
+    img {
+        width: 100%;
+    }
+}
+
+.tooltip_text {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+
+    &.expanded {
+        max-height: 500px; // arbitrarily large value
+        opacity: 1;
+    }
+
+    p {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: #A1A1A3;
+        font-family: var(--font-jakarta);
+        font-style: italic;
+    }
+
+    span {
+        font-weight: 700;
+        font-style: normal;
+    }
 }
 
 .radio_buttons {
