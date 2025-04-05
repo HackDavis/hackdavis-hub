@@ -4,6 +4,7 @@ import { GetUser, GetManyUsers } from '@datalib/users/getUser';
 import { UpdateUser } from '@datalib/users/updateUser';
 import { DeleteUser } from '@datalib/users/deleteUser';
 import User from '@typeDefs/user';
+import tracks from '@apidata/tracks.json';
 
 let mockAdmin: User, mockJudge: User, mockHacker: User;
 
@@ -21,7 +22,7 @@ beforeEach(async () => {
     email: 'judge@smith.com',
     password: 'test_judge_password',
     role: 'judge',
-    specialties: ['tech', 'business', 'design'],
+    specialties: [...new Set(tracks.map((track) => track.type))],
     has_checked_in: false,
   };
   mockHacker = {
