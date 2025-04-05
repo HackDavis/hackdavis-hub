@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { updateUser } from '@actions/users/updateUser';
 import styles from './DetailForm.module.scss';
 import Loader from '@pages/_components/Loader/Loader';
+import tracks from '@apidata/tracks.json';
 
 interface OptionItem {
   id: number;
@@ -14,7 +15,7 @@ interface OptionItem {
   rank: number;
 }
 
-const initialOptions = ['Tech', 'Design', 'Business'];
+const initialOptions = [...new Set(tracks.map((track) => track.type))];
 
 export default function DetailForm({ id }: any) {
   const router = useRouter();
@@ -94,9 +95,7 @@ export default function DetailForm({ id }: any) {
     setLoading(true);
     setError('');
 
-    const specialties: string[] = options.map((option) =>
-      option.text.toLowerCase()
-    );
+    const specialties: string[] = options.map((option) => option.text);
 
     const userRes = await updateUser(id, {
       $set: {
