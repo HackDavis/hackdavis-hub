@@ -7,7 +7,8 @@ const tracks = JSON.parse(fs.readFileSync(tracksPath, 'utf8'));
 const domains = [...new Set(tracks.map((track) => track.type))];
 
 export async function up(db) {
-  await db.createCollection('users', {
+  await db.command({
+    collMod: 'users',
     validator: {
       $jsonSchema: {
         bsonType: 'object',
@@ -67,5 +68,8 @@ export async function up(db) {
 }
 
 export async function down(db) {
-  await db.collection('users').drop();
+  await db.command({
+    collMod: 'yourCollectionName',
+    validator: {}, // Remove the validator
+  });
 }
