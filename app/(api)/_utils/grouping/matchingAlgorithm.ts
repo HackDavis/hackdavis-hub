@@ -6,7 +6,6 @@ import tracks from '@apidata/tracks.json' assert { type: 'json' };
 
 import { getManyUsers } from '@actions/users/getUser';
 import { getManyTeams } from '@actions/teams/getTeams';
-import { Construction } from 'lucide-react';
 
 interface Judge {
   user: User;
