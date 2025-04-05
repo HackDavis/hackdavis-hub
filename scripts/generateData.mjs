@@ -14,6 +14,37 @@ function shuffleSpecialties(specialties) {
   return shuffledSpecialties;
 }
 
+function weightedShuffleSpecialties(specialties) {
+  const weightMap = {
+    SWE: 0.571,
+    Hardware: 0.039,
+    Design: 0.158,
+    MedTech: 0.015,
+    Business: 0.217,
+  };
+  const availableWeighted = specialties.filter(
+    (s) => weightMap[s] !== undefined
+  );
+  let first;
+  if (availableWeighted.length > 0) {
+    const totalWeight = availableWeighted.reduce(
+      (acc, s) => acc + weightMap[s],
+      0
+    );
+    let r = Math.random() * totalWeight;
+    for (const s of availableWeighted) {
+      r -= weightMap[s];
+      if (r <= 0) {
+        first = s;
+        break;
+      }
+    }
+  }
+  const remaining = specialties.filter((s) => s !== first);
+  const shuffledRemaining = shuffleSpecialties(remaining);
+  return first ? [first, ...shuffledRemaining] : shuffledRemaining;
+}
+
 function generateData(collectionName, numDocuments) {
   const specialties = [...new Set(tracks.map((track) => track.type))];
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
@@ -26,7 +57,7 @@ function generateData(collectionName, numDocuments) {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      specialties: shuffleSpecialties(specialties),
+      specialties: weightedShuffleSpecialties(specialties),
       role: 'judge',
       has_checked_in: false,
     }));
