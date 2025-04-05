@@ -1,0 +1,59 @@
+.item_button {
+  cursor: pointer;
+  border: none;
+  text-align: start;
+  width: 100%;
+
+  .item_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 32px 96px;
+    border-radius: var(--b-radius-med);
+  
+    .left {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    .header_text {
+      display: flex;
+      flex-direction: column;
+      margin-left: 40px;
+
+      h5 {
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 0.4px;
+      }
+
+      h4 {
+        font-size: 1.75rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: 0.56px;
+      }
+    }
+
+    .chevron {
+      transition: transform 0.3s;
+    }
+  }
+}
+
+.item_button_expanded {
+  .chevron {
+    transform: rotate(-180deg);
+    transition: transform 0.3s;
+  }
+}
+
+.item_content {
+  transition: height 0.3s ease-in-out;
+} 

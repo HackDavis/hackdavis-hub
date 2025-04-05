@@ -32,6 +32,13 @@ const sections = [
     activeColor: '#FFC53D',
     background: 'rgba(255, 255, 255, 0.50)',
   },
+  {
+    id: 'project-info',
+    page: '/project-info',
+    baseColor: '#1589BE',
+    activeColor: '#FFC53D',
+    background: 'rgba(255, 255, 255, 0.50)',
+  },
   // {
   //   id: 'starter-kit',
   //   page: '/starter-kit',
@@ -77,6 +84,12 @@ export default function Navbar() {
     // },
     {
       ids: [],
+      body: 'PROJECT INFO',
+      page: '/project-info',
+      path: '/project-info',
+    },
+    {
+      ids: [],
       body: 'LOGOUT',
       page: '/',
       path: '/logout',
@@ -106,6 +119,13 @@ export default function Navbar() {
         .filter(
           (section) => section.sectionStart !== 0 || section.sectionEnd !== 0
         );
+
+      // added
+      if (pageSections.length === 0) {
+        setActiveLink('');
+        setActiveSection('');
+        return;
+      }
 
       let i = pageSections.length - 1;
       for (i; i >= 0; i--) {
