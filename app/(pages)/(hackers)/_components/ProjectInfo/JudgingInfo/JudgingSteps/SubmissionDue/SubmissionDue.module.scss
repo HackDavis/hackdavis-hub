@@ -1,0 +1,58 @@
+.container {
+  margin-bottom: 32px;
+}
+
+.background {
+  position: relative;
+  height: 586px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+
+  .cow {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(10%);
+    left: 10%;
+    width: 20%;
+    max-width: none !important;
+    height: auto;
+  }
+
+  .bunny {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(7%);
+    left: 30%;
+    width: 20%;
+
+    .speech_bubble {
+      position: absolute;
+      top: -5%;
+      left: 85%;
+      width: 150%;
+    }
+  }
+
+  .froggy {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(10%);
+    right: 30%;
+    width: 20%;
+  }
+
+  .ducky {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(10%);
+    right: 10%;
+    width: 20%;
+  }
+}
+
+.foreground {
+  height: 200px;
+  width: 100%;
+  border-radius: 0px 0px 12px 12px;
+  background-color: var(--sea-background);
+}
