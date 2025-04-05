@@ -20,7 +20,7 @@ export default async function InviteOnlyRoute({
       !(await verifyInvite(data.value, sig.value))) &&
     !noUsers
   ) {
-    return <div>Bad Invite Link</div>;
+    return <div>Your invite link is invalid or may have expired.</div>;
   } else {
     return <>{children}</>;
   }
