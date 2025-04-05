@@ -42,7 +42,7 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
         <Image src={leftArrow} alt="left arrow" />
         Back to projects
       </Link>
-      <h1 className={styles.project_label}>Table {team.body.teamNumber}</h1>
+      <h1 className={styles.project_label}>Table {team.body.tableNumber}</h1>
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${showInfo ? styles.active : null}`}

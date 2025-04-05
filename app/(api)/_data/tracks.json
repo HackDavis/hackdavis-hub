@@ -1,50 +1,50 @@
 [
   {
-    "type": "SWE",
+    "type": "swe",
     "name": "Best Beginner Hack"
   },
   {
-    "type": "SWE",
+    "type": "swe",
     "name": "Best Interdisciplinary Hack"
   },
   {
-    "type": "Business",
+    "type": "business",
     "name": "Most Creative Hack"
   },
   {
-    "type": "SWE",
+    "type": "swe",
     "name": "Best Hack for Social Justice"
   },
   {
-    "type": "Hardware",
+    "type": "hardware",
     "name": "Best Hardware Hack"
   },
   {
-    "type": "SWE",
+    "type": "swe",
     "name": "Most Technically Challenging Hack"
   },
   {
-    "type": "AIML",
+    "type": "aiml",
     "name": "Best AI/ML Hack"
   },
   {
-    "type": "Design",
+    "type": "design",
     "name": "Best UI/UX Design"
   },
   {
-    "type": "Design",
+    "type": "design",
     "name": "Best User Research"
   },
   {
-    "type": "AIML",
+    "type": "aiml",
     "name": "Best Statistical Model"
   },
   {
-    "type": "MedTech",
+    "type": "medtech",
     "name": "Best MedTech Hack"
   },
   {
-    "type": "Business",
+    "type": "business",
     "name": "Best Entrepreneurship Hack"
   }
 ]
