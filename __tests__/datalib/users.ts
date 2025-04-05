@@ -21,7 +21,7 @@ beforeEach(async () => {
     email: 'judge@smith.com',
     password: 'test_judge_password',
     role: 'judge',
-    specialties: ['tech', 'business', 'design'],
+    specialties: ['SWE', 'Business', 'Design'],
     has_checked_in: false,
   };
   mockHacker = {
