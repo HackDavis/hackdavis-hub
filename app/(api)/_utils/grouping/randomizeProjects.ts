@@ -1,5 +1,8 @@
+import bulkWriteCollection from '@actions/bulkWrite/bulkWriteCollection';
 import { getManySubmissions } from '@actions/submissions/getSubmission';
 import { getManyUsers } from '@actions/users/getUser';
+import Submission from '@typeDefs/submission';
+import User from '@typeDefs/user';
 
 function shuffle(array: any[]) {
   let currentIndex = array.length;
@@ -25,7 +28,7 @@ export default async function randomizeProjects() {
       throw new Error(usersRes.error ?? 'Error fetching judges.');
     }
 
-    const judges = usersRes.body;
+    const judges: User[] = usersRes.body;
 
     for (const judge of judges) {
       const subRes = await getManySubmissions({
@@ -38,9 +41,29 @@ export default async function randomizeProjects() {
         );
       }
 
-      const submissions = subRes.body;
+      const submissions: Submission[] = subRes.body;
 
       shuffle(submissions);
+
+      const updatedSubmissions = submissions.map(
+        (submission: Submission, index: number) => ({
+          updateOne: {
+            filter: { _id: submission._id },
+            update: { $set: { queuePosition: index } },
+          },
+        })
+      );
+
+      const updateRes = await bulkWriteCollection(
+        'submissions',
+        updatedSubmissions
+      );
+
+      if (!updateRes.ok) {
+        throw new Error(
+          updateRes.error ?? `Error shuffling submissions of judge ${judge._id}`
+        );
+      }
     }
 
     return {
