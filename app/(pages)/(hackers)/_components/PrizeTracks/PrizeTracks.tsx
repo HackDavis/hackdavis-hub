@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@globals/components/ui/button';
-import tracks, { TrackData } from '@data/tracks';
+import { allTracks, TrackData } from '@data/tracks';
 import PrizeGrid from './PrizeGrid';
 import { useState } from 'react';
 
-const prizes = Object.values(tracks);
+const prizes = Object.values(allTracks);
 
 export default function PrizeTracks() {
   const [filter, setFilter] = useState<string>('all');

@@ -1,7 +1,7 @@
 'use client';
 import styles from './ScoringForm.module.scss';
 import RadioSelect from '@components/RadioSelect/RadioSelect';
-import tracks from '@data/tracks';
+import { allTracks } from '@data/tracks';
 import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
 import { useRef, useState } from 'react';
@@ -50,7 +50,7 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
   const unfilledDynamicQuestions = Object.fromEntries(
     team.tracks
       .map((trackName) =>
-        (tracks[trackName].scoring_criteria ?? []).map((track) => [
+        (allTracks[trackName].scoring_criteria ?? []).map((track) => [
           [`${trackName}${SEP}${track.attribute}`],
           null,
         ])
@@ -154,7 +154,7 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
       {team.tracks.map((category) => (
         <div key={category} className={styles.track_container}>
           <h2 className={styles.category_header}>{category}</h2>
-          {(tracks[category].scoring_criteria ?? []).map((question) => (
+          {(allTracks[category].scoring_criteria ?? []).map((question) => (
             <RadioSelect
               key={`${category}: ${question.attribute}`}
               question={question.attribute}
