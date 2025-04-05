@@ -95,7 +95,7 @@ export default function DetailForm({ id }: any) {
     setLoading(true);
     setError('');
 
-    const specialties: string[] = options.map((option) => option.text);
+    const specialties: string[] = options.map((option) => option.text.toLowerCase());
 
     const userRes = await updateUser(id, {
       $set: {
