@@ -8,6 +8,8 @@ import Team from '@typeDefs/team';
 import User from '@typeDefs/user';
 import BarChart from '../_components/BarChart/BarChart';
 import { GoSearch } from 'react-icons/go';
+import TeamForm from '../_components/Teams/TeamForm';
+import useFormContext from '../_hooks/useFormContext';
 
 interface TeamWithJudges extends Team {
   judges: User[];
@@ -16,6 +18,9 @@ interface TeamWithJudges extends Team {
 export default function Teams() {
   const [search, setSearch] = useState('');
   const { loading, teams } = useTeams();
+  const { data, setData } = useFormContext();
+  const isEditing = Boolean(data._id);
+
   if (loading) {
     return 'loading...';
   }
@@ -57,7 +62,11 @@ export default function Teams() {
       <div className={styles.data_portion}>
         <div className={styles.teams_list}>
           {teamData.map((team: TeamWithJudges) => (
-            <TeamCard key={team._id} team={team} />
+            <TeamCard
+              key={team._id}
+              team={team}
+              onEditClick={() => setData(team)}
+            />
           ))}
         </div>
         <div className={styles.bar_chart_container}>
@@ -67,6 +76,10 @@ export default function Teams() {
           />
         </div>
       </div>
+      <h2 className={styles.action_header}>
+        {isEditing ? 'Edit' : 'Create'} Team
+      </h2>
+      <TeamForm team={data as Team} cancelAction={() => setData({})} />
     </div>
   );
 }

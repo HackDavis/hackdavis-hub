@@ -17,11 +17,17 @@
 .header_details {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: flex-end;
+    gap: 4px;
     >p {
         font-size: 0.875rem;
     }
+}
+
+.edit_button {
+    color: #123041;
+    font-size: 1.125rem;
 }
 
 .title {
@@ -47,5 +53,5 @@
     gap: 4px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px 4px rgba(195, 194, 194, 0.08);
-    background: var(--cow, linear-gradient(180deg, #FFC53D 0%, #FFC53D 100%)); 
+    background: linear-gradient(180deg, #FFC53D 0%, #FFC53D 100%); 
 }

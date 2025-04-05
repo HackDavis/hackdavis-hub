@@ -4,6 +4,7 @@ import Team from '@typeDefs/team';
 import styles from './TeamCard.module.scss';
 import TrackList from './TrackList';
 import { IoLocationOutline } from 'react-icons/io5';
+import { FaRegEdit } from 'react-icons/fa';
 import JudgeList from './JudgeList';
 import User from '@typeDefs/user';
 
@@ -12,9 +13,13 @@ interface TeamWithJudges extends Team {
 }
 interface TeamCardProps {
   team: TeamWithJudges;
+  onEditClick?: () => void;
 }
 
-export default function TeamCard({ team }: TeamCardProps) {
+export default function TeamCard({
+  team,
+  onEditClick = () => {},
+}: TeamCardProps) {
   const backgroundColor = team.active ? 'white' : '#ffc6bf';
   return (
     <div className={styles.container} style={{ backgroundColor }}>
@@ -27,6 +32,9 @@ export default function TeamCard({ team }: TeamCardProps) {
           Team {team.teamNumber}: {team.name}
         </span>
         <div className={styles.header_details}>
+          <button className={styles.edit_button} onClick={onEditClick}>
+            <FaRegEdit />
+          </button>
           <p>{team._id}</p>
         </div>
       </div>

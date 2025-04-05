@@ -1,0 +1,41 @@
+.container {
+    position: relative;
+}
+
+.input {
+    padding: 10px 8px;
+    border-radius: var(--b-radius);
+    border: 1px solid rgba(0, 0, 0, 0.27);
+    font-size: 1rem;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    cursor: pointer;
+
+}
+
+.label {
+    position: absolute;
+    left: 12px;
+    transform: translateY(-50%);
+    background-color: white;
+    padding: 0 4px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    border: solid 1px black;
+    width: 100%;
+}
+
+.option {
+    background-color: white;
+    padding: 10px 8px;
+    border-bottom: solid 1px black;
+}
