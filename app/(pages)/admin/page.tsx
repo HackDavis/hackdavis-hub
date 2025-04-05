@@ -7,6 +7,7 @@ export default function Admin() {
       <Link href="/admin/match">Group Judges and Teams</Link>
       <Link href="/admin/invite-link">Invite Judges</Link>
       <Link href="/admin/reset-link">Generate Reset Password Link</Link>
+      <Link href="/admin/randomize-projects">Randomize Projects</Link>
     </div>
   );
 }
