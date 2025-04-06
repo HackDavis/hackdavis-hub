@@ -44,6 +44,7 @@ jobs:
           --env RESET_TIMEOUT=${{ vars.RESET_TIMEOUT }}
           --env SENDER_EMAIL=${{ vars.SENDER_EMAIL }}
           --env SENDER_PWD=${{ secrets.SENDER_PWD }}
+          --env CHECK_IN_CODE=${{ secrets.CHECK_IN_CODE }}
           --build-env MONGODB_URI=${{ secrets.MONGODB_URI }}
           --build-env BASE_URL=${{ vars.ENV_URL }}
           --build-env AUTH_SECRET=${{ secrets.AUTH_SECRET }}
@@ -52,6 +53,7 @@ jobs:
           --build-env RESET_TIMEOUT=${{ vars.RESET_TIMEOUT }}
           --build-env SENDER_EMAIL=${{ vars.SENDER_EMAIL }}
           --build-env SENDER_PWD=${{ secrets.SENDER_PWD }}
+          --build-env CHECK_IN_CODE=${{ secrets.CHECK_IN_CODE }}
 
       - name: Success
         run: echo "🚀  Deploy successful - BLAST OFF WOO! (woot woot) !!! 🐕 🐕 🐕 🚀 "
