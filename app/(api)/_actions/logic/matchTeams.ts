@@ -6,6 +6,7 @@ import JudgeToTeam from '@typeDefs/judgeToTeam';
 import Submission from '@typeDefs/submission';
 import matchAllTeams from '@utils/grouping/matchingAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
+import { getManySubmissions } from '@actions/submissions/getSubmission'; // New import
 
 function checkMatches(matches: Submission[], teamsLength: number) {
   if (matches.length < 3 * teamsLength) return false;
@@ -31,6 +32,18 @@ function checkMatches(matches: Submission[], teamsLength: number) {
 export default async function matchTeams(
   options: { alpha: number } = { alpha: 4 }
 ) {
+  const submissionsResponse = await getManySubmissions();
+  if (
+    submissionsResponse.ok &&
+    submissionsResponse.body &&
+    submissionsResponse.body.length > 0
+  ) {
+    return JSON.stringify({
+      error:
+        'Submissions collection is not empty. Please clear submissions before matching teams.',
+    });
+  }
+
   // Generate submissions based on judge-team assignments.
   const teams = (await getManyTeams()).body;
 

@@ -12,9 +12,10 @@ export default function JudgeTeamGrouping() {
   const [submissions, setSubmissions] = useState<
     { judge_id: string; team_id: string }[]
   >([]);
-  // New state to store the full match data
   const [fullMatchData, setFullMatchData] = useState<any>(null);
   const [alpha, setAlpha] = useState<number>(4);
+  const [showSubmissions, setShowSubmissions] = useState<boolean>(false);
+  const [showMatching, setShowMatching] = useState<boolean>(false);
 
   // Match teams and store the submissions locally.
   const handleMatchTeams = async () => {
@@ -34,7 +35,7 @@ export default function JudgeTeamGrouping() {
     }
 
     // Extract submissions and the rest of the match data.
-    const { submissions: subs, ...otherMatchData } = matchData;
+    const { judgeToTeam: subs, ...otherMatchData } = matchData;
 
     // Store submissions for CSV download.
     setSubmissions(subs);
@@ -42,6 +43,8 @@ export default function JudgeTeamGrouping() {
     setFullMatchData(matchData);
     // Display all match data except the submissions.
     setMatching(JSON.stringify(otherMatchData, null, 2));
+    setShowSubmissions(true);
+    setShowMatching(true);
   };
 
   // Generate full CSV content from all match data and trigger a download.
@@ -134,10 +137,31 @@ export default function JudgeTeamGrouping() {
       </div>
 
       <div>
-        <h4>Submissions</h4>
-        <pre>{JSON.stringify(submissions, null, 2)}</pre>
-        <h4>Match Data:</h4>
-        <pre>{matching}</pre>
+        <h4
+          onClick={() => setShowSubmissions(!showSubmissions)}
+          style={{ cursor: 'pointer' }}
+        >
+          Submissions {showSubmissions ? '▲' : '▼'}
+        </h4>
+        {showSubmissions && (
+          <div className={styles.collapsible}>
+            <pre>{JSON.stringify(submissions, null, 2)}</pre>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h4
+          onClick={() => setShowMatching(!showMatching)}
+          style={{ cursor: 'pointer' }}
+        >
+          Match Data {showMatching ? '▲' : '▼'}
+        </h4>
+        {showMatching && (
+          <div className={styles.collapsible}>
+            <pre>{matching}</pre>
+          </div>
+        )}
       </div>
 
       <form action={scoreAction}>

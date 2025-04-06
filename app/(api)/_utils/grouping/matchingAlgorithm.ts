@@ -14,7 +14,6 @@ interface Judge {
   priority: number;
 }
 
-// Build a map from track name to track type.
 const trackMap = new Map<string, string>(
   tracks.map((track: { name: string; type: string }) => [
     track.name,
@@ -38,6 +37,7 @@ export default async function matchAllTeams(options?: {
     min: number;
     max: number;
   };
+  matchStats: { [avg: string]: number };
   matchQualityStats: {
     [teamId: string]: {
       sum: number;
@@ -49,7 +49,7 @@ export default async function matchAllTeams(options?: {
   };
 }> {
   const ALPHA = options?.alpha ?? 4;
-  // Fetch all judges.
+  // Fetch all checked in judges.
   const judgesResponse = await getManyUsers({
     role: 'judge',
     has_checked_in: false, // TODO: CHANGE THIS LATER TO CHECKED IN FOR DOE
@@ -149,11 +149,33 @@ export default async function matchAllTeams(options?: {
       const trackIndex = i;
       updateQueue(team, trackIndex, judgesQueue);
 
-      // The judge at index 0 is the best match.
-      const selectedJudge = judgesQueue[0];
-      if (!selectedJudge) {
-        throw new Error(`No judges in queue`);
+      let selectedJudge: Judge | undefined = undefined;
+      for (const judge of judgesQueue) {
+        const duplicateExists = judgeToTeam.some(
+          (entry) =>
+            (entry.judge_id as Record<string, { id: string }>)['*convertId']
+              .id === judge.user._id?.toString() &&
+            (entry.team_id as Record<string, { id: string }>)['*convertId']
+              .id === team._id
+        );
+        if (!duplicateExists) {
+          selectedJudge = judge;
+          break;
+        } else {
+          console.log('Duplicate averted');
+        }
       }
+      if (!selectedJudge) {
+        throw new Error(
+          `No available unique judge for team ${team._id} in round ${i + 1}`
+        );
+      }
+
+      // The judge at index 0 is the best match.
+      // const selectedJudge = judgesQueue[0];
+      // if (!selectedJudge) {
+      //   throw new Error(`No judges in queue`);
+      // }
 
       const matchQuality = getSpecialtyMatchScore(
         team,
@@ -219,10 +241,22 @@ export default async function matchAllTeams(options?: {
     matchQualityStats[teamId] = { sum, average, min, max, count };
   }
 
+  const matchStats: { [avg: string]: number } = {};
+  for (const teamId in matchQualityStats) {
+    const avg = matchQualityStats[teamId].average;
+    const avgKey = avg.toString();
+    if (matchStats[avgKey]) {
+      matchStats[avgKey] += 1;
+    } else {
+      matchStats[avgKey] = 1;
+    }
+  }
+
   return {
     judgeToTeam,
     teamsWithNoTracks,
     judgeTeamDistribution,
+    matchStats,
     matchQualityStats,
   };
 }
