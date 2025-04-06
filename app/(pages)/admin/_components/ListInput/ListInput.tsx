@@ -7,19 +7,19 @@ import { RxCross1 } from 'react-icons/rx';
 interface ListInputProps {
   label: string;
   value: any[] | undefined;
-  onUpdate: (value: any) => void;
+  updateValue: (value: any) => void;
   itemRenderer: ({ key, item, deleteItem }: any) => React.ReactNode;
-  addRenderer: ({ onAdd }: any) => React.ReactNode;
+  addRenderer: ({ addItem }: any) => React.ReactNode;
 }
 
 export default function ListInput({
   label,
   value = [],
-  onUpdate,
+  updateValue,
   itemRenderer,
   addRenderer,
 }: ListInputProps) {
-  const [adding, setAdding] = useState(true);
+  const [adding, setAdding] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -29,10 +29,16 @@ export default function ListInput({
           itemRenderer({
             key: JSON.stringify(item),
             item,
-            deleteItem: () => onUpdate(value.toSpliced(index, 1)),
+            deleteItem: () => updateValue(value.toSpliced(index, 1)),
           })
         )}
-        {adding && addRenderer({ onAdd: value })}
+        {adding &&
+          addRenderer({
+            addItem: (newValue: any) => {
+              updateValue([...value, newValue]);
+              setAdding(false);
+            },
+          })}
         <div
           className={styles.add_button}
           onClick={() => setAdding((prev) => !prev)}

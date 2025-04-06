@@ -6,7 +6,7 @@ import styles from './DropdownInput.module.scss';
 interface DropdownInputProps {
   label: string;
   value: any;
-  onUpdate: (value: any) => void;
+  updateValue: (value: any) => void;
   width?: string;
   options: { option: string; value: any }[];
 }
@@ -14,7 +14,7 @@ interface DropdownInputProps {
 export default function DropdownInput({
   label,
   value,
-  onUpdate,
+  updateValue,
   width = '100%',
   options,
 }: DropdownInputProps) {
@@ -59,7 +59,7 @@ export default function DropdownInput({
           <div
             key={option}
             className={styles.option}
-            onClick={() => onUpdate(value)}
+            onClick={() => updateValue(value)}
           >
             {option}
           </div>

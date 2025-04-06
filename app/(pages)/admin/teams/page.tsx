@@ -17,7 +17,7 @@ interface TeamWithJudges extends Team {
 
 export default function Teams() {
   const [search, setSearch] = useState('');
-  const { loading, teams } = useTeams();
+  const { loading, teams, getTeams } = useTeams();
   const { data, setData } = useFormContext();
   const isEditing = Boolean(data._id);
 
@@ -79,7 +79,7 @@ export default function Teams() {
       <h2 className={styles.action_header}>
         {isEditing ? 'Edit' : 'Create'} Team
       </h2>
-      <TeamForm team={data as Team} cancelAction={() => setData({})} />
+      <TeamForm cancelAction={() => setData({})} revalidate={getTeams} />
     </div>
   );
 }
