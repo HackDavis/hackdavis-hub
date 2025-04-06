@@ -43,7 +43,7 @@ const uncategorizedTracks: Tracks = {
     eligibility_criteria:
       'Encapsulate your authentic idea of "social good". All entries are automatically considered for this prize category.',
   },
-  'Open Data Hack': {
+  'Best Open Data Hack': {
     name: 'Best Open Data Hack',
     filter: 'Technical',
     prizes: ['Luncheon and internship program invite', '2nd Place: Swag bags'],
