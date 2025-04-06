@@ -32,7 +32,11 @@ export default async function randomizeProjects() {
 
     for (const judge of judges) {
       const subRes = await getManySubmissions({
-        judge_id: judge._id,
+        judge_id: {
+          '*convertId': {
+            id: judge._id,
+          },
+        },
       });
 
       if (!subRes.ok) {
@@ -42,13 +46,18 @@ export default async function randomizeProjects() {
       }
 
       const submissions: Submission[] = subRes.body;
-
       shuffle(submissions);
 
       const updatedSubmissions = submissions.map(
         (submission: Submission, index: number) => ({
           updateOne: {
-            filter: { _id: submission._id },
+            filter: {
+              _id: {
+                '*convertId': {
+                  id: submission._id,
+                },
+              },
+            },
             update: { $set: { queuePosition: index } },
           },
         })
@@ -68,7 +77,7 @@ export default async function randomizeProjects() {
 
     return {
       ok: true,
-      body: usersRes.body,
+      body: null,
       error: null,
     };
   } catch (e) {
