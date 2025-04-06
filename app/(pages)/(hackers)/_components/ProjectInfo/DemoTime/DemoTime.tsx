@@ -15,17 +15,40 @@ export default function DemoTime() {
           className={styles.right_panel}
           style={{ backgroundColor: '#AFD157' }}
         >
-          <h3>You will not be visited by a judge in EVERY round.</h3>
-          <p>
-            <b>Why do some teams get more judges? Isn’t it unfair?</b> <br />
-            Some tracks are judged by MLH, partner NPOs, or sponsors selecting
-            their own winners. If your team hasn’t chosen these tracks, you’ll
-            be judged by the standard three judges. Extra judges from these
-            groups won’t affect your chances in other tracks, so having more
-            than three judges doesn’t give an advantage or disadvantage.
-          </p>
-          <p>MLH = Major League Hacking</p>
-          <p>NPO = Non-Profit Organizations</p>
+          <h3>Here is a breakdown of the 2 hour demo time.</h3>
+          <div className={styles.panels}>
+            <div className={styles.judge}>
+              <p className={styles.judge_box}>JUDGE 1</p>
+              <p className={styles.judge_box}>JUDGE 2</p>
+              <p className={styles.judge_box}>JUDGE 3</p>
+              <p className={styles.judge_box}>JUDGE 4</p>
+            </div>
+            <div className={styles.timeline}>
+              <div className={styles.panel_1_to_3}>
+                <div className={styles.panel_ind} />
+                <div className={styles.panel_ind} />
+                <div className={styles.panel_ind} />
+              </div>
+              <div className={styles.panel_4}></div>
+            </div>
+            <div className={styles.text}>
+              <p className={styles.individual_text}>
+                3 MINS of demo <br /> 3 MINS of Q&A
+              </p>
+              <p className={styles.individual_text_dissapear}>
+                3 MINS of demo <br /> 3 MINS of Q&A
+              </p>
+              <p className={styles.individual_text_dissapear}>
+                3 MINS of demo <br /> 3 MINS of Q&A
+              </p>
+              <p
+                className={styles.individual_text}
+                style={{ color: '#005271' }}
+              >
+                MLH/ NPO/ SPONSOR REP if applicable
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <br />

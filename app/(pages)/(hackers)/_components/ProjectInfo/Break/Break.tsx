@@ -11,8 +11,11 @@ export default function Break() {
         <br />
         <p>
           Once demos end, you will about an hour’s time to visit other teams and
-          vote for the <a href="/link">Hacker’s Choice Award</a>. You can also
-          look at projects in the gallery on devpost.
+          vote for the{' '}
+          <a href="/" target="_blank">
+            Hacker’s Choice Award
+          </a>
+          . You can also look at projects in the gallery on devpost.
         </p>
         <br />
         <p>
