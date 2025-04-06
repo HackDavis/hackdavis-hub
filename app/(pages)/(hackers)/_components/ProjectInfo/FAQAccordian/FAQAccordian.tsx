@@ -42,9 +42,8 @@ const FAQAccordian = () => {
           </div>
           <p>
             When you click on the Devpost link, you should see this page. Click
-            Join Hackathon. <br />
-            Log in or sign up for a Devpost account if you don’t have one
-            already.
+            Join Hackathon. Log in or sign up for a Devpost account if you don’t
+            have one already.
           </p>
         </div>
       ),
@@ -97,8 +96,8 @@ const FAQAccordian = () => {
             />
           </div>
           <p>
-            Click Create project. Only one person per team has <br />
-            to create a project and complete the next steps.
+            Click Create project. Only one person per team has to create a
+            project and complete the next steps.
           </p>
         </div>
       ),
