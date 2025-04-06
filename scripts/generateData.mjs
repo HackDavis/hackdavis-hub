@@ -88,9 +88,9 @@ function generateData(collectionName, numDocuments, existingData = {}) {
         teamTracks.length > 0
           ? teamTracks
           : faker.helpers.arrayElements(
-            json_data.tracks,
-            faker.number.int({ min: 1, max: 3 })
-          );
+              json_data.tracks,
+              faker.number.int({ min: 1, max: 3 })
+            );
 
       const scores = tracksToUse.map((trackName) => {
         const trackInfo = json_data.tracks.find((t) => t.name === trackName);
@@ -148,8 +148,8 @@ function generateData(collectionName, numDocuments, existingData = {}) {
         end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
           ? faker.helpers.arrayElements([...hackerPositions, 'beginner'], {
-            min: 1,
-          })
+              min: 1,
+            })
           : [],
       };
     });
