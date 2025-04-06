@@ -1,0 +1,116 @@
+@import 'app/(pages)/_globals/mixins';
+
+.container {
+    background-image: 
+        url('/hackers/mvp/Clouds.svg'),
+        linear-gradient(284deg, rgba(213, 252, 209, 0.60) 9.72%, rgba(178, 231, 221, 0.60) 44.61%, rgba(118, 214, 230, 0.60) 79.5%);         
+
+    background-repeat: no-repeat, no-repeat;
+    background-position: top center, center;
+    background-size: 100%;
+
+    @include tablet-l {
+        background-position-y: 30px, 0;
+        background-position-x: -50px, 0;
+        background-size: 125%, 100%;
+    }
+    
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .content {
+        z-index: 1;
+
+        .header_container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            gap: 26px;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-top: max(114px, 6%);
+          
+            .header_text {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+          
+                h1 {
+                    font-size: 1.75rem;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                    letter-spacing: 0.56px;
+            
+                    @include tablet-s {
+                        font-size: 1.25rem;
+                    }
+                }
+          
+                p {
+                    font-size: 1.125rem;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 145%;
+                    letter-spacing: 0.36px;
+            
+                    @include tablet-s {
+                        font-size: 0.875rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .logo {
+        position: absolute;
+        margin-left: 5%;
+        margin-top: 2%;
+
+        img {
+            width: 32px;
+        }
+    }
+
+    .grass_asset {
+        position: relative;
+        width: 100%;
+        bottom: -5px;
+
+        .grass {
+            width: 100%;
+
+            @include tablet-l {
+                position: absolute;
+                bottom: 0;
+            }
+        }
+    
+        .mascots {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            height: 65vh;
+            width: auto;
+    
+            @include desktop-s {
+                height: 50vh;
+            }
+            @include tablet-l {
+                position: relative;
+                height: 30vh;
+                margin-right: 0;
+                margin-left: auto;
+            }
+        }
+    }
+}

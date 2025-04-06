@@ -1,7 +1,6 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 import { GetManyUsers } from '@datalib/users/getUser';
 import InviteData from '@typeDefs/inviteData';
@@ -14,7 +13,7 @@ export async function getInviteData() {
     return null;
   } else {
     const data = cookies().get('data');
-    if (!data) redirect('/');
+    if (!data) return null;
 
     const dataJson = atob(data.value);
     return JSON.parse(dataJson) as InviteData;

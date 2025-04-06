@@ -1,8 +1,9 @@
 import Team from '@typeDefs/team';
 import Submission from '@typeDefs/submission';
 import { getManySubmissions } from '@actions/submissions/getSubmission';
-import tracks from '../../_data/tracks.json' assert { type: 'json' };
+import data from '@data/db_validation_data.json' assert { type: 'json' };
 
+const tracks = data.tracks;
 // TODO: Rework calculateTrackScore
 // function calculateTrackScore(chosenTracks: string[], scores: Scores) {
 //   const finalScores = chosenTracks.map((chosenTrack) => {
@@ -74,14 +75,12 @@ export default async function rankTeams(teams: Team[]) {
   const trackResults = [];
 
   for (const track of tracks) {
-    if (track.name === 'No Track') continue;
+    if (track === 'No Track') continue;
 
     const topEntries = [];
 
     for (const team of teamScores) {
-      const foundScore = team.scores.find(
-        (score) => score.track === track.name
-      );
+      const foundScore = team.scores.find((score) => score.track === track);
       if (foundScore === undefined) continue;
 
       topEntries.push({
@@ -94,15 +93,15 @@ export default async function rankTeams(teams: Team[]) {
 
     topEntries.sort((entry1, entry2) => entry2.score - entry1.score);
     if (
-      track.name !== ('Best Hack for Life of Kai' as string) ||
-      track.name !== ('Best Hack for DCMH' as string) ||
-      track.name !== ('Best Hack for AggieHouse' as string)
+      track !== ('Best Hack for Life of Kai' as string) ||
+      track !== ('Best Hack for DCMH' as string) ||
+      track !== ('Best Hack for AggieHouse' as string)
     ) {
       topEntries.splice(10);
     }
 
     trackResults.push({
-      track: track.name,
+      track: track,
       topEntries,
     });
   }

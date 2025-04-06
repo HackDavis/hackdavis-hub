@@ -1,7 +1,7 @@
 'use client';
 import styles from './ScoringForm.module.scss';
 import RadioSelect from '@components/RadioSelect/RadioSelect';
-import tracks from '@data/tracks';
+import { allTracks } from '@data/tracks';
 import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
 import { useRef, useState } from 'react';
@@ -15,9 +15,33 @@ interface ScoringFormProps {
 }
 
 const overallScoringCategory = [
-  { displayName: 'Social Good', name: 'social_good' },
-  { displayName: 'Creativity', name: 'creativity' },
-  { displayName: 'Presentation', name: 'presentation' },
+  {
+    displayName: 'Social Good',
+    name: 'social_good',
+    guidelines: {
+      '1': 'Solves a minor, niche problem, limited community impact.',
+      '3': 'Solves a clear problem with moderate community impact and potential sustainability.',
+      '5': 'Solves a significant problem with broad, lasting community impact and scalability.',
+    },
+  },
+  {
+    displayName: 'Creativity',
+    name: 'creativity',
+    guidelines: {
+      '1': 'Solution is conventional or very similar to existing options.',
+      '3': 'Solution offers some unique features or improvements over existing options.',
+      '5': 'Solution introduces a novel approach with unique, groundbreaking elements.',
+    },
+  },
+  {
+    displayName: 'Presentation',
+    name: 'presentation',
+    guidelines: {
+      '1': 'Pitch is unclear, lacks detail and team understanding.',
+      '3': 'Pitch is clear with good detail, but delivery could be more engaging or team involvement is uneven.',
+      '5': 'Pitch is compelling, engaging, well-delivered with strong team involvement and clear expertise.',
+    },
+  },
 ];
 
 const SEP = '::';
@@ -26,7 +50,7 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
   const unfilledDynamicQuestions = Object.fromEntries(
     team.tracks
       .map((trackName) =>
-        tracks[trackName].map((track) => [
+        (allTracks[trackName].scoring_criteria ?? []).map((track) => [
           [`${trackName}${SEP}${track.attribute}`],
           null,
         ])
@@ -115,10 +139,11 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
       </div>
       <div className={styles.track_container}>
         <h2 className={styles.category_header}>Overall Scoring</h2>
-        {overallScoringCategory.map(({ displayName, name }) => (
+        {overallScoringCategory.map(({ displayName, name, guidelines }) => (
           <RadioSelect
             key={`Overall Scoring: ${name}`}
             question={displayName}
+            rubric={guidelines}
             onChange={(value) => {
               setBaseQuestions((prev: any) => ({ ...prev, [name]: value }));
             }}
@@ -129,10 +154,11 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
       {team.tracks.map((category) => (
         <div key={category} className={styles.track_container}>
           <h2 className={styles.category_header}>{category}</h2>
-          {tracks[category].map((question) => (
+          {(allTracks[category].scoring_criteria ?? []).map((question) => (
             <RadioSelect
               key={`${category}: ${question.attribute}`}
               question={question.attribute}
+              rubric={question.guidelines}
               onChange={(value) => {
                 setData(`${category}${SEP}${question.attribute}`, value);
               }}

@@ -123,7 +123,7 @@ const config: Config = {
         jakarta: ['var(--font-jakarta)'],
         montserrat: ['var(--font-montserrat)'],
         inter: ['var(--font-inter)'],
-        metropolis: ['var(--font-metropolis)'],
+        metropolis: ['Metropolis', 'sans-serif'],
       },
     },
   },

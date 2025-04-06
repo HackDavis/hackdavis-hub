@@ -1,0 +1,297 @@
+@import '@globals/mixins.scss';
+
+.container {
+  background: #FFF;
+  padding: 0 24px 16px;
+  flex-grow: 1;
+  max-width: 100%;
+  
+  @include desktop-m {
+    padding: 0 16px 8px;
+  }
+
+  @include tablet-l {
+    padding: 0 12px 4px;
+  }
+}
+.content {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  gap: 16px;
+
+  @include desktop-l {
+    gap: 12px;
+  }
+
+  @include desktop-s {
+    gap: 6px;
+  }
+}
+
+.imageBackground {
+  height: 300px;
+  aspect-ratio: 1;
+  background: linear-gradient(284.39deg,rgba(213,252,209,0.4) 9.72%,rgba(178,231,221,0.4) 44.61%,rgba(118,214,230,0.4) 79.5%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 16px;
+  
+
+  @include monitor-s {
+    height: 200px;
+  }
+
+  @include desktop-l {
+    height: 150px;
+  }
+
+  @include desktop-s {
+    height: 100px;
+    padding: 10px;
+  }
+
+  @include tablet-l {
+    height: 150px;
+  }
+
+  @include tablet-s {
+    height: 100px;
+  }
+}
+
+.arrow, .arrowRotated {
+  height: 25px;
+  width: auto; 
+  transition: transform 0.3s ease;
+
+  @include desktop-s {
+    height: 15px;
+  }
+
+  @include tablet-l {
+    height: 20px;
+  }
+
+  @include tablet-s {
+    height: 15px;
+  }
+
+  @include mobile-m {
+    height: 10px;
+  }
+}
+
+.arrowRotated {
+  transform: rotate(-90deg);
+}
+
+.criteriaContainer {
+  display: flex;
+  align-items: center;
+  padding: 0 24px 24px;
+
+  @include desktop-m {
+    padding: 0 16px 16px;
+  }
+
+  @include tablet-l {
+    padding: 0 12px 12px;
+  }
+}
+
+.criteriaContent {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; 
+
+  @include desktop-l {
+    font-size: 16px;
+  }
+
+  @include desktop-m {
+    font-size: 14px;
+  }
+
+  @include desktop-s {
+    font-size: 12px;
+  }
+
+  @include tablet-l {
+    font-size: 16px;
+  }
+
+  @include tablet-s {
+    font-size: 12px;
+  }
+
+  @include mobile-m {
+    font-size: 10px;
+  }
+}
+
+// carousel classes
+.prizeImage {
+  object-fit: contain;
+  width: 50%;
+  flex: 0 0 100%;
+}
+
+.emblaWrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.emblaContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 125%;
+  margin-bottom: 16px;
+
+  @include desktop-l {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  @include desktop-s {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  @include tablet-l {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  @include tablet-s {
+    font-size: 16px;
+  }
+
+  @include mobile-m {
+    font-size: 14px;
+  }
+}
+
+.prizes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.place {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+
+  @include tablet-l {
+    gap: 8px;
+  }
+}
+
+.placeText {
+  display: flex;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; /* 21.233px */
+
+  @include desktop-l {
+    font-size: 16px;
+  }
+
+  @include desktop-s {
+    font-size: 10px;
+  }
+
+  @include tablet-l {
+    font-size: 16px;
+  }
+
+  @include tablet-s {
+    font-size: 12px;
+  }
+
+  @include mobile-m {
+    font-size: 10px;
+  }
+}
+
+.eligibility {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: clamp(8px, 16px, 16px);
+
+  @include desktop-m {
+    gap: 5px;
+    margin-top: 12px;
+  }
+
+  @include tablet-l {
+    gap: 10px;
+    margin-top: 16px;
+  }
+}
+
+.eligibilityText {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 125%; /* 16.683px */
+  letter-spacing: 1.335px;
+  text-wrap: nowrap;
+
+  @include desktop-l {
+    font-size: 16px;
+  }
+
+  @include desktop-m {
+    font-size: 14px;
+  }
+
+  @include desktop-s {
+    font-size: 10px;
+  }
+
+  @include tablet-l {
+    font-size: 16px;
+  }
+
+  @include tablet-s {
+    font-size: 10px;
+  }
+}
+
+.plus {
+  width: 14px;
+  height: 14px;
+
+  @include tablet-l {
+    width: 9px;
+    height: 9px;
+  }
+}

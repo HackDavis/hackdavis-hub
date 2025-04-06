@@ -8,7 +8,9 @@ import {
   DuplicateError,
 } from '@utils/response/Errors';
 import Team from '@typeDefs/team';
-import tracks from '../../_data/tracks.json' assert { type: 'json' };
+import data from '@data/db_validation_data.json' assert { type: 'json' };
+
+const tracks = data.tracks;
 
 export const CreateManyTeams = async (body: object) => {
   try {
@@ -43,12 +45,12 @@ export const CreateManyTeams = async (body: object) => {
     parsedBody.forEach((team: Team) => {
       const seenTracks = new Set();
       team.tracks.forEach((chosenTrack) => {
-        const foundTrack = tracks.find((track) => track.name === chosenTrack);
+        const foundTrack = tracks.find((track) => track === chosenTrack);
         if (foundTrack == undefined) {
           throw new BadRequestError('Invalid track');
-        } else if (seenTracks.has(foundTrack.name)) {
+        } else if (seenTracks.has(foundTrack)) {
           throw new BadRequestError('Duplicate track');
-        } else if (foundTrack.name === 'Best Hack for Social Good') {
+        } else if (foundTrack === 'Best Hack for Social Good') {
           throw new BadRequestError(
             'Remove default track: Best Hack for Social Good'
           );
