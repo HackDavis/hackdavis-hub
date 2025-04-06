@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import tracks from '../app/(api)/_data/tracks.json' with { type: 'json' };
+import json_data from '../app/_data/db_validation_data.json' with { type: 'json' };
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -15,7 +15,7 @@ function shuffleSpecialties(specialties) {
 }
 
 function generateData(collectionName, numDocuments) {
-  const specialties = [...new Set(tracks.map((track) => track.type))];
+  const specialties = [...new Set(json_data.tracks.map((track) => track.type))];
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
@@ -56,7 +56,7 @@ function generateData(collectionName, numDocuments) {
       tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
+        json_data.tracks.map((t) => t.name),
         faker.number.int({ min: 1, max: 5 })
       ),
       active: true,
@@ -64,7 +64,7 @@ function generateData(collectionName, numDocuments) {
   } else if (collectionName === 'submissions') {
     data = Array.from({ length: numDocuments }, () => {
       const randomTracks = faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
+        json_data.tracks,
         faker.number.int({ min: 1, max: 6 })
       );
 

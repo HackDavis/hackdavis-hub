@@ -43,7 +43,13 @@ async function dbSeed(collectionNames, numDocuments, wipe) {
 
     await client.close();
   } catch (error) {
-    console.log(error);
+    if (error.writeErrors) {
+      console.log(
+        error.writeErrors[0].err.errInfo.details.schemaRulesNotSatisfied[0]
+      );
+    } else {
+      console.error(error);
+    }
   }
 }
 
