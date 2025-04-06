@@ -71,7 +71,7 @@ export default function VinylPlayer() {
         <div
           className={`${styles.tooltip} ${showTooltip ? styles.active : null}`}
         >
-          {isPlaying ? 'Pause' : 'Play'}
+          {/* {isPlaying ? 'Pause' : 'Play'} */}
         </div>
       </button>
     </div>

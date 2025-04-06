@@ -7,17 +7,11 @@ $max-vinyl-width: 400px;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    width: 24%;
-    min-width: 164px;
+    width: 100%;
 
     @include mixins.tablet-l {
-        order: 5;
-        border-radius: 18px;
-        backdrop-filter: blur(30px);
-        padding: 35px 26px;
-        width: 100%;
+        width: 90%;
+        gap: 16px;
     }
 }
 
@@ -25,20 +19,34 @@ $max-vinyl-width: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 0;
+    padding: 8px 0 !important; 
     width: 100%;
     position: relative;
-
     border-radius: 16px;
+    border: none !important; // lowkey it kind of blends into the bg
+    background: var(--text-light) !important;
+    backdrop-filter: blur(27.194807052612305px) !important;
 
     @include mixins.desktop-m {
-        padding: 6px 0;
+        padding: 6px 0 !important;
+    }
+
+    @include mixins.mobile-l {
+        padding: 2px 0 !important;
     }
 
     .icon {
         color: var(-grass-background-light) !important;
         width: 40px;
         height: auto;
+
+        @include mixins.tablet-l {
+            width: 35px;
+        }
+
+        @include mixins.tablet-s {
+            width: 27px;
+        }
     }
 }
 
@@ -51,7 +59,6 @@ $max-vinyl-width: 400px;
 
 .tooltip {
     display: none;
-
     color: var(--text-dark);
     font-family: 'Metropolis';
     font-size: 0.5rem;

@@ -19,6 +19,7 @@ export default function SubmitProject() {
               alt="Primary Step 1"
               className={styles.primaryImage}
             />
+            <p className={styles.text}>Submit Project</p>
           </div>
         </div>
 
@@ -27,7 +28,6 @@ export default function SubmitProject() {
           <VinylPlayer />
         </div>
       </div>
-      <p className={styles.text}>Submit Project</p>
     </div>
 
     // <div className={styles.container}>

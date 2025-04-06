@@ -4,7 +4,6 @@
 .container {
   padding: 5%;
   width: 100%;
-  border: 2px solid red; /* for visual debugging */
 
   .text {
     font-size: 18px;
@@ -17,14 +16,17 @@
   }
 
   .content {
-    display: flex;        /* side-by-side layout */
+    display: flex;       
     flex-direction: row;  
-    gap: 20px;            /* space between the two children */
-    border: 2px solid blue; /* for visual debugging */
+    gap: 40px;   
+    align-items: flex-start;         
+    
+    @include tablet-l {
+      gap: 25px;
+    }
 
-    .child {
-      // flex: 1;              /* each child takes equal horizontal space */
-      border: 2px dashed green; /* for visual debugging */
+    @include mobile-l {
+      gap: 15px;
     }
 
     .leftchild {
@@ -38,16 +40,16 @@
       flex: 1;
       align-items: center;
 
+      @include mobile-l {
+        display: none;
+      }
     }
   }
 
   .imageWrapper {
-    /* remove absolute positioning and aspect-ratio for normal flow */
     width: 100%;
-    border: 2px solid purple; /* for visual debugging */
 
     .primaryImage {
-      /* remove absolute positioning here as well */
       width: 100%;
       height: auto;
     }
