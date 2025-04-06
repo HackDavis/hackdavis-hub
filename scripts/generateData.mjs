@@ -121,9 +121,9 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       return {
         judge_id: randomJudge._id || new ObjectId(),
         team_id: randomTeam._id || new ObjectId(),
-        social_good: faker.number.int({ min: 1, max: 10 }),
-        creativity: faker.number.int({ min: 1, max: 10 }),
-        presentation: faker.number.int({ min: 1, max: 10 }),
+        social_good: faker.number.int({ min: 1, max: 5 }),
+        creativity: faker.number.int({ min: 1, max: 5 }),
+        presentation: faker.number.int({ min: 1, max: 5 }),
         scores: scores,
         comments: Math.random() > 0.5 ? faker.lorem.sentence() : '',
         queuePosition: null,
