@@ -6,8 +6,10 @@ interface LoaderProps {
 export default function Loader({ modal = false, message = '' }: LoaderProps) {
   return (
     <div
-      className={`absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center bg-[rgba(136, 136, 136, 0.50)] backdrop-blur ${
-        modal ? '' : 'min-w-screen min-h-screen'
+      className={`w-full h-full flex flex-col items-center justify-center text-center ${
+        modal
+          ? ''
+          : 'absolute inset-0 min-w-screen min-h-screen bg-[rgba(136, 136, 136, 0.50)] backdrop-blur'
       }`}
     >
       <h3>{message}</h3>

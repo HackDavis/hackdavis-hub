@@ -1,12 +1,11 @@
 import csv from 'csv-parser';
-import trackData from '../../_data/tracks.json' assert { type: 'json' };
+import trackData from '@data/db_validation_data.json' assert { type: 'json' };
 import { Readable } from 'stream';
-import Track from '@typeDefs/track';
 import ParsedRecord from '@typeDefs/parsedRecord';
 
-const validTracks: string[] = trackData
-  .map((track: Track) => track.name)
-  .filter((t) => t !== 'Best Hack for Social Good');
+const validTracks: string[] = trackData.tracks.filter(
+  (t) => t !== 'Best Hack for Social Good'
+);
 
 function sortTracks(track1: string, track2: string, chosentracks: string) {
   let tracksInOrder: string[] = [track1, track2];
