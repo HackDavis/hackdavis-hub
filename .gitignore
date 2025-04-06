@@ -40,7 +40,11 @@ next-env.d.ts
 /.vscode/
 
 # babel
+<<<<<<< HEAD
 .babel.config.js
 .babelrc
 .babelrc.js
 
+=======
+babel.config.js
+>>>>>>> 418f01f5ba1743d00fe52aae0afcbc2b6ce3e3bb
