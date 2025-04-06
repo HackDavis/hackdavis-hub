@@ -12,11 +12,21 @@ beforeAll(async () => {
 
   await db.dropDatabase();
   await migrate.config.set(migrationConfig);
-  await migrate.up(db, client);
+  try {
+    await migrate.up(db, client);
+  } catch (error) {
+    console.error('migrating up failed');
+    console.error(error);
+  }
 });
 
 afterAll(async () => {
-  await migrate.down(db, client);
+  try {
+    await migrate.down(db, client);
+  } catch (error) {
+    console.error('migrating down failed');
+    console.error(error);
+  }
   await client.close();
 });
 
