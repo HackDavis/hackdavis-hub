@@ -1,5 +1,6 @@
 import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
+import { categorizedTracks } from '@data/tracks';
 
 // interface Team {
 //   _id?: string;
@@ -30,17 +31,51 @@ import Team from '@typeDefs/team';
 // }
 
 function calculateSubmissionScore(submission: Submission) {
-  return submission.scores.map((track_score) => {
-    const total = Object.values(track_score.rawScores).reduce(
-      (sum, score) => sum + score,
-      0
-    );
+  return submission.scores
+    .map((track_score) => {
+      const trackName = track_score.trackName;
 
-    return {
-      track_name: track_score.trackName,
-      score: total,
-    };
-  });
+      // Only process the track if it exists in categorizedTracks
+      if (!categorizedTracks[trackName]) {
+        // For tracks not in categorizedTracks, return null or a score of 0
+        // This will allow us to filter them out later
+        return {
+          track_name: trackName,
+          score: 0,
+          isValid: false,
+        };
+      }
+
+      // Calculate static scores (40%)
+      const staticScores = [
+        submission.social_good || 0,
+        submission.creativity || 0,
+        submission.presentation || 0,
+      ];
+      const totalStaticScore = staticScores.reduce(
+        (sum, score) => sum + score,
+        0
+      );
+
+      // Calculate dynamic scores (60%)
+      const dynamicScores = Object.values(track_score.rawScores);
+      const totalDynamicScore = dynamicScores.reduce(
+        (sum, score) => sum + score,
+        0
+      );
+
+      // Calculate final weighted score
+      const weightedStaticScore = 0.4 * totalStaticScore;
+      const weightedDynamicScore = 0.6 * totalDynamicScore;
+      const finalScore = weightedStaticScore + weightedDynamicScore;
+
+      return {
+        track_name: trackName,
+        score: finalScore,
+        isValid: true,
+      };
+    })
+    .filter((score) => score.isValid); // Filter out invalid/non-categorized tracks
 }
 
 export interface RankTeamsResults {
@@ -99,6 +134,9 @@ export default function RankTeams({ teams, submissions }: RankTeamsProps) {
       // process each track score from this submission
       for (const trackScore of final_scores) {
         const { track_name, score } = trackScore;
+
+        // Skip if the track isn't in categorizedTracks (though this should be filtered already)
+        if (!categorizedTracks[track_name]) continue;
 
         // initilize the track in the results if havent done yet
         if (!results[track_name]) {

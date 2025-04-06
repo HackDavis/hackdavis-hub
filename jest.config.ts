@@ -9,7 +9,10 @@ const config = {
   moduleNameMapper: {
     '@globals/(.*)': '<rootDir>/app/(pages)/_globals/$1',
     '@components/(.*)': '<rootDir>/app/(pages)/_components/$1',
-    '@data/(.*)': '<rootDir>/app/(pages)/_data/$1',
+    //specific for tracks import since it dont deal with images
+    '@data/tracks': '<rootDir>/__mocks__/tracks.ts',
+    // general
+    '@data/(.*)': '<rootDir>/app/_data/$1',
     '@hooks/(.*)': '<rootDir>/app/(pages)/_hooks/$1',
     '@actions/(.*)': '<rootDir>/app/(api)/_actions/$1',
     '@utils/(.*)': '<rootDir>/app/(api)/_utils/$1',

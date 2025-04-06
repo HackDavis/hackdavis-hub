@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import styles from './page.module.scss';
 import ScoringForm from '@components/ScoringForm/ScoringForm';
-import JudgeLoading from '../../_components/Loading/Loading';
+import Loader from '@components/Loader/Loader';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -25,7 +25,7 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
   const loading = subLoading || teamLoading;
 
   if (loading) {
-    return <JudgeLoading />;
+    return <Loader />;
   }
 
   if (!submission.ok) {
@@ -42,7 +42,7 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
         <Image src={leftArrow} alt="left arrow" />
         Back to projects
       </Link>
-      <h1 className={styles.project_label}>Table {team.body.teamNumber}</h1>
+      <h1 className={styles.project_label}>Table {team.body.tableNumber}</h1>
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${showInfo ? styles.active : null}`}
