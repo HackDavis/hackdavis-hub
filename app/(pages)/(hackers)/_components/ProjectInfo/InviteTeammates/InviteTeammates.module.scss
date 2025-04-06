@@ -1,0 +1,12 @@
+@import "@globals/mixins.scss";
+
+.container {
+  border: 3px solid pink;
+  width: 100%;
+
+  .image svg {
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+}

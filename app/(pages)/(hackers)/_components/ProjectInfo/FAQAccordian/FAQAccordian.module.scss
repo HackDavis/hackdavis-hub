@@ -8,11 +8,9 @@
     padding: 0% 4%;
 
     .imageWrapper {
-        border: 3px solid black;
         width: 100%;
         display: flex;
         position: relative;
-        margin-bottom: 1rem;
         aspect-ratio: 16 / 8;
       }      
       
@@ -38,7 +36,6 @@
   
     img {
       max-width: 100%;
-      margin-bottom: 1rem;
     }
   
     p {
@@ -116,7 +113,6 @@
             width: 100%;
             display: flex;
             position: relative;
-            margin-bottom: 1rem;
             aspect-ratio: 16 / 8;
           }      
           
@@ -166,7 +162,6 @@
                 width: 100%;
                 display: flex;
                 position: relative;
-                margin-bottom: 1rem;
                 aspect-ratio: 16 / 8;
             }      
               
@@ -223,7 +218,6 @@
         font-weight: 700;
         line-height: 45px; //manual enter
         letter-spacing: 0.4px;
-        border: 3px solid black;
     }
     .questionItem {
         color: var(--text-light);
@@ -385,7 +379,7 @@
 
         p {
             color: var(--text-dark);
-            padding: 2%;
+            // padding: 2%;
         }
     }   
 }

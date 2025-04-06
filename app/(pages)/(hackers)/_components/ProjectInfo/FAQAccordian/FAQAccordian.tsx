@@ -10,9 +10,10 @@ import Step1Overlay from 'public/hackers/project-info/Step1Overlay.svg';
 import Step2Overlay from 'public/hackers/project-info/Step2Overlay.svg';
 import Step3Overlay from 'public/hackers/project-info/Step3Overlay.svg';
 import Step4Overlay from 'public/hackers/project-info/Step4Overlay.svg';
-import Step5Overlay from 'public/hackers/project-info/Step5Overlay.svg';
+// import Step5Overlay from 'public/hackers/project-info/Step5Overlay.svg';
 import Blank from 'public/hackers/project-info/Step6.svg';
 import MusicPlayer from '../../IndexHero/MusicPlayer';
+import InviteTeammates from '../InviteTeammates/InviteTeammates';
 
 const FAQAccordian = () => {
   const steps = [
@@ -104,27 +105,7 @@ const FAQAccordian = () => {
     {
       step: 'Step 4',
       question: 'Invite Teammates',
-      answer: (
-        <div className={styles.stepContent}>
-          <div className={`${styles.imageWrapper} ${styles.step4}`}>
-            <Image
-              src={Blank} // primary image
-              alt="Primary Step 1"
-              fill
-              style={{ objectFit: 'contain' }}
-              className={styles.primaryImage}
-            />
-            <Image
-              src={Step4Overlay}
-              alt="Overlay"
-              fill
-              style={{ objectFit: 'cover' }}
-              className={styles.overlayImage}
-            />
-          </div>
-          <p>Invite teammates.</p>
-        </div>
-      ),
+      answer: <InviteTeammates />,
     },
     {
       step: 'Step 5',
