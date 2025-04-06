@@ -14,8 +14,9 @@ function shuffleSpecialties(specialties) {
   return shuffledSpecialties;
 }
 
-function generateData(collectionName, numDocuments) {
-  const specialties = [...new Set(json_data.tracks.map((track) => track.type))];
+function generateData(collectionName, numDocuments, existingData = {}) {
+  const specialties = [...new Set(json_data.domains)];
+
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
@@ -56,36 +57,73 @@ function generateData(collectionName, numDocuments) {
       tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
-        json_data.tracks.map((t) => t.name),
+        json_data.tracks,
         faker.number.int({ min: 1, max: 5 })
       ),
       active: true,
     }));
   } else if (collectionName === 'submissions') {
-    data = Array.from({ length: numDocuments }, () => {
-      const randomTracks = faker.helpers.arrayElements(
-        json_data.tracks,
-        faker.number.int({ min: 1, max: 6 })
+    if (
+      !existingData.teams ||
+      !existingData.teams.length ||
+      !existingData.users ||
+      !existingData.users.length
+    ) {
+      throw new Error(
+        'Cannot generate submissions without existing teams and judges'
       );
+    }
 
-      const rawScores = {
-        s1: faker.number.int({ min: 1, max: 5 }),
-        s2: faker.number.int({ min: 1, max: 5 }),
-        s3: faker.number.int({ min: 1, max: 5 }),
-      };
+    const judges = existingData.users.filter((user) => user.role === 'judge');
+    if (judges.length === 0) {
+      throw new Error('No judges found in existing users data');
+    }
 
-      const scores = randomTracks.map((t) => ({
-        trackName: t,
-        rawScores,
-        finalTrackScore: null,
-      }));
+    data = Array.from({ length: numDocuments }, () => {
+      const randomTeam = faker.helpers.arrayElement(existingData.teams);
+      const randomJudge = faker.helpers.arrayElement(judges);
+
+      const teamTracks = randomTeam.tracks || [];
+      const tracksToUse =
+        teamTracks.length > 0
+          ? teamTracks
+          : faker.helpers.arrayElements(
+            json_data.tracks,
+            faker.number.int({ min: 1, max: 3 })
+          );
+
+      const scores = tracksToUse.map((trackName) => {
+        const trackInfo = json_data.tracks.find((t) => t.name === trackName);
+        let rawScores = {};
+
+        if (trackInfo && trackInfo.scoring_criteria) {
+          trackInfo.scoring_criteria.forEach((criterion) => {
+            rawScores[criterion.attribute] = faker.number.int({
+              min: 1,
+              max: 5,
+            });
+          });
+        } else {
+          rawScores = {
+            'Criterion 1': faker.number.int({ min: 1, max: 5 }),
+            'Criterion 2': faker.number.int({ min: 1, max: 5 }),
+            'Criterion 3': faker.number.int({ min: 1, max: 5 }),
+          };
+        }
+
+        return {
+          trackName: trackName,
+          rawScores: rawScores,
+          finalTrackScore: null,
+        };
+      });
 
       return {
-        judge_id: new ObjectId(),
-        team_id: new ObjectId(),
-        social_good: faker.number.int({ min: 1, max: 5 }),
-        creativity: faker.number.int({ min: 1, max: 5 }),
-        presentation: faker.number.int({ min: 1, max: 5 }),
+        judge_id: randomJudge._id || new ObjectId(),
+        team_id: randomTeam._id || new ObjectId(),
+        social_good: faker.number.int({ min: 1, max: 10 }),
+        creativity: faker.number.int({ min: 1, max: 10 }),
+        presentation: faker.number.int({ min: 1, max: 10 }),
         scores: scores,
         comments: Math.random() > 0.5 ? faker.lorem.sentence() : '',
         queuePosition: null,
@@ -110,8 +148,8 @@ function generateData(collectionName, numDocuments) {
         end_time: faker.date.soon({ days: 2, refDate: startTime }),
         tags: isWorkshop
           ? faker.helpers.arrayElements([...hackerPositions, 'beginner'], {
-              min: 1,
-            })
+            min: 1,
+          })
           : [],
       };
     });
