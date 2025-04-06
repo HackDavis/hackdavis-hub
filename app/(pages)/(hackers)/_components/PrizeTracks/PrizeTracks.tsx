@@ -1,14 +1,15 @@
 'use client';
 
 import { Button } from '@globals/components/ui/button';
-import { prizes } from '@data/prizes';
-import type { Prize } from '@data/prizes';
+import { allTracks, TrackData } from '@data/tracks';
 import PrizeGrid from './PrizeGrid';
 import { useState } from 'react';
 
+const prizes = Object.values(allTracks);
+
 export default function PrizeTracks() {
   const [filter, setFilter] = useState<string>('all');
-  const [filteredPrizes, setFilteredPrizes] = useState<Prize[]>(prizes);
+  const [filteredPrizes, setFilteredPrizes] = useState<TrackData[]>(prizes);
 
   const handleFilterChange = (selectedFilter: string) => {
     setFilter(selectedFilter.toLowerCase());
@@ -17,7 +18,7 @@ export default function PrizeTracks() {
         return prizes;
       }
       return prizes.filter(
-        (prize) => prize.category.toLowerCase() === selectedFilter.toLowerCase()
+        (prize) => prize.filter.toLowerCase() === selectedFilter.toLowerCase()
       );
     });
   };
