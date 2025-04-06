@@ -1,0 +1,70 @@
+@use 'app/(pages)/_globals/mixins';
+
+$max-vinyl-width: 400px;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 24%;
+    min-width: 164px;
+
+    @include mixins.tablet-l {
+        order: 5;
+        border-radius: 18px;
+        backdrop-filter: blur(30px);
+        padding: 35px 26px;
+        width: 100%;
+    }
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    width: 100%;
+    position: relative;
+
+    border-radius: 16px;
+
+    @include mixins.desktop-m {
+        padding: 6px 0;
+    }
+
+    .icon {
+        color: var(-grass-background-light) !important;
+        width: 40px;
+        height: auto;
+    }
+}
+
+.vinyl {
+    width: 100%;
+    height: auto;
+    max-width: 100%; // Or use "none" if preferred: max-width: none;
+}
+
+
+.tooltip {
+    display: none;
+
+    color: var(--text-dark);
+    font-family: 'Metropolis';
+    font-size: 0.5rem;
+    background-color: var(-grass-background-light);
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -90%);
+
+    padding: 4px;
+    border-radius: 2px;
+
+    &.active {
+        display: block;
+    }
+}

@@ -9,11 +9,12 @@ import { PiStarFourFill } from 'react-icons/pi';
 import Step1Overlay from 'public/hackers/project-info/Step1Overlay.svg';
 import Step2Overlay from 'public/hackers/project-info/Step2Overlay.svg';
 import Step3Overlay from 'public/hackers/project-info/Step3Overlay.svg';
-import Step4Overlay from 'public/hackers/project-info/Step4Overlay.svg';
 // import Step5Overlay from 'public/hackers/project-info/Step5Overlay.svg';
 import Blank from 'public/hackers/project-info/Step6.svg';
-import MusicPlayer from '../../IndexHero/MusicPlayer';
+// import MusicPlayer from '../../IndexHero/MusicPlayer';
 import InviteTeammates from '../InviteTeammates/InviteTeammates';
+import FillOutDetails from '../FillOutDetails/FillOutDetails';
+import SubmitProject from '../SubmitProject/SubmitProject';
 
 const FAQAccordian = () => {
   const steps = [
@@ -25,14 +26,14 @@ const FAQAccordian = () => {
           {/* <Image className={styles.step1} src={Step1} alt="Step 1" /> */}
           <div className={styles.imageWrapper}>
             <Image
-              src={Blank} // primary image
+              src={Blank}
               alt="Primary Step 1"
               fill
               style={{ objectFit: 'contain' }}
               className={styles.primaryImage}
             />
             <Image
-              src={Step1Overlay} // your new overlay image
+              src={Step1Overlay}
               alt="Overlay"
               fill
               style={{ objectFit: 'contain' }}
@@ -110,36 +111,12 @@ const FAQAccordian = () => {
     {
       step: 'Step 5',
       question: 'Step 5: Fill Out Details',
-      answer: (
-        <div className={`${styles.stepContent} ${styles.stepContent5}`}>
-          <div className={`${styles.imageWrapper} ${styles.step5}`}>
-            <Image
-              src={Blank} // primary image
-              alt="Primary Step 1"
-              fill
-              style={{ objectFit: 'contain' }}
-              className={styles.primaryImage}
-            />
-            {/* <Image
-              src={Step5Overlay} // your new overlay image
-              alt="Overlay"
-              fill
-              style={{ objectFit: 'contain' }}
-              className={styles.overlayImage}
-            /> */}
-          </div>
-        </div>
-      ),
+      answer: <FillOutDetails />,
     },
     {
       step: 'Step 6',
       question: 'Step 6: Submit Project',
-      answer: (
-        <div className={styles.stepContent6}>
-          <Image className={styles.step6} src={Blank} alt="Step 6" />
-          <MusicPlayer />
-        </div>
-      ),
+      answer: <SubmitProject />,
     },
   ];
 
