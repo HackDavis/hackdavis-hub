@@ -45,6 +45,8 @@ export default async function matchAllTeams(options?: {
       min: number;
       max: number;
       count: number;
+      teamTracks: string[];
+      judgeTracks: string[];
     };
   };
 }> {
@@ -83,6 +85,14 @@ export default async function matchAllTeams(options?: {
   }
   const modifiedTeams = teamsResponse.body as Team[];
 
+  // Create a lookup for teams by id.
+  const teamById: Record<string, Team> = {};
+  modifiedTeams.forEach((team) => {
+    if (team._id) {
+      teamById[team._id] = team;
+    }
+  });
+
   // Convert each team's tracks from name to type and keep only unique values.
   modifiedTeams.forEach((team) => {
     if (team.tracks && team.tracks.length) {
@@ -116,7 +126,6 @@ export default async function matchAllTeams(options?: {
       team.tracks && team.tracks.length > trackIndex
         ? team.tracks[trackIndex]
         : null;
-    // const domain = team?.tracks[trackIndex] || '';
     return domain ? judge.domainMatchScores[domain] ?? 0 : 0;
   }
 
@@ -129,25 +138,34 @@ export default async function matchAllTeams(options?: {
     judges.sort((a, b) => b.priority - a.priority);
   }
 
-  // Array to hold the minimal judgeToTeam.
+  // Arrays to hold submissions and track issues.
   const judgeToTeam: JudgeToTeam[] = [];
   const teamsWithNoTracks: string[] = [];
+  const teamsWithNotEnoughTracks: string[] = [];
   const teamMatchQualities: { [teamId: string]: number[] } = {};
+  // New: Record the track types used for judge assignments per team.
+  const teamJudgeTrackTypes: { [teamId: string]: string[] } = {};
 
   const rounds = 3;
+  // Main loop: each round, process every team.
   for (let i = 0; i < rounds; i++) {
-    // For each team, assign a submission for each round.
-    // Each team should be judged at least 3 times.
     for (const team of modifiedTeams) {
+      // If a team has no tracks at all, skip it.
       if (!team.tracks || team.tracks.length === 0) {
         teamsWithNoTracks.push(team._id ?? String(team.tableNumber));
         console.warn(`Team ${team._id} has no tracks.`);
         continue;
       }
-      // If there are fewer unique tracks than rounds, use the last track for extra rounds.
-      // const trackIndex = i < team.tracks.length ? i : team.tracks.length - 1;
+      // If there is no track at the current round index, record and skip this round.
+      if (!team.tracks[i]) {
+        teamsWithNotEnoughTracks.push(team._id ?? String(team.tableNumber));
+        continue;
+      }
+
       const trackIndex = i;
       updateQueue(team, trackIndex, judgesQueue);
+      // The track type used in this round.
+      const trackUsed = team.tracks[trackIndex];
 
       let selectedJudge: Judge | undefined = undefined;
       for (const judge of judgesQueue) {
@@ -171,24 +189,24 @@ export default async function matchAllTeams(options?: {
         );
       }
 
-      // The judge at index 0 is the best match.
-      // const selectedJudge = judgesQueue[0];
-      // if (!selectedJudge) {
-      //   throw new Error(`No judges in queue`);
-      // }
-
       const matchQuality = getSpecialtyMatchScore(
         team,
         selectedJudge,
         trackIndex
       );
 
-      // Record the match quality for testing.
+      // Record match quality.
       const teamId = team._id as string;
       if (!teamMatchQualities[teamId]) {
         teamMatchQualities[teamId] = [];
       }
       teamMatchQualities[teamId].push(matchQuality);
+      // Record the judge's assignment track.
+      if (!teamJudgeTrackTypes[teamId]) {
+        teamJudgeTrackTypes[teamId] = [];
+      }
+      teamJudgeTrackTypes[teamId].push(trackUsed);
+
       const submission: JudgeToTeam = {
         judge_id: {
           '*convertId': {
@@ -206,6 +224,69 @@ export default async function matchAllTeams(options?: {
       selectedJudge.teamsAssigned += 1;
     }
   }
+
+  // Process teams that did not have a track at the required round index.
+  for (const teamId of teamsWithNotEnoughTracks) {
+    const team = modifiedTeams.find((t) => t._id === teamId);
+    if (!team) continue;
+    // Use the last available track.
+    const trackIndex = team.tracks.length - 1;
+    updateQueue(team, trackIndex, judgesQueue);
+    const trackUsed = team.tracks[trackIndex];
+
+    let selectedJudge: Judge | undefined = undefined;
+    for (const judge of judgesQueue) {
+      const duplicateExists = judgeToTeam.some(
+        (entry) =>
+          (entry.judge_id as Record<string, { id: string }>)['*convertId']
+            .id === judge.user._id?.toString() &&
+          (entry.team_id as Record<string, { id: string }>)['*convertId'].id ===
+            team._id
+      );
+      if (!duplicateExists) {
+        selectedJudge = judge;
+        break;
+      }
+    }
+    if (!selectedJudge) {
+      throw new Error(
+        `No available unique judge for team ${team._id} during supplemental assignment.`
+      );
+    }
+
+    const matchQuality = getSpecialtyMatchScore(
+      team,
+      selectedJudge,
+      trackIndex
+    );
+    const teamIdStr = team._id as string;
+    if (!teamMatchQualities[teamIdStr]) {
+      teamMatchQualities[teamIdStr] = [];
+    }
+    teamMatchQualities[teamIdStr].push(matchQuality);
+    // Record the track used for the supplemental assignment.
+    if (!teamJudgeTrackTypes[teamIdStr]) {
+      teamJudgeTrackTypes[teamIdStr] = [];
+    }
+    teamJudgeTrackTypes[teamIdStr].push(trackUsed);
+
+    const submission: JudgeToTeam = {
+      judge_id: {
+        '*convertId': {
+          id: selectedJudge.user._id?.toString(),
+        },
+      },
+      team_id: {
+        '*convertId': {
+          id: team._id,
+        },
+      },
+    };
+
+    judgeToTeam.push(submission);
+    selectedJudge.teamsAssigned += 1;
+  }
+
   console.log('No. of judgeToTeam:', judgeToTeam.length);
 
   const judgeAssignments = judgesQueue.map((judge) => judge.teamsAssigned);
@@ -229,6 +310,8 @@ export default async function matchAllTeams(options?: {
       min: number;
       max: number;
       count: number;
+      teamTracks: string[];
+      judgeTracks: string[];
     };
   } = {};
   for (const teamId in teamMatchQualities) {
@@ -238,18 +321,27 @@ export default async function matchAllTeams(options?: {
     const average = count > 0 ? sum / count : 0;
     const min = Math.min(...qualities);
     const max = Math.max(...qualities);
-    matchQualityStats[teamId] = { sum, average, min, max, count };
+    // Get the team's track types (from the team lookup).
+    const teamTracks = teamById[teamId]?.tracks || [];
+    // Get the judge-assigned track types.
+    const judgeTracks = teamJudgeTrackTypes[teamId] || [];
+    matchQualityStats[teamId] = {
+      sum,
+      average,
+      min,
+      max,
+      count,
+      teamTracks,
+      judgeTracks,
+    };
   }
 
+  // Compute overall match stats: count teams per unique average match quality.
   const matchStats: { [avg: string]: number } = {};
   for (const teamId in matchQualityStats) {
     const avg = matchQualityStats[teamId].average;
     const avgKey = avg.toString();
-    if (matchStats[avgKey]) {
-      matchStats[avgKey] += 1;
-    } else {
-      matchStats[avgKey] = 1;
-    }
+    matchStats[avgKey] = (matchStats[avgKey] || 0) + 1;
   }
 
   return {
