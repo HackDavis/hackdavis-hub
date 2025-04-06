@@ -1,120 +1,309 @@
 @import "@globals/mixins.scss";
 
-.SubDuecontainer {
-    background: url(/hackers/project-info/SubmissionDue.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    padding-top: 35%;
-    color: white;
+// .pageWrapper {
+//   background: url('/hackers/project-info/SubmissionDue.svg') no-repeat center;
+//   background-size: cover;  /* or use 'contain' if that fits your design better */
+//   min-height: 100%;
+//   padding-top: 8%;
+// }
+
+// /* Your content container */
+// .SubDuecontainer {
+//   /* Set to transparent so the background image shows through */
+//   background-color: transparent;
+//   max-width: 1200px;   /* Constrains the width so content stays within the blue region */
+//   margin: 0 auto;
+//   padding: 2rem;
+//   text-align: center;
+
+//   .heading {
+//     font-size: 2rem;
+//     margin-bottom: 1.5rem;
+//   }
+
+//   .boxContainer {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: center;
+//     gap: 1rem;
+//   }
+
+//   .box {
+//     /* Optionally, use a semi-transparent overlay so content remains legible */
+//     background-color: rgba(24, 47, 71, 0.8);
+//     border-radius: 8px;
+//     padding: 1.5rem;
+//     min-width: 200px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+
+//     p {
+//       margin: 0;
+//       font-size: 1.2rem;
+//       font-weight: 500;
+//     }
+
+//     /* Layout adjustments for the second box containing the three .box3 items */
+//     &:nth-child(2) {
+//       display: flex;
+//       gap: 1rem;
+//       justify-content: space-between;
+//     }
+//   }
+
+//   .box3 {
+//     background-color: rgba(24, 47, 71, 0.8);
+//     border-radius: 8px;
+//     padding: 1rem;
+//     flex: 1;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+
+//     p {
+//       margin: 0;
+//       font-size: 1rem;
+//       font-weight: 500;
+//     }
+//   }
+// }
+
+
+// .SubDuecontainer {
+//   background-image: url(/hackers/project-info/SubmissionDue.svg);
+//   // background-size: cover;
+//   // background-repeat: no-repeat;
+//   // background-position: center;
+// }
+
+
+// my own code 
+
+// .SubDuecontainer {
+//     background: url(/hackers/project-info/SubmissionDue.svg);
+//     background-size: contain;
+//     background-repeat: no-repeat;
+//     background-position: bottom center;
+//     border-bottom-left-radius: 12px;
+//     border-bottom-right-radius: 12px;
+//     padding-top: 35%;
+//     color: var(--background-light);
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+
+//     @include tablet-l {
+//         background: url(/hackers/project-info/SubmissionDueMobile.svg);
+//         background-size: cover;
+//         background-repeat: no-repeat;
+//         background-position: bottom center;
+//         padding-top: 55%;
+//         border: 3px solid black;
+//     }
+
+//     @include tablet-s {
+//         background: url(/hackers/project-info/SubmissionDueMobile.svg);
+//         background-size: cover;
+//         background-repeat: no-repeat;
+//         background-position: bottom center;
+//         padding: 5%;
+//         overflow: visible;
+//         padding-top: 50%;
+//         border: 3px solid white;
+//     }
+
+//     @include mobile-l {
+//         background: url(/hackers/project-info/SubmissionDueMobile.svg);
+//         background-size: contain;
+//         background-repeat: no-repeat;
+//         background-position: bottom center;
+//         padding: 5%;
+//         padding-top: 40%;
+//         border: 3px solid black;
+//     }
+  
+//     .heading {
+//       font-size: 2rem;
+//       text-align: center;
+//       padding-bottom: 1.5%;
+
+//       @include desktop-m {
+//         font-size: 1.5rem;
+//       }
+
+//       @include desktop-s {
+//         font-size: 1.5rem;
+//       }
+//     }
+  
+//     .boxContainer {
+//       width: 100%;
+//       padding: 0 5% 3%;
+//       color: var(--background-light);
+//       z-index: 2;
+//       text-align: center;
+//       display: flex;
+//       flex-direction: row;
+//       justify-content: center;
+//       align-items: center;
+//       flex-wrap: wrap;
+//       background-color: var(--sea-background);
+//       border: 3px solid red;
+
+//       @include tablet-s {
+//         padding: 0px 5% 6%;
+//         border: 3px solid orange;
+//       }
+
+//       @include mobile-l {
+//         margin-top: 5%;
+//         padding: 0px 5% 6%;
+//         border: 3px solid green;
+//       }
+      
+//       .box {
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         text-align: center;
+//         border-style: solid;
+//         border-color: var(--background-light);
+//         border-width: 2px 0 2px 2px;
+  
+//         p {
+//           color: var(--text-light);
+//           text-align: center;
+//           font-size: 1.5rem;
+//           white-space: nowrap;
+//           overflow: hidden;
+//           padding: 1.5rem;
+
+//           @include desktop-m {
+//             padding: 1rem;
+//             font-size: 1.2rem;
+//           }
+
+//           @include desktop-s {
+//             padding: 0.7rem;
+//             font-size: 1rem;
+//           }
+//         }
+//       }
+      
+//       .box:nth-child(1) {
+//         display: flex;
+//         flex: 4;
+//         justify-content: center;
+//         align-items: center;
+//         text-align: center;
+//       }
+      
+//       .box:nth-child(2) {
+//         flex: 2;
+//       }
+//     }
+
+//     .box3 {
+//         flex: 1;
+//         border-right: 2px solid white;
+//       }
+//   }
+
+.boxContainer {
+  width: 100%;
+  padding: 5% 3%;
+  color: var(--background-light);
+  background-color: var(--sea-background);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 2;
+
+  @include mobile-m {
+    width: 100%;
     display: flex;
     flex-direction: column;
+  }
+
+  /* Each main box */
+  .box {
+    display: flex;
+    justify-content: center;
     align-items: center;
+    text-align: center;
+    border-style: solid;
+    border-color: var(--background-light);
+    border-width: 2px 2px 2px 2px;
 
-    @include tablet-l {
-        background: url(/hackers/project-info/SubmissionDueMobile.svg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: bottom center;
-        padding-top: 55%;
-        border: 3px solid black;
+    @include mobile-m {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      // border-color: var(--background-light);
+      border-width: 2px 2px 2px 2px;
     }
 
-    @include tablet-s {
-        background: url(/hackers/project-info/SubmissionDueMobile.svg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: bottom center;
-        padding: 5%;
-        overflow: visible;
-        padding-top: 50%;
-        border: 3px solid white;
-    }
-
-    @include mobile-l {
-        background: url(/hackers/project-info/SubmissionDueMobile.svg);
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: bottom center;
-        padding: 5%;
-        padding-top: 40%;
-        border: 3px solid black;
-    }
-  
-    .heading {
-      font-size: 2rem;
-      text-align: center;
-      padding-bottom: 1.5%;
-    //   margin-bottom: 1rem;
+    p {
+      color: var(--text-light);
+      font-size: 1.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      padding: 1.5rem;
 
       @include desktop-m {
-        font-size: 1.5rem;
+        padding: 1rem;
+        font-size: 1.2rem;
       }
-
       @include desktop-s {
-        font-size: 1.5rem;
+        padding: 0.7rem;
+        font-size: 1rem;
+      }
+      @include tablet-s {
+        padding: 0.5rem;
+        font-size: 12px;
+      }  
+      @include mobile-l {
+        padding: 0.5rem;
+        font-size: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      @include mobile-m{
+        font-size: 12px;
+        padding: 0.2rem;
+        white-space: nowrap;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
       }
     }
-  
-    .boxContainer {
-      width: 100%;
-      padding: 0 5% 3%;
-      color: white;
-      z-index: 2;
-      text-align: center;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      
-      .box {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        border-style: solid;
-        border-color: white;
-        border-width: 2px 0 2px 2px;
-  
-        p {
-          color: white;
-          text-align: center;
-          font-size: 1.5rem;
-          white-space: nowrap;
-          overflow: hidden;
-          padding: 1.5rem;
 
-          @include desktop-m {
-            padding: 1rem;
-            font-size: 1.2rem;
-          }
+    &:nth-child(1) {
+      flex: 4; 
+    }
 
-          @include desktop-s {
-            padding: 0.7rem;
-            font-size: 1rem;
+    &:nth-child(2) {
+      flex: 2; 
+    
+      .box3 {
+        flex: 1;
+        border-right: 2px solid var(--background-light);
+    
+        @include mobile-m {
+          width: 100%;
+          border-top: none; // Remove top border by default
+          
+          &:not(:first-child) {
+            border-top: 2px solid var(--background-light);
           }
         }
       }
-      
-      .box:nth-child(1) {
-        display: flex;
-        flex: 4;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-      }
-      
-      .box:nth-child(2) {
-        flex: 2;
-      }
     }
-
-    .box3 {
-        flex: 1;
-        border-right: 2px solid white;
-      }
+    
   }
+}
+
   
