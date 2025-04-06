@@ -241,7 +241,7 @@ beforeEach(() => {
   };
 });
 
-describe('Team Scoring Algorithm', () => {
+describe('Team Scoring Algorithm with 2 Teams, 2 Judges, and 4 Submissions', () => {
   test('rankTeams should calculate scores correctly and rank teams', () => {
     // Call the ranking algorithm directly with our controlled input
     const results = rankTeams({
@@ -257,7 +257,6 @@ describe('Team Scoring Algorithm', () => {
         'Best User Research',
       ])
     );
-    console.log('RESULTS', results);
 
     // Check if each track has the correct teams ranked
     for (const trackName in mockExpectedResults) {
@@ -318,52 +317,5 @@ describe('Team Scoring Algorithm', () => {
     expect(Object.keys(results).length).toBe(0);
   });
 });
-// describe('Scoring Algo with DB integrations', () => {
-//   // Optional: Test with database integration if needed
-//   test('rankTeams shouldwork with submissions from database', async () => {
-//     // Skip this test if DB is not set up in test environment
-//     if (!db) {
-//       console.log('Skipping DB test - no database connection');
-//       return;
-//     }
-
-//     // Create new ObjectIds for test data
-//     const team1Id = new ObjectId();
-//     const team2Id = new ObjectId();
-
-//     // Insert teams and submissions into the test database
-//     await db.collection('teams').insertMany([
-//       { ...mockTeam1, _id: team1Id },
-//       { ...mockTeam2, _id: team2Id },
-//     ]);
-
-//     // Create new ObjectIds for each submission
-//     const submissionsWithIds = mockSubmissions.map((sub) => ({
-//       ...sub,
-//       _id: new ObjectId(),
-//     }));
-
-//     await db.collection('submissions').insertMany(submissionsWithIds);
-
-//     // Fetch from DB
-//     const teams = await db.collection('teams').find({}).toArray();
-//     const submissions = await db.collection('submissions').find({}).toArray();
-
-//     // Call ranking algorithm with DB data
-//     const results = rankTeams({
-//       teams: teams as unknown as Team[],
-//       submissions: submissions as unknown as Submission[],
-//     });
-
-//     // Verify results (similar assertions as the first test)
-//     expect(Object.keys(results)).toEqual(
-//       expect.arrayContaining([
-//         'Best Mobile App',
-//         'Best Web App',
-//         'Best User Research',
-//       ])
-//     );
-//   });
-// });
 
 export { mockSubmissions, mockTeam1, mockTeam2 };
