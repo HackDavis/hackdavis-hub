@@ -95,7 +95,7 @@ function generateData(collectionName, numDocuments) {
   } else if (collectionName === 'events') {
     data = Array.from({ length: numDocuments }, () => {
       const eventType = faker.helpers.arrayElement(eventTypes);
-      const isWorkshop = eventType === 'workshop';
+      const isWorkshop = eventType === 'WORKSHOPS';
       const startTime = faker.date.between({
         from: '2025-04-19T00:00:00.000Z',
         to: '2025-04-20T23:59:59.999Z',

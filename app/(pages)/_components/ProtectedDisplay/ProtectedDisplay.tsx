@@ -1,8 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { auth } from '@/auth';
-import { getUser } from '@actions/users/getUser';
-import LogoutAction from '@actions/auth/logout';
+import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 
 export default async function ProtectedDisplay({
   allowedRoles,
@@ -13,39 +11,22 @@ export default async function ProtectedDisplay({
   failRedirectRoute: string;
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (!session) redirect(failRedirectRoute);
+  const user = await getActiveUser(failRedirectRoute);
 
-  const authorized = allowedRoles.includes(session.user.role);
+  const authorized = allowedRoles.includes(user.role);
 
-  const id = session.user.id;
-  if (!id) redirect(failRedirectRoute);
-  const user = await getUser(id);
-
-  if (!user.ok) {
-    await LogoutAction();
-    // redirect(failRedirectRoute);
-    return (
-      <div>
-        User was manually deleted from the database, clear cookies and
-        re-register.
-      </div>
-    );
-  }
-
-  if (session.user.role === 'hacker') {
-    if (
-      user.body.position === undefined ||
-      user.body.is_beginner === undefined
-    ) {
+  if (user.role === 'hacker') {
+    if (user.position === undefined || user.is_beginner === undefined) {
       redirect('/register/details');
     } else if (authorized) {
       return <>{children}</>;
     } else {
       redirect('/');
     }
-  } else if (session.user.role === 'judge') {
-    if (authorized) {
+  } else if (user.role === 'judge') {
+    if (user.specialties === undefined) {
+      redirect('/judges/register/details');
+    } else if (authorized) {
       return <>{children}</>;
     } else {
       redirect('/judges');
