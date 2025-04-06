@@ -1,4 +1,5 @@
 import { useLinkPreview } from '@hooks/useLinkPreview';
+import Loader from '@pages/_components/Loader/Loader';
 export interface resource_type {
   name: string;
   url: string;
@@ -18,9 +19,7 @@ export default function ResourceCard({
     <div className="flex flex-row flex-wrap md:flex-nowrap bg-[#005271] rounded-lg md:rounded-xl p-2 xs:p-4 md:p-0 2xs:gap-4 md:gap-0 overflow-hidden text-white font-jakarta w-full">
       <div className="relative w-full aspect-video md:w-1/4 md:aspect-auto rounded-lg overflow-clip bg-secondary">
         {loading ? (
-          <div className="w-full h-full flex items-center justify-center bg-gray-800">
-            <p>Loading...</p>
-          </div>
+          <Loader modal={true} />
         ) : (
           <div className="relative w-full h-full">
             {/* using image here since we would need to add all the link
