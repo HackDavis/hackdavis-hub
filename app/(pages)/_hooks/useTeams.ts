@@ -7,15 +7,15 @@ export function useTeams(): any {
   const [teams, setTeams] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const getTeamsWrapper = async () => {
+  const getTeams = async () => {
     const team = await getManyTeams();
     setTeams(team);
     setLoading(false);
   };
 
   useEffect(() => {
-    getTeamsWrapper();
+    getTeams();
   }, []);
 
-  return { teams, loading, getTeams: getTeamsWrapper };
+  return { teams, loading, getTeams };
 }

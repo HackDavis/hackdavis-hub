@@ -41,7 +41,7 @@ export default function TeamCard({
       <hr></hr>
       <div className={styles.details}>
         <TrackList team={team} />
-        <JudgeList judges={team.judges} />
+        {team?.judges && <JudgeList judges={team.judges} />}
       </div>
     </div>
   );
