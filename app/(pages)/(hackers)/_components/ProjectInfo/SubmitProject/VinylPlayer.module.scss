@@ -28,11 +28,11 @@ $max-vinyl-width: 400px;
     backdrop-filter: blur(27.194807052612305px) !important;
 
     @include mixins.desktop-m {
-        padding: 6px 0 !important;
+        padding: 8px 0 !important;
     }
 
     @include mixins.mobile-l {
-        padding: 2px 0 !important;
+        padding: 5px 0 !important;
     }
 
     .icon {

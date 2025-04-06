@@ -6,7 +6,7 @@ import styles from './FAQAccordian.module.scss';
 import { CgChevronLeft } from 'react-icons/cg';
 import { PiStarFourFill } from 'react-icons/pi';
 // import Step1 from 'public/hackers/project-info/Step1.svg';
-import Step1Overlay from 'public/hackers/project-info/Step1Overlay.svg';
+// import Step1Overlay from 'public/hackers/project-info/Step1Overlay.svg';
 import Step2Overlay from 'public/hackers/project-info/Step2Overlay.svg';
 import Step3Overlay from 'public/hackers/project-info/Step3Overlay.svg';
 // import Step5Overlay from 'public/hackers/project-info/Step5Overlay.svg';
@@ -15,45 +15,20 @@ import Blank from 'public/hackers/project-info/Step6.svg';
 import InviteTeammates from '../InviteTeammates/InviteTeammates';
 import FillOutDetails from '../FillOutDetails/FillOutDetails';
 import SubmitProject from '../SubmitProject/SubmitProject';
+import LoginToDevpost from '../LoginToDevpost/LoginToDevpost';
 
 const FAQAccordian = () => {
   const steps = [
     {
       step: 'Step 1',
       question: 'Login to Devpost',
-      answer: (
-        <div className={styles.stepContent}>
-          {/* <Image className={styles.step1} src={Step1} alt="Step 1" /> */}
-          <div className={styles.imageWrapper}>
-            <Image
-              src={Blank}
-              alt="Primary Step 1"
-              fill
-              style={{ objectFit: 'contain' }}
-              className={styles.primaryImage}
-            />
-            <Image
-              src={Step1Overlay}
-              alt="Overlay"
-              fill
-              style={{ objectFit: 'contain' }}
-              className={styles.overlayImage}
-            />
-          </div>
-          <p>
-            When you click on the Devpost link, you should see this page. Click
-            Join Hackathon. Log in or sign up for a Devpost account if you don’t
-            have one already.
-          </p>
-        </div>
-      ),
+      answer: <LoginToDevpost />,
     },
     {
       step: 'Step 2',
       question: 'Register for the Event',
       answer: (
         <div className={styles.stepContent}>
-          {/* <Image className={styles.step2} src={Step2} alt="Step 2" /> */}
           <div className={`${styles.imageWrapper} ${styles.step2}`}>
             <Image
               src={Blank} // primary image
