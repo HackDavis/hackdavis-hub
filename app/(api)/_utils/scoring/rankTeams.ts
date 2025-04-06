@@ -1,5 +1,4 @@
 import Submission from '@typeDefs/submission';
-import Team from '@typeDefs/team';
 import { categorizedTracks } from '@data/tracks';
 
 // interface Team {
@@ -89,7 +88,6 @@ export interface RankTeamsResults {
 }
 
 export interface RankTeamsProps {
-  teams: Team[];
   submissions: Submission[];
 }
 // export default interface Submission {
@@ -105,9 +103,10 @@ export interface RankTeamsProps {
 //   queuePosition: number | null;
 // }
 
-export default function RankTeams({ teams, submissions }: RankTeamsProps) {
+export default function RankTeams({ submissions }: RankTeamsProps) {
   const results: RankTeamsResults = {};
 
+  // Group submissions by team_id
   const group_team = (
     acc: Record<string, Submission[]>,
     submission: Submission
@@ -122,10 +121,11 @@ export default function RankTeams({ teams, submissions }: RankTeamsProps) {
   const submissionsByTeam = submissions.reduce(
     group_team,
     {} as Record<string, Submission[]>
-  ); // {"team_name": [{track_name: scorw}]}
+  ); // {"team_id": [submission1, submission2, ...]}
 
-  for (const team of teams) {
-    const teamSubmissions = submissionsByTeam[team._id as string] || [];
+  // Process each team's submissions
+  for (const team_id in submissionsByTeam) {
+    const teamSubmissions = submissionsByTeam[team_id];
 
     // each team has many submissions from the judges
     for (const submission of teamSubmissions) {
@@ -138,24 +138,22 @@ export default function RankTeams({ teams, submissions }: RankTeamsProps) {
         // Skip if the track isn't in categorizedTracks (though this should be filtered already)
         if (!categorizedTracks[track_name]) continue;
 
-        // initilize the track in the results if havent done yet
+        // initialize the track in the results if haven't done yet
         if (!results[track_name]) {
           results[track_name] = [];
         }
 
         // if the team already exists in the track
         const existingTeamIndex = results[track_name].findIndex(
-          (item) => item.team.team_id === team._id
+          (item) => item.team.team_id === team_id
         );
 
         if (existingTeamIndex !== -1) {
           // - we update the score by adding it up
-
           const existing_team = results[track_name][existingTeamIndex];
-
           existing_team.team.final_score += score; // add the score up
 
-          // - add the commends as well
+          // - add the comments as well
           if (submission.comments) {
             existing_team.team.comments.push(submission.comments);
           }
@@ -163,7 +161,7 @@ export default function RankTeams({ teams, submissions }: RankTeamsProps) {
           // else we initialize a new team with the current score for that track
           results[track_name].push({
             team: {
-              team_id: team._id as string,
+              team_id: team_id,
               final_score: score,
               comments: submission.comments
                 ? [submission.comments]
@@ -173,15 +171,11 @@ export default function RankTeams({ teams, submissions }: RankTeamsProps) {
         }
       }
     }
+  }
 
-    for (const track_name in results) {
-      // {track_name : team[]}
-
-      // sort each tracks with the result of team.final_score from highest to lowest
-      results[track_name].sort(
-        (a, b) => b.team.final_score - a.team.final_score
-      );
-    }
+  // Sort teams by score for each track (from highest to lowest)
+  for (const track_name in results) {
+    results[track_name].sort((a, b) => b.team.final_score - a.team.final_score);
   }
 
   return results;

@@ -1,12 +1,9 @@
 // import { db } from '../../jest.setup';
-import Team from '@typeDefs/team';
 import type { RankTeamsResults } from '@utils/scoring/rankTeams';
 import Submission from '@typeDefs/submission';
 import rankTeams from '@utils/scoring/rankTeams';
 // import { ObjectId } from 'mongodb';
 
-let mockTeam1: Team;
-let mockTeam2: Team;
 let mockSubmissions: Submission[];
 // let mockJudge1: User;
 // let mockJudge2: User;
@@ -27,28 +24,6 @@ testing scoring
 */
 
 beforeEach(() => {
-  mockTeam1 = {
-    _id: 'team1',
-    teamNumber: 1,
-    tableNumber: 1,
-    name: 'Team One',
-    tracks: [
-      'Best AI/ML Hack',
-      'Best UI/UX Design',
-      'Best User Research',
-      'Best Statistical Model',
-    ],
-    active: true,
-  };
-  mockTeam2 = {
-    _id: 'team2',
-    teamNumber: 2,
-    tableNumber: 2,
-    name: 'Team Two',
-    tracks: ['Best AI/ML Hack', 'Best UI/UX Design', 'Best User Research'],
-    active: true,
-  };
-
   mockSubmissions = [
     {
       _id: 'submission1',
@@ -243,9 +218,8 @@ beforeEach(() => {
 
 describe('Team Scoring Algorithm with 2 Teams, 2 Judges, and 4 Submissions', () => {
   test('rankTeams should calculate scores correctly and rank teams', () => {
-    // Call the ranking algorithm directly with our controlled input
+    // Call the ranking algorithm directly with our controlled input (only passing submissions)
     const results = rankTeams({
-      teams: [mockTeam1, mockTeam2],
       submissions: mockSubmissions,
     });
 
@@ -282,40 +256,53 @@ describe('Team Scoring Algorithm with 2 Teams, 2 Judges, and 4 Submissions', () 
     }
   });
 
-  test('rankTeams should handle missing submissions for teams', () => {
-    // Create a new team with no submissions
-    const mockTeam3: Team = {
-      _id: 'team3',
-      teamNumber: 3,
-      tableNumber: 3,
-      name: 'Team Three',
-      tracks: ['Best Mobile App', 'Best Web App'],
-      active: true,
+  test('rankTeams should handle teams derived solely from submissions', () => {
+    // Create a submission for a new team that wasn't previously used
+    const newTeamSubmission: Submission = {
+      _id: 'submission5',
+      judge_id: 'judge1',
+      team_id: 'team3',
+      social_good: 8,
+      creativity: 9,
+      presentation: 7,
+      scores: [
+        {
+          trackName: 'Best AI/ML Hack', // Using an existing track from categorizedTracks
+          rawScores: {
+            'Innovative Use of AI/ML Techniques': 20,
+            'Model Performance and Accuracy': 25,
+            'Real-World Impact and Applicability': 15,
+          },
+          finalTrackScore: null,
+        },
+      ],
+      comments: 'Great AI implementation',
+      is_scored: true,
+      queuePosition: null,
     };
 
-    // Call the ranking algorithm
+    // Call the ranking algorithm with all submissions including the new one
     const results = rankTeams({
-      teams: [mockTeam1, mockTeam2, mockTeam3],
-      submissions: mockSubmissions,
+      submissions: [...mockSubmissions, newTeamSubmission],
     });
 
-    // Team3 should not appear in results since it has no submissions
-    for (const trackName in results) {
-      const teamIds = results[trackName].map((item) => item.team.team_id);
-      expect(teamIds).not.toContain('team3');
-    }
+    // Verify that team3 appears in the results for Best AI/ML Hack
+    expect(results).toHaveProperty('Best AI/ML Hack');
+    const aiMlTeams = results['Best AI/ML Hack'].map(
+      (item) => item.team.team_id
+    );
+    expect(aiMlTeams).toContain('team3');
   });
 
   test('rankTeams should handle empty submissions array', () => {
     // Call the ranking algorithm with empty submissions
     const results = rankTeams({
-      teams: [mockTeam1, mockTeam2],
       submissions: [],
     });
 
-    // Results should have track keys but empty arrays
+    // Results should have no track keys
     expect(Object.keys(results).length).toBe(0);
   });
 });
 
-export { mockSubmissions, mockTeam1, mockTeam2 };
+export { mockSubmissions };
