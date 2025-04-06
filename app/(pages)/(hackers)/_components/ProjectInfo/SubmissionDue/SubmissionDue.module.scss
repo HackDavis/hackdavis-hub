@@ -74,14 +74,78 @@
       text-align: center;
       border-style: solid;
       border-color: var(--background-light);
-      border-width: 2px 2px 2px 2px;
+      border-width: 2px 0px 2px 0px;
+
+        &:first-child {
+          border-left: 2px solid var(--background-light);
+          border-right: 2px solid var(--background-light);
+        }
+
+      @include desktop-l {
+        border-color: var(--background-light);
+        border-width: 2px 0px 2px 0px;
+
+        &:first-child {
+          border-left: 2px solid var(--background-light);
+          border-right: 2px solid var(--background-light);
+        }
+      }
+
+      @media (max-width: 805px) {
+        border-color: var(--background-light);
+        border-width: 2px 0 2px 0;
+      
+        &:last-child {
+          border-top: none;
+          border-left: 2px solid var(--background-light);
+        }
+      }
+      
+      @include tablet-l {
+        border-color: var(--background-light);
+        border-width: 2px 0px 2px 0px;
+
+        &:last-child {
+          border-top: none;
+          border-left: 2px solid var(--background-light);
+        }
+      }
+
+      @include tablet-s {
+        border-color: var(--background-light);
+        border-width: 2px 0px 2px 0px;
+
+        &:last-child {
+          border-top: 2px solid var(--background-light);
+          border-left: none;
+        }
+      }
+
+      @media (max-width: 610px) {
+        border-color: var(--background-light);
+        border-width: 2px 0 2px 0;
+      
+        &:last-child {
+          border-top: none;
+          border-left: 2px solid var(--background-light);
+        }
+      }
 
       @include mobile-m {
         width: 100%;
         display: flex;
         flex-direction: column;
-        // border-color: var(--background-light);
-        border-width: 2px 2px 2px 2px;
+        border-color: var(--background-light);
+        border-width: 2px 0px 0px 2px;
+
+        &:first-child {
+          border-bottom: 2px solid var(--background-light);
+          border-right: 2px solid var(--background-light);
+        }
+
+        &:last-child {
+          border-bottom: 2px solid var(--background-light);
+        }
       }
 
       p {
