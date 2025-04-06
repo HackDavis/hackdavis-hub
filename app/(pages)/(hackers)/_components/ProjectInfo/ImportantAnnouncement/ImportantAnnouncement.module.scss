@@ -11,7 +11,7 @@
     padding-top: 3%;
     flex-wrap: wrap;
     align-items: stretch;
-    padding: 2% 7%;
+    padding: 2% 5% 2% 5%;
 
     p {
         @include desktop-s {
@@ -39,7 +39,7 @@
 
         @include tablet-s {
             width: 100%;
-            padding: 2% 7%;
+            padding: 2% 0%;
         }
 
         .ImportantAnnouncementImage {
