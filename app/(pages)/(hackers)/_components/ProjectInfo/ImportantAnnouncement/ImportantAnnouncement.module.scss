@@ -1,0 +1,104 @@
+@import "@globals/mixins.scss";
+
+.container {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex;
+    align-content: center;
+    text-align: left;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 3%;
+    flex-wrap: wrap;
+    align-items: stretch;
+    padding: 2% 5% 2% 5%;
+
+    p {
+        @include desktop-s {
+            font-size: 0.8rem !important;
+        }
+
+        @include tablet-s {
+            font-size: 0.8rem !important;
+            padding: 1%;
+        }
+    }
+
+    @include tablet-s {
+        flex-direction: column;
+    }
+
+    .child1, .child2 {
+        flex: 1;              /* Both can grow/shrink equally */
+        display: flex;        /* Make each child a flex container */
+        flex-direction: column;
+        justify-content: center; /* Center content vertically if desired */
+        align-items: stretch;  /* Adjust as needed */
+        line-height: 1.5;
+        flex-shrink: 1;
+
+        @include tablet-s {
+            width: 100%;
+            padding: 2% 0%;
+        }
+
+        .ImportantAnnouncementImage {
+            width: 100%;
+            padding: 5%;
+            object-fit: contain; /* Prevents cropping or overflow */
+            flex-shrink: 1;
+
+            @include tablet-s {
+                padding: 0%;
+            }
+        }
+
+        .text1 {
+            background-color: var(--background-light);
+            padding: 4%;
+            border-radius: 12px;
+            margin: 2% 0%;
+
+            @include tablet-s {
+                margin: 2%;
+            }
+        }
+
+        .text2 {
+            background-color: var(--background-light);
+            padding: 4%;
+            border-radius: 12px;
+            margin: 3% 0%;
+
+            @include tablet-s {
+                margin: 2%;
+            }
+        }
+    }
+}
+
+// hammer styling
+
+.hammer {
+    max-width: 100%;
+    height: auto;
+
+    @include desktop-s {
+        width: 30px;
+    }
+
+    @include tablet-s {
+        width: 30px;
+    }
+}
+
+.bulletItem {
+    display: flex;
+    align-items: center; 
+    margin: 8px 0;
+}
+
+.bulletItem p {
+    margin: 0;
+    padding-left: 10px;
+}
