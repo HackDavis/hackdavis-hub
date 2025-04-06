@@ -100,7 +100,7 @@ export default function RankTeamsUI() {
       <h1 className="text-3xl font-bold">Team Rankings</h1>
 
       <Tabs defaultValue={defaultTrack} className="w-full">
-        <TabsList className="flex flex-wrap gap-2 mb-4">
+        <TabsList className="flex overflow-x-auto gap-2 mb-4">
           {trackNames.map((trackName) => (
             <TabsTrigger
               key={trackName}
