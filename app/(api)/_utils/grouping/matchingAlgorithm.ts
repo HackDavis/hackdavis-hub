@@ -2,7 +2,7 @@
 import User from '@typeDefs/user';
 import JudgeToTeam from '@typeDefs/judgeToTeam';
 import Team from '@typeDefs/team';
-import tracks from '@apidata/tracks.json' assert { type: 'json' };
+import { categorizedTracks } from '@data/tracks';
 
 import { getManyUsers } from '@actions/users/getUser';
 import { getManyTeams } from '@actions/teams/getTeams';
@@ -15,9 +15,9 @@ interface Judge {
 }
 
 const trackMap = new Map<string, string>(
-  tracks.map((track: { name: string; type: string }) => [
+  Object.values(categorizedTracks).map((track) => [
     track.name,
-    track.type,
+    track.domain ?? '',
   ])
 );
 
@@ -143,7 +143,6 @@ export default async function matchAllTeams(options?: {
   const teamsWithNoTracks: string[] = [];
   const teamsWithNotEnoughTracks: string[] = [];
   const teamMatchQualities: { [teamId: string]: number[] } = {};
-  // New: Record the track types used for judge assignments per team.
   const teamJudgeTrackTypes: { [teamId: string]: string[] } = {};
 
   const rounds = 3;
