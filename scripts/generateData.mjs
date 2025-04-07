@@ -1,18 +1,25 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import { allTracks, categorizedTracks } from '../app/_data/tracks.mjs';
+import fs from 'fs';
+import path from 'path';
+
+const dataPath = path.resolve(
+  process.cwd(),
+  'app/_data/db_validation_data.json'
+);
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const domains = [...new Set(data.domains)];
+const tracks = [...new Set(data.tracks)];
 
 // Extract unique domains from the categorizedTracks.
 // Only tracks with a defined domain are considered.
-const domains = Array.from(
-  new Set(
-    Object.values(categorizedTracks)
-      .map((track) => track.domain)
-      .filter((domain) => !!domain)
-  )
-);
-
-console.log(domains);
+// const domains = Array.from(
+//   new Set(
+//     Object.values(categorizedTracks)
+//       .map((track) => track.domain)
+//       .filter((domain) => !!domain)
+//   )
+// );
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -102,7 +109,7 @@ function generateData(collectionName, numDocuments) {
       tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
-        Object.keys(allTracks),
+        tracks,
         faker.number.int({ min: 1, max: 5 })
       ),
       active: true,
@@ -110,7 +117,7 @@ function generateData(collectionName, numDocuments) {
   } else if (collectionName === 'submissions') {
     data = Array.from({ length: numDocuments }, () => {
       const randomTracks = faker.helpers.arrayElements(
-        Object.keys(allTracks),
+        tracks,
         faker.number.int({ min: 1, max: 6 })
       );
       const scores = randomTracks.map((t) => ({
