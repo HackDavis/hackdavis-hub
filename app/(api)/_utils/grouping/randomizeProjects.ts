@@ -60,6 +60,7 @@ export default async function randomizeProjects() {
     }
 
     const updatedSubmissions: object[] = [];
+    const submissionsWithoutTeams: Submission[] = [];
 
     for (const submissions of Object.values(submissionsByJudge)) {
       const floor = Object.groupBy(submissions, ({ team_id }) => {
@@ -67,6 +68,9 @@ export default async function randomizeProjects() {
         if (!tableNumber) return 'missing';
         return tableNumber < UPSTAIRS_TABLE_NUMBER_START ? 'first' : 'second';
       });
+
+      const missing = floor.missing;
+      if (missing) submissionsWithoutTeams.push(...missing);
 
       const firstFloor = floor.first;
       const secondFloor = floor.second;
@@ -119,7 +123,9 @@ export default async function randomizeProjects() {
 
     return {
       ok: true,
-      body: null,
+      body: {
+        submissionsWithoutTeams,
+      },
       error: null,
     };
   } catch (e) {
