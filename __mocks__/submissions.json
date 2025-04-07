@@ -1,0 +1,108 @@
+[
+  {
+    "_id": "submission1",
+    "judge_id": "judge1",
+    "team_id": "team1", 
+    "social_good": 8,
+    "creativity": 9,
+    "presentation": 7,
+    "scores": [
+      {
+        "trackName": "Best Mobile App",
+        "rawScores": {
+          "technical": 20,
+          "design": 25,
+          "innovation": 15
+        },
+        "finalTrackScore": null
+      },
+      {
+        "trackName": "Best Web App", 
+        "rawScores": {
+          "technical": 18,
+          "design": 22,
+          "innovation": 16
+        },
+        "finalTrackScore": null
+      }
+    ],
+    "comments": "Great mobile implementation",
+    "is_scored": true,
+    "queuePosition": null
+  },
+  {
+    "_id": "submission2",
+    "judge_id": "judge2",
+    "team_id": "team1",
+    "social_good": 7,
+    "creativity": 8,
+    "presentation": 9,
+    "scores": [
+      {
+        "trackName": "Best Hack for Social Good",
+        "rawScores": {
+          "impact": 24,
+          "feasibility": 18,
+          "creativity": 20
+        },
+        "finalTrackScore": null
+      }
+    ],
+    "comments": "Strong social impact",
+    "is_scored": true,
+    "queuePosition": null
+  },
+  {
+    "_id": "submission3",
+    "judge_id": "judge1",
+    "team_id": "team2",
+    "social_good": 9,
+    "creativity": 8,
+    "presentation": 9,
+    "scores": [
+      {
+        "trackName": "Best Mobile App",
+        "rawScores": {
+          "technical": 23,
+          "design": 19,
+          "innovation": 17
+        },
+        "finalTrackScore": null
+      },
+      {
+        "trackName": "Best Web App",
+        "rawScores": {
+          "technical": 25,
+          "design": 24,
+          "innovation": 21
+        },
+        "finalTrackScore": null
+      }
+    ],
+    "comments": "Outstanding technical work",
+    "is_scored": true,
+    "queuePosition": null
+  },
+  {
+    "_id": "submission4",
+    "judge_id": "judge2",
+    "team_id": "team2",
+    "social_good": 10,
+    "creativity": 9,
+    "presentation": 8,
+    "scores": [
+      {
+        "trackName": "Best Hack for Social Good",
+        "rawScores": {
+          "impact": 26,
+          "feasibility": 21,
+          "creativity": 23
+        },
+        "finalTrackScore": null
+      }
+    ],
+    "comments": "Innovative solution with real-world application",
+    "is_scored": true,
+    "queuePosition": null
+  }
+]

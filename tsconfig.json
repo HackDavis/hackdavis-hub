@@ -33,6 +33,7 @@
       "@typeDefs/*": ["app/_types/*"],
       "@public/*": ["public/*"],
       "@/auth": ["auth.ts"],
+      "@mocks/*": ["__mocks__"]
     }
   },
   "include": ["nextEnv.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "jest.config.ts"],
