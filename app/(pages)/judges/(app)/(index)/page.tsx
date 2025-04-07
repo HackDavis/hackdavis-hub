@@ -24,12 +24,16 @@ export default function Judges() {
 
   return (
     <>
+      <JudgingHub />
       <form onSubmit={handleLogout}>
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-text-error text-white text-[1.5rem] py-4 font-jakarta font-semibold"
+        >
           Sign Out
         </button>
       </form>
-      <JudgingHub />
     </>
   );
 }

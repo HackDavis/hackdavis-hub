@@ -5,7 +5,7 @@ import UnjudgedPage from './UnjudgedPage';
 import ScoredPage from './ScoredPage';
 import { useSubmissions } from '@hooks/useSubmissions';
 import Link from 'next/link';
-import JudgeLoading from '../../_components/Loading/Loading';
+import Loader from '@components/Loader/Loader';
 
 interface ButtonProps {
   text: string;
@@ -38,7 +38,7 @@ const ProjectPage = () => {
   const { submissions, unjudgedTeams, judgedTeams, loading } = useSubmissions();
 
   if (loading) {
-    return <JudgeLoading />;
+    return <Loader />;
   }
 
   if (!submissions.ok) {
@@ -46,22 +46,19 @@ const ProjectPage = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F2F2F7]">
-      <Link
-        href={'/judges'}
-        className="flex items-center ml-[20px] gap-[12px] mt-[59px]"
-      >
+    <div className="flex flex-col min-h-screen bg-[#F2F2F7] px-[20px]">
+      <Link href={'/judges'} className="flex items-center gap-[12px] mt-[24px]">
         <FaChevronLeft fill="#005271" height={8.48} width={4.24} />
         <span className="font-semibold text-[18px] tracking-[0.36px] text-[#005271] leading-[100%]">
           Back to home
         </span>
       </Link>
-      <div className="flex flex-col px-[20px] mt-[24px]">
-        <span className="font-bold text-[48px] tracking-[0.96px] text-[#000000] ">
-          Project
+      <div className="flex flex-col mt-[24px]">
+        <span className="font-bold text-[48px] tracking-[0.96px] text-[#000000] mb-[20px]">
+          Projects
         </span>
       </div>
-      <div className="flex px-[20px] space-x-[8px] mb-[32px]">
+      <div className="flex space-x-[8px] mb-[32px]">
         <Button
           text="Unjudged"
           isSelected={selectedButton === 'Unjudged'}
@@ -75,7 +72,7 @@ const ProjectPage = () => {
           onClick={() => setSelectedButton('Scored')}
         />
       </div>
-      <div className="px-[20px]">
+      <div>
         {selectedButton === 'Unjudged' ? (
           <UnjudgedPage projects={unjudgedTeams} />
         ) : (
