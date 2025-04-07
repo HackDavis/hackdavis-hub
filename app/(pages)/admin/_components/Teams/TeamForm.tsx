@@ -63,7 +63,9 @@ export default function TeamForm({
 
     const { _id, submissions: _, judges: __, ...body } = data;
 
-    const res = !_id ? await createTeam(body) : await updateTeam(_id, body);
+    const res = !_id
+      ? await createTeam(body)
+      : await updateTeam(_id, { $set: body });
 
     if (res.ok) {
       setData({});
