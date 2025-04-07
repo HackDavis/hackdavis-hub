@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.action_buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    > button {
+        padding: 12px 24px;
+        border-radius: 8px;
+        color: white;
+        flex-grow: 1;
+        font-weight: 600;
+    }
+
+    .submit_button {
+        background: #005271;
+    }
+
+    .cancel_button {
+        background: var(--text-error);
+    }
+}
+
+.track_item {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #9EE7E5 0%, #9EE7E5 100%);
+    box-shadow: 0px 4px 8px 4px rgba(195, 194, 194, 0.08);
+    cursor: default;
+
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: space-between;
+
+    .trash_icon {
+        cursor: pointer;
+        color: var(--text-error);
+        font-size: 1.25rem;
+    }
+}

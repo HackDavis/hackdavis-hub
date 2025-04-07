@@ -10,21 +10,20 @@ import {
   HttpError,
 } from '@utils/response/Errors';
 
-export const CreateSubmission = async (body: {
-  judge_id: object;
-  team_id: object;
-}) => {
+export const CreateSubmission = async (body: any) => {
   try {
     if (isBodyEmpty(body)) {
       throw new NoContentError();
     }
     const parsedBody = await parseAndReplace(body);
+
     const db = await getDatabase();
 
     const judge = await db.collection('users').findOne({
       _id: parsedBody.judge_id,
       role: 'judge',
     });
+
     if (judge === null) {
       throw new NotFoundError(`judge with id: ${body.judge_id} not found.`);
     }

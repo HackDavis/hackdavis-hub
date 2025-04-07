@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+}
+
+.labels {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    flex-shrink: 0;
+    flex-grow: 0;
+    align-items: flex-end;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    text-align: right;
+}
+
+.chart_container {
+    position: relative;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.bars {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.bar {
+    display: flex;
+    align-items: center;
+    background-color: aqua;
+    position: relative;
+    width: 100%;
+    transition: max-width 1s;
+}
+
+.barText {
+    position: absolute;
+    left: 12px;
+}
+
+.line_mark {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}

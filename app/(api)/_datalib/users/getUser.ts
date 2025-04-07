@@ -26,7 +26,31 @@ export const GetManyUsers = async (query: object = {}) => {
   try {
     const db = await getDatabase();
 
-    const users = await db.collection('users').find(query).toArray();
+    const users = await db
+      .collection('users')
+      .aggregate([
+        {
+          $match: query,
+        },
+        {
+          $lookup: {
+            from: 'submissions',
+            localField: '_id',
+            foreignField: 'judge_id',
+            as: 'submissions',
+          },
+        },
+        {
+          $lookup: {
+            from: 'teams',
+            localField: 'submissions.team_id',
+            foreignField: '_id',
+            as: 'teams',
+          },
+        },
+      ])
+      .toArray();
+
     return { ok: true, body: users, error: null };
   } catch (e) {
     const error = e as HttpError;
