@@ -1,8 +1,10 @@
-import bulkWriteCollection from '@actions/bulkWrite/bulkWriteCollection';
-import { getManySubmissions } from '@actions/submissions/getSubmission';
-import { getManyUsers } from '@actions/users/getUser';
 import Submission from '@typeDefs/submission';
-import User from '@typeDefs/user';
+import Team from '@typeDefs/team';
+import { getManySubmissions } from '@actions/submissions/getSubmission';
+import { getManyTeams } from '@actions/teams/getTeams';
+import bulkWriteCollection from '@actions/bulkWrite/bulkWriteCollection';
+
+const UPSTAIRS_TABLE_NUMBER_START = 100;
 
 function shuffle(array: any[]) {
   let currentIndex = array.length;
@@ -18,37 +20,77 @@ function shuffle(array: any[]) {
   }
 }
 
+const groupByJudge = (
+  acc: Record<string, Submission[]>,
+  submission: Submission
+) => {
+  if (!acc[submission.judge_id]) {
+    acc[submission.judge_id] = [];
+  }
+  acc[submission.judge_id].push(submission);
+  return acc;
+};
+
 export default async function randomizeProjects() {
   try {
-    const usersRes = await getManyUsers({
-      role: 'judge',
-    });
+    const subRes = await getManySubmissions();
 
-    if (!usersRes.ok) {
-      throw new Error(usersRes.error ?? 'Error fetching judges.');
+    if (!subRes.ok) {
+      throw new Error(subRes.error ?? 'Error getting submissions');
     }
 
-    const judges: User[] = usersRes.body;
+    const submissions = subRes.body;
 
-    for (const judge of judges) {
-      const subRes = await getManySubmissions({
-        judge_id: {
-          '*convertId': {
-            id: judge._id,
-          },
-        },
+    const submissionsByJudge: Record<string, Submission[]> = submissions.reduce(
+      groupByJudge,
+      {} as Record<string, Submission[]>
+    );
+
+    const teamRes = await getManyTeams();
+
+    if (!teamRes.ok) {
+      throw new Error(teamRes.error ?? 'Error getting teams');
+    }
+
+    const teams: Team[] = teamRes.body;
+
+    const tableNumbers = new Map<string, number>();
+    for (const team of teams) {
+      if (team._id) tableNumbers.set(team._id, team.tableNumber);
+    }
+
+    const updatedSubmissions: object[] = [];
+
+    for (const submissions of Object.values(submissionsByJudge)) {
+      const floor = Object.groupBy(submissions, ({ team_id }) => {
+        const tableNumber = tableNumbers.get(team_id);
+        if (!tableNumber) return 'missing';
+        return tableNumber < UPSTAIRS_TABLE_NUMBER_START ? 'first' : 'second';
       });
 
-      if (!subRes.ok) {
-        throw new Error(
-          subRes.error ?? `Error getting submissions of judge ${judge._id}`
-        );
+      const firstFloor = floor.first;
+      const secondFloor = floor.second;
+
+      if (firstFloor) shuffle(firstFloor);
+      if (secondFloor) shuffle(secondFloor);
+
+      let queue: Submission[];
+
+      if (firstFloor && !secondFloor) {
+        queue = firstFloor;
+      } else if (secondFloor && !firstFloor) {
+        queue = secondFloor;
+      } else if (firstFloor && secondFloor) {
+        if (Math.random() < 0.5) {
+          queue = firstFloor.concat(secondFloor);
+        } else {
+          queue = secondFloor.concat(firstFloor);
+        }
+      } else {
+        continue;
       }
 
-      const submissions: Submission[] = subRes.body;
-      shuffle(submissions);
-
-      const updatedSubmissions = submissions.map(
+      const updateOperations = queue.map(
         (submission: Submission, index: number) => ({
           updateOne: {
             filter: {
@@ -58,21 +100,21 @@ export default async function randomizeProjects() {
                 },
               },
             },
-            update: { $set: { queuePosition: index } },
+            update: { $set: { queuePosition: index + 1 } },
           },
         })
       );
 
-      const updateRes = await bulkWriteCollection(
-        'submissions',
-        updatedSubmissions
-      );
+      updatedSubmissions.push(...updateOperations);
+    }
 
-      if (!updateRes.ok) {
-        throw new Error(
-          updateRes.error ?? `Error shuffling submissions of judge ${judge._id}`
-        );
-      }
+    const updateRes = await bulkWriteCollection(
+      'submissions',
+      updatedSubmissions
+    );
+
+    if (!updateRes.ok) {
+      throw new Error(updateRes.error ?? 'Error shuffling some submissions.');
     }
 
     return {
