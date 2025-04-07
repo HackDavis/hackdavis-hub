@@ -19,6 +19,8 @@ import {
   TabsTrigger,
 } from '@pages/_globals/components/ui/tabs';
 import { Badge } from '@pages/_globals/components/ui/badge';
+import { Button } from '@pages/_globals/components/ui/button';
+import { Download } from 'lucide-react';
 
 export default function RankTeamsUI() {
   const [rankingResults, setRankingResults] = useState<RankTeamsResults | null>(
@@ -27,6 +29,7 @@ export default function RankTeamsUI() {
   const [teams, setTeams] = useState<Record<string, Team>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTrack, setActiveTrack] = useState<string>('');
 
   useEffect(() => {
     async function fetchData() {
@@ -46,6 +49,11 @@ export default function RankTeamsUI() {
         // Get ranking results
         const results = await scoreTeams();
         setRankingResults(results);
+
+        // Set default active track
+        if (results && Object.keys(results).length > 0) {
+          setActiveTrack(Object.keys(results)[0]);
+        }
       } catch (err) {
         setError('Error fetching data. Please try again later.');
         console.error(err);
@@ -56,6 +64,131 @@ export default function RankTeamsUI() {
 
     fetchData();
   }, []);
+
+  const exportAsCSV = () => {
+    if (!rankingResults || !activeTrack) return;
+
+    const trackResults = rankingResults[activeTrack];
+
+    // Create CSV header
+    let csvContent =
+      'Rank,Team Name,Team ID,Table Number,Team Number,Score,Comments\n';
+
+    // Add data rows
+    trackResults.forEach((result, index) => {
+      const team = teams[result.team.team_id];
+      const teamName = team ? team.name : 'Unknown Team';
+      const tableNumber = team ? team.tableNumber : 'N/A';
+      const teamNumber = team ? team.teamNumber : 'N/A';
+      const comments = result.team.comments.join(' | ').replace(/"/g, '""');
+
+      csvContent += `${index + 1},"${teamName}",${
+        result.team.team_id
+      },${tableNumber},${teamNumber},${result.team.final_score.toFixed(
+        2
+      )},"${comments}"\n`;
+    });
+
+    // Create and download the file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${activeTrack}_rankings.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportAsJSON = () => {
+    if (!rankingResults || !activeTrack) return;
+
+    const trackResults = rankingResults[activeTrack];
+
+    // Create formatted data with team info
+    const exportData = trackResults.map((result, index) => {
+      const team = teams[result.team.team_id];
+      return {
+        rank: index + 1,
+        team_id: result.team.team_id,
+        team_name: team ? team.name : 'Unknown Team',
+        table_number: team ? team.tableNumber : null,
+        team_number: team ? team.teamNumber : null,
+        score: result.team.final_score,
+        comments: result.team.comments,
+      };
+    });
+
+    // Create and download the file
+    const jsonContent = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${activeTrack}_rankings.json`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Export ALL track data as JSON in original format
+  const exportAllAsJSON = () => {
+    if (!rankingResults) return;
+
+    // Create and download the file with the original structure
+    const jsonContent = JSON.stringify(rankingResults, null, 2);
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'all_rankings.json');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Export ALL track data as CSV
+  const exportAllAsCSV = () => {
+    if (!rankingResults) return;
+
+    // Create CSV header
+    let csvContent =
+      'Track,Rank,Team Name,Team ID,Table Number,Team Number,Score,Comments\n';
+
+    // Loop through each track
+    Object.keys(rankingResults).forEach((trackName) => {
+      const trackResults = rankingResults[trackName];
+
+      // Add data rows for this track
+      trackResults.forEach((result, index) => {
+        const team = teams[result.team.team_id];
+        const teamName = team ? team.name : 'Unknown Team';
+        const tableNumber = team ? team.tableNumber : 'N/A';
+        const teamNumber = team ? team.teamNumber : 'N/A';
+        const comments = result.team.comments.join(' | ').replace(/"/g, '""');
+
+        csvContent += `"${trackName}",${index + 1},"${teamName}",${
+          result.team.team_id
+        },${tableNumber},${teamNumber},${result.team.final_score.toFixed(
+          2
+        )},"${comments}"\n`;
+      });
+    });
+
+    // Create and download the file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'all_rankings.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Handle loading state
   if (loading) {
@@ -97,9 +230,62 @@ export default function RankTeamsUI() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Team Rankings</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-3xl font-bold">Team Rankings</h1>
 
-      <Tabs defaultValue={defaultTrack} className="w-full">
+        <div className="flex flex-wrap gap-2">
+          <div className="flex space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={exportAsCSV}
+              disabled={!activeTrack}
+              className="flex items-center"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export CSV
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={exportAsJSON}
+              disabled={!activeTrack}
+              className="flex items-center"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export JSON
+            </Button>
+          </div>
+          <div className="flex space-x-2">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={exportAllAsCSV}
+              disabled={!rankingResults}
+              className="flex items-center"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export ALL CSV
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={exportAllAsJSON}
+              disabled={!rankingResults}
+              className="flex items-center"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export ALL JSON
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <Tabs
+        defaultValue={defaultTrack}
+        className="w-full"
+        onValueChange={(value) => setActiveTrack(value)}
+      >
         <TabsList className="flex overflow-x-auto gap-2 mb-4">
           {trackNames.map((trackName) => (
             <TabsTrigger
