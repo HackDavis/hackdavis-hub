@@ -7,14 +7,22 @@ import { RxCross1 } from 'react-icons/rx';
 interface ListInputProps {
   label: string;
   value: any[] | undefined;
+  direction?: 'row' | 'column';
   updateValue: (value: any) => void;
-  itemRenderer: ({ key, item, deleteItem }: any) => React.ReactNode;
+  itemRenderer: ({
+    key,
+    item,
+    deleteItem,
+    shiftUp,
+    shiftDown,
+  }: any) => React.ReactNode;
   addRenderer: ({ addItem }: any) => React.ReactNode;
 }
 
 export default function ListInput({
   label,
   value = [],
+  direction = 'row',
   updateValue,
   itemRenderer,
   addRenderer,
@@ -24,12 +32,38 @@ export default function ListInput({
   return (
     <div className={styles.container}>
       <label className={styles.label}>{label}</label>
-      <div className={styles.input}>
+      <div
+        className={styles.input}
+        style={{
+          flexDirection: direction,
+          alignItems: direction === 'column' ? 'flex-start' : 'center',
+        }}
+      >
         {value.map((item: any, index: number) =>
           itemRenderer({
             key: JSON.stringify(item),
             item,
             deleteItem: () => updateValue(value.toSpliced(index, 1)),
+            shiftUp: () => {
+              if (index !== 0) {
+                const newArr = [...value];
+                [newArr[index], newArr[index - 1]] = [
+                  newArr[index - 1],
+                  newArr[index],
+                ];
+                updateValue(newArr);
+              }
+            },
+            shiftDown: () => {
+              if (index !== value.length - 1) {
+                const newArr = [...value];
+                [newArr[index], newArr[index + 1]] = [
+                  newArr[index + 1],
+                  newArr[index],
+                ];
+                updateValue(newArr);
+              }
+            },
           })
         )}
         {adding &&

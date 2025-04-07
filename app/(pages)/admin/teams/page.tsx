@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { useTeams } from '@pages/_hooks/useTeams';
-import styles from './page.module.scss';
+import { GoSearch } from 'react-icons/go';
 import TeamCard from '../_components/Teams/TeamCard';
 import Team from '@typeDefs/team';
 import User from '@typeDefs/user';
 import BarChart from '../_components/BarChart/BarChart';
-import { GoSearch } from 'react-icons/go';
 import TeamForm from '../_components/Teams/TeamForm';
 import useFormContext from '../_hooks/useFormContext';
+import styles from './page.module.scss';
 
 interface TeamWithJudges extends Team {
   judges: User[];
@@ -47,6 +47,12 @@ export default function Teams() {
   return (
     <div className={styles.container}>
       <h1 className={styles.page_title}>Team Manager</h1>
+      <h2 className={styles.action_header}>
+        {isEditing ? 'Edit' : 'Create'} Team
+      </h2>
+      <TeamForm cancelAction={() => setData({})} revalidate={getTeams} />
+      <hr />
+      <h2 className={styles.action_header}>View Teams</h2>
       <div className={styles.search_bar}>
         <input
           name="search"
@@ -62,11 +68,9 @@ export default function Teams() {
       <div className={styles.data_portion}>
         <div className={styles.teams_list}>
           {teamData.map((team: TeamWithJudges) => (
-            <TeamCard
-              key={team._id}
-              team={team}
-              onEditClick={() => setData(team)}
-            />
+            <div className={styles.team_card_wrapper} key={team._id}>
+              <TeamCard team={team} onEditClick={() => setData(team)} />
+            </div>
           ))}
         </div>
         <div className={styles.bar_chart_container}>
@@ -76,10 +80,6 @@ export default function Teams() {
           />
         </div>
       </div>
-      <h2 className={styles.action_header}>
-        {isEditing ? 'Edit' : 'Create'} Team
-      </h2>
-      <TeamForm cancelAction={() => setData({})} revalidate={getTeams} />
     </div>
   );
 }

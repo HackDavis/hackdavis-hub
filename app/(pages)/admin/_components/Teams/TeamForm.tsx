@@ -5,9 +5,10 @@ import useFormContext from '@pages/admin/_hooks/useFormContext';
 import ListInput from '../ListInput/ListInput';
 import { IoTrashOutline } from 'react-icons/io5';
 import DropdownInput from '../DropdownInput/DropdownInput';
-import tracks from '@data/tracks';
 import { updateTeam } from '@actions/teams/updateTeam';
 import { createTeam } from '@actions/teams/createTeam';
+
+import tracksAndDomains from '@data/db_validation_data.json';
 
 interface TeamFormProps {
   cancelAction?: () => void;
@@ -121,7 +122,7 @@ export default function TeamForm({
               value={null}
               updateValue={(value: any) => addItem(value)}
               width="400px"
-              options={Object.keys(tracks).map((track) => ({
+              options={tracksAndDomains.tracks.map((track) => ({
                 option: track,
                 value: track,
               }))}

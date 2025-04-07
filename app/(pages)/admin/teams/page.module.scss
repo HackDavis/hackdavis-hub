@@ -65,6 +65,13 @@ $data-gap: 24px;
     }
 }
 
+.team_card_wrapper {
+    border-radius: 16px;
+    box-shadow: 0px 4px 16px 0px rgba(107, 107, 107, 0.06);
+    border: 1.353px solid #8E8E8E;
+    padding: 16px;
+}
+
 .bar_chart_container {
     width: calc(100% - $team-list-width - $data-gap);
     @include desktop-m {

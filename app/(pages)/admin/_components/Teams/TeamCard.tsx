@@ -14,11 +14,13 @@ interface TeamWithJudges extends Team {
 interface TeamCardProps {
   team: TeamWithJudges;
   onEditClick?: () => void;
+  editable?: boolean;
 }
 
 export default function TeamCard({
   team,
   onEditClick = () => {},
+  editable = true,
 }: TeamCardProps) {
   const backgroundColor = team.active ? 'white' : '#ffc6bf';
   return (
@@ -32,9 +34,11 @@ export default function TeamCard({
           Team {team.teamNumber}: {team.name}
         </span>
         <div className={styles.header_details}>
-          <button className={styles.edit_button} onClick={onEditClick}>
-            <FaRegEdit />
-          </button>
+          {editable && (
+            <button className={styles.edit_button} onClick={onEditClick}>
+              <FaRegEdit />
+            </button>
+          )}
           <p>{team._id}</p>
         </div>
       </div>

@@ -18,13 +18,14 @@ export default function DropdownInput({
   width = '100%',
   options,
 }: DropdownInputProps) {
-  const [dropped, setDropped] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
+  const [filter, setFilter] = useState<string | null>(null);
+  const dropped = filter !== null;
+  const ref = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        setDropped(false);
+        setFilter(null);
       }
     };
 
@@ -33,7 +34,7 @@ export default function DropdownInput({
     return () => {
       document.removeEventListener('click', handleClick, true);
     };
-  }, [setDropped]);
+  }, [setFilter]);
 
   const currentOption =
     value !== undefined && value !== null
@@ -41,21 +42,26 @@ export default function DropdownInput({
           ?.option
       : 'No option selected';
 
+  const filteredOptions = options.filter(({ option }) =>
+    option.includes(filter ?? '')
+  );
+
   return (
     <div className={styles.container} style={{ width }}>
       <label className={styles.label}>{label}</label>
-      <div
+      <input
         className={styles.input}
+        type="text"
         ref={ref}
-        onClick={() => setDropped((prev: any) => !prev)}
-      >
-        {currentOption}
-      </div>
+        value={filter === null ? currentOption : filter}
+        onClick={() => setFilter((prev: any) => (prev === null ? '' : null))}
+        onChange={(event) => setFilter(event.target.value)}
+      />
       <div
         className={styles.options}
         style={{ display: dropped ? 'flex' : 'none' }}
       >
-        {options.map(({ option, value }) => (
+        {filteredOptions.map(({ option, value }) => (
           <div
             key={option}
             className={styles.option}

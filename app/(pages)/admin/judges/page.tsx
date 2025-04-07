@@ -47,6 +47,12 @@ export default function Judges() {
   return (
     <div className={styles.container}>
       <h1 className={styles.page_title}>Judge Manager</h1>
+      <h2 className={styles.action_header}>
+        {isEditing ? 'Edit' : 'Create'} Judge
+      </h2>
+      <JudgeForm cancelAction={() => setData({})} revalidate={getJudges} />
+      <hr />
+      <h2 className={styles.action_header}>View Judges</h2>
       <div className={styles.search_bar}>
         <input
           name="search"
@@ -76,10 +82,6 @@ export default function Judges() {
           />
         </div>
       </div>
-      <h2 className={styles.action_header}>
-        {isEditing ? 'Edit' : 'Create'} Judge
-      </h2>
-      <JudgeForm cancelAction={() => setData({})} revalidate={getJudges} />
     </div>
   );
 }
