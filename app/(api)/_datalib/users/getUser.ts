@@ -51,8 +51,6 @@ export const GetManyUsers = async (query: object = {}) => {
       ])
       .toArray();
 
-    console.log(users);
-
     return { ok: true, body: users, error: null };
   } catch (e) {
     const error = e as HttpError;

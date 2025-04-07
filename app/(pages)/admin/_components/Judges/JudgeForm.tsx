@@ -160,7 +160,7 @@ export default function JudgeForm({
         }}
       />
       <DropdownInput
-        label="check in"
+        label="checked in"
         value={data.has_checked_in}
         updateValue={(value: any) => updateField('has_checked_in', value)}
         width="400px"
