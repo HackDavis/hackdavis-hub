@@ -1,6 +1,25 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import tracks from '../app/(api)/_data/tracks.json' with { type: 'json' };
+import fs from 'fs';
+import path from 'path';
+
+const dataPath = path.resolve(
+  process.cwd(),
+  'app/_data/db_validation_data.json'
+);
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const domains = [...new Set(data.domains)];
+const tracks = [...new Set(data.tracks)];
+
+// Extract unique domains from the categorizedTracks.
+// Only tracks with a defined domain are considered.
+// const domains = Array.from(
+//   new Set(
+//     Object.values(categorizedTracks)
+//       .map((track) => track.domain)
+//       .filter((domain) => !!domain)
+//   )
+// );
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -14,8 +33,42 @@ function shuffleSpecialties(specialties) {
   return shuffledSpecialties;
 }
 
+function weightedShuffleSpecialties(specialties) {
+  // Adjusted weight map for the new domains (all lowercase).
+  const weightMap = {
+    swe: 0.571,
+    business: 0.217,
+    aiml: 0.1,
+    hardware: 0.039,
+    design: 0.158,
+    medtech: 0.015,
+  };
+  const availableWeighted = specialties.filter(
+    (s) => weightMap[s.toLowerCase()] !== undefined
+  );
+  let first;
+  if (availableWeighted.length > 0) {
+    const totalWeight = availableWeighted.reduce(
+      (acc, s) => acc + weightMap[s.toLowerCase()],
+      0
+    );
+    let r = Math.random() * totalWeight;
+    for (const s of availableWeighted) {
+      r -= weightMap[s.toLowerCase()];
+      if (r <= 0) {
+        first = s;
+        break;
+      }
+    }
+  }
+  const remaining = specialties.filter((s) => s !== first);
+  const shuffledRemaining = shuffleSpecialties(remaining);
+  return first ? [first, ...shuffledRemaining] : shuffledRemaining;
+}
+
 function generateData(collectionName, numDocuments) {
-  const specialties = [...new Set(tracks.map((track) => track.type))];
+  // Use the extracted domains from categorizedTracks as specialties.
+  const specialties = domains;
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
@@ -26,7 +79,7 @@ function generateData(collectionName, numDocuments) {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      specialties: shuffleSpecialties(specialties),
+      specialties: weightedShuffleSpecialties(specialties),
       role: 'judge',
       has_checked_in: false,
     }));
@@ -56,7 +109,7 @@ function generateData(collectionName, numDocuments) {
       tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
+        tracks,
         faker.number.int({ min: 1, max: 5 })
       ),
       active: true,
@@ -64,7 +117,7 @@ function generateData(collectionName, numDocuments) {
   } else if (collectionName === 'submissions') {
     data = Array.from({ length: numDocuments }, () => {
       const randomTracks = faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
+        tracks,
         faker.number.int({ min: 1, max: 6 })
       );
       const scores = randomTracks.map((t) => ({
