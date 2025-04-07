@@ -6,6 +6,7 @@ export default function Admin() {
       <Link href="/admin/csv">Import Teams with CSV</Link>
       <Link href="/admin/match">Group Judges and Teams</Link>
       <Link href="/admin/invite-link">Invite Users</Link>
+      <Link href="/admin/randomize-projects">Randomize Projects</Link>
     </div>
   );
 }
