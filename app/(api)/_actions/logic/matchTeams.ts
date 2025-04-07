@@ -61,6 +61,10 @@ export default async function matchTeams(
         console.error(res.error);
       }
     }
+  } else {
+    return JSON.stringify({
+      error: 'Not valid submissions.',
+    });
   }
 
   return JSON.stringify(matchResults);
