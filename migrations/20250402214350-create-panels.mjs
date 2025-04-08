@@ -1,59 +1,41 @@
+import fs from 'fs';
+import path from 'path';
+
+const dataPath = path.resolve(
+  process.cwd(),
+  'app/_data/db_validation_data.json'
+);
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const domains = [...new Set(data.domains)];
+const tracks = [...new Set(data.tracks)];
+
 export async function up(db) {
   await db.createCollection('panels', {
     validator: {
       $jsonSchema: {
         bsonType: 'object',
         title: 'Panels Object Validation',
-        required: ['track', 'type', 'users'],
+        required: ['track', 'domain', 'user_ids'],
         properties: {
           _id: {
             bsonType: 'objectId',
             description: '_id must be an ObjectId',
           },
           track: {
-            bsonType: 'string',
-            description: 'track must be a string',
+            enum: tracks,
+            description: 'track must be a a valid track string',
           },
-          type: {
-            enum: ['business', 'tech', 'design'],
-            description: 'type must be one of: business, tech, design',
+          domain: {
+            enum: domains,
+            description: `domain must be one of: ${domains.join(', ')}`,
           },
-          users: {
+          user_ids: {
             bsonType: 'array',
-            description: 'users must be an array of user objects',
+            description: 'user_ids must be an array of object IDs',
             maxItems: 5,
             items: {
-              bsonType: 'object',
-              required: ['_id', 'name', 'email', 'role'],
-              properties: {
-                _id: {
-                  bsonType: 'objectId',
-                  description: 'user _id must be an ObjectId',
-                },
-                name: {
-                  bsonType: 'string',
-                  description: 'name must be a string',
-                },
-                email: {
-                  bsonType: 'string',
-                  description: 'email must be a string',
-                },
-                specialties: {
-                  bsonType: 'array',
-                  description: 'specialties must be an array of strings',
-                  items: {
-                    bsonType: 'string',
-                  },
-                },
-                role: {
-                  bsonType: 'string',
-                  description: 'role must be a string',
-                },
-                has_checked_in: {
-                  bsonType: 'bool',
-                  description: 'has_checked_in must be a boolean',
-                },
-              },
+              bsonType: 'objectId',
+              description: 'user_ids must be an array of object IDs',
             },
           },
         },
