@@ -3,7 +3,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
 
 export function useEvents(event_id: string) {
-  const [personalEvents, setPersonalEvents] = useState<Event[]>([]);
+  // const [personalEvents, setPersonalEvents] = useState<Event[]>([]);
   const [attendeeCount, setAttendeeCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

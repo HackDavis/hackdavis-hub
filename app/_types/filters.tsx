@@ -9,7 +9,7 @@ export interface EventFilter {
 export const pageFilters: EventFilter[] = [
   {
     label: 'GENERAL',
-    color: 'rgba(158, 231, 229, 1)', 
+    color: 'rgba(158, 231, 229, 1)',
     activeColor: 'rgba(158, 231, 229, 1)',
   },
   {

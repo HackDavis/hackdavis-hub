@@ -6,7 +6,7 @@ import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
-import { useEvents } from './_hooks/useEvents';
+// import { useEvents } from './_hooks/useEvents';
 import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';

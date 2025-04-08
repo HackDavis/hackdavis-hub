@@ -10,13 +10,6 @@ const getBgColor = (type: EventType): string => {
 
   return color.replace('1)', '0.5)');
 };
-const getActiveColor = (type: EventType): string => {
-  const activeColor =
-    pageFilters.find((f) => f.label === type)?.activeColor ||
-    'rgba(0, 0, 0, 0)';
-
-  return activeColor.replace('1)', '0.5)');
-};
 
 const formatTime = (pstDate: Date): string => {
   return pstDate.toLocaleString('en-US', {
@@ -65,9 +58,9 @@ export function CalendarItem({
       className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] lg:px-[40px] mb-[16px] flex flex-col justify-center"
       style={{ backgroundColor: bgColor }}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-col sm:flex-row gap-4 sm:gap-0">
         <div>
-          <h2 className="text-black font-metropolis text-2xl font-semibold leading-[40px] tracking-[0.72px] mb-2">
+          <h2 className="text-black font-metropolis text-xl sm:text-2xl font-semibold leading-[40px] tracking-[0.72px] mb-2">
             {name}
           </h2>
           <div className="flex items-center">
@@ -91,23 +84,24 @@ export function CalendarItem({
           </div>
         </div>
 
-        <Button
-          onClick={inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule}
-          className="px-8 py-2 border-2 border-black rounded-3xl border-dashed cursor-pointer relative group w-32"
-          variant="ghost"
-        >
-          <div
-            className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer ${
-              inPersonalSchedule ? 'w-full' : 'w-0 group-hover:w-full'
-            }`}
-            style={{
-              backgroundColor: activeColor,
-            }}
-          />
-          <p className="font-semibold relative z-10 text-black">
-            {inPersonalSchedule ? 'Remove' : 'Add'}
-          </p>
-        </Button>
+        {event.type !== 'GENERAL' && (
+          <Button
+            onClick={
+              inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
+            }
+            className={`w-full sm:w-32 px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group`}
+            variant="ghost"
+          >
+            <div
+              className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full`}
+            />
+            <p
+              className={`font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white`}
+            >
+              {inPersonalSchedule ? 'Remove' : 'Add'}
+            </p>
+          </Button>
+        )}
       </div>
     </div>
   );

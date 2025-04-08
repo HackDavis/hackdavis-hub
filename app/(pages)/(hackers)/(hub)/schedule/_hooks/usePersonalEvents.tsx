@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { getEventsForOneUser, getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
+import { getEventsForOneUser } from '@actions/userToEvents/getUserToEvent';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
 import { deleteUserToEvent } from '@actions/userToEvents/deleteUserToEvent';
 import Event from '@typeDefs/event';
@@ -13,13 +13,12 @@ interface UserToEventRelation {
   event?: Event;
 }
 
-interface usePersonalEventsProps{
-    userId: string;
+interface usePersonalEventsProps {
+  userId: string;
 }
 
-export function usePersonalEvents({userId} : usePersonalEventsProps) {
+export function usePersonalEvents({ userId }: usePersonalEventsProps) {
   const [personalEvents, setPersonalEvents] = useState<Event[]>([]);
-  const [attendeeCount, setAttendeeCount] = useState<number>(0);
   const [userToEventRelations, setUserToEventRelations] = useState<
     UserToEventRelation[]
   >([]);
@@ -63,7 +62,6 @@ export function usePersonalEvents({userId} : usePersonalEventsProps) {
             return event;
           });
 
-
         setPersonalEvents(events);
       } else {
         // If no events found, set empty array rather than error for new users
@@ -85,8 +83,6 @@ export function usePersonalEvents({userId} : usePersonalEventsProps) {
       setIsLoading(false);
     }
   }, [userId]);
-
-
 
   // Add an event to the user's personal schedule
   const addToPersonalSchedule = useCallback(
