@@ -1,12 +1,12 @@
-"use client";
-import { useCallback, useState, useEffect} from "react";
-import { getUsersForOneEvent } from "@actions/userToEvents/getUserToEvent";
+'use client';
+import { useCallback, useState, useEffect } from 'react';
+import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
 
-export function useEvents(event_id: string){
-    const [personalEvents, setPersonalEvents] = useState<Event[]>([]);
-    const [attendeeCount, setAttendeeCount] = useState<number>(0);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+export function useEvents(event_id: string) {
+  const [personalEvents, setPersonalEvents] = useState<Event[]>([]);
+  const [attendeeCount, setAttendeeCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch the number of attendees per event
   const fetchAttendeesPerEvent = useCallback(async () => {
@@ -50,5 +50,5 @@ export function useEvents(event_id: string){
     }
   }, [event_id, fetchAttendeesPerEvent]);
 
-  return {attendeeCount, isLoading, error, fetchAttendeesPerEvent}
+  return { attendeeCount, isLoading, error, fetchAttendeesPerEvent };
 }
