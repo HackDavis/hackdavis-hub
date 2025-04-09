@@ -356,6 +356,7 @@ export function useScheduleData({ userId }: UseScheduleDataProps) {
     personalScheduleData,
     isLoading: isLoadingEvents || isLoadingPersonal || isLoadingAttendees,
     error,
+    attendeeCounts,
     addToPersonalSchedule,
     removeFromPersonalSchedule,
     isInPersonalSchedule,

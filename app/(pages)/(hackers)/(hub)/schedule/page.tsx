@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
+import { useScheduleData } from './_hooks/useScheduleData';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
 import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
@@ -17,7 +18,6 @@ import {
 } from '@globals/components/ui/tooltip';
 import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
 import useActiveUser from '@pages/_hooks/useActiveUser';
-import { usePersonalEvents } from './_hooks/usePersonalEvents';
 
 export interface EventDetails {
   event: Event;
@@ -40,31 +40,45 @@ export default function Page() {
   );
   const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
   const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
-  const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
+  // const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
 
+  // const {
+  //   personalEvents,
+  //   isLoading: personalEventsLoading,
+  //   error: personalEventsError,
+  //   addToPersonalSchedule,
+  //   removeFromPersonalSchedule,
+  //   isInPersonalSchedule,
+  //   refreshPersonalEvents,
+  // } = usePersonalEvents({ userId: user?._id || '' });
+
+  // const {
+  //   attendeeCounts,
+  //   isLoading: attendeeLoading,
+  //   error: attendeeError,
+  // } = useEvents(
+  //   scheduleData
+  //     ? Object.values(scheduleData)
+  //         .flat()
+  //         .map((item) => item.event._id)
+  //         .filter((id): id is string => typeof id === 'string') // Type guard to ensure string[]
+  //     : []
+  // );
+
   const {
-    personalEvents,
-    isLoading: personalEventsLoading,
-    error: personalEventsError,
+    scheduleData,
+    personalScheduleData,
+    attendeeCounts,
+    isLoading,
+    error,
     addToPersonalSchedule,
     removeFromPersonalSchedule,
     isInPersonalSchedule,
-    refreshPersonalEvents,
-  } = usePersonalEvents({ userId: user?._id || '' });
-
-  const {
-    attendeeCounts,
-    isLoading: attendeeLoading,
-    error: attendeeError,
-  } = useEvents(
-    scheduleData
-      ? Object.values(scheduleData)
-          .flat()
-          .map((item) => item.event._id)
-          .filter((id): id is string => typeof id === 'string') // Type guard to ensure string[]
-      : []
-  );
+    refreshData,
+  } = useScheduleData({
+    userId: user?._id || '',
+  });
 
   // Function to handle adding to personal schedule with loading state
   const handleAddToSchedule = async (eventId: string) => {
@@ -132,78 +146,6 @@ export default function Page() {
     setIsActionInProgress(false);
   };
 
-  // Fetch regular schedule events
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const response = await getEvents({});
-        if (!response.ok) {
-          throw new Error(response.error || 'Internal server error');
-        }
-        const events: Event[] = response.body;
-
-        // Group events by day key - "19" or "20".
-        const groupedByDay = events.reduce((acc: ScheduleData, event) => {
-          const dayKey = event.start_time.toLocaleString('en-US', {
-            timeZone: 'America/Los_Angeles',
-            day: 'numeric',
-          });
-          if (!acc[dayKey]) {
-            acc[dayKey] = [];
-          }
-
-          // Check if this event is in the user's personal schedule
-          const isPersonal = isInPersonalSchedule(event._id || '');
-
-          acc[dayKey].push({
-            event,
-            inPersonalSchedule: isPersonal,
-          });
-          return acc;
-        }, {});
-
-        setScheduleData(groupedByDay);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      }
-    }
-
-    // Only fetch if we have the isInPersonalSchedule function available
-    if (!personalEventsLoading) {
-      fetchEvents();
-    }
-  }, [isInPersonalSchedule, personalEventsLoading]);
-
-  // refresh fetch when change to personal tab
-  useEffect(() => {
-    if (activeTab === 'personal') {
-      refreshPersonalEvents();
-    }
-  }, [activeTab, refreshPersonalEvents]);
-
-  // Format personal events data
-  const personalScheduleData = useMemo(() => {
-    // Return empty object instead of null to avoid loading state
-    if (!personalEvents?.length) return {};
-
-    const groupedByDay = personalEvents.reduce((acc: ScheduleData, event) => {
-      const dayKey = event.start_time.toLocaleString('en-US', {
-        timeZone: 'America/Los_Angeles',
-        day: 'numeric',
-      });
-      if (!acc[dayKey]) {
-        acc[dayKey] = [];
-      }
-      acc[dayKey].push({
-        event,
-        inPersonalSchedule: true,
-      });
-      return acc;
-    }, {});
-
-    return groupedByDay;
-  }, [personalEvents]);
-
   const dataToUse =
     activeTab === 'personal' ? personalScheduleData : scheduleData;
 
@@ -269,16 +211,8 @@ export default function Page() {
     }
   };
 
-  // Determine if we're in a loading state
-  const isLoading =
-    userLoading ||
-    personalEventsLoading ||
-    !scheduleData ||
-    isActionInProgress ||
-    attendeeLoading;
-
-  if (attendeeError)
-    return <div className="">Attendee Error {attendeeError}</div>;
+  if (isLoading) return <div className="">Loading Events...</div>;
+  if (error) return <div className="">Error {error}</div>;
 
   return (
     <main id="schedule" className="w-full">
@@ -377,13 +311,7 @@ export default function Page() {
         <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
-          {isLoading ? (
-            <div className="text-center py-10">Loading events...</div>
-          ) : personalEventsError ? (
-            <div className="text-center py-10 text-red-500">
-              Error: {personalEventsError}
-            </div>
-          ) : sortedGroupedEntries.length > 0 ? (
+          {sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">
                 <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
