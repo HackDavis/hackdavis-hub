@@ -1,4 +1,5 @@
 'use client';
+import Loader from '@pages/_components/Loader/Loader';
 import styles from './FormSubmitConfirmation.module.scss';
 import { FaXmark } from 'react-icons/fa6';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
@@ -20,10 +21,10 @@ export default function FormSubmitConfirmation({
         <div className={styles.confirmation_modal_backdrop}>
           <div className={styles.confirmation_modal_container}>
             {pending && (
-              <div className={styles.loading_container}>
-                <h3>Hold on while we receive your request.</h3>
-                <div className={styles.loader}></div>
-              </div>
+              <Loader
+                modal={true}
+                message="Hold on while we receive your request."
+              />
             )}
             {mailStatus === 'success' && (
               <div className={styles.ok_container}>
