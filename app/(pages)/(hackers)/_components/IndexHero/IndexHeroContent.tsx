@@ -50,6 +50,9 @@ export default function IndexHeroContent() {
         <div style={{display:"flex", gap:'1%', paddingBottom:'1%'}}>
           <p>NEXT ON YOUR SCHEDULE</p>
           <Image src={star_icon} alt='star icon'/>
+          <div className={styles.countdown}>
+            <Countdown />
+          </div>
         </div>
         <div className={styles.notification}>
           <h2>
