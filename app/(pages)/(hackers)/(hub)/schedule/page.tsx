@@ -302,8 +302,8 @@ export default function Page() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>Personal</TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <div className="flex gap-4 rounded-full items-center justify-between">
+                    <TooltipContent side="bottom" className="bg-[#EDFBFA]">
+                      <div className="flex gap-4 rounded-full items-center justify-between ">
                         <div className="relative rounded-full w-12 h-12">
                           <Image
                             src={TooltipCow}
@@ -394,14 +394,11 @@ export default function Page() {
                   </p>
                   <Button
                     onClick={() => setActiveTab('schedule')}
-                    className="px-8 py-2 border-2 border-black rounded-3xl border-dashed cursor-pointer relative group"
+                    className="w-full sm:w-fit px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group"
                     variant="ghost"
                   >
-                    <div
-                      className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer w-0 group-hover:w-full bg-opacity-20"
-                      style={{ backgroundColor: '#00C4D7' }}
-                    />
-                    <p className="font-semibold relative z-10">
+                    <div className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full" />
+                    <p className="font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white">
                       Browse the schedule to add events
                     </p>
                   </Button>
