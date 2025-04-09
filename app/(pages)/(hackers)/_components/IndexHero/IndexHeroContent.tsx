@@ -15,6 +15,8 @@ export default function IndexHeroContent() {
         2025
       </p>
 
+      <p className={styles.map}>ARC BALLROOM MAP</p>
+
       <MusicPlayer />
       <div className={styles.center_right}>
         <Countdown />

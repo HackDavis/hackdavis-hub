@@ -43,6 +43,16 @@
 .date {
     width: 100%;
     order: 0;
+    border: 3px solid black;
+    @include mixins.tablet-l {
+        text-align: center;
+    }
+}
+
+.map {
+    width: 100%;
+    order: 0;
+    border: 3px solid red;
     @include mixins.tablet-l {
         text-align: center;
     }
