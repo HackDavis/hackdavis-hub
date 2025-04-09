@@ -21,7 +21,7 @@ export default function Break() {
             Meanwhile, panels of judges will be choosing the winners from the
             top 5 projects shortlisted for each track after demos.
           </p>
-          <Link href={''} className={styles.link}>
+          <Link href="" className={styles.link}>
             Submit Vote
           </Link>
         </div>

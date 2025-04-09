@@ -7,6 +7,7 @@ import SubmissionDue from './JudgingSteps/SubmissionDue/SubmissionDue';
 import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 import DemoTime from './JudgingSteps/DemoTime/DemoTime';
 import Break from './JudgingSteps/Break/Break';
+import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
 import styles from './JudgingInfo.module.scss';
 
 const accordionItems: AccordionItemInt[] = [
@@ -33,7 +34,7 @@ const accordionItems: AccordionItemInt[] = [
   {
     time: '3:00 - 4:00 PM',
     title: 'Closing Ceremony',
-    content: <p>hello</p>,
+    content: <ClosingCeremony />,
   },
 ];
 

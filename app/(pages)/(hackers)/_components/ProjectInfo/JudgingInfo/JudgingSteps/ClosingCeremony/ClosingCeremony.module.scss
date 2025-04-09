@@ -1,1 +1,86 @@
 @import '@globals/mixins.scss';
+
+.container {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 48px 64px;
+  margin-bottom: 32px;
+  border-radius: 0px 0px 12px 12px;
+
+  @include tablet-l {
+    padding: 24px;
+  }
+
+  h2 {
+    color: #173A52;
+    font-size: 1.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.56px;
+
+    @include tablet-l {
+      font-size: 0.875rem;
+      letter-spacing: 0.28px;
+    }
+  }
+
+  p {
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.4px;
+
+    @include tablet-l {
+      font-size: 0.625rem;
+    }
+  }
+
+  .tile {
+    background-color: #9EE7E5;
+    border-radius: var(--b-radius-med);
+    padding: 48px 56px;
+    width: 100%;
+
+    @include desktop-s {
+      padding-bottom: 20%;
+    }
+
+    @include tablet-l {
+      padding: 24px 28px;
+      padding-bottom: 20%;
+    }
+
+    .text {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      gap: 24px;
+
+      @include desktop-s {
+        width: 100%;
+        gap: 12px;
+      }
+    }
+  }
+
+  .podium {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 30%;
+    max-height: 85%;
+
+    @include desktop-m {
+      width: 35%;
+    }
+
+    @include desktop-s {
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30%;
+    }
+  }
+}
