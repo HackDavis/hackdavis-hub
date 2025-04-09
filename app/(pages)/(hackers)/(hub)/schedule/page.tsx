@@ -6,8 +6,7 @@ import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
-// import { useEvents } from './_hooks/useEvents';
-import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
+import { useEvents } from './_hooks/useEvents';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
 import {
@@ -32,8 +31,6 @@ interface ScheduleData {
 
 export default function Page() {
   const { user, loading: userLoading } = useActiveUser('/auth/login');
-  const [eventAttendees, setEventAttendees] =
-    useState<Record<string, number>>();
 
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
@@ -55,6 +52,19 @@ export default function Page() {
     isInPersonalSchedule,
     refreshPersonalEvents,
   } = usePersonalEvents({ userId: user?._id || '' });
+
+  const {
+    attendeeCounts,
+    isLoading: attendeeLoading,
+    error: attendeeError,
+  } = useEvents(
+    scheduleData
+      ? Object.values(scheduleData)
+          .flat()
+          .map((item) => item.event._id)
+          .filter((id): id is string => typeof id === 'string') // Type guard to ensure string[]
+      : []
+  );
 
   // Function to handle adding to personal schedule with loading state
   const handleAddToSchedule = async (eventId: string) => {
@@ -162,8 +172,9 @@ export default function Page() {
     if (!personalEventsLoading) {
       fetchEvents();
     }
-  }, [personalEvents, isInPersonalSchedule, personalEventsLoading]);
+  }, [isInPersonalSchedule, personalEventsLoading]);
 
+  // refresh fetch when change to personal tab
   useEffect(() => {
     if (activeTab === 'personal') {
       refreshPersonalEvents();
@@ -258,47 +269,16 @@ export default function Page() {
     }
   };
 
-  useEffect(() => {
-    // Fetch attendee counts for events shown in the current view
-    async function fetchAllEventAttendees() {
-      if (!dataToUse || !dataToUse[activeDay]) return;
-
-      const events = dataToUse[activeDay];
-      const counts: Record<string, number> = {};
-
-      for (const eventDetail of events) {
-        const eventId = eventDetail.event._id;
-
-        if (eventId) {
-          console.log('🚀 ~ :272 ~ fetchAllEventAttendees ~ eventId:', eventId);
-
-          try {
-            const result = await getUsersForOneEvent(eventId);
-
-            console.log('🚀 ~ :274 ~ fetchAllEventAttendees ~ result:', result);
-
-            if (result.ok && result.body) {
-              counts[eventId] = result.body.length;
-            }
-          } catch (err) {
-            console.error(
-              `Error fetching attendees for event ${eventId}:`,
-              err
-            );
-          }
-        }
-      }
-
-      console.log('All event attendee counts:', counts);
-      setEventAttendees(counts);
-    }
-
-    fetchAllEventAttendees();
-  }, [dataToUse, activeDay]);
-
   // Determine if we're in a loading state
   const isLoading =
-    userLoading || personalEventsLoading || !scheduleData || isActionInProgress;
+    userLoading ||
+    personalEventsLoading ||
+    !scheduleData ||
+    isActionInProgress ||
+    attendeeLoading;
+
+  if (attendeeError)
+    return <div className="">Attendee Error {attendeeError}</div>;
 
   return (
     <main id="schedule" className="w-full">
@@ -414,7 +394,9 @@ export default function Page() {
                     <CalendarItem
                       key={eventDetail.event._id}
                       event={eventDetail.event}
-                      attendeeCount={eventDetail.attendeeCount}
+                      attendeeCount={
+                        attendeeCounts[eventDetail.event._id || '']
+                      }
                       inPersonalSchedule={eventDetail.inPersonalSchedule}
                       onAddToSchedule={() =>
                         handleAddToSchedule(eventDetail.event._id || '')
@@ -436,14 +418,15 @@ export default function Page() {
                   </p>
                   <Button
                     onClick={() => setActiveTab('schedule')}
-                    className="px-8 py-2 border-2 border-black rounded-3xl border-dashed cursor-pointer relative group"
+                    className={`w-full sm:w-auto px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group`}
                     variant="ghost"
                   >
                     <div
-                      className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer w-0 group-hover:w-full bg-opacity-20"
-                      style={{ backgroundColor: '#00C4D7' }}
+                      className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full`}
                     />
-                    <p className="font-semibold relative z-10">
+                    <p
+                      className={`font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white`}
+                    >
                       Browse the schedule to add events
                     </p>
                   </Button>

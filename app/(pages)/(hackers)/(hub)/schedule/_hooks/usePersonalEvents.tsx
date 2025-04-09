@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { getEventsForOneUser } from '@actions/userToEvents/getUserToEvent';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
 import { deleteUserToEvent } from '@actions/userToEvents/deleteUserToEvent';
@@ -25,8 +25,6 @@ export function usePersonalEvents({ userId }: usePersonalEventsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  console.log('🚀 ~ :28 ~ fetchPersonalEvents ~ userId:', userId);
-
   // Fetch the user's events
   const fetchPersonalEvents = useCallback(async () => {
     if (!userId) {
@@ -37,21 +35,21 @@ export function usePersonalEvents({ userId }: usePersonalEventsProps) {
     try {
       setIsLoading(true);
       setError(null);
-      console.log('Fetching personal events for user:', userId);
       const result = await getEventsForOneUser(userId);
-      console.log('API response:', result);
 
       if (result.ok) {
-        setUserToEventRelations(result.body);
+        // Create a new array instead of directly modifying the result.body
+        const relationsCopy = JSON.parse(JSON.stringify(result.body));
+        setUserToEventRelations(relationsCopy);
 
         // Extract the events from the user-to-event relations if they exist
-        const events = result.body
+        const events = relationsCopy
           .filter(
             (relation: any) => relation.events && relation.events.length > 0
           )
           .map((relation: any) => {
-            // Get the first event from the events array
-            const event = relation.events[0];
+            // Create a new event object from the first event in the events array
+            const event = { ...relation.events[0] };
             // const attendeeCount = relation.events[0].
             if (event.start_time && typeof event.start_time === 'string') {
               event.start_time = new Date(event.start_time);
@@ -92,9 +90,7 @@ export function usePersonalEvents({ userId }: usePersonalEventsProps) {
       try {
         setIsLoading(true);
         setError(null);
-        console.log('Adding event to personal schedule:', { userId, eventId });
         const result = await createUserToEvent(userId, eventId);
-        console.log('Add to schedule response:', result);
 
         if (result.ok) {
           // Refresh the personal events after adding a new one
@@ -155,15 +151,21 @@ export function usePersonalEvents({ userId }: usePersonalEventsProps) {
     },
     [userId, fetchPersonalEvents]
   );
+  // Instead of recomputing on every userToEventRelations change, use a ref
+  // to break the dependency cycle
+  const userToEventRelationsRef = useRef(userToEventRelations);
+  useEffect(() => {
+    userToEventRelationsRef.current = userToEventRelations;
+  }, [userToEventRelations]);
 
   // Check if an event is in the user's personal schedule
   const isInPersonalSchedule = useCallback(
     (eventId: string): boolean => {
-      return userToEventRelations.some(
+      return userToEventRelationsRef.current.some(
         (relation) => relation.event_id === eventId
       );
     },
-    [userToEventRelations]
+    [] // Empty dependency array to prevent recreation
   );
 
   // Load personal events on component mount or when userId changes
