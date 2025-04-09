@@ -4,12 +4,21 @@
     width: 100%;
     text-align: center;
 
+    .star {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: 3px solid black;
+    }
+
     .parent {
         border: 3px solid red;
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         justify-content: center;
+        gap: 20px;
 
         .child {
             border: 2px solid blue;
