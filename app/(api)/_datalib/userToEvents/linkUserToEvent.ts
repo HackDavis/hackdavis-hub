@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb';
-
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 import {
@@ -7,42 +5,48 @@ import {
   NotFoundError,
   DuplicateError,
   HttpError,
+  BadRequestError,
 } from '@utils/response/Errors';
+import parseAndReplace from '@utils/request/parseAndReplace';
 
 export const LinkUserToEvent = async (body: {
-  user_id: string;
-  event_id: string;
+  user_id: object;
+  event_id: object;
 }) => {
   try {
     if (isBodyEmpty(body)) {
       throw new NoContentError();
     }
 
-    const parsedBody = {
-      user_id: new ObjectId(body.user_id),
-      event_id: new ObjectId(body.event_id),
-    };
-
     const db = await getDatabase();
+    const parsedBody = await parseAndReplace(body);
 
     const user = await db.collection('users').findOne({
       _id: parsedBody.user_id,
     });
     if (user === null) {
-      throw new NotFoundError(`user with id: ${body.user_id} not found.`);
+      throw new NotFoundError(
+        `user with id: ${parsedBody.user_id.toString()} not found.`
+      );
+    }
+    if (user.role !== 'hacker') {
+      throw new BadRequestError(
+        'Unauthorized: only hackers can be linked to events.'
+      );
     }
 
     const event = await db.collection('events').findOne({
       _id: parsedBody.event_id,
     });
     if (event === null) {
-      throw new NotFoundError(`event with id: ${body.event_id} not found.`);
+      throw new NotFoundError(
+        `event with id: ${parsedBody.event_id.toString()} not found.`
+      );
     }
 
-    const existingUserToEvent = await db.collection('userToEvents').findOne({
-      user_id: parsedBody.user_id,
-      event_id: parsedBody.event_id,
-    });
+    const existingUserToEvent = await db
+      .collection('userToEvents')
+      .findOne(parsedBody);
     if (existingUserToEvent) {
       throw new DuplicateError('UserToEvent already exists');
     }
@@ -51,7 +55,7 @@ export const LinkUserToEvent = async (body: {
       .collection('userToEvents')
       .insertOne(parsedBody);
     const userToEvent = await db.collection('userToEvents').findOne({
-      _id: new ObjectId(creationStatus.insertedId),
+      _id: creationStatus.insertedId,
     });
 
     return { ok: true, body: userToEvent, error: null };

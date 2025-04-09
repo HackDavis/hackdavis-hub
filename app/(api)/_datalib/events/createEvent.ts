@@ -15,6 +15,16 @@ export async function CreateEvent(body: object) {
     const parsedBody = await parseAndReplace(body);
     const db = await getDatabase();
 
+    if (
+      parsedBody.end_time &&
+      parsedBody.start_time &&
+      parsedBody.end_time.getTime() < parsedBody.start_time.getTime()
+    ) {
+      throw new HttpError(
+        'Failed to create event: end_time must be after start_time'
+      );
+    }
+
     //duplicate event
     const existingEvent = await db.collection('events').findOne({
       name: parsedBody.name,

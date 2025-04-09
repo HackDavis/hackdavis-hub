@@ -1,38 +1,17 @@
 import React from 'react';
 import Image from 'next/image';
-
-type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOP' | 'MENU';
-
-interface CalendarItemProps {
-  title: string;
-  type: EventType;
-  startTime: string;
-  endTime?: string;
-  location?: string;
-  speakers?: {
-    name: string;
-    company?: string;
-  }[];
-  tags?: string[];
-  attendeeCount?: number;
-}
+import { EventType } from '@typeDefs/event';
+import { EventDetails } from '../../(hub)/schedule/page';
+import { pageFilters } from '@typeDefs/filters';
 
 const getBgColor = (type: EventType): string => {
-  const colors = {
-    GENERAL: 'rgba(158, 231, 229, 0.5)', // #9EE7E5
-    ACTIVITIES: 'rgba(255, 197, 171, 0.5)', // #FFC5AB
-    WORKSHOP: 'rgba(175, 209, 87, 0.5)', // #AFD157
-    MENU: 'rgba(255, 197, 61, 0.5)', // #FFC53D
-  };
-  return colors[type];
+  const color =
+    pageFilters.find((f) => f.label === type)?.color || 'rgba(0, 0, 0, 0)';
+
+  return color.replace('1)', '0.5)');
 };
 
-const formatTime = (timeStr: string): string => {
-  const date = new Date(timeStr);
-  // Convert to PST
-  const pstDate = new Date(
-    date.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
-  );
+const formatTime = (pstDate: Date): string => {
   return pstDate.toLocaleString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
@@ -40,24 +19,22 @@ const formatTime = (timeStr: string): string => {
   });
 };
 
-const CalendarItem: React.FC<CalendarItemProps> = ({
-  title,
-  type,
-  startTime,
-  endTime,
-  location,
-}) => {
+const CalendarItem: React.FC<EventDetails> = ({ event, attendeeCount }) => {
+  const { name, host, type, location, start_time, end_time } = event;
   const bgColor = getBgColor(type);
+
+  // TODO: add host and attendee count and other UI elements
+  console.log(host, attendeeCount);
 
   // Handle different time display scenarios
   let timeDisplay;
-  if (!endTime) {
-    timeDisplay = formatTime(startTime);
-  } else if (startTime === endTime) {
-    timeDisplay = formatTime(startTime);
+  if (!end_time) {
+    timeDisplay = formatTime(start_time);
+  } else if (start_time === end_time) {
+    timeDisplay = formatTime(start_time);
   } else {
-    timeDisplay = `${formatTime(startTime).slice(0, -2)} - ${formatTime(
-      endTime
+    timeDisplay = `${formatTime(start_time).slice(0, -2)} - ${formatTime(
+      end_time
     )}`;
   }
 
@@ -67,7 +44,7 @@ const CalendarItem: React.FC<CalendarItemProps> = ({
       style={{ backgroundColor: bgColor }}
     >
       <h2 className="text-black font-metropolis text-2xl font-semibold leading-[40px] tracking-[0.72px]">
-        {title}
+        {name}
       </h2>
       <div className="flex items-center">
         <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">

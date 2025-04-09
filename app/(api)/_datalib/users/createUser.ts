@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import { hash } from 'bcryptjs';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
@@ -19,7 +18,9 @@ export const CreateUser = async (body: object) => {
 
     const parsedBody = await parseAndReplace(body);
 
-    parsedBody.password = await hash(parsedBody.password, 10);
+    if (!parsedBody.password) {
+      throw new HttpError('Missing password');
+    }
 
     const db = await getDatabase();
 
@@ -39,6 +40,13 @@ export const CreateUser = async (body: object) => {
 
       if (existingAdmin) {
         throw new DuplicateError('Duplicate: admin already exists');
+      }
+    }
+
+    // judge
+    if (parsedBody.role === 'judge') {
+      if (parsedBody.has_checked_in) {
+        throw new HttpError('Judge user has has_checked_in set to true');
       }
     }
 

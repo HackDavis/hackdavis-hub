@@ -9,7 +9,7 @@ export default function IndexHeroContent() {
   return (
     <div className={styles.container}>
       <p className={styles.date}>
-        APRIL 20-21
+        APRIL 19-20
         <br />
         2025
       </p>

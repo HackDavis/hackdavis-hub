@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { generateHMACSignature } from '@utils/invite/hmac';
 import InviteData from '@typeDefs/inviteData';
 import { HttpError, BadRequestError } from '@utils/response/Errors';
@@ -6,6 +7,7 @@ export default async function GenerateInvite(
   data: InviteData,
   type: string = 'invite'
 ) {
+  console.log(data);
   try {
     if (!data.email || !data.role) {
       throw new BadRequestError('Email and role fields are required.');
@@ -14,6 +16,9 @@ export default async function GenerateInvite(
     if (data.role !== 'hacker' && data.role !== 'judge') {
       throw new BadRequestError('Unknown role. Choose either hacker or judge.');
     }
+
+    const emailSchema = z.string().email('Invalid email address.');
+    emailSchema.parse(data.email);
 
     const exp =
       type === 'invite'
@@ -28,6 +33,14 @@ export default async function GenerateInvite(
 
     return { ok: true, body: hmac_url, error: null };
   } catch (e) {
+    if (e instanceof z.ZodError) {
+      return {
+        ok: false,
+        body: null,
+        error: e.errors.map((e) => e.message).join(' '),
+      };
+    }
+
     const error = e as HttpError;
     return {
       ok: false,
