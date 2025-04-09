@@ -11,9 +11,9 @@ import Dismiss from './Dismiss';
 export default function JudgingHub() {
   return (
     <div className={styles.container}>
-      <ViewProjects />
+      {/* <ViewProjects />
       <ViewMap/>
-      <Dismiss/>
+      <Dismiss/> */}
       <HubHero />
       <Waiting />
       {/* <JudgingList projects={unjudgedTeams} /> */}
