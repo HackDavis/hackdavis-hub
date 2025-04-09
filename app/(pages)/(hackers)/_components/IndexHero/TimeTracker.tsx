@@ -38,14 +38,11 @@ const Countdown = ({ targetTime }: CountdownProps) => {
   );
 };
 
-// TimeTracker component that computes the next Saturday at 11:00:00 AM unless a targetTime is provided
 const TimeTracker = ({ targetTime }: { targetTime?: string }) => {
   const getNextSaturday11AM = () => {
     const now = new Date();
     const target = new Date(now);
-    // Saturday is represented by 6 (0 = Sunday)
     let daysUntilSaturday = (6 - now.getDay() + 7) % 7;
-    // If it's Saturday and already 11:00 AM or later, schedule for next week
     if (daysUntilSaturday === 0 && now.getHours() >= 11) {
       daysUntilSaturday = 7;
     }
