@@ -3,19 +3,26 @@ import Countdown from './Countdown';
 import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
 import Scroll from './Scroll';
+import { LuArrowUpRight } from 'react-icons/lu';
+
+// import Map from '@pages/judges/(app)/map/_components/Map/Map';
 
 import star from 'public/index/hero/star.svg';
 
 export default function IndexHeroContent() {
   return (
     <div className={styles.container}>
-      <p className={styles.date}>
-        APRIL 19-20
-        <br />
-        2025
-      </p>
-
-      <p className={styles.map}>ARC BALLROOM MAP</p>
+      <div className={styles.infoContainer}>
+        <p className={styles.date}>
+          APRIL 19-20
+          <br />
+          2025
+        </p>
+        <a href="/map" className={styles.link}>
+          <p className={styles.map}>ARC BALLROOM MAP</p>
+          <LuArrowUpRight size={23} />
+        </a>
+      </div>
 
       <MusicPlayer />
       <div className={styles.center_right}>
