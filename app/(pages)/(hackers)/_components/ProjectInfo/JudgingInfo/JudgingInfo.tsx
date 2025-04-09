@@ -6,6 +6,7 @@ import ProjectInfoAccordion, {
 import SubmissionDue from './JudgingSteps/SubmissionDue/SubmissionDue';
 import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 import DemoTime from './JudgingSteps/DemoTime/DemoTime';
+import Break from './JudgingSteps/Break/Break';
 import styles from './JudgingInfo.module.scss';
 
 const accordionItems: AccordionItemInt[] = [
@@ -27,7 +28,7 @@ const accordionItems: AccordionItemInt[] = [
   {
     time: '1:30 - 2:30 PM',
     title: 'Break',
-    content: <p>hello</p>,
+    content: <Break />,
   },
   {
     time: '3:00 - 4:00 PM',
