@@ -9,7 +9,7 @@
     position: relative;
 
     margin-bottom: 15%;
-    height: 250vh; //hard code height :/
+    height: 300vh; //hard code height :/
 
     @include mixins.desktop-s {
         aspect-ratio: calc(16 / 17);

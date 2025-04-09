@@ -4,9 +4,11 @@ import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
 import cow_tada from '@public/hackers/hero/cow_tada.svg';
+import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
 import star from 'public/index/hero/star.svg';
 import Announcement from './Announcement';
 import NextSchedule from './NextSchedule';
+import Link from 'next/link';
 
 export default function IndexHeroContent() {
   return (
@@ -59,6 +61,25 @@ export default function IndexHeroContent() {
           </div>
           <NextSchedule title={'Team Mixer'} time={'11:00 - 12:00 PM'} location={'ARC Ballroom B'}/>
       </div>
+
+      <div className={styles.group_width}>
+          <div style={{display:"flex", gap:'1%', paddingBottom:'1%'}}>
+            <p>WHILE YOU WAIT, CHECK OUT OUR JUDGING INFORMATION</p>
+            <Image src={star_icon} alt='star icon' />
+          </div>
+          <div className={styles.judge_info}>
+            <div style={{width:"50%"}}>
+              <h2>
+                  <strong>Judging Information</strong>
+              </h2>
+              <Link href={'/judging'}>
+                <button className={styles.schedule_button}>Read on the process</button>
+              </Link>
+            </div>
+            <Image src={judge_bunny_and_ducky} alt='judge bunny and ducky' className={styles.judge_bunny_ducky_img}/>
+        </div>
+      </div>
+
       <div className={styles.star_social_good}>
         <div className={styles.star_box}>
           <Image src={star} alt="star" className={styles.box_star} />
