@@ -1,5 +1,10 @@
 'use client';
 
+// make it take in a string + styles as a prop
+// make it until 11 am Saturday, have it as 24:00:00 hour
+// make 2 separate components, one that intakes string for time w/ same logic
+// make another component w/ this whole file + ^ component
+
 import styles from './Countdown.module.scss';
 import { useState, useEffect } from 'react';
 

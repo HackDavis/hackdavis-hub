@@ -1,4 +1,22 @@
 .container {
-    background-color: pink;
+    // background-color: pink;
     padding: 2%;
+    width: 100%;
+    text-align: center;
+
+    .parent {
+        border: 3px solid red;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+
+        .child {
+            border: 2px solid blue;
+
+            p {
+                border: 1px solid black;
+            }
+        }
+    }
 }
