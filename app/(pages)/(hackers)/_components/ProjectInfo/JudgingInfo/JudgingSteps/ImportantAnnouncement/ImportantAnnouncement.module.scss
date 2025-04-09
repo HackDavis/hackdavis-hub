@@ -10,11 +10,25 @@
 
   @include tablet-l {
     flex-direction: column;
+    border-radius: 0px 0px 6px 6px;
+  }
+
+  p {
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    @include tablet-l {
+      font-size: 0.5rem;
+    }
   }
 
   .left {
     display: flex;
     flex-direction: column;
+    align-self: center;
     align-items: center;
     justify-content: flex-end;
     width: 50%;
@@ -25,7 +39,9 @@
     }
 
     @include tablet-l {
+      justify-content: center;
       width: 100%;
+      max-width: 400px;
       padding: 40px 28px 16px 40px;
     }
 
@@ -67,6 +83,8 @@
       }
 
       @include tablet-l {
+        border-radius: var(--b-radius);
+        padding: 10px;
         gap: 8px;
       }
 
@@ -76,20 +94,18 @@
         align-items: center;
         gap: 16px;
 
-        font-size: 1.125rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 145%;
-        letter-spacing: 0.36px;
+        .sign {
+          min-width: 32px;
+          min-height: 32px;
+          max-width: 32px;
+          max-height: 32px;
 
-        @include desktop-s {
-          font-size: 1rem;
-        }
-
-        @include tablet-l {
-          font-size: 0.625rem;
-          letter-spacing: 0.18px;
-          line-height: 200%;
+          @include tablet-l {
+            min-width: 16px;
+            min-height: 16px;
+            max-width: 16px;
+            max-height: 16px;
+          }
         }
       }
     }

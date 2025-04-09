@@ -28,11 +28,9 @@ export default function ProjectInfoAccordion({
               }}
             >
               <div className={styles.left}>
-                <Star
-                  width={24}
-                  height={24}
-                  fill={index % 2 == 0 ? 'white' : '#123041'}
-                />
+                <div className={styles.star}>
+                  <Star fill={index % 2 == 0 ? 'white' : '#123041'} />
+                </div>
                 <div className={styles.header_text}>
                   <h5
                     style={{
@@ -55,11 +53,7 @@ export default function ProjectInfoAccordion({
               </div>
 
               <div className={`${styles.chevron} ${styles.active}`}>
-                <Chevron
-                  width={40}
-                  height={20}
-                  fill={index % 2 == 0 ? 'white' : '#123041'}
-                />
+                <Chevron fill={index % 2 == 0 ? 'white' : '#123041'} />
               </div>
             </div>
           }

@@ -3,9 +3,10 @@
 import ProjectInfoAccordion, {
   AccordionItemInt,
 } from '../ProjectInfoAccordion/ProjectInfoAccordion';
-import styles from './JudgingInfo.module.scss';
-import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 import SubmissionDue from './JudgingSteps/SubmissionDue/SubmissionDue';
+import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
+import DemoTime from './JudgingSteps/DemoTime/DemoTime';
+import styles from './JudgingInfo.module.scss';
 
 const accordionItems: AccordionItemInt[] = [
   {
@@ -21,7 +22,7 @@ const accordionItems: AccordionItemInt[] = [
   {
     time: '11:30 - 1:30 PM',
     title: 'Demo Time',
-    content: <p>hello</p>,
+    content: <DemoTime />,
   },
   {
     time: '1:30 - 2:30 PM',

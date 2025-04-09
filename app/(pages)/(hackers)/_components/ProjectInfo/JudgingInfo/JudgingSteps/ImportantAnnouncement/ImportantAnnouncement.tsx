@@ -48,16 +48,20 @@ export default function ImportantAnnouncement() {
         <div className={styles.info_box}>
           {topInfo.map((info, index) => (
             <div key={index}>
-              <Image src={GreenSign} alt="Green sign" />
-              {info}
+              <div className={styles.sign}>
+                <Image src={GreenSign} alt="Green sign" />
+              </div>
+              <p>{info}</p>
             </div>
           ))}
         </div>
         <div className={styles.info_box}>
           {bottomInfo.map((info, index) => (
             <div key={index}>
-              <Image src={BlueSign} alt="Blue sign" />
-              {info}
+              <div className={styles.sign}>
+                <Image src={BlueSign} alt="Blue sign" />
+              </div>
+              <p>{info}</p>
             </div>
           ))}
         </div>
