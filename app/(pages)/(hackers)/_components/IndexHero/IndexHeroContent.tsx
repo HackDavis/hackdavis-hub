@@ -4,6 +4,9 @@ import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
 import Scroll from './Scroll';
 
+//testing
+import TimeTracker from './TimeTracker';
+
 import star from 'public/index/hero/star.svg';
 
 export default function IndexHeroContent() {
@@ -14,6 +17,8 @@ export default function IndexHeroContent() {
         <br />
         2025
       </p>
+      <TimeTracker targetTime="2025-05-01T09:00:00Z" />
+
       <MusicPlayer />
       <div className={styles.center_right}>
         <Countdown />
