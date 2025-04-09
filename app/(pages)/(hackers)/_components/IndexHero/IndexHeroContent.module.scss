@@ -105,6 +105,19 @@
     }
 }
 
+.live_now_empty{
+    border-radius: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(30px);
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 5% 10%;
+}
+
 .live_now{
     overflow: auto;
     height: 554px;

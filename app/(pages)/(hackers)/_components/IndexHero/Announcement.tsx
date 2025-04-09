@@ -1,13 +1,15 @@
 import styles from './IndexHeroContent.module.scss'; //using styling from other file....
 
-export default function Announcement(){
+export default function Announcement({time, title, description, isNew}){
     return(
     <div className={styles.announcement}>
         <div className={styles.time_and_icon}>
-          <p>10:00 AM</p>
-          <div className={styles.circle}/>
+          <p style={{color:"#848484"}}>{time}</p>
+          
+          {isNew && <div className={styles.circle} />}
         </div>
-        <p>Dorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+        <h6 style={{fontWeight:"500"}}>{title}</h6>
+        <p>{description}</p>
       </div>
       );
 }

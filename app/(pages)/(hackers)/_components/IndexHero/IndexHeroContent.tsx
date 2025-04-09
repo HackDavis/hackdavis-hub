@@ -2,10 +2,11 @@ import Image from 'next/image';
 import Countdown from './Countdown';
 import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
-import location_icon from '@public/hackers/hero/location_icon.svg';
 import star_icon from '@public/hackers/hero/star.svg';
+import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import star from 'public/index/hero/star.svg';
 import Announcement from './Announcement';
+import NextSchedule from './NextSchedule';
 
 export default function IndexHeroContent() {
   return (
@@ -38,37 +39,25 @@ export default function IndexHeroContent() {
           <Image src={star_icon} alt='star icon'/>
         </div>
         <div className={styles.live_now}>
-          <Announcement/>
-          <Announcement/>
-          <Announcement/>
-          <Announcement/>
-          <Announcement/>
+          <Announcement time={'10:00 AM'} title={'🧃 Fuel Up!'} description={'Snacks have landed in the main room! Come grab some chips, fruit, and possibly too many Capri Suns. Hydration is innovation.'} isNew={true}/>
+          <Announcement time={'10:00 AM'} title={'💻 Workshop Starting Soon'} description={'“Building Your First AI Bot (That Doesn’t Go Rogue)” starts in 10 minutes in Room B! Bring your laptop, your curiosity, and maybe a charger.'} isNew={false}/>
+          <Announcement time={'10:00 AM'} title={'⚠️ Lost & Found'} description={'Someone left AirPods, a water bottle, and what might be the dignity of a sleep-deprived coder near the front desk. Claim them before they become community property.'} isNew={false}/>
+        </div>
+        <div className={styles.live_now_empty}>
+          <Image src={cow_tada} alt='cow tada'/>
+          <p>NO ANNOUNCEMENTS YET, HAPPY HACKING!</p>
         </div>
       </div>
       
       <div className={styles.group_width}>
-        <div style={{display:"flex", gap:'1%', paddingBottom:'1%'}}>
-          <p>NEXT ON YOUR SCHEDULE</p>
-          <Image src={star_icon} alt='star icon'/>
-          <div className={styles.countdown}>
-            <Countdown />
+          <div style={{display:"flex", gap:'1%', paddingBottom:'1%'}}>
+            <p>NEXT ON YOUR SCHEDULE</p>
+            <Image src={star_icon} alt='star icon' />
+            <div className={styles.countdown}>
+                <Countdown />
+            </div>
           </div>
-        </div>
-        <div className={styles.notification}>
-          <h2>
-            <strong>Team Mixer</strong>
-          </h2>
-          <div className={styles.time_location}>
-            <p>
-              11:00 - 12:00 PM
-            </p>
-            <Image src={location_icon} alt="location_icon" />
-            <p>ARC Ballroom B</p>
-          </div>
-          <div className={styles.button_cont}>
-            <button className={styles.schedule_button}>View full schedule</button>
-          </div>
-        </div>
+          <NextSchedule title={'Team Mixer'} time={'11:00 - 12:00 PM'} location={'ARC Ballroom B'}/>
       </div>
       <div className={styles.star_social_good}>
         <div className={styles.star_box}>
