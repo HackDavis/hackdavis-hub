@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Countdown from './Countdown';
 import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
+import Scroll from './Scroll';
 
 import star from 'public/index/hero/star.svg';
 
@@ -25,6 +26,7 @@ export default function IndexHeroContent() {
           </span>
         </p>
       </div>
+      <Scroll />
       <p className={styles.notification}>
         Hi hacker, it seems like you’re here a little early... Check back in{' '}
         <strong> later this month </strong> for more information!
