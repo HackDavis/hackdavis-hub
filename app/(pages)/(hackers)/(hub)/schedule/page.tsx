@@ -276,7 +276,7 @@ export default function Page() {
                 onClick={() => setActiveTab('schedule')}
                 onMouseEnter={() => setHoveredTab('schedule')}
                 onMouseLeave={() => setHoveredTab(null)}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
                   activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : hoveredTab === 'schedule'
@@ -284,13 +284,13 @@ export default function Page() {
                     : 'text-[#8F8F8F]'
                 }`}
               >
-                Schedule
+                All Events
               </span>
               <span
                 onClick={() => setActiveTab('personal')}
                 onMouseEnter={() => setHoveredTab('personal')}
                 onMouseLeave={() => setHoveredTab(null)}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
                   activeTab === 'personal'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : hoveredTab === 'personal'

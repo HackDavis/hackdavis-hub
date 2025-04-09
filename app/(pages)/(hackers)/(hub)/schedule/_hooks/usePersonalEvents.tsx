@@ -21,8 +21,6 @@ export function usePersonalEvents(userId: string) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  console.log('🚀 ~ :28 ~ fetchPersonalEvents ~ userId:', userId);
-
   // Fetch the user's events
   const fetchPersonalEvents = useCallback(async () => {
     if (!userId) {
@@ -33,9 +31,7 @@ export function usePersonalEvents(userId: string) {
     try {
       setIsLoading(true);
       setError(null);
-      console.log('Fetching personal events for user:', userId);
       const result = await getEventsForOneUser(userId);
-      console.log('API response:', result);
 
       if (result.ok) {
         setUserToEventRelations(result.body);
@@ -88,9 +84,7 @@ export function usePersonalEvents(userId: string) {
       try {
         setIsLoading(true);
         setError(null);
-        console.log('Adding event to personal schedule:', { userId, eventId });
         const result = await createUserToEvent(userId, eventId);
-        console.log('Add to schedule response:', result);
 
         if (result.ok) {
           // Refresh the personal events after adding a new one
