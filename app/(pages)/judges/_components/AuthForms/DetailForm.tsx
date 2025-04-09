@@ -6,6 +6,8 @@ import Image from 'next/image';
 
 import { updateUser } from '@actions/users/updateUser';
 import styles from './DetailForm.module.scss';
+import Loader from '@pages/_components/Loader/Loader';
+import { categorizedTracks, displayNameToDomainMap } from '@data/tracks';
 
 interface OptionItem {
   id: number;
@@ -13,7 +15,13 @@ interface OptionItem {
   rank: number;
 }
 
-const initialOptions = ['Tech', 'Design', 'Business'];
+const initialOptions = [
+  ...new Set(
+    Object.values(categorizedTracks).map(
+      (track) => track.domainDisplayName ?? ''
+    )
+  ),
+].filter((option) => option !== '');
 
 export default function DetailForm({ id }: any) {
   const router = useRouter();
@@ -93,10 +101,11 @@ export default function DetailForm({ id }: any) {
     setLoading(true);
     setError('');
 
-    const specialties: string[] = options.map((option) =>
-      option.text.toLowerCase()
+    const specialties: string[] = options.map(
+      (option) => displayNameToDomainMap.get(option.text) ?? ''
     );
 
+    console.log(specialties);
     const userRes = await updateUser(id, {
       $set: {
         specialties,
@@ -191,11 +200,7 @@ export default function DetailForm({ id }: any) {
         </div>
       </form>
 
-      {loading && (
-        <div className={styles.loading_container}>
-          <div className={styles.loader}></div>
-        </div>
-      )}
+      {loading && <Loader />}
     </div>
   );
 }

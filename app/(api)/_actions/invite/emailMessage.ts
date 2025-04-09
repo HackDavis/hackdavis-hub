@@ -7,30 +7,24 @@ export default function emailMessage(type: string, link: string) {
     <style>
     * {
       box-sizing: border-box;
-      color: white;
       text-decoration: none;
     }
     
     .container {
-      background-color: #173A52;
+      background-color: #E5EEF1;
       width: 100%;
       padding: 48px;
     }
     
     .welcome-text {
-      color: white;
+      color: black;
       font-size: 1.5rem;
       font-weight: 700;
       font-family: 'Helvetica';
     }
     
-    .name-text {
-      color: #76D6E6;
-      font-family: 'Helvetica';
-    }
-    
     .make-account {
-      color: white;
+      color: black;
       font-family: 'Helvetica';
       margin-bottom: 30px;
     }
@@ -45,20 +39,26 @@ export default function emailMessage(type: string, link: string) {
       padding: 12px;
       background-color: #FFC53D;
       font-weight: 500;
-      font-family: 'Proxima Nova';
       font-size: 1.25rem;
-      color: #173a52;
       cursor: pointer;
       text-align: center;
       text-decoration: none;
       font-family: 'Helvetica';
     }
-    
-    .bottom-text {
-      color: white;
-      font-family: 'Helvetica';
+
+    .sub-container {
+      margin-top: 30px;
     }
     
+    .bottom-text {
+      font-family: 'Helvetica';
+    }
+
+    .link {
+      color: blue;
+      font-family: 'Helvetica';
+      text-decoration: underline;
+    }
     
     </style>
     </head>
@@ -66,15 +66,14 @@ export default function emailMessage(type: string, link: string) {
     <div class="container">
       <h3 class="welcome-text">Invitation to the HackDavis Hub</h3>
       <p class="make-account">
-        Please create your account for the HackDavis Hub using the following invite
-        link. Do <span>NOT</span> share this link with anyone.
+        Click the button below to create your account on the HackDavis Hub. This link expires in 14 days. Do <span>NOT</span> share this unique invite link with anyone.
       </p>
-      <a class="button" href="${link}">Register for the Hub</a>
-      <div>
-        <p class="bottom-text">Your invite link is:</p>
-        <p class="bottom-text">${link}</p>
+      <a class="button" href="${link}">Register</a>
+      <div class="sub-container">
+        <p class="bottom-text">If you're having trouble with the above button, copy and paste the following link into your browser:</p>
+        <p class="link">${link}</p>
       </div>
-     </div>
+    </div>
     </body>
     </html>
     `;
@@ -87,30 +86,24 @@ export default function emailMessage(type: string, link: string) {
     <style>
     * {
       box-sizing: border-box;
-      color: white;
       text-decoration: none;
     }
     
     .container {
-      background-color: #173A52;
+      background-color: #E5EEF1;
       width: 100%;
       padding: 48px;
     }
     
     .welcome-text {
-      color: white;
+      color: black;
       font-size: 1.5rem;
       font-weight: 700;
       font-family: 'Helvetica';
     }
-    
-    .name-text {
-      color: #76D6E6;
-      font-family: 'Helvetica';
-    }
-    
+
     .make-account {
-      color: white;
+      color: black;
       font-family: 'Helvetica';
       margin-bottom: 30px;
     }
@@ -125,7 +118,6 @@ export default function emailMessage(type: string, link: string) {
       padding: 12px;
       background-color: #FFC53D;
       font-weight: 500;
-      font-family: 'Proxima Nova';
       font-size: 1.25rem;
       color: #173a52;
       cursor: pointer;
@@ -134,26 +126,32 @@ export default function emailMessage(type: string, link: string) {
       font-family: 'Helvetica';
     }
     
-    .bottom-text {
-      color: white;
-      font-family: 'Helvetica';
+    .sub-container {
+      margin-top: 30px;
     }
     
+    .bottom-text {
+      font-family: 'Helvetica';
+    }
+
+    .link {
+      color: blue;
+      font-family: 'Helvetica';
+      text-decoration: underline;
+    }
     
     </style>
     </head>
     <body>
     <div class="container">
-      <h3 class="welcome-text">Reset Password Request for the HackDavis Hub</h3>
+      <h3 class="welcome-text">Reset Password Link for the HackDavis Hub</h3>
       <p class="make-account">
-        Please reset your password for the HackDavis Hub using the following invite
-        link. Do <span>NOT</span> share this link with anyone. If you didn't request
-        a password reset, you can safely ignore this email.
+        Click the button below to reset your password for the HackDavis Hub. This link expires in 24 hours. Do <span>NOT</span> share this link with anyone. If you didn't request a password reset, you can safely ignore this email.
       </p>
       <a class="button" href="${link}">Reset Password</a>
-      <div>
-        <p class="bottom-text">Your reset password link is:</p>
-        <p class="bottom-text">${link}</p>
+      <div class="sub-container">
+        <p class="bottom-text">If you're having trouble with the above button, copy and paste the following link into your browser:</p>
+        <p class="link">${link}</p>
       </div>
      </div>
     </body>

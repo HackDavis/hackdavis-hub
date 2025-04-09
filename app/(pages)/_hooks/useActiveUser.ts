@@ -6,12 +6,11 @@ import { useSession } from 'next-auth/react';
 
 import { getUser } from '@actions/users/getUser';
 import LogoutAction from '@actions/auth/logout';
-import User from '@typeDefs/user';
 
 export default function useActiveUser(failRedirectRoute: string) {
   const router = useRouter();
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { data: session, status } = useSession();
 

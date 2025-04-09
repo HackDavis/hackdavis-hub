@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { processInvite } from '@actions/invite/processInvite';
-import styles from './page.module.scss';
+import Loader from '@pages/_components/Loader/Loader';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const router = useRouter();
@@ -25,10 +25,6 @@ export default function Page({ params }: { params: { slug: string } }) {
   if (!valid) {
     return <div>Your invite link is invalid or may have expired.</div>;
   } else {
-    return (
-      <div className={styles.loading_container}>
-        <div className={styles.loader}></div>
-      </div>
-    );
+    return <Loader />;
   }
 }

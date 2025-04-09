@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
-import RegisterForm from '../_components/AuthForms/RegisterForm';
+import RegisterForm from '@pages/judges/_components/AuthForms/RegisterForm';
 import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
 import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
 

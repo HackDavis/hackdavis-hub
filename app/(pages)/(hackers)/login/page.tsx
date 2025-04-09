@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
-import LoginForm from '../_components/AuthForms/LoginForm';
+import LoginForm from '@pages/judges/_components/AuthForms/LoginForm';
 import AuthFormBackground from 'app/(pages)/(hackers)/_components/AuthFormBackground/AuthFormBackground';
 
 export default async function LoginPage() {

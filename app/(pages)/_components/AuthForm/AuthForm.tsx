@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import useAuthForm from '@hooks/useAuthForm';
+import Loader from '@components/Loader/Loader';
 import Froggy from 'public/login/LogIn_Froggy.svg';
 import Drumstick from 'public/login/LogIn_DrumStick.svg';
 import hackerStyles from './HackerAuthForm.module.scss';
@@ -125,11 +126,7 @@ export default function AuthForm({
         </div>
       </form>
 
-      {loading && (
-        <div className={styles.loading_container}>
-          <div className={styles.loader}></div>
-        </div>
-      )}
+      {loading && <Loader />}
     </div>
   );
 }

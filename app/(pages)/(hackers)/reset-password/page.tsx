@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
-import ResetPasswordForm from '../_components/AuthForms/ResetPasswordForm';
+import ResetPasswordForm from '@pages/judges/_components/AuthForms/ResetPasswordForm';
 import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
 
 export default async function RegisterPage() {
