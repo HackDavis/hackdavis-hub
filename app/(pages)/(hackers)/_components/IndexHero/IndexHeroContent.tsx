@@ -5,6 +5,8 @@ import MusicPlayer from './MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
 import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
+import Scroll from './Scroll';
+import TimeTracker from './TimeTracker';
 import star from 'public/index/hero/star.svg';
 import Announcement from './Announcement';
 import NextSchedule from './NextSchedule';
@@ -18,6 +20,8 @@ export default function IndexHeroContent() {
         <br />
         2025
       </p>
+      <TimeTracker targetTime="2025-05-01T09:00:00Z" />
+
       <MusicPlayer />
       <div className={styles.center_right}>
         <Countdown />
@@ -30,7 +34,9 @@ export default function IndexHeroContent() {
           </span>
         </p>
       </div>
+      <Scroll />
       {/* <p className={styles.notification}>
+      <p className={styles.notification}>
         Hi hacker, it seems like you’re here a little early... Check back in{' '}
         <strong> later this month </strong> for more information!
         everything on home page doesnt get taken down - prizes, 
