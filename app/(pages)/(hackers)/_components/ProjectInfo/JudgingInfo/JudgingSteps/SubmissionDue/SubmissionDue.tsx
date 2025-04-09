@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import SubmissionCharacters from 'public/hackers/project-info/submissionCharacters.png';
+import PeekingCharacters from 'public/hackers/project-info/peekingCharacters.png';
+import PeekingTwoCharacters from 'public/hackers/project-info/peekingTwoCharacters.png';
 import styles from './SubmissionDue.module.scss';
 
 const criteria = [
@@ -28,14 +29,21 @@ export default function SubmissionDue() {
     <div className={styles.container}>
       <div className={styles.background}>
         <div className={styles.characters}>
-          <Image src={SubmissionCharacters} alt="Chracters" />
+          <Image src={PeekingCharacters} alt="Characters" />
         </div>
+        <div className={styles.characters_mobile}>
+          <Image src={PeekingTwoCharacters} alt="Characters" />
+        </div>
+      </div>
+
+      <div className={styles.foreground}>
         <div className={styles.criteria}>
           <h6>Rubric</h6>
           <div className={styles.table}>
             {criteria.map(({ percentage, criterion }, index) => (
               <div
                 key={index}
+                className={styles.criterion}
                 style={{
                   width: `${percentage}%`,
                 }}
@@ -43,6 +51,43 @@ export default function SubmissionDue() {
                 {percentage}% {criterion}
               </div>
             ))}
+          </div>
+
+          <div className={styles.table_mobile}>
+            <div
+              className={styles.first_criterion}
+              style={{
+                width: '100%',
+              }}
+            >
+              60% Track-Specific
+            </div>
+            <div className={styles.other_criteria}>
+              <div
+                className={styles.criterion}
+                style={{
+                  width: '50%',
+                }}
+              >
+                20% Social Good
+              </div>
+              <div
+                className={styles.criterion}
+                style={{
+                  width: '25%',
+                }}
+              >
+                10% Creativity
+              </div>
+              <div
+                className={styles.criterion}
+                style={{
+                  width: '25%',
+                }}
+              >
+                10% Presentation
+              </div>
+            </div>
           </div>
         </div>
       </div>
