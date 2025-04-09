@@ -1,20 +1,22 @@
-import React from 'react';
-
+import Team from '@typeDefs/team';
+import Link from 'next/link';
 interface ProjectTabProps {
-  number: string | number;
-  name: string;
+  team: Team;
 }
 
-const ProjectTab: React.FC<ProjectTabProps> = ({ number, name }) => {
+const ProjectTab: React.FC<ProjectTabProps> = ({ team }) => {
   return (
-    <div className="flex items-center justify-center bg-white rounded-[16px] gap-[24px] py-[20px]">
+    <Link
+      href={`/judges/score/${team._id}`}
+      className="flex items-center justify-center bg-white rounded-[16px] gap-[24px] py-[20px]"
+    >
       <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
-        {number}
+        {team.tableNumber}
       </span>
       <span className="max-w-[137px] break-words text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
-        {name}
+        {team.name}
       </span>
-    </div>
+    </Link>
   );
 };
 
