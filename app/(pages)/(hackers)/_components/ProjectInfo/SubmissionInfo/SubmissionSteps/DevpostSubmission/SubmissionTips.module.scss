@@ -1,7 +1,6 @@
 @import "@globals/mixins.scss";
 
-
-.Container {
+.container {
     background: var(--text-dark);
     border-radius: 12px;
     display: flex;
@@ -9,21 +8,28 @@
     align-items: stretch;
     justify-content: space-between;
 
-    @include desktop-s{
+    @include desktop-s {
         flex-direction: column;
         background: linear-gradient(to bottom, var(--text-dark) 50%, #005271 50%);
     }
     // background: linear-gradient(to right, #123041 98%, #005271 2%);
 
     .questions {
-        padding: 50px; 
+        padding: 108px 0px 108px 64px;
+        border-radius: 12px 0px 0px 12px;
         flex: 1;
-        flex-direction: column; // Keeps content aligned properly
-        justify-content: center; // Vertically centers content inside
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         background: var(--text-dark);
 
-        @include tablet-s {
-            padding: 32px;
+        @include desktop-s {
+            padding: 56px 32px;
+            border-radius: 12px 12px 0px 0px;
+        }
+
+        @include tablet-l {
+            padding: 36px 24px;
         }
 
         @include mobile-l {
@@ -63,23 +69,28 @@
             gap: 32px;
 
             @include tablet-l {
-                gap: 28px;
-            }
-
-            @include mobile-l {
-                gap: 16px;
+                gap: 8px;
             }
 
             .qbox {
-                padding: 5%;
+                padding: 32px;
                 border-radius: 12px;
                 background: var(----grass-background-light);
+                width: 100%;
                 color: var(--text-light);
+                font-size: 1.125rem;
                 justify-content: center;
                 align-items: center;
                 align-self: stretch;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 100%;
+                letter-spacing: 0.36px;
                 text-align: center;
-                width: 100%;
+
+                @include tablet-l {
+                    padding: 16px;
+                }
 
                 p {
                     color: var(--text-dark);
@@ -109,125 +120,90 @@
             }
         }
     }
-
-    .animalcontainer {
-        position: relative;
-        min-height: 100%;
-        width: 30%;
-        overflow: visible;
-        background-color: var(--text-dark);
-
-        @include desktop-l {
-            width: 35%;
-        }
-        @include desktop-m {
-            width: 42%;
-        }
-        @include desktop-s{
-            height: 500px;
-            width: 60%;
-        }
-        @include tablet-l{
-            // width: 50%;
-            height: 300px;
-        }
-        @include mobile-l{
-            width: 60%;
-            height: 200px;
-            
-        }
-        
-        
-        img {
-            height: 100%;
-            object-fit: cover;
-        }
-    }
 }
 
-.button {
-    position: relative;
+.devpost_box {
     display: flex;
-    flex-direction: column;
-    background-color: #005271;
-    
+    flex-direction: row;
+    height: 100%;
+    background: var(--text-dark);
+    border-radius: 12px;
 
-    @include desktop-s{
-        background-color: transparent;
-        height: 0;
-    }
-
-
-    .button_background{
+    @include desktop-s {
+        justify-content: flex-end;
         width: 100%;
-        height: 100%;
-        background-color: #005271;
-        align-items: center;
-        display: flex;
-        position: relative;
-        right: 30%;
+    }
 
-        @include desktop-s{
-            top: -250px;
-            background-color: transparent;
-            left: -15%;
-            display: flex;
-            justify-content: flex-end;
+    .peeping_animals {
+        display: flex;
+        align-self: flex-end;
+        width: auto;
+        max-width: none;
+        height: 600px;
+        transform: translateX(7.5%);
+
+        @include desktop-m {
+            height: 400px;
         }
-        @include tablet-l{
-            top: -150px;
+
+        @include desktop-s {
+            height: 450px;
         }
-        @include mobile-l{
-            top: -100px;
+
+        @include tablet-l {
+            height: 300px;
         }
     }
 
-    button {
+    .devpost_submission {
         display: flex;
-        max-width: 188px;
-        min-width: 100px;
-        max-height: 390px;
-        height: 100%;
-        border-radius: 1000px;
-        background-color: #123041;
-        color: var(--text-light);
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        padding: 0 16px;
-        gap: 5px;
+        padding: 104px 36px;
+        border-radius: 0px 12px 12px 0px;
+        background-color: #005271;
 
-        // font stuff
-        font-family: var(--font-jakarta);
-        font-size: 1.125rem;
-        text-align: center;
-        font-weight: 600;
-        line-height: 100%;
-        /* 18px */
-        letter-spacing: 0.36px;
+        @include desktop-s {
+            padding: 56px 36px;
+            border-radius: 0px 0px 12px 0px;
+        }
     
-        @include desktop-m {
-            font-size: 1rem;
+        @include tablet-l {
+            padding: 32px 18px;
         }
-
-        @include desktop-s{
-            width: 188px;
-            height: 390px;
-            padding: 0;
-            border-radius: 500px;
-            font-size: 10px;
+    
+        .button {
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            
-        }
-        @include tablet-l{
-            width: 141px;
-            height: 292px;
-        }
-        @include mobile-l{
-            width: 60px;
-            height: 186px;
-            
-        }
+            align-items: center;
+            background-color: var(--sea-background);
+            padding: 160px 32px;
+            border-radius: 1000px;
+            gap: 24px;
 
+            @include desktop-s {
+                padding: 120px 24px;
+            }
+
+            @include tablet-l {
+                padding: 80px 16px;
+                gap: 12px;
+            }
+    
+            > p {
+                color: white;
+                font-size: 1.25rem;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+                letter-spacing: 0.4px;
+                text-align: center;
+
+                @include tablet-l {
+                    font-size: 0.625rem;
+                }
+            }
+        }
     }
 }

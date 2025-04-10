@@ -4,7 +4,6 @@ import Image from 'next/image';
 import RelaxingCow from 'public/hackers/project-info/relaxingCow.svg';
 import Radio from 'public/hackers/project-info/radio.svg';
 import styles from './Break.module.scss';
-import Link from 'next/link';
 
 export default function Break() {
   return (
@@ -21,9 +20,13 @@ export default function Break() {
             Meanwhile, panels of judges will be choosing the winners from the
             top 5 projects shortlisted for each track after demos.
           </p>
-          <Link href="" className={styles.link}>
+          <a
+            href="https://www.google.com"
+            target="_blank"
+            className={styles.link}
+          >
             Submit Vote
-          </Link>
+          </a>
         </div>
         <div className={styles.right}>
           <Image src={RelaxingCow} alt="Relaxing Cow" />

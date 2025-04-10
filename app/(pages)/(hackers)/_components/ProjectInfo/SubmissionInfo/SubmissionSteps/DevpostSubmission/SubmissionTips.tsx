@@ -1,6 +1,6 @@
 import StarterKitSlide from '@pages/(hackers)/_components/StarterKit/StarterKitSlide';
 import styles from './SubmissionTips.module.scss';
-import Animals from 'public/hackers/mvp/PeepingAnimals.svg';
+import Animals from 'public/hackers/project-info/peepingAnimals.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import arrow from 'public/hackers/mvp/arrow.svg';
@@ -23,7 +23,7 @@ const questions = [
 export default function SubmissionTips() {
   return (
     <StarterKitSlide subtitle="HERE ARE SOME" title="Devpost Submission Tips">
-      <div className={styles.Container}>
+      <div className={styles.container}>
         <div className={styles.questions}>
           <h3>Be sure you...</h3>
           <div className={styles.questionBoxes}>
@@ -35,21 +35,25 @@ export default function SubmissionTips() {
           </div>
         </div>
 
-        <div className={styles.animalcontainer}>
+        <div className={styles.devpost_box}>
           <Image
             src={Animals}
             alt="Animals Peeping Behind Wall"
-            className={styles.peepingAnimals}
-            fill={true}
+            objectFit="cover"
+            className={styles.peeping_animals}
           />
-        </div>
-        <div className={styles.button}>
-          <Link href="/starter-kit" className={styles.button_background}>
-            <button>
+          <div className={styles.devpost_submission}>
+            <Link href="/starter-kit" className={styles.button}>
               <Image src={arrow} alt="arrow" />
-              FOR YOUR DEVPOST SUBMISSION
-            </button>
-          </Link>
+              <p>
+                FOR YOUR
+                <br />
+                DEVPOST
+                <br />
+                SUBMISSION
+              </p>
+            </Link>
+          </div>
         </div>
       </div>
     </StarterKitSlide>
