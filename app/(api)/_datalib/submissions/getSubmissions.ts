@@ -1,13 +1,15 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import parseAndReplace from '@utils/request/parseAndReplace';
 import { HttpError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
 export const GetManySubmissions = async (query: object = {}) => {
   try {
+    const parsedQuery = await parseAndReplace(query);
     const db = await getDatabase();
     const submissions = await db
       .collection('submissions')
-      .find(query)
+      .find(parsedQuery)
       .toArray();
 
     return { ok: true, body: submissions, error: null };

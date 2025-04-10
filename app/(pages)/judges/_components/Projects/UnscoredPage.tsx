@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import ProjectTab from './ProjectTab';
 import projectCow from '/public/judges/projects/project-cow.svg';
-import { reportMissingProject } from '@actions/submissions/reportMissingProject';
 import Team from '@typeDefs/team';
+
+import { reportMissingProject } from '@actions/teams/reportMissingTeam';
 import styles from './UnscoredPage.module.scss';
+import ReportModal from './ReportModal';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -20,10 +22,12 @@ export default function UnscoredPage({
   const { data: session } = useSession();
   const user = session?.user;
   const judgeId = user?.id ?? '';
-
   const [expandReportButton, setExpandReportButton] = useState(false);
+  const [modalStage, setModalStage] = useState<
+    'hidden' | 'loading' | 'success' | 'error'
+  >('hidden');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // If no submissions, show the completion message
   if (teams.length === 0) {
     return (
       <div className="flex mt-[65px] flex-col items-center h-[calc(100vh-100px)] bg-[#F2F2F7]">
@@ -44,7 +48,19 @@ export default function UnscoredPage({
   const currentTeam = teams[0];
   const upcomingTeams = teams.slice(1);
 
-  const reportMissingTeam = async (team: Team) => {};
+  const handleTeamReport = async (team: Team) => {
+    setModalStage('loading');
+    const reportRes = await reportMissingProject(judgeId, team._id ?? '');
+    if (!reportRes.ok) {
+      setErrorMsg((reportRes.error ?? '').slice(0, 100));
+      setModalStage('error');
+    } else {
+      setErrorMsg(null);
+      setModalStage('success');
+      revalidateData();
+    }
+    setExpandReportButton(false);
+  };
 
   return (
     <div className="flex flex-col h-full bg-[#F2F2F7]">
@@ -93,7 +109,12 @@ export default function UnscoredPage({
             <div className={`${styles.buttons} ${styles.are_you_sure}`}>
               Are you sure
             </div>
-            <div className={`${styles.buttons} ${styles.yes}`}>Yes</div>
+            <div
+              className={`${styles.buttons} ${styles.yes}`}
+              onClick={() => handleTeamReport(currentTeam)}
+            >
+              Yes
+            </div>
             <div
               className={`${styles.buttons} ${styles.cancel}`}
               onClick={() => setExpandReportButton(false)}
@@ -118,11 +139,16 @@ export default function UnscoredPage({
           </span>
           <div className="flex flex-col gap-[16px] mb-[58px] opacity-50">
             {upcomingTeams.map((team) => (
-              <ProjectTab key={team._id} team={team} />
+              <ProjectTab key={team._id} team={team} disabled />
             ))}
           </div>
         </>
       )}
+      <ReportModal
+        modalStage={modalStage}
+        setModalStage={setModalStage}
+        errorMsg={errorMsg}
+      />
     </div>
   );
 }
