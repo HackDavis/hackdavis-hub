@@ -186,15 +186,22 @@ export default function Page() {
       if (!acc[dayKey]) {
         acc[dayKey] = [];
       }
+
+      // Find the attendee count for this event from eventsWithAttendeeCount
+      const eventWithCount = eventsWithAttendeeCount.find(
+        (e) => e.event._id === event._id
+      );
+
       acc[dayKey].push({
         event,
+        attendeeCount: eventWithCount?.attendeeCount || 0,
         inPersonalSchedule: true,
       });
       return acc;
     }, {});
 
     return groupedByDay;
-  }, [personalEvents]);
+  }, [personalEvents, eventsWithAttendeeCount]);
 
   const dataToUse =
     activeTab === 'personal' ? personalScheduleData : scheduleData;
