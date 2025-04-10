@@ -1,9 +1,7 @@
-import styles from './InviteTeammates.module.scss';
 import Image from 'next/image';
-// import StarterKitSlide from '../SubmissionInfo';
-// import Animals from 'public/hackers/project-info/submissionProcess.svg';
 import Step4Overlay from 'public/hackers/project-info/Step4Overlay.svg';
 import Blank from 'public/hackers/project-info/Step6.svg';
+import styles from './InviteTeammates.module.scss';
 
 export default function InviteTeammates() {
   return (

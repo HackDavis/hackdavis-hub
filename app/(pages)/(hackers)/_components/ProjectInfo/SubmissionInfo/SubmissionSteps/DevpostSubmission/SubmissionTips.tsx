@@ -1,4 +1,4 @@
-import StarterKitSlide from '../../StarterKit/StarterKitSlide';
+import StarterKitSlide from '@pages/(hackers)/_components/StarterKit/StarterKitSlide';
 import styles from './SubmissionTips.module.scss';
 import Animals from 'public/hackers/mvp/PeepingAnimals.svg';
 import Image from 'next/image';

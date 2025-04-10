@@ -1,42 +1,258 @@
 @import "@globals/mixins.scss";
 
 .container {
-    // border: 3px solid black;
-    padding-top: 3%;
+  // border: 3px solid black;
+  padding-top: 3%;
 
+  .submissionProcess {
+    padding: 5%;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5) 
+                url('/hackers/project-info/submissionProcess.svg') 
+                no-repeat;
+    background-position: right 20% bottom -8px;
+    background-size: auto 70%; /* Image height is 50% of container; width adjusts automatically */
+    z-index: 1;
 
-    .submissionProcess {
-        padding: 5%;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.5) 
-                    url('/hackers/project-info/submissionProcess.svg') 
-                    no-repeat;
-        background-position: right 20% bottom -8px;
-        background-size: auto 70%; /* Image height is 50% of container; width adjusts automatically */
-        z-index: 1;
+    @include tablet-s {
+      background-position: right 10% bottom -8px;
+      background-size: auto 60%; 
+    }
+  
+    h6, h4 {
+      color: black;
 
-        @include tablet-s {
-          background-position: right 10% bottom -8px;
-          background-size: auto 60%; 
-        }
+      @include tablet-s {
+        width: 50%;
+        line-height: 1;
+        padding-bottom: 5px;
+      }
+    }
+
+    h6 {
+      @include tablet-l {
+        font-size: 0.9rem;
+      }
+      @include mobile-l {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0% 4%;
+  margin-bottom: 32px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0px 0px 12px 12px;
+
+  @include tablet-l {
+    border-radius: 0px 0px 6px 6px;
+  }
+
+  .imageWrapper {
+    width: 100%;
+    display: flex;
+    position: relative;
+    aspect-ratio: 16 / 8;
+  }      
+    
+  .primaryImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 5%;
+    z-index: 1;      
+  }
+    
+  .overlayImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;           
+    pointer-events: none; 
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  p {
+    font-size: 1.5rem !important;
+    color: var(--text-dark);
+    margin-bottom: 5%;
+
+    @include tablet-l {
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 145%;
+    }
+
+    @include tablet-s {
+      font-size: 0.9rem !important;
+    }
+
+    @include mobile-l {
+      font-size: 0.8rem !important;
+    }
+  }
+
+  .step2 {
+    .imageWrapper {
+      width: 100%;
+      display: flex;
+      position: relative;
+      margin-bottom: 1rem;
+      aspect-ratio: 16 / 8;
+    }      
+    
+    .primaryImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 5%;
+      z-index: 0;      
+    }
       
-        h6, h4 {
-          color: black;
+    .overlayImage {
+      padding: 15% 0% 0% 7%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 50%;
+      z-index: 2;           
+      pointer-events: none; 
+    }
+  }
 
-          @include tablet-s {
-            width: 50%;
-            line-height: 1;
-            padding-bottom: 5px;
-          }
-        }
+  .step3 {
+    .imageWrapper {
+      width: 100%;
+      display: flex;
+      position: relative;
+      margin-bottom: 1rem;
+      aspect-ratio: 16 / 8;
+    }      
+    
+    .primaryImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 5%;
+      z-index: 1;      
+    }
+    
+    .overlayImage {
+      padding: 5% 60% 4% 0%;
+      position: absolute;
+      z-index: 2;           
+      pointer-events: none; 
+    }
+  }
 
-        h6 {
-          @include tablet-l {
-            font-size: 0.9rem;
-          }
-          @include mobile-l {
-            font-size: 0.7rem;
-          }
-        }
+  .step4 {
+    .imageWrapper {
+      width: 100%;
+      display: flex;
+      position: relative;
+      aspect-ratio: 16 / 8;
+    }      
+    
+    .primaryImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 5%;
+      z-index: 0;      
+    }
+    
+    .overlayImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 50%;
+      z-index: 2;           
+      pointer-events: none; 
+    }
+  }
+  
+  .step5Overlay {
+    border: 3px solid orange;
+  }
+
+  .stepContent5{
+    .overlayImage {
+      // position: relative;
+      // /* height: 100%; */
+      // width: 100%;
+      // /* inset: 0px; */
+      // object-fit: contain;
+      // -------------------
+      position: relative;
+      border: 3px solid red;
+      height: 100%;
+      width: 100%;
+      z-index: 5;
+    }
+
+    .step5 {
+      .imageWrapper {
+        width: 100%;
+        display: flex;
+        position: relative;
+        aspect-ratio: 16 / 8;
       }      
+        
+      .primaryImage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 5%;
+        z-index: 0;      
+      }
+    }
+  }
+}
+
+.GrassDivider {
+  width: 100vw;
+
+  .grass_image {
+    width: 100vw;
+    margin: 88px -80px;
+
+    @include tablet-l {
+      transform: scale(1.5);
+      margin: 56px -32px;
+    }
+  }
+}
+
+.tips {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+
+  @include tablet-l {
+    gap: 32px;
+  }
 }

@@ -1,11 +1,9 @@
 'use client';
-import Image from 'next/image';
-import styles from './WhatHappens.module.scss';
+
 import { useState } from 'react';
 import SubmissionInfo from '../SubmissionInfo/SubmissionInfo';
 import JudgingInfo from '../JudgingInfo/JudgingInfo';
-import FAQAccordian from '../FAQAccordian/FAQAccordian';
-import GrassDivider from 'public/hackers/project-info/GrassDivider.svg';
+import styles from './WhatHappens.module.scss';
 
 export default function WhatHappens() {
   const [activeTab, setActiveTab] = useState<'submission' | 'judging'>(
@@ -37,7 +35,6 @@ export default function WhatHappens() {
             {activeTab === 'submission' && (
               <section>
                 <SubmissionInfo />
-                <FAQAccordian />
               </section>
             )}
 
@@ -49,12 +46,6 @@ export default function WhatHappens() {
           </div>
         </div>
       </div>
-
-      <Image
-        className={styles.GrassDivider}
-        src={GrassDivider}
-        alt="Grass Divider"
-      />
     </div>
   );
 }

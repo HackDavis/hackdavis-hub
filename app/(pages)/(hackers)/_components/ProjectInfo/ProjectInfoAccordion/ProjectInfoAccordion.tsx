@@ -5,7 +5,7 @@ import styles from './ProjectInfoAccordion.module.scss';
 import { Chevron, Star } from './AccordionAssets';
 
 export interface AccordionItemInt {
-  time: string;
+  subtitle: string;
   title: string;
   content: React.ReactNode;
 }
@@ -40,7 +40,7 @@ export default function ProjectInfoAccordion({
                           : 'rgba(23, 58, 82, 0.75)',
                     }}
                   >
-                    {accordionItem.time}
+                    {accordionItem.subtitle}
                   </h5>
                   <h4
                     style={{

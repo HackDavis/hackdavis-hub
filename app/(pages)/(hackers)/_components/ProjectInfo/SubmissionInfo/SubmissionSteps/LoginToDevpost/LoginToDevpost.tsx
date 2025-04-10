@@ -26,7 +26,7 @@ export default function LoginToDevpost() {
       </div>
       <p>
         When you click on the Devpost link, you should see this page. Click Join
-        Hackathon. Log in or sign up for a Devpost account if you don’t have one
+        Hackathon. Log in or sign up for a Devpost account if you don't have one
         already.
       </p>
       <Image

@@ -6,15 +6,22 @@
     align-items: center;
     text-align: center;
     padding: 0% 4%;
+    margin-bottom: 32px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 0px 0px 12px 12px;
+
+    @include tablet-l {
+        border-radius: 0px 0px 6px 6px;
+    }
 
     .imageWrapper {
         width: 100%;
         display: flex;
         position: relative;
         aspect-ratio: 16 / 8;
-      }      
+    }      
       
-      .primaryImage {
+    .primaryImage {
         position: absolute;
         top: 0;
         left: 0;
@@ -22,9 +29,9 @@
         height: 100%;
         padding: 5%;
         z-index: 1;      
-      }
+    }
       
-      .overlayImage {
+    .overlayImage {
         position: absolute;
         top: 0;
         left: 0;
@@ -32,10 +39,19 @@
         height: 100%;
         z-index: 0;           
         pointer-events: none; 
-      }
-  
-    img {
-      max-width: 100%;
+
+        @include mobile-l {
+            display: none;
+        }
+    }
+
+    .overlayImageMobile {
+        position: relative !important;
+        display: none;
+
+        @include mobile-l {
+            display: flex;
+        }
     }
   
     p {

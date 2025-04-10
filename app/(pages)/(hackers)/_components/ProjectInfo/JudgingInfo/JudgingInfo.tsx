@@ -8,31 +8,33 @@ import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/Importan
 import DemoTime from './JudgingSteps/DemoTime/DemoTime';
 import Break from './JudgingSteps/Break/Break';
 import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
+import ResourceHelp from '../../StarterKit/Resources/ResourceHelp';
+import StarterKitSlide from '../../StarterKit/StarterKitSlide';
 import styles from './JudgingInfo.module.scss';
 
 const accordionItems: AccordionItemInt[] = [
   {
-    time: '11:00 AM',
+    subtitle: '11:00 AM',
     title: 'Submission Due',
     content: <SubmissionDue />,
   },
   {
-    time: '11:00 - 11:30 AM',
+    subtitle: '11:00 - 11:30 AM',
     title: 'Important Announcement',
     content: <ImportantAnnouncement />,
   },
   {
-    time: '11:30 - 1:30 PM',
+    subtitle: '11:30 - 1:30 PM',
     title: 'Demo Time',
     content: <DemoTime />,
   },
   {
-    time: '1:30 - 2:30 PM',
+    subtitle: '1:30 - 2:30 PM',
     title: 'Break',
     content: <Break />,
   },
   {
-    time: '3:00 - 4:00 PM',
+    subtitle: '3:00 - 4:00 PM',
     title: 'Closing Ceremony',
     content: <ClosingCeremony />,
   },
@@ -41,11 +43,16 @@ const accordionItems: AccordionItemInt[] = [
 export default function JudgingInfo() {
   return (
     <div className={styles.container}>
-      <div className={styles.submissionProcess}>
+      <div className={styles.judgingProcess}>
         <h6>THIS IS OUR</h6>
         <h4>Judging Process</h4>
       </div>
       <ProjectInfoAccordion accordionItems={accordionItems} />
+      <div className={styles.footer}>
+        <StarterKitSlide title="You're Ready!" subtitle="AND NOW">
+          <ResourceHelp />
+        </StarterKitSlide>
+      </div>
     </div>
   );
 }

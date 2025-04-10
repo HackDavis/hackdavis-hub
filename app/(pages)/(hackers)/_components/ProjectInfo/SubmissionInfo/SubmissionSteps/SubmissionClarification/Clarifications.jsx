@@ -1,5 +1,5 @@
+import StarterKitSlide from '@pages/(hackers)/_components/StarterKit/StarterKitSlide';
 import styles from './Clarifications.module.scss';
-import StarterKitSlide from '../../StarterKit/StarterKitSlide';
 
 export default function Clarifications() {
   return (
@@ -23,7 +23,7 @@ export default function Clarifications() {
           </h3>
           <p>
             You are NOT able to edit your devpost after the final submission
-            time or you’ll be disqualified.
+            time or you'll be disqualified.
           </p>
         </div>
       </div>
