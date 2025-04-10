@@ -1,3 +1,5 @@
+'use server';
+
 import { DeleteManyPanels } from '@datalib/panels/deletePanel';
 import parseAndReplace from '@utils/request/parseAndReplace';
 

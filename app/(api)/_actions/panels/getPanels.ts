@@ -1,7 +1,7 @@
 'use server';
-import { GetAllPanels } from '@datalib/panels/createPanels';
+import { GetManyPanels } from '@datalib/panels/getPanels';
 
 export async function getAllPanels() {
-  const panelsRes = await GetAllPanels();
-  return panelsRes;
+  const panelsRes = await GetManyPanels();
+  return JSON.parse(JSON.stringify(panelsRes));
 }
