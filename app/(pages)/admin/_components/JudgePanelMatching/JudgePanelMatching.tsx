@@ -1,8 +1,8 @@
 'use client';
 
 import assignJudgesToPanels from '@actions/logic/assignJudgesToPanels';
-import { deletePanels } from '@actions/panels/deletePanel';
-import { getAllPanels } from '@actions/panels/getPanels';
+import { deleteManyPanels } from '@actions/panels/deletePanel';
+import { getManyPanels } from '@actions/panels/getPanels';
 import Panel from '@typeDefs/panel';
 import { useState } from 'react';
 
@@ -27,7 +27,7 @@ export default function JudgePanelMatching() {
   const handleDeletePanels = async () => {
     setError(null);
     setPanels([]);
-    const response = await deletePanels();
+    const response = await deleteManyPanels();
     if (!response.ok) {
       setPanelsDeleted(false);
       setError(response.error ?? 'Failed to delete panels');
@@ -39,7 +39,7 @@ export default function JudgePanelMatching() {
   const handleGetPanels = async () => {
     setError(null);
     setPanelsDeleted(false);
-    const response = await getAllPanels();
+    const response = await getManyPanels();
     if (!response.ok) {
       setPanels([]);
       setError(response.error ?? 'Failed to delete panels');

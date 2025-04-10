@@ -3,7 +3,16 @@ import { CreatePanel } from '@datalib/panels/createPanels';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { track, type } = body;
-  const res = await CreatePanel(track, type);
-  return NextResponse.json({ ...res }, { status: res.ok ? 201 : 400 });
+  if (!body.track)
+    return NextResponse.json(
+      {
+        ok: false,
+        body: null,
+        error: 'Bad Request: Payload missing track name.',
+      },
+      { status: 400 }
+    );
+
+  const res = await CreatePanel(body.track);
+  return NextResponse.json({ ...res }, { status: res.ok ? 201 : 500 });
 }

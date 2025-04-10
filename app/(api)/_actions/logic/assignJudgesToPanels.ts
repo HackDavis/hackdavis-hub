@@ -54,16 +54,19 @@ export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
     };
   }
 
-  console.log(response);
-
   const panelUpdates = response.map(async (panel: Panel) => {
+    if (!panel._id)
+      return {
+        ok: false,
+        body: null,
+        error: 'Panel ID not found during update',
+      };
     const { _id: _, track: __, users: ___, ...rest } = panel;
-    return await UpdatePanel(panel.track, { $set: rest });
+    return await UpdatePanel(panel._id, { $set: rest });
   });
 
   const panelUpdateRes = await Promise.all(panelUpdates);
   panelUpdateRes.forEach((res) => {
-    console.log(res);
     if (!res.ok) {
       res.error = `Failed to update panel: ${res.error}`;
     }
