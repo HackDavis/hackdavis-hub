@@ -107,6 +107,12 @@ export default function Navbar() {
           (section) => section.sectionStart !== 0 || section.sectionEnd !== 0
         );
 
+      // Add safety check for empty pageSections array
+      if (pageSections.length === 0) {
+        // No valid sections found, so don't update state
+        return;
+      }
+
       let i = pageSections.length - 1;
       for (i; i >= 0; i--) {
         if (currScroll >= pageSections[i].sectionStart) {

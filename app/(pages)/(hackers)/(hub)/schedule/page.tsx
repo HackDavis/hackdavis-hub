@@ -8,7 +8,6 @@ import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import Event, { EventType } from '@typeDefs/event';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
-import JudgeLoading from '@pages/judges/(app)/_components/Loading/Loading';
 
 import {
   Tooltip,
@@ -282,12 +281,17 @@ export default function Page() {
   // Determine if we're in a loading state
   if (isLoading)
     return (
-      <div id="schedule">
-        <JudgeLoading />
-      </div>
+      <main id="schedule" className="w-full">
+        <Loader />
+      </main>
     );
 
-  if (isError) return <div id="schedule">Error Loading Events</div>;
+  if (isError)
+    return (
+      <main id="schedule" className="w-full">
+        Error Loading Events
+      </main>
+    );
 
   return (
     <main id="schedule" className="w-full">
