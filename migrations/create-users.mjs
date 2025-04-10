@@ -44,7 +44,7 @@ export async function up(db) {
             minItems: domains.length,
             items: {
               enum: domains,
-              description: 'specialty must be either tech, business, or design',
+              description: `specialty must be one of: ${domains.join(', ')}`,
             },
             uniqueItems: true,
           },
