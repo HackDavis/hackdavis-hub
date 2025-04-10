@@ -8,6 +8,8 @@ import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
+import JudgeLoading from '@pages/judges/(app)/_components/Loading/Loading';
+
 import {
   Tooltip,
   TooltipContent,
@@ -29,7 +31,7 @@ interface ScheduleData {
 }
 
 export default function Page() {
-  const { user, loading: userLoading } = useActiveUser('/auth/login');
+  const { user, loading: userLoading } = useActiveUser('/');
 
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
@@ -255,6 +257,12 @@ export default function Page() {
   };
 
   // Determine if we're in a loading state
+  if (userLoading)
+    return (
+      <div id="schedule">
+        <JudgeLoading />
+      </div>
+    );
   const isLoading =
     userLoading || personalEventsLoading || !scheduleData || isActionInProgress;
 
@@ -356,7 +364,8 @@ export default function Page() {
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
           {isLoading ? (
-            <div className="text-center py-10">Loading events...</div>
+            // <div className="text-center py-10">Loading events...</div>
+            <JudgeLoading />
           ) : personalEventsError ? (
             <div className="text-center py-10 text-red-500">
               Error: {personalEventsError}
