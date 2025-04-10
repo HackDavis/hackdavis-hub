@@ -11,10 +11,9 @@ const getBgColor = (type: EventType): string => {
   return color.replace('1)', '0.5)');
 };
 
-// todo: automatically add general and meals to personal
 // todo: fix order by end_time within the same group
 // todo: fix html structure for add button on workshops
-// todo: send in your project button on hacking ends
+// todo: "send in your project" button on hacking ends
 // todo: tags, host and recommended
 
 const formatTime = (pstDate: Date): string => {

@@ -17,8 +17,8 @@ import {
 } from '@globals/components/ui/tooltip';
 import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
 import useActiveUser from '@pages/_hooks/useActiveUser';
-import { usePersonalEvents } from './_hooks/usePersonalEvents';
-import { useEvents } from './_hooks/useEvents';
+import { usePersonalEvents } from '@hooks/usePersonalEvents';
+import { useEvents } from '@hooks/useEvents';
 
 export interface EventDetails {
   event: Event;
@@ -293,7 +293,10 @@ export default function Page() {
 
   if (isError)
     return (
-      <main id="schedule" className="w-full">
+      <main
+        id="schedule"
+        className="w-full h-screen flex items-center justify-center"
+      >
         Error Loading Events
       </main>
     );

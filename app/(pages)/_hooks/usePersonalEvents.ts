@@ -5,19 +5,13 @@ import { getEventsForOneUser } from '@actions/userToEvents/getUserToEvent';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
 import { deleteUserToEvent } from '@actions/userToEvents/deleteUserToEvent';
 import Event from '@typeDefs/event';
+import UserToEvent from '@typeDefs/userToEvent';
 
-interface UserToEventRelation {
-  _id: string;
-  user_id: string;
-  event_id: string;
-  event?: Event;
-}
+// todo: automatically add general and meals to personal
 
 export function usePersonalEvents(userId: string) {
   const [personalEvents, setPersonalEvents] = useState<Event[]>([]);
-  const [userToEventRelations, setUserToEventRelations] = useState<
-    UserToEventRelation[]
-  >([]);
+  const [userToEvents, setUserToEvents] = useState<UserToEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,7 +28,7 @@ export function usePersonalEvents(userId: string) {
       const result = await getEventsForOneUser(userId);
 
       if (result.ok) {
-        setUserToEventRelations(result.body);
+        setUserToEvents(result.body);
 
         // Extract the events from the user-to-event relations if they exist
         const events = result.body
@@ -58,7 +52,7 @@ export function usePersonalEvents(userId: string) {
       } else {
         // If no events found, set empty array rather than error for new users
         if (result.error?.includes('No matching userToEvent found')) {
-          setUserToEventRelations([]);
+          setUserToEvents([]);
           setPersonalEvents([]);
         } else {
           setError(result.error || 'Failed to fetch personal events');
@@ -149,11 +143,9 @@ export function usePersonalEvents(userId: string) {
   // Check if an event is in the user's personal schedule
   const isInPersonalSchedule = useCallback(
     (eventId: string): boolean => {
-      return userToEventRelations.some(
-        (relation) => relation.event_id === eventId
-      );
+      return userToEvents.some((relation) => relation.event_id === eventId);
     },
-    [userToEventRelations]
+    [userToEvents]
   );
 
   // Load personal events on component mount or when userId changes
