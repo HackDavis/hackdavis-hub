@@ -15,7 +15,7 @@ async function initializeEmptyPanels() {
     user_ids: [],
   }));
   const response = await CreateManyPanels(panelData);
-  return response;
+  return JSON.parse(JSON.stringify(response));
 }
 
 export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
@@ -26,19 +26,21 @@ export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
   }
 
   const panelsRes = await GetManyPanels({});
-  if (!panelsRes.ok || panelsRes.body === null) {
-    panelsRes.error = `Failed to get panels: ${
-      panelsRes.error ?? 'No panels found'
-    }`;
-    return panelsRes;
+  if (!panelsRes.ok || panelsRes.body.length === 0) {
+    return {
+      ok: false,
+      body: null,
+      error: `Failed to get panels: ${panelsRes.error ?? 'No panels found'}`,
+    };
   }
 
   const judgesRes = await GetManyUsers({ role: 'judge' });
-  if (!judgesRes.ok || judgesRes.body === null) {
-    judgesRes.error = `Failed to get judges: ${
-      judgesRes.error ?? 'No judges found'
-    }`;
-    return judgesRes;
+  if (!judgesRes.ok || judgesRes.body.length === 0) {
+    return {
+      ok: false,
+      body: null,
+      error: `Failed to get judges: ${judgesRes.error ?? 'No judges found'}`,
+    };
   }
 
   const response = await judgeToPanelAlgorithm(
@@ -66,12 +68,12 @@ export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
   });
 
   const panelUpdateRes = await Promise.all(panelUpdates);
-  panelUpdateRes.forEach((res) => {
+  for (const res of panelUpdateRes) {
     if (!res.ok) {
-      res.error = `Failed to update panel: ${res.error}`;
+      res.error = `Failed to update panel after assignment: ${res.error}`;
+      return res;
     }
-    return res;
-  });
+  }
 
   return JSON.parse(JSON.stringify(await GetManyPanels({})));
 }
