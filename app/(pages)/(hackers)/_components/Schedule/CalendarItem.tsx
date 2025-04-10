@@ -34,11 +34,8 @@ export function CalendarItem({
   onAddToSchedule,
   onRemoveFromSchedule,
 }: CalendarItemProps) {
-  const { name, host, type, location, start_time, end_time } = event;
+  const { name, type, location, start_time, end_time } = event;
   const bgColor = getBgColor(type);
-
-  // TODO: add host and attendee count and other UI elements
-  console.log(host, attendeeCount);
 
   // Handle different time display scenarios
   let timeDisplay;
@@ -81,6 +78,20 @@ export function CalendarItem({
               </div>
             )}
           </div>
+          {attendeeCount !== undefined && attendeeCount > 0 && (
+            <div className="flex gap-2 items-center">
+              <div className="relative w-12 h-12">
+                <Image
+                  src="/index/schedule/attendee.svg"
+                  alt="location icon"
+                  fill
+                />
+              </div>
+              <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
+                {attendeeCount} Hackers are attending this event
+              </span>
+            </div>
+          )}
         </div>
 
         {event.type !== 'GENERAL' && (

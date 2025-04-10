@@ -4,7 +4,6 @@ import CalendarItem from '../../_components/Schedule/CalendarItem';
 import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
-import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
@@ -19,6 +18,7 @@ import {
 import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
 import useActiveUser from '@pages/_hooks/useActiveUser';
 import { usePersonalEvents } from './_hooks/usePersonalEvents';
+import { useEvents } from './_hooks/useEvents';
 
 export interface EventDetails {
   event: Event;
@@ -32,6 +32,14 @@ interface ScheduleData {
 
 export default function Page() {
   const { user, loading: userLoading } = useActiveUser('/');
+
+  // Use the events hook to get events with attendee counts
+  const {
+    eventsWithAttendeeCount,
+    isLoading: eventsLoading,
+    error: eventsError,
+    refreshEvents,
+  } = useEvents();
 
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
@@ -62,6 +70,7 @@ export default function Page() {
     if (success) {
       // If successful, update both tabs
       await refreshPersonalEvents();
+      await refreshEvents();
 
       // Also update the main schedule data if we're on the schedule tab
       if (activeTab === 'schedule') {
@@ -95,6 +104,7 @@ export default function Page() {
     if (success) {
       // If successful, update both tabs
       await refreshPersonalEvents();
+      await refreshEvents();
 
       // Also update the main schedule data if we're on the schedule tab
       if (activeTab === 'schedule') {
@@ -120,18 +130,13 @@ export default function Page() {
     setIsActionInProgress(false);
   };
 
-  // Fetch regular schedule events
+  // Update this useEffect to use eventsWithAttendeeCount instead of fetching events directly
   useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const response = await getEvents({});
-        if (!response.ok) {
-          throw new Error(response.error || 'Internal server error');
-        }
-        const events: Event[] = response.body;
-
-        // Group events by day key - "19" or "20".
-        const groupedByDay = events.reduce((acc: ScheduleData, event) => {
+    if (eventsWithAttendeeCount.length > 0 && !personalEventsLoading) {
+      // Group events by day key - "19" or "20".
+      const groupedByDay = eventsWithAttendeeCount.reduce(
+        (acc: ScheduleData, eventWithCount) => {
+          const event = eventWithCount.event;
           const dayKey = event.start_time.toLocaleString('en-US', {
             timeZone: 'America/Los_Angeles',
             day: 'numeric',
@@ -145,22 +150,22 @@ export default function Page() {
 
           acc[dayKey].push({
             event,
+            attendeeCount: eventWithCount.attendeeCount,
             inPersonalSchedule: isPersonal,
           });
           return acc;
-        }, {});
+        },
+        {}
+      );
 
-        setScheduleData(groupedByDay);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      }
+      setScheduleData(groupedByDay);
     }
-
-    // Only fetch if we have the isInPersonalSchedule function available
-    if (!personalEventsLoading) {
-      fetchEvents();
-    }
-  }, [personalEvents, isInPersonalSchedule, personalEventsLoading]);
+  }, [
+    eventsWithAttendeeCount,
+    personalEvents,
+    isInPersonalSchedule,
+    personalEventsLoading,
+  ]);
 
   useEffect(() => {
     if (activeTab === 'personal') {
@@ -256,15 +261,25 @@ export default function Page() {
     }
   };
 
+  // Update the loading state to include eventsLoading
+  const isLoading =
+    userLoading ||
+    personalEventsLoading ||
+    eventsLoading ||
+    !scheduleData ||
+    isActionInProgress;
+
+  const isError = personalEventsError || eventsError;
+
   // Determine if we're in a loading state
-  if (userLoading)
+  if (isLoading)
     return (
       <div id="schedule">
         <JudgeLoading />
       </div>
     );
-  const isLoading =
-    userLoading || personalEventsLoading || !scheduleData || isActionInProgress;
+
+  if (isError) return <div id="schedule">Error Loading Events</div>;
 
   return (
     <main id="schedule" className="w-full">
@@ -363,14 +378,7 @@ export default function Page() {
         <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
-          {isLoading ? (
-            // <div className="text-center py-10">Loading events...</div>
-            <JudgeLoading />
-          ) : personalEventsError ? (
-            <div className="text-center py-10 text-red-500">
-              Error: {personalEventsError}
-            </div>
-          ) : sortedGroupedEntries.length > 0 ? (
+          {sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">
                 <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
