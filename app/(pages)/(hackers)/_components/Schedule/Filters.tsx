@@ -17,7 +17,7 @@ export default function Filters({ activeFilters, toggleFilter }: FiltersProps) {
           relative flex w-[163px] h-[45px] px-[38px] py-[13px]
           justify-center items-center
           rounded-[22.5px] border-[1.5px]
-          font-jakarta text-[16px] font-semibold leading-[100%] tracking-[0.32px]
+          font-jakarta text-sm sm:text-[16px] font-semibold leading-[100%] tracking-[0.32px]
           text-[#123041] transition-all duration-200
           ${
             activeFilters.includes(filter.label)

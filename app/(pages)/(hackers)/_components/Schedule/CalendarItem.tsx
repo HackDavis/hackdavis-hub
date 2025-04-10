@@ -11,6 +11,12 @@ const getBgColor = (type: EventType): string => {
   return color.replace('1)', '0.5)');
 };
 
+// todo: automatically add general and meals to personal
+// todo: fix order by end_time within the same group
+// todo: fix html structure for add button on workshops
+// todo: send in your project button on hacking ends
+// todo: tags, host and recommended
+
 const formatTime = (pstDate: Date): string => {
   return pstDate.toLocaleString('en-US', {
     hour: 'numeric',
@@ -51,17 +57,18 @@ export function CalendarItem({
 
   return (
     <div
-      className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] lg:px-[40px] mb-[16px] flex flex-col justify-center"
+      className="w-full py-[16px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[16px] lg:px-[40px] lg:py-[24px] mb-[16px] flex flex-col justify-center"
       style={{ backgroundColor: bgColor }}
     >
-      <div className="flex justify-between items-center flex-col sm:flex-row gap-4 sm:gap-0">
+      <div className="flex justify-between items-start flex-col sm:items-center sm:flex-row gap-4 sm:gap-0">
         <div>
-          <h2 className="text-black font-metropolis text-xl sm:text-2xl font-semibold leading-[40px] tracking-[0.72px] mb-2">
+          <h2 className="text-black font-metropolis text-xl sm:text-2xl font-semibold tracking-[0.72px] mb-2">
             {name}
           </h2>
           <div className="flex items-center">
             <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
               {timeDisplay}
+              {type === 'MEALS' && ' (Subject to change)'}
             </span>
             {location && (
               <div className="flex items-center">
@@ -78,20 +85,24 @@ export function CalendarItem({
               </div>
             )}
           </div>
-          {attendeeCount !== undefined && attendeeCount > 0 && (
-            <div className="flex gap-2 items-center">
-              <div className="relative w-12 h-12">
-                <Image
-                  src="/index/schedule/attendee.svg"
-                  alt="location icon"
-                  fill
-                />
+          {type === 'WORKSHOPS' &&
+            attendeeCount !== undefined &&
+            attendeeCount > 0 && (
+              <div className="flex gap-2 items-center">
+                <div className="relative w-12 h-12">
+                  <Image
+                    src="/index/schedule/attendee.svg"
+                    alt="location icon"
+                    fill
+                  />
+                </div>
+                <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
+                  {`${attendeeCount} Hacker${
+                    attendeeCount < 2 ? ' is' : 's are'
+                  } attending this event`}
+                </span>
               </div>
-              <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
-                {attendeeCount} Hackers are attending this event
-              </span>
-            </div>
-          )}
+            )}
         </div>
 
         {event.type !== 'GENERAL' && (

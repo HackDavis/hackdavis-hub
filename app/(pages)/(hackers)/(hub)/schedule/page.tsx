@@ -52,6 +52,11 @@ export default function Page() {
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
 
+  const changeActiveDay = (day: '19' | '20') => {
+    setActiveDay(day);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const {
     personalEvents,
     isLoading: personalEventsLoading,
@@ -368,7 +373,7 @@ export default function Page() {
                   }`}
                 />
                 <button
-                  onClick={() => setActiveDay('19')}
+                  onClick={() => changeActiveDay('19')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
                     activeDay === '19' ? 'text-white' : 'text-black'
                   }`}
@@ -376,7 +381,7 @@ export default function Page() {
                   Apr 19
                 </button>
                 <button
-                  onClick={() => setActiveDay('20')}
+                  onClick={() => changeActiveDay('20')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
                     activeDay === '20' ? 'text-white' : 'text-black'
                   }`}
@@ -393,7 +398,7 @@ export default function Page() {
           {sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">
-                <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
+                <div className="font-jakarta text-sm md:text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
                   {timeKey}
                 </div>
                 <div>
