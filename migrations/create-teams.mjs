@@ -1,8 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 
-const tracksPath = path.resolve(process.cwd(), 'app/(api)/_data/tracks.json');
-const tracks = JSON.parse(fs.readFileSync(tracksPath, 'utf8'));
+const dataPath = path.resolve(
+  process.cwd(),
+  'app/_data/db_validation_data.json'
+);
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const tracks = [...new Set(data.tracks)];
 
 export async function up(db) {
   await db.createCollection('teams', {
@@ -32,7 +36,7 @@ export async function up(db) {
             bsonType: 'array',
             maxItems: 6,
             items: {
-              enum: tracks.map((track) => track.name),
+              enum: tracks,
               description: 'track must be one of the valid tracks',
             },
             description: 'tracks must be an array of strings',
