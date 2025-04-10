@@ -1,0 +1,64 @@
+.instructions {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-jakarta);
+    font-size: 1.125rem;
+    margin-bottom: 24px;
+    .dark {
+        color: black;
+    }
+
+    .grey {
+        color: #A1A1A3;
+    }
+
+    .red {
+        color: #F95A5A;
+        font-weight: 700;
+    }
+}
+
+.report_container {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-bottom: 24px;
+
+    .buttons {
+        padding: 15px 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        font-size: 1.125rem;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .flag_starter {
+        background-color: #F95A5A;
+        width: 100%;
+        color: white;
+    }
+    
+    .are_you_sure {
+        border: 1.5px solid #F95A5A;
+        background: #FFF;
+        color: #F95A5A;
+        flex-grow: 1;
+        cursor: default;
+    }
+    
+    .yes {
+        background: #005271;
+        color: white;
+        flex-grow: 0;
+    }
+    
+    .cancel {
+        border: 1.5px solid #005271;
+        background: #FFF;
+        color: #005271;
+        flex-grow: 0;
+    }
+}

@@ -1,13 +1,15 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import parseAndReplace from '@utils/request/parseAndReplace';
 import { HttpError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
 export const GetManySubmissions = async (query: object = {}) => {
   try {
+    const parsedQuery = await parseAndReplace(query);
     const db = await getDatabase();
     const submissions = await db
       .collection('submissions')
-      .find(query)
+      .find(parsedQuery)
       .toArray();
 
     return { ok: true, body: submissions, error: null };
@@ -35,6 +37,25 @@ export const GetSubmission = async (judge_id: string, team_id: string) => {
     }
 
     return { ok: true, body: submission, error: null };
+  } catch (e) {
+    const error = e as HttpError;
+    return { ok: false, body: null, error: error.message };
+  }
+};
+
+export const GetJudgeSubmissions = async (judge_id: string) => {
+  try {
+    const judge_object_id = new ObjectId(judge_id);
+
+    const db = await getDatabase();
+    const submissions = await db
+      .collection('submissions')
+      .find({
+        judge_id: judge_object_id,
+      })
+      .toArray();
+
+    return { ok: true, body: submissions, error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
