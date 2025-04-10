@@ -120,10 +120,9 @@ export default function Navbar() {
           (section) => section.sectionStart !== 0 || section.sectionEnd !== 0
         );
 
-      // added
+      // Add safety check for empty pageSections array
       if (pageSections.length === 0) {
-        setActiveLink('');
-        setActiveSection('');
+        // No valid sections found, so don't update state
         return;
       }
 
