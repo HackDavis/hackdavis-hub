@@ -48,7 +48,7 @@ export default function SubmissionTips() {
           />
           <div className={styles.devpost_submission}>
             {/* TODO: devpost link here: */}
-          <Link href="/starter-kit" className={styles.button}>
+            <Link href="/starter-kit" className={styles.button}>
               <Image src={arrow} alt="arrow" />
               <p>
                 FOR YOUR
