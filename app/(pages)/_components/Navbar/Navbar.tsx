@@ -17,6 +17,8 @@ interface NavLink {
   action?: () => void;
 }
 
+// todo: change hamburger menu color in mobile
+// todo: fix logout button around 400px
 const sections = [
   {
     id: 'home',
@@ -36,7 +38,7 @@ const sections = [
     id: 'project-info',
     page: '/project-info',
     baseColor: '#1589BE',
-    activeColor: '#FFC53D',
+    activeColor: '#7FB732',
     background: 'rgba(255, 255, 255, 0.50)',
   },
   // {
@@ -83,7 +85,7 @@ export default function Navbar() {
     //   path: '/starter-kit',
     // },
     {
-      ids: [],
+      ids: ['project-info'],
       body: 'PROJECT INFO',
       page: '/project-info',
       path: '/project-info',

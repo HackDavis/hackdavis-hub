@@ -3,33 +3,63 @@
 .container {
   // border: 3px solid black;
   padding-top: 3%;
+ 
+  @include desktop-s {
+    padding-top: 7%;
+  }
 
   span {
     font-weight: 700;
   }
 
   .judgingProcess {
-    padding: 5%;
+    padding: 64px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.5) 
                 url('/hackers/project-info/judgingProcess.svg') 
                 no-repeat;
-    background-position: right 20% bottom -8px;
+    background-position: right 64px bottom -8px;
     background-size: auto 70%; /* Image height is 50% of container; width adjusts automatically */
     z-index: 1;
 
-    @include tablet-s {
-      background-position: right 10% bottom -8px;
+    @include desktop-s {
+      padding: 32px;
+      background-position: right 32px bottom -4px;
+      background-size: auto 80%; 
+    }
+
+    @include tablet-l {
+      padding: 16px;
+      background-position: right 16px bottom -4px;
+      background-size: auto 75%; 
+    }
+
+    @include mobile-l {
       background-size: auto 60%; 
     }
   
     h6, h4 {
-      color: black;
+      color: var(--text-dark);
 
       @include tablet-s {
         width: 50%;
         line-height: 1;
         padding-bottom: 5px;
+      }
+    }
+
+    h4 {
+      font-size: 2.25rem;
+      font-weight: 700;
+
+      @include desktop-s {
+        font-size: 1.75rem;
+      }
+      @include tablet-l {
+        font-size: 1.5rem;
+      }
+      @include mobile-l {
+        font-size: 1rem;
       }
     }
 

@@ -115,7 +115,11 @@ export default function SubmissionInfo() {
       <div className={styles.tips}>
         <SubmissionTips />
         <Clarifications />
-        <StarterKitSlide title="You're Ready!" subtitle="AND NOW">
+        <StarterKitSlide
+          title="You're Ready!"
+          subtitle="AND NOW"
+          route="project-info"
+        >
           <ResourceHelp />
         </StarterKitSlide>
       </div>

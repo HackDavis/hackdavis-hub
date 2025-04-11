@@ -6,6 +6,7 @@ export default function Clarifications() {
     <StarterKitSlide
       subtitle="IN CASE YOU NEED"
       title="Submission Clarifications"
+      route="project-info"
     >
       <div className={styles.container}>
         <div className={styles.box}>

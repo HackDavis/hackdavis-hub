@@ -7,6 +7,8 @@
     flex-direction: row;
     align-items: stretch;
     justify-content: space-between;
+    border-radius: 12px;
+    overflow: clip;
 
     @include desktop-s {
         flex-direction: column;
@@ -156,6 +158,7 @@
     }
 
     .devpost_submission {
+        pointer-events: none; // todo: remove on DOE
         display: flex;
         justify-content: center;
         align-items: center;
@@ -173,6 +176,7 @@
         }
     
         .button {
+            visibility: hidden; // todo: remove on DOE
             display: flex;
             flex-direction: column;
             justify-content: center;

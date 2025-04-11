@@ -14,21 +14,22 @@ export default function WhatHappens() {
     <div className={styles.container}>
       <div className={styles.containerContent}>
         <div className={styles.beginningText}>
-          <h4>What happens during the...</h4>
-
-          <div>
-            <button
-              className={activeTab === 'submission' ? styles.selected : ''}
-              onClick={() => setActiveTab('submission')}
-            >
-              Submission Process
-            </button>
-            <button
-              className={activeTab === 'judging' ? styles.selected : ''}
-              onClick={() => setActiveTab('judging')}
-            >
-              Judging Process
-            </button>
+          <div className={styles.commonHeader}>
+            <h2>What happens during the...</h2>
+            <div>
+              <button
+                className={activeTab === 'submission' ? styles.selected : ''}
+                onClick={() => setActiveTab('submission')}
+              >
+                Submission Process
+              </button>
+              <button
+                className={activeTab === 'judging' ? styles.selected : ''}
+                onClick={() => setActiveTab('judging')}
+              >
+                Judging Process
+              </button>
+            </div>
           </div>
 
           <div>

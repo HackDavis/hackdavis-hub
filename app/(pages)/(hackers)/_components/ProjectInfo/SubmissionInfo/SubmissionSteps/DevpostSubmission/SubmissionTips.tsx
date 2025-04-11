@@ -11,7 +11,7 @@ const questions = [
     color: styles.qboxGreen,
   },
   {
-    text: 'LINKED YOUR GITHUB AND/OR FIGMA LINK',
+    text: 'ADDED YOUR GITHUB AND/OR FIGMA LINKS',
     color: styles.qboxYellow,
   },
   {
@@ -22,7 +22,11 @@ const questions = [
 
 export default function SubmissionTips() {
   return (
-    <StarterKitSlide subtitle="HERE ARE SOME" title="Devpost Submission Tips">
+    <StarterKitSlide
+      subtitle="HERE ARE SOME"
+      title="Devpost Submission Tips"
+      route="project-info"
+    >
       <div className={styles.container}>
         <div className={styles.questions}>
           <h3>Be sure you...</h3>
@@ -43,7 +47,8 @@ export default function SubmissionTips() {
             className={styles.peeping_animals}
           />
           <div className={styles.devpost_submission}>
-            <Link href="/starter-kit" className={styles.button}>
+            {/* TODO: devpost link here: */}
+          <Link href="/starter-kit" className={styles.button}>
               <Image src={arrow} alt="arrow" />
               <p>
                 FOR YOUR
