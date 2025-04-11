@@ -1,0 +1,122 @@
+@import '@globals/mixins.scss';
+
+.container {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 48px 64px;
+  margin-bottom: 32px;
+  border-radius: 0px 0px 12px 12px;
+
+  @include tablet-l {
+    padding: 24px;
+  }
+
+  h2 {
+    color: #173A52;
+    font-size: 1.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.56px;
+
+    @include tablet-l {
+      font-size: 0.875rem;
+      letter-spacing: 0.28px;
+    }
+  }
+
+  p {
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.4px;
+
+    @include tablet-l {
+      font-size: 0.625rem;
+    }
+  }
+
+  span {
+    font-weight: 700;
+  }
+
+  .tile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--grass-background-light);
+    border-radius: var(--b-radius-med);
+    padding: 48px 56px;
+
+    @include desktop-s {
+      flex-direction: column;
+      padding: 24px 28px;
+    }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 60%;
+
+      @include desktop-s {
+        width: 100%;
+      }
+
+      @include tablet-l {
+        gap: 12px;
+      }
+
+      .link {
+        padding: 16px 24px;
+        background-color: #9EE7E5;
+        width: fit-content;
+        border-radius: 32px;
+
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 100%;
+        letter-spacing: 0.36px;
+
+        @include tablet-l {
+          padding: 8px 12px;
+          font-size: 0.625rem;
+          letter-spacing: 0.18px;
+        }
+      }
+    }
+
+    .right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      @include desktop-s {
+        margin: 0px -24px -28px -24px;
+      }
+
+      @include tablet-l {
+        width: 50%;
+      }
+
+      @include tablet-s {
+        width: 75%;
+      }
+
+      .radio {
+        position: absolute;
+        top: 10%;
+        right: 10%;
+
+        @include tablet-l {
+          max-width: 56px;
+          min-width: 56px;
+        }
+      }
+    }
+  }
+}

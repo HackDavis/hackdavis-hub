@@ -26,7 +26,7 @@ export default function IndexHeroContent() {
         </p>
       </div>
       <p className={styles.notification}>
-        Hi hacker, it seems like you’re here a little early... Check back in{' '}
+        Hi hacker, it seems like you're here a little early... Check back in{' '}
         <strong> later this month </strong> for more information!
       </p>
       <div className={styles.star_social_good}>
