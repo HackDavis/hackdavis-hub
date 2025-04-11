@@ -19,17 +19,17 @@ const accordionItems: AccordionItemInt[] = [
     content: <SubmissionDue />,
   },
   {
-    subtitle: '11:00 - 11:30 AM',
+    subtitle: '11:30 - 12:00 AM',
     title: 'Important Announcement',
     content: <ImportantAnnouncement />,
   },
   {
-    subtitle: '11:30 - 1:30 PM',
+    subtitle: '12:00 - 2:00 PM',
     title: 'Demo Time',
     content: <DemoTime />,
   },
   {
-    subtitle: '1:30 - 2:30 PM',
+    subtitle: '2:00 - 3:00 PM',
     title: 'Break',
     content: <Break />,
   },

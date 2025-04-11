@@ -73,6 +73,11 @@
 
           > p {
             text-align: center;
+
+            @include desktop-s {
+              font-size: 0.75rem;
+              text-wrap: balance;
+            }
           }
         }
       }
@@ -315,9 +320,13 @@
     }
 
     @include tablet-l {
-      width: 50%;
-      transform: translateY(8%);
+      width: 60%;
+      transform: translateY(12%);
       margin-top: -8%;
+    }
+
+    @include mobile-l {
+      transform: translateY(5%);
     }
   }
 }

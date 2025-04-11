@@ -20,13 +20,14 @@ export default function Break() {
             Meanwhile, panels of judges will be choosing the winners from the
             top 5 projects shortlisted for each track after demos.
           </p>
-          <a
+          {/* TODO: add devpost public voting link */}
+          {/* <a
             href="https://www.google.com"
             target="_blank"
             className={styles.link}
           >
             Submit Vote
-          </a>
+          </a> */}
         </div>
         <div className={styles.right}>
           <Image src={RelaxingCow} alt="Relaxing Cow" />

@@ -12,7 +12,7 @@ const topInfo = [
     Team numbers will be available on <span>Devpost</span>
   </p>,
   <p key="2">
-    Each team member MUST input their team number on <span>HackerHub</span>
+    Each team member MUST input their team number on <span>Hub homepage</span>
   </p>,
 ];
 

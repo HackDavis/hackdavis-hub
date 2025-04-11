@@ -87,7 +87,7 @@
         margin-top: 8px;
       }
 
-      @include tablet-l {
+      @include desktop-s {
         display: none;
       }
     }
@@ -98,7 +98,7 @@
       border: 1.5px solid var(--text-light);
       width: 100%;
 
-      @include tablet-l {
+      @include desktop-s{
         display: flex;
       }
 

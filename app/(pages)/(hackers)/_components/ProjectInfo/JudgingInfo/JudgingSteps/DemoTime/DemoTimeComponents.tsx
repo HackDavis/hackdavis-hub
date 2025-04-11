@@ -113,7 +113,7 @@ export function JudgesTile1() {
   return (
     <div className={styles.judges_tile_1}>
       <div className={styles.left}>
-        <h2>We&apos;ll also show an estimate of when a team will be judged.</h2>
+        <h2>We&apos;ll also show an estimate of when your team will be judged.</h2>
         <p>
           Please note that these are estimates. Unforeseen situations may
           <span> delay</span> or
@@ -205,7 +205,7 @@ export function PostDemoTile1() {
           visiting tables without a judge.
         </p>
         <p>
-          If your team experiences any disruptions,
+          If your team experiences any disruptions,{' '}
           <span>please report them</span> to the Director Table, and we will
           address them promptly.
         </p>
