@@ -16,7 +16,7 @@ export default function WhatHappens() {
         <div className={styles.beginningText}>
           <div className={styles.commonHeader}>
             <h2>What happens during the...</h2>
-            <div>
+            <div className={styles.processButtons}>
               <button
                 className={activeTab === 'submission' ? styles.selected : ''}
                 onClick={() => setActiveTab('submission')}

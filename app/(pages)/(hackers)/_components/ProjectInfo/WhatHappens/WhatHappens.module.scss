@@ -23,6 +23,12 @@
       @include tablet-l {
         padding-left: 0px;
       }
+
+      .processButtons {
+        margin-top: 8px;
+        display: flex;
+        gap: 8px;
+      }
     }
 
     > h2 {
