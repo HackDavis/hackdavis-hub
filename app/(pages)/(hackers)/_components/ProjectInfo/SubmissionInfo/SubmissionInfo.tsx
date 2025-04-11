@@ -14,10 +14,13 @@ import InviteTeammates from './SubmissionSteps/InviteTeammates/InviteTeammates';
 import FillOutDetails from './SubmissionSteps/FillOutDetails/FillOutDetails';
 import SubmitProject from './SubmissionSteps/SubmitProject/SubmitProject';
 
-import Blank from 'public/hackers/project-info/Step6.svg';
+// import Blank from 'public/hackers/project-info/Step6.svg';
 import Step2Overlay from 'public/hackers/project-info/Step2Overlay.svg';
 import Step3Overlay from 'public/hackers/project-info/Step3Overlay.svg';
 import GrassDivider from 'public/hackers/project-info/GrassDivider.svg';
+
+import registerForTheEvent from 'public/hackers/project-info/registerForTheEvent.png';
+import createAProject from 'public/hackers/project-info/createAProject.png';
 
 import styles from './SubmissionInfo.module.scss';
 
@@ -31,24 +34,26 @@ const accordionItems: AccordionItemInt[] = [
     subtitle: 'Step 2',
     title: 'Register for the Event',
     content: (
-      <div className={styles.stepContent}>
-        <div className={`${styles.imageWrapper} ${styles.step2}`}>
-          <Image
-            src={Blank} // primary image
-            alt="Primary Step 1"
-            fill
-            style={{ objectFit: 'contain' }}
-            className={styles.primaryImage}
-          />
+      <div className={styles.step2}>
+        <div className={styles.imageWrapper}>
+          <div className={styles.primaryImageWrapper}>
+            <Image
+              src={registerForTheEvent} // primary image
+              alt="Primary Step 1"
+              fill
+              // style={{ objectFit: 'contain' }}
+              className={styles.primaryImage}
+            />
+          </div>
           <Image
             src={Step2Overlay} // your new overlay image
             alt="Overlay"
-            fill
-            style={{ objectFit: 'contain' }}
+            // fill
+            // style={{ objectFit: 'contain' }}
             className={styles.overlayImage}
           />
         </div>
-        <p>Register for the event.</p>
+        <p className={styles.stepText}>Register for the event.</p>
       </div>
     ),
   },
@@ -56,24 +61,26 @@ const accordionItems: AccordionItemInt[] = [
     subtitle: 'Step 3',
     title: 'Create a Project',
     content: (
-      <div className={styles.stepContent}>
-        <div className={`${styles.imageWrapper} ${styles.step3}`}>
-          <Image
-            src={Blank} // primary image
-            alt="Primary Step 1"
-            fill
-            style={{ objectFit: 'contain' }}
-            className={styles.primaryImage}
-          />
+      <div className={styles.step3}>
+        <div className={styles.imageWrapper}>
+          <div className={styles.primaryImageWrapper}>
+            <Image
+              src={createAProject} // primary image
+              alt="Primary Step 1"
+              fill
+              // style={{ objectFit: 'contain' }}
+              className={styles.primaryImage}
+            />
+          </div>
           <Image
             src={Step3Overlay} // your new overlay image
             alt="Overlay"
-            fill
-            style={{ objectFit: 'contain' }}
+            // fill
+            // style={{ objectFit: 'contain' }}
             className={styles.overlayImage}
           />
         </div>
-        <p>
+        <p className={styles.stepText}>
           Click Create project. Only one person per team has to create a project
           and complete the next steps.
         </p>
