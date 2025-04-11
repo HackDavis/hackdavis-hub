@@ -8,7 +8,6 @@ import VinylPlayer from './VinylPlayer';
 // import VinylPlayer from './VinylPlayer';
 import submitProject from 'public/hackers/project-info/submitProject.png';
 
-
 export default function SubmitProject() {
   return (
     <div className={styles.container}>
