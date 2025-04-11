@@ -9,14 +9,12 @@ import LogoutAction from '@actions/auth/logout';
 
 export default function useActiveUser(failRedirectRoute: string) {
   const router = useRouter();
+
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    let cancelled = false;
-
     const getActiveUser = async (id: string) => {
       const userRes = await getUser(id);
       if (!userRes.ok || !userRes.body) {
@@ -25,32 +23,18 @@ export default function useActiveUser(failRedirectRoute: string) {
         return;
       }
 
-      if (!cancelled) {
-        setUser(userRes.body);
-        setLoading(false);
-      }
+      setUser(userRes.body);
+      setLoading(false);
     };
 
     if (status === 'loading') {
       return;
-    }
-
-    if (status === 'unauthenticated' && !session) {
-      setTimeout(() => {
-        if (status === 'unauthenticated' && !session) {
-          router.push(failRedirectRoute);
-        }
-      }, 50);
+    } else if (status === 'unauthenticated') {
+      router.push(failRedirectRoute);
       return;
-    }
-
-    if (session?.user?.id) {
+    } else if (session) {
       getActiveUser(session.user.id);
     }
-
-    return () => {
-      cancelled = true;
-    };
   }, [session, status, router, failRedirectRoute]);
 
   return { user, loading };
