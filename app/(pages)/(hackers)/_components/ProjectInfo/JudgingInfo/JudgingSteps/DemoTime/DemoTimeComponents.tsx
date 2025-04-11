@@ -113,7 +113,9 @@ export function JudgesTile1() {
   return (
     <div className={styles.judges_tile_1}>
       <div className={styles.left}>
-        <h2>We&apos;ll also show an estimate of when your team will be judged.</h2>
+        <h2>
+          We&apos;ll also show an estimate of when your team will be judged.
+        </h2>
         <p>
           Please note that these are estimates. Unforeseen situations may
           <span> delay</span> or
