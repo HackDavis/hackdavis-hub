@@ -1,13 +1,14 @@
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
-export function ClientSessionProvider({
+export default function ClientSessionProvider({
   children,
-  session,
 }: {
   children: React.ReactNode;
-  session: any;
 }) {
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  const pathname = usePathname();
+
+  return <SessionProvider key={pathname}>{children}</SessionProvider>;
 }
