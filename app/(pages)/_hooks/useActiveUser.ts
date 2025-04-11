@@ -29,13 +29,13 @@ export default function useActiveUser(failRedirectRoute: string) {
 
     if (status === 'loading') {
       return;
-    } else if (status === 'unauthenticated') {
+    } else if (status === 'unauthenticated' && !loading) {
       router.push(failRedirectRoute);
       return;
     } else if (session) {
       getActiveUser(session.user.id);
     }
-  }, [session, status, router, failRedirectRoute]);
+  }, [session, status, router, loading, failRedirectRoute]);
 
   return { user, loading };
 }
