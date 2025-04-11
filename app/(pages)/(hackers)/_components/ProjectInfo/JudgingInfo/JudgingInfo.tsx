@@ -49,7 +49,7 @@ export default function JudgingInfo() {
       </div>
       <ProjectInfoAccordion accordionItems={accordionItems} />
       <div className={styles.footer}>
-        <StarterKitSlide title="You're Ready!" subtitle="AND NOW">
+        <StarterKitSlide title="You're Ready!" subtitle="AND NOW" route="project-info">
           <ResourceHelp />
         </StarterKitSlide>
       </div>
