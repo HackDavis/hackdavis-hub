@@ -1,5 +1,6 @@
 import styles from './Contact.module.scss';
-// import Image from 'next/image';
+import Image from 'next/image';
+import Squiggle from 'public/hackers/hero/SquiggleBorder.svg';
 
 export default function Contact() {
   return (
@@ -29,6 +30,11 @@ export default function Contact() {
         <div className={styles.whiteBox}></div>
         <div className={styles.blueBox}></div>
       </div>
+      <Image
+        src={Squiggle}
+        alt="Squiggle blue line divider"
+        className={styles.squiggle}
+      />
     </>
   );
 }
