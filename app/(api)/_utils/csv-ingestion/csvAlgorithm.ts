@@ -53,8 +53,12 @@ export default async function csvAlgorithm(
         stream
           .pipe(csv())
           .on('data', (data) => {
-            if (data['Table Number'] !== '') {
-              const track1: string = data['Track #1'].trim();
+            if (
+              data['Table Number'] !== '' &&
+              data['Project Status'] === 'Submitted (Gallery/Visible)'
+            ) {
+              console.log(data);
+              const track1: string = data['Track #1 (Primary Track)'].trim();
               const track2: string = data['Track #2'].trim();
               const track3: string = data['Track #3'].trim();
 
@@ -68,7 +72,7 @@ export default async function csvAlgorithm(
               output.push({
                 name: data['Project Title'],
                 teamNumber: parseInt(data['Table Number']),
-                tableNumber: 0, // doing it later (on end)
+                tableNumber: 0, // will be assigned later during ordering
                 tracks: tracksInOrder,
                 active: false,
               });
