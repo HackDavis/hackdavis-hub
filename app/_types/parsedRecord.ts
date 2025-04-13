@@ -3,7 +3,7 @@ interface ParsedRecord {
   teamNumber: number;
   tableNumber: number;
   tracks: string[];
-  active: false;
+  active: boolean;
 }
 
 export default ParsedRecord;

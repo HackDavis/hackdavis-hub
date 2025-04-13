@@ -74,7 +74,7 @@ export default async function csvAlgorithm(
                 teamNumber: parseInt(data['Table Number']),
                 tableNumber: 0, // will be assigned later during ordering
                 tracks: tracksInOrder,
-                active: false,
+                active: true,
               });
             }
           })
