@@ -3,9 +3,11 @@
 
 .container {
     // position: absolute;
+    position: relative;
+    z-index: 1000000;
     padding: 7.5%;
-    left: 120px;
-    right: 120px;
+    // left: 120px;
+    // right: 120px;
     top: 4%;
     display: flex;
     flex-direction: row;
@@ -41,14 +43,35 @@
 
 }
 
-.top_header{
+.infoContainer {
     width: 100%;
+    // order: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
     .date {
-        width: 100%;
-        // order: 0;
-        @include mixins.tablet-l {
-            text-align: center;
-        }
+        // flex: 1;
+        text-align: left;
+    }
+
+    .link {
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .map {
+        // flex: 1;
+        text-align: right;
+    }
+
+    .map:hover {
+        text-decoration: underline;
+    }
+
+    @include mixins.tablet-l {
+        text-align: center;
     }
 }
 
@@ -95,7 +118,8 @@
         padding: 2% 6%;
         border-radius: 20px;
         border: 1.5px dashed #000;
-        
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -122,6 +146,8 @@
         padding: 1% 4%;
         border-radius: 20px;
         border: 1.5px dashed #000;
+        display: flex;
+        align-items: center;
         @include mixins.tablet-s{
             width: 100%;
             margin-top: 5%;

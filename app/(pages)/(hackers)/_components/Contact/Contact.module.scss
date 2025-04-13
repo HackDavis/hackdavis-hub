@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-direction: row;
+
+.blueBox,
+.whiteBox {
+    flex: 1;
+    padding: 4% 2%;
+    align-items: center;
+}
+
+> :first-child,
+> :last-child {
+    flex: 0.35; 
+}
+
+.blueBox {
+    background-color: #9EE7E5;
+}
+
+.whiteBox {
+    background: linear-gradient(
+    284deg,
+    rgba(213, 252, 209, 0.25) 9.72%,
+    rgba(178, 231, 221, 0.25) 44.61%,
+    rgba(118, 214, 230, 0.25) 79.5%
+    );
+}
+
+.button {
+    margin-top: 30px;
+    border-radius: 20px;
+    border: 1.5px dashed var(--text-dark);
+    padding: 12px 24px;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+    background-color: var(--background-tertiary);
+    }
+  }
+}
+
+.squiggle {
+    object-fit: cover;
+    border: 3px solid red;
+    width: 100%;
+    margin-top: -4%;
+}
+
+
+  

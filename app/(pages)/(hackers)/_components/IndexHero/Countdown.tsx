@@ -1,24 +1,25 @@
 'use client';
 
-// make it take in a string + styles as a prop
-// make it until 11 am Saturday, have it as 24:00:00 hour
-// make 2 separate components, one that intakes string for time w/ same logic
-// make another component w/ this whole file + ^ component
-
 import styles from './Countdown.module.scss';
 import { useState, useEffect } from 'react';
 
-const COUNTDOWN_TARGET = new Date('2025-04-20T10:00:00-08:00');
+const COUNTDOWN_TARGET = new Date('2025-04-19T11:00:00-08:00');
 
 export default function Countdown() {
   const calculateTimeLeft = () => {
-    const difference =
-      new Date(COUNTDOWN_TARGET).getTime() - new Date().getTime();
-    if (difference <= 0)
-      return { /* days: 0, */ hours: 0, minutes: 0, seconds: 0 };
+    const now = Date.now();
+    const targetTime = COUNTDOWN_TARGET.getTime();
+    const difference = targetTime - now;
 
+    // when done, display 00:00:00
+    if (difference <= 0) return { hours: 0, minutes: 0, seconds: 0 };
+
+    // if > 24 hours before judging time, cap the display at 24:00:00
+    if (difference > 24 * 60 * 60 * 1000)
+      return { hours: 24, minutes: 0, seconds: 0 };
+
+    // actual functionality
     return {
-      // days: Math.floor(difference / (1000 * 60 * 60 * 24)),
       hours: Math.floor(difference / (1000 * 60 * 60)),
       minutes: Math.floor((difference / (1000 * 60)) % 60),
       seconds: Math.floor((difference / 1000) % 60),
@@ -35,15 +36,8 @@ export default function Countdown() {
     return () => clearInterval(timer);
   }, []);
 
-  // const displayDays = timeLeft.days > 1;
   return (
     <div className={styles.container}>
-      {/* {displayDays ? (
-        <div className={styles.days_countdown}>
-          <p>UNTIL THE HACKATHON</p>
-          <p className={styles.countdown_text}>{timeLeft.days} Days</p>
-        </div>
-      ) : ( */}
       <div className={styles.time_countdown}>
         <div>
           <p>HOURS</p>
@@ -66,7 +60,6 @@ export default function Countdown() {
           </p>
         </div>
       </div>
-      {/* )} */}
     </div>
   );
 }

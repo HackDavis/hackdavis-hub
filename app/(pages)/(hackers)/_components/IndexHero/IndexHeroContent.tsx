@@ -5,33 +5,50 @@ import MusicPlayer from './MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
 import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
+import notif from '@public/hackers/hero/notif.svg';
 import Scroll from './Scroll';
-import TimeTracker from './TimeTracker';
+import { LuArrowUpRight } from 'react-icons/lu';
+// import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
 import Announcement from './Announcement';
 import NextSchedule from './NextSchedule';
 import Link from 'next/link';
+import TimeTracker from './TimeTracker';
 
 export default function IndexHeroContent() {
   return (
     <div className={styles.container}>
-      <div className={styles.top_header}>
+      <div className={styles.infoContainer}>
         <p className={styles.date}>
           APRIL 19-20
           <br />
           2025
         </p>
+        <a href="/map" className={styles.link}>
+          <p className={styles.map}>ARC BALLROOM MAP</p>
+          <LuArrowUpRight size={23} />
+        </a>
+        <div>
+          <button>
+            <Image src={notif} alt='notification'/>
+            </button>
+        </div>
+
       </div>
+
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
+
       <TimeTracker targetTime="2025-05-01T09:00:00Z" />
+
       <div className={styles.star_social_good}>
         <div className={styles.star_box}>
           <Image src={star} alt="star" className={styles.box_star} />
         </div>
         <div className={styles.social_good}>{'// for social good'}</div>
       </div>
+
       <MusicPlayer />
       <div className={styles.center_right}>
         <Countdown />
@@ -92,7 +109,7 @@ export default function IndexHeroContent() {
                   <strong>Judging Information</strong>
               </h2>
               <Link href={'/judging'}>
-                <button className={styles.schedule_button}>Read on the process</button>
+                <button className={styles.schedule_button}>Read on the process<LuArrowUpRight size={23} /></button>
               </Link>
             </div>
             <Image src={judge_bunny_and_ducky} alt='judge bunny and ducky' className={styles.judge_bunny_ducky_img}/>

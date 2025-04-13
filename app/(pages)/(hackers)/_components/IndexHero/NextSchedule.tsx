@@ -2,6 +2,7 @@ import styles from './IndexHeroContent.module.scss'; //using styling from other 
 import location_icon from '@public/hackers/hero/location_icon.svg';
 import Image from 'next/image';
 import Link from 'next/link';
+import { LuArrowUpRight } from 'react-icons/lu';
 
 export default function NextSchedule({title, time, location}){
     return(
@@ -16,7 +17,7 @@ export default function NextSchedule({title, time, location}){
             </div>
             <Link href={'/schedule'}>
                 <div className={styles.button_cont}>
-                    <button className={styles.schedule_button}>View full schedule</button>
+                    <button className={styles.schedule_button}>View full schedule<LuArrowUpRight size={23} /></button>
                 </div>
             </Link>
                 

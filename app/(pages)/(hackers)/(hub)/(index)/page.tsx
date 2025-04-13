@@ -7,6 +7,7 @@ import IndexHero from '../../_components/IndexHero/IndexHero';
 import PrizeTracks from '../../_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '../../_components/BeginnersSection/BeginnersSection';
 import Footer from '@components/Footer/Footer';
+import Contact from '@pages/(hackers)/_components/Contact/Contact';
 
 export default function Page() {
   return (
