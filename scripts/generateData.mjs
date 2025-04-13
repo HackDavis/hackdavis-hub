@@ -15,7 +15,7 @@ function shuffleSpecialties(specialties) {
 }
 
 function generateData(collectionName, numDocuments) {
-  const specialties = [...new Set(dbData.tracks.map((track) => track.type))];
+  const specialties = [...new Set(dbData.domains)];
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
