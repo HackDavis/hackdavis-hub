@@ -1,6 +1,6 @@
 'use client';
 
-import randomizeProjects from '@utils/grouping/randomizeProjects';
+import randomizeProjects from '@utils/matching/randomizeProjects';
 import { useState } from 'react';
 
 export default function Page() {
