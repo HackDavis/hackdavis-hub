@@ -4,8 +4,6 @@ import { getManySubmissions } from '@actions/submissions/getSubmission';
 import { getManyTeams } from '@actions/teams/getTeams';
 import bulkWriteCollection from '@actions/bulkWrite/bulkWriteCollection';
 
-const UPSTAIRS_TABLE_NUMBER_START = 100;
-
 function shuffle(array: any[]) {
   let currentIndex = array.length;
 
@@ -31,7 +29,9 @@ const groupByJudge = (
   return acc;
 };
 
-export default async function randomizeProjects() {
+export default async function randomizeProjects(
+  secondFloorStart: number = 100
+) {
   try {
     const subRes = await getManySubmissions();
 
@@ -66,7 +66,7 @@ export default async function randomizeProjects() {
       const floor = Object.groupBy(submissions, ({ team_id }) => {
         const tableNumber = tableNumbers.get(team_id);
         if (!tableNumber) return 'missing';
-        return tableNumber < UPSTAIRS_TABLE_NUMBER_START ? 'first' : 'second';
+        return tableNumber < secondFloorStart ? 'first' : 'second';
       });
 
       const missing = floor.missing;
