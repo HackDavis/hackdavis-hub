@@ -53,8 +53,12 @@ export default async function csvAlgorithm(
         stream
           .pipe(csv())
           .on('data', (data) => {
-            if (data['Table Number'] !== '') {
-              const track1: string = data['Track #1'].trim();
+            if (
+              data['Table Number'] !== '' &&
+              data['Project Status'] === 'Submitted (Gallery/Visible)'
+            ) {
+              console.log(data);
+              const track1: string = data['Track #1 (Primary Track)'].trim();
               const track2: string = data['Track #2'].trim();
               const track3: string = data['Track #3'].trim();
 
