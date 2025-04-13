@@ -5,7 +5,6 @@ import MusicPlayer from './MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
 import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
-import notif from '@public/hackers/hero/notif.svg';
 import Scroll from './Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
@@ -14,6 +13,7 @@ import Announcement from './Announcement';
 import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
+import Notifications from './Notifications';
 
 export default function IndexHeroContent() {
   return (
@@ -29,9 +29,7 @@ export default function IndexHeroContent() {
           <LuArrowUpRight size={23} />
         </a>
         <div>
-          <button>
-            <Image src={notif} alt='notification'/>
-            </button>
+          <Notifications />
         </div>
 
       </div>
