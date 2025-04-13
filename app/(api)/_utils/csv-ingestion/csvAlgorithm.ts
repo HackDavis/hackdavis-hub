@@ -7,8 +7,13 @@ const validTracks: string[] = trackData.tracks.filter(
   (t) => t !== 'Best Hack for Social Good'
 );
 
-function sortTracks(track1: string, track2: string, chosentracks: string) {
-  let tracksInOrder: string[] = [track1, track2];
+function sortTracks(
+  track1: string,
+  track2: string,
+  track3: string,
+  chosentracks: string
+) {
+  let tracksInOrder: string[] = [track1, track2, track3];
 
   if (chosentracks.length > 1) {
     const otherTracks = chosentracks
@@ -49,17 +54,21 @@ export default async function csvAlgorithm(blob: Blob) {
             if (data['Table Number'] !== '') {
               const track1 = data['Track #1'].trim();
               const track2 = data['Track #2'].trim();
+              const track3 = data['Track #3'].trim();
 
               const tracksInOrder: string[] = sortTracks(
                 track1,
                 track2,
+                track3,
                 data['Opt-In Prizes']
               );
 
               output.push({
                 name: data['Project Title'],
-                number: parseInt(data['Table Number']),
+                teamNumber: parseInt(data['Table Number']),
+                tableNumber: 0,
                 tracks: tracksInOrder,
+                active: false,
               });
             }
           })
@@ -72,6 +81,7 @@ export default async function csvAlgorithm(blob: Blob) {
     });
 
     const results = await parsePromise;
+    console.log(results);
 
     return { ok: true, body: results, error: null };
   } catch (e) {
