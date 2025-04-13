@@ -28,13 +28,13 @@ export default function IndexHero() {
         alt="cloud"
         className={styles.small_right_cloud}
       />
-      <Image src={baseGrass} alt="base grass" className={styles.base_grass} />
+      <IndexHeroContent />
       <Image
         src={needHelpBunny}
         alt="need help bunny"
         className={styles.bunny}
       />
-      <IndexHeroContent />
+      <Image src={baseGrass} alt="base grass" className={styles.base_grass} />
     </div>
   );
 }

@@ -20,8 +20,16 @@ export default function IndexHeroContent() {
         <br />
         2025
       </p>
+      <div className={styles.spacer_star_container}>
+        <Image src={star} alt="star" className={styles.spacer_star} />
+      </div>
       <TimeTracker targetTime="2025-05-01T09:00:00Z" />
-
+      <div className={styles.star_social_good}>
+        <div className={styles.star_box}>
+          <Image src={star} alt="star" className={styles.box_star} />
+        </div>
+        <div className={styles.social_good}>{'// for social good'}</div>
+      </div>
       <MusicPlayer />
       <div className={styles.center_right}>
         <Countdown />
@@ -33,6 +41,9 @@ export default function IndexHeroContent() {
             {' // creates for social good'}
           </span>
         </p>
+      </div>
+      <div className={styles.spacer_star_container}>
+        <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
       <Scroll />
       {/* <p className={styles.notification}>
@@ -62,7 +73,7 @@ export default function IndexHeroContent() {
             <p>NEXT ON YOUR SCHEDULE</p>
             <Image src={star_icon} alt='star icon' />
             <div className={styles.countdown}>
-                <Countdown />
+              <TimeTracker targetTime="2025-05-01T09:00:00Z" />
             </div>
           </div>
           <NextSchedule title={'Team Mixer'} time={'11:00 - 12:00 PM'} location={'ARC Ballroom B'}/>
@@ -86,15 +97,7 @@ export default function IndexHeroContent() {
         </div>
       </div>
 
-      <div className={styles.star_social_good}>
-        <div className={styles.star_box}>
-          <Image src={star} alt="star" className={styles.box_star} />
-        </div>
-        <div className={styles.social_good}>{'// for social good'}</div>
-      </div>
-      <div className={styles.spacer_star_container}>
-        <Image src={star} alt="star" className={styles.spacer_star} />
-      </div>
+      
     </div>
   );
 }
