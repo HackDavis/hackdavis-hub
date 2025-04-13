@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import DetailForm from '../../_components/AuthForms/DetailForm';
+import DetailForm from '@pages/(hackers)/_components/AuthForms/DetailForm';
 import AuthFormBackground from '../../_components/AuthFormBackground/AuthFormBackground';
 import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 

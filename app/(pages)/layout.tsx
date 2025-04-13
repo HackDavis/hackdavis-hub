@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { SessionProvider } from 'next-auth/react';
+import ClientSessionProvider from './_components/ClientSessionProvider/ClientSessionProvider';
 import '@globals/globals.scss';
 import metadataJSON from '@globals/metadata.json';
 import fonts from './_globals/fonts';
@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fonts} antialiased`}>
-        <SessionProvider>{children}</SessionProvider>
+        <ClientSessionProvider>{children}</ClientSessionProvider>
       </body>
     </html>
   );

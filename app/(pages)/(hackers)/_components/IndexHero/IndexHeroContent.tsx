@@ -25,10 +25,10 @@ export default function IndexHeroContent() {
           </span>
         </p>
       </div>
-      <p className={styles.notification}>
+      {/* <p className={styles.notification}>
         Hi hacker, it seems like you’re here a little early... Check back in{' '}
         <strong> later this month </strong> for more information!
-      </p>
+      </p> */}
       <div className={styles.star_social_good}>
         <div className={styles.star_box}>
           <Image src={star} alt="star" className={styles.box_star} />

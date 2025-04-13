@@ -507,7 +507,7 @@ const categorizedTracks: Tracks = {
       },
     ],
   },
-  'Best Medtech Hack': {
+  'Best MedTech Hack': {
     name: 'Best MedTech Hack',
     filter: 'Technical',
     prizes: ['TBA'],
