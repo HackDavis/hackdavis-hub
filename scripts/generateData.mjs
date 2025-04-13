@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import dbData from '../app/_data/db_validation_data.json' with { type: 'json' };
+import data from '../app/_data/db_validation_data.json' with { type: 'json' };
+
+const specialties = [...new Set(data.domains)];
+const tracks = [...new Set(data.tracks)];
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -15,7 +18,6 @@ function shuffleSpecialties(specialties) {
 }
 
 function generateData(collectionName, numDocuments) {
-  const specialties = [...new Set(dbData.domains)];
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
@@ -56,7 +58,7 @@ function generateData(collectionName, numDocuments) {
       tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
-        dbData.tracks,
+        tracks.map((t) => t.name),
         faker.number.int({ min: 1, max: 5 })
       ),
       active: true,
@@ -64,22 +66,16 @@ function generateData(collectionName, numDocuments) {
   } else if (collectionName === 'submissions') {
     data = Array.from({ length: numDocuments }, () => {
       const randomTracks = faker.helpers.arrayElements(
-        dbData.tracks,
+        tracks.map((t) => t.name),
         faker.number.int({ min: 1, max: 6 })
       );
-
-      const rawScores = {
-        s1: faker.number.int({ min: 1, max: 5 }),
-        s2: faker.number.int({ min: 1, max: 5 }),
-        s3: faker.number.int({ min: 1, max: 5 }),
-      };
-
       const scores = randomTracks.map((t) => ({
         trackName: t,
-        rawScores,
+        rawScores: Array.from({ length: 5 }, () =>
+          faker.number.int({ min: 1, max: 5 })
+        ),
         finalTrackScore: null,
       }));
-
       return {
         judge_id: new ObjectId(),
         team_id: new ObjectId(),
@@ -115,6 +111,19 @@ function generateData(collectionName, numDocuments) {
           : [],
       };
     });
+  } else if (collectionName === 'panels') {
+    const trackNames = tracks;
+
+    const trackTypes = trackNames.reduce((acc, trackName) => {
+      acc[trackName] = faker.helpers.arrayElement(specialties);
+      return acc;
+    }, {});
+
+    data = trackNames.map((trackName) => ({
+      track: trackName,
+      domain: trackTypes[trackName],
+      user_ids: [],
+    }));
   }
 
   return data;
