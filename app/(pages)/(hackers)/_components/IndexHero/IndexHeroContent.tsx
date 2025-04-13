@@ -15,11 +15,13 @@ import Link from 'next/link';
 export default function IndexHeroContent() {
   return (
     <div className={styles.container}>
-      <p className={styles.date}>
-        APRIL 19-20
-        <br />
-        2025
-      </p>
+      <div className={styles.top_header}>
+        <p className={styles.date}>
+          APRIL 19-20
+          <br />
+          2025
+        </p>
+      </div>
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>

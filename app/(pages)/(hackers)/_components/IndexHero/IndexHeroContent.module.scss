@@ -41,13 +41,18 @@
 
 }
 
-.date {
+.top_header{
     width: 100%;
-    // order: 0;
-    @include mixins.tablet-l {
-        text-align: center;
+    .date {
+        width: 100%;
+        // order: 0;
+        @include mixins.tablet-l {
+            text-align: center;
+        }
     }
 }
+
+
 
 .center_right {
     display: flex;
@@ -90,6 +95,7 @@
         padding: 2% 6%;
         border-radius: 20px;
         border: 1.5px dashed #000;
+        
     }
 }
 
@@ -108,7 +114,7 @@
     @include mixins.tablet-l {
         // order: 3;
         padding: 50px 35px;
-        margin-top: 50px;
+        // margin-top: 50px;
         text-align: left;
     }
 
@@ -116,6 +122,10 @@
         padding: 1% 4%;
         border-radius: 20px;
         border: 1.5px dashed #000;
+        @include mixins.tablet-s{
+            width: 100%;
+            margin-top: 5%;
+        }
     }
     .time_location{
         display: flex;
