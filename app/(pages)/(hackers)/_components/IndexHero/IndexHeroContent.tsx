@@ -70,9 +70,9 @@ export default function IndexHeroContent() {
         everything on home page doesnt get taken down - prizes, 
       </p> */}
       <div className={styles.group_width}>
-        <div style={{display:"flex", gap:'1%', paddingBottom:'1%'}}>
+        <div style={{display:"flex", gap:'1%', paddingBottom:'1%', alignItems:'center'}}>
           <p>LIVE NOW</p>
-          <Image src={star_icon} alt='star icon'/>
+          <Image src={star_icon} alt='star icon' className={styles.star_icon_img}/>
         </div>
         <div className={styles.live_now}>
           <Announcement time={'10:00 AM'} title={'🧃 Fuel Up!'} description={'Snacks have landed in the main room! Come grab some chips, fruit, and possibly too many Capri Suns. Hydration is innovation.'} isNew={true}/>
@@ -86,9 +86,9 @@ export default function IndexHeroContent() {
       </div>
       
       <div className={styles.group_width}>
-          <div style={{display:"flex", gap:'1%', paddingBottom:'1%'}}>
+          <div style={{display:"flex", gap:'1%', paddingBottom:'1%', alignItems:'center'}}>
             <p>NEXT ON YOUR SCHEDULE</p>
-            <Image src={star_icon} alt='star icon' />
+            <Image src={star_icon} alt='star icon'  className={styles.star_icon_img}/>
             <div className={styles.countdown}>
               <TimeTracker targetTime="2025-05-01T09:00:00Z" />
             </div>
@@ -97,9 +97,9 @@ export default function IndexHeroContent() {
       </div>
 
       <div className={styles.group_width}>
-          <div style={{display:"flex", gap:'1%', paddingBottom:'1%'}}>
+          <div style={{display:"flex", gap:'1%', paddingBottom:'1%', alignItems:'center'}}>
             <p>WHILE YOU WAIT, CHECK OUT OUR JUDGING INFORMATION</p>
-            <Image src={star_icon} alt='star icon' />
+            <Image src={star_icon} alt='star icon'  className={styles.star_icon_img}/>
           </div>
           <div className={styles.judge_info}>
             <div style={{width:"50%"}}>

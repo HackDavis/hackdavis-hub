@@ -21,24 +21,25 @@
     font-weight: 400;
 
     @include mixins.desktop-m {
-        left: 64px;
-        right: 64px;
+        // left: 64px;
+        // right: 64px;
         row-gap: 100px;
         column-gap: 64px;
 
     }
 
     @include mixins.desktop-s {
-        left: 48px;
-        right: 48px;
+        // left: 48px;
+        // right: 48px;
         column-gap: 48px;
     }
 
     @include mixins.tablet-l {
         justify-content: center;
         row-gap: 16px;
-        left: 20px;
-        right: 20px;
+        // left: 20px;
+        // right: 20px;
+        padding: 30.5% 7.5%;
     }
 
 }
@@ -72,6 +73,7 @@
 
     @include mixins.tablet-l {
         text-align: center;
+        flex-direction: column;
     }
 }
 
@@ -94,8 +96,50 @@
             font-size: 18px;
             font-weight: 400;
             color: #000;
+
+            @include mixins.tablet-l{
+                font-size: 14px;
+            }
+        }
+        span{
+            font-size: 18px;
+            @include mixins.tablet-l{
+                font-size: 14px;
+            }
         }
         
+    }
+    p {
+        @include mixins.tablet-l{
+            font-size: 14px;
+        }
+    }
+    h2{
+        font-size: 36px;
+        font-weight: 700;
+        @include mixins.tablet-l{
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+    .star_icon_img{
+        @include mixins.tablet-l{
+            width: 16px;
+            height: 16px;
+        }
+        
+    }
+    button{
+        font-size: 18px;
+        @include mixins.tablet-l{
+            font-size: 14px;
+        }
+    }
+    h6{
+        font-size: 20px;
+        @include mixins.tablet-l{
+            font-size: 16px;
+        }
     }
 }
 
@@ -156,6 +200,9 @@
     .time_location{
         display: flex;
         gap: 1%;
+        @include mixins.tablet-l{
+            gap: 4%;
+        }
     }
     .button_cont{
         display: flex;
@@ -186,6 +233,10 @@
     width: 100%;
     // text-align: center;
     padding: 0% 10%;
+    scrollbar-color: white white;
+    @include mixins.tablet-l{
+        padding: 0% 5%;
+    }
 
     .announcement{
         background-color: white;
@@ -193,6 +244,10 @@
         border-radius: 16px;
         margin-top: 2%;
         margin-bottom: 2%;
+        @include mixins.tablet-l{
+            margin-top: 10%;
+            padding: 10%;
+        }
     }
     .time_and_icon{
         display: flex;
