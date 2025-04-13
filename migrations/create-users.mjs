@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 
-const tracksPath = path.resolve(process.cwd(), 'app/(api)/_data/tracks.json');
-const tracks = JSON.parse(fs.readFileSync(tracksPath, 'utf8'));
-
-const domains = [...new Set(tracks.map((track) => track.type))];
+const dataPath = path.resolve(
+  process.cwd(),
+  'app/_data/db_validation_data.json'
+);
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const domains = [...new Set(data.domains)];
 
 export async function up(db) {
   await db.createCollection('users', {
@@ -42,7 +44,7 @@ export async function up(db) {
             minItems: domains.length,
             items: {
               enum: domains,
-              description: 'specialty must be either tech, business, or design',
+              description: `specialty must be one of: ${domains.join(', ')}`,
             },
             uniqueItems: true,
           },

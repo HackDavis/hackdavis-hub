@@ -1,0 +1,249 @@
+@import 'app/(pages)/_globals/mixins';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @include tablet-l {
+    margin-top: 5%;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 26px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: max(114px, 6%);
+
+  .header_text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    h1 {
+      font-size: 1.75rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: 0.56px;
+
+      @include tablet-s {
+        font-size: 1.25rem;
+      }
+
+      @include mobile-l {
+        font-size: 1rem;
+      }
+    }
+
+    p {
+      font-size: 1.125rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 145%;
+      letter-spacing: 0.36px;
+
+      @include tablet-s {
+        font-size: 0.875rem;
+      }
+
+      @include mobile-l {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
+  width: 70%;
+  margin-top: 5%;
+
+  @include desktop-m {
+    width: 80%;
+  }
+
+  @include tablet-l {
+    padding-bottom: 32px;
+  }
+}
+
+.characterGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  height: 100%;
+  width: 100%;
+
+  @include desktop-m {
+    gap: 20px;
+  }
+
+  @include tablet-l {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    gap: 0;
+    width: 50%;
+  }
+
+  @include tablet-s {
+    width: 75%;
+  }
+
+  @include mobile-l {
+    width: 85%;
+  }
+}
+
+.characterOption {
+  display: flex;
+  align-self: flex-end;
+  height: 100%;
+
+
+  &.selected {
+    border-radius: 20px;
+    border: 1px dashed #005271;
+  }  
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+
+.characterImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin-bottom: 16px;
+  transition: transform 0.2s;
+
+  &.selected {
+    filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.60));
+  }
+}
+
+.characterImage:hover {
+  filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.60));
+}
+
+.characterLabel {
+  text-align: center;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding-bottom: 32px;
+
+  @include desktop-l {
+    font-size: 1rem;
+  }
+
+  @include desktop-m {
+    font-size: 0.875rem;
+    padding-bottom: 16px;
+  }
+
+  &.selected {
+    color: #005271;
+  }
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 28px;
+
+  @include tablet-l {
+    flex-direction: column;
+    align-items: end;
+    gap: 20px;
+  }
+}
+
+.beginnerOption {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 40px;
+}
+
+.checkboxInput {
+  appearance: none;
+  width: 23px;
+  height: 23px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  
+  &:checked {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+    
+    &:after {
+      content: "✓";
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.beginnerLabel {
+  font-size: 1.125rem;
+}
+
+.submit_button {
+  padding: 12px 24px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: normal;
+  font-style: normal;
+  line-height: 100%;
+  letter-spacing: 0.36px;
+  color: var(--text-light);
+  background: var(--background-secondary);
+  border: none;
+  cursor: not-allowed;
+  border-radius: 20px;
+  opacity: 0.3;
+
+  @include tablet-l {
+    padding: 8px 16px;
+    font-size: 1rem;
+    letter-spacing: 0.24px;
+  }
+}
+
+.valid {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.error_msg {
+  color: var(--text-error);
+}

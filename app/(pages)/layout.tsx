@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import ClientSessionProvider from './_components/ClientSessionProvider/ClientSessionProvider';
 import '@globals/globals.scss';
 import metadataJSON from '@globals/metadata.json';
 import fonts from './_globals/fonts';
@@ -12,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fonts} antialiased`}>{children}</body>
+      <body className={`${fonts} antialiased`}>
+        <ClientSessionProvider>{children}</ClientSessionProvider>
+      </body>
     </html>
   );
 }

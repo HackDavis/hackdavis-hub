@@ -1,0 +1,31 @@
+{
+  "domains": [
+    "swe",
+    "business",
+    "aiml",
+    "hardware",
+    "design",
+    "medtech"
+  ],
+  "tracks": [
+    "Best Hack for Social Good",
+    "Best Beginner Hack",
+    "Best Interdisciplinary Hack",
+    "Most Creative Hack",
+    "Best Hack for Social Justice",
+    "Best Hardware Hack",
+    "Most Technically Challenging Hack",
+    "Best Open Data Hack",
+    "Best AI/ML Hack",
+    "Best UI/UX Design",
+    "Best User Research",
+    "Best Statistical Model",
+    "Best MedTech Hack",
+    "Best Entrepreneurship Hack",
+    "Hacker's Choice Award",
+    "Best Hack for California GovOps Agency",
+    "Best Hack for NAMI Yolo",
+    "Best Hack for Fourth and Hope",
+    "Best Use of Cerebras API"
+  ]
+}

@@ -1,17 +1,29 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
+import Loader from '@components/Loader/Loader';
 import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
-import { getEvents } from '@actions/events/getEvent';
 import Event, { EventType } from '@typeDefs/event';
-import { pageFilters } from '@typeDefs/filters';
+import { Button } from '@pages/_globals/components/ui/button';
+import Filters from '@pages/(hackers)/_components/Schedule/Filters';
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@globals/components/ui/tooltip';
+import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
+import useActiveUser from '@pages/_hooks/useActiveUser';
+import { usePersonalEvents } from '@hooks/usePersonalEvents';
+import { useEvents } from '@hooks/useEvents';
 
 export interface EventDetails {
   event: Event;
   attendeeCount?: number;
-  inCustomSchedule?: boolean;
+  inPersonalSchedule?: boolean;
 }
 
 interface ScheduleData {
@@ -19,26 +31,117 @@ interface ScheduleData {
 }
 
 export default function Page() {
-  const [activeTab, setActiveTab] = useState<'schedule' | 'custom'>('schedule');
-  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'custom' | null>(
+  const { user, loading: userLoading } = useActiveUser('/');
+
+  // Use the events hook to get events with attendee counts
+  const {
+    eventsWithAttendeeCount,
+    isLoading: eventsLoading,
+    error: eventsError,
+    refreshEvents,
+  } = useEvents();
+
+  const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
+    'schedule'
+  );
+  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'personal' | null>(
     null
   );
   const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
   const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
+  const [isActionInProgress, setIsActionInProgress] = useState(false);
 
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        // TODO: add custom schedule handling
-        const response = await getEvents({});
-        if (!response.ok) {
-          throw new Error(response.error || 'Internal server error');
+  const changeActiveDay = (day: '19' | '20') => {
+    setActiveDay(day);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const {
+    personalEvents,
+    isLoading: personalEventsLoading,
+    error: personalEventsError,
+    addToPersonalSchedule,
+    removeFromPersonalSchedule,
+    isInPersonalSchedule,
+    refreshPersonalEvents,
+  } = usePersonalEvents(user?._id || '');
+
+  // Function to handle adding to personal schedule with loading state
+  const handleAddToSchedule = async (eventId: string) => {
+    setIsActionInProgress(true);
+    const success = await addToPersonalSchedule(eventId);
+
+    if (success) {
+      // If successful, update both tabs
+      await refreshPersonalEvents();
+      await refreshEvents();
+
+      // Also update the main schedule data if we're on the schedule tab
+      if (activeTab === 'schedule') {
+        // Update the schedule data to reflect the change
+        if (scheduleData) {
+          const newScheduleData = { ...scheduleData };
+
+          // Mark the event as in personal schedule
+          Object.keys(newScheduleData).forEach((dayKey) => {
+            newScheduleData[dayKey] = newScheduleData[dayKey].map((item) => {
+              if (item.event._id === eventId) {
+                return { ...item, inPersonalSchedule: true };
+              }
+              return item;
+            });
+          });
+
+          setScheduleData(newScheduleData);
         }
-        const events: Event[] = response.body;
+      }
+    }
 
-        // Group events by day key - "19" or "20".
-        const groupedByDay = events.reduce((acc: ScheduleData, event) => {
+    setIsActionInProgress(false);
+  };
+
+  // Function to handle removing from personal schedule with loading state
+  const handleRemoveFromSchedule = async (eventId: string) => {
+    setIsActionInProgress(true);
+    const success = await removeFromPersonalSchedule(eventId);
+
+    if (success) {
+      // If successful, update both tabs
+      await refreshPersonalEvents();
+      await refreshEvents();
+
+      // Also update the main schedule data if we're on the schedule tab
+      if (activeTab === 'schedule') {
+        // Update the schedule data to reflect the change
+        if (scheduleData) {
+          const newScheduleData = { ...scheduleData };
+
+          // Mark the event as not in personal schedule
+          Object.keys(newScheduleData).forEach((dayKey) => {
+            newScheduleData[dayKey] = newScheduleData[dayKey].map((item) => {
+              if (item.event._id === eventId) {
+                return { ...item, inPersonalSchedule: false };
+              }
+              return item;
+            });
+          });
+
+          setScheduleData(newScheduleData);
+        }
+      }
+    }
+
+    setIsActionInProgress(false);
+  };
+
+  // Update this useEffect to use eventsWithAttendeeCount instead of fetching events directly
+  useEffect(() => {
+    if (eventsWithAttendeeCount.length > 0 && !personalEventsLoading) {
+      // Group events by day key - "19" or "20".
+      const groupedByDay = eventsWithAttendeeCount.reduce(
+        (acc: ScheduleData, eventWithCount) => {
+          const event = eventWithCount.event;
           const dayKey = event.start_time.toLocaleString('en-US', {
             timeZone: 'America/Los_Angeles',
             day: 'numeric',
@@ -46,30 +149,83 @@ export default function Page() {
           if (!acc[dayKey]) {
             acc[dayKey] = [];
           }
-          acc[dayKey].push({ event });
-          return acc;
-        }, {});
 
-        setScheduleData(groupedByDay);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      }
+          // Check if this event is in the user's personal schedule
+          const isPersonal = isInPersonalSchedule(event._id || '');
+
+          acc[dayKey].push({
+            event,
+            attendeeCount: eventWithCount.attendeeCount,
+            inPersonalSchedule: isPersonal,
+          });
+          return acc;
+        },
+        {}
+      );
+
+      setScheduleData(groupedByDay);
     }
-    fetchEvents();
-  }, []);
+  }, [
+    eventsWithAttendeeCount,
+    personalEvents,
+    isInPersonalSchedule,
+    personalEventsLoading,
+  ]);
+
+  useEffect(() => {
+    if (activeTab === 'personal') {
+      refreshPersonalEvents();
+    }
+  }, [activeTab, refreshPersonalEvents]);
+
+  // Format personal events data
+  const personalScheduleData = useMemo(() => {
+    // Return empty object instead of null to avoid loading state
+    if (!personalEvents?.length) return {};
+
+    const groupedByDay = personalEvents.reduce((acc: ScheduleData, event) => {
+      const dayKey = event.start_time.toLocaleString('en-US', {
+        timeZone: 'America/Los_Angeles',
+        day: 'numeric',
+      });
+      if (!acc[dayKey]) {
+        acc[dayKey] = [];
+      }
+
+      // Find the attendee count for this event from eventsWithAttendeeCount
+      const eventWithCount = eventsWithAttendeeCount.find(
+        (e) => e.event._id === event._id
+      );
+
+      acc[dayKey].push({
+        event,
+        attendeeCount: eventWithCount?.attendeeCount || 0,
+        inPersonalSchedule: true,
+      });
+      return acc;
+    }, {});
+
+    return groupedByDay;
+  }, [personalEvents, eventsWithAttendeeCount]);
+
+  const dataToUse =
+    activeTab === 'personal' ? personalScheduleData : scheduleData;
 
   // Combined transformation: filtering, sorting, grouping and then sorting the groups.
   const sortedGroupedEntries = useMemo(() => {
-    if (!scheduleData) return [];
+    if (!dataToUse) return [];
 
     // Filter events for the active day and by active filters.
-    const unfilteredEvents = scheduleData[activeDay] || [];
+    const unfilteredEvents = dataToUse[activeDay] || [];
     const filteredEvents =
       activeFilters.length === 0
         ? unfilteredEvents
         : unfilteredEvents.filter((ed) =>
             activeFilters.includes(ed.event.type)
           );
+
+    // If no events found after filtering, return empty array
+    if (filteredEvents.length === 0) return [];
 
     // Sort the filtered events by start time.
     const sortedEvents = [...filteredEvents].sort(
@@ -107,7 +263,7 @@ export default function Page() {
       const dateB = new Date(`${dummyDay} ${b[0]}`);
       return dateA.getTime() - dateB.getTime();
     });
-  }, [scheduleData, activeDay, activeFilters]);
+  }, [dataToUse, activeDay, activeFilters]);
 
   const toggleFilter = (label: EventType) => {
     if (activeFilters.includes(label)) {
@@ -116,6 +272,34 @@ export default function Page() {
       setActiveFilters([...activeFilters, label]);
     }
   };
+
+  // Update the loading state to include eventsLoading
+  const isLoading =
+    userLoading ||
+    personalEventsLoading ||
+    eventsLoading ||
+    !scheduleData ||
+    isActionInProgress;
+
+  const isError = personalEventsError || eventsError;
+
+  // Determine if we're in a loading state
+  if (isLoading)
+    return (
+      <main id="schedule" className="w-full">
+        <Loader />
+      </main>
+    );
+
+  if (isError)
+    return (
+      <main
+        id="schedule"
+        className="w-full h-screen flex items-center justify-center"
+      >
+        Error Loading Events
+      </main>
+    );
 
   return (
     <main id="schedule" className="w-full">
@@ -127,6 +311,7 @@ export default function Page() {
         />
       </div>
       <div className="pb-24 md:pb-44 md:px-[calc(100vw*76/768)] lg:md:px-[calc(100vw*151/1440)] mt-[100px] md:mt-[calc(100vw*150/1440)]">
+        {/* Headers */}
         <div className="flex flex-col gap-8">
           <div className="flex justify-evenly md:justify-between items-center relative border-b-4 border-[#8F8F8F33]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
@@ -134,7 +319,7 @@ export default function Page() {
                 onClick={() => setActiveTab('schedule')}
                 onMouseEnter={() => setHoveredTab('schedule')}
                 onMouseLeave={() => setHoveredTab(null)}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
                   activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
                     : hoveredTab === 'schedule'
@@ -142,21 +327,39 @@ export default function Page() {
                     : 'text-[#8F8F8F]'
                 }`}
               >
-                Schedule
+                All Events
               </span>
               <span
-                onClick={() => setActiveTab('custom')}
-                onMouseEnter={() => setHoveredTab('custom')}
+                onClick={() => setActiveTab('personal')}
+                onMouseEnter={() => setHoveredTab('personal')}
                 onMouseLeave={() => setHoveredTab(null)}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl md:text-4xl lg:text-6xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === 'custom'
+                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
+                  activeTab === 'personal'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
-                    : hoveredTab === 'custom'
+                    : hoveredTab === 'personal'
                     ? 'text-black'
                     : 'text-[#8F8F8F]'
                 }`}
               >
-                Custom
+                {/* Personal */}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>Personal</TooltipTrigger>
+                    <TooltipContent side="bottom" className="bg-[#EDFBFA]">
+                      <div className="flex gap-4 rounded-full items-center justify-between ">
+                        <div className="relative rounded-full w-12 h-12">
+                          <Image
+                            src={TooltipCow}
+                            alt="Tooltip Cow"
+                            fill
+                          ></Image>
+                        </div>
+
+                        <p>Make your own schedule by adding events!</p>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </span>
             </div>
 
@@ -173,7 +376,7 @@ export default function Page() {
                   }`}
                 />
                 <button
-                  onClick={() => setActiveDay('19')}
+                  onClick={() => changeActiveDay('19')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
                     activeDay === '19' ? 'text-white' : 'text-black'
                   }`}
@@ -181,7 +384,7 @@ export default function Page() {
                   Apr 19
                 </button>
                 <button
-                  onClick={() => setActiveDay('20')}
+                  onClick={() => changeActiveDay('20')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
                     activeDay === '20' ? 'text-white' : 'text-black'
                   }`}
@@ -192,66 +395,55 @@ export default function Page() {
             </div>
           </div>
         </div>
-
-        <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
-          {pageFilters.map((filter) => (
-            <button
-              key={filter.label}
-              onClick={() => toggleFilter(filter.label)}
-              className={`
-                relative flex w-[163px] h-[45px] px-[38px] py-[13px]
-                justify-center items-center
-                rounded-[22.5px] border-[1.5px]
-                font-jakarta text-[16px] font-semibold leading-[100%] tracking-[0.32px]
-                text-[#123041] transition-all duration-200
-                ${
-                  activeFilters.includes(filter.label)
-                    ? `border-solid`
-                    : 'border-dashed hover:bg-opacity-50'
-                }
-              `}
-              style={{
-                borderColor: filter.color,
-                backgroundColor: activeFilters.includes(filter.label)
-                  ? filter.color
-                  : 'transparent',
-              }}
-              onMouseEnter={(e) => {
-                if (!activeFilters.includes(filter.label)) {
-                  e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!activeFilters.includes(filter.label)) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }
-              }}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
+        <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
 
         <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
-          {scheduleData ? (
+          {sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">
-                <div className="font-jakarta text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
+                <div className="font-jakarta text-sm md:text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
                   {timeKey}
                 </div>
                 <div>
-                  {events.map((event) => (
+                  {events.map((eventDetail) => (
                     <CalendarItem
-                      key={event.event._id}
-                      event={event.event}
-                      attendeeCount={event.attendeeCount}
+                      key={eventDetail.event._id}
+                      event={eventDetail.event}
+                      attendeeCount={eventDetail.attendeeCount}
+                      inPersonalSchedule={eventDetail.inPersonalSchedule}
+                      onAddToSchedule={() =>
+                        handleAddToSchedule(eventDetail.event._id || '')
+                      }
+                      onRemoveFromSchedule={() =>
+                        handleRemoveFromSchedule(eventDetail.event._id || '')
+                      }
                     />
                   ))}
                 </div>
               </div>
             ))
           ) : (
-            <div>Loading events…</div>
+            <div className="text-center py-10">
+              {activeTab === 'personal' ? (
+                <div>
+                  <p className="mb-4">
+                    No events in your personal schedule yet.
+                  </p>
+                  <Button
+                    onClick={() => setActiveTab('schedule')}
+                    className="w-full sm:w-fit px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group"
+                    variant="ghost"
+                  >
+                    <div className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full" />
+                    <p className="font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white">
+                      Browse the schedule to add events
+                    </p>
+                  </Button>
+                </div>
+              ) : (
+                'No events found for this day and filters.'
+              )}
+            </div>
           )}
         </div>
       </div>
