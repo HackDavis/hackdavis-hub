@@ -12,7 +12,7 @@ function sortTracks(
   track2: string,
   track3: string,
   chosentracks: string
-) {
+): string[] {
   let tracksInOrder: string[] = [track1, track2, track3];
 
   if (chosentracks.length > 1) {
@@ -34,12 +34,14 @@ function sortTracks(
   }
 
   tracksInOrder = tracksInOrder.filter(
-    (track) => track !== 'NA' && validTracks.includes(track)
+    (track: string) => track !== 'NA' && validTracks.includes(track)
   );
   return tracksInOrder;
 }
 
-export default async function csvAlgorithm(blob: Blob) {
+export default async function csvAlgorithm(
+  blob: Blob
+): Promise<{ ok: boolean; body: ParsedRecord[] | null; error: string | null }> {
   try {
     const parsePromise = new Promise<ParsedRecord[]>((resolve, reject) => {
       const output: ParsedRecord[] = [];
@@ -52,9 +54,9 @@ export default async function csvAlgorithm(blob: Blob) {
           .pipe(csv())
           .on('data', (data) => {
             if (data['Table Number'] !== '') {
-              const track1 = data['Track #1'].trim();
-              const track2 = data['Track #2'].trim();
-              const track3 = data['Track #3'].trim();
+              const track1: string = data['Track #1'].trim();
+              const track2: string = data['Track #2'].trim();
+              const track3: string = data['Track #3'].trim();
 
               const tracksInOrder: string[] = sortTracks(
                 track1,
@@ -66,21 +68,34 @@ export default async function csvAlgorithm(blob: Blob) {
               output.push({
                 name: data['Project Title'],
                 teamNumber: parseInt(data['Table Number']),
-                tableNumber: 0,
+                tableNumber: 0, // doing it later (on end)
                 tracks: tracksInOrder,
                 active: false,
               });
             }
           })
           .on('end', () => {
-            resolve(output);
+            const bestHardwareTeams = output.filter((team) =>
+              team.tracks.includes('Best Hardware Hack')
+            );
+            const otherTeams = output.filter(
+              (team) => !team.tracks.includes('Best Hardware Hack')
+            );
+
+            const orderedTeams = [...bestHardwareTeams, ...otherTeams];
+
+            orderedTeams.forEach((team, index) => {
+              team.tableNumber = index + 1;
+            });
+
+            resolve(orderedTeams);
           })
           .on('error', (error) => reject(error));
       };
       parseBlob().catch(reject);
     });
 
-    const results = await parsePromise;
+    const results: ParsedRecord[] = await parsePromise;
     console.log(results);
 
     return { ok: true, body: results, error: null };
