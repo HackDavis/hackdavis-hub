@@ -45,13 +45,8 @@ export default async function matchTeams(
   }
 
   // Generate submissions based on judge-team assignments.
-  const teamsRes = await getManyTeams();
-  if (!teamsRes.ok) {
-    return JSON.stringify({
-      error: `getManyTeams error: ${teamsRes.error}`,
-    });
-  }
-  const teams = teamsRes.body;
+  const teams = (await getManyTeams()).body;
+
   const matchResults = await matchAllTeams({ alpha: options.alpha });
   const judgeToTeam: JudgeToTeam[] = matchResults.judgeToTeam;
   const parsedJudgeToTeam = await parseAndReplace(judgeToTeam);
