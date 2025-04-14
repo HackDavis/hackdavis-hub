@@ -1,5 +1,91 @@
 @import 'app/(pages)/_globals/mixins';
 
+@include tablet-l {
+    .topSection {
+        display: none;
+    }
+
+    .mobile {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+        .cardMentor,
+        .cardDirector {
+            background-color: #e3f9f7;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 340px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+
+        p {
+            font-size: 14px;
+            color: #333;
+            margin: 12px 0 18px;
+        }
+
+        button {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+
+            &:hover {
+            background-color: #333;
+            }
+        }
+        }
+
+        .mobileanimalWrapper {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        // Duck character styling (used in both cards)
+        .mobileduck {
+            width: 80px;
+            height: auto;
+            z-index: 1;
+        }
+
+        // Cow + iPod styling for mentors
+        .mobilecowphone {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 60px;
+            transform: rotate(12deg);
+        }
+
+        // DuckPhone for directors
+        .mobileduckphone {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 60px;
+            transform: rotate(-15deg);
+        }
+    }
+  }
+
+// @include desktop-s {
+//     .mobile {
+//         display: none;
+//     }
+// }
+
 .topSection {
     position: relative;
     background-color: #DFF6F3;
@@ -55,7 +141,9 @@
         width: fit-content;
   
         &:hover {
-          background-color: var(--background-tertiary);
+          background-color: var(--text-dark);
+          border: 1.5px solid;
+          color: var(--text-light);
         }
       }
     }
