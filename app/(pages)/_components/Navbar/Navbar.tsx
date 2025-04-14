@@ -17,6 +17,8 @@ interface NavLink {
   action?: () => void;
 }
 
+// todo: change hamburger menu color in mobile
+// todo: fix logout button around 400px
 const sections = [
   {
     id: 'home',

@@ -1,0 +1,129 @@
+@import '@globals/mixins.scss';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 56px;
+  height: auto;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0px 0px 12px 12px;
+  margin-bottom: 32px;
+  padding: 0px 80px;
+
+  @include desktop-s {
+    padding: 0px 40px;
+    gap: 32px;
+  }
+
+  @include tablet-l {
+    flex-direction: column;
+    border-radius: 0px 0px 6px 6px;
+    padding: 20px;
+  }
+
+  p {
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    @include desktop-m {
+      font-size: 0.875rem;
+    }
+
+    @include desktop-s {
+      font-size: 0.75rem;
+    }
+
+    @include mobile-m {
+      font-size: 0.5rem;
+    }
+  }
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    justify-content: flex-end;
+    width: 50%;
+    padding-top: 80px;
+
+    // @include desktop-m {
+    //   padding: 40px 28px 0px 40px;
+    // }
+
+    @include tablet-l {
+      justify-content: center;
+      width: 100%;
+      max-width: 400px;
+      padding-top: 0px;
+      // padding: 40px 28px 16px 40px;
+    }
+
+    .speech_bubble {
+      margin-bottom: 16px;
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    gap: 16px;
+
+    @include desktop-s {
+      // padding: 20px 40px 20px 0px;
+    }
+
+    @include tablet-l {
+      width: 100%;
+      // padding: 16px 32px 24px 32px;
+    }
+
+    .info_box {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      width: 100%;
+      padding: 20px;
+      border-radius: 15px;
+      gap: 16px;
+
+      @include desktop-s {
+        padding: 12px;
+        gap: 8px;
+      }
+
+      @include tablet-l {
+        border-radius: var(--b-radius);
+        padding: 10px;
+        gap: 8px;
+      }
+
+      > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+
+        .sign {
+          min-width: 32px;
+          min-height: 32px;
+          max-width: 32px;
+          max-height: 32px;
+
+          @include tablet-l {
+            min-width: 16px;
+            min-height: 16px;
+            max-width: 16px;
+            max-height: 16px;
+          }
+        }
+      }
+    }
+  }
+}

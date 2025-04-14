@@ -105,7 +105,6 @@ export default function DetailForm({ id }: any) {
       (option) => displayNameToDomainMap.get(option.text) ?? ''
     );
 
-    console.log(specialties);
     const userRes = await updateUser(id, {
       $set: {
         specialties,
