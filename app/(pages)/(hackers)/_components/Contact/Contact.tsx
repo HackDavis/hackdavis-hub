@@ -1,13 +1,24 @@
 import styles from './Contact.module.scss';
 import Image from 'next/image';
 import Squiggle from 'public/hackers/hero/SquiggleBorder.svg';
+import CowPhone from 'public/hackers/hero/CowPhone.svg';
+import Cow from 'public/hackers/hero/AirpodCow.svg';
+import DuckPhone from 'public/hackers/hero/DuckPhone.svg';
+import Duck from 'public/hackers/hero/AirpodDuck.svg';
 
 export default function Contact() {
   return (
-    <>
+    <div className={styles.topSection}>
       <div className={styles.container}>
         <div className={styles.blueBox}></div>
-        <div className={styles.whiteBox}></div>
+        <div className={styles.whiteBox}>
+          <Image src={Cow} alt="Cow holding ipod" className={styles.cow} />
+          <Image
+            src={CowPhone}
+            alt="Cow holding ipod"
+            className={styles.cowphone}
+          />
+        </div>
         <div className={styles.blueBox}>
           <p>
             MENTORS can help you with supporting developers and designers with
@@ -27,7 +38,14 @@ export default function Contact() {
           </p>
           <button className={styles.button}>CONTACT A Director</button>
         </div>
-        <div className={styles.whiteBox}></div>
+        <div className={styles.whiteBox}>
+          <Image src={Duck} alt="Duck holding ipod" className={styles.duck} />
+          <Image
+            src={DuckPhone}
+            alt="Duck holding ipod"
+            className={styles.duckphone}
+          />
+        </div>
         <div className={styles.blueBox}></div>
       </div>
       <Image
@@ -35,6 +53,6 @@ export default function Contact() {
         alt="Squiggle blue line divider"
         className={styles.squiggle}
       />
-    </>
+    </div>
   );
 }

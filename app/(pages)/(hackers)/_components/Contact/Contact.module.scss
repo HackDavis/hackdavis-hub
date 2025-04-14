@@ -1,51 +1,108 @@
-.container {
-    display: flex;
-    flex-direction: row;
+.topSection {
+    position: relative;
+    background-color: #DFF6F3; // or whatever matches the bottom background
+    padding-bottom: 0; // prevent extra space
+    .container {
+        display: flex;
+        flex-direction: row;
 
-.blueBox,
-.whiteBox {
-    flex: 1;
-    padding: 4% 2%;
-    align-items: center;
-}
+        .blueBox,
+        .whiteBox {
+            flex: 1;
+            padding: 5% 2%;
+            align-items: flex-start;
+        }
 
-> :first-child,
-> :last-child {
-    flex: 0.35; 
-}
+        > :first-child,
+        > :last-child {
+            flex: 0.35; 
+        }
 
-.blueBox {
-    background-color: #9EE7E5;
-}
+        .blueBox {
+            background-color: #9EE7E5;
+        }
 
-.whiteBox {
-    background: linear-gradient(
-    284deg,
-    rgba(213, 252, 209, 0.25) 9.72%,
-    rgba(178, 231, 221, 0.25) 44.61%,
-    rgba(118, 214, 230, 0.25) 79.5%
-    );
-}
+        .whiteBox {
+            background: linear-gradient(
+            284deg,
+            rgba(213, 252, 209, 0.25) 9.72%,
+            rgba(178, 231, 221, 0.25) 44.61%,
+            rgba(118, 214, 230, 0.25) 79.5%
+            );
+            overflow: hidden;
+        }
 
-.button {
-    margin-top: 30px;
-    border-radius: 20px;
-    border: 1.5px dashed var(--text-dark);
-    padding: 12px 24px;
-    transition: background-color 0.25s ease;
+        .button {
+            margin-top: 30px;
+            border-radius: 20px;
+            border: 1.5px dashed var(--text-dark);
+            padding: 12px 24px;
+            transition: background-color 0.25s ease;
 
-    &:hover {
-    background-color: var(--background-tertiary);
+            &:hover {
+            background-color: var(--background-tertiary);
+            }
+        }
     }
-  }
-}
 
-.squiggle {
-    object-fit: cover;
-    border: 3px solid red;
+    .squiggle {
+        position: absolute;
+        bottom: -105px;
+        left: 0;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        z-index: 10;
+    }
+
+    // animals 
+    .cow {
+        padding: none !important;
+        padding-right: 20%;
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        z-index: 1;
+        position: relative;
+    }
+    
+    .duck {
+        padding: none !important;
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        z-index: 1;
+        position: relative;
+    }
+
+    .cowphone,
+    .duckphone {
     width: 100%;
-    margin-top: -4%;
+    max-width: 220px;
+    height: auto;
+    display: block;
+    position: absolute;
+    // top: 0%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    }
+
+    .cowphone {
+        top: 0%;
+        left: 60%;
+    }
+      
+    .duckphone {
+        top: 58%;
+        left: 53%;
+    }
+      
 }
+  
 
 
   
