@@ -23,15 +23,10 @@ export default function JudgeTeamGrouping() {
     console.log('matchTeams result:', result);
 
     let matchData: any = {};
-    if (typeof result === 'string') {
-      try {
-        matchData = JSON.parse(result);
-      } catch (error) {
-        console.error('Error parsing JSON:', error);
-        return;
-      }
+    if (result.ok) {
+      matchData = result.body;
     } else {
-      matchData = result;
+      matchData = result.error;
     }
 
     // Extract submissions and the rest of the match data.

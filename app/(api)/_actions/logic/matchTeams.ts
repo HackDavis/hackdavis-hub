@@ -1,12 +1,12 @@
 'use server';
 
-import { getManyTeams } from '@actions/teams/getTeams';
-import { CreateSubmission } from '@datalib/submissions/createSubmission';
 import JudgeToTeam from '@typeDefs/judgeToTeam';
 import Submission from '@typeDefs/submission';
 import matchAllTeams from '@utils/grouping/matchingAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
-import { getManySubmissions } from '@actions/submissions/getSubmission'; // New import
+import { GetManyTeams } from '@datalib/teams/getTeam';
+import { CreateSubmission } from '@datalib/submissions/createSubmission';
+import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
 
 function checkMatches(matches: Submission[], teamsLength: number) {
   if (matches.length < 3 * teamsLength) return false;
@@ -32,24 +32,28 @@ function checkMatches(matches: Submission[], teamsLength: number) {
 export default async function matchTeams(
   options: { alpha: number } = { alpha: 4 }
 ) {
-  const submissionsResponse = await getManySubmissions();
+  const submissionsResponse = await GetManySubmissions();
   if (
     submissionsResponse.ok &&
     submissionsResponse.body &&
     submissionsResponse.body.length > 0
   ) {
-    return JSON.stringify({
+    return {
+      ok: false,
+      body: null,
       error:
         'Submissions collection is not empty. Please clear submissions before matching teams.',
-    });
+    };
   }
 
   // Generate submissions based on judge-team assignments.
-  const teamsRes = await getManyTeams();
+  const teamsRes = await GetManyTeams();
   if (!teamsRes.ok) {
-    return JSON.stringify({
-      error: `getManyTeams error: ${teamsRes.error}`,
-    });
+    return {
+      ok: false,
+      body: null,
+      error: `GetManyTeams error: ${teamsRes.error}`,
+    };
   }
   const teams = teamsRes.body;
   const matchResults = await matchAllTeams({ alpha: options.alpha });
@@ -67,10 +71,15 @@ export default async function matchTeams(
       }
     }
   } else {
-    return JSON.stringify({
-      error: 'Not valid submissions.',
-    });
+    return {
+      ok: false,
+      body: null,
+      error: 'Invalid submissions.',
+    };
   }
-
-  return JSON.stringify(matchResults);
+  return {
+    ok: true,
+    body: matchResults,
+    error: null,
+  };
 }
