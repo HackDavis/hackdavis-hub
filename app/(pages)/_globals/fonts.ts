@@ -3,6 +3,7 @@ import {
   Montserrat,
   Plus_Jakarta_Sans,
   DM_Sans,
+  DM_Mono,
 } from 'next/font/google';
 
 const inter = Inter({
@@ -25,7 +26,13 @@ const dm_sans = DM_Sans({
   variable: '--font-dm-sans',
 });
 
-const fonts = [inter, montserrat, jakarta, dm_sans];
+const dm_mono = DM_Mono({
+  subsets: ['latin'],
+  variable: '--font-dm-mono',
+  weight: '300',
+});
+
+const fonts = [inter, montserrat, jakarta, dm_sans, dm_mono];
 
 const font_variables = fonts.map((font) => font.variable);
 const font_string = font_variables.join(' ');

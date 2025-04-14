@@ -12,7 +12,7 @@ export default function Loader({ modal = false, message = '' }: LoaderProps) {
           : 'absolute inset-0 min-w-screen min-h-screen bg-[rgba(136, 136, 136, 0.50)] backdrop-blur'
       }`}
     >
-      <h3>{message}</h3>
+      <h4>{message}</h4>
       <div className="border-8 border-solid border-[#F3F3F3] border-t-background-secondary rounded-[50%] w-[40px] h-[40px] animate-spin" />
     </div>
   );
