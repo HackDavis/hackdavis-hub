@@ -15,6 +15,7 @@ export default function Page() {
       <IndexHero />
       <BeginnersSection />
       {/* <UnderConstruction /> */}
+      <Contact />
       <PrizeTracks />
       <BigVinyl />
       <Waterfall />
