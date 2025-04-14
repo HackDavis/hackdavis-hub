@@ -80,9 +80,9 @@ export default function Contact() {
         <div className={styles.cardMentor}>
           <div className={styles.mobileanimalWrapper}>
             <Image
-              src={Duck}
+              src={Cow}
               alt="Duck holding ipod"
-              className={styles.mobileduck}
+              className={styles.mobilecow}
             />
             <Image
               src={CowPhone}
@@ -90,11 +90,13 @@ export default function Contact() {
               className={styles.mobilecowphone}
             />
           </div>
-          <p>
-            <strong>MENTORS</strong> can support you with feedback in
-            development and designing. Feel free to call one over!
-          </p>
-          <button>CONTACT A MENTOR</button>
+          <div className={styles.mobileText}>
+            <p>
+              MENTORS can support you with feedback in development and
+              designing. Feel free to call one over!
+            </p>
+            <button>CONTACT A MENTOR</button>
+          </div>
         </div>
 
         {/* <!-- Director Card --> */}
@@ -110,12 +112,14 @@ export default function Contact() {
               alt="Duck holding ipod"
               className={styles.mobileduckphone}
             />
-          </div>{' '}
-          <p>
-            <strong>DIRECTORS</strong> can help you with any questions regarding
-            hackathon events, schedules, and overall logistics!
-          </p>
-          <button>CONTACT A DIRECTOR</button>
+          </div>
+          <div className={styles.mobileText}>
+            <p>
+              DIRECTORS can help you with any questions regarding hackathon
+              events, schedules, and overall logistics!
+            </p>
+            <button>CONTACT A DIRECTOR</button>
+          </div>
         </div>
       </div>
     </>
