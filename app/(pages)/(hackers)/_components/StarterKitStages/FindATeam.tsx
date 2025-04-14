@@ -8,10 +8,10 @@ export default function FindATeam() {
     <div className="flex flex-col gap-8 md:gap-12 xl:gap-16">
       <StarterKitSlide title="Team Formation Mixer" subtitle="JOIN US FOR OUR">
         <EventPosting
-          location="FAKE LOCATION"
+          location="ARC Ballroom A"
           color="var(--grass-background-light)"
-          time="11am - 12pm"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip"
+          time="8:30am - 10am"
+          description="Don't have a team yet? Join our day-of-the-event team mixer on April 19th and find your gang!"
         ></EventPosting>
       </StarterKitSlide>
       <FindTheRightFit />
