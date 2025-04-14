@@ -5,11 +5,11 @@
     .container {
       display: flex;
       flex-direction: row;
+      align-items: stretch; 
   
       .blueBox,
       .whiteBox {
         flex: 1;
-        // padding: 5% 2%;
         align-items: flex-start;
       }
   
@@ -20,7 +20,13 @@
   
       .blueBox {
         background-color: #9EE7E5;
-        // padding: 5% 2%;
+      }
+
+      .textContent {
+        padding: 8%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
       }
   
       .whiteBox {
@@ -37,11 +43,11 @@
       }
   
       .button {
-        margin-top: 30px;
         border-radius: 20px;
         border: 1.5px dashed var(--text-dark);
         padding: 12px 24px;
         transition: background-color 0.25s ease;
+        width: fit-content;
   
         &:hover {
           background-color: var(--background-tertiary);
