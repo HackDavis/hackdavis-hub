@@ -1,11 +1,15 @@
+@import 'app/(pages)/_globals/mixins';
+
 .topSection {
     position: relative;
     background-color: #DFF6F3;
+    align-content: stretch;
   
     .container {
       display: flex;
       flex-direction: row;
-      align-items: stretch; 
+      align-items: stretch;
+      height: 450px;
   
       .blueBox,
       .whiteBox {
@@ -21,13 +25,6 @@
       .blueBox {
         background-color: #9EE7E5;
       }
-
-      .textContent {
-        padding: 8%;
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-      }
   
       .whiteBox {
         background: linear-gradient(
@@ -40,6 +37,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 100%;
+      }
+  
+      .textContent {
+        padding: 8%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
       }
   
       .button {
@@ -55,20 +60,56 @@
       }
     }
   
-    .squiggle {
-      position: absolute;
-      bottom: -105px;
-      left: 0;
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      z-index: 10;
-    }
+    // Mentor-specific alignment (bottom right)
+    .alignBottom {
+      display: flex;
+      align-items: flex-end;
   
+      .textContent {
+        padding: 8%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        justify-content: flex-end;
+        align-items: flex-end;
+        text-align: right;
+      }
+  
+      .button {
+        align-self: flex-end;
+      }
+    }
+
+    .squiggle {
+        position: absolute;
+        bottom: -100px; 
+        left: 0;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        z-index: 2;
+        pointer-events: none;
+
+        @include monitor-s {
+            bottom: -90px;
+        }
+
+        @include desktop-l {
+            bottom: -70px;
+        }
+
+        @include desktop-m {
+            bottom: -55px;
+        }
+
+        @include desktop-s {
+            bottom: -45px;
+        }
+    }
+      
     .animalWrapper {
       position: relative;
       width: 100%;
-    //   max-width: 300px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -76,22 +117,20 @@
   
     .cow,
     .duck {
-    //   width: 70%;
       height: auto;
       z-index: 1;
     }
-
+  
     .cow {
-        width: 90%;
-        padding-right: 20%;
-        padding-top: 5%;
-    }
-
-    .duck {
-        padding: none !important;
-        width: 100%;
+      width: 90%;
+      padding-right: 20%;
+      padding-top: 5%;
     }
   
+    .duck {
+      padding: none !important;
+      width: 100%;
+    }
   
     .cowphone,
     .duckphone {
@@ -112,15 +151,20 @@
       left: 13%;
       top: 10%;
     }
-
+  
     // floating ipod animation
     @keyframes bounce {
-        0%, 100% {
-          transform: translateY(0);
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+
+        @include tablet-l {
+            transform: translateY(-10px);
         }
-        50% {
-          transform: translateY(-15px);
-        }
-      }      
+
+      }
+    }
   }
   
