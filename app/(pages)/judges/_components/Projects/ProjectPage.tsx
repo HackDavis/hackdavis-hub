@@ -6,6 +6,7 @@ import { useJudgeSubmissions } from '@pages/_hooks/useJudgeSubmissions';
 import UnscoredPage from './UnscoredPage';
 import ScoredPage from './ScoredPage';
 import Link from 'next/link';
+import Loader from '@pages/_components/Loader/Loader';
 
 interface ButtonProps {
   text: string;
@@ -42,7 +43,7 @@ const ProjectPage = () => {
     useJudgeSubmissions(userId);
 
   if (loading) {
-    return 'loading...';
+    return <Loader />;
   }
 
   if (error) {
@@ -81,9 +82,7 @@ const ProjectPage = () => {
       </div>
       <div className="px-[20px]">
         {loading ? (
-          <div className="flex justify-center items-center py-10">
-            <p>Loading submissions...</p>
-          </div>
+          <Loader />
         ) : error ? (
           <div className="bg-red-100 p-4 rounded">
             <p className="text-red-800">{error}</p>

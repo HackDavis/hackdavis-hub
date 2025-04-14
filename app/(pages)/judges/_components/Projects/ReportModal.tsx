@@ -1,5 +1,6 @@
 'use client';
 
+import Loader from '@pages/_components/Loader/Loader';
 import styles from './ReportModal.module.scss';
 import { RxCross2 } from 'react-icons/rx';
 
@@ -16,13 +17,11 @@ export default function ReportModal({
   setModalStage,
   errorMsg,
 }: ReportModalProps) {
-  const loadingContent = (
-    <div className={styles.loading_container}>loading...</div>
-  );
+  const loadingContent = <Loader modal message="Reporting" />;
 
   const successContent = (
     <div className={styles.success_container}>
-      <h2>Team successfully reported!</h2>
+      <h4>Team successfully reported!</h4>
       <div
         className={styles.ack_button}
         onClick={() => setModalStage('hidden')}
@@ -34,7 +33,7 @@ export default function ReportModal({
 
   const errorContent = (
     <div className={styles.error_container}>
-      <h2>Something went wrong.</h2>
+      <h4>Something went wrong.</h4>
       <p>{errorMsg}</p>
     </div>
   );

@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import ProjectTab from './ProjectTab';
-import projectCow from '/public/judges/projects/project-cow.svg';
 import Team from '@typeDefs/team';
 
 import { reportMissingProject } from '@actions/teams/reportMissingTeam';
 import styles from './UnscoredPage.module.scss';
 import ReportModal from './ReportModal';
+import EmptyState from './EmptyState';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -30,18 +29,10 @@ export default function UnscoredPage({
 
   if (teams.length === 0) {
     return (
-      <div className="flex mt-[65px] flex-col items-center h-[calc(100vh-100px)] bg-[#F2F2F7]">
-        <span className="text-[32px] font-[700] text-[#000000] mb-[12px]">
-          You're Done!
-        </span>
-        <span className="text-[16px] font-[500] text-[#000000]">
-          You've judged all your projects.
-        </span>
-        <span className="text-[16px] font-[500] text-[#000000] mb-[32px]">
-          Thank you so much!
-        </span>
-        <Image src={projectCow} alt="Project Cow" />
-      </div>
+      <EmptyState
+        title="You're Done!"
+        subtitle={"You've judged all your projects.\n Thank you so much!"}
+      />
     );
   }
 
