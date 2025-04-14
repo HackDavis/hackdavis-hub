@@ -91,6 +91,11 @@ export default function Contact() {
             />
           </div>
           <div className={styles.mobileText}>
+            <Image
+              src={Squiggle}
+              alt="Squiggle blue line divider"
+              className={styles.mobilesquiggle}
+            />
             <p>
               MENTORS can support you with feedback in development and
               designing. Feel free to call one over!
@@ -114,6 +119,11 @@ export default function Contact() {
             />
           </div>
           <div className={styles.mobileText}>
+            <Image
+              src={Squiggle}
+              alt="Squiggle blue line divider"
+              className={styles.mobilesquiggle}
+            />
             <p>
               DIRECTORS can help you with any questions regarding hackathon
               events, schedules, and overall logistics!
