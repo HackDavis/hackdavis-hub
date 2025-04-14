@@ -12,12 +12,14 @@ export default function Contact() {
       <div className={styles.container}>
         <div className={styles.blueBox}></div>
         <div className={styles.whiteBox}>
-          <Image src={Cow} alt="Cow holding ipod" className={styles.cow} />
-          <Image
-            src={CowPhone}
-            alt="Cow holding ipod"
-            className={styles.cowphone}
-          />
+          <div className={styles.animalWrapper}>
+            <Image src={Cow} alt="Cow holding ipod" className={styles.cow} />
+            <Image
+              src={CowPhone}
+              alt="Cow holding ipod"
+              className={styles.cowphone}
+            />
+          </div>
         </div>
         <div className={styles.blueBox}>
           <p>
@@ -39,12 +41,14 @@ export default function Contact() {
           <button className={styles.button}>CONTACT A Director</button>
         </div>
         <div className={styles.whiteBox}>
-          <Image src={Duck} alt="Duck holding ipod" className={styles.duck} />
-          <Image
-            src={DuckPhone}
-            alt="Duck holding ipod"
-            className={styles.duckphone}
-          />
+          <div className={styles.animalWrapper}>
+            <Image src={Duck} alt="Duck holding ipod" className={styles.duck} />
+            <Image
+              src={DuckPhone}
+              alt="Duck holding ipod"
+              className={styles.duckphone}
+            />
+          </div>
         </div>
         <div className={styles.blueBox}></div>
       </div>
