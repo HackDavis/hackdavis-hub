@@ -152,11 +152,24 @@
     padding: 35px 32px;
     display: flex;
     justify-content: space-between;
+    // align-items: center;
+
+    @include mixins.tablet-l{
+        flex-direction: column;
+        padding: 35px 32px 0 35px ;
+        text-align: center;
+        width: 100%;
+    }
 
     .judge_bunny_ducky_img{
         position: absolute;
         bottom: 0;
         right: 0;
+
+        @include mixins.tablet-l{
+            position: relative;
+            width: 67%;
+        }
     }
     .schedule_button{
         padding: 2% 6%;
@@ -164,6 +177,11 @@
         border: 1.5px dashed #000;
         display: flex;
         align-items: center;
+        @include mixins.tablet-l{
+            width: 100%;
+            justify-content: center;
+            margin-top: 5%;
+        }
     }
 }
 
@@ -195,6 +213,7 @@
         @include mixins.tablet-s{
             width: 100%;
             margin-top: 5%;
+            justify-content: center;
         }
     }
     .time_location{

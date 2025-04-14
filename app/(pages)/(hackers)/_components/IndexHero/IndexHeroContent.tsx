@@ -102,7 +102,7 @@ export default function IndexHeroContent() {
             <Image src={star_icon} alt='star icon'  className={styles.star_icon_img}/>
           </div>
           <div className={styles.judge_info}>
-            <div style={{width:"50%"}}>
+            <div>
               <h2>
                   <strong>Judging Information</strong>
               </h2>
@@ -110,7 +110,10 @@ export default function IndexHeroContent() {
                 <button className={styles.schedule_button}>Read on the process<LuArrowUpRight size={23} /></button>
               </Link>
             </div>
-            <Image src={judge_bunny_and_ducky} alt='judge bunny and ducky' className={styles.judge_bunny_ducky_img}/>
+            <div style={{display:'flex', justifyContent:'center'}}>
+              <Image src={judge_bunny_and_ducky} alt='judge bunny and ducky' className={styles.judge_bunny_ducky_img}/>
+            </div>
+            
         </div>
       </div>
 
