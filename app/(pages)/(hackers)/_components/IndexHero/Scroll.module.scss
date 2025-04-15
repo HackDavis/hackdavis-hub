@@ -1,20 +1,29 @@
-@use 'app/(pages)/_globals/mixins';
+@import '@globals/mixins.scss';
 
 .container {
   padding: 2%;
   width: 100%;
   text-align: center;
 
+  @include tablet-l {
+    padding: 0%;
+    border: 1px solid black;
+    margin-top: -4%;
+    margin-bottom: 7%;
+}
+
   .star {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid black;
-    flex-direction: column;
+    display: block; 
+    margin: 0 auto; 
+    width: fit-content; 
+    padding-bottom: 3%;
+
+    @include tablet-l {
+        display: none;
+    }
   }
 
   .parent {
-    border: 3px solid red;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -23,7 +32,6 @@
 
   .child {
     position: relative;
-    border: 2px solid blue;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -35,10 +43,10 @@
     .note {
       position: absolute;
       top: 0;
-      width: 30px;
-      opacity: 0;
+      height: 30px;
+      opacity: 1;
       transform: translateY(0);
-      transition: opacity 0.2s ease-in-out;
+      transition: opacity 0.2s ease;
     }
 
     .head {
@@ -47,27 +55,17 @@
       z-index: 1;
     }
 
-    &:hover .note {
-      animation: bounceNote 1.5s ease-in-out;
-      opacity: 1;
+    .note {
+        position: absolute;
+        top: 0;
+        height: 30px;
+        opacity: 1;
+        transform: translateY(0);
+        transition: transform 0.3s ease; // smooth return
+      }
+    
+      &:hover .note {
+        transform: translateY(-8px);
+      }
     }
-  }
-
-  @keyframes bounceNote {
-    0% {
-      transform: translateY(0);
-    }
-    30% {
-      transform: translateY(-15px);
-    }
-    60% {
-      transform: translateY(-30px);
-    }
-    80% {
-      transform: translateY(-20px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
 }
