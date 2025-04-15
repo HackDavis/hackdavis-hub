@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Countdown from './Countdown';
+// import Countdown from './Countdown';
 import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
@@ -13,7 +13,8 @@ import star from 'public/index/hero/star.svg';
 import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
-import Notifications from './Notifications';
+// import Notifications from './Notifications';
+import JudgeBanners from './JudgeBanners';
 import { GoArrowRight } from 'react-icons/go';
 
 export default function IndexHeroContent() {
@@ -30,7 +31,8 @@ export default function IndexHeroContent() {
           <LuArrowUpRight size={23} />
         </a>
         <div>
-          <Notifications />
+          {/* <JudgeBanners /> */}
+          {/* <Notifications /> */}
         </div>
       </div>
 
@@ -48,7 +50,9 @@ export default function IndexHeroContent() {
       <div className={styles.heroRow}>
         <MusicPlayer />
         <div className={styles.center_right}>
-          <Countdown />
+          {/* <Countdown /> */}
+          <JudgeBanners />
+          {/* please work bro */}
           <div className={styles.belowClock}>
             <p className={styles.info}>
               A HACKDAVIS HUB

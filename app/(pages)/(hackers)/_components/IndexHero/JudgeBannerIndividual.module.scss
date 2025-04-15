@@ -1,0 +1,33 @@
+.container_position {
+  padding: 16px;
+}
+
+.judgeBanner {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: filter 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.info {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.dismissButton {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+/* This class is added when the judge has finished, initiating the blur transition */
+.finishing {
+  filter: blur(3px);
+  opacity: 0;
+}
