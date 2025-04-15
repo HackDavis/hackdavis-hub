@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import styles from "./MusicPlayer.module.scss";
-import vinyl from "public/judges/hub/vinyl.svg";
-import pauseIcon from "public/index/hero/pause-icon.svg";
-import playIcon from "public/index/hero/play-icon.svg";
+import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
+import styles from './MusicPlayer.module.scss';
+import vinyl from 'public/judges/hub/vinyl.svg';
+import pauseIcon from 'public/index/hero/pause-icon.svg';
+import playIcon from 'public/index/hero/play-icon.svg';
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -74,7 +74,7 @@ export default function MusicPlayer() {
         <div
           className={`${styles.tooltip} ${showTooltip ? styles.active : null}`}
         >
-          {isPlaying ? "Pause" : "Play"}
+          {isPlaying ? 'Pause' : 'Play'}
         </div>
       </button>
     </div>

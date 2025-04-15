@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import ClientSessionProvider from "./_components/ClientSessionProvider/ClientSessionProvider";
-import "@globals/globals.scss";
-import metadataJSON from "@globals/metadata.json";
-import fonts from "./_globals/fonts";
+import type { Metadata } from 'next';
+import ClientSessionProvider from './_components/ClientSessionProvider/ClientSessionProvider';
+import '@globals/globals.scss';
+import metadataJSON from '@globals/metadata.json';
+import fonts from './_globals/fonts';
 
 export const metadata: Metadata = metadataJSON;
 

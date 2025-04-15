@@ -1,8 +1,8 @@
-import styles from "./LoginToDevpost.module.scss";
-import Image from "next/image";
-import Step1Overlay from "public/hackers/project-info/Step1Overlay.svg";
-import Step1OverlayMobile from "public/hackers/project-info/Step1OverlayMobile.svg";
-import loginToDevpostImg from "public/hackers/project-info/loginToDevpost.png";
+import styles from './LoginToDevpost.module.scss';
+import Image from 'next/image';
+import Step1Overlay from 'public/hackers/project-info/Step1Overlay.svg';
+import Step1OverlayMobile from 'public/hackers/project-info/Step1OverlayMobile.svg';
+import loginToDevpostImg from 'public/hackers/project-info/loginToDevpost.png';
 
 export default function LoginToDevpost() {
   return (
@@ -21,7 +21,7 @@ export default function LoginToDevpost() {
           src={Step1Overlay}
           alt="Overlay"
           fill
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: 'contain' }}
           className={styles.overlayImage}
         />
       </div>
@@ -34,7 +34,7 @@ export default function LoginToDevpost() {
         src={Step1OverlayMobile}
         alt="Overlay"
         fill
-        style={{ objectFit: "contain" }}
+        style={{ objectFit: 'contain' }}
         className={styles.overlayImageMobile}
       />
     </div>

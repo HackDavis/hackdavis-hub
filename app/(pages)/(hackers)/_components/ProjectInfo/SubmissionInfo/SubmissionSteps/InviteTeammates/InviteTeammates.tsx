@@ -1,8 +1,8 @@
-import Image from "next/image";
-import Step4Overlay from "public/hackers/project-info/Step4Overlay.svg";
+import Image from 'next/image';
+import Step4Overlay from 'public/hackers/project-info/Step4Overlay.svg';
 // import Blank from 'public/hackers/project-info/Step6.svg';
-import styles from "./InviteTeammates.module.scss";
-import inviteTeammates from "public/hackers/project-info/inviteTeammates.png";
+import styles from './InviteTeammates.module.scss';
+import inviteTeammates from 'public/hackers/project-info/inviteTeammates.png';
 
 export default function InviteTeammates() {
   return (
@@ -14,7 +14,7 @@ export default function InviteTeammates() {
           src={inviteTeammates}
           alt="Primary Step 1"
           fill
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: 'contain' }}
           className={styles.primaryImage}
         />
       </div>

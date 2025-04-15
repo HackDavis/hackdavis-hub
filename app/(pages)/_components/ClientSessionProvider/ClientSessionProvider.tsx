@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { SessionProvider } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { SessionProvider } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 export default function ClientSessionProvider({
   children,

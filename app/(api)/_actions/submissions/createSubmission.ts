@@ -1,16 +1,16 @@
-"use server";
+'use server';
 
-import { CreateSubmission } from "@datalib/submissions/createSubmission";
+import { CreateSubmission } from '@datalib/submissions/createSubmission';
 
 export async function createSubmission(judge_id: string, team_id: string) {
   await CreateSubmission({
     judge_id: {
-      "*convertId": {
+      '*convertId': {
         id: judge_id,
       },
     },
     team_id: {
-      "*convertId": {
+      '*convertId': {
         id: team_id,
       },
     },

@@ -3,7 +3,7 @@
 .container {
   // border: 3px solid black;
   padding-top: 3%;
-
+ 
   @include desktop-s {
     padding-top: 7%;
   }
@@ -15,8 +15,9 @@
   .judgingProcess {
     padding: 64px;
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.5)
-      url("/hackers/project-info/judgingProcess.svg") no-repeat;
+    background: rgba(255, 255, 255, 0.5) 
+                url('/hackers/project-info/judgingProcess.svg') 
+                no-repeat;
     background-position: right 64px bottom -8px;
     background-size: auto 70%; /* Image height is 50% of container; width adjusts automatically */
     z-index: 1;
@@ -24,21 +25,20 @@
     @include desktop-s {
       padding: 32px;
       background-position: right 32px bottom -4px;
-      background-size: auto 80%;
+      background-size: auto 80%; 
     }
 
     @include tablet-l {
       padding: 16px;
       background-position: right 16px bottom -4px;
-      background-size: auto 75%;
+      background-size: auto 75%; 
     }
 
     @include mobile-l {
-      background-size: auto 60%;
+      background-size: auto 60%; 
     }
-
-    h6,
-    h4 {
+  
+    h6, h4 {
       color: var(--text-dark);
 
       @include tablet-s {
@@ -72,7 +72,7 @@
       }
     }
   }
-
+  
   .footer {
     margin-top: 72px;
 

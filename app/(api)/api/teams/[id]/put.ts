@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { UpdateTeam } from "@datalib/teams/updateTeam";
+import { NextRequest, NextResponse } from 'next/server';
+import { UpdateTeam } from '@datalib/teams/updateTeam';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   const body = await request.json();
   const res = await UpdateTeam(params.id, body);

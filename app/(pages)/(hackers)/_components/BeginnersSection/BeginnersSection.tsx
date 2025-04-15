@@ -1,10 +1,10 @@
-import styles from "./BeginnersSection.module.scss";
-import Image from "next/image";
-import Link from "next/link";
-import hackathon from "public/hackers/mvp/hackathon.svg";
-import arrow from "public/hackers/mvp/arrow.svg";
-import grass_detail_light from "public/hackers/mvp/grass_detail_light.svg";
-import grass_detail_dark from "public/hackers/mvp/grass_detail_dark.svg";
+import styles from './BeginnersSection.module.scss';
+import Image from 'next/image';
+import Link from 'next/link';
+import hackathon from 'public/hackers/mvp/hackathon.svg';
+import arrow from 'public/hackers/mvp/arrow.svg';
+import grass_detail_light from 'public/hackers/mvp/grass_detail_light.svg';
+import grass_detail_dark from 'public/hackers/mvp/grass_detail_dark.svg';
 
 export default function BeginnersSection() {
   return (

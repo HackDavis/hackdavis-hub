@@ -1,5 +1,5 @@
-import Link from "next/link";
-import styles from "./ViewProjects.module.scss";
+import Link from 'next/link';
+import styles from './ViewProjects.module.scss';
 
 export default function ViewMap() {
   return (
@@ -10,7 +10,7 @@ export default function ViewMap() {
           Stage two of judging is now live. Please start making your way to the
           activities area.
         </p>
-        <Link href={"judges/map"}>
+        <Link href={'judges/map'}>
           <button type="button">View Map</button>
         </Link>
       </div>

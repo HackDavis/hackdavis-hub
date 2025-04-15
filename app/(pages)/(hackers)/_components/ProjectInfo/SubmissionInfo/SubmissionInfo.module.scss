@@ -11,34 +11,34 @@
   .submissionProcess {
     padding: 64px;
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.5)
-      url("/hackers/project-info/submissionProcess.svg") no-repeat;
+    background: rgba(255, 255, 255, 0.5) 
+                url('/hackers/project-info/submissionProcess.svg') 
+                no-repeat;
     background-position: right 64px bottom -8px;
     background-size: auto 70%; /* Image height is 50% of container; width adjusts automatically */
     z-index: 1;
 
     @include desktop-m {
-      background-size: auto 60%;
+      background-size: auto 60%; 
     }
-
+    
     @include desktop-s {
       padding: 32px;
       background-position: right 32px bottom -8px;
-      background-size: auto 65%;
+      background-size: auto 65%; 
     }
 
     @include tablet-l {
       padding: 16px;
       background-position: right 16px bottom -8px;
-      // background-size: auto 70%;
+      // background-size: auto 70%; 
     }
-
+    
     @include mobile-l {
-      background-size: auto 55%;
+      background-size: auto 55%; 
     }
-
-    h6,
-    h4 {
+  
+    h6, h4 {
       color: var(--text-dark);
 
       @include tablet-s {
@@ -80,7 +80,7 @@
   justify-content: center;
   position: relative;
   aspect-ratio: 2.5;
-}
+}  
 
 .primaryImageWrapper {
   width: 50%;
@@ -93,51 +93,51 @@
   z-index: 1;
 
   @include tablet-s {
-    width: 100%;
-    margin: 0;
-    margin-bottom: 16px;
+      width: 100%;
+      margin: 0;
+      margin-bottom: 16px;
   }
 
   .primaryImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
   }
 }
 
 .overlayImage {
-  z-index: 2;
+    z-index: 2;
 }
 
 .stepText {
-  width: 50%;
-  font-size: 1.25rem;
-  color: var(--text-dark);
-  padding-bottom: 32px;
+    width: 50%;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    padding-bottom: 32px;
 
-  @include desktop-m {
-    width: 90%;
-  }
+    @include desktop-m {
+        width: 90%;
+    }
 
-  @include tablet-l {
-    font-size: 1rem;
-    padding-bottom: 16px;
-  }
+    @include tablet-l {
+        font-size: 1rem;
+        padding-bottom: 16px;
+      }
 
-  @include tablet-s {
-    width: 100%;
-    font-size: 0.9rem;
-  }
+    @include tablet-s {
+        width: 100%;
+        font-size: 0.9rem;
+    }
 
-  @include mobile-l {
-    font-size: 0.8rem;
-  }
+    @include mobile-l {
+        font-size: 0.8rem;
+    }
 }
 
-.step2,
-.step3 {
+
+.step2, .step3 {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -158,7 +158,7 @@
   }
 }
 
-.step2 {
+.step2 { 
   .imageWrapper {
     width: 50%;
     padding-bottom: 8%;
@@ -167,7 +167,7 @@
       width: 100%;
       margin-bottom: 16px;
     }
-
+    
     .primaryImageWrapper {
       margin: 0;
       width: 100%;
@@ -185,6 +185,7 @@
       right: -10%;
     }
   }
+
 }
 .step3 {
   .imageWrapper {
@@ -195,13 +196,13 @@
     top: 0;
     left: 5%;
     height: 100%;
-    z-index: 2;
-
+    z-index: 2;     
+    
     @include tablet-s {
       display: none;
     }
   }
-}
+}  
 
 .GrassDivider {
   width: 100vw;

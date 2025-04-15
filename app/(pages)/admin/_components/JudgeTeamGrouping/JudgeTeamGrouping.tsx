@@ -1,14 +1,14 @@
-import matchTeams from "@actions/logic/matchTeams";
-import scoreTeams from "@actions/logic/scoreTeams";
-import { useFormState } from "react-dom";
+import matchTeams from '@actions/logic/matchTeams';
+import scoreTeams from '@actions/logic/scoreTeams';
+import { useFormState } from 'react-dom';
 
-import styles from "./JudgeTeamGrouping.module.scss";
-import { useState } from "react";
-import deleteManySubmissions from "@actions/submissions/deleteSubmission";
+import styles from './JudgeTeamGrouping.module.scss';
+import { useState } from 'react';
+import deleteManySubmissions from '@actions/submissions/deleteSubmission';
 
 export default function JudgeTeamGrouping() {
   const [trackResults, scoreAction] = useFormState(scoreTeams, null);
-  const [matching, setMatching] = useState("");
+  const [matching, setMatching] = useState('');
 
   return (
     <div className={styles.body}>
@@ -42,7 +42,7 @@ export default function JudgeTeamGrouping() {
                 ))}
               </>
             ))
-          : ""}
+          : ''}
       </form>
 
       <div className={styles.delete}>
@@ -50,7 +50,7 @@ export default function JudgeTeamGrouping() {
         <button
           onClick={async () => {
             await deleteManySubmissions();
-            setMatching("Submissions deleted");
+            setMatching('Submissions deleted');
           }}
           className={styles.deleteButton}
         >

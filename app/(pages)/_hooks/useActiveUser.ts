@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
-import { getUser } from "@actions/users/getUser";
-import LogoutAction from "@actions/auth/logout";
+import { getUser } from '@actions/users/getUser';
+import LogoutAction from '@actions/auth/logout';
 
 export default function useActiveUser(failRedirectRoute: string) {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function useActiveUser(failRedirectRoute: string) {
       const userRes = await getUser(id);
       if (!userRes.ok || !userRes.body) {
         await LogoutAction();
-        router.push("/error");
+        router.push('/error');
         return;
       }
 
@@ -27,9 +27,9 @@ export default function useActiveUser(failRedirectRoute: string) {
       setLoading(false);
     };
 
-    if (status === "loading") {
+    if (status === 'loading') {
       return;
-    } else if (status === "unauthenticated") {
+    } else if (status === 'unauthenticated') {
       router.push(failRedirectRoute);
       return;
     } else if (session) {

@@ -1,29 +1,29 @@
-"use client";
+'use client';
 
-import AuthForm from "@components/AuthForm/AuthForm";
-import sendEmail from "@actions/invite/sendEmail";
+import AuthForm from '@components/AuthForm/AuthForm';
+import sendEmail from '@actions/invite/sendEmail';
 
 export default function ForgotPasswordForm() {
   const onSubmit = async (fields: any) => {
     return sendEmail(
       {
         email: fields.email,
-        role: "hacker",
+        role: 'hacker',
       },
-      "reset",
+      'reset'
     );
   };
 
   const onSuccess = () => {
-    alert("Password reset email sent!");
+    alert('Password reset email sent!');
   };
 
   const formFields = [
     {
-      name: "email" as const,
-      type: "email",
-      label: "EMAIL",
-      placeholder: "Email",
+      name: 'email' as const,
+      type: 'email',
+      label: 'EMAIL',
+      placeholder: 'Email',
       readOnly: false,
     },
   ];
@@ -34,7 +34,7 @@ export default function ForgotPasswordForm() {
       fields={formFields}
       buttonText="Send Email →"
       initialValues={{
-        email: "",
+        email: '',
       }}
       onSubmit={onSubmit}
       onSuccess={onSuccess}

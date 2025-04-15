@@ -1,4 +1,4 @@
-import JudgePanelMatching from "../_components/JudgePanelMatching/JudgePanelMatching";
+import JudgePanelMatching from '../_components/JudgePanelMatching/JudgePanelMatching';
 
 export default function JudgePanels() {
   return (

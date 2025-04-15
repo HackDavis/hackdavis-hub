@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { getLinkPreview } from "link-preview-js";
+import { getLinkPreview } from 'link-preview-js';
 interface LinkPreviewResult {
   url: string;
   title?: string;
@@ -17,12 +17,12 @@ interface LinkPreviewResult {
 export async function fetchLinkPreview(url: string) {
   try {
     const data = (await getLinkPreview(url, {
-      imagesPropertyType: "og",
+      imagesPropertyType: 'og',
       headers: {
-        "user-agent": "googlebot",
-        "Accept-Language": "en-US",
+        'user-agent': 'googlebot',
+        'Accept-Language': 'en-US',
       },
-      followRedirects: "follow",
+      followRedirects: 'follow',
       timeout: 5000,
     })) as LinkPreviewResult;
 
@@ -31,10 +31,10 @@ export async function fetchLinkPreview(url: string) {
       data,
     };
   } catch (error) {
-    console.error("Failed to fetch preview:", error);
+    console.error('Failed to fetch preview:', error);
     return {
       ok: false,
-      error: "Failed to fetch preview",
+      error: 'Failed to fetch preview',
     };
   }
 }

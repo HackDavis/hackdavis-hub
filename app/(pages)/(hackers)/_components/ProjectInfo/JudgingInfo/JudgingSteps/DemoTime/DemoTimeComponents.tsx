@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import FroggyFace from "public/hackers/project-info/froggyFace.svg";
-import CowFace from "public/hackers/project-info/cowFace.svg";
-import DuckyFace from "public/hackers/project-info/duckyFace.svg";
-import HackathonCharacters from "public/hackers/project-info/hackathonCharacters.svg";
-import styles from "./DemoTimeComponents.module.scss";
+import Image from 'next/image';
+import FroggyFace from 'public/hackers/project-info/froggyFace.svg';
+import CowFace from 'public/hackers/project-info/cowFace.svg';
+import DuckyFace from 'public/hackers/project-info/duckyFace.svg';
+import HackathonCharacters from 'public/hackers/project-info/hackathonCharacters.svg';
+import styles from './DemoTimeComponents.module.scss';
 
 export function TimelineTile1() {
   return (
@@ -19,7 +19,7 @@ export function TimelineTile1() {
                 <p>JUDGE {number}</p>
               </div>
               <div className={styles.range} />
-              <div className={styles.text} style={{ color: "#173A52" }}>
+              <div className={styles.text} style={{ color: '#173A52' }}>
                 <p>
                   <span>3 MINS</span> of demo <br />
                   <span>3 MINS</span> of Q&amp;A
@@ -32,7 +32,7 @@ export function TimelineTile1() {
               <p>JUDGE 4+</p>
             </div>
             <div className={styles.range} />
-            <div className={styles.text} style={{ color: "#005271" }}>
+            <div className={styles.text} style={{ color: '#005271' }}>
               <p>
                 MLH/NPO/
                 <wbr />
@@ -167,7 +167,7 @@ export function JudgesTile2() {
         <h2>Please be at your table during demo time.</h2>
         <p>
           If your team isn't at your table when a judge arrives, they will mark
-          you as missing and move on, placing your team at the{" "}
+          you as missing and move on, placing your team at the{' '}
           <span>end of their queue.</span> Please track your position to avoid
           delays.
         </p>
@@ -207,7 +207,7 @@ export function PostDemoTile1() {
           visiting tables without a judge.
         </p>
         <p>
-          If your team experiences any disruptions,{" "}
+          If your team experiences any disruptions,{' '}
           <span>please report them</span> to the Director Table, and we will
           address them promptly.
         </p>

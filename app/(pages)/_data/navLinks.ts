@@ -1,19 +1,19 @@
 const navLinks = [
   {
-    name: "Home",
-    slug: "/",
+    name: 'Home',
+    slug: '/',
   },
   {
-    name: "About Us",
-    slug: "/about",
+    name: 'About Us',
+    slug: '/about',
   },
   {
-    name: "Examples",
-    slug: "/examples",
+    name: 'Examples',
+    slug: '/examples',
   },
   {
-    name: "Contact Us",
-    slug: "/contact",
+    name: 'Contact Us',
+    slug: '/contact',
   },
 ];
 

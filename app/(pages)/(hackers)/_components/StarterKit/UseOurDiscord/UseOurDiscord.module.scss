@@ -1,112 +1,113 @@
 @import "@globals/mixins.scss";
 
 .teamFormation {
-  display: flex;
-  background: var(--sea-background);
-  border-radius: 12px;
-  color: white;
-
-  @include desktop-s {
-    flex-direction: column;
-  }
-
-  p {
-    font-size: 1rem;
-
-    @include tablet-l {
-      font-size: 0.75rem;
-    }
-
-    @include mobile-l {
-      font-size: 0.5rem;
-    }
-  }
-
-  /* Left panel (Title) */
-  .leftPanel {
-    border-radius: 12px 0px 0px 12px;
-    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--background-secondary);
-
-    @include tablet-l {
-      padding: 3% 5%;
-    }
-
-    h2 {
-      font-weight: 600;
-      color: var(--text-light);
-      font-size: 2.5rem; // default
-
-      @include monitor-s {
-        font-size: 2rem;
-      }
-
-      @include mobile-l {
-        font-size: 1.2rem; // Default size
-      }
-
-      @include tablet-l {
-        font-size: 1.8rem; // Default size
-      }
-    }
-  }
-
-  /* Right panel (Chat Bubbles) */
-  .rightPanel {
-    padding-left: 10%;
-    padding: 6%;
-    flex: 1.5;
-    display: flex-start;
-    flex-direction: column;
-    gap: 60px;
-    align-items: center;
-
-    @include desktop-s {
-      padding-bottom: 10%;
-      flex: 1;
-    }
-
-    @include tablet-l {
-      padding: 6% 10%;
-    }
-  }
-
-  /* Base chat bubble styling */
-  .chatBubble {
-    padding: 7% 5%;
-    margin-top: 20px;
+    background: var(--sea-background);
     border-radius: 12px;
-    font-size: 1rem;
-    // max-width: 80%;
-    position: relative;
-    transform: rotate(-2deg); /* Slightly slanted effect */
+    color: white;
 
-    @include tablet-l {
-      margin-top: 10px;
+    @include desktop-s{
+        flex-direction: column;
     }
 
-    @include mobile-l {
-      margin-top: 0;
+    p {
+        font-size: 1rem;
+
+        @include tablet-l {
+            font-size: 0.75rem;
+        }
+
+        @include mobile-l {
+            font-size: 0.5rem;
+        }
     }
-  }
 
-  /* Blue Bubble */
-  .blueBubble {
-    background: #aeefff;
-    color: var(--sea-background);
-    align-self: flex-start;
-    transform: rotate(-2deg);
-  }
+    /* Left panel (Title) */
+    .leftPanel {
+        border-radius: 12px 0px 0px 12px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--background-secondary);
 
-  /* Green Bubble */
-  .greenBubble {
-    margin-left: -10px;
-    background: var(--grass-background-light);
-    color: #123041;
-    align-self: flex-end;
-    transform: rotate(3deg);
-  }
+        @include tablet-l {
+            padding: 3% 5%;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 2.5rem; // default 
+
+            @include monitor-s {
+                font-size: 2rem;
+            }
+
+            @include mobile-l {
+                font-size: 1.2rem; // Default size
+            }
+            
+            @include tablet-l {
+                font-size: 1.8rem; // Default size
+            }
+
+        }  
+    }  
+
+    /* Right panel (Chat Bubbles) */
+    .rightPanel {
+        padding-left: 10%;
+        padding: 6%;
+        flex: 1.5;
+        display: flex-start;
+        flex-direction: column;
+        gap: 60px;
+        align-items: center;
+                
+        @include desktop-s {
+            padding-bottom: 10%;
+            flex: 1;
+        }
+
+        @include tablet-l {
+            padding: 6% 10%;
+        }
+    }
+
+    /* Base chat bubble styling */
+    .chatBubble {
+        padding: 7% 5%;
+        margin-top: 20px;
+        border-radius: 12px;
+        font-size: 1rem;
+        // max-width: 80%;
+        position: relative;
+        transform: rotate(-2deg); /* Slightly slanted effect */
+
+        @include tablet-l {
+            margin-top: 10px;
+        } 
+
+        @include mobile-l {
+            margin-top: 0;
+        } 
+    }
+
+    /* Blue Bubble */
+    .blueBubble {
+        background: #AEEFFF;
+        color: var(--sea-background);
+        align-self: flex-start;
+        transform: rotate(-2deg);
+    }
+
+    /* Green Bubble */
+    .greenBubble {
+        margin-left: -10px;
+        background: var(--grass-background-light);
+        color: #123041;
+        align-self: flex-end;
+        transform: rotate(3deg);
+    }
 }

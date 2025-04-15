@@ -5,9 +5,9 @@
 //   children: React.ReactNode;
 // }
 
-import styles from "./WorkshopSlides.module.scss";
-import Image from "next/image";
-import Garage from "public/hackers/garage.svg";
+import styles from './WorkshopSlides.module.scss';
+import Image from 'next/image';
+import Garage from 'public/hackers/garage.svg';
 // import ClosedGarage from 'public/hackers/closed_garage.svg';
 
 export default function WorkshopSlides() {

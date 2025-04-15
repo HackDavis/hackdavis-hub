@@ -1,78 +1,78 @@
 .radio_container {
-  display: flex;
-  flex-direction: column;
-  border-radius: 12px;
-  box-shadow: 0px 4px 4px 0px rgba(98, 88, 88, 0.08);
-  padding: 24px 32px;
-  gap: 20px;
-  background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0px 4px 4px 0px rgba(98, 88, 88, 0.08);
+    padding: 24px 32px;
+    gap: 20px;
+    background-color: white;
 }
 
 .question_container {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .question {
-  font-size: 1.125rem;
-  font-weight: 400;
-  color: black;
-  font-family: var(--font-dm-sans);
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: black;
+    font-family: var(--font-dm-sans);
 }
 
 .tooltip_container {
-  margin-top: 4px;
-  margin-left: 8px;
-  min-width: 18px;
+    margin-top: 4px;
+    margin-left: 8px;
+    min-width: 18px;
 
-  img {
-    width: 100%;
-  }
+    img {
+        width: 100%;
+    }
 }
 
 .tooltip_text {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
 
-  &.expanded {
-    max-height: 500px; // arbitrarily large value
-    opacity: 1;
-  }
+    &.expanded {
+        max-height: 500px; // arbitrarily large value
+        opacity: 1;
+    }
 
-  p {
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: #a1a1a3;
-    font-family: var(--font-jakarta);
-    font-style: italic;
-  }
+    p {
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: #A1A1A3;
+        font-family: var(--font-jakarta);
+        font-style: italic;
+    }
 
-  span {
-    font-weight: 700;
-    font-style: normal;
-  }
+    span {
+        font-weight: 700;
+        font-style: normal;
+    }
 }
 
 .radio_buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .radio_button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  border: 2px solid black;
-  cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid black;
+    cursor: pointer;
 
-  &.active {
-    background-color: #005271;
-    color: white;
-  }
+    &.active {
+        background-color: #005271;
+        color: white;
+    }
 }

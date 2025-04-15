@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { Button } from "@globals/components/ui/button";
-import { allTracks, TrackData } from "@data/tracks";
-import PrizeGrid from "./PrizeGrid";
-import { useState } from "react";
+import { Button } from '@globals/components/ui/button';
+import { allTracks, TrackData } from '@data/tracks';
+import PrizeGrid from './PrizeGrid';
+import { useState } from 'react';
 
 const prizes = Object.values(allTracks);
 
 export default function PrizeTracks() {
-  const [filter, setFilter] = useState<string>("all");
+  const [filter, setFilter] = useState<string>('all');
   const [filteredPrizes, setFilteredPrizes] = useState<TrackData[]>(prizes);
 
   const handleFilterChange = (selectedFilter: string) => {
     setFilter(selectedFilter.toLowerCase());
     setFilteredPrizes(() => {
-      if (selectedFilter.toLowerCase() === "all") {
+      if (selectedFilter.toLowerCase() === 'all') {
         return prizes;
       }
       return prizes.filter(
-        (prize) => prize.filter.toLowerCase() === selectedFilter.toLowerCase(),
+        (prize) => prize.filter.toLowerCase() === selectedFilter.toLowerCase()
       );
     });
   };
@@ -57,12 +57,12 @@ interface FilterRowProps {
 
 function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
   const filters: FilterItem[] = [
-    { track: "ALL", color: "#C3F0EF" },
-    { track: "GENERAL", color: "#FFDBCA" },
-    { track: "TECHNICAL", color: "#CDE396" },
-    { track: "DESIGN", color: "#FFDC86" },
-    { track: "BUSINESS", color: "#D5CBE9" },
-    { track: "NONPROFIT", color: "#D5CBE9" },
+    { track: 'ALL', color: '#C3F0EF' },
+    { track: 'GENERAL', color: '#FFDBCA' },
+    { track: 'TECHNICAL', color: '#CDE396' },
+    { track: 'DESIGN', color: '#FFDC86' },
+    { track: 'BUSINESS', color: '#D5CBE9' },
+    { track: 'NONPROFIT', color: '#D5CBE9' },
   ];
 
   return (
@@ -81,8 +81,8 @@ function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
             <div
               className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer ${
                 currentFilter.toLowerCase() === track.toLowerCase()
-                  ? "w-full"
-                  : "w-0 group-hover:w-full"
+                  ? 'w-full'
+                  : 'w-0 group-hover:w-full'
               } bg-opacity-20`}
               style={{ backgroundColor: color }}
             />

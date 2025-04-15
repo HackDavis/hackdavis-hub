@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import styles from "./page.module.scss";
-import ScoringForm from "@components/ScoringForm/ScoringForm";
-import Loader from "@components/Loader/Loader";
-import Image from "next/image";
-import Link from "next/link";
+import { useState } from 'react';
+import styles from './page.module.scss';
+import ScoringForm from '@components/ScoringForm/ScoringForm';
+import Loader from '@components/Loader/Loader';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { useSubmission } from "@hooks/useSubmission";
-import { useTeam } from "@hooks/useTeam";
+import { useSubmission } from '@hooks/useSubmission';
+import { useTeam } from '@hooks/useTeam';
 
-import leftArrow from "@public/judges/scoring/left-arrow.svg";
+import leftArrow from '@public/judges/scoring/left-arrow.svg';
 
 interface ScoringFormProps {
   params: {
-    "team-id": string;
+    'team-id': string;
   };
 }
 
 export default function ScoreTeam({ params }: ScoringFormProps) {
   const [showInfo, setShowInfo] = useState(false);
-  const { submission, loading: subLoading } = useSubmission(params["team-id"]);
-  const { team, loading: teamLoading } = useTeam(params["team-id"]);
+  const { submission, loading: subLoading } = useSubmission(params['team-id']);
+  const { team, loading: teamLoading } = useTeam(params['team-id']);
   const loading = subLoading || teamLoading;
 
   if (loading) {
@@ -57,7 +57,7 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
           Scoring
         </button>
       </div>
-      <div style={{ display: showInfo ? "none" : "block" }}>
+      <div style={{ display: showInfo ? 'none' : 'block' }}>
         <ScoringForm submission={submission.body} team={team.body} />
       </div>
       <div

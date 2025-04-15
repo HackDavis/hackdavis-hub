@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { GetManyTeams, GetTeam } from "@datalib/teams/getTeam";
-import parseAndReplace from "@utils/request/parseAndReplace";
-import { serializeMongoData } from "@utils/serialize/serialization";
+import { GetManyTeams, GetTeam } from '@datalib/teams/getTeam';
+import parseAndReplace from '@utils/request/parseAndReplace';
+import { serializeMongoData } from '@utils/serialize/serialization';
 
 export async function getTeam(id: string) {
   const team = await GetTeam(id);

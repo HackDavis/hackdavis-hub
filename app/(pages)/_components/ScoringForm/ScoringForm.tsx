@@ -1,13 +1,13 @@
-"use client";
-import styles from "./ScoringForm.module.scss";
-import RadioSelect from "@components/RadioSelect/RadioSelect";
-import { categorizedTracks } from "@data/tracks";
-import Submission from "@typeDefs/submission";
-import Team from "@typeDefs/team";
-import { useRef, useState } from "react";
-import { UpdateSubmission, FlattenScores } from "app/(pages)/_utils/FormParser";
-import updateSubmission from "@actions/submissions/updateSubmission";
-import { useRouter } from "next/navigation";
+'use client';
+import styles from './ScoringForm.module.scss';
+import RadioSelect from '@components/RadioSelect/RadioSelect';
+import { categorizedTracks } from '@data/tracks';
+import Submission from '@typeDefs/submission';
+import Team from '@typeDefs/team';
+import { useRef, useState } from 'react';
+import { UpdateSubmission, FlattenScores } from 'app/(pages)/_utils/FormParser';
+import updateSubmission from '@actions/submissions/updateSubmission';
+import { useRouter } from 'next/navigation';
 
 interface ScoringFormProps {
   team: Team;
@@ -16,40 +16,40 @@ interface ScoringFormProps {
 
 const overallScoringCategory = [
   {
-    displayName: "Social Good",
-    name: "social_good",
+    displayName: 'Social Good',
+    name: 'social_good',
     guidelines: {
-      "1": "Solves a minor, niche problem, limited community impact.",
-      "3": "Solves a clear problem with moderate community impact and potential sustainability.",
-      "5": "Solves a significant problem with broad, lasting community impact and scalability.",
+      '1': 'Solves a minor, niche problem, limited community impact.',
+      '3': 'Solves a clear problem with moderate community impact and potential sustainability.',
+      '5': 'Solves a significant problem with broad, lasting community impact and scalability.',
     },
   },
   {
-    displayName: "Creativity",
-    name: "creativity",
+    displayName: 'Creativity',
+    name: 'creativity',
     guidelines: {
-      "1": "Solution is conventional or very similar to existing options.",
-      "3": "Solution offers some unique features or improvements over existing options.",
-      "5": "Solution introduces a novel approach with unique, groundbreaking elements.",
+      '1': 'Solution is conventional or very similar to existing options.',
+      '3': 'Solution offers some unique features or improvements over existing options.',
+      '5': 'Solution introduces a novel approach with unique, groundbreaking elements.',
     },
   },
   {
-    displayName: "Presentation",
-    name: "presentation",
+    displayName: 'Presentation',
+    name: 'presentation',
     guidelines: {
-      "1": "Pitch is unclear, lacks detail and team understanding.",
-      "3": "Pitch is clear with good detail, but delivery could be more engaging or team involvement is uneven.",
-      "5": "Pitch is compelling, engaging, well-delivered with strong team involvement and clear expertise.",
+      '1': 'Pitch is unclear, lacks detail and team understanding.',
+      '3': 'Pitch is clear with good detail, but delivery could be more engaging or team involvement is uneven.',
+      '5': 'Pitch is compelling, engaging, well-delivered with strong team involvement and clear expertise.',
     },
   },
 ];
 
-const SEP = "::";
+const SEP = '::';
 
 export default function ScoringForm({ team, submission }: ScoringFormProps) {
   const categorizedTrackNames = Object.keys(categorizedTracks);
   const scorableTracks = team.tracks.filter((track: string) =>
-    categorizedTrackNames.includes(track),
+    categorizedTrackNames.includes(track)
   );
 
   const unfilledDynamicQuestions = Object.fromEntries(
@@ -58,9 +58,9 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
         (categorizedTracks[trackName].scoring_criteria ?? []).map((track) => [
           [`${trackName}${SEP}${track.attribute}`],
           null,
-        ]),
+        ])
       )
-      .flat(),
+      .flat()
   );
 
   const router = useRouter();
@@ -94,31 +94,31 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
     // validate form
     const baseFilled = Object.entries(baseQuestions).every(([key, value]) => {
       // skip check for 'comments' as it is an optional field
-      return key === "comments" || isNotNullish(value);
+      return key === 'comments' || isNotNullish(value);
     });
     const dynamicFilled = Object.values(dynamicQuestionsRef.current).every(
-      isNotNullish,
+      isNotNullish
     );
 
     if (!baseFilled || !dynamicFilled) {
-      alert("Not all form fields are filled out!");
+      alert('Not all form fields are filled out!');
       return;
     }
 
     const updatedSubmission = UpdateSubmission(
       submission,
       baseQuestions,
-      dynamicQuestionsRef.current,
+      dynamicQuestionsRef.current
     );
 
     const updateRes = await updateSubmission(
       submission.judge_id,
       submission.team_id,
-      updatedSubmission,
+      updatedSubmission
     );
 
     if (updateRes.ok) {
-      router.push("/judges/projects");
+      router.push('/judges/projects');
     } else {
       alert(updateRes.error);
     }
@@ -133,7 +133,7 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
           className={styles.comment_box}
           name="comments"
           value={baseQuestions.comments}
-          placeholder={"Notes..."}
+          placeholder={'Notes...'}
           onChange={(event) => {
             setBaseQuestions((prev: any) => ({
               ...prev,
@@ -174,12 +174,12 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
                   ]
                 }
               />
-            ),
+            )
           )}
         </div>
       ))}
       <button type="submit" className={styles.submit_button}>
-        {isEditMode ? "Edit" : "Submit"} Scores
+        {isEditMode ? 'Edit' : 'Submit'} Scores
       </button>
     </form>
   );

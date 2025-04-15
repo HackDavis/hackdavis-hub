@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
-import useAuthForm from "@hooks/useAuthForm";
-import Loader from "@components/Loader/Loader";
-import Froggy from "public/login/LogIn_Froggy.svg";
-import Drumstick from "public/login/LogIn_DrumStick.svg";
-import hackerStyles from "./HackerAuthForm.module.scss";
-import judgeStyles from "./JudgeAuthForm.module.scss";
+import useAuthForm from '@hooks/useAuthForm';
+import Loader from '@components/Loader/Loader';
+import Froggy from 'public/login/LogIn_Froggy.svg';
+import Drumstick from 'public/login/LogIn_DrumStick.svg';
+import hackerStyles from './HackerAuthForm.module.scss';
+import judgeStyles from './JudgeAuthForm.module.scss';
 
-type Role = "hacker" | "judge";
-type FieldName = "email" | "password" | "passwordDupe" | "code";
+type Role = 'hacker' | 'judge';
+type FieldName = 'email' | 'password' | 'passwordDupe' | 'code';
 
 interface FormField {
   name: FieldName;
@@ -42,7 +42,7 @@ export default function AuthForm({
   onSubmit,
   onSuccess,
 }: AuthFormProps) {
-  const styles = role === "hacker" ? hackerStyles : judgeStyles;
+  const styles = role === 'hacker' ? hackerStyles : judgeStyles;
 
   const {
     fields: formValues,
@@ -72,11 +72,11 @@ export default function AuthForm({
                     name={field.name}
                     type={field.type}
                     placeholder={field.placeholder}
-                    value={formValues[field.name] || ""}
+                    value={formValues[field.name] || ''}
                     onInput={handleChange}
                     readOnly={field.readOnly}
                     style={{
-                      cursor: field.readOnly ? "not-allowed" : "auto",
+                      cursor: field.readOnly ? 'not-allowed' : 'auto',
                     }}
                   />
                 </div>
@@ -85,14 +85,14 @@ export default function AuthForm({
           </div>
 
           {linkText && (
-            <Link href={linkHref ?? "/"} className={styles.forgot}>
+            <Link href={linkHref ?? '/'} className={styles.forgot}>
               {linkText}
             </Link>
           )}
         </div>
 
         <div className={styles.bottom_container}>
-          {role === "judge" && (
+          {role === 'judge' && (
             <div className={styles.froggy_container}>
               <Image
                 src={Drumstick}

@@ -1,21 +1,21 @@
-import StarterKitSlide from "@pages/(hackers)/_components/StarterKit/StarterKitSlide";
-import styles from "./SubmissionTips.module.scss";
-import Animals from "public/hackers/project-info/peepingAnimals.png";
-import Image from "next/image";
-import Link from "next/link";
-import arrow from "public/hackers/mvp/arrow.svg";
+import StarterKitSlide from '@pages/(hackers)/_components/StarterKit/StarterKitSlide';
+import styles from './SubmissionTips.module.scss';
+import Animals from 'public/hackers/project-info/peepingAnimals.png';
+import Image from 'next/image';
+import Link from 'next/link';
+import arrow from 'public/hackers/mvp/arrow.svg';
 
 const questions = [
   {
-    text: "PICKED 4 RELEVANT PRIZE TRACKS",
+    text: 'PICKED 4 RELEVANT PRIZE TRACKS',
     color: styles.qboxGreen,
   },
   {
-    text: "ADDED YOUR GITHUB AND/OR FIGMA LINKS",
+    text: 'ADDED YOUR GITHUB AND/OR FIGMA LINKS',
     color: styles.qboxYellow,
   },
   {
-    text: "INSERTED A DEMO VIDEO",
+    text: 'INSERTED A DEMO VIDEO',
     color: styles.qboxBlue,
   },
 ];

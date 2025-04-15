@@ -1,82 +1,83 @@
 @import "@globals/mixins.scss";
 
-.container {
-  display: flex;
-  flex-direction: row;
-  gap: 32px;
-  // justify-content: space-between;
-
-  @include desktop-s {
-    gap: 16px;
-  }
-
-  @include tablet-l {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .box {
-    width: 50%;
-    background-color: #123041;
-    color: #fff;
-    border-radius: 12px;
-    padding: 5%;
-    text-align: center;
-
-    @include tablet-l {
-      width: 100%;
-    }
-
-    .green_text,
-    .pink_text {
-      padding-right: 3%;
-      rotate: -4deg;
-      font-weight: 700;
-      font-size: 36px;
-
-      @include desktop-s {
-        font-size: 30px;
-      }
-
-      @include tablet-l {
-        font-size: 18px;
-      }
-    }
-
-    .green_text {
-      color: #afd157;
-    }
-    .pink_text {
-      color: #ffc5ab;
-    }
-  }
-  h3 {
-    // font-family: "Plus Jakarta Sans";
-    font-size: 28px;
-    font-weight: 600;
-    letter-spacing: 0.56px;
+.container{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    gap: 32px;
+    // justify-content: space-between;
 
-    @include desktop-s {
-      font-size: 24px;
+    @include desktop-s{
+        gap: 16px;
     }
 
-    @include tablet-l {
-      font-size: 14px;
+    @include tablet-l{
+        flex-direction: column;
+        gap: 16px;
     }
-  }
-  p {
-    // font-family: "Plus Jakarta Sans";
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 145%; /* 26.1px */
-    letter-spacing: 0.36px;
-    margin-top: 32px;
-    @include tablet-l {
-      font-size: 10px;
-      margin-top: 8px;
+
+    .box{
+        width: 50%;
+        background-color: #123041;
+        color: #FFF;
+        border-radius: 12px;
+        padding: 5%;
+        text-align: center;
+
+        @include tablet-l{
+            width: 100%;
+        }
+
+        .green_text, .pink_text {
+            padding-right: 3%;
+            rotate: -4deg;
+            font-weight: 700;
+            font-size: 36px;
+
+            @include desktop-s{
+                font-size: 30px;
+            }
+            
+            @include tablet-l{
+                font-size: 18px;
+            }
+        }
+
+        .green_text{
+            color: #AFD157;
+        }
+        .pink_text{
+            color: #FFC5AB;
+        }
     }
-  }
+    h3{
+        // font-family: "Plus Jakarta Sans";
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 0.56px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @include desktop-s {
+            font-size: 24px;
+        }
+
+        @include tablet-l{
+            font-size: 14px;
+        }
+    }
+    p{
+        // font-family: "Plus Jakarta Sans";
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 145%; /* 26.1px */
+        letter-spacing: 0.36px;
+        margin-top: 32px;
+        @include tablet-l{
+            font-size: 10px;
+            margin-top: 8px;
+        }
+    }
 }
+
+

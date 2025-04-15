@@ -1,41 +1,41 @@
-import ResourceCard from "./resource_card";
+import ResourceCard from './resource_card';
 
 const designerResources = [
   {
-    name: "Human-Centered Design Process",
-    url: "https://www.usertesting.com/blog/how-ideo-uses-customer-insights-to-design-innovative-products-users-love",
+    name: 'Human-Centered Design Process',
+    url: 'https://www.usertesting.com/blog/how-ideo-uses-customer-insights-to-design-innovative-products-users-love',
   },
   {
-    name: "Figma for Beginners",
-    url: "https://www.youtube.com/playlist?list=PLXDU_eVOJTx7QHLShNqIXL1Cgbxj7HlN4",
+    name: 'Figma for Beginners',
+    url: 'https://www.youtube.com/playlist?list=PLXDU_eVOJTx7QHLShNqIXL1Cgbxj7HlN4',
   },
   {
-    name: "Design Features in Figma",
-    url: "https://youtube.com/playlist?list=PLXDU_eVOJTx6zk5MDarIs0asNoZqlRG23",
+    name: 'Design Features in Figma',
+    url: 'https://youtube.com/playlist?list=PLXDU_eVOJTx6zk5MDarIs0asNoZqlRG23',
   },
   {
-    name: "Figma End to End",
-    url: "https://www.figma.com/resources/learn/getting-started-figma-end-to-end/",
+    name: 'Figma End to End',
+    url: 'https://www.figma.com/resources/learn/getting-started-figma-end-to-end/',
   },
   {
-    name: "Tips for presentations (Figma)",
-    url: "https://youtu.be/yPuuiz1kT1M",
+    name: 'Tips for presentations (Figma)',
+    url: 'https://youtu.be/yPuuiz1kT1M',
   },
   {
-    name: "Building Reusable Components",
-    url: "https://youtu.be/k8y9SRPB78Q",
+    name: 'Building Reusable Components',
+    url: 'https://youtu.be/k8y9SRPB78Q',
   },
   {
-    name: "Prototyping & Transitions",
-    url: "https://youtu.be/-d6zNGeF59M",
+    name: 'Prototyping & Transitions',
+    url: 'https://youtu.be/-d6zNGeF59M',
   },
   {
-    name: "Anatomy of a design pitch",
-    url: "https://uxdesign.cc/anatomy-of-a-design-pitch-17435f3e7e0f",
+    name: 'Anatomy of a design pitch',
+    url: 'https://uxdesign.cc/anatomy-of-a-design-pitch-17435f3e7e0f',
   },
   {
-    name: "Human-Centered Design",
-    url: "https://www.designkit.org/human-centered-design",
+    name: 'Human-Centered Design',
+    url: 'https://www.designkit.org/human-centered-design',
   },
 ];
 

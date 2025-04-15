@@ -1,24 +1,24 @@
-"use client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+'use client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import {
   faMedium,
   faFacebookF,
   faTwitter,
   faInstagram,
   faDiscord,
-} from "@fortawesome/free-brands-svg-icons";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import Image from "next/image";
+} from '@fortawesome/free-brands-svg-icons';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import Image from 'next/image';
 config.autoAddCss = false;
 
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 export default function Footer() {
   const logoStyles =
-    "h-6 text-white transition hover:text-gray-300 break-400:h-8 md:h-12 md:h-8 xl:h-12 2xl:h-15 ";
+    'h-6 text-white transition hover:text-gray-300 break-400:h-8 md:h-12 md:h-8 xl:h-12 2xl:h-15 ';
   return (
     <footer className="relative z-10 flex w-full flex-col overflow-x-clip bg-grass-background-dark">
       {/* Footer Background Image */}

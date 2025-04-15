@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { getEventsForOneUser } from "@actions/userToEvents/getUserToEvent";
-import { createUserToEvent } from "@actions/userToEvents/createUserToEvent";
-import { deleteUserToEvent } from "@actions/userToEvents/deleteUserToEvent";
-import Event from "@typeDefs/event";
-import UserToEvent from "@typeDefs/userToEvent";
+import { useState, useEffect, useCallback } from 'react';
+import { getEventsForOneUser } from '@actions/userToEvents/getUserToEvent';
+import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
+import { deleteUserToEvent } from '@actions/userToEvents/deleteUserToEvent';
+import Event from '@typeDefs/event';
+import UserToEvent from '@typeDefs/userToEvent';
 
 // todo: automatically add general and meals to personal
 
@@ -33,16 +33,16 @@ export function usePersonalEvents(userId: string) {
         // Extract the events from the user-to-event relations if they exist
         const events = result.body
           .filter(
-            (relation: any) => relation.events && relation.events.length > 0,
+            (relation: any) => relation.events && relation.events.length > 0
           )
           .map((relation: any) => {
             // Get the first event from the events array
             const event = relation.events[0];
             // Make sure dates are properly handled
-            if (event.start_time && typeof event.start_time === "string") {
+            if (event.start_time && typeof event.start_time === 'string') {
               event.start_time = new Date(event.start_time);
             }
-            if (event.end_time && typeof event.end_time === "string") {
+            if (event.end_time && typeof event.end_time === 'string') {
               event.end_time = new Date(event.end_time);
             }
             return event;
@@ -51,19 +51,19 @@ export function usePersonalEvents(userId: string) {
         setPersonalEvents(events);
       } else {
         // If no events found, set empty array rather than error for new users
-        if (result.error?.includes("No matching userToEvent found")) {
+        if (result.error?.includes('No matching userToEvent found')) {
           setUserToEvents([]);
           setPersonalEvents([]);
         } else {
-          setError(result.error || "Failed to fetch personal events");
+          setError(result.error || 'Failed to fetch personal events');
         }
       }
     } catch (err) {
-      console.error("Error in fetchPersonalEvents:", err);
+      console.error('Error in fetchPersonalEvents:', err);
       setError(
         `Error fetching personal events: ${
           err instanceof Error ? err.message : String(err)
-        }`,
+        }`
       );
     } finally {
       setIsLoading(false);
@@ -85,22 +85,22 @@ export function usePersonalEvents(userId: string) {
           await fetchPersonalEvents();
           return true;
         } else {
-          setError(result.error || "Failed to add event to personal schedule");
+          setError(result.error || 'Failed to add event to personal schedule');
           return false;
         }
       } catch (err) {
-        console.error("Error in addToPersonalSchedule:", err);
+        console.error('Error in addToPersonalSchedule:', err);
         setError(
           `Error adding event to personal schedule: ${
             err instanceof Error ? err.message : String(err)
-          }`,
+          }`
         );
         return false;
       } finally {
         setIsLoading(false);
       }
     },
-    [userId, fetchPersonalEvents],
+    [userId, fetchPersonalEvents]
   );
 
   // Remove an event from the user's personal schedule
@@ -122,7 +122,7 @@ export function usePersonalEvents(userId: string) {
           return true;
         } else {
           setError(
-            result.error || "Failed to remove event from personal schedule",
+            result.error || 'Failed to remove event from personal schedule'
           );
           return false;
         }
@@ -130,14 +130,14 @@ export function usePersonalEvents(userId: string) {
         setError(
           `Error removing event from personal schedule: ${
             err instanceof Error ? err.message : String(err)
-          }`,
+          }`
         );
         return false;
       } finally {
         setIsLoading(false);
       }
     },
-    [userId, fetchPersonalEvents],
+    [userId, fetchPersonalEvents]
   );
 
   // Check if an event is in the user's personal schedule
@@ -145,7 +145,7 @@ export function usePersonalEvents(userId: string) {
     (eventId: string): boolean => {
       return userToEvents.some((relation) => relation.event_id === eventId);
     },
-    [userToEvents],
+    [userToEvents]
   );
 
   // Load personal events on component mount or when userId changes

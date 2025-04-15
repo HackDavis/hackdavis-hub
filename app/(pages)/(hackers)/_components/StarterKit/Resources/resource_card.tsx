@@ -1,5 +1,5 @@
-import { useLinkPreview } from "@hooks/useLinkPreview";
-import Loader from "@pages/_components/Loader/Loader";
+import { useLinkPreview } from '@hooks/useLinkPreview';
+import Loader from '@pages/_components/Loader/Loader';
 export interface resource_type {
   name: string;
   url: string;

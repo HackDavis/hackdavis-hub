@@ -1,4 +1,4 @@
-@import "@globals/mixins.scss";
+@import '@globals/mixins.scss';
 
 .container {
   position: relative;
@@ -12,7 +12,7 @@
   }
 
   h2 {
-    color: #173a52;
+    color: #173A52;
     font-size: 1.75rem;
     font-style: normal;
     font-weight: 600;
@@ -39,7 +39,7 @@
   }
 
   .tile {
-    background-color: #9ee7e5;
+    background-color: #9EE7E5;
     border-radius: var(--b-radius-med);
     padding: 48px 56px;
     width: 100%;

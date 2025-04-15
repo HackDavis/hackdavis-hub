@@ -1,6 +1,6 @@
-import { ObjectId } from "mongodb";
+import { ObjectId } from 'mongodb';
 
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 /**
  * Takes object resembling example below with an "*expandIds" field:
  * {
@@ -13,7 +13,7 @@ import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
  * from the "from" collection
  */
 async function expandIds(obj) {
-  obj = obj["*expandIds"];
+  obj = obj['*expandIds'];
   const db = await getDatabase();
   const documents = await db
     .collection(obj.from)
@@ -36,7 +36,7 @@ async function expandIds(obj) {
  * from the "from" collection
  */
 async function expandId(obj) {
-  obj = obj["*expandId"];
+  obj = obj['*expandId'];
   const db = await getDatabase();
   const documents = await db.collection(obj.from).findOne({
     _id: ObjectId.createFromHexString(obj.id),
@@ -55,7 +55,7 @@ async function expandId(obj) {
  * Returns the array of ids converted to ObjectIds
  */
 async function convertIds(obj) {
-  obj = obj["*convertIds"];
+  obj = obj['*convertIds'];
   return obj.ids.map((id) => ObjectId.createFromHexString(id));
 }
 
@@ -70,7 +70,7 @@ async function convertIds(obj) {
  * Returns the id converted to an ObjectId
  */
 async function convertId(obj) {
-  obj = obj["*convertId"];
+  obj = obj['*convertId'];
   return ObjectId.createFromHexString(obj.id);
 }
 
@@ -85,7 +85,7 @@ async function convertId(obj) {
  * }
  */
 async function searchAndReplace(obj, replacements) {
-  if (obj === null || typeof obj !== "object") {
+  if (obj === null || typeof obj !== 'object') {
     return obj;
   }
   for (const [key, val] of Object.entries(obj)) {
@@ -106,22 +106,22 @@ async function searchAndReplace(obj, replacements) {
 
 export default async function parseAndReplace(obj) {
   const res = await searchAndReplace(obj, {
-    "*expandId": expandId,
-    "*expandIds": expandIds,
-    "*convertId": convertId,
-    "*convertIds": convertIds,
+    '*expandId': expandId,
+    '*expandIds': expandIds,
+    '*convertId': convertId,
+    '*convertIds': convertIds,
   });
   return res;
 }
 
 export async function prepareIdsInQuery(obj) {
   for (const [key, val] of Object.entries(obj)) {
-    if (key.endsWith("_id") && typeof val === "string") {
-      obj[key] = { "*convertId": { id: val } };
+    if (key.endsWith('_id') && typeof val === 'string') {
+      obj[key] = { '*convertId': { id: val } };
     }
 
-    if (key.endsWith("_ids") && Array.isArray(val)) {
-      obj[key] = { "*convertIds": { ids: val } };
+    if (key.endsWith('_ids') && Array.isArray(val)) {
+      obj[key] = { '*convertIds': { ids: val } };
     }
   }
   return obj;

@@ -1,6 +1,6 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import styles from "./AuthFormBackground.module.scss";
+import styles from './AuthFormBackground.module.scss';
 
 export default async function AuthFormBackground({
   title,
@@ -21,7 +21,7 @@ export default async function AuthFormBackground({
         <h3>
           <b>{title}</b>
         </h3>
-        <p style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
+        <p style={{ whiteSpace: 'pre-line' }}>{subtitle}</p>
       </div>
 
       <div className={styles.section}>{children}</div>

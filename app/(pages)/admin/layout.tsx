@@ -1,8 +1,8 @@
-import ProtectedDisplay from "../_components/ProtectedDisplay/ProtectedDisplay";
-import { Metadata } from "next";
+import ProtectedDisplay from '../_components/ProtectedDisplay/ProtectedDisplay';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "HackDavis Admin Panel",
+  title: 'HackDavis Admin Panel',
 };
 
 export default function AdminLayout({
@@ -11,7 +11,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ProtectedDisplay allowedRoles={["admin"]} failRedirectRoute="/login">
+    <ProtectedDisplay allowedRoles={['admin']} failRedirectRoute="/login">
       {children}
     </ProtectedDisplay>
   );

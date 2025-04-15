@@ -1,5 +1,5 @@
-"use server";
-import { GetUser, GetManyUsers } from "@datalib/users/getUser";
+'use server';
+import { GetUser, GetManyUsers } from '@datalib/users/getUser';
 
 export async function getUser(id: string) {
   const userRes = await GetUser(id);

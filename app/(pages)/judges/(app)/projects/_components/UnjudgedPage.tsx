@@ -1,9 +1,9 @@
-import { useState } from "react";
-import ProjectTab from "./ProjectTab";
-import Image from "next/image";
-import projectCow from "/public/judges/projects/project-cow.svg";
-import Team from "@typeDefs/team";
-import Link from "next/link";
+import { useState } from 'react';
+import ProjectTab from './ProjectTab';
+import Image from 'next/image';
+import projectCow from '/public/judges/projects/project-cow.svg';
+import Team from '@typeDefs/team';
+import Link from 'next/link';
 
 interface UnjudgedPageProps {
   projects: Team[];
@@ -39,9 +39,9 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         Current project:
       </p>
       <p className="mb-[24px] text-[18px] font-normal text-[#000000] tracking-[0.36px] leading-[26.1px]">
-        Projects must be judged one by one in order.{"\n"}
+        Projects must be judged one by one in order.{'\n'}
         <span className="text-[#A1A1A3]">
-          If the team is not at their table when you arrive, tab the{" "}
+          If the team is not at their table when you arrive, tab the{' '}
           <span className="text-text-error">red button</span> below.
         </span>
       </p>
@@ -75,16 +75,16 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         <button
           className={`w-full rounded-[8px] bg-text-error py-[16px] transition-all duration-300 ease-in-out ${
             showConfirmation
-              ? "bg-white text-text-error border-2 border-text-error pointer-events-none"
-              : "text-white"
+              ? 'bg-white text-text-error border-2 border-text-error pointer-events-none'
+              : 'text-white'
           }`}
           onClick={() => setShowConfirmation(true)}
         >
-          {showConfirmation ? "Are you sure?" : "Flag Team as Missing"}
+          {showConfirmation ? 'Are you sure?' : 'Flag Team as Missing'}
         </button>
         <button
           className={`bg-[#005271] text-white rounded-[8px] px-[32px] py-[16px] transition-all duration-1000 ease-in-out ${
-            showConfirmation ? "block" : "hidden"
+            showConfirmation ? 'block' : 'hidden'
           }`}
           onClick={() => handleReportTeam()}
         >
@@ -92,7 +92,7 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
         </button>
         <button
           className={`bg-white text-background-secondary border-2 border-background-secondary rounded-[8px] p-[16px] transition-all duration-1000 ease-in-out ${
-            showConfirmation ? "block" : "hidden"
+            showConfirmation ? 'block' : 'hidden'
           } `}
           onClick={() => setShowConfirmation(false)}
         >
@@ -107,7 +107,7 @@ const UnjudgedPage = ({ projects }: UnjudgedPageProps) => {
           (project, idx) =>
             idx !== 0 && (
               <ProjectTab key={project._id} team={project} clickable={false} />
-            ),
+            )
         )}
       </div>
     </div>

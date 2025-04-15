@@ -1,12 +1,12 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState } from 'react';
 
-import sendEmail from "@actions/invite/sendEmail";
-import FormSubmitConfirmation from "app/(pages)/admin/_components/FormSubmitConfirmation/FormSubmitConfirmation";
-import styles from "./InviteLinkForm.module.scss";
+import sendEmail from '@actions/invite/sendEmail';
+import FormSubmitConfirmation from 'app/(pages)/admin/_components/FormSubmitConfirmation/FormSubmitConfirmation';
+import styles from './InviteLinkForm.module.scss';
 
 export default function InviteLinkForm() {
-  const [inviteLink, setInviteLink] = useState("");
-  const [error, setError] = useState("");
+  const [inviteLink, setInviteLink] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [resStatus, setResStatus] = useState<null | string>(null);
 
@@ -17,9 +17,9 @@ export default function InviteLinkForm() {
 
     const formData = new FormData(e.currentTarget);
 
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const role = formData.get("role") as string;
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const role = formData.get('role') as string;
 
     const invite = await sendEmail({
       email,
@@ -31,11 +31,11 @@ export default function InviteLinkForm() {
 
     if (invite.body) {
       setInviteLink(invite.body);
-      setError("");
-      setResStatus("success");
+      setError('');
+      setResStatus('success');
     } else {
-      setError(invite.error ?? "An unexpected error occurred.");
-      setResStatus("failed");
+      setError(invite.error ?? 'An unexpected error occurred.');
+      setResStatus('failed');
     }
   };
 

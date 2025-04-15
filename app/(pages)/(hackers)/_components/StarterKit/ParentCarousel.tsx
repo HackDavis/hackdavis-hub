@@ -1,17 +1,17 @@
-"use client";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import good_froggie from "@public/hackers/good_froggie.svg";
-import judge_bunny from "@public/hackers/judge_bunny.svg";
-import { type CarouselApi } from "@globals/components/ui/carousel";
+'use client';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import good_froggie from '@public/hackers/good_froggie.svg';
+import judge_bunny from '@public/hackers/judge_bunny.svg';
+import { type CarouselApi } from '@globals/components/ui/carousel';
 
-import AutoHeight from "embla-carousel-auto-height";
-import { Button } from "@globals/components/ui/button";
+import AutoHeight from 'embla-carousel-auto-height';
+import { Button } from '@globals/components/ui/button';
 
-import LetsBegin from "../../_components/StarterKitStages/LetsBegin";
-import FindATeam from "../../_components/StarterKitStages/FindATeam";
-import Ideate from "../../_components/StarterKitStages/Ideate";
-import Resources from "../../_components/StarterKitStages/Resources";
+import LetsBegin from '../../_components/StarterKitStages/LetsBegin';
+import FindATeam from '../../_components/StarterKitStages/FindATeam';
+import Ideate from '../../_components/StarterKitStages/Ideate';
+import Resources from '../../_components/StarterKitStages/Resources';
 
 import {
   Carousel,
@@ -19,58 +19,58 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "@globals/components/ui/carousel";
-import { Card, CardContent } from "@globals/components/ui/card";
+} from '@globals/components/ui/carousel';
+import { Card, CardContent } from '@globals/components/ui/card';
 
 const carouselHeader = [
   {
     title: "Let's Begin!",
-    color: "#005271",
+    color: '#005271',
     component: <LetsBegin />,
     slides: [
       {
-        title: "Hacking 101 Workshop",
-        subtitle: "JOIN US FOR OUR",
+        title: 'Hacking 101 Workshop',
+        subtitle: 'JOIN US FOR OUR',
       },
       {
-        title: "In case you missed it...",
+        title: 'In case you missed it...',
         subtitle: "HERE's A RECAP OF THE WORKSHOP",
       },
     ],
   },
   {
-    title: "Find a Team",
-    color: "#AFD157",
+    title: 'Find a Team',
+    color: '#AFD157',
     component: <FindATeam />,
     slides: [
       {
-        title: "In case you missed it...",
+        title: 'In case you missed it...',
         subtitle: "HERE's A RECAP OF THE WORKSHOP",
       },
     ],
   },
   {
-    title: "Ideate",
-    color: "#FFC53D",
+    title: 'Ideate',
+    color: '#FFC53D',
     component: <Ideate />,
     slides: [
       {
-        title: "Hacking 101 Workshop",
-        subtitle: "JOIN US FOR OUR",
+        title: 'Hacking 101 Workshop',
+        subtitle: 'JOIN US FOR OUR',
       },
     ],
   },
   {
-    title: "Resources",
-    color: "#005271",
+    title: 'Resources',
+    color: '#005271',
     component: <Resources />,
     slides: [
       {
-        title: "Hacking 101 Workshop",
-        subtitle: "JOIN US FOR OUR",
+        title: 'Hacking 101 Workshop',
+        subtitle: 'JOIN US FOR OUR',
       },
       {
-        title: "In case you missed it...",
+        title: 'In case you missed it...',
         subtitle: "HERE's A RECAP OF THE WORKSHOP",
       },
     ],
@@ -125,7 +125,7 @@ function Header({ activeIndex }: { activeIndex: number }) {
 
         <div className="flex flex-col justify-center gap-[2px] lg:gap-[5px]">
           <p className="text-[0.5rem] xs:text-[0.625rem] md:text-[0.75rem] lg:text-sm xl:text-base whitespace-pre-wrap text-nowrap">
-            A HACKDAVIS HUB{"\n"}
+            A HACKDAVIS HUB{'\n'}
             FOR EVERYONE WHO
             <span className="font-mono text-[0.5rem] xs:text-xs lg:text-sm xl:text-lg md:tracking-[0.24px] lg:tracking-[0.36px]">{` // creates for social good`}</span>
           </p>
@@ -187,16 +187,16 @@ function CarouselIndicators({
   return (
     <div
       className={`flex gap-1 md:gap-2 2xs:pr-6 ${
-        elongateActive ? "md:pr-0" : "md:pr-12 lg:pr-16 xl:pr-20"
+        elongateActive ? 'md:pr-0' : 'md:pr-12 lg:pr-16 xl:pr-20'
       } self-end`}
     >
       {Array.from({ length: 4 }).map((_, index) => (
         <div
           key={index}
           style={{
-            backgroundColor: activeIndex === index ? "#9EE7E5" : "#005271",
-            aspectRatio: activeIndex === index && elongateActive ? "3" : "1",
-            transition: "all 0.3s ease",
+            backgroundColor: activeIndex === index ? '#9EE7E5' : '#005271',
+            aspectRatio: activeIndex === index && elongateActive ? '3' : '1',
+            transition: 'all 0.3s ease',
           }}
           className="h-2 xs:h-3 lg:h-4 rounded-full border border-background-secondary"
         />
@@ -215,13 +215,13 @@ export function ParentCarousel() {
       return;
     }
 
-    api.on("select", () => {
+    api.on('select', () => {
       setActiveIndex(api.selectedScrollSnap());
     });
   }, [api]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeIndex]);
 
   return (
@@ -229,8 +229,8 @@ export function ParentCarousel() {
       className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 xl:p-16 xl:pt-32 overflow-hidden"
       style={{
         background:
-          "linear-gradient(136.61deg, #97DBEF 12.93%, #79CCD9 48.22%, #FFEDCF 83.5%)",
-        position: "relative",
+          'linear-gradient(136.61deg, #97DBEF 12.93%, #79CCD9 48.22%, #FFEDCF 83.5%)',
+        position: 'relative',
       }}
     >
       <Header activeIndex={activeIndex} />
@@ -241,7 +241,7 @@ export function ParentCarousel() {
       >
         <div className="relative flex items-center gap-2 md:mt-10 lg:mt-14">
           <div className="invisible p-4 pl-8 md:p-6 md:pl-12 lg:pl-16 xl:p-8 xl:pl-24 flex items-center justify-center md:justify-between md:gap-4">
-            {" "}
+            {' '}
             <p className="text-white text-lg xs:text-xl md:text-3xl xl:text-4xl font-bold text-nowrap">
               .
             </p>
@@ -253,7 +253,7 @@ export function ParentCarousel() {
               style={{
                 backgroundColor: item.color,
                 transform: `translateX(${
-                  activeIndex === index ? "0" : "-100%"
+                  activeIndex === index ? '0' : '-100%'
                 })`,
               }}
             >

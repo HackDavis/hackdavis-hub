@@ -1,4 +1,4 @@
-"use server";
+'use server';
 // TODO: Refactor for 2025
 
 // import matchingAlgorithm from '@utils/grouping/matchingAlgorithm';
@@ -46,7 +46,7 @@ export default async function matchTeams() {
   //       await createSubmission(judge._id, match.team_id.toString());
   //     }
   //   }
-  return "Successfully matched teams!";
+  return 'Successfully matched teams!';
   // } else {
   //   return 'Failed to match teams: There may be fewer than two judge groups in one or more specialties.';
   // }

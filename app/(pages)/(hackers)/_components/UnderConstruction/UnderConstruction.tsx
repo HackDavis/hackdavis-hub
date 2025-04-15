@@ -1,6 +1,6 @@
-import cow_tada from "public/hackers/mvp/cow_tada.svg";
-import Image from "next/image";
-import styles from "./UnderConstruction.module.scss";
+import cow_tada from 'public/hackers/mvp/cow_tada.svg';
+import Image from 'next/image';
+import styles from './UnderConstruction.module.scss';
 
 export default function UnderConstruction() {
   return (
@@ -13,7 +13,7 @@ export default function UnderConstruction() {
           Under <br /> Construction...
         </h1>
         <p>
-          Sit tight for exciting things like our <br /> <b>Prize Tracks</b> and{" "}
+          Sit tight for exciting things like our <br /> <b>Prize Tracks</b> and{' '}
           <b>Workshops</b>!
         </p>
       </div>

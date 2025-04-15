@@ -1,13 +1,13 @@
-import { ObjectId } from "mongodb";
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
-import isBodyEmpty from "@utils/request/isBodyEmpty";
-import parseAndReplace from "@utils/request/parseAndReplace";
+import { ObjectId } from 'mongodb';
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import isBodyEmpty from '@utils/request/isBodyEmpty';
+import parseAndReplace from '@utils/request/parseAndReplace';
 import {
   HttpError,
   NotFoundError,
   NoContentError,
   BadRequestError,
-} from "@utils/response/Errors";
+} from '@utils/response/Errors';
 
 export const UpdateUser = async (id: string, body: object) => {
   try {
@@ -23,25 +23,25 @@ export const UpdateUser = async (id: string, body: object) => {
     // check for duplicate email or second admin
     if (parsedBody.$set.email) {
       const existingUserWithEmail = await db
-        .collection("users")
+        .collection('users')
         .findOne({ email: parsedBody.$set.email });
       if (existingUserWithEmail) {
         throw new BadRequestError(
-          `Duplicate: user email ${parsedBody.$set.email} already in use by another user.`,
+          `Duplicate: user email ${parsedBody.$set.email} already in use by another user.`
         );
       }
     }
-    if (parsedBody.$set.role === "admin") {
+    if (parsedBody.$set.role === 'admin') {
       const existingAdmin = await db
-        .collection("users")
-        .findOne({ role: "admin" });
+        .collection('users')
+        .findOne({ role: 'admin' });
       if (existingAdmin) {
-        throw new BadRequestError("Duplicate: Only one admin is allowed.");
+        throw new BadRequestError('Duplicate: Only one admin is allowed.');
       }
     }
 
     const user = await db
-      .collection("users")
+      .collection('users')
       .updateOne({ _id: object_id }, parsedBody);
 
     if (user.matchedCount === 0) {

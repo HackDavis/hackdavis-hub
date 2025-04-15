@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { CreateEvent } from "@datalib/events/createEvent";
+import { NextRequest, NextResponse } from 'next/server';
+import { CreateEvent } from '@datalib/events/createEvent';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();

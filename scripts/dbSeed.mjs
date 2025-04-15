@@ -1,6 +1,6 @@
-import { getClient } from "../app/(api)/_utils/mongodb/mongoClient.mjs";
-import readline from "readline";
-import generateData from "./generateData.mjs";
+import { getClient } from '../app/(api)/_utils/mongodb/mongoClient.mjs';
+import readline from 'readline';
+import generateData from './generateData.mjs';
 
 const uri = process.env.MONGODB_URI;
 
@@ -19,19 +19,19 @@ async function dbSeed(collectionNames, numDocuments, wipe) {
     for (const collection of schema) {
       schemaKeys.push(collection.name);
     }
-    schemaKeys.push("admin");
+    schemaKeys.push('admin');
 
-    for (const collectionName of collectionNames.split(" ")) {
+    for (const collectionName of collectionNames.split(' ')) {
       if (schemaKeys.find((key) => key === collectionName) === undefined) {
         console.log(`Collection ${collectionName} not found.`);
         continue;
       }
 
       const collection = db.collection(
-        collectionName === "admin" ? "users" : collectionName,
+        collectionName === 'admin' ? 'users' : collectionName
       );
 
-      if (wipe === "y") {
+      if (wipe === 'y') {
         await collection.deleteMany({});
         console.log(`Wiped collection: ${collectionName}`);
       }
@@ -39,7 +39,7 @@ async function dbSeed(collectionNames, numDocuments, wipe) {
       const fakeData = generateData(collectionName, numDocuments);
       const result = await collection.insertMany(fakeData);
       console.log(
-        `${result.insertedCount} documents inserted into ${collectionName}`,
+        `${result.insertedCount} documents inserted into ${collectionName}`
       );
     }
 
@@ -59,39 +59,39 @@ function askQuestion(question) {
 
 async function gatherInput() {
   try {
-    if (uri.startsWith("mongodb+srv")) {
-      let confirm = "";
-      while (confirm !== "y" && confirm !== "n") {
+    if (uri.startsWith('mongodb+srv')) {
+      let confirm = '';
+      while (confirm !== 'y' && confirm !== 'n') {
         confirm = (
           await askQuestion(
-            "YOU ARE ABOUT TO RUN A DATABASE SEEDING SCRIPT ON THE STAGING/PRODUCTION DATABASE. ARE YOU SURE YOU WANT TO CONTINUE? (y/n): ",
+            'YOU ARE ABOUT TO RUN A DATABASE SEEDING SCRIPT ON THE STAGING/PRODUCTION DATABASE. ARE YOU SURE YOU WANT TO CONTINUE? (y/n): '
           )
         ).toLowerCase();
-        if (confirm !== "y" && confirm !== "n") {
+        if (confirm !== 'y' && confirm !== 'n') {
           console.log('Please enter either "y" or "n".');
         }
       }
 
-      if (confirm === "n") throw new Error("Canceled seeding.");
+      if (confirm === 'n') throw new Error('Canceled seeding.');
     }
 
     const collectionNames = await askQuestion(
-      "Which collection(s) would you like to generate data for? List their names (case-sensitive) separated by spaces: ",
+      'Which collection(s) would you like to generate data for? List their names (case-sensitive) separated by spaces: '
     );
 
     const numDocumentsStr = await askQuestion(
-      "How many documents would you like to generate (admin generates only one document regardless)? Enter a number: ",
+      'How many documents would you like to generate (admin generates only one document regardless)? Enter a number: '
     );
     const numDocuments = parseInt(numDocumentsStr);
 
-    let wipe = "";
-    while (wipe !== "y" && wipe !== "n") {
+    let wipe = '';
+    while (wipe !== 'y' && wipe !== 'n') {
       wipe = (
         await askQuestion(
-          "Would you like to wipe the collections before seeding? (y/n): ",
+          'Would you like to wipe the collections before seeding? (y/n): '
         )
       ).toLowerCase();
-      if (wipe !== "y" && wipe !== "n") {
+      if (wipe !== 'y' && wipe !== 'n') {
         console.log('Please enter either "y" or "n".');
       }
     }
@@ -107,15 +107,15 @@ async function gatherInput() {
 
 gatherInput()
   .then(({ collectionNames, numDocuments, wipe }) => {
-    console.log("\n");
-    console.log("Inputs gathered:");
-    console.log("Collection Names:", collectionNames);
-    console.log("Number of Documents:", numDocuments);
-    console.log("Wipe Collections:", wipe);
-    console.log("\n");
+    console.log('\n');
+    console.log('Inputs gathered:');
+    console.log('Collection Names:', collectionNames);
+    console.log('Number of Documents:', numDocuments);
+    console.log('Wipe Collections:', wipe);
+    console.log('\n');
 
     dbSeed(collectionNames, numDocuments, wipe);
   })
   .catch((error) => {
-    console.error("Error in gatherInput:", error);
+    console.error('Error in gatherInput:', error);
   });

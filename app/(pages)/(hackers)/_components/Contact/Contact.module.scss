@@ -1,9 +1,9 @@
-@import "app/(pages)/_globals/mixins";
+@import 'app/(pages)/_globals/mixins';
 
 // DESKTOP & ABOVE
 .topSection {
   position: relative;
-  background-color: #dff6f3;
+  background-color: #DFF6F3;
   align-content: stretch;
 
   @include tablet-l {
@@ -28,7 +28,7 @@
     }
 
     .blueBox {
-      background-color: #9ee7e5;
+      background-color: #9EE7E5;
     }
 
     .whiteBox {
@@ -92,18 +92,10 @@
     z-index: 2;
     pointer-events: none;
 
-    @include monitor-s {
-      bottom: -90px;
-    }
-    @include desktop-l {
-      bottom: -70px;
-    }
-    @include desktop-m {
-      bottom: -55px;
-    }
-    @include desktop-s {
-      bottom: -45px;
-    }
+    @include monitor-s { bottom: -90px; }
+    @include desktop-l { bottom: -70px; }
+    @include desktop-m { bottom: -55px; }
+    @include desktop-s { bottom: -45px; }
   }
 
   .animalWrapper {
@@ -114,8 +106,7 @@
     align-items: center;
   }
 
-  .cow,
-  .duck {
+  .cow, .duck {
     height: auto;
     z-index: 1;
   }
@@ -130,8 +121,7 @@
     width: 100%;
   }
 
-  .cowphone,
-  .duckphone {
+  .cowphone, .duckphone {
     position: absolute;
     width: 30%;
     height: auto;
@@ -151,8 +141,7 @@
   }
 
   @keyframes bounce {
-    0%,
-    100% {
+    0%, 100% {
       transform: translateY(0);
     }
     50% {
@@ -204,7 +193,7 @@
       }
 
       .mobileText {
-        background-color: #9ee7e5;
+        background-color: #9EE7E5;
         display: flex;
         padding: 32px 23px;
         flex-direction: column;
@@ -264,21 +253,17 @@
     }
 
     .mobilesquiggle {
-      position: absolute;
-      top: 58%;
-      left: 0;
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      z-index: 2;
-      pointer-events: none;
-
-      @include mobile-l {
-        top: 50%;
+        position: absolute;
+        top: 58%;
+        left: 0;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        z-index: 2;
+        pointer-events: none;
+    
+        @include mobile-l { top: 50%;}
+        @include mobile-m { top: 43%;}
       }
-      @include mobile-m {
-        top: 43%;
-      }
-    }
   }
 }

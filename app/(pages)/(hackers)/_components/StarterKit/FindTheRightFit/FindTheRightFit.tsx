@@ -1,19 +1,19 @@
-import StarterKitSlide from "../StarterKitSlide";
-import styles from "./FindTheRightFit.module.scss";
-import Animals from "public/hackers/mvp/PeepingAnimals.svg";
-import Image from "next/image";
+import StarterKitSlide from '../StarterKitSlide';
+import styles from './FindTheRightFit.module.scss';
+import Animals from 'public/hackers/mvp/PeepingAnimals.svg';
+import Image from 'next/image';
 
 const questions = [
   {
-    text: "IS THIS PERSON PASSIONATE ABOUT THE SAME TRACK(S)?",
+    text: 'IS THIS PERSON PASSIONATE ABOUT THE SAME TRACK(S)?',
     color: styles.qboxBlue,
   },
   {
-    text: "DOES THIS PERSON’S SKILLS COMPLIMENT MINE?",
+    text: 'DOES THIS PERSON’S SKILLS COMPLIMENT MINE?',
     color: styles.qboxYellow,
   },
   {
-    text: "CAN I SEE MYSELF WORKING WITH THEM FOR 24 HOURS?",
+    text: 'CAN I SEE MYSELF WORKING WITH THEM FOR 24 HOURS?',
     color: styles.qboxGreen,
   },
 ];

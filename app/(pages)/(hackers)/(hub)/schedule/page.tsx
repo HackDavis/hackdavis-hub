@@ -1,24 +1,24 @@
-"use client";
-import { useState, useEffect, useMemo } from "react";
-import CalendarItem from "../../_components/Schedule/CalendarItem";
-import Loader from "@components/Loader/Loader";
-import Footer from "@components/Footer/Footer";
-import Image from "next/image";
-import headerGrass from "@public/hackers/schedule/header_grass.svg";
-import Event, { EventType } from "@typeDefs/event";
-import { Button } from "@pages/_globals/components/ui/button";
-import Filters from "@pages/(hackers)/_components/Schedule/Filters";
+'use client';
+import { useState, useEffect, useMemo } from 'react';
+import CalendarItem from '../../_components/Schedule/CalendarItem';
+import Loader from '@components/Loader/Loader';
+import Footer from '@components/Footer/Footer';
+import Image from 'next/image';
+import headerGrass from '@public/hackers/schedule/header_grass.svg';
+import Event, { EventType } from '@typeDefs/event';
+import { Button } from '@pages/_globals/components/ui/button';
+import Filters from '@pages/(hackers)/_components/Schedule/Filters';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@globals/components/ui/tooltip";
-import TooltipCow from "@public/index/schedule/vocal_angel_cow.svg";
-import useActiveUser from "@pages/_hooks/useActiveUser";
-import { usePersonalEvents } from "@hooks/usePersonalEvents";
-import { useEvents } from "@hooks/useEvents";
+} from '@globals/components/ui/tooltip';
+import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
+import useActiveUser from '@pages/_hooks/useActiveUser';
+import { usePersonalEvents } from '@hooks/usePersonalEvents';
+import { useEvents } from '@hooks/useEvents';
 
 export interface EventDetails {
   event: Event;
@@ -31,7 +31,7 @@ interface ScheduleData {
 }
 
 export default function Page() {
-  const { user, loading: userLoading } = useActiveUser("/");
+  const { user, loading: userLoading } = useActiveUser('/');
 
   // Use the events hook to get events with attendee counts
   const {
@@ -41,20 +41,20 @@ export default function Page() {
     refreshEvents,
   } = useEvents();
 
-  const [activeTab, setActiveTab] = useState<"schedule" | "personal">(
-    "schedule",
+  const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
+    'schedule'
   );
-  const [hoveredTab, setHoveredTab] = useState<"schedule" | "personal" | null>(
-    null,
+  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'personal' | null>(
+    null
   );
-  const [activeDay, setActiveDay] = useState<"19" | "20">("19");
+  const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
   const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
 
-  const changeActiveDay = (day: "19" | "20") => {
+  const changeActiveDay = (day: '19' | '20') => {
     setActiveDay(day);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const {
@@ -65,7 +65,7 @@ export default function Page() {
     removeFromPersonalSchedule,
     isInPersonalSchedule,
     refreshPersonalEvents,
-  } = usePersonalEvents(user?._id || "");
+  } = usePersonalEvents(user?._id || '');
 
   // Function to handle adding to personal schedule with loading state
   const handleAddToSchedule = async (eventId: string) => {
@@ -78,7 +78,7 @@ export default function Page() {
       await refreshEvents();
 
       // Also update the main schedule data if we're on the schedule tab
-      if (activeTab === "schedule") {
+      if (activeTab === 'schedule') {
         // Update the schedule data to reflect the change
         if (scheduleData) {
           const newScheduleData = { ...scheduleData };
@@ -112,7 +112,7 @@ export default function Page() {
       await refreshEvents();
 
       // Also update the main schedule data if we're on the schedule tab
-      if (activeTab === "schedule") {
+      if (activeTab === 'schedule') {
         // Update the schedule data to reflect the change
         if (scheduleData) {
           const newScheduleData = { ...scheduleData };
@@ -142,16 +142,16 @@ export default function Page() {
       const groupedByDay = eventsWithAttendeeCount.reduce(
         (acc: ScheduleData, eventWithCount) => {
           const event = eventWithCount.event;
-          const dayKey = event.start_time.toLocaleString("en-US", {
-            timeZone: "America/Los_Angeles",
-            day: "numeric",
+          const dayKey = event.start_time.toLocaleString('en-US', {
+            timeZone: 'America/Los_Angeles',
+            day: 'numeric',
           });
           if (!acc[dayKey]) {
             acc[dayKey] = [];
           }
 
           // Check if this event is in the user's personal schedule
-          const isPersonal = isInPersonalSchedule(event._id || "");
+          const isPersonal = isInPersonalSchedule(event._id || '');
 
           acc[dayKey].push({
             event,
@@ -160,7 +160,7 @@ export default function Page() {
           });
           return acc;
         },
-        {},
+        {}
       );
 
       setScheduleData(groupedByDay);
@@ -173,7 +173,7 @@ export default function Page() {
   ]);
 
   useEffect(() => {
-    if (activeTab === "personal") {
+    if (activeTab === 'personal') {
       refreshPersonalEvents();
     }
   }, [activeTab, refreshPersonalEvents]);
@@ -184,9 +184,9 @@ export default function Page() {
     if (!personalEvents?.length) return {};
 
     const groupedByDay = personalEvents.reduce((acc: ScheduleData, event) => {
-      const dayKey = event.start_time.toLocaleString("en-US", {
-        timeZone: "America/Los_Angeles",
-        day: "numeric",
+      const dayKey = event.start_time.toLocaleString('en-US', {
+        timeZone: 'America/Los_Angeles',
+        day: 'numeric',
       });
       if (!acc[dayKey]) {
         acc[dayKey] = [];
@@ -194,7 +194,7 @@ export default function Page() {
 
       // Find the attendee count for this event from eventsWithAttendeeCount
       const eventWithCount = eventsWithAttendeeCount.find(
-        (e) => e.event._id === event._id,
+        (e) => e.event._id === event._id
       );
 
       acc[dayKey].push({
@@ -209,7 +209,7 @@ export default function Page() {
   }, [personalEvents, eventsWithAttendeeCount]);
 
   const dataToUse =
-    activeTab === "personal" ? personalScheduleData : scheduleData;
+    activeTab === 'personal' ? personalScheduleData : scheduleData;
 
   // Combined transformation: filtering, sorting, grouping and then sorting the groups.
   const sortedGroupedEntries = useMemo(() => {
@@ -221,7 +221,7 @@ export default function Page() {
       activeFilters.length === 0
         ? unfilteredEvents
         : unfilteredEvents.filter((ed) =>
-            activeFilters.includes(ed.event.type),
+            activeFilters.includes(ed.event.type)
           );
 
     // If no events found after filtering, return empty array
@@ -231,20 +231,20 @@ export default function Page() {
     const sortedEvents = [...filteredEvents].sort(
       (a, b) =>
         new Date(a.event.start_time).getTime() -
-        new Date(b.event.start_time).getTime(),
+        new Date(b.event.start_time).getTime()
     );
 
     // Group events by their start time (converted to PDT).
     const groups = sortedEvents.reduce(
       (acc: { [key: string]: EventDetails[] }, ed) => {
         const pstDate = new Date(
-          ed.event.start_time.toLocaleString("en-US", {
-            timeZone: "America/Los_Angeles",
-          }),
+          ed.event.start_time.toLocaleString('en-US', {
+            timeZone: 'America/Los_Angeles',
+          })
         );
-        const timeKey = pstDate.toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
+        const timeKey = pstDate.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
           hour12: true,
         });
         if (!acc[timeKey]) {
@@ -253,12 +253,12 @@ export default function Page() {
         acc[timeKey].push(ed);
         return acc;
       },
-      {},
+      {}
     );
 
     // Sort the grouped entries by time.
     return Object.entries(groups).sort((a, b) => {
-      const dummyDay = "01/01/2000";
+      const dummyDay = '01/01/2000';
       const dateA = new Date(`${dummyDay} ${a[0]}`);
       const dateB = new Date(`${dummyDay} ${b[0]}`);
       return dateA.getTime() - dateB.getTime();
@@ -316,29 +316,29 @@ export default function Page() {
           <div className="flex justify-evenly md:justify-between items-center relative border-b-4 border-[#8F8F8F33]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
               <span
-                onClick={() => setActiveTab("schedule")}
-                onMouseEnter={() => setHoveredTab("schedule")}
+                onClick={() => setActiveTab('schedule')}
+                onMouseEnter={() => setHoveredTab('schedule')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === "schedule"
+                  activeTab === 'schedule'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
-                    : hoveredTab === "schedule"
-                    ? "text-black"
-                    : "text-[#8F8F8F]"
+                    : hoveredTab === 'schedule'
+                    ? 'text-black'
+                    : 'text-[#8F8F8F]'
                 }`}
               >
                 All Events
               </span>
               <span
-                onClick={() => setActiveTab("personal")}
-                onMouseEnter={() => setHoveredTab("personal")}
+                onClick={() => setActiveTab('personal')}
+                onMouseEnter={() => setHoveredTab('personal')}
                 onMouseLeave={() => setHoveredTab(null)}
                 className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === "personal"
+                  activeTab === 'personal'
                     ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
-                    : hoveredTab === "personal"
-                    ? "text-black"
-                    : "text-[#8F8F8F]"
+                    : hoveredTab === 'personal'
+                    ? 'text-black'
+                    : 'text-[#8F8F8F]'
                 }`}
               >
                 {/* Personal */}
@@ -366,27 +366,27 @@ export default function Page() {
             <div className="fixed bottom-4 z-20 md:static md:flex lg:pt-[10px]">
               <div
                 className="relative bg-[#ffffffe6] md:bg-transparent flex items-center w-[202px] h-[48px] md:border-[1.5px] md:border-black rounded-[22px]"
-                style={{ borderStyle: "dashed" }}
+                style={{ borderStyle: 'dashed' }}
               >
                 <div
                   className={`absolute top-auto bottom-auto transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
-                    activeDay === "19"
-                      ? "left-[1.5px] top-[1.5px]"
-                      : "left-[98.5px] top-[1.5px]"
+                    activeDay === '19'
+                      ? 'left-[1.5px] top-[1.5px]'
+                      : 'left-[98.5px] top-[1.5px]'
                   }`}
                 />
                 <button
-                  onClick={() => changeActiveDay("19")}
+                  onClick={() => changeActiveDay('19')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === "19" ? "text-white" : "text-black"
+                    activeDay === '19' ? 'text-white' : 'text-black'
                   }`}
                 >
                   Apr 19
                 </button>
                 <button
-                  onClick={() => changeActiveDay("20")}
+                  onClick={() => changeActiveDay('20')}
                   className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === "20" ? "text-white" : "text-black"
+                    activeDay === '20' ? 'text-white' : 'text-black'
                   }`}
                 >
                   Apr 20
@@ -412,10 +412,10 @@ export default function Page() {
                       attendeeCount={eventDetail.attendeeCount}
                       inPersonalSchedule={eventDetail.inPersonalSchedule}
                       onAddToSchedule={() =>
-                        handleAddToSchedule(eventDetail.event._id || "")
+                        handleAddToSchedule(eventDetail.event._id || '')
                       }
                       onRemoveFromSchedule={() =>
-                        handleRemoveFromSchedule(eventDetail.event._id || "")
+                        handleRemoveFromSchedule(eventDetail.event._id || '')
                       }
                     />
                   ))}
@@ -424,13 +424,13 @@ export default function Page() {
             ))
           ) : (
             <div className="text-center py-10">
-              {activeTab === "personal" ? (
+              {activeTab === 'personal' ? (
                 <div>
                   <p className="mb-4">
                     No events in your personal schedule yet.
                   </p>
                   <Button
-                    onClick={() => setActiveTab("schedule")}
+                    onClick={() => setActiveTab('schedule')}
                     className="w-full sm:w-fit px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group"
                     variant="ghost"
                   >
@@ -441,7 +441,7 @@ export default function Page() {
                   </Button>
                 </div>
               ) : (
-                "No events found for this day and filters."
+                'No events found for this day and filters.'
               )}
             </div>
           )}

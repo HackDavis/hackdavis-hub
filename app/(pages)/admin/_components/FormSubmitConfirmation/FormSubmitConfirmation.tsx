@@ -1,8 +1,8 @@
-"use client";
-import Loader from "@pages/_components/Loader/Loader";
-import styles from "./FormSubmitConfirmation.module.scss";
-import { FaXmark } from "react-icons/fa6";
-import { IoIosCheckmarkCircle } from "react-icons/io";
+'use client';
+import Loader from '@pages/_components/Loader/Loader';
+import styles from './FormSubmitConfirmation.module.scss';
+import { FaXmark } from 'react-icons/fa6';
+import { IoIosCheckmarkCircle } from 'react-icons/io';
 
 interface Props {
   pending: boolean;
@@ -26,7 +26,7 @@ export default function FormSubmitConfirmation({
                 message="Hold on while we receive your request."
               />
             )}
-            {mailStatus === "success" && (
+            {mailStatus === 'success' && (
               <div className={styles.ok_container}>
                 <div className={styles.ok_circle}>
                   <IoIosCheckmarkCircle />
@@ -40,7 +40,7 @@ export default function FormSubmitConfirmation({
                 </button>
               </div>
             )}
-            {mailStatus === "failed" && (
+            {mailStatus === 'failed' && (
               <div className={styles.ok_container}>
                 <h3 className={styles.ok_header}>oof</h3>
                 <p className={styles.ok_text}>Something went wrong.</p>

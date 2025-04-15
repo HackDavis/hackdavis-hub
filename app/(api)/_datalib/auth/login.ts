@@ -1,16 +1,16 @@
-import { AuthError } from "next-auth";
+import { AuthError } from 'next-auth';
 
-import { signIn } from "@/auth";
+import { signIn } from '@/auth';
 
 export default async function Login(email: string, password: string) {
   try {
-    await signIn("credentials", {
+    await signIn('credentials', {
       email,
       password,
       redirect: false,
     });
 
-    return { ok: true, body: "Successfully logged in", error: null };
+    return { ok: true, body: 'Successfully logged in', error: null };
   } catch (error) {
     if (error instanceof AuthError && error?.cause?.err?.message) {
       return {
@@ -23,7 +23,7 @@ export default async function Login(email: string, password: string) {
     return {
       ok: false,
       body: null,
-      error: "Authentication error.",
+      error: 'Authentication error.',
     };
   }
 }

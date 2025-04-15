@@ -1,12 +1,12 @@
-import styles from "./SubmitProject.module.scss";
-import Image from "next/image";
+import styles from './SubmitProject.module.scss';
+import Image from 'next/image';
 // import StarterKitSlide from '../SubmissionInfo';
 // import Animals from 'public/hackers/project-info/submissionProcess.svg';
 // import Step5Overlay from 'public/hackers/project-info/Step5Overlay.svg';
 // import Blank from 'public/hackers/project-info/Step6.svg';
-import VinylPlayer from "./VinylPlayer";
+import VinylPlayer from './VinylPlayer';
 // import VinylPlayer from './VinylPlayer';
-import submitProject from "public/hackers/project-info/submitProject.png";
+import submitProject from 'public/hackers/project-info/submitProject.png';
 
 export default function SubmitProject() {
   return (

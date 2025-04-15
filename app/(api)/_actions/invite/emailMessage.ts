@@ -158,5 +158,5 @@ export default function emailMessage(type: string, link: string) {
     </html>
     `;
 
-  return type === "invite" ? inviteMsg : resetMsg;
+  return type === 'invite' ? inviteMsg : resetMsg;
 }

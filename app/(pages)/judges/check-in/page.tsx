@@ -1,14 +1,14 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-import AuthFormBackground from "../_components/AuthFormBackground/AuthFormBackground";
-import CheckInForm from "../_components/AuthForms/CheckInForm";
-import getActiveUser from "app/(pages)/_utils/getActiveUser";
+import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
+import CheckInForm from '../_components/AuthForms/CheckInForm';
+import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 
 export default async function CheckInPage() {
-  const user = await getActiveUser("/judges/login");
+  const user = await getActiveUser('/judges/login');
 
-  if (user.role === "hacker") redirect("/");
-  if (user.has_checked_in) redirect("/judges");
+  if (user.role === 'hacker') redirect('/');
+  if (user.has_checked_in) redirect('/judges');
 
   return (
     <AuthFormBackground

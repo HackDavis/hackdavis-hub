@@ -1,14 +1,14 @@
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
-import isBodyEmpty from "@utils/request/isBodyEmpty";
-import parseAndReplace from "@utils/request/parseAndReplace";
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import isBodyEmpty from '@utils/request/isBodyEmpty';
+import parseAndReplace from '@utils/request/parseAndReplace';
 import {
   NoContentError,
   HttpError,
   BadRequestError,
   DuplicateError,
-} from "@utils/response/Errors";
-import Team from "@typeDefs/team";
-import data from "@data/db_validation_data.json" assert { type: "json" };
+} from '@utils/response/Errors';
+import Team from '@typeDefs/team';
+import data from '@data/db_validation_data.json' assert { type: 'json' };
 
 const tracks = data.tracks;
 
@@ -22,7 +22,7 @@ export const CreateManyTeams = async (body: object) => {
     const seenNumbers = new Set();
     const teamNumbers = parsedBody.map((team: Team) => {
       if (seenNumbers.has(team.teamNumber)) {
-        throw new DuplicateError("Request contains duplicate team number(s)");
+        throw new DuplicateError('Request contains duplicate team number(s)');
       }
       seenNumbers.add(team.teamNumber);
       return team.teamNumber;
@@ -30,7 +30,7 @@ export const CreateManyTeams = async (body: object) => {
 
     const db = await getDatabase();
     const existingTeams = await db
-      .collection("teams")
+      .collection('teams')
       .find({
         teamNumber: {
           $in: teamNumbers,
@@ -39,7 +39,7 @@ export const CreateManyTeams = async (body: object) => {
       .toArray();
 
     if (existingTeams.length > 0) {
-      throw new DuplicateError("Duplicate: one or more teams already exist");
+      throw new DuplicateError('Duplicate: one or more teams already exist');
     }
 
     parsedBody.forEach((team: Team) => {
@@ -47,25 +47,25 @@ export const CreateManyTeams = async (body: object) => {
       team.tracks.forEach((chosenTrack) => {
         const foundTrack = tracks.find((track) => track === chosenTrack);
         if (foundTrack == undefined) {
-          throw new BadRequestError("Invalid track");
+          throw new BadRequestError('Invalid track');
         } else if (seenTracks.has(foundTrack)) {
-          throw new BadRequestError("Duplicate track");
-        } else if (foundTrack === "Best Hack for Social Good") {
+          throw new BadRequestError('Duplicate track');
+        } else if (foundTrack === 'Best Hack for Social Good') {
           throw new BadRequestError(
-            "Remove default track: Best Hack for Social Good",
+            'Remove default track: Best Hack for Social Good'
           );
         }
         seenTracks.add(chosenTrack);
       });
 
       // automatically add Best Hack for Social Good
-      team.tracks.push("Best Hack for Social Good");
+      team.tracks.push('Best Hack for Social Good');
     });
 
-    const creationStatus = await db.collection("teams").insertMany(parsedBody);
+    const creationStatus = await db.collection('teams').insertMany(parsedBody);
 
     const teams = await db
-      .collection("teams")
+      .collection('teams')
       .find({
         _id: {
           $in: Object.values(creationStatus.insertedIds).map((id: any) => id),

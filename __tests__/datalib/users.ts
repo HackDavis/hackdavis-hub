@@ -1,50 +1,50 @@
-import { db } from "../../jest.setup";
-import { CreateUser } from "@datalib/users/createUser";
-import { GetUser, GetManyUsers } from "@datalib/users/getUser";
-import { UpdateUser } from "@datalib/users/updateUser";
-import { DeleteUser } from "@datalib/users/deleteUser";
-import User from "@typeDefs/user";
-import data from "@data/db_validation_data.json";
+import { db } from '../../jest.setup';
+import { CreateUser } from '@datalib/users/createUser';
+import { GetUser, GetManyUsers } from '@datalib/users/getUser';
+import { UpdateUser } from '@datalib/users/updateUser';
+import { DeleteUser } from '@datalib/users/deleteUser';
+import User from '@typeDefs/user';
+import data from '@data/db_validation_data.json';
 
 let mockAdmin: User, mockJudge: User, mockHacker: User;
 
 beforeEach(async () => {
-  await db.collection("users").deleteMany({});
+  await db.collection('users').deleteMany({});
   mockAdmin = {
-    name: "Admin",
-    email: "admin@smith.com",
-    password: "test_admin_password",
-    role: "admin",
+    name: 'Admin',
+    email: 'admin@smith.com',
+    password: 'test_admin_password',
+    role: 'admin',
     has_checked_in: true,
   };
   mockJudge = {
-    name: "Judge Smith",
-    email: "judge@smith.com",
-    password: "test_judge_password",
-    role: "judge",
+    name: 'Judge Smith',
+    email: 'judge@smith.com',
+    password: 'test_judge_password',
+    role: 'judge',
     specialties: [...new Set(data.domains)],
     has_checked_in: false,
   };
   mockHacker = {
-    name: "Hacker Lee",
-    email: "hacker@lee.com",
-    password: "test_hacker_password",
-    role: "hacker",
-    position: "developer",
+    name: 'Hacker Lee',
+    email: 'hacker@lee.com',
+    password: 'test_hacker_password',
+    role: 'hacker',
+    position: 'developer',
     is_beginner: false,
     has_checked_in: true,
   };
 });
 
-describe("CREATE: users", () => {
-  it("should fail to create a user with no details", async () => {
+describe('CREATE: users', () => {
+  it('should fail to create a user with no details', async () => {
     const { ok, body, error } = await CreateUser({});
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe("No Content Provided");
+    expect(error).toBe('No Content Provided');
   });
 
-  it("should throw an error when required fields are missing", async () => {
+  it('should throw an error when required fields are missing', async () => {
     // missing name
     const tempUser1 = { ...mockAdmin };
     delete (tempUser1 as any).name;
@@ -77,12 +77,12 @@ describe("CREATE: users", () => {
       expect(res.body).toBe(null);
       expect(res.error).not.toBe(null);
       user !== tempUser3
-        ? expect(res.error).toBe("Document failed validation")
-        : expect(res.error).toBe("Missing password");
+        ? expect(res.error).toBe('Document failed validation')
+        : expect(res.error).toBe('Missing password');
     }
   });
 
-  it("should create an admin user successfully", async () => {
+  it('should create an admin user successfully', async () => {
     const { ok, body, error } = await CreateUser(mockAdmin);
     expect(ok).toBe(true);
     expect(body).not.toBe(null);
@@ -90,7 +90,7 @@ describe("CREATE: users", () => {
     expect(error).toBe(null);
   });
 
-  it("should create a judge user successfully", async () => {
+  it('should create a judge user successfully', async () => {
     const { ok, body, error } = await CreateUser(mockJudge);
     expect(error).toBe(null);
     expect(ok).toBe(true);
@@ -98,7 +98,7 @@ describe("CREATE: users", () => {
     expect(body).toEqual(mockJudge);
   });
 
-  it("should create a hacker user successfully", async () => {
+  it('should create a hacker user successfully', async () => {
     const { ok, body, error } = await CreateUser(mockHacker);
     expect(error).toBe(null);
     expect(ok).toBe(true);
@@ -106,7 +106,7 @@ describe("CREATE: users", () => {
     expect(body).toEqual(mockHacker);
   });
 
-  it("should throw error when a second admin is added", async () => {
+  it('should throw error when a second admin is added', async () => {
     const { ok, body, error } = await CreateUser(mockAdmin);
     expect(error).toBe(null);
     expect(ok).toBe(true);
@@ -114,7 +114,7 @@ describe("CREATE: users", () => {
     expect(body).toEqual(mockAdmin);
 
     const mockAdmin2 = { ...mockAdmin };
-    mockAdmin2.email = "admin2@smith.com";
+    mockAdmin2.email = 'admin2@smith.com';
     const {
       ok: ok2,
       body: body2,
@@ -122,10 +122,10 @@ describe("CREATE: users", () => {
     } = await CreateUser(mockAdmin2);
     expect(ok2).toBe(false);
     expect(body2).toBe(null);
-    expect(error2).toBe("Duplicate: admin already exists");
+    expect(error2).toBe('Duplicate: admin already exists');
   });
 
-  it("should fail to create a user with duplicate email", async () => {
+  it('should fail to create a user with duplicate email', async () => {
     const { ok, body, error } = await CreateUser(mockAdmin);
     expect(error).toBe(null);
     expect(ok).toBe(true);
@@ -135,46 +135,46 @@ describe("CREATE: users", () => {
     const { ok: ok2, body: body2, error: error2 } = await CreateUser(mockAdmin);
     expect(ok2).toBe(false);
     expect(body2).toBe(null);
-    expect(error2).toBe("Duplicate: user already exists.");
+    expect(error2).toBe('Duplicate: user already exists.');
   });
 
-  it("should fail to create a judge user with has_checked_in = true", async () => {
+  it('should fail to create a judge user with has_checked_in = true', async () => {
     const tempJudge = { ...mockJudge };
     tempJudge.has_checked_in = true;
     const { ok, body, error } = await CreateUser(tempJudge);
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe("Judge user has has_checked_in set to true");
+    expect(error).toBe('Judge user has has_checked_in set to true');
   });
 
-  it("should not allow invalid roles", async () => {
+  it('should not allow invalid roles', async () => {
     const tempUser = { ...mockAdmin };
-    tempUser.role = "foo";
+    tempUser.role = 'foo';
     const { ok, body, error } = await CreateUser(tempUser);
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe("Document failed validation");
+    expect(error).toBe('Document failed validation');
   });
 
-  it("should fail to create a judge user with duplication in specialties", async () => {
+  it('should fail to create a judge user with duplication in specialties', async () => {
     const tempUser = { ...mockJudge };
-    tempUser.specialties = ["tech", "tech", "design"];
+    tempUser.specialties = ['tech', 'tech', 'design'];
     const { ok, body, error } = await CreateUser(tempUser);
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe("Document failed validation");
+    expect(error).toBe('Document failed validation');
   });
 });
 
-describe("READ: users", () => {
-  it("should retrieve no users from an empty database", async () => {
+describe('READ: users', () => {
+  it('should retrieve no users from an empty database', async () => {
     const { ok, body, error } = await GetManyUsers({});
     expect(ok).toBe(true);
     expect(body).toEqual([]);
     expect(error).toBe(null);
   });
 
-  it("should retrieve all users", async () => {
+  it('should retrieve all users', async () => {
     await CreateUser(mockAdmin);
     await CreateUser(mockHacker);
     await CreateUser(mockJudge);
@@ -186,7 +186,7 @@ describe("READ: users", () => {
     expect(error).toBe(null);
   });
 
-  it("should retrieve a user by valid user ID", async () => {
+  it('should retrieve a user by valid user ID', async () => {
     const { body: insertedUser } = await CreateUser(mockAdmin);
     if (!insertedUser._id) fail();
 
@@ -196,38 +196,38 @@ describe("READ: users", () => {
     expect(error).toBe(null);
   });
 
-  it("should fail to retrieve a user by non-existent user ID", async () => {
-    const { ok, body, error } = await GetUser("123412341234123412341234");
+  it('should fail to retrieve a user by non-existent user ID', async () => {
+    const { ok, body, error } = await GetUser('123412341234123412341234');
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe("user with id: 123412341234123412341234 not found.");
+    expect(error).toBe('user with id: 123412341234123412341234 not found.');
   });
 
-  it("should successfully filter by judge role", async () => {
+  it('should successfully filter by judge role', async () => {
     await CreateUser(mockAdmin);
     await CreateUser(mockHacker);
     await CreateUser(mockJudge);
 
-    const { ok, body, error } = await GetManyUsers({ role: "judge" });
+    const { ok, body, error } = await GetManyUsers({ role: 'judge' });
     expect(ok).toBe(true);
     expect(body).toBeInstanceOf(Array);
     expect(body.length).toBe(1);
     expect(error).toBe(null);
   });
 
-  it("should successfully filter by hacker role", async () => {
+  it('should successfully filter by hacker role', async () => {
     await CreateUser(mockAdmin);
     await CreateUser(mockHacker);
     await CreateUser(mockJudge);
 
-    const { ok, body, error } = await GetManyUsers({ role: "hacker" });
+    const { ok, body, error } = await GetManyUsers({ role: 'hacker' });
     expect(ok).toBe(true);
     expect(body).toBeInstanceOf(Array);
     expect(body.length).toBe(1);
     expect(error).toBe(null);
   });
 
-  it("should successfully filter by has_checked_in", async () => {
+  it('should successfully filter by has_checked_in', async () => {
     await CreateUser(mockAdmin);
     await CreateUser(mockHacker);
     await CreateUser(mockJudge);
@@ -239,7 +239,7 @@ describe("READ: users", () => {
     expect(error).toBe(null);
   });
 
-  it("should return an empty array when no users match the query", async () => {
+  it('should return an empty array when no users match the query', async () => {
     await CreateUser(mockAdmin);
     await CreateUser(mockHacker);
     await CreateUser(mockJudge);
@@ -252,17 +252,17 @@ describe("READ: users", () => {
   });
 });
 
-describe("UPDATE: users", () => {
-  it("should fail to update a user with no changes", async () => {
+describe('UPDATE: users', () => {
+  it('should fail to update a user with no changes', async () => {
     const { body: insertedUser } = await CreateUser(mockAdmin);
     if (!insertedUser._id) fail();
 
     const { ok, error } = await UpdateUser(insertedUser._id.toString(), {});
     expect(ok).toBe(false);
-    expect(error).toBe("No Content Provided");
+    expect(error).toBe('No Content Provided');
   });
 
-  it("should successfully update an existing user", async () => {
+  it('should successfully update an existing user', async () => {
     const { body: insertedUser } = await CreateUser(mockJudge);
     if (!insertedUser._id) fail();
 
@@ -273,15 +273,15 @@ describe("UPDATE: users", () => {
     expect(error).toBe(null);
   });
 
-  it("should fail to udpate a user with invalid user ID", async () => {
-    const { ok, error } = await UpdateUser("123412341234123412341234", {
+  it('should fail to udpate a user with invalid user ID', async () => {
+    const { ok, error } = await UpdateUser('123412341234123412341234', {
       $set: { has_checked_in: true },
     });
     expect(ok).toBe(false);
-    expect(error).toBe("user with id: 123412341234123412341234 not found.");
+    expect(error).toBe('user with id: 123412341234123412341234 not found.');
   });
 
-  it("should fail to update a user with a duplicate email", async () => {
+  it('should fail to update a user with a duplicate email', async () => {
     const { body: insertedUser1 } = await CreateUser(mockHacker);
     if (!insertedUser1._id) fail();
     const { body: insertedUser2 } = await CreateUser(mockJudge);
@@ -292,17 +292,17 @@ describe("UPDATE: users", () => {
     expect(ok).toBe(false);
     expect(body).toBe(null);
     expect(error).toBe(
-      `Duplicate: user email ${insertedUser2.email} already in use by another user.`,
+      `Duplicate: user email ${insertedUser2.email} already in use by another user.`
     );
   });
 
-  it("should fail to update a user role to admin if an admin already exists", async () => {
+  it('should fail to update a user role to admin if an admin already exists', async () => {
     await CreateUser(mockAdmin);
     const { body: insertedUser1 } = await CreateUser(mockHacker);
     if (!insertedUser1._id) fail();
 
     const { ok, body, error } = await UpdateUser(insertedUser1._id.toString(), {
-      $set: { role: "admin" },
+      $set: { role: 'admin' },
     });
     expect(ok).toBe(false);
     expect(body).toBe(null);
@@ -326,31 +326,31 @@ describe("UPDATE: users", () => {
   //   });
 });
 
-describe("DELETE: users", () => {
-  it("should successfully delete a user by valid user ID", async () => {
+describe('DELETE: users', () => {
+  it('should successfully delete a user by valid user ID', async () => {
     const { body: insertedUser } = await CreateUser(mockHacker);
     if (!insertedUser._id) fail();
 
     const { ok, body, error } = await DeleteUser(insertedUser._id.toString());
     expect(ok).toBe(true);
-    expect(body).toBe("user deleted");
+    expect(body).toBe('user deleted');
     expect(error).toBe(null);
   });
 
-  it("should fail to delete a user with a invalid user ID", async () => {
-    const { ok, body, error } = await DeleteUser("123412341234123412341234");
+  it('should fail to delete a user with a invalid user ID', async () => {
+    const { ok, body, error } = await DeleteUser('123412341234123412341234');
     expect(ok).toBe(false);
     expect(body).toBe(null);
-    expect(error).toBe("user with id: 123412341234123412341234 not found.");
+    expect(error).toBe('user with id: 123412341234123412341234 not found.');
   });
 
-  it("should fail to delete a user that has already been deleted", async () => {
+  it('should fail to delete a user that has already been deleted', async () => {
     const { body: insertedUser } = await CreateUser(mockHacker);
     if (!insertedUser._id) fail();
 
     const { ok, body, error } = await DeleteUser(insertedUser._id.toString());
     expect(ok).toBe(true);
-    expect(body).toBe("user deleted");
+    expect(body).toBe('user deleted');
     expect(error).toBe(null);
 
     const {
@@ -361,7 +361,7 @@ describe("DELETE: users", () => {
     expect(ok2).toBe(false);
     expect(body2).toBe(null);
     expect(error2).toBe(
-      `user with id: ${insertedUser._id.toString()} not found.`,
+      `user with id: ${insertedUser._id.toString()} not found.`
     );
   });
 });

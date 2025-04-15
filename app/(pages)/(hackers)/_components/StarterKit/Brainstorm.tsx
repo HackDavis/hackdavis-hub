@@ -1,9 +1,9 @@
-import styles from "./Brainstorm.module.scss";
+import styles from './Brainstorm.module.scss';
 // import cow from '@public/hackers/cow_brainstorm.svg';
 // import froggy from '@public/hackers/froggy_brainstorm.svg';
-import cowAndFroggy from "@public/hackers/cow_and_froggy.svg";
-import microphone from "@public/hackers/microphones.svg";
-import Image from "next/image";
+import cowAndFroggy from '@public/hackers/cow_and_froggy.svg';
+import microphone from '@public/hackers/microphones.svg';
+import Image from 'next/image';
 
 export default function Brainstorm() {
   return (

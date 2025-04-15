@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-import AuthForm from "@components/AuthForm/AuthForm";
-import ResetPasswordAction from "@actions/auth/resetPassword";
+import AuthForm from '@components/AuthForm/AuthForm';
+import ResetPasswordAction from '@actions/auth/resetPassword';
 
 export default function ResetPasswordForm({ data }: any) {
   const router = useRouter();
@@ -16,22 +16,22 @@ export default function ResetPasswordForm({ data }: any) {
   };
 
   const onSuccess = () => {
-    router.push("/judges/login");
+    router.push('/judges/login');
   };
 
   const formFields = [
     {
-      name: "password" as const,
-      type: "password",
-      label: "New Password",
-      placeholder: "",
+      name: 'password' as const,
+      type: 'password',
+      label: 'New Password',
+      placeholder: '',
       readOnly: false,
     },
     {
-      name: "passwordDupe" as const,
-      type: "password",
-      label: "Retype New Password",
-      placeholder: "",
+      name: 'passwordDupe' as const,
+      type: 'password',
+      label: 'Retype New Password',
+      placeholder: '',
       readOnly: false,
     },
   ];
@@ -42,8 +42,8 @@ export default function ResetPasswordForm({ data }: any) {
       fields={formFields}
       buttonText="Reset Password →"
       initialValues={{
-        password: "",
-        passwordDupe: "",
+        password: '',
+        passwordDupe: '',
       }}
       onSubmit={onSubmit}
       onSuccess={onSuccess}

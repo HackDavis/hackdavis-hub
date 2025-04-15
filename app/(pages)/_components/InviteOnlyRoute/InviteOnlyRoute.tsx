@@ -1,15 +1,15 @@
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
-import verifyInvite from "@actions/invite/verifyInvite";
-import { getManyUsers } from "@actions/users/getUser";
+import verifyInvite from '@actions/invite/verifyInvite';
+import { getManyUsers } from '@actions/users/getUser';
 
 export default async function InviteOnlyRoute({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const data = cookies().get("data");
-  const sig = cookies().get("sig");
+  const data = cookies().get('data');
+  const sig = cookies().get('sig');
 
   const users = await getManyUsers();
   const noUsers = users.body.length === 0;

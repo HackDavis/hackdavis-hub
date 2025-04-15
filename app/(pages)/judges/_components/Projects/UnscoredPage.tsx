@@ -1,13 +1,13 @@
-import { useState } from "react";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import ProjectTab from "./ProjectTab";
-import Team from "@typeDefs/team";
+import { useState } from 'react';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import ProjectTab from './ProjectTab';
+import Team from '@typeDefs/team';
 
-import { reportMissingProject } from "@actions/teams/reportMissingTeam";
-import styles from "./UnscoredPage.module.scss";
-import ReportModal from "./ReportModal";
-import EmptyState from "./EmptyState";
+import { reportMissingProject } from '@actions/teams/reportMissingTeam';
+import styles from './UnscoredPage.module.scss';
+import ReportModal from './ReportModal';
+import EmptyState from './EmptyState';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -20,11 +20,11 @@ export default function UnscoredPage({
 }: UnscoredPageProps) {
   const { data: session } = useSession();
   const user = session?.user;
-  const judgeId = user?.id ?? "";
+  const judgeId = user?.id ?? '';
   const [expandReportButton, setExpandReportButton] = useState(false);
   const [modalStage, setModalStage] = useState<
-    "hidden" | "loading" | "success" | "error"
-  >("hidden");
+    'hidden' | 'loading' | 'success' | 'error'
+  >('hidden');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   if (teams.length === 0) {
@@ -40,14 +40,14 @@ export default function UnscoredPage({
   const upcomingTeams = teams.slice(1);
 
   const handleTeamReport = async (team: Team) => {
-    setModalStage("loading");
-    const reportRes = await reportMissingProject(judgeId, team._id ?? "");
+    setModalStage('loading');
+    const reportRes = await reportMissingProject(judgeId, team._id ?? '');
     if (!reportRes.ok) {
-      setErrorMsg((reportRes.error ?? "").slice(0, 100));
-      setModalStage("error");
+      setErrorMsg((reportRes.error ?? '').slice(0, 100));
+      setModalStage('error');
     } else {
       setErrorMsg(null);
-      setModalStage("success");
+      setModalStage('success');
       revalidateData();
     }
     setExpandReportButton(false);
@@ -63,7 +63,7 @@ export default function UnscoredPage({
           Projects must be judged in order one by one order.
         </p>
         <p className={styles.grey}>
-          If the team you are judging is not present, tap the{" "}
+          If the team you are judging is not present, tap the{' '}
           <span className={styles.red}>red button</span> below.
         </p>
       </span>

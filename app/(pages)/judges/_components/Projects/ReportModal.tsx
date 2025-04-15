@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Loader from "@pages/_components/Loader/Loader";
-import styles from "./ReportModal.module.scss";
-import { RxCross2 } from "react-icons/rx";
+import Loader from '@pages/_components/Loader/Loader';
+import styles from './ReportModal.module.scss';
+import { RxCross2 } from 'react-icons/rx';
 
 interface ReportModalProps {
-  modalStage: "hidden" | "loading" | "error" | "success";
+  modalStage: 'hidden' | 'loading' | 'error' | 'success';
   setModalStage: React.Dispatch<
-    React.SetStateAction<"hidden" | "loading" | "error" | "success">
+    React.SetStateAction<'hidden' | 'loading' | 'error' | 'success'>
   >;
   errorMsg: string | null;
 }
@@ -24,7 +24,7 @@ export default function ReportModal({
       <h4>Team successfully reported!</h4>
       <div
         className={styles.ack_button}
-        onClick={() => setModalStage("hidden")}
+        onClick={() => setModalStage('hidden')}
       >
         Back to judging
       </div>
@@ -49,13 +49,13 @@ export default function ReportModal({
   return (
     <div
       className={`${styles.background_container} ${
-        modalStage === "hidden" ? styles.hidden : null
+        modalStage === 'hidden' ? styles.hidden : null
       }`}
     >
       <div className={styles.container}>
         <div
           className={styles.close_button}
-          onClick={() => setModalStage("hidden")}
+          onClick={() => setModalStage('hidden')}
         >
           <RxCross2 className={styles.exit_button} />
         </div>

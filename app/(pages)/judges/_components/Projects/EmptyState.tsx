@@ -1,5 +1,5 @@
-import Image from "next/image";
-import projectCow from "/public/judges/projects/project-cow.svg";
+import Image from 'next/image';
+import projectCow from '/public/judges/projects/project-cow.svg';
 
 export default function ProjectsEmptyState({
   title,

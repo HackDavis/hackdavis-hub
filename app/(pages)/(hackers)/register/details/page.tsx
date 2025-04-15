@@ -1,13 +1,13 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-import DetailForm from "@pages/(hackers)/_components/AuthForms/DetailForm";
-import AuthFormBackground from "../../_components/AuthFormBackground/AuthFormBackground";
-import getActiveUser from "app/(pages)/_utils/getActiveUser";
+import DetailForm from '@pages/(hackers)/_components/AuthForms/DetailForm';
+import AuthFormBackground from '../../_components/AuthFormBackground/AuthFormBackground';
+import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 
 export default async function DetailPage() {
-  const user = await getActiveUser("/login");
+  const user = await getActiveUser('/login');
 
-  if (user.role === "judge") redirect("/judges/register");
+  if (user.role === 'judge') redirect('/judges/register');
 
   return (
     <AuthFormBackground

@@ -1,9 +1,9 @@
-"use server";
+'use server';
 
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import Logout from "@datalib/auth/logout";
-import authenticated from "@utils/authentication/authenticated";
+import Logout from '@datalib/auth/logout';
+import authenticated from '@utils/authentication/authenticated';
 
 async function post() {
   const res = await Logout();

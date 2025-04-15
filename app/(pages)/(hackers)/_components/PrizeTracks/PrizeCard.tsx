@@ -1,14 +1,14 @@
-"use client";
-import Image from "next/image";
-import { useEffect, useState, useCallback } from "react";
-import styles from "./PrizeCard.module.scss";
-import useEmblaCarousel from "embla-carousel-react";
-import { ChevronDown } from "lucide-react";
+'use client';
+import Image from 'next/image';
+import { useEffect, useState, useCallback } from 'react';
+import styles from './PrizeCard.module.scss';
+import useEmblaCarousel from 'embla-carousel-react';
+import { ChevronDown } from 'lucide-react';
 
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 interface PrizeCardProps {
   name: string;
@@ -32,26 +32,26 @@ export default function PrizeCard({
   };
 
   const [width, setWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 0,
+    typeof window !== 'undefined' ? window.innerWidth : 0
   );
 
   const updateDimensions = () => {
     setWidth(window.innerWidth);
   };
   useEffect(() => {
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: false,
-      align: "start",
+      align: 'start',
       dragFree: false,
       skipSnaps: false,
       watchDrag: width > 760 ? false : true,
     },
-    [],
+    []
   );
 
   const changeDots = useCallback((emblaApi: any) => {
@@ -60,7 +60,7 @@ export default function PrizeCard({
 
   useEffect(() => {
     if (emblaApi) {
-      emblaApi.on("select", changeDots);
+      emblaApi.on('select', changeDots);
     }
   }, [changeDots, emblaApi]);
 
@@ -79,16 +79,16 @@ export default function PrizeCard({
   return (
     <Accordion
       sx={{
-        padding: "0px",
-        boxShadow: "0px 8px 24px rgba(149,157,165,0.2)",
-        border: "none",
-        "&::before": {
-          content: "none",
+        padding: '0px',
+        boxShadow: '0px 8px 24px rgba(149,157,165,0.2)',
+        border: 'none',
+        '&::before': {
+          content: 'none',
         },
       }}
       disableGutters={true}
     >
-      <AccordionSummary sx={{ padding: "0px" }}>
+      <AccordionSummary sx={{ padding: '0px' }}>
         <div className={styles.container} onClick={handleCriteriaClick}>
           <div className={styles.content}>
             <div className={styles.info}>
@@ -146,7 +146,7 @@ export default function PrizeCard({
           </div>
         </div>
       </AccordionSummary>
-      <AccordionDetails sx={{ padding: "0px" }}>
+      <AccordionDetails sx={{ padding: '0px' }}>
         <div className={styles.criteriaContainer}>
           <p className={styles.criteriaContent}>{criteria}</p>
         </div>
@@ -173,7 +173,7 @@ function CarouselDots({ moveDot }: CarouselDotsProps) {
           cy="2"
           r="2"
           fill="#123041"
-          fillOpacity={moveDot ? "0.5" : "1"}
+          fillOpacity={moveDot ? '0.5' : '1'}
         />
       </svg>
       <svg
@@ -188,7 +188,7 @@ function CarouselDots({ moveDot }: CarouselDotsProps) {
           cy="2"
           r="2"
           fill="#123041"
-          fillOpacity={moveDot ? "1" : "0.5"}
+          fillOpacity={moveDot ? '1' : '0.5'}
         />
       </svg>
     </div>

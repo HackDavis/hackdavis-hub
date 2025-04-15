@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-import AuthForm from "@components/AuthForm/AuthForm";
-import RegisterAction from "@actions/auth/register";
+import AuthForm from '@components/AuthForm/AuthForm';
+import RegisterAction from '@actions/auth/register';
 
 export default function RegisterForm({ data }: any) {
   const router = useRouter();
 
-  const name = data?.name ?? "HackDavis Admin";
-  const role = data?.role ?? "admin";
+  const name = data?.name ?? 'HackDavis Admin';
+  const role = data?.role ?? 'admin';
 
   const onSubmit = async (fields: any) => {
     return RegisterAction({
@@ -22,33 +22,33 @@ export default function RegisterForm({ data }: any) {
   };
 
   const onSuccess = () => {
-    if (role === "admin") {
-      router.push("/judges");
+    if (role === 'admin') {
+      router.push('/judges');
     } else {
-      router.push("/judges/register/details");
+      router.push('/judges/register/details');
     }
   };
 
   const formFields = [
     {
-      name: "email" as const,
-      type: "email",
-      label: "Email",
-      placeholder: "",
+      name: 'email' as const,
+      type: 'email',
+      label: 'Email',
+      placeholder: '',
       readOnly: data ? true : false,
     },
     {
-      name: "password" as const,
-      type: "password",
-      label: "Password",
-      placeholder: "",
+      name: 'password' as const,
+      type: 'password',
+      label: 'Password',
+      placeholder: '',
       readOnly: false,
     },
     {
-      name: "passwordDupe" as const,
-      type: "password",
-      label: "Retype Password",
-      placeholder: "",
+      name: 'passwordDupe' as const,
+      type: 'password',
+      label: 'Retype Password',
+      placeholder: '',
       readOnly: false,
     },
   ];
@@ -59,9 +59,9 @@ export default function RegisterForm({ data }: any) {
       fields={formFields}
       buttonText="Next →"
       initialValues={{
-        email: data?.email ?? "",
-        password: "",
-        passwordDupe: "",
+        email: data?.email ?? '',
+        password: '',
+        passwordDupe: '',
       }}
       onSubmit={onSubmit}
       onSuccess={onSuccess}

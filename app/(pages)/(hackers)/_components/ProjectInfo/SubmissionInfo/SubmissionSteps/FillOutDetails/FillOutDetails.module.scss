@@ -16,8 +16,8 @@
     display: flex;
     position: absolute;
     aspect-ratio: 16 / 8;
-  }
-
+  }      
+  
   .primaryImage {
     position: absolute;
     top: 0;
@@ -32,8 +32,8 @@
     width: 100% !important;
     height: auto !important;
     // margin-bottom: -7%;
-    z-index: 1;
-    padding-top: 35%;
+    z-index: 1;   
+    padding-top: 35%; 
   }
 
   .text {
@@ -62,3 +62,6 @@
     }
   }
 }
+
+
+

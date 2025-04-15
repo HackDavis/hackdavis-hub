@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Team from "@typeDefs/team";
-import ProjectTab from "./ProjectTab";
+import Team from '@typeDefs/team';
+import ProjectTab from './ProjectTab';
 interface ScoredPageProps {
   projects: Team[];
 }

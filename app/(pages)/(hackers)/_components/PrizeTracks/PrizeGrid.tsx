@@ -1,5 +1,5 @@
-import type { TrackData } from "@data/tracks";
-import PrizeCard from "./PrizeCard";
+import type { TrackData } from '@data/tracks';
+import PrizeCard from './PrizeCard';
 
 export default function PrizeGrid({ items }: { items: TrackData[] }) {
   return (

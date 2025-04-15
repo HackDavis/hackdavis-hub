@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import styles from "./Countdown.module.scss";
-import { useState, useEffect } from "react";
+import styles from './Countdown.module.scss';
+import { useState, useEffect } from 'react';
 
-const COUNTDOWN_TARGET = new Date("2025-04-19T11:00:00-08:00");
+const COUNTDOWN_TARGET = new Date('2025-04-19T11:00:00-08:00');
 
 export default function Countdown() {
   const calculateTimeLeft = () => {
@@ -42,21 +42,21 @@ export default function Countdown() {
         <div>
           <p>HOURS</p>
           <p className={`${styles.countdown_text}`}>
-            {timeLeft.hours.toString().padStart(2, "0")}
+            {timeLeft.hours.toString().padStart(2, '0')}
           </p>
         </div>
-        <p className={styles.countdown_text}>{" : "}</p>
+        <p className={styles.countdown_text}>{' : '}</p>
         <div>
           <p>MINUTES</p>
           <p className={`${styles.countdown_text}`}>
-            {timeLeft.minutes.toString().padStart(2, "0")}
+            {timeLeft.minutes.toString().padStart(2, '0')}
           </p>
         </div>
-        <p className={styles.countdown_text}>{" : "}</p>
+        <p className={styles.countdown_text}>{' : '}</p>
         <div>
           <p className={styles.seconds}>SECONDS</p>
           <p className={`${styles.countdown_text} ${styles.fixed_text}`}>
-            {timeLeft.seconds.toString().padStart(2, "0")}
+            {timeLeft.seconds.toString().padStart(2, '0')}
           </p>
         </div>
       </div>

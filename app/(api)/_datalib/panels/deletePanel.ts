@@ -1,15 +1,15 @@
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
-import { ObjectId } from "mongodb";
-import { HttpError, NotFoundError } from "@utils/response/Errors";
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import { ObjectId } from 'mongodb';
+import { HttpError, NotFoundError } from '@utils/response/Errors';
 
 export const DeleteManyPanels = async (query: object = {}) => {
   try {
     const db = await getDatabase();
 
-    const result = await db.collection("panels").deleteMany(query);
+    const result = await db.collection('panels').deleteMany(query);
 
     if (result.deletedCount === 0) {
-      throw new HttpError("Failed to delete panels");
+      throw new HttpError('Failed to delete panels');
     }
 
     return {
@@ -28,18 +28,18 @@ export const DeletePanel = async (id: string) => {
     const db = await getDatabase();
 
     const panel = await db
-      .collection("panels")
+      .collection('panels')
       .findOne({ _id: new ObjectId(id) });
     if (!panel) {
       throw new NotFoundError(`Panel with id ${id} not found`);
     }
 
     const result = await db
-      .collection("panels")
+      .collection('panels')
       .deleteOne({ _id: new ObjectId(id) });
 
     if (result.deletedCount === 0) {
-      throw new HttpError("Failed to delete panel");
+      throw new HttpError('Failed to delete panel');
     }
 
     return {

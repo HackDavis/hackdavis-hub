@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-import getActiveUser from "app/(pages)/_utils/getActiveUser";
+import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 
 export default async function CodeProtectedDisplay({
   failRedirectRoute,

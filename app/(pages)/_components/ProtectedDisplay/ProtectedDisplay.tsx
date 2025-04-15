@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-import getActiveUser from "app/(pages)/_utils/getActiveUser";
+import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 
 export default async function ProtectedDisplay({
   allowedRoles,
@@ -15,21 +15,21 @@ export default async function ProtectedDisplay({
 
   const authorized = allowedRoles.includes(user.role);
 
-  if (user.role === "hacker") {
+  if (user.role === 'hacker') {
     if (user.position === undefined || user.is_beginner === undefined) {
-      redirect("/register/details");
+      redirect('/register/details');
     } else if (authorized) {
       return <>{children}</>;
     } else {
-      redirect("/");
+      redirect('/');
     }
-  } else if (user.role === "judge") {
+  } else if (user.role === 'judge') {
     if (user.specialties === undefined) {
-      redirect("/judges/register/details");
+      redirect('/judges/register/details');
     } else if (authorized) {
       return <>{children}</>;
     } else {
-      redirect("/judges");
+      redirect('/judges');
     }
   } else {
     return <>{children}</>;

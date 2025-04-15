@@ -1,4 +1,4 @@
-@import "@globals/mixins.scss";
+@import '@globals/mixins.scss';
 
 .container {
   display: flex;
@@ -67,7 +67,7 @@
       font-weight: 600;
       line-height: normal;
       letter-spacing: 0.56px;
-
+  
       @include desktop-m {
         font-size: 1.25rem;
       }
@@ -98,7 +98,7 @@
       border: 1.5px solid var(--text-light);
       width: 100%;
 
-      @include desktop-s {
+      @include desktop-s{
         display: flex;
       }
 
@@ -108,18 +108,18 @@
         min-width: fit-content;
         padding: 24px 16px;
         border-bottom: 1.5px solid white;
-
+    
         color: var(--text-light);
         font-size: 1.125rem;
         font-style: normal;
         font-weight: 400;
         line-height: 145%;
         letter-spacing: 0.36px;
-
+    
         @include desktop-l {
           padding: 16px 12px;
         }
-
+    
         @include desktop-m {
           padding: 12px 8px;
           font-size: 1rem;
@@ -145,18 +145,18 @@
       justify-content: center;
       min-width: fit-content;
       padding: 24px 16px;
-
+  
       color: var(--text-light);
       font-size: 1.125rem;
       font-style: normal;
       font-weight: 400;
       line-height: 145%;
       letter-spacing: 0.36px;
-
+  
       @include desktop-l {
         padding: 16px 12px;
       }
-
+  
       @include desktop-m {
         padding: 12px 8px;
         font-size: 1rem;
@@ -170,7 +170,7 @@
         font-size: 0.5rem;
       }
     }
-
+  
     .criterion:not(:last-child) {
       border-right: 1.5px solid var(--text-light);
     }

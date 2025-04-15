@@ -1,6 +1,6 @@
-"use client";
-import { useState, useEffect, useCallback } from "react";
-import { EmblaCarouselType } from "embla-carousel";
+'use client';
+import { useState, useEffect, useCallback } from 'react';
+import { EmblaCarouselType } from 'embla-carousel';
 
 export const useCarouselProgress = (emblaApi: any) => {
   // used to move the progress bar as the user moves through the carousel
@@ -22,8 +22,8 @@ export const useCarouselProgress = (emblaApi: any) => {
     if (!emblaApi) return;
 
     onScroll(emblaApi);
-    emblaApi.on("reInit", onScroll);
-    emblaApi.on("scroll", onScroll);
+    emblaApi.on('reInit', onScroll);
+    emblaApi.on('scroll', onScroll);
   }, [emblaApi, onScroll]);
 
   /* When the user clicks somewhere on the progress bar, it will

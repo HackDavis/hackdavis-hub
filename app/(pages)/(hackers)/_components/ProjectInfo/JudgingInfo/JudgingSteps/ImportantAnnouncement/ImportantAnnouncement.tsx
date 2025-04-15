@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import TeamVsTableSpeechBubble from "public/hackers/project-info/teamVsTableSpeech.svg";
-import TeamVsTableNumber from "public/hackers/project-info/teamVsTableNumber.png";
-import GreenSign from "public/hackers/project-info/greenSign.svg";
-import BlueSign from "public/hackers/project-info/blueSign.svg";
-import styles from "./ImportantAnnouncement.module.scss";
+import Image from 'next/image';
+import TeamVsTableSpeechBubble from 'public/hackers/project-info/teamVsTableSpeech.svg';
+import TeamVsTableNumber from 'public/hackers/project-info/teamVsTableNumber.png';
+import GreenSign from 'public/hackers/project-info/greenSign.svg';
+import BlueSign from 'public/hackers/project-info/blueSign.svg';
+import styles from './ImportantAnnouncement.module.scss';
 
 const topInfo = [
   <p key="1">

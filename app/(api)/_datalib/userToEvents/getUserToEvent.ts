@@ -1,6 +1,6 @@
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
-import { HttpError } from "@utils/response/Errors";
-import parseAndReplace from "@utils/request/parseAndReplace";
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import { HttpError } from '@utils/response/Errors';
+import parseAndReplace from '@utils/request/parseAndReplace';
 
 export const GetUserToEvents = async (query: object = {}) => {
   try {
@@ -8,25 +8,25 @@ export const GetUserToEvents = async (query: object = {}) => {
     const parsedQuery = await parseAndReplace(query);
 
     const userEvents = await db
-      .collection("userToEvents")
+      .collection('userToEvents')
       .aggregate([
         {
           $match: parsedQuery,
         },
         {
           $lookup: {
-            from: "events",
-            localField: "event_id",
-            foreignField: "_id",
-            as: "events",
+            from: 'events',
+            localField: 'event_id',
+            foreignField: '_id',
+            as: 'events',
           },
         },
         {
           $lookup: {
-            from: "users",
-            localField: "user_id",
-            foreignField: "_id",
-            as: "users",
+            from: 'users',
+            localField: 'user_id',
+            foreignField: '_id',
+            as: 'users',
           },
         },
       ])
@@ -34,7 +34,7 @@ export const GetUserToEvents = async (query: object = {}) => {
 
     if (userEvents.length === 0) {
       throw new HttpError(
-        "No matching userToEvent found for the provided query.",
+        'No matching userToEvent found for the provided query.'
       );
     }
 

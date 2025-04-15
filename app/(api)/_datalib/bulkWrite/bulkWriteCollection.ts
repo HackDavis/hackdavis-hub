@@ -1,11 +1,11 @@
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
-import parseAndReplace from "@utils/request/parseAndReplace";
-import HttpError from "@utils/response/HttpError";
-import NoContentError from "@utils/response/NoContentError";
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import parseAndReplace from '@utils/request/parseAndReplace';
+import HttpError from '@utils/response/HttpError';
+import NoContentError from '@utils/response/NoContentError';
 
 export const BulkWriteCollection = async (
   collection: string,
-  operations: object[],
+  operations: object[]
 ) => {
   try {
     if (operations.length === 0) throw new NoContentError();
@@ -19,7 +19,7 @@ export const BulkWriteCollection = async (
 
     const res = await db.collection(collection).bulkWrite(parsedOperations);
 
-    if (!res.ok) throw new HttpError("Bulk write failed.");
+    if (!res.ok) throw new HttpError('Bulk write failed.');
 
     return { ok: true, body: null, error: null };
   } catch (e) {

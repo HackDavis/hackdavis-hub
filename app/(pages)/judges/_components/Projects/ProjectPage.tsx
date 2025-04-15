@@ -1,12 +1,12 @@
-"use client";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { FaChevronLeft } from "react-icons/fa6";
-import { useJudgeSubmissions } from "@pages/_hooks/useJudgeSubmissions";
-import UnscoredPage from "./UnscoredPage";
-import ScoredPage from "./ScoredPage";
-import Link from "next/link";
-import Loader from "@pages/_components/Loader/Loader";
+'use client';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { FaChevronLeft } from 'react-icons/fa6';
+import { useJudgeSubmissions } from '@pages/_hooks/useJudgeSubmissions';
+import UnscoredPage from './UnscoredPage';
+import ScoredPage from './ScoredPage';
+import Link from 'next/link';
+import Loader from '@pages/_components/Loader/Loader';
 
 interface ButtonProps {
   text: string;
@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => (
   <button
     className={`${width} h-[42px] border-[1.5px] border-[#005271] border-solid rounded-[20px] text-[#005271] text-lg font-semibold tracking-[0.36px] flex items-center justify-center ${
-      isSelected ? "bg-[#9EE7E5]" : "bg-white"
+      isSelected ? 'bg-[#9EE7E5]' : 'bg-white'
     }`}
     onClick={onClick}
   >
@@ -32,12 +32,12 @@ const Button: React.FC<ButtonProps> = ({
 );
 
 const ProjectPage = () => {
-  const [selectedButton, setSelectedButton] = useState<"Unjudged" | "Scored">(
-    "Unjudged",
+  const [selectedButton, setSelectedButton] = useState<'Unjudged' | 'Scored'>(
+    'Unjudged'
   );
   const { data: session } = useSession();
   const user = session?.user;
-  const userId = user?.id ?? "";
+  const userId = user?.id ?? '';
 
   const { scoredTeams, unscoredTeams, loading, error, updateSubmissions } =
     useJudgeSubmissions(userId);
@@ -69,15 +69,15 @@ const ProjectPage = () => {
       <div className="flex px-[20px] space-x-[8px] mb-[32px]">
         <Button
           text="Unjudged"
-          isSelected={selectedButton === "Unjudged"}
+          isSelected={selectedButton === 'Unjudged'}
           width="w-[136px]"
-          onClick={() => setSelectedButton("Unjudged")}
+          onClick={() => setSelectedButton('Unjudged')}
         />
         <Button
           text="Scored"
-          isSelected={selectedButton === "Scored"}
+          isSelected={selectedButton === 'Scored'}
           width="w-[114px]"
-          onClick={() => setSelectedButton("Scored")}
+          onClick={() => setSelectedButton('Scored')}
         />
       </div>
       <div className="px-[20px]">
@@ -87,7 +87,7 @@ const ProjectPage = () => {
           <div className="bg-red-100 p-4 rounded">
             <p className="text-red-800">{error}</p>
           </div>
-        ) : selectedButton === "Unjudged" ? (
+        ) : selectedButton === 'Unjudged' ? (
           <UnscoredPage
             teams={unscoredTeams}
             revalidateData={() => updateSubmissions(userId)}

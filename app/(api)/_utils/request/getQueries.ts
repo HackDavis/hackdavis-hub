@@ -1,21 +1,21 @@
-import { NextRequest } from "next/server";
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
-import { ObjectId } from "mongodb";
+import { NextRequest } from 'next/server';
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import { ObjectId } from 'mongodb';
 
 function typeCast(value: string, type: string) {
   switch (type) {
-    case "int":
+    case 'int':
       return isNaN(+value) ? value : +value;
-    case "objectId":
+    case 'objectId':
       try {
         return ObjectId.createFromHexString(value);
       } catch {
         return value;
       }
-    case "bool":
-      if (value === "true") {
+    case 'bool':
+      if (value === 'true') {
         return true;
-      } else if (value === "false") {
+      } else if (value === 'false') {
         return false;
       } else {
         return value;
@@ -27,7 +27,7 @@ function typeCast(value: string, type: string) {
 
 export default async function getQueries(
   request: NextRequest,
-  content_type: string,
+  content_type: string
 ) {
   const db = await getDatabase();
   const query_entries = request.nextUrl.searchParams.entries();

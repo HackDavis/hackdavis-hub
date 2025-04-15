@@ -1,17 +1,17 @@
-"use client";
-import Image from "next/image";
+'use client';
+import Image from 'next/image';
 
-import cloudBottom from "@public/BigVinyl/CloudBottom.svg";
-import cloudBottomDim from "@public/BigVinyl/CloudBottomDim.svg";
-import cloudCenterLeft from "@public/BigVinyl/CloudCenter.svg";
-import cloudCenterRight from "@public/BigVinyl/CloudCenterRight.svg";
-import cloudTop from "@public/BigVinyl/CloudTop.svg";
-import cloudTopMobile from "@public/BigVinyl/CloudTopMobile.svg";
-import vinyl from "@public/BigVinyl/Vinyl_text_style_1.svg";
-import sparkles from "@public/BigVinyl/Sparkles.svg";
+import cloudBottom from '@public/BigVinyl/CloudBottom.svg';
+import cloudBottomDim from '@public/BigVinyl/CloudBottomDim.svg';
+import cloudCenterLeft from '@public/BigVinyl/CloudCenter.svg';
+import cloudCenterRight from '@public/BigVinyl/CloudCenterRight.svg';
+import cloudTop from '@public/BigVinyl/CloudTop.svg';
+import cloudTopMobile from '@public/BigVinyl/CloudTopMobile.svg';
+import vinyl from '@public/BigVinyl/Vinyl_text_style_1.svg';
+import sparkles from '@public/BigVinyl/Sparkles.svg';
 
-import musicNotes from "@public/Waterfall/music_notes.svg";
-import keyboardDucky from "@public/Waterfall/keyboard_ducky.svg";
+import musicNotes from '@public/Waterfall/music_notes.svg';
+import keyboardDucky from '@public/Waterfall/keyboard_ducky.svg';
 
 export default function BigVinyl() {
   return (

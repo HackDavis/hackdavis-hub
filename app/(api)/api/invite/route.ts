@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import GenerateInvite from "@datalib/invite/generateInvite";
+import { NextRequest, NextResponse } from 'next/server';
+import GenerateInvite from '@datalib/invite/generateInvite';
 
 export async function POST(request: NextRequest) {
   const body = await request.json();

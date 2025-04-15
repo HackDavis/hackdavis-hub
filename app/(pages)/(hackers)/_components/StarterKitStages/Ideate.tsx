@@ -1,6 +1,6 @@
-import StarterKitSlide from "../StarterKit/StarterKitSlide";
-import PreviousHacks from "../StarterKit/PreviousHacks";
-import Brainstorm from "../StarterKit/Brainstorm";
+import StarterKitSlide from '../StarterKit/StarterKitSlide';
+import PreviousHacks from '../StarterKit/PreviousHacks';
+import Brainstorm from '../StarterKit/Brainstorm';
 // import MentorResources from '../StarterKit/Resources/MentorResources';
 
 export default function Ideate() {

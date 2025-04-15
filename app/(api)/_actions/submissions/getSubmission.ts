@@ -1,11 +1,11 @@
-"use server";
+'use server';
 
 import {
   GetManySubmissions,
   GetSubmission,
-} from "@datalib/submissions/getSubmissions";
-import parseAndReplace from "@utils/request/parseAndReplace";
-import { serializeMongoData } from "@utils/serialize/serialization";
+} from '@datalib/submissions/getSubmissions';
+import parseAndReplace from '@utils/request/parseAndReplace';
+import { serializeMongoData } from '@utils/serialize/serialization';
 
 // TODO: replace parse and stringify with daniel's serialization util
 export async function getSubmission(judge_id: string, team_id: string) {

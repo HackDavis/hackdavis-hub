@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { getTeam } from "@actions/teams/getTeams";
+import { useState, useEffect } from 'react';
+import { getTeam } from '@actions/teams/getTeams';
 
 export function useTeam(team_id: string): any {
   const [team, setTeam] = useState<any>(null);

@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import PeekingCharacters from "public/hackers/project-info/peekingCharacters.png";
-import PeekingTwoCharacters from "public/hackers/project-info/peekingTwoCharacters.png";
-import styles from "./SubmissionDue.module.scss";
+import Image from 'next/image';
+import PeekingCharacters from 'public/hackers/project-info/peekingCharacters.png';
+import PeekingTwoCharacters from 'public/hackers/project-info/peekingTwoCharacters.png';
+import styles from './SubmissionDue.module.scss';
 
 const criteria = [
   {
     percentage: 60,
-    criterion: "Track-Specific",
+    criterion: 'Track-Specific',
   },
   {
     percentage: 20,
-    criterion: "Social Good",
+    criterion: 'Social Good',
   },
   {
     percentage: 10,
-    criterion: "Creativity",
+    criterion: 'Creativity',
   },
   {
     percentage: 10,
-    criterion: "Presentation",
+    criterion: 'Presentation',
   },
 ];
 
@@ -57,7 +57,7 @@ export default function SubmissionDue() {
             <div
               className={styles.first_criterion}
               style={{
-                width: "100%",
+                width: '100%',
               }}
             >
               60% Track-Specific
@@ -66,7 +66,7 @@ export default function SubmissionDue() {
               <div
                 className={styles.criterion}
                 style={{
-                  width: "50%",
+                  width: '50%',
                 }}
               >
                 20% Social Good
@@ -74,7 +74,7 @@ export default function SubmissionDue() {
               <div
                 className={styles.criterion}
                 style={{
-                  width: "25%",
+                  width: '25%',
                 }}
               >
                 10% Creativity
@@ -82,7 +82,7 @@ export default function SubmissionDue() {
               <div
                 className={styles.criterion}
                 style={{
-                  width: "25%",
+                  width: '25%',
                 }}
               >
                 10% Presentation

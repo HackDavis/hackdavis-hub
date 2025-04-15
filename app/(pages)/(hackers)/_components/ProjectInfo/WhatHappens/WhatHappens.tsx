@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import SubmissionInfo from "../SubmissionInfo/SubmissionInfo";
-import JudgingInfo from "../JudgingInfo/JudgingInfo";
-import styles from "./WhatHappens.module.scss";
+import { useState } from 'react';
+import SubmissionInfo from '../SubmissionInfo/SubmissionInfo';
+import JudgingInfo from '../JudgingInfo/JudgingInfo';
+import styles from './WhatHappens.module.scss';
 
 export default function WhatHappens() {
-  const [activeTab, setActiveTab] = useState<"submission" | "judging">(
-    "submission",
+  const [activeTab, setActiveTab] = useState<'submission' | 'judging'>(
+    'submission'
   );
 
   return (
@@ -18,14 +18,14 @@ export default function WhatHappens() {
             <h2>What happens during the...</h2>
             <div className={styles.processButtons}>
               <button
-                className={activeTab === "submission" ? styles.selected : ""}
-                onClick={() => setActiveTab("submission")}
+                className={activeTab === 'submission' ? styles.selected : ''}
+                onClick={() => setActiveTab('submission')}
               >
                 Submission Process
               </button>
               <button
-                className={activeTab === "judging" ? styles.selected : ""}
-                onClick={() => setActiveTab("judging")}
+                className={activeTab === 'judging' ? styles.selected : ''}
+                onClick={() => setActiveTab('judging')}
               >
                 Judging Process
               </button>
@@ -33,13 +33,13 @@ export default function WhatHappens() {
           </div>
 
           <div>
-            {activeTab === "submission" && (
+            {activeTab === 'submission' && (
               <section>
                 <SubmissionInfo />
               </section>
             )}
 
-            {activeTab === "judging" && (
+            {activeTab === 'judging' && (
               <section>
                 <JudgingInfo />
               </section>

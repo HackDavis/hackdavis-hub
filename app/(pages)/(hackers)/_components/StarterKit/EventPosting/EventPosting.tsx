@@ -1,6 +1,6 @@
 // import { Card, CardContent } from '@globals/components/ui/card';
-import styles from "./EventPosting.module.scss";
-import { HiLocationMarker } from "react-icons/hi";
+import styles from './EventPosting.module.scss';
+import { HiLocationMarker } from 'react-icons/hi';
 
 interface EventPostingProps {
   location: string;

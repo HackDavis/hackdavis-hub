@@ -1,10 +1,10 @@
-import User from "@typeDefs/user";
-import Team from "@typeDefs/team";
-import Submission from "@typeDefs/submission";
+import User from '@typeDefs/user';
+import Team from '@typeDefs/team';
+import Submission from '@typeDefs/submission';
 // import data from '@data/db_validation_data.json' assert { type: 'json' };
 export default function matchingAlgorithm(judges: User[], teams: Team[]) {
   teams.map((team) => {
-    while (team.tracks.length < 2) team.tracks.push("No Track");
+    while (team.tracks.length < 2) team.tracks.push('No Track');
     return team;
   });
 

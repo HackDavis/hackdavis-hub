@@ -9,14 +9,14 @@
   border-radius: 4px;
   padding: 20px;
   background-color: var(--background-tertiary);
-  box-shadow: 0 3.874px 61.987px 0 rgba(255, 197, 61, 0.16);
+  box-shadow: 0 3.874px 61.987px 0 rgba(255, 197, 61, .16);
 }
 
 .delete {
   display: flex;
   flex-direction: column;
   margin-top: 100vh;
-  gap: 50px;
+  gap: 50px
 }
 
 .deleteButton {

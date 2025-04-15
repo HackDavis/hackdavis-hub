@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { CreatePanel } from "@datalib/panels/createPanels";
+import { CreatePanel } from '@datalib/panels/createPanels';
 
 export async function createPanel(trackName: string) {
   const response = await CreatePanel(trackName);

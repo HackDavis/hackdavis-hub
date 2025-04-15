@@ -1,241 +1,244 @@
 @import "@globals/mixins.scss";
 
-.container {
-  padding: 2%;
+.container{
+    padding: 2%;
 
-  h3 {
-    font-size: 28px;
-    font-weight: 600;
-    letter-spacing: 0.56px;
-  }
-  p {
-    font-size: 16px;
-    font-weight: 400;
-  }
-  .left_panel {
-    width: 10%;
-  }
-  .right_panel {
-    width: 90%;
-    padding: 3%;
-    border-radius: 16px;
-
-    @include tablet-s {
-      padding: 6%;
+    h3{
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 0.56px;
     }
-  }
-  .panel {
-    display: flex;
-    flex-direction: row;
-    @include tablet-s {
-      flex-direction: column;
+    p{
+        font-size: 16px;
+        font-weight: 400;
     }
-  }
-  .be_at_table {
-    display: flex;
-    flex-direction: row;
-    @include tablet-s {
-      flex-direction: column;
+    .left_panel{
+        width: 10%;
     }
+    .right_panel{
+        width: 90%;
+        padding: 3%;
+        border-radius: 16px;
 
-    .hackathon_img {
-      width: 42%;
-      height: auto;
-      @include tablet-s {
-        width: 82%;
-      }
-    }
-  }
-  .panels {
-    display: flex;
-    flex-direction: column;
-    gap: 5%;
-    padding-top: 3%;
-    text-align: center;
-    @include tablet-s {
-      flex-direction: row-reverse;
-    }
-
-    .judge {
-      display: flex;
-      flex-direction: row;
-      gap: 3%;
-
-      @include tablet-s {
-        flex-direction: column;
-        width: 50%;
-        justify-content: space-around;
-      }
-
-      .judge_box {
-        width: 25%;
-        background-color: white;
-        border-radius: 12px;
-        padding: 1%;
-
-        @include tablet-s {
-          width: 100%;
+        @include tablet-s{
+            padding: 6%;
         }
-      }
     }
-    .timeline {
-      display: flex;
-      flex-direction: row;
-      // gap: 3%;
-      @include tablet-s {
-        flex-direction: column;
-      }
-      .panel_1_to_3 {
-        width: 75%;
+    .panel{
         display: flex;
         flex-direction: row;
-        gap: 4.5%;
-        @include tablet-s {
-          border-left: 1px solid black;
-          border-right: none;
-          border-bottom: 1px solid black;
-          border-top: 1px solid black;
-          height: 170px;
-          width: 18.5px;
+        @include tablet-s{
+            flex-direction: column;
         }
-        .panel_ind {
-          width: 30%;
-          border-left: 1px solid black;
-          border-right: 1px solid black;
-          border-bottom: 1px solid black;
-          height: 18.5px;
-          @include tablet-s {
-            display: none;
-          }
-        }
-      }
-      .panel_4 {
-        width: 23%;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        border-bottom: 1px solid black;
-        height: 18.5px;
-        margin-left: 3%;
-        @include tablet-s {
-          margin-top: 50%;
-          border-left: 1px solid black;
-          border-right: none;
-          border-bottom: 1px solid black;
-          border-top: 1px solid black;
-          height: 70px;
-          width: 18.5px;
-        }
-      }
     }
-
-    .text {
-      display: flex;
-      flex-direction: row;
-
-      @include tablet-s {
-        flex-direction: column;
-        justify-content: space-around;
-      }
-      .individual_text {
-        width: 25%;
-        @include tablet-s {
-          width: 100%;
-        }
-      }
-      .individual_text_dissapear {
-        width: 25%;
-        @include tablet-s {
-          display: none;
-        }
-      }
-    }
-  }
-  .estimation_group {
-    display: flex;
-    flex-direction: row;
-    @include tablet-s {
-      flex-direction: column;
-    }
-    .estimation {
-      padding-right: 5%;
-      @include tablet-s {
-        padding-right: 0;
-      }
-    }
-    .character_group {
-      border-left: 1px solid black;
-      padding-left: 5%;
-      padding-right: 5%;
-      @include tablet-s {
-        padding-left: 0;
-        border: none;
-      }
-      .characters {
+    .be_at_table{
         display: flex;
         flex-direction: row;
-
-        .icons {
-          width: 15%;
-          padding-right: 2%;
+        @include tablet-s{
+            flex-direction: column;
         }
-      }
 
-      .text_bubble {
-        max-width: 484px;
-        min-width: 300px;
-        height: 52px;
-        width: 100%;
-        padding: 16px 10px;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 12px;
-        text-align: center;
-        @include tablet-l {
-          max-width: unset;
-          min-width: unset;
-          height: unset;
+        .hackathon_img{
+            width: 42%;
+            height: auto;
+            @include tablet-s{
+                width: 82%;
+            }
         }
-      }
     }
-  }
-  .post_demo {
-    display: flex;
-    flex-direction: row;
-    @include tablet-s {
-      flex-direction: column;
-    }
-    .zero_judges_group {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding-right: 5%;
-      @include tablet-s {
-        padding: 10%;
-        justify-content: center;
-      }
-
-      .no_judges {
-        padding: 16px 10px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.5);
-        width: 280px;
-        height: 52px;
-        text-align: center;
+    .panels{
         display: flex;
-        align-items: center;
-        justify-content: center;
-        @include tablet-l {
-          height: unset;
+        flex-direction: column;
+        gap: 5%;
+        padding-top: 3%;
+        text-align: center;
+        @include tablet-s{
+            flex-direction: row-reverse;
         }
-      }
-    }
 
-    .check_out {
-      border-left: 1px solid black;
-      padding-left: 5%;
-      @include tablet-s {
-        padding-left: 0;
-        border: none;
-      }
+            .judge{
+                display: flex;
+                flex-direction: row;
+                gap: 3%;
+
+                @include tablet-s{
+                    flex-direction: column;
+                    width: 50%;
+                    justify-content: space-around;
+                }
+
+                .judge_box{
+                    width: 25%;
+                    background-color: white;
+                    border-radius: 12px;
+                    padding: 1%;
+
+                    @include tablet-s{
+                        width: 100%;
+                    }
+                }
+            }
+            .timeline{
+                display: flex;
+                flex-direction: row;
+                // gap: 3%;
+                @include tablet-s{
+                    flex-direction: column;
+                }
+                .panel_1_to_3{
+                    width: 75%;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 4.5%;
+                    @include tablet-s{
+                        border-left: 1px solid black;
+                        border-right: none;
+                        border-bottom: 1px solid black;
+                        border-top: 1px solid black;
+                        height: 170px;
+                        width: 18.5px; 
+                    }
+                    .panel_ind{
+                        width: 30%;
+                        border-left: 1px solid black;
+                        border-right: 1px solid black;
+                        border-bottom: 1px solid black;
+                        height: 18.5px;
+                        @include tablet-s{
+                            display: none;
+                        }
+                    }
+                }
+                .panel_4{
+                    width: 23%;
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom: 1px solid black;
+                    height: 18.5px;
+                    margin-left: 3%;
+                    @include tablet-s{
+                        margin-top: 50%;
+                        border-left: 1px solid black;
+                        border-right: none;
+                        border-bottom: 1px solid black;
+                        border-top: 1px solid black;
+                        height: 70px;
+                        width: 18.5px; 
+                    }
+                }
+            }
+            
+            .text{
+                display: flex;
+                flex-direction: row;
+
+                @include tablet-s{
+                    flex-direction: column;
+                    justify-content: space-around;
+                }
+                .individual_text{
+                    width: 25%;
+                    @include tablet-s{
+                        width: 100%;
+                    }
+                }
+                .individual_text_dissapear{
+                    width: 25%;
+                    @include tablet-s{
+                        display: none;
+                    }
+                }
+            }
+        
     }
-  }
+    .estimation_group{
+        display: flex;
+        flex-direction: row;
+        @include tablet-s{
+            flex-direction: column;
+        }
+        .estimation{
+            padding-right: 5%;
+            @include tablet-s{
+                padding-right: 0;
+            }
+        }
+        .character_group{
+            border-left: 1px solid black;
+            padding-left: 5%;
+            padding-right: 5%;
+            @include tablet-s{
+                padding-left: 0;
+                border: none;
+            }
+            .characters{
+                display: flex;
+                flex-direction: row; 
+
+                .icons{
+                    width: 15%;
+                    padding-right: 2%;
+                }
+            }
+            
+            .text_bubble{
+                max-width: 484px;
+                min-width: 300px;
+                height: 52px;
+                width: 100%;
+                padding: 16px 10px;
+                background: rgba(255, 255, 255, 0.50);
+                border-radius: 12px;
+                text-align: center;
+                @include tablet-l{
+                    max-width: unset;
+                    min-width: unset;
+                    height: unset;
+                }
+            }
+        }
+        
+    }
+    .post_demo{
+        display: flex;
+        flex-direction: row;
+        @include tablet-s{
+            flex-direction: column;
+        }
+        .zero_judges_group{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-right: 5%;
+            @include tablet-s{
+                padding: 10%;
+                justify-content: center;
+            }
+
+            .no_judges{
+            padding: 16px 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.50);
+            width: 280px;
+            height: 52px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @include tablet-l{
+                height: unset;
+            }
+            }
+        }
+        
+        .check_out{
+            border-left: 1px solid black;
+            padding-left: 5%;
+            @include tablet-s{
+                padding-left: 0;
+                border: none;
+            }
+        }
+    }
+    
 }

@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import { HttpError } from "@utils/response/Errors";
-import { GetManySubmissions } from "@datalib/submissions/getSubmissions";
-import { UpdateSubmission } from "@datalib/submissions/updateSubmission";
-import { UpdateTeam } from "@datalib/teams/updateTeam";
-import Submission from "@typeDefs/submission";
+import { HttpError } from '@utils/response/Errors';
+import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
+import { UpdateSubmission } from '@datalib/submissions/updateSubmission';
+import { UpdateTeam } from '@datalib/teams/updateTeam';
+import Submission from '@typeDefs/submission';
 
 export async function reportMissingProject(judge_id: string, team_id: string) {
   try {
@@ -18,46 +18,46 @@ export async function reportMissingProject(judge_id: string, team_id: string) {
     });
 
     if (!updateTeamRes.ok) {
-      throw new Error(updateTeamRes.error ?? "");
+      throw new Error(updateTeamRes.error ?? '');
     }
 
     const submissionsRes = JSON.parse(
       JSON.stringify(
         await GetManySubmissions({
           judge_id: {
-            "*convertId": {
+            '*convertId': {
               id: judge_id,
             },
           },
-        }),
-      ),
+        })
+      )
     );
 
     if (!submissionsRes.ok) {
-      throw new Error(submissionsRes.error ?? "");
+      throw new Error(submissionsRes.error ?? '');
     }
 
     const submissions: Submission[] = submissionsRes.body ?? [];
 
     const reportIndex = submissions.findIndex(
-      (sub: Submission) => sub.team_id === team_id,
+      (sub: Submission) => sub.team_id === team_id
     );
 
     if (reportIndex === -1) {
       throw new Error(
-        `Submission from judge: ${judge_id} and team: ${team_id} not found.`,
+        `Submission from judge: ${judge_id} and team: ${team_id} not found.`
       );
     }
 
     submissions[reportIndex].queuePosition =
       Math.max(
-        ...submissions.map((sub: Submission) => sub.queuePosition ?? 0),
+        ...submissions.map((sub: Submission) => sub.queuePosition ?? 0)
       ) + 1;
 
     const reorderedSubmissions = submissions
       .sort(
         (a: Submission, b: Submission) =>
-          (a.queuePosition ?? 0) - (b.queuePosition ?? 0),
+          (a.queuePosition ?? 0) - (b.queuePosition ?? 0)
       )
       .map((sub: Submission, index: number) => ({
         ...sub,
@@ -68,15 +68,15 @@ export async function reportMissingProject(judge_id: string, team_id: string) {
       reorderedSubmissions.map((sub: Submission) =>
         UpdateSubmission(sub.judge_id, sub.team_id, {
           $set: { queuePosition: sub.queuePosition },
-        }),
-      ),
+        })
+      )
     );
 
     if (!reorderResList.every((res: any) => res.ok)) {
       throw new Error(
         `Not all submission order updates succeeded\n${JSON.stringify(
-          reorderResList,
-        )}`,
+          reorderResList
+        )}`
       );
     }
 

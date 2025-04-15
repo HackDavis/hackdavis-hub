@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
-import Logo from "public/hackers/mvp/HDLogo.svg";
-import grassAsset from "@public/hackers/mvp/grass_asset.svg";
-import mascots from "@public/hackers/mvp/peeking_around_wall.svg";
-import VocalAngelCow from "public/hackers/mvp/vocal_angel_cow.svg";
-import styles from "./AuthFormBackground.module.scss";
+import Logo from 'public/hackers/mvp/HDLogo.svg';
+import grassAsset from '@public/hackers/mvp/grass_asset.svg';
+import mascots from '@public/hackers/mvp/peeking_around_wall.svg';
+import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
+import styles from './AuthFormBackground.module.scss';
 
 export default function AuthFormBackground({
   title,
@@ -23,7 +23,7 @@ export default function AuthFormBackground({
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === "/register/details") {
+    if (pathname === '/register/details') {
       setMascotsVisibility(false);
     } else {
       setMascotsVisibility(true);
@@ -44,7 +44,7 @@ export default function AuthFormBackground({
             />
             <div className={styles.header_text}>
               <h1>{title}</h1>
-              <p style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
+              <p style={{ whiteSpace: 'pre-line' }}>{subtitle}</p>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function AuthFormBackground({
           src={grassAsset}
           alt="grass asset"
           className={styles.grass}
-          style={mascotsVisibility ? {} : { position: "relative" }}
+          style={mascotsVisibility ? {} : { position: 'relative' }}
         />
         {mascotsVisibility && (
           <Image src={mascots} alt="mascots" className={styles.mascots} />
