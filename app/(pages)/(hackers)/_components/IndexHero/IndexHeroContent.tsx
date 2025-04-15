@@ -45,24 +45,27 @@ export default function IndexHeroContent() {
         <div className={styles.social_good}>{'// for social good'}</div>
       </div>
 
-      <MusicPlayer />
-      <div className={styles.center_right}>
-        <Countdown />
-        <div className={styles.belowClock}>
-          <p className={styles.info}>
-            A HACKDAVIS HUB
-            <br />
-            FOR EVERYONE WHO
-            <span className={styles.monospace}>
-              {' // creates for social good'}
-            </span>
-          </p>
-          <button className={styles.submitButton}>
-            <p>SUBMIT!</p>
-            <GoArrowRight className={styles.submitArrow} />
-          </button>
+      <div className={styles.heroRow}>
+        <MusicPlayer />
+        <div className={styles.center_right}>
+          <Countdown />
+          <div className={styles.belowClock}>
+            <p className={styles.info}>
+              A HACKDAVIS HUB
+              <br />
+              FOR EVERYONE WHO
+              <span className={styles.monospace}>
+                {' // creates for social good'}
+              </span>
+            </p>
+            <button className={styles.submitButton}>
+              <p>SUBMIT!</p>
+              <GoArrowRight className={styles.submitArrow} />
+            </button>
+          </div>
         </div>
       </div>
+
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
