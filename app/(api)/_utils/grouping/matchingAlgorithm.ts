@@ -56,7 +56,7 @@ export default async function matchAllTeams(options?: {
   alpha?: number;
 }): Promise<{
   judgeToTeam: JudgeToTeam[];
-  teamsWithNoTracks: string[];
+  extraAssignmentsMap: Record<string, number>;
   judgeTeamDistribution: {
     sum: number;
     count: number;
@@ -148,9 +148,7 @@ export default async function matchAllTeams(options?: {
 
   // Arrays to hold submissions and track issues.
   const judgeToTeam: JudgeToTeam[] = [];
-  const teamsWithNoTracks: string[] = [];
-  // Instead of just team IDs, record missing rounds as objects.
-  const missingAssignments: { teamId: string; round: number }[] = [];
+  const extraAssignmentsMap: Record<string, number> = {};
   const teamMatchQualities: { [teamId: string]: number[] } = {};
   const teamJudgeTrackTypes: { [teamId: string]: string[] } = {};
 
@@ -159,17 +157,8 @@ export default async function matchAllTeams(options?: {
   for (let i = 0; i < rounds; i++) {
     for (const team of modifiedTeams) {
       if (!team.tracks || team.tracks.length === 0 || !team.tracks[i]) {
-        // tracks length 0, or no tracks left for current round
-        if (!team.tracks || team.tracks.length === 0) {
-          teamsWithNoTracks.push(team._id ?? String(team.tableNumber));
-        }
-        missingAssignments.push({
-          teamId: team._id ?? String(team.tableNumber),
-          round: i,
-        });
-        console.warn(
-          `Team ${team._id} has no tracks, either overall or no tracks for this round`
-        );
+        extraAssignmentsMap[team._id ?? String(team.tableNumber)] =
+          (extraAssignmentsMap[team._id ?? String(team.tableNumber)] || 0) + 1;
         continue;
       }
 
@@ -224,61 +213,69 @@ export default async function matchAllTeams(options?: {
   }
 
   console.log(
-    'No. of judgeToTeam before missing assignments:',
+    'No. of judgeToTeam before processing extra assignments:',
     judgeToTeam.length
   );
 
-  // Process missing assignments from rounds where a team lacked a track.
-  for (const { teamId, round } of missingAssignments) {
-    const team = modifiedTeams.find((t) => t._id === teamId);
-    if (!team) continue;
-    // Use the last available track.
-    const trackIndex = team.tracks.length - 1;
-    updateQueue(team, trackIndex, judgesQueue, ALPHA);
-    const trackUsed = team.tracks[trackIndex];
-
-    let selectedJudge: Judge | undefined = undefined;
-    for (const judge of judgesQueue) {
-      const duplicateExists = judgeToTeam.some(
-        (entry) =>
-          (entry.judge_id as Record<string, { id: string }>)['*convertId']
-            .id === judge.user._id?.toString() &&
-          (entry.team_id as Record<string, { id: string }>)['*convertId'].id ===
-            team._id
-      );
-      if (!duplicateExists) {
-        selectedJudge = judge;
-        break;
+  for (let i = 0; i < rounds; i++) {
+    // Process missing assignments from rounds where a team lacked a track.
+    for (const [_, [teamId, numRounds]] of Object.entries(
+      extraAssignmentsMap
+    ).entries()) {
+      if (i > numRounds - 1) {
+        continue;
       }
-    }
-    if (!selectedJudge) {
-      throw new Error(
-        `No available unique judge for team ${team._id} during supplemental assignment for round ${round}.`
+      const team = modifiedTeams.find((t) => t._id === teamId);
+      if (!team) continue;
+      // Use the last available track.
+      const trackIndex = team.tracks.length - 1;
+      updateQueue(team, trackIndex, judgesQueue, ALPHA);
+      const trackUsed = team.tracks[trackIndex];
+
+      let selectedJudge: Judge | undefined = undefined;
+      for (const judge of judgesQueue) {
+        const duplicateExists = judgeToTeam.some(
+          (entry) =>
+            (entry.judge_id as Record<string, { id: string }>)['*convertId']
+              .id === judge.user._id?.toString() &&
+            (entry.team_id as Record<string, { id: string }>)['*convertId']
+              .id === team._id
+        );
+        if (!duplicateExists) {
+          selectedJudge = judge;
+          break;
+        }
+      }
+      if (!selectedJudge) {
+        throw new Error(
+          `No available unique judge for team ${
+            team._id
+          } during supplemental assignment for round ${i + 1}.`
+        );
+      }
+
+      const matchQuality = getSpecialtyMatchScore(
+        team,
+        selectedJudge,
+        trackIndex
       );
-    }
+      if (!teamMatchQualities[teamId]) {
+        teamMatchQualities[teamId] = [];
+      }
+      teamMatchQualities[teamId].push(matchQuality);
+      if (!teamJudgeTrackTypes[teamId]) {
+        teamJudgeTrackTypes[teamId] = [];
+      }
+      teamJudgeTrackTypes[teamId].push(trackUsed);
 
-    const matchQuality = getSpecialtyMatchScore(
-      team,
-      selectedJudge,
-      trackIndex
-    );
-    if (!teamMatchQualities[teamId]) {
-      teamMatchQualities[teamId] = [];
+      const submission: JudgeToTeam = {
+        judge_id: { '*convertId': { id: selectedJudge.user._id?.toString() } },
+        team_id: { '*convertId': { id: team._id } },
+      };
+      judgeToTeam.push(submission);
+      selectedJudge.teamsAssigned += 1;
     }
-    teamMatchQualities[teamId].push(matchQuality);
-    if (!teamJudgeTrackTypes[teamId]) {
-      teamJudgeTrackTypes[teamId] = [];
-    }
-    teamJudgeTrackTypes[teamId].push(trackUsed);
-
-    const submission: JudgeToTeam = {
-      judge_id: { '*convertId': { id: selectedJudge.user._id?.toString() } },
-      team_id: { '*convertId': { id: team._id } },
-    };
-    judgeToTeam.push(submission);
-    selectedJudge.teamsAssigned += 1;
   }
-
   console.log(
     'No. of judgeToTeam after accounting for missing assignments:',
     judgeToTeam.length
@@ -339,8 +336,8 @@ export default async function matchAllTeams(options?: {
 
   return {
     judgeToTeam,
-    teamsWithNoTracks,
     judgeTeamDistribution,
+    extraAssignmentsMap,
     matchStats,
     matchQualityStats,
   };
