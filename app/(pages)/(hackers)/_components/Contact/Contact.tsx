@@ -26,7 +26,7 @@ export default function Contact() {
             className={`${styles.blueBox} ${styles.textBox} ${styles.alignBottom}`}
           >
             <div className={styles.textContent}>
-              <button className={styles.button}>CONTACT A Mentor</button>
+              <button className={styles.button}>CONTACT A MENTOR</button>
               <p>
                 MENTORS are here to support developers and designers with any
                 technical challenges you might face during your project. Whether
@@ -48,7 +48,7 @@ export default function Contact() {
                 If you're unsure where to go or what to do, they're your go-to
                 guide.
               </p>
-              <button className={styles.button}>CONTACT A Director</button>
+              <button className={styles.button}>CONTACT A DIRECTOR</button>
             </div>
           </div>
           <div className={styles.whiteBox}>

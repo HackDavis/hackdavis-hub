@@ -4,6 +4,8 @@ import CowHead from 'public/hackers/hero/CowHead.svg';
 import BunnyHead from 'public/hackers/hero/BunnyHead.svg';
 import FrogHead from 'public/hackers/hero/FrogHead.svg';
 import DuckHead from 'public/hackers/hero/DuckHead.svg';
+import evenNote from 'public/hackers/hero/EvenMusic.svg';
+import oddNote from 'public/hackers/hero/OddMusic.svg';
 import Star from 'public/hackers/hero/Star.svg';
 
 // can delete scroll text
@@ -15,39 +17,23 @@ export default function Scroll() {
       <Image src={Star} alt="Star" className={styles.star} />
       <div className={styles.parent}>
         <div className={styles.child}>
-          <Image
-            src={CowHead}
-            alt="Cow Head"
-            // className={styles.vinyl}
-          />
-          <p>animals</p>
+          <Image src={oddNote} alt="music note" className={styles.note} />
+          <Image src={CowHead} alt="Cow Head" className={styles.head} />
         </div>
         <div className={styles.child}>
-          <Image
-            src={BunnyHead}
-            alt="Bunny Head"
-            // className={styles.vinyl}
-          />
-          <p>animals</p>
+          <Image src={evenNote} alt="music note" className={styles.note} />
+          <Image src={BunnyHead} alt="Bunny Head" className={styles.head} />
         </div>
         <div className={styles.child}>
-          <Image
-            src={FrogHead}
-            alt="Frog Head"
-            // className={styles.vinyl}
-          />
-          <p>animals</p>
+          <Image src={oddNote} alt="music note" className={styles.note} />
+          <Image src={FrogHead} alt="Frog Head" className={styles.head} />
         </div>
         <div className={styles.child}>
-          <Image
-            src={DuckHead}
-            alt="Duck Head"
-            // className={styles.vinyl}
-          />
-          <p>animals</p>
+          <Image src={evenNote} alt="music note" className={styles.note} />
+          <Image src={DuckHead} alt="Duck Head" className={styles.head} />
         </div>
       </div>
-      <p>SCROLL</p>
+      {/* <p>SCROLL</p> */}
     </div>
   );
 }
