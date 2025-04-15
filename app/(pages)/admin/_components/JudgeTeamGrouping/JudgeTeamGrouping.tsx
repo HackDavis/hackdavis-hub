@@ -3,16 +3,44 @@ import scoreTeams from '@actions/logic/scoreTeams';
 import { useFormState } from 'react-dom';
 import { useState } from 'react';
 import deleteManySubmissions from '@actions/submissions/deleteSubmission';
-
+import JudgeToTeam from '@typeDefs/judgeToTeam';
 import styles from './JudgeTeamGrouping.module.scss';
+
+interface JudgeTeamDistribution {
+  sum: number;
+  count: number;
+  average: number;
+  min: number;
+  max: number;
+  numJudges: number;
+  numTeams: number;
+}
+
+interface MatchQualityStats {
+  sum: number;
+  average: number;
+  min: number;
+  max: number;
+  count: number;
+  teamTracks: string[];
+  judgeTracks: string[];
+}
+
+interface FullMatchData {
+  judgeToTeam: JudgeToTeam[];
+  extraAssignmentsMap: Record<string, number>;
+  judgeTeamDistribution: JudgeTeamDistribution;
+  matchQualityStats: Record<string, MatchQualityStats>;
+  [key: string]: any;
+}
 
 export default function JudgeTeamGrouping() {
   const [trackResults, scoreAction] = useFormState(scoreTeams, null);
   const [matching, setMatching] = useState('');
-  const [submissions, setSubmissions] = useState<
-    { judge_id: string; team_id: string }[]
-  >([]);
-  const [fullMatchData, setFullMatchData] = useState<any>(null);
+  const [submissions, setSubmissions] = useState<JudgeToTeam[]>([]);
+  const [fullMatchData, setFullMatchData] = useState<FullMatchData | null>(
+    null
+  );
   const [alpha, setAlpha] = useState<number>(4);
   const [showSubmissions, setShowSubmissions] = useState<boolean>(false);
   const [showMatching, setShowMatching] = useState<boolean>(false);
@@ -20,26 +48,21 @@ export default function JudgeTeamGrouping() {
   // Match teams and store the submissions locally.
   const handleMatchTeams = async () => {
     const result = await matchTeams({ alpha });
-    console.log('matchTeams result:', result);
-
     let matchData: any = {};
     if (result.ok) {
       matchData = result.body;
+      const { judgeToTeam: subs, ...otherMatchData } = matchData;
+
+      setSubmissions(subs);
+      setFullMatchData(matchData);
+      setMatching(JSON.stringify(otherMatchData, null, 2));
+      setShowSubmissions(true);
+      setShowMatching(true);
     } else {
       matchData = result.error;
+      setMatching(matchData);
+      setShowMatching(true);
     }
-
-    // Extract submissions and the rest of the match data.
-    const { judgeToTeam: subs, ...otherMatchData } = matchData;
-
-    // Store submissions for CSV download.
-    setSubmissions(subs);
-    // Store full match data for full CSV export.
-    setFullMatchData(matchData);
-    // Display all match data except the submissions.
-    setMatching(JSON.stringify(otherMatchData, null, 2));
-    setShowSubmissions(true);
-    setShowMatching(true);
   };
 
   // Generate full CSV content from all match data and trigger a download.
@@ -54,19 +77,20 @@ export default function JudgeTeamGrouping() {
     // Submissions Section
     csvContent += 'Submissions\n';
     csvContent += 'judge_id,team_id\n';
-    fullMatchData.submissions.forEach(
-      (sub: { judge_id: string; team_id: string }) => {
-        csvContent += `${sub.judge_id},${sub.team_id}\n`;
-      }
-    );
+    fullMatchData.judgeToTeam.forEach((sub: JudgeToTeam) => {
+      csvContent += `${sub.judge_id},${sub.team_id}\n`;
+    });
+
     csvContent += '\n';
 
     // Teams With No Tracks Section
     csvContent += 'Teams With No Tracks\n';
-    csvContent += 'team_id\n';
-    fullMatchData.teamsWithNoTracks.forEach((teamId: string) => {
-      csvContent += `${teamId}\n`;
-    });
+    csvContent += 'team_id,num_rounds\n';
+    Object.entries(fullMatchData.extraAssignmentsMap).forEach(
+      ([teamId, numRounds]: [string, number]) => {
+        csvContent += `${teamId},${numRounds}\n`;
+      }
+    );
     csvContent += '\n';
 
     // Judge Team Distribution Section
