@@ -77,17 +77,52 @@
     }
 }
 
-
-
-.center_right {
+.belowClock {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px; 
     justify-content: space-between;
+    width: 100%;
 
     @include mixins.tablet-l {
-        // order: 1;
+      flex-direction: row; 
+      justify-content: center;
+      align-items: flex-start;
     }
-}
+  }
+
+  .center_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  
+    @include mixins.tablet-l {
+      align-items: flex-start;
+    }
+  }
+  
+
+  .submitButton {
+    background-color: var(--background-secondary);
+    display: flex;
+    font-weight: 600;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5% 10%;
+    color: var(--text-light);
+    border-radius: 1000px;
+  
+    .submitArrow {
+      color: white;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
 
 .group_width{
     width: 100%;

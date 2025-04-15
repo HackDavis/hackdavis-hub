@@ -14,6 +14,7 @@ import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
 import Notifications from './Notifications';
+import { GoArrowRight } from 'react-icons/go';
 
 export default function IndexHeroContent() {
   return (
@@ -47,25 +48,25 @@ export default function IndexHeroContent() {
       <MusicPlayer />
       <div className={styles.center_right}>
         <Countdown />
-        <p className={styles.info}>
-          A HACKDAVIS HUB
-          <br />
-          FOR EVERYONE WHO
-          <span className={styles.monospace}>
-            {' // creates for social good'}
-          </span>
-        </p>
+        <div className={styles.belowClock}>
+          <p className={styles.info}>
+            A HACKDAVIS HUB
+            <br />
+            FOR EVERYONE WHO
+            <span className={styles.monospace}>
+              {' // creates for social good'}
+            </span>
+          </p>
+          <button className={styles.submitButton}>
+            <p>SUBMIT!</p>
+            <GoArrowRight className={styles.submitArrow} />
+          </button>
+        </div>
       </div>
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
       <Scroll />
-      {/* <p className={styles.notification}>
-      <p className={styles.notification}>
-        Hi hacker, it seems like you’re here a little early... Check back in{' '}
-        <strong> later this month </strong> for more information!
-        everything on home page doesnt get taken down - prizes, 
-      </p> */}
       <div className={styles.group_width}>
         <div
           style={{

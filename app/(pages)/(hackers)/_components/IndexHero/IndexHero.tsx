@@ -29,11 +29,6 @@ export default function IndexHero() {
         className={styles.small_right_cloud}
       />
       <IndexHeroContent />
-      {/* <Image
-        src={needHelpBunny}
-        alt="need help bunny"
-        className={styles.bunny}
-      /> */}
       <Image src={baseGrass} alt="base grass" className={styles.base_grass} />
     </div>
   );
