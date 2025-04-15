@@ -95,7 +95,7 @@ export default async function matchAllTeams(options?: {
       ? user.specialties.reduce(
           (acc, domain, index) => {
             // Assign a decreasing score for each ranked domain.
-            acc[domain] = index === 0 ? 1 : 1 / index;
+            acc[domain] = 1 / (index + 1);
             return acc;
           },
           {} as { [domain: string]: number }
