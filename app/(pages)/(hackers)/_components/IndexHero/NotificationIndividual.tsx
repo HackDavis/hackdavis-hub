@@ -2,11 +2,17 @@ import styles from './NotificationIndividual.module.scss';
 import notif from '@public/hackers/hero/notif.svg';
 import Image from 'next/image';
 
+type NotificationIndividualProps = {
+  name: string;
+  description: string;
+  onDismiss: () => void;
+};
+
 export default function NotificationIndividual({
   name,
   description,
   onDismiss,
-}) {
+}: NotificationIndividualProps) {
   return (
     <div className={styles.container}>
       <button type="button" onClick={onDismiss} className={styles.button}>

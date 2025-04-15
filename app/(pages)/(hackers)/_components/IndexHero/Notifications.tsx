@@ -1,20 +1,21 @@
-import styles from './NotificationIndividual.module.scss'; //using styling from other file....
+import styles from './NotificationIndividual.module.scss';
 import { useState, useEffect } from 'react';
 import notif from '@public/hackers/hero/notif.svg';
+import notif_new from '@public/hackers/hero/notif_new.svg';
 import Image from 'next/image';
 import NotificationIndividual from './NotificationIndividual';
-import notif_new from '@public/hackers/hero/notif_new.svg';
+
+type Notification = {
+  id: number;
+  name: string;
+  description: string;
+};
 
 export default function Notifications() {
   const [isNew, setIsNew] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-    setIsNew(false);
-  };
-
-  const [notifications, setNotifications] = useState([
+  const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
       name: 'MLH Track',
@@ -35,7 +36,12 @@ export default function Notifications() {
     },
   ]);
 
-  const dismissNotification = (id) => {
+  const handleClick = () => {
+    setIsOpen((prev) => !prev);
+    setIsNew(false);
+  };
+
+  const dismissNotification = (id: number) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
