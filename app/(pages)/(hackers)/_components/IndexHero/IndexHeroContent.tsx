@@ -3,13 +3,13 @@ import Countdown from './Countdown';
 import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
-import cow_tada from '@public/hackers/hero/cow_tada.svg';
+// import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
 import Scroll from './Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
-import Announcement from './Announcement';
+// import Announcement from './Announcement';
 import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
@@ -93,7 +93,7 @@ export default function IndexHeroContent() {
             className={styles.star_icon_img}
           />
         </div>
-        <div className={styles.live_now}>
+        {/* <div className={styles.live_now}>
           <Announcement
             time={'10:00 AM'}
             title={'🧃 Fuel Up!'}
@@ -122,7 +122,7 @@ export default function IndexHeroContent() {
         <div className={styles.live_now_empty}>
           <Image src={cow_tada} alt="cow tada" />
           <p>NO ANNOUNCEMENTS YET, HAPPY HACKING!</p>
-        </div>
+        </div> */}
       </div>
 
       <div className={styles.group_width}>
