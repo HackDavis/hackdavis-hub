@@ -81,7 +81,7 @@ export default async function matchAllTeams(options?: {
   // Fetch all checked in judges.
   const judgesResponse = await getManyUsers({
     role: 'judge',
-    has_checked_in: false, // TODO: CHANGE THIS LATER TO CHECKED IN FOR DOE
+    has_checked_in: true,
   });
   if (!judgesResponse.ok) {
     throw new Error(`Failed to fetch judges: ${judgesResponse.error}`);
