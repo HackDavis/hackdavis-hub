@@ -24,7 +24,7 @@ export default function PrizeTracks() {
   };
 
   return (
-    <main className="flex flex-col gap-4 p-[20px] xs:p-[48px] lg:p-[64px] xl:p-[120px] pt-0">
+    <main className="flex flex-col gap-4 p-[20px] xs:p-[48px] lg:p-[64px] xl:p-[120px] pt-0 xs:pt-0 lg:pt-0 xl:pt-0">
       <Header />
       <FilterRow currentFilter={filter} onFilterChange={handleFilterChange} />
       <div className="flex items-center justify-center w-full mt-8">
@@ -62,7 +62,9 @@ function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
     { track: 'TECHNICAL', color: '#CDE396' },
     { track: 'DESIGN', color: '#FFDC86' },
     { track: 'BUSINESS', color: '#D5CBE9' },
-    { track: 'NONPROFIT', color: '#D5CBE9' },
+    { track: 'NONPROFIT', color: '#E7EAEE' },
+    { track: 'SPONSOR', color: '#E7EAEE' },
+    { track: 'MLH', color: '#E7EAEE' },
   ];
 
   return (

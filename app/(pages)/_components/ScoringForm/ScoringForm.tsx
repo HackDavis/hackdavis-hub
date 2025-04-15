@@ -1,7 +1,7 @@
 'use client';
 import styles from './ScoringForm.module.scss';
 import RadioSelect from '@components/RadioSelect/RadioSelect';
-import { categorizedTracks } from '@data/tracks';
+import { optedHDTracks } from '@data/tracks';
 import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
 import { useRef, useState } from 'react';
@@ -47,7 +47,7 @@ const overallScoringCategory = [
 const SEP = '::';
 
 export default function ScoringForm({ team, submission }: ScoringFormProps) {
-  const categorizedTrackNames = Object.keys(categorizedTracks);
+  const categorizedTrackNames = Object.keys(optedHDTracks);
   const scorableTracks = team.tracks.filter((track: string) =>
     categorizedTrackNames.includes(track)
   );
@@ -55,7 +55,7 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
   const unfilledDynamicQuestions = Object.fromEntries(
     scorableTracks
       .map((trackName) =>
-        (categorizedTracks[trackName].scoring_criteria ?? []).map((track) => [
+        (optedHDTracks[trackName].scoring_criteria ?? []).map((track) => [
           [`${trackName}${SEP}${track.attribute}`],
           null,
         ])
@@ -159,23 +159,21 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
       {scorableTracks.map((category) => (
         <div key={category} className={styles.track_container}>
           <h2 className={styles.category_header}>{category}</h2>
-          {(categorizedTracks[category].scoring_criteria ?? []).map(
-            (question) => (
-              <RadioSelect
-                key={`${category}: ${question.attribute}`}
-                question={question.attribute}
-                rubric={question.guidelines}
-                onChange={(value) => {
-                  setData(`${category}${SEP}${question.attribute}`, value);
-                }}
-                initValue={
-                  dynamicQuestionsRef.current[
-                    `${category}${SEP}${question.attribute}`
-                  ]
-                }
-              />
-            )
-          )}
+          {(optedHDTracks[category].scoring_criteria ?? []).map((question) => (
+            <RadioSelect
+              key={`${category}: ${question.attribute}`}
+              question={question.attribute}
+              rubric={question.guidelines}
+              onChange={(value) => {
+                setData(`${category}${SEP}${question.attribute}`, value);
+              }}
+              initValue={
+                dynamicQuestionsRef.current[
+                  `${category}${SEP}${question.attribute}`
+                ]
+              }
+            />
+          ))}
         </div>
       ))}
       <button type="submit" className={styles.submit_button}>
