@@ -1,9 +1,9 @@
-import styles from './NotificationIndividual.module.scss'; //using styling from other file....
-import { useState, useEffect } from 'react';
-import notif from '@public/hackers/hero/notif.svg';
-import Image from 'next/image';
-import NotificationIndividual from './NotificationIndividual';
-import notif_new from '@public/hackers/hero/notif_new.svg';
+import styles from "./NotificationIndividual.module.scss"; //using styling from other file....
+import { useState, useEffect } from "react";
+import notif from "@public/hackers/hero/notif.svg";
+import Image from "next/image";
+import NotificationIndividual from "./NotificationIndividual";
+import notif_new from "@public/hackers/hero/notif_new.svg";
 
 export default function Notifications() {
   const [isNew, setIsNew] = useState(true);
@@ -17,21 +17,21 @@ export default function Notifications() {
   const [notifications, setNotifications] = useState([
     {
       id: 1,
-      name: 'MLH Track',
+      name: "MLH Track",
       description:
-        'Since you submitted for an MLH track, you will also be visited by a representative.',
+        "Since you submitted for an MLH track, you will also be visited by a representative.",
     },
     {
       id: 2,
-      name: 'NPO Track',
+      name: "NPO Track",
       description:
-        'Since you submitted for an NPO track, you will also be visited by a representative.',
+        "Since you submitted for an NPO track, you will also be visited by a representative.",
     },
     {
       id: 3,
-      name: 'Reminder',
+      name: "Reminder",
       description:
-        'You and your team need to be present at your assigned table during judging!',
+        "You and your team need to be present at your assigned table during judging!",
     },
   ]);
 

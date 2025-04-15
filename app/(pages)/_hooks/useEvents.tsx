@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { getEvents } from '@actions/events/getEvent';
-import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
-import Event from '@typeDefs/event';
+import { useState, useEffect, useCallback } from "react";
+import { getEvents } from "@actions/events/getEvent";
+import { getUsersForOneEvent } from "@actions/userToEvents/getUserToEvent";
+import Event from "@typeDefs/event";
 
 export interface EventWithAttendeeCount {
   event: Event;
@@ -28,10 +28,10 @@ export function useEvents() {
       if (response.ok) {
         const fetchedEvents = response.body.map((event: any) => {
           // Ensure dates are properly parsed
-          if (event.start_time && typeof event.start_time === 'string') {
+          if (event.start_time && typeof event.start_time === "string") {
             event.start_time = new Date(event.start_time);
           }
-          if (event.end_time && typeof event.end_time === 'string') {
+          if (event.end_time && typeof event.end_time === "string") {
             event.end_time = new Date(event.end_time);
           }
           return event;
@@ -40,15 +40,15 @@ export function useEvents() {
         setEvents(fetchedEvents);
         return fetchedEvents;
       } else {
-        setError(response.error || 'Failed to fetch events');
+        setError(response.error || "Failed to fetch events");
         return [];
       }
     } catch (err) {
-      console.error('Error in fetchEvents:', err);
+      console.error("Error in fetchEvents:", err);
       setError(
         `Error fetching events: ${
           err instanceof Error ? err.message : String(err)
-        }`
+        }`,
       );
       return [];
     } finally {
@@ -73,20 +73,20 @@ export function useEvents() {
           } catch (err) {
             console.error(
               `Error fetching attendees for event ${event._id}:`,
-              err
+              err,
             );
             return { event, attendeeCount: 0 };
           }
-        })
+        }),
       );
 
       setEventsWithAttendeeCount(eventsWithCount);
     } catch (err) {
-      console.error('Error in fetchAttendeeCount:', err);
+      console.error("Error in fetchAttendeeCount:", err);
       setError(
         `Error fetching attendee counts: ${
           err instanceof Error ? err.message : String(err)
-        }`
+        }`,
       );
     } finally {
       setIsLoading(false);
@@ -101,7 +101,7 @@ export function useEvents() {
         await fetchAttendeeCount(fetchedEvents);
       }
     } catch (err) {
-      console.error('Error in fetchEventsWithAttendeeCount:', err);
+      console.error("Error in fetchEventsWithAttendeeCount:", err);
     }
   }, [fetchEvents, fetchAttendeeCount]);
 

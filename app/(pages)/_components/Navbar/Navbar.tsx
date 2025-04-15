@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { MouseEvent, useEffect, useState } from 'react';
-import LogoutAction from '@actions/auth/logout';
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { MouseEvent, useEffect, useState } from "react";
+import LogoutAction from "@actions/auth/logout";
 
-import Link from 'next/link';
-import Logo from './Logo';
+import Link from "next/link";
+import Logo from "./Logo";
 
-import styles from './Navbar.module.scss';
+import styles from "./Navbar.module.scss";
 
 interface NavLink {
   ids: string[];
@@ -21,25 +21,25 @@ interface NavLink {
 // todo: fix logout button around 400px
 const sections = [
   {
-    id: 'home',
-    page: '/',
-    baseColor: '#1589BE',
-    activeColor: '#005271',
-    background: 'rgba(255, 255, 255, 0.50)',
+    id: "home",
+    page: "/",
+    baseColor: "#1589BE",
+    activeColor: "#005271",
+    background: "rgba(255, 255, 255, 0.50)",
   },
   {
-    id: 'schedule',
-    page: '/schedule',
-    baseColor: '#1589BE',
-    activeColor: '#FFC53D',
-    background: 'rgba(255, 255, 255, 0.50)',
+    id: "schedule",
+    page: "/schedule",
+    baseColor: "#1589BE",
+    activeColor: "#FFC53D",
+    background: "rgba(255, 255, 255, 0.50)",
   },
   {
-    id: 'project-info',
-    page: '/project-info',
-    baseColor: '#1589BE',
-    activeColor: '#FFC53D',
-    background: 'rgba(255, 255, 255, 0.50)',
+    id: "project-info",
+    page: "/project-info",
+    baseColor: "#1589BE",
+    activeColor: "#FFC53D",
+    background: "rgba(255, 255, 255, 0.50)",
   },
   // {
   //   id: 'starter-kit',
@@ -54,12 +54,12 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const section = searchParams.get('section');
+  const section = searchParams.get("section");
   const [activeLink, setActiveLink] = useState(
-    section || (pathname === '/' ? 'home' : 'about')
+    section || (pathname === "/" ? "home" : "about"),
   );
   const [activeSection, setActiveSection] = useState(
-    section || (pathname === '/' ? 'home' : 'about')
+    section || (pathname === "/" ? "home" : "about"),
   );
   const [showNavbar, setShowNavbar] = useState(false);
 
@@ -67,16 +67,16 @@ export default function Navbar() {
     const response = await LogoutAction();
 
     if (response.ok) {
-      router.push('/login');
+      router.push("/login");
     }
   };
 
   const links = [
     {
-      ids: ['schedule'],
-      body: 'SCHEDULE',
-      page: '/schedule',
-      path: '/schedule',
+      ids: ["schedule"],
+      body: "SCHEDULE",
+      page: "/schedule",
+      path: "/schedule",
     },
     // {
     //   ids: ['starter-kit'],
@@ -86,15 +86,15 @@ export default function Navbar() {
     // },
     {
       ids: [],
-      body: 'PROJECT INFO',
-      page: '/project-info',
-      path: '/project-info',
+      body: "PROJECT INFO",
+      page: "/project-info",
+      path: "/project-info",
     },
     {
       ids: [],
-      body: 'LOGOUT',
-      page: '/',
-      path: '/logout',
+      body: "LOGOUT",
+      page: "/",
+      path: "/logout",
       action: handleLogout,
     },
   ] as NavLink[];
@@ -107,7 +107,7 @@ export default function Navbar() {
         .map((section) => {
           const sectionContainer = document.getElementById(section.id);
           if (!sectionContainer) {
-            return { id: '', sectionStart: 0, sectionEnd: 0 };
+            return { id: "", sectionStart: 0, sectionEnd: 0 };
           }
           const { offsetHeight } = sectionContainer;
           const rect = sectionContainer.getBoundingClientRect();
@@ -119,13 +119,13 @@ export default function Navbar() {
         })
         .sort((a, b) => a.sectionStart - b.sectionStart)
         .filter(
-          (section) => section.sectionStart !== 0 || section.sectionEnd !== 0
+          (section) => section.sectionStart !== 0 || section.sectionEnd !== 0,
         );
 
       // added
       if (pageSections.length === 0) {
-        setActiveLink('');
-        setActiveSection('');
+        setActiveLink("");
+        setActiveSection("");
         return;
       }
 
@@ -139,22 +139,22 @@ export default function Navbar() {
       i = i < 0 ? 0 : i;
 
       setActiveLink(
-        currScroll > pageSections[i].sectionEnd ? '' : pageSections[i].id
+        currScroll > pageSections[i].sectionEnd ? "" : pageSections[i].id,
       );
 
       setActiveSection(
-        currScroll > pageSections[i].sectionEnd ? '' : pageSections[i].id
+        currScroll > pageSections[i].sectionEnd ? "" : pageSections[i].id,
       );
     };
 
     const handleScroll = () => updateActiveSection();
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     updateActiveSection();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [pathname]);
 
@@ -162,7 +162,7 @@ export default function Navbar() {
     const currentSection = section;
     const sectionContainer = document.getElementById(currentSection as string);
     if (sectionContainer) {
-      sectionContainer.scrollIntoView({ behavior: 'smooth' });
+      sectionContainer.scrollIntoView({ behavior: "smooth" });
     }
   }, [section, pathname]);
 
@@ -183,16 +183,16 @@ export default function Navbar() {
     //   (section) => activeSection === section.id
     // );
     // if (!currentSection) return '#005271';
-    return '#005271';
+    return "#005271";
 
     // return currentSection.activeColor;
   };
 
   const getLinkColor = (link: NavLink) => {
     const currentSection = sections.find(
-      (section) => activeSection === section.id
+      (section) => activeSection === section.id,
     );
-    if (!currentSection) return 'var(--text-light)';
+    if (!currentSection) return "var(--text-light)";
 
     if (link.ids.find((id) => activeLink === id))
       return currentSection.activeColor;
@@ -206,7 +206,7 @@ export default function Navbar() {
         style={{
           background:
             sections.find((section) => activeSection === section.id)
-              ?.background ?? 'rgba(136, 136, 136, 0.50)',
+              ?.background ?? "rgba(136, 136, 136, 0.50)",
         }}
       >
         <Link

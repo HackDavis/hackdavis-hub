@@ -11,14 +11,14 @@ export function serializeMongoData(data: any): any {
     return data.map((item) => serializeMongoData(item));
   }
 
-  if (typeof data === 'object') {
+  if (typeof data === "object") {
     // Check if it's a MongoDB ObjectId
     if (
-      data._bsontype === 'ObjectID' ||
+      data._bsontype === "ObjectID" ||
       (data.toJSON &&
-        typeof data.toJSON === 'function' &&
+        typeof data.toJSON === "function" &&
         data.toString &&
-        typeof data.toString === 'function')
+        typeof data.toString === "function")
     ) {
       return data.toString();
     }

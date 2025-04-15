@@ -1,12 +1,12 @@
-import { AuthError } from 'next-auth';
+import { AuthError } from "next-auth";
 
-import { signOut } from '@/auth';
+import { signOut } from "@/auth";
 
 export default async function Logout() {
   try {
     await signOut({ redirect: false });
 
-    return { ok: true, body: 'Successfully logged out', error: null };
+    return { ok: true, body: "Successfully logged out", error: null };
   } catch (error) {
     if (error instanceof AuthError && error?.cause?.err?.message) {
       return {
@@ -19,7 +19,7 @@ export default async function Logout() {
     return {
       ok: false,
       body: null,
-      error: 'Authentication error.',
+      error: "Authentication error.",
     };
   }
 }

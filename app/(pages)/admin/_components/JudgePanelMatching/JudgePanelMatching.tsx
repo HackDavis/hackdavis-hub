@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import assignJudgesToPanels from '@actions/logic/assignJudgesToPanels';
-import { deleteManyPanels } from '@actions/panels/deletePanel';
-import { getManyPanels } from '@actions/panels/getPanels';
-import Panel from '@typeDefs/panel';
-import { useState } from 'react';
+import assignJudgesToPanels from "@actions/logic/assignJudgesToPanels";
+import { deleteManyPanels } from "@actions/panels/deletePanel";
+import { getManyPanels } from "@actions/panels/getPanels";
+import Panel from "@typeDefs/panel";
+import { useState } from "react";
 
 // TODO: make a nicer admin panel for panels later
 export default function JudgePanelMatching() {
@@ -19,7 +19,7 @@ export default function JudgePanelMatching() {
     const response = await assignJudgesToPanels(panelSize);
     if (!response.ok || !response.body) {
       setPanels([]);
-      setError(response.error ?? 'Failed to assign judges to panels');
+      setError(response.error ?? "Failed to assign judges to panels");
     }
     setPanels(response.body);
   };
@@ -30,7 +30,7 @@ export default function JudgePanelMatching() {
     const response = await deleteManyPanels();
     if (!response.ok) {
       setPanelsDeleted(false);
-      setError(response.error ?? 'Failed to delete panels');
+      setError(response.error ?? "Failed to delete panels");
     } else {
       setPanelsDeleted(true);
     }
@@ -42,7 +42,7 @@ export default function JudgePanelMatching() {
     const response = await getManyPanels();
     if (!response.ok) {
       setPanels([]);
-      setError(response.error ?? 'Failed to delete panels');
+      setError(response.error ?? "Failed to delete panels");
     } else {
       setPanels(response.body);
     }
@@ -73,8 +73,8 @@ export default function JudgePanelMatching() {
             <div className="flex flex-col">
               Judges:
               {panel.users?.map((user) => (
-                <p key={user._id ?? ''}>
-                  {`${user.name} - ${user.specialties?.join(', ') ?? ''}`}
+                <p key={user._id ?? ""}>
+                  {`${user.name} - ${user.specialties?.join(", ") ?? ""}`}
                 </p>
               ))}
             </div>

@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useRef, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { useEffect, useState, useRef, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-import { updateUser } from '@actions/users/updateUser';
-import styles from './DetailForm.module.scss';
-import Loader from '@pages/_components/Loader/Loader';
-import { categorizedTracks, displayNameToDomainMap } from '@data/tracks';
+import { updateUser } from "@actions/users/updateUser";
+import styles from "./DetailForm.module.scss";
+import Loader from "@pages/_components/Loader/Loader";
+import { categorizedTracks, displayNameToDomainMap } from "@data/tracks";
 
 interface OptionItem {
   id: number;
@@ -18,36 +18,36 @@ interface OptionItem {
 const initialOptions = [
   ...new Set(
     Object.values(categorizedTracks).map(
-      (track) => track.domainDisplayName ?? ''
-    )
+      (track) => track.domainDisplayName ?? "",
+    ),
   ),
-].filter((option) => option !== '');
+].filter((option) => option !== "");
 
 export default function DetailForm({ id }: any) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [options, setOptions] = useState<OptionItem[]>(
     initialOptions.map((option, index) => ({
       id: index + 1,
       text: option,
       rank: index + 1,
-    }))
+    })),
   );
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
   const [animatingIndices, setAnimatingIndices] = useState<number[]>([]);
 
-  const moveOption = (index: number, direction: 'up' | 'down'): void => {
+  const moveOption = (index: number, direction: "up" | "down"): void => {
     if (
-      (direction === 'up' && index === 0) ||
-      (direction === 'down' && index === options.length - 1) ||
+      (direction === "up" && index === 0) ||
+      (direction === "down" && index === options.length - 1) ||
       animatingIndices.length > 0
     ) {
       return;
     }
 
-    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
 
     setAnimatingIndices([index, targetIndex]);
 
@@ -66,8 +66,8 @@ export default function DetailForm({ id }: any) {
 
         void currentElem.offsetHeight;
 
-        currentElem.style.transition = 'transform 0.3s ease-in-out';
-        targetElem.style.transition = 'transform 0.3s ease-in-out';
+        currentElem.style.transition = "transform 0.3s ease-in-out";
+        targetElem.style.transition = "transform 0.3s ease-in-out";
 
         currentElem.style.transform = `translateY(${yDistance}px)`;
         targetElem.style.transform = `translateY(${-yDistance}px)`;
@@ -86,10 +86,10 @@ export default function DetailForm({ id }: any) {
           setOptions(newOptions);
           setAnimatingIndices([]);
 
-          currentElem.style.transition = '';
-          targetElem.style.transition = '';
-          currentElem.style.transform = '';
-          targetElem.style.transform = '';
+          currentElem.style.transition = "";
+          targetElem.style.transition = "";
+          currentElem.style.transform = "";
+          targetElem.style.transform = "";
         }, 300);
       }
     }
@@ -99,10 +99,10 @@ export default function DetailForm({ id }: any) {
     e.preventDefault();
 
     setLoading(true);
-    setError('');
+    setError("");
 
     const specialties: string[] = options.map(
-      (option) => displayNameToDomainMap.get(option.text) ?? ''
+      (option) => displayNameToDomainMap.get(option.text) ?? "",
     );
 
     const userRes = await updateUser(id, {
@@ -112,9 +112,9 @@ export default function DetailForm({ id }: any) {
     });
 
     if (userRes.ok) {
-      router.push('/judges');
+      router.push("/judges");
     } else {
-      setError(userRes.error ?? 'Error updating details');
+      setError(userRes.error ?? "Error updating details");
     }
 
     setLoading(false);
@@ -140,7 +140,7 @@ export default function DetailForm({ id }: any) {
               <div className={styles.swap_buttons}>
                 <button
                   type="button"
-                  onClick={() => moveOption(index, 'up')}
+                  onClick={() => moveOption(index, "up")}
                   disabled={index === 0 || animatingIndices.length > 0}
                   className={
                     index === 0 || animatingIndices.length > 0
@@ -153,7 +153,7 @@ export default function DetailForm({ id }: any) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => moveOption(index, 'down')}
+                  onClick={() => moveOption(index, "down")}
                   disabled={
                     index === options.length - 1 || animatingIndices.length > 0
                   }

@@ -1,41 +1,41 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 const dataPath = path.resolve(
   process.cwd(),
-  'app/_data/db_validation_data.json'
+  "app/_data/db_validation_data.json",
 );
-const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
 const domains = [...new Set(data.domains)];
 const tracks = [...new Set(data.tracks)];
 
 export async function up(db) {
-  await db.createCollection('panels', {
+  await db.createCollection("panels", {
     validator: {
       $jsonSchema: {
-        bsonType: 'object',
-        title: 'Panels Object Validation',
-        required: ['track', 'domain', 'user_ids'],
+        bsonType: "object",
+        title: "Panels Object Validation",
+        required: ["track", "domain", "user_ids"],
         properties: {
           _id: {
-            bsonType: 'objectId',
-            description: '_id must be an ObjectId',
+            bsonType: "objectId",
+            description: "_id must be an ObjectId",
           },
           track: {
             enum: tracks,
-            description: 'track must be a a valid track string',
+            description: "track must be a a valid track string",
           },
           domain: {
             enum: domains,
-            description: `domain must be one of: ${domains.join(', ')}`,
+            description: `domain must be one of: ${domains.join(", ")}`,
           },
           user_ids: {
-            bsonType: 'array',
-            description: 'user_ids must be an array of object IDs',
+            bsonType: "array",
+            description: "user_ids must be an array of object IDs",
             maxItems: 5,
             items: {
-              bsonType: 'objectId',
-              description: 'user_ids must be an array of object IDs',
+              bsonType: "objectId",
+              description: "user_ids must be an array of object IDs",
             },
           },
         },
@@ -46,5 +46,5 @@ export async function up(db) {
 }
 
 export async function down(db) {
-  await db.collection('panels').drop();
+  await db.collection("panels").drop();
 }

@@ -1,6 +1,6 @@
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { HttpError, NotFoundError } from '@utils/response/Errors';
-import parseAndReplace from '@utils/request/parseAndReplace';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import { HttpError, NotFoundError } from "@utils/response/Errors";
+import parseAndReplace from "@utils/request/parseAndReplace";
 
 export const DeleteUserToEvent = async (body: {
   user_id: object;
@@ -11,18 +11,18 @@ export const DeleteUserToEvent = async (body: {
     const parsedBody = await parseAndReplace(body);
 
     const deleteStatus = await db
-      .collection('userToEvents')
+      .collection("userToEvents")
       .deleteOne(parsedBody);
 
     if (deleteStatus.deletedCount === 0) {
       throw new NotFoundError(
-        'No matching userToEvent found for the provided query.'
+        "No matching userToEvent found for the provided query.",
       );
     }
 
     return {
       ok: true,
-      body: 'userToEvent deleted.',
+      body: "userToEvent deleted.",
       error: null,
     };
   } catch (e) {
@@ -37,12 +37,12 @@ export const DeleteManyUserToEvents = async (query: object = {}) => {
     const parsedQuery = await parseAndReplace(query);
 
     const deleteStatus = await db
-      .collection('userToEvents')
+      .collection("userToEvents")
       .deleteMany(parsedQuery);
 
     if (deleteStatus.deletedCount === 0) {
       throw new NotFoundError(
-        'No matching userToEvent found for the provided query.'
+        "No matching userToEvent found for the provided query.",
       );
     }
 

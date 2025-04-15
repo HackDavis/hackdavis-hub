@@ -1,23 +1,23 @@
-'use client';
-import React from 'react';
-import Image from 'next/image';
-import { Accordion, AccordionItem as Item } from '@szhsin/react-accordion';
-import styles from './FAQAccordian.module.scss';
-import { CgChevronLeft } from 'react-icons/cg';
-import { PiStarFourFill } from 'react-icons/pi';
-import Step1 from 'public/hackers/project-info/Step1.svg';
-import Step2 from 'public/hackers/project-info/Step2.svg';
-import Step3 from 'public/hackers/project-info/Step3.svg';
-import Step4 from 'public/hackers/project-info/Step4.svg';
-import Step5 from 'public/hackers/project-info/Step5.svg';
-import Step6 from 'public/hackers/project-info/Step6.svg';
-import MusicPlayer from '../../IndexHero/MusicPlayer';
+"use client";
+import React from "react";
+import Image from "next/image";
+import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
+import styles from "./FAQAccordian.module.scss";
+import { CgChevronLeft } from "react-icons/cg";
+import { PiStarFourFill } from "react-icons/pi";
+import Step1 from "public/hackers/project-info/Step1.svg";
+import Step2 from "public/hackers/project-info/Step2.svg";
+import Step3 from "public/hackers/project-info/Step3.svg";
+import Step4 from "public/hackers/project-info/Step4.svg";
+import Step5 from "public/hackers/project-info/Step5.svg";
+import Step6 from "public/hackers/project-info/Step6.svg";
+import MusicPlayer from "../../IndexHero/MusicPlayer";
 
 const FAQAccordian = () => {
   const steps = [
     {
-      step: 'Step 1',
-      question: 'Login to Devpost',
+      step: "Step 1",
+      question: "Login to Devpost",
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step1} src={Step1} alt="Step 1" />
@@ -31,8 +31,8 @@ const FAQAccordian = () => {
       ),
     },
     {
-      step: 'Step 2',
-      question: 'Register for the Event',
+      step: "Step 2",
+      question: "Register for the Event",
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step2} src={Step2} alt="Step 2" />
@@ -41,8 +41,8 @@ const FAQAccordian = () => {
       ),
     },
     {
-      step: 'Step 3',
-      question: 'Create a Project',
+      step: "Step 3",
+      question: "Create a Project",
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step3} src={Step3} alt="Step 3" />
@@ -54,8 +54,8 @@ const FAQAccordian = () => {
       ),
     },
     {
-      step: 'Step 4',
-      question: 'Invite Teammates',
+      step: "Step 4",
+      question: "Invite Teammates",
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step4} src={Step4} alt="Step 4" />
@@ -64,8 +64,8 @@ const FAQAccordian = () => {
       ),
     },
     {
-      step: 'Step 5',
-      question: 'Step 5: Fill Out Details',
+      step: "Step 5",
+      question: "Step 5: Fill Out Details",
       answer: (
         <div className={styles.stepContent}>
           <Image className={styles.step5} src={Step5} alt="Step 5" />
@@ -73,8 +73,8 @@ const FAQAccordian = () => {
       ),
     },
     {
-      step: 'Step 6',
-      question: 'Step 6: Submit Project',
+      step: "Step 6",
+      question: "Step 6: Submit Project",
       answer: (
         <div className={styles.stepContent6}>
           <Image className={styles.step6} src={Step6} alt="Step 6" />
@@ -108,7 +108,7 @@ const FAQAccordian = () => {
             }
             buttonProps={{
               className: ({ isEnter }) =>
-                `${styles.itemBtn} ${isEnter ? styles.itemBtnExpanded : ''} ${
+                `${styles.itemBtn} ${isEnter ? styles.itemBtnExpanded : ""} ${
                   index % 2 === 0 ? styles.even : styles.odd
                 }`,
             }}

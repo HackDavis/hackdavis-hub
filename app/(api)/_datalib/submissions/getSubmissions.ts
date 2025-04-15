@@ -1,14 +1,14 @@
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import parseAndReplace from '@utils/request/parseAndReplace';
-import { HttpError } from '@utils/response/Errors';
-import { ObjectId } from 'mongodb';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import parseAndReplace from "@utils/request/parseAndReplace";
+import { HttpError } from "@utils/response/Errors";
+import { ObjectId } from "mongodb";
 
 export const GetManySubmissions = async (query: object = {}) => {
   try {
     const parsedQuery = await parseAndReplace(query);
     const db = await getDatabase();
     const submissions = await db
-      .collection('submissions')
+      .collection("submissions")
       .find(parsedQuery)
       .toArray();
 
@@ -25,14 +25,14 @@ export const GetSubmission = async (judge_id: string, team_id: string) => {
     const team_object_id = new ObjectId(team_id);
 
     const db = await getDatabase();
-    const submission = await db.collection('submissions').findOne({
+    const submission = await db.collection("submissions").findOne({
       judge_id: judge_object_id,
       team_id: team_object_id,
     });
 
     if (submission === null) {
       throw Error(
-        `Submission with judge id: ${judge_id} and team id: ${team_id} not found.`
+        `Submission with judge id: ${judge_id} and team id: ${team_id} not found.`,
       );
     }
 
@@ -49,7 +49,7 @@ export const GetJudgeSubmissions = async (judge_id: string) => {
 
     const db = await getDatabase();
     const submissions = await db
-      .collection('submissions')
+      .collection("submissions")
       .find({
         judge_id: judge_object_id,
       })

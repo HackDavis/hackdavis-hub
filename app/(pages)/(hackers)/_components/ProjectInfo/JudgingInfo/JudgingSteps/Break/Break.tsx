@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import RelaxingCow from 'public/hackers/project-info/relaxingCow.svg';
-import Radio from 'public/hackers/project-info/radio.svg';
-import styles from './Break.module.scss';
+import Image from "next/image";
+import RelaxingCow from "public/hackers/project-info/relaxingCow.svg";
+import Radio from "public/hackers/project-info/radio.svg";
+import styles from "./Break.module.scss";
 
 export default function Break() {
   return (

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-import LoginAction from '@actions/auth/login';
-import AuthForm from '@components/AuthForm/AuthForm';
+import LoginAction from "@actions/auth/login";
+import AuthForm from "@components/AuthForm/AuthForm";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -13,22 +13,22 @@ export default function LoginForm() {
   };
 
   const onSuccess = () => {
-    router.push('/judges');
+    router.push("/judges");
   };
 
   const formFields = [
     {
-      name: 'email' as const,
-      type: 'email',
-      label: 'Email',
-      placeholder: '',
+      name: "email" as const,
+      type: "email",
+      label: "Email",
+      placeholder: "",
       readOnly: false,
     },
     {
-      name: 'password' as const,
-      type: 'password',
-      label: 'Password',
-      placeholder: '',
+      name: "password" as const,
+      type: "password",
+      label: "Password",
+      placeholder: "",
       readOnly: false,
     },
   ];
@@ -41,8 +41,8 @@ export default function LoginForm() {
       linkText="Forgot Password?"
       linkHref="/judges/login/forgot-password"
       initialValues={{
-        email: '',
-        password: '',
+        email: "",
+        password: "",
       }}
       onSubmit={onSubmit}
       onSuccess={onSuccess}

@@ -1,10 +1,10 @@
-'use server';
+"use server";
 
 import {
   DeleteManyUserToEvents,
   DeleteUserToEvent,
-} from '@datalib/userToEvents/deleteUserToEvent';
-import { prepareIdsInQuery } from '@utils/request/parseAndReplace';
+} from "@datalib/userToEvents/deleteUserToEvent";
+import { prepareIdsInQuery } from "@utils/request/parseAndReplace";
 
 export async function deleteUserToEvent(query: {
   user_id: string;

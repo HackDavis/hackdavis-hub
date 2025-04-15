@@ -1,4 +1,4 @@
-@import '@globals/mixins.scss';
+@import "@globals/mixins.scss";
 
 .container {
   padding: 2%;
@@ -8,16 +8,16 @@
   @include tablet-l {
     padding: 0%;
     margin: 5% 0% 5% 0%;
-}
+  }
 
   .star {
-    display: block; 
-    margin: 0 auto; 
-    width: fit-content; 
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
     padding-bottom: 3%;
 
     @include tablet-l {
-        display: none;
+      display: none;
     }
   }
 
@@ -54,16 +54,16 @@
     }
 
     .note {
-        position: absolute;
-        top: 0;
-        height: 30px;
-        opacity: 1;
-        transform: translateY(0);
-        transition: transform 0.3s ease; // smooth return
-      }
-    
-      &:hover .note {
-        transform: translateY(-8px);
-      }
+      position: absolute;
+      top: 0;
+      height: 30px;
+      opacity: 1;
+      transform: translateY(0);
+      transition: transform 0.3s ease; // smooth return
     }
+
+    &:hover .note {
+      transform: translateY(-8px);
+    }
+  }
 }

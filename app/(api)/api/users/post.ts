@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { CreateUser } from '@datalib/users/createUser';
+import { NextRequest, NextResponse } from "next/server";
+import { CreateUser } from "@datalib/users/createUser";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();

@@ -1,25 +1,25 @@
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { HttpError, NotFoundError } from '@utils/response/Errors';
-import { ObjectId } from 'mongodb';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import { HttpError, NotFoundError } from "@utils/response/Errors";
+import { ObjectId } from "mongodb";
 
 export async function DeleteEvent(id: string) {
   try {
     const db = await getDatabase();
     const objectId = ObjectId.createFromHexString(id);
 
-    const deletion = await db.collection('events').deleteOne({
+    const deletion = await db.collection("events").deleteOne({
       _id: objectId,
     });
 
     if (deletion.deletedCount === 0) {
       throw new NotFoundError(
-        `Could not delete event with ID: '${id}'. Event does not exist or ID is incorrect.`
+        `Could not delete event with ID: '${id}'. Event does not exist or ID is incorrect.`,
       );
     }
 
     return {
       ok: true,
-      body: 'Event deleted.',
+      body: "Event deleted.",
       error: null,
     };
   } catch (e) {
@@ -27,7 +27,7 @@ export async function DeleteEvent(id: string) {
     return {
       ok: false,
       body: null,
-      error: error.message || 'Internal Server Error',
+      error: error.message || "Internal Server Error",
     };
   }
 }

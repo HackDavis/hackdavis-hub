@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-import { getSubmission } from '@actions/submissions/getSubmission';
+import { getSubmission } from "@actions/submissions/getSubmission";
 
 export function useSubmission(team_id: string): any {
   const { data: session, status } = useSession();
@@ -16,8 +16,8 @@ export function useSubmission(team_id: string): any {
       setSubmssion(submission);
       setLoading(false);
     };
-    if (status === 'authenticated' && user) {
-      getSubmissionWrapper(user.id ?? '');
+    if (status === "authenticated" && user) {
+      getSubmissionWrapper(user.id ?? "");
     }
   }, [status, user, team_id]);
 

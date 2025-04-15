@@ -1,9 +1,9 @@
-'use server';
-import bcrypt from 'bcryptjs';
+"use server";
+import bcrypt from "bcryptjs";
 
-import { GetManyUsers } from '@datalib/users/getUser';
-import { UpdateUser } from '@datalib/users/updateUser';
-import { HttpError } from '@utils/response/Errors';
+import { GetManyUsers } from "@datalib/users/getUser";
+import { UpdateUser } from "@datalib/users/updateUser";
+import { HttpError } from "@utils/response/Errors";
 
 export async function ResetPassword(body: { email: string; password: string }) {
   try {
@@ -12,7 +12,7 @@ export async function ResetPassword(body: { email: string; password: string }) {
 
     const user_data = await GetManyUsers({ email });
     if (!user_data.ok || user_data.body.length === 0) {
-      throw new HttpError('user not found');
+      throw new HttpError("user not found");
     }
 
     const updateData = await UpdateUser(user_data.body[0]._id, {

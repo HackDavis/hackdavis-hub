@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { signOut } from 'auth';
+import { signOut } from "auth";
 
 export default function LogoutButton({
   children,
@@ -13,7 +13,7 @@ export default function LogoutButton({
     <button
       style={style}
       onClick={async () => {
-        'use server';
+        "use server";
         await signOut();
       }}
     >

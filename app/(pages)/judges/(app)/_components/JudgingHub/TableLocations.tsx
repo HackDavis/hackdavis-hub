@@ -1,8 +1,8 @@
-import styles from './TableLocations.module.scss';
-import Image from 'next/image';
-import vinyl from '/public/judges/hub/vinyl.svg';
-import bunnyHand from '/public/judges/hub/bunny-hand.svg';
-import vinylPlayer from '/public/judges/hub/vinyl-player.svg';
+import styles from "./TableLocations.module.scss";
+import Image from "next/image";
+import vinyl from "/public/judges/hub/vinyl.svg";
+import bunnyHand from "/public/judges/hub/bunny-hand.svg";
+import vinylPlayer from "/public/judges/hub/vinyl-player.svg";
 export default function TableLocations() {
   /* const logOutStyle = {
     zIndex: 1,

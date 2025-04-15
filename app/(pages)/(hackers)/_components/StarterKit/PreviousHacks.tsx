@@ -1,8 +1,8 @@
-import Image, { StaticImageData } from 'next/image';
-import patientSimImage from '@public/hackers/starter-kit/ideate/patient_sim_ai.png';
-import nomadImage from '@public/hackers/starter-kit/ideate/nomad.png';
-import podium from '@public/hackers/starter-kit/ideate/podium.svg';
-import { Card, CardContent } from '@globals/components/ui/card';
+import Image, { StaticImageData } from "next/image";
+import patientSimImage from "@public/hackers/starter-kit/ideate/patient_sim_ai.png";
+import nomadImage from "@public/hackers/starter-kit/ideate/nomad.png";
+import podium from "@public/hackers/starter-kit/ideate/podium.svg";
+import { Card, CardContent } from "@globals/components/ui/card";
 
 interface PastProjectDisplayProps {
   image: StaticImageData;
@@ -13,24 +13,24 @@ interface PastProjectDisplayProps {
 }
 
 const devPostLink =
-  'https://hackdavis-2024.devpost.com/project-gallery?_gl=1%2A50gpw%2A_gcl_au%2AMTc2MTUwMzcxOS4xNzQwODA4MTQ4%2A_ga%2AMjEwNzI2OTk2My4xNzQwODA4MTQ4%2A_ga_0YHJK3Y10M%2AMTc0MDgwODE0Ny4xLjEuMTc0MDgwODE3OS4wLjAuMA';
+  "https://hackdavis-2024.devpost.com/project-gallery?_gl=1%2A50gpw%2A_gcl_au%2AMTc2MTUwMzcxOS4xNzQwODA4MTQ4%2A_ga%2AMjEwNzI2OTk2My4xNzQwODA4MTQ4%2A_ga_0YHJK3Y10M%2AMTc0MDgwODE0Ny4xLjEuMTc0MDgwODE3OS4wLjAuMA";
 
 const pastProjects: PastProjectDisplayProps[] = [
   {
     image: patientSimImage,
-    title: 'PatientSimAI',
-    subtitle: 'Best Hack for Social Good',
+    title: "PatientSimAI",
+    subtitle: "Best Hack for Social Good",
     description:
-      'PatientSimAI is a web app using AI and GPT-4 to simulate patient interactions, aiding clinical training, enhancing medical education, and building practical skills.',
-    link: 'https://devpost.com/software/patientsimai',
+      "PatientSimAI is a web app using AI and GPT-4 to simulate patient interactions, aiding clinical training, enhancing medical education, and building practical skills.",
+    link: "https://devpost.com/software/patientsimai",
   },
   {
     image: nomadImage,
-    title: 'nomad /\\',
-    subtitle: 'Best Hack for Social Good',
+    title: "nomad /\\",
+    subtitle: "Best Hack for Social Good",
     description:
-      'Users can place pins for homeless individuals or lost animals, alerting organizations to assist. The app also encourages donations, volunteering, and offers local business rewards.',
-    link: 'https://devpost.com/software/nomad-xmlf65',
+      "Users can place pins for homeless individuals or lost animals, alerting organizations to assist. The app also encourages donations, volunteering, and offers local business rewards.",
+    link: "https://devpost.com/software/nomad-xmlf65",
   },
 ];
 

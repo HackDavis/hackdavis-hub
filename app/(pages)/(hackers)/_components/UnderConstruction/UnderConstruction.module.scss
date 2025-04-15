@@ -1,41 +1,40 @@
-@import '@globals/mixins.scss';
+@import "@globals/mixins.scss";
 
 .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5%;
-    padding-bottom: 7.5%;
-    padding-top: 7.5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  padding-bottom: 7.5%;
+  padding-top: 7.5%;
 
-    h1{
-        color: #AFD157;
-        font-family: Metropolis;
-        font-size: 48px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 0.96px;
-    }
-    p{
-        color: #000;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 145%; /* 26.1px */
-        letter-spacing: 0.36px;
-    }
-    @include tablet-l{
-        display: none;
-    }
-
+  h1 {
+    color: #afd157;
+    font-family: Metropolis;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.96px;
+  }
+  p {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 145%; /* 26.1px */
+    letter-spacing: 0.36px;
+  }
+  @include tablet-l {
+    display: none;
+  }
 }
-.cow_cont{
-    background-color: #AFD157;
-    padding: 2%;
-    border-radius: 16px;
+.cow_cont {
+  background-color: #afd157;
+  padding: 2%;
+  border-radius: 16px;
 }
-.cow_img{
-    width: 201px;
+.cow_img {
+  width: 201px;
 }

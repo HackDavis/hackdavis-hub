@@ -1,4 +1,4 @@
-import Event from './event';
+import Event from "./event";
 interface UserToEvent {
   _id?: string;
   user_id: string;

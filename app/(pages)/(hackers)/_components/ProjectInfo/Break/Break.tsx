@@ -1,7 +1,7 @@
-import styles from './Break.module.scss';
-import relaxing_cow from '@public/hackers/project-info/relaxing_cow.svg';
-import radio from '@public/hackers/project-info/radio.svg';
-import Image from 'next/image';
+import styles from "./Break.module.scss";
+import relaxing_cow from "@public/hackers/project-info/relaxing_cow.svg";
+import radio from "@public/hackers/project-info/radio.svg";
+import Image from "next/image";
 
 export default function Break() {
   return (
@@ -11,7 +11,7 @@ export default function Break() {
         <br />
         <p>
           Once demos end, you will about an hour’s time to visit other teams and
-          vote for the{' '}
+          vote for the{" "}
           <a href="/" target="_blank">
             Hacker’s Choice Award
           </a>

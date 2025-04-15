@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 
 interface FieldValues {
   [key: string]: string;
@@ -13,7 +13,7 @@ interface FieldErrors {
 interface AuthFormOptions {
   initialValues?: FieldValues;
   onSubmit?: (
-    values: FieldValues
+    values: FieldValues,
   ) => Promise<{ ok: boolean; body: string | null; error: string | null }>;
   onSuccess?: () => void;
 }
@@ -31,35 +31,35 @@ interface AuthFormReturn {
 
 const validators = {
   email: (value: string) => {
-    if (!value) return '';
+    if (!value) return "";
     const emailValid = /\S+@\S+\.\S+/.test(value);
     if (!emailValid) {
-      return 'Invalid email format';
+      return "Invalid email format";
     }
     return null;
   },
   password: (value: string) => {
-    if (!value) return '';
+    if (!value) return "";
     if (value.length < 6 || value.length > 20) {
-      return 'Password must be between 6 and 20 characters.';
+      return "Password must be between 6 and 20 characters.";
     }
     return null;
   },
   passwordDupe: (value: string, allValues: any) => {
-    if (!value) return '';
+    if (!value) return "";
     if (value !== allValues.password) {
       return "Passwords don't match.";
     }
     return null;
   },
   code: (value: string) => {
-    if (!value) return '';
+    if (!value) return "";
     return null;
   },
 };
 
 export default function useAuthForm(
-  options: AuthFormOptions = {}
+  options: AuthFormOptions = {},
 ): AuthFormReturn {
   const { initialValues = {}, onSubmit, onSuccess } = options;
 
@@ -91,16 +91,16 @@ export default function useAuthForm(
         const result = await onSubmit(fields);
 
         if (!result.ok) {
-          throw new Error(result.error ?? 'Error submitting form.');
+          throw new Error(result.error ?? "Error submitting form.");
         }
 
         onSuccess();
       } else {
-        throw new Error('No submit function specified');
+        throw new Error("No submit function specified");
       }
     } catch (e) {
       const error = e as Error;
-      setFieldError('submit', error.message);
+      setFieldError("submit", error.message);
     } finally {
       setLoading(false);
     }
@@ -113,7 +113,7 @@ export default function useAuthForm(
     Object.entries(validators).forEach(([field, validator]) => {
       const value = formValues[field];
       const error = validator(value, formValues);
-      if (error !== '') allEmpty = false;
+      if (error !== "") allEmpty = false;
       if (error) newErrors[field] = error;
     });
 

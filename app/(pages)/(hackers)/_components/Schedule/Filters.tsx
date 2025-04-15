@@ -1,5 +1,5 @@
-import { pageFilters } from '@typeDefs/filters';
-import { EventType } from '@typeDefs/event';
+import { pageFilters } from "@typeDefs/filters";
+import { EventType } from "@typeDefs/event";
 
 interface FiltersProps {
   activeFilters: EventType[];
@@ -22,23 +22,23 @@ export default function Filters({ activeFilters, toggleFilter }: FiltersProps) {
           ${
             activeFilters.includes(filter.label)
               ? `border-solid`
-              : 'border-dashed hover:bg-opacity-50'
+              : "border-dashed hover:bg-opacity-50"
           }
         `}
           style={{
             borderColor: filter.color,
             backgroundColor: activeFilters.includes(filter.label)
               ? filter.color
-              : 'transparent',
+              : "transparent",
           }}
           onMouseEnter={(e) => {
             if (!activeFilters.includes(filter.label)) {
-              e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
+              e.currentTarget.style.backgroundColor = filter.color + "80"; // 80 is 50% opacity in hex
             }
           }}
           onMouseLeave={(e) => {
             if (!activeFilters.includes(filter.label)) {
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.backgroundColor = "transparent";
             }
           }}
         >

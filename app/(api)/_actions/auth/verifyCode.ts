@@ -1,12 +1,12 @@
-'use server';
+"use server";
 
-import { updateUser } from '@actions/users/updateUser';
+import { updateUser } from "@actions/users/updateUser";
 
 export default async function verifyCode(id: string, code: string) {
   try {
     const validCode = code === (process.env.CHECK_IN_CODE as string);
     if (!validCode) {
-      throw new Error('Invalid code.');
+      throw new Error("Invalid code.");
     }
 
     const res = await updateUser(id, {
@@ -16,7 +16,7 @@ export default async function verifyCode(id: string, code: string) {
     });
 
     if (!res.ok) {
-      throw new Error(res.error ?? 'Failed to check in user.');
+      throw new Error(res.error ?? "Failed to check in user.");
     }
 
     return {

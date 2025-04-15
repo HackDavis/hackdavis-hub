@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 type CountdownProps = {
   targetTime: string;
@@ -31,9 +31,9 @@ const Countdown = ({ targetTime }: CountdownProps) => {
 
   return (
     <div>
-      <span>{timeLeft.hours.toString().padStart(2, '0')}</span> :{' '}
-      <span>{timeLeft.minutes.toString().padStart(2, '0')}</span> :{' '}
-      <span>{timeLeft.seconds.toString().padStart(2, '0')}</span>
+      <span>{timeLeft.hours.toString().padStart(2, "0")}</span> :{" "}
+      <span>{timeLeft.minutes.toString().padStart(2, "0")}</span> :{" "}
+      <span>{timeLeft.seconds.toString().padStart(2, "0")}</span>
     </div>
   );
 };

@@ -1,10 +1,10 @@
-import styles from './Contact.module.scss';
-import Image from 'next/image';
-import Squiggle from 'public/hackers/hero/SquiggleBorder.svg';
-import CowPhone from 'public/hackers/hero/CowPhone.svg';
-import Cow from 'public/hackers/hero/AirpodCow.svg';
-import DuckPhone from 'public/hackers/hero/DuckPhone.svg';
-import Duck from 'public/hackers/hero/AirpodDuck.svg';
+import styles from "./Contact.module.scss";
+import Image from "next/image";
+import Squiggle from "public/hackers/hero/SquiggleBorder.svg";
+import CowPhone from "public/hackers/hero/CowPhone.svg";
+import Cow from "public/hackers/hero/AirpodCow.svg";
+import DuckPhone from "public/hackers/hero/DuckPhone.svg";
+import Duck from "public/hackers/hero/AirpodDuck.svg";
 
 export default function Contact() {
   return (

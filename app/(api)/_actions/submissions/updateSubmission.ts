@@ -1,11 +1,11 @@
-'use server';
-import { UpdateSubmission } from '@datalib/submissions/updateSubmission';
-import Submission from '@typeDefs/submission';
+"use server";
+import { UpdateSubmission } from "@datalib/submissions/updateSubmission";
+import Submission from "@typeDefs/submission";
 
 export default async function updateSubmission(
   judge_id: string,
   team_id: string,
-  body: Submission
+  body: Submission,
 ) {
   const { _id: _, judge_id: __, team_id: ___, ...rest } = body;
 

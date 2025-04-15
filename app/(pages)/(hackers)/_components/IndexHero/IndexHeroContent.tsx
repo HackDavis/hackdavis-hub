@@ -1,20 +1,20 @@
-import Image from 'next/image';
-import Countdown from './Countdown';
-import styles from './IndexHeroContent.module.scss';
-import MusicPlayer from './MusicPlayer';
-import star_icon from '@public/hackers/hero/star.svg';
+import Image from "next/image";
+import Countdown from "./Countdown";
+import styles from "./IndexHeroContent.module.scss";
+import MusicPlayer from "./MusicPlayer";
+import star_icon from "@public/hackers/hero/star.svg";
 // import cow_tada from '@public/hackers/hero/cow_tada.svg';
-import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
-import Scroll from './Scroll';
-import { LuArrowUpRight } from 'react-icons/lu';
+import judge_bunny_and_ducky from "@public/hackers/hero/judge_bunny_and_ducky.svg";
+import Scroll from "./Scroll";
+import { LuArrowUpRight } from "react-icons/lu";
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
-import star from 'public/index/hero/star.svg';
+import star from "public/index/hero/star.svg";
 // import Announcement from './Announcement';
-import NextSchedule from './NextSchedule';
-import Link from 'next/link';
-import TimeTracker from './TimeTracker';
-import Notifications from './Notifications';
-import { GoArrowRight } from 'react-icons/go';
+import NextSchedule from "./NextSchedule";
+import Link from "next/link";
+import TimeTracker from "./TimeTracker";
+import Notifications from "./Notifications";
+import { GoArrowRight } from "react-icons/go";
 
 export default function IndexHeroContent() {
   return (
@@ -55,7 +55,7 @@ export default function IndexHeroContent() {
               <br />
               FOR EVERYONE WHO
               <span className={styles.monospace}>
-                {' // creates for social good'}
+                {" // creates for social good"}
               </span>
             </p>
             <button className={styles.submitButton}>
@@ -70,7 +70,7 @@ export default function IndexHeroContent() {
         <div className={styles.star_box}>
           <Image src={star} alt="star" className={styles.box_star} />
         </div>
-        <div className={styles.social_good}>{'// for social good'}</div>
+        <div className={styles.social_good}>{"// for social good"}</div>
       </div>
 
       <div className={styles.spacer_star_container}>
@@ -80,10 +80,10 @@ export default function IndexHeroContent() {
       <div className={styles.group_width}>
         <div
           style={{
-            display: 'flex',
-            gap: '1%',
-            paddingBottom: '1%',
-            alignItems: 'center',
+            display: "flex",
+            gap: "1%",
+            paddingBottom: "1%",
+            alignItems: "center",
           }}
         >
           <p>LIVE NOW</p>
@@ -128,10 +128,10 @@ export default function IndexHeroContent() {
       <div className={styles.group_width}>
         <div
           style={{
-            display: 'flex',
-            gap: '1%',
-            paddingBottom: '1%',
-            alignItems: 'center',
+            display: "flex",
+            gap: "1%",
+            paddingBottom: "1%",
+            alignItems: "center",
           }}
         >
           <p>NEXT ON YOUR SCHEDULE</p>
@@ -145,19 +145,19 @@ export default function IndexHeroContent() {
           </div>
         </div>
         <NextSchedule
-          title={'Team Mixer'}
-          time={'11:00 - 12:00 PM'}
-          location={'ARC Ballroom B'}
+          title={"Team Mixer"}
+          time={"11:00 - 12:00 PM"}
+          location={"ARC Ballroom B"}
         />
       </div>
 
       <div className={styles.group_width}>
         <div
           style={{
-            display: 'flex',
-            gap: '1%',
-            paddingBottom: '1%',
-            alignItems: 'center',
+            display: "flex",
+            gap: "1%",
+            paddingBottom: "1%",
+            alignItems: "center",
           }}
         >
           <p>WHILE YOU WAIT, CHECK OUT OUR JUDGING INFORMATION</p>
@@ -168,11 +168,11 @@ export default function IndexHeroContent() {
           />
         </div>
         <div className={styles.judge_info}>
-          <div style={{ width: '50%' }}>
+          <div style={{ width: "50%" }}>
             <h2>
               <strong>Judging Information</strong>
             </h2>
-            <Link href={'/judging'}>
+            <Link href={"/judging"}>
               <button className={styles.schedule_button}>
                 Read on the process
                 <LuArrowUpRight size={23} />

@@ -1,10 +1,10 @@
-'use client';
-import ingestCSV from '@actions/logic/ingestCSV';
-import React, { useState } from 'react';
+"use client";
+import ingestCSV from "@actions/logic/ingestCSV";
+import React, { useState } from "react";
 
 export default function CsvIngestion() {
   const [pending, setPending] = useState(false);
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState("");
 
   const handler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +23,7 @@ export default function CsvIngestion() {
           <input type="file" accept=".csv" name="file" id="file" />
           <button type="submit">Upload</button>
         </form>
-        <p>{pending ? 'parsing CSV and creating teams...' : response}</p>
+        <p>{pending ? "parsing CSV and creating teams..." : response}</p>
       </div>
     </div>
   );

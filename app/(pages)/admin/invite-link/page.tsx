@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import InviteLinkForm from '../_components/InviteLinkForm/InviteLinkForm';
-import styles from './invite.module.scss';
+import InviteLinkForm from "../_components/InviteLinkForm/InviteLinkForm";
+import styles from "./invite.module.scss";
 
 export default function AdminInviteLinkPage() {
   return (

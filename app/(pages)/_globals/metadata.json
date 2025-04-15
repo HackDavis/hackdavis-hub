@@ -1,7 +1,7 @@
 {
-    "title": "HackDavis Hub",
-    "description": "For all hackers and judges at HackDavis 2025",
-    "icons": {
-      "icon": "/icons/icon.ico"
-    }
+  "title": "HackDavis Hub",
+  "description": "For all hackers and judges at HackDavis 2025",
+  "icons": {
+    "icon": "/icons/icon.ico"
+  }
 }

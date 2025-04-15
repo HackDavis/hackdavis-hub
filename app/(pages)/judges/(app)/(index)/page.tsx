@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
-import LogoutAction from '@actions/auth/logout';
-import JudgingHub from '../_components/JudgingHub/JudgingHub';
+import LogoutAction from "@actions/auth/logout";
+import JudgingHub from "../_components/JudgingHub/JudgingHub";
 
 export default function Judges() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function Judges() {
     setLoading(false);
 
     if (response.ok) {
-      router.push('/judges/login');
+      router.push("/judges/login");
     }
   };
 

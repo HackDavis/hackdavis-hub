@@ -1,49 +1,49 @@
 .form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .role_select {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: space-between;
+    gap: 4px;
 
-    .role_select {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        gap: 4px;
+    > div {
+      display: flex;
+      flex-direction: row;
+      max-width: 40%;
+      justify-content: space-between;
 
-        > div {
-            display: flex;
-            flex-direction: row;
-            max-width: 40%;
-            justify-content: space-between;
-
-            input {
-                width: 50px;
-            }
-        }
+      input {
+        width: 50px;
+      }
     }
+  }
 }
 
 .label {
-    font-size: 1.25rem;
-    font-weight: 500;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+
+  > div {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 16px;
-
-    > div {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
+  }
 }
 
 .link_text {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .error_msg {
-    color: var(--text-error);
+  color: var(--text-error);
 }

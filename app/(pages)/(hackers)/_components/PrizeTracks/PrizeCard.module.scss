@@ -1,11 +1,11 @@
-@import '@globals/mixins.scss';
+@import "@globals/mixins.scss";
 
 .container {
-  background: #FFF;
+  background: #fff;
   padding: 0 24px 16px;
   flex-grow: 1;
   max-width: 100%;
-  
+
   @include desktop-m {
     padding: 0 16px 8px;
   }
@@ -32,13 +32,17 @@
 .imageBackground {
   height: 300px;
   aspect-ratio: 1;
-  background: linear-gradient(284.39deg,rgba(213,252,209,0.4) 9.72%,rgba(178,231,221,0.4) 44.61%,rgba(118,214,230,0.4) 79.5%);
+  background: linear-gradient(
+    284.39deg,
+    rgba(213, 252, 209, 0.4) 9.72%,
+    rgba(178, 231, 221, 0.4) 44.61%,
+    rgba(118, 214, 230, 0.4) 79.5%
+  );
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   padding: 16px;
-  
 
   @include monitor-s {
     height: 200px;
@@ -62,9 +66,10 @@
   }
 }
 
-.arrow, .arrowRotated {
+.arrow,
+.arrowRotated {
   height: 25px;
-  width: auto; 
+  width: auto;
   transition: transform 0.3s ease;
 
   @include desktop-s {
@@ -106,7 +111,7 @@
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
-  line-height: 125%; 
+  line-height: 125%;
 
   @include desktop-l {
     font-size: 16px;

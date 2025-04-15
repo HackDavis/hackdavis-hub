@@ -1,18 +1,18 @@
-'use client';
-import Image from 'next/image';
+"use client";
+import Image from "next/image";
 
-import BunnyPlatform from '@public/Waterfall/bunny_platform.svg';
-import Bunny from '@public/Waterfall/bunny.svg';
-import CowPlatform from '@public/Waterfall/cow_platform.svg';
-import Cow from '@public/Waterfall/cow.svg';
-import DuckPlatform from '@public/Waterfall/duck_platform.svg';
-import FrogPlatform from '@public/Waterfall/frog_platform.svg';
-import KeyboardDucky from '@public/Waterfall/keyboard_ducky.svg';
-import SleepingFroggy from '@public/Waterfall/sleeping_froggy.svg';
-import MusicNotes from '@public/Waterfall/music_notes.svg';
-import WaterfallGrass from '@public/Waterfall/waterfall_grass.svg';
-import WaterfallSplash from '@public/Waterfall/waterfall_splash.svg';
-import WaterfallImage from '@public/Waterfall/waterfall.svg';
+import BunnyPlatform from "@public/Waterfall/bunny_platform.svg";
+import Bunny from "@public/Waterfall/bunny.svg";
+import CowPlatform from "@public/Waterfall/cow_platform.svg";
+import Cow from "@public/Waterfall/cow.svg";
+import DuckPlatform from "@public/Waterfall/duck_platform.svg";
+import FrogPlatform from "@public/Waterfall/frog_platform.svg";
+import KeyboardDucky from "@public/Waterfall/keyboard_ducky.svg";
+import SleepingFroggy from "@public/Waterfall/sleeping_froggy.svg";
+import MusicNotes from "@public/Waterfall/music_notes.svg";
+import WaterfallGrass from "@public/Waterfall/waterfall_grass.svg";
+import WaterfallSplash from "@public/Waterfall/waterfall_splash.svg";
+import WaterfallImage from "@public/Waterfall/waterfall.svg";
 
 export default function Waterfall() {
   return (

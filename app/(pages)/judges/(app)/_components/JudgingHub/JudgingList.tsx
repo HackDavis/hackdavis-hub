@@ -1,4 +1,4 @@
-import styles from './JudgingList.module.scss';
+import styles from "./JudgingList.module.scss";
 
 export default function JudgingList() {
   return (

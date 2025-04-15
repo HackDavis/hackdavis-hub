@@ -3,7 +3,7 @@ interface LogoProps {
   height?: string;
 }
 
-export default function Logo({ width = '100%', height = '100%' }: LogoProps) {
+export default function Logo({ width = "100%", height = "100%" }: LogoProps) {
   return (
     <svg
       style={{ width, height }}

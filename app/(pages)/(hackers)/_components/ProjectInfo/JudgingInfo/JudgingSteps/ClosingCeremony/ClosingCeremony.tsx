@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Podium from 'public/hackers/project-info/podium.svg';
-import styles from './ClosingCeremony.module.scss';
+import Image from "next/image";
+import Podium from "public/hackers/project-info/podium.svg";
+import styles from "./ClosingCeremony.module.scss";
 
 export default function ClosingCeremony() {
   return (

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { getManySubmissions } from '@actions/submissions/getSubmission';
+import { useState, useEffect } from "react";
+import { getManySubmissions } from "@actions/submissions/getSubmission";
 
 export function useJudgingProgress(): any {
   const [total, setTotal] = useState<number>(1);
@@ -16,7 +16,7 @@ export function useJudgingProgress(): any {
         const subs = submissions.body;
         const total = subs.length;
         const finished = subs.filter((sub: { scores?: number[] }) =>
-          sub.scores ? true : false
+          sub.scores ? true : false,
         ).length;
         const percent = Math.round((100 * finished) / total);
         setTotal(total);

@@ -1,5 +1,5 @@
-type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOPS' | 'MEALS';
-type EventTag = 'developer' | 'designer' | 'pm' | 'other' | 'beginner';
+type EventType = "GENERAL" | "ACTIVITIES" | "WORKSHOPS" | "MEALS";
+type EventTag = "developer" | "designer" | "pm" | "other" | "beginner";
 
 interface Event {
   _id?: string;

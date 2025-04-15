@@ -1,7 +1,7 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { NotFoundError, HttpError } from '@utils/response/Errors';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import { NotFoundError, HttpError } from "@utils/response/Errors";
 
 export const DeleteSubmission = async (judge_id: string, team_id: string) => {
   try {
@@ -9,18 +9,18 @@ export const DeleteSubmission = async (judge_id: string, team_id: string) => {
     const team_object_id = new ObjectId(team_id);
     const db = await getDatabase();
 
-    const deleteStatus = await db.collection('submissions').deleteOne({
+    const deleteStatus = await db.collection("submissions").deleteOne({
       judge_id: judge_object_id,
       team_id: team_object_id,
     });
 
     if (deleteStatus.deletedCount === 0) {
       throw new NotFoundError(
-        `Submission with judge id: ${judge_id} and team id: ${team_id} not found.`
+        `Submission with judge id: ${judge_id} and team id: ${team_id} not found.`,
       );
     }
 
-    return { ok: true, body: 'Submission deleted.', error: null };
+    return { ok: true, body: "Submission deleted.", error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
@@ -31,9 +31,9 @@ export const DeleteManySubmissions = async (query: object = {}) => {
   try {
     const db = await getDatabase();
 
-    await db.collection('submissions').deleteMany(query);
+    await db.collection("submissions").deleteMany(query);
 
-    return { ok: true, body: 'Submissions deleted', error: null };
+    return { ok: true, body: "Submissions deleted", error: null };
   } catch (e) {
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };

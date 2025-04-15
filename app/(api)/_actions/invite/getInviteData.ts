@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
-import { GetManyUsers } from '@datalib/users/getUser';
-import InviteData from '@typeDefs/inviteData';
+import { GetManyUsers } from "@datalib/users/getUser";
+import InviteData from "@typeDefs/inviteData";
 
 export async function getInviteData() {
   const users = await GetManyUsers();
@@ -12,7 +12,7 @@ export async function getInviteData() {
   if (noUsers) {
     return null;
   } else {
-    const data = cookies().get('data');
+    const data = cookies().get("data");
     if (!data) return null;
 
     const dataJson = atob(data.value);

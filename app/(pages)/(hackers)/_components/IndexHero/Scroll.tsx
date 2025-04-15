@@ -1,12 +1,12 @@
-import styles from './Scroll.module.scss';
-import Image from 'next/image';
-import CowHead from 'public/hackers/hero/CowHead.svg';
-import BunnyHead from 'public/hackers/hero/BunnyHead.svg';
-import FrogHead from 'public/hackers/hero/FrogHead.svg';
-import DuckHead from 'public/hackers/hero/DuckHead.svg';
-import evenNote from 'public/hackers/hero/EvenMusic.svg';
-import oddNote from 'public/hackers/hero/OddMusic.svg';
-import Star from 'public/hackers/hero/Star.svg';
+import styles from "./Scroll.module.scss";
+import Image from "next/image";
+import CowHead from "public/hackers/hero/CowHead.svg";
+import BunnyHead from "public/hackers/hero/BunnyHead.svg";
+import FrogHead from "public/hackers/hero/FrogHead.svg";
+import DuckHead from "public/hackers/hero/DuckHead.svg";
+import evenNote from "public/hackers/hero/EvenMusic.svg";
+import oddNote from "public/hackers/hero/OddMusic.svg";
+import Star from "public/hackers/hero/Star.svg";
 
 // can delete scroll text
 // make music notes hidden + upon hover notes go up

@@ -1,19 +1,19 @@
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
-import { auth } from '@/auth';
-import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
-import RegisterForm from '../_components/AuthForms/RegisterForm';
-import { getInviteData } from '@actions/invite/getInviteData';
-import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
+import { auth } from "@/auth";
+import InviteOnlyRoute from "@components/InviteOnlyRoute/InviteOnlyRoute";
+import RegisterForm from "../_components/AuthForms/RegisterForm";
+import { getInviteData } from "@actions/invite/getInviteData";
+import AuthFormBackground from "../_components/AuthFormBackground/AuthFormBackground";
 
 export default async function RegisterPage() {
   const session = await auth();
-  if (session) redirect('/judges');
+  if (session) redirect("/judges");
 
   const data = await getInviteData();
 
-  if (data?.role === 'hacker') {
-    redirect('/register');
+  if (data?.role === "hacker") {
+    redirect("/register");
   }
 
   return (

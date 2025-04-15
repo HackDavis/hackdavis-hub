@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
-import { getManySubmissions } from '@actions/submissions/getSubmission';
-import { getManyTeams } from '@actions/teams/getTeams';
-import Submission from '@typeDefs/submission';
-import Team from '@typeDefs/team';
-import { HttpError } from '@utils/response/Errors';
+import { getManySubmissions } from "@actions/submissions/getSubmission";
+import { getManyTeams } from "@actions/teams/getTeams";
+import Submission from "@typeDefs/submission";
+import Team from "@typeDefs/team";
+import { HttpError } from "@utils/response/Errors";
 
 export function useJudgeSubmissions(judge_id: string) {
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,19 +20,19 @@ export function useJudgeSubmissions(judge_id: string) {
     try {
       const submissionsRes = await getManySubmissions({
         judge_id: {
-          '*convertId': {
+          "*convertId": {
             id: judge_id,
           },
         },
       });
 
       if (!submissionsRes.ok) {
-        throw new Error(submissionsRes.error ?? '');
+        throw new Error(submissionsRes.error ?? "");
       }
 
       const sortedSubs = (submissionsRes.body ?? []).sort(
         (a: Submission, b: Submission) =>
-          (a.queuePosition ?? 0) - (b.queuePosition ?? 0)
+          (a.queuePosition ?? 0) - (b.queuePosition ?? 0),
       );
 
       const team_ids = sortedSubs.map((sub: Submission) => sub.team_id);
@@ -40,7 +40,7 @@ export function useJudgeSubmissions(judge_id: string) {
       const teamsRes = await getManyTeams({
         _id: {
           $in: {
-            '*convertIds': {
+            "*convertIds": {
               ids: team_ids,
             },
           },
@@ -48,12 +48,12 @@ export function useJudgeSubmissions(judge_id: string) {
       });
 
       if (!teamsRes.ok) {
-        throw new Error(teamsRes.error ?? '');
+        throw new Error(teamsRes.error ?? "");
       }
 
       const rawTeams = teamsRes.body ?? [];
       const teamsMap = Object.fromEntries(
-        rawTeams.map((team: Team) => [team._id, team])
+        rawTeams.map((team: Team) => [team._id, team]),
       );
 
       const sortedTeams = sortedSubs.map((sub: Submission) => ({
@@ -63,7 +63,7 @@ export function useJudgeSubmissions(judge_id: string) {
 
       const scoredSubs = sortedSubs.filter((sub: Submission) => sub.is_scored);
       const unscoredSubs = sortedSubs.filter(
-        (sub: Submission) => !sub.is_scored
+        (sub: Submission) => !sub.is_scored,
       );
 
       const scoredTeams = scoredSubs.map((sub: Submission) => ({

@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import judgeHeroes from '/public/judges/hub/judgingheroes.svg';
+import Image from "next/image";
+import judgeHeroes from "/public/judges/hub/judgingheroes.svg";
 
 export default function HubHero() {
   return (

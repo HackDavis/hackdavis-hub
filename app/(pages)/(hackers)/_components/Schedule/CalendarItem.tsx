@@ -1,14 +1,14 @@
-import React from 'react';
-import Image from 'next/image';
-import { EventType } from '@typeDefs/event';
-import { pageFilters } from '@typeDefs/filters';
-import { Button } from '@pages/_globals/components/ui/button';
+import React from "react";
+import Image from "next/image";
+import { EventType } from "@typeDefs/event";
+import { pageFilters } from "@typeDefs/filters";
+import { Button } from "@pages/_globals/components/ui/button";
 
 const getBgColor = (type: EventType): string => {
   const color =
-    pageFilters.find((f) => f.label === type)?.color || 'rgba(0, 0, 0, 0)';
+    pageFilters.find((f) => f.label === type)?.color || "rgba(0, 0, 0, 0)";
 
-  return color.replace('1)', '0.5)');
+  return color.replace("1)", "0.5)");
 };
 
 // todo: fix order by end_time within the same group
@@ -17,9 +17,9 @@ const getBgColor = (type: EventType): string => {
 // todo: tags, host and recommended
 
 const formatTime = (pstDate: Date): string => {
-  return pstDate.toLocaleString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
+  return pstDate.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
     hour12: true,
   });
 };
@@ -50,7 +50,7 @@ export function CalendarItem({
     timeDisplay = formatTime(start_time);
   } else {
     timeDisplay = `${formatTime(start_time).slice(0, -2)} - ${formatTime(
-      end_time
+      end_time,
     )}`;
   }
 
@@ -67,7 +67,7 @@ export function CalendarItem({
           <div className="flex items-center">
             <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
               {timeDisplay}
-              {type === 'MEALS' && ' (Subject to change)'}
+              {type === "MEALS" && " (Subject to change)"}
             </span>
             {location && (
               <div className="flex items-center">
@@ -84,7 +84,7 @@ export function CalendarItem({
               </div>
             )}
           </div>
-          {type === 'WORKSHOPS' &&
+          {type === "WORKSHOPS" &&
             attendeeCount !== undefined &&
             attendeeCount > 0 && (
               <div className="flex gap-2 items-center">
@@ -97,14 +97,14 @@ export function CalendarItem({
                 </div>
                 <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
                   {`${attendeeCount} Hacker${
-                    attendeeCount < 2 ? ' is' : 's are'
+                    attendeeCount < 2 ? " is" : "s are"
                   } attending this event`}
                 </span>
               </div>
             )}
         </div>
 
-        {event.type !== 'GENERAL' && (
+        {event.type !== "GENERAL" && (
           <Button
             onClick={
               inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
@@ -118,7 +118,7 @@ export function CalendarItem({
             <p
               className={`font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white`}
             >
-              {inPersonalSchedule ? 'Remove' : 'Add'}
+              {inPersonalSchedule ? "Remove" : "Add"}
             </p>
           </Button>
         )}

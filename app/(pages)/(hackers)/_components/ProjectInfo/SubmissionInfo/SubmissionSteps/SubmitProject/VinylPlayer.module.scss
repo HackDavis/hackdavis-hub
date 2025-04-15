@@ -1,77 +1,76 @@
-@use 'app/(pages)/_globals/mixins';
+@use "app/(pages)/_globals/mixins";
 
 $max-vinyl-width: 400px;
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
 
-    @include mixins.tablet-l {
-        width: 90%;
-        gap: 16px;
-    }
+  @include mixins.tablet-l {
+    width: 90%;
+    gap: 16px;
+  }
 }
 
 .controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 0 !important; 
-    width: 100%;
-    position: relative;
-    border-radius: 16px;
-    border: none !important; // lowkey it kind of blends into the bg
-    background: var(--text-light) !important;
-    backdrop-filter: blur(27.194807052612305px) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 !important;
+  width: 100%;
+  position: relative;
+  border-radius: 16px;
+  border: none !important; // lowkey it kind of blends into the bg
+  background: var(--text-light) !important;
+  backdrop-filter: blur(27.194807052612305px) !important;
 
-    @include mixins.desktop-m {
-        padding: 8px 0 !important;
+  @include mixins.desktop-m {
+    padding: 8px 0 !important;
+  }
+
+  @include mixins.mobile-l {
+    padding: 5px 0 !important;
+  }
+
+  .icon {
+    color: var(-grass-background-light) !important;
+    width: 40px;
+    height: auto;
+
+    @include mixins.tablet-l {
+      width: 35px;
     }
 
-    @include mixins.mobile-l {
-        padding: 5px 0 !important;
+    @include mixins.tablet-s {
+      width: 27px;
     }
-
-    .icon {
-        color: var(-grass-background-light) !important;
-        width: 40px;
-        height: auto;
-
-        @include mixins.tablet-l {
-            width: 35px;
-        }
-
-        @include mixins.tablet-s {
-            width: 27px;
-        }
-    }
+  }
 }
 
 .vinyl {
-    width: 100%;
-    height: auto;
-    max-width: 100%; // Or use "none" if preferred: max-width: none;
+  width: 100%;
+  height: auto;
+  max-width: 100%; // Or use "none" if preferred: max-width: none;
 }
 
-
 .tooltip {
-    display: none;
-    color: var(--text-dark);
-    font-family: 'Metropolis';
-    font-size: 0.5rem;
-    background-color: var(-grass-background-light);
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, -90%);
+  display: none;
+  color: var(--text-dark);
+  font-family: "Metropolis";
+  font-size: 0.5rem;
+  background-color: var(-grass-background-light);
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -90%);
 
-    padding: 4px;
-    border-radius: 2px;
+  padding: 4px;
+  border-radius: 2px;
 
-    &.active {
-        display: block;
-    }
+  &.active {
+    display: block;
+  }
 }

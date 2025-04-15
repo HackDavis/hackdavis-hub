@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   TimelineTile1,
@@ -6,8 +6,8 @@ import {
   JudgesTile1,
   JudgesTile2,
   PostDemoTile1,
-} from './DemoTimeComponents';
-import styles from './DemoTime.module.scss';
+} from "./DemoTimeComponents";
+import styles from "./DemoTime.module.scss";
 
 interface Section {
   title: string;
@@ -17,18 +17,18 @@ interface Section {
 
 const sections: Section[] = [
   {
-    title: 'TIMELINE',
-    background: '#AFD157',
+    title: "TIMELINE",
+    background: "#AFD157",
     tiles: [<TimelineTile1 key="1" />, <TimelineTile2 key="2" />],
   },
   {
-    title: 'JUDGES',
-    background: '#9EE7E5',
+    title: "JUDGES",
+    background: "#9EE7E5",
     tiles: [<JudgesTile1 key="1" />, <JudgesTile2 key="2" />],
   },
   {
-    title: 'POST DEMO',
-    background: '#FFC5AB',
+    title: "POST DEMO",
+    background: "#FFC5AB",
     tiles: [<PostDemoTile1 key="1" />],
   },
 ];

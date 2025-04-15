@@ -1,5 +1,5 @@
-import styles from './UseOurDiscord.module.scss';
-import StarterKitSlide from '../StarterKitSlide';
+import styles from "./UseOurDiscord.module.scss";
+import StarterKitSlide from "../StarterKitSlide";
 
 export default function UseOurDiscordComponent() {
   return (

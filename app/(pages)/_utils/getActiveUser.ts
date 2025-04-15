@@ -1,8 +1,8 @@
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
-import { auth } from '@/auth';
-import { getUser } from '@actions/users/getUser';
-import LogoutAction from '@actions/auth/logout';
+import { auth } from "@/auth";
+import { getUser } from "@actions/users/getUser";
+import LogoutAction from "@actions/auth/logout";
 
 export default async function getActiveUser(failRedirectRoute: string) {
   const session = await auth();
@@ -12,7 +12,7 @@ export default async function getActiveUser(failRedirectRoute: string) {
 
   if (!userRes.ok || !userRes.body) {
     await LogoutAction();
-    redirect('/error');
+    redirect("/error");
   }
 
   return userRes.body;

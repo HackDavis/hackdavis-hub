@@ -1,6 +1,6 @@
-'use server';
-import { GetManyPanels, GetPanel } from '@datalib/panels/getPanels';
-import parseAndReplace from '@utils/request/parseAndReplace';
+"use server";
+import { GetManyPanels, GetPanel } from "@datalib/panels/getPanels";
+import parseAndReplace from "@utils/request/parseAndReplace";
 
 export async function getManyPanels(query: object = {}) {
   const parsedQuery = await parseAndReplace(query);

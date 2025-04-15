@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import WhatHappens from '../../_components/ProjectInfo/WhatHappens/WhatHappens';
+import WhatHappens from "../../_components/ProjectInfo/WhatHappens/WhatHappens";
 
 export default function Page() {
   return (

@@ -1,22 +1,22 @@
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { ObjectId } from 'mongodb';
-import parseAndReplace from '@utils/request/parseAndReplace';
-import { HttpError, NotFoundError } from '@utils/response/Errors';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import { ObjectId } from "mongodb";
+import parseAndReplace from "@utils/request/parseAndReplace";
+import { HttpError, NotFoundError } from "@utils/response/Errors";
 
 export const GetManyPanels = async (query: object = {}) => {
   try {
     const db = await getDatabase();
     const parsedQuery = await parseAndReplace(query);
     const panels = await db
-      .collection('panels')
+      .collection("panels")
       .aggregate([
         { $match: parsedQuery },
         {
           $lookup: {
-            from: 'users',
-            localField: 'user_ids',
-            foreignField: '_id',
-            as: 'users',
+            from: "users",
+            localField: "user_ids",
+            foreignField: "_id",
+            as: "users",
           },
         },
       ])
@@ -33,7 +33,7 @@ export const GetPanel = async (id: string) => {
   try {
     const db = await getDatabase();
     const object_id = new ObjectId(id);
-    const panel = await db.collection('panels').findOne({ _id: object_id });
+    const panel = await db.collection("panels").findOne({ _id: object_id });
 
     if (panel === null) {
       throw new NotFoundError(`Panel with id: ${id} not found.`);

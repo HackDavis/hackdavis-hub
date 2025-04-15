@@ -1,12 +1,12 @@
-import styles from './ViewProjects.module.scss';
+import styles from "./ViewProjects.module.scss";
 
 export default function Dismiss() {
   function dismiss() {
-    const x = document.getElementById('dismiss');
-    if (x && x.style.display === 'none') {
-      x.style.display = 'block';
+    const x = document.getElementById("dismiss");
+    if (x && x.style.display === "none") {
+      x.style.display = "block";
     } else if (x) {
-      x.style.display = 'none';
+      x.style.display = "none";
     }
   }
 

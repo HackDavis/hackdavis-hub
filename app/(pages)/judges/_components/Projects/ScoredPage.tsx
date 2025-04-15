@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import Team from '@typeDefs/team';
-import ProjectTab from './ProjectTab';
-import ProjectsEmptyState from './EmptyState';
+import Link from "next/link";
+import Team from "@typeDefs/team";
+import ProjectTab from "./ProjectTab";
+import ProjectsEmptyState from "./EmptyState";
 interface ScoredPageProps {
   teams: Team[];
 }
@@ -13,7 +13,7 @@ const ScoredPage = ({ teams }: ScoredPageProps) => {
         <ProjectsEmptyState
           title="Let's begin!"
           subtitle={
-            'No projects scored yet. Please visit the \nUnjudged tab to begin judging.'
+            "No projects scored yet. Please visit the \nUnjudged tab to begin judging."
           }
         />
       ) : (

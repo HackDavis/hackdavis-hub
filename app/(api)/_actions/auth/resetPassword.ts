@@ -1,6 +1,6 @@
-'use server';
+"use server";
 
-import { ResetPassword } from '@datalib/auth/resetPassword';
+import { ResetPassword } from "@datalib/auth/resetPassword";
 
 export default async function ResetPasswordAction(body: {
   email: string;

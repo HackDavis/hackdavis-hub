@@ -1,15 +1,15 @@
-'use server';
+"use server";
 
-import nodemailer from 'nodemailer';
-import InviteData from '@typeDefs/inviteData';
-import GenerateInvite from '@datalib/invite/generateInvite';
+import nodemailer from "nodemailer";
+import InviteData from "@typeDefs/inviteData";
+import GenerateInvite from "@datalib/invite/generateInvite";
 import {
   DuplicateError,
   HttpError,
   NotFoundError,
-} from '@utils/response/Errors';
-import { GetManyUsers } from '@datalib/users/getUser';
-import emailMessage from './emailMessage';
+} from "@utils/response/Errors";
+import { GetManyUsers } from "@datalib/users/getUser";
+import emailMessage from "./emailMessage";
 
 const senderEmail = process.env.SENDER_EMAIL;
 const password = process.env.SENDER_PWD;
@@ -22,32 +22,32 @@ interface Response {
 
 export default async function sendEmail(
   data: InviteData,
-  type: string = 'invite'
+  type: string = "invite",
 ): Promise<Response> {
   try {
     const users = await GetManyUsers({
       email: data.email,
     });
 
-    if (type === 'reset' && (!users.ok || users.body.length === 0)) {
+    if (type === "reset" && (!users.ok || users.body.length === 0)) {
       throw new NotFoundError(`User with email ${data.email} not found.`);
     }
 
-    if (type === 'invite' && users.ok && users.body.length !== 0) {
+    if (type === "invite" && users.ok && users.body.length !== 0) {
       throw new DuplicateError(`User with email ${data.email} already exists.`);
     }
 
-    if (type === 'reset') data.role = users.body[0].role;
+    if (type === "reset") data.role = users.body[0].role;
     const invite = await GenerateInvite(data, type);
 
     if (!invite.ok) {
-      throw new HttpError(invite.error ?? 'Failed to generate invite.');
+      throw new HttpError(invite.error ?? "Failed to generate invite.");
     }
 
     const invite_link = invite.body;
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
         user: senderEmail,
         pass: password,
@@ -58,11 +58,11 @@ export default async function sendEmail(
       from: senderEmail,
       to: data.email,
       subject:
-        type === 'invite'
-          ? 'HackDavis Hub Invite Link'
-          : 'HackDavis Hub Password Reset Link',
+        type === "invite"
+          ? "HackDavis Hub Invite Link"
+          : "HackDavis Hub Password Reset Link",
       replyTo: data.email,
-      html: emailMessage(type, invite_link ?? ''),
+      html: emailMessage(type, invite_link ?? ""),
     };
 
     const output = await new Promise<Response>((resolve, _) => {

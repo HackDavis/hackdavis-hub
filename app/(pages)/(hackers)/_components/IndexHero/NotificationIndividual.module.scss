@@ -1,32 +1,32 @@
-.container_position{
-    position: absolute;
-    top: 100px;
-    right: 7.5%;
-    z-index: 999;
+.container_position {
+  position: absolute;
+  top: 100px;
+  right: 7.5%;
+  z-index: 999;
 }
 
-.container{
-    background: rgba(255, 255, 255, 0.50);
-    border: 1.5px solid rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(30px);
-    border-radius: 18px;
-    padding: 3%;
-    display: flex;
-    margin-bottom: 9%;
-    gap: 3%;
+.container {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px);
+  border-radius: 18px;
+  padding: 3%;
+  display: flex;
+  margin-bottom: 9%;
+  gap: 3%;
 }
 
-.button{
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    border-radius: 1000px;
-    border: 1.5px solid rgba(255, 255, 255, 0.10);
-    background: rgba(255, 255, 255, 0.50);
-    backdrop-filter: blur(30px);
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.button {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  border-radius: 1000px;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

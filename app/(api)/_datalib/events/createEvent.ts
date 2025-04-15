@@ -1,11 +1,11 @@
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import parseAndReplace from '@utils/request/parseAndReplace';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import parseAndReplace from "@utils/request/parseAndReplace";
 import {
   DuplicateError,
   HttpError,
   NoContentError,
-} from '@utils/response/Errors';
-import isBodyEmpty from '@utils/request/isBodyEmpty';
+} from "@utils/response/Errors";
+import isBodyEmpty from "@utils/request/isBodyEmpty";
 
 export async function CreateEvent(body: object) {
   try {
@@ -21,25 +21,25 @@ export async function CreateEvent(body: object) {
       parsedBody.end_time.getTime() < parsedBody.start_time.getTime()
     ) {
       throw new HttpError(
-        'Failed to create event: end_time must be after start_time'
+        "Failed to create event: end_time must be after start_time",
       );
     }
 
     //duplicate event
-    const existingEvent = await db.collection('events').findOne({
+    const existingEvent = await db.collection("events").findOne({
       name: parsedBody.name,
     });
     if (existingEvent) {
-      throw new DuplicateError('Duplicate: event already exists.');
+      throw new DuplicateError("Duplicate: event already exists.");
     }
 
-    const creationStatus = await db.collection('events').insertOne(parsedBody);
-    const createdEvent = await db.collection('events').findOne({
+    const creationStatus = await db.collection("events").insertOne(parsedBody);
+    const createdEvent = await db.collection("events").findOne({
       _id: creationStatus.insertedId,
     });
 
     if (!createdEvent) {
-      throw new HttpError('Failed to fetch the created event');
+      throw new HttpError("Failed to fetch the created event");
     }
 
     return { ok: true, body: createdEvent, error: null };
@@ -48,7 +48,7 @@ export async function CreateEvent(body: object) {
     return {
       ok: false,
       body: null,
-      error: error.message || 'Internal Server Error',
+      error: error.message || "Internal Server Error",
     };
   }
 }

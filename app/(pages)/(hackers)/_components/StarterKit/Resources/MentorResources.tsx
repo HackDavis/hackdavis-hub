@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import bunny_duck_mentor from '@public/starterKit/rabbit_duck_mentor.svg';
-import StarterKitSlide from '../StarterKitSlide';
+import Image from "next/image";
+import bunny_duck_mentor from "@public/starterKit/rabbit_duck_mentor.svg";
+import StarterKitSlide from "../StarterKitSlide";
 export default function MentorResources() {
   return (
     <StarterKitSlide title="Talk with a Mentor" subtitle="STILL FEELIN STUCK?">

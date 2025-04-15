@@ -1,41 +1,41 @@
-'use client';
+"use client";
 
-import { useEffect, useState, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { useEffect, useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-import { updateUser } from '@actions/users/updateUser';
-import Loader from '@components/Loader/Loader';
-import DeveloperCow from 'public/hackers/mvp/developer_cow.svg';
-import DesignerBunny from 'public/hackers/mvp/designer_bunny.svg';
-import PmFroggy from 'public/hackers/mvp/pm_froggy.svg';
-import OtherDucky from 'public/hackers/mvp/other_ducky.svg';
-import styles from './DetailForm.module.scss';
+import { updateUser } from "@actions/users/updateUser";
+import Loader from "@components/Loader/Loader";
+import DeveloperCow from "public/hackers/mvp/developer_cow.svg";
+import DesignerBunny from "public/hackers/mvp/designer_bunny.svg";
+import PmFroggy from "public/hackers/mvp/pm_froggy.svg";
+import OtherDucky from "public/hackers/mvp/other_ducky.svg";
+import styles from "./DetailForm.module.scss";
 
 const characters = [
   {
-    label: 'DEVELOPER',
-    role: 'developer',
+    label: "DEVELOPER",
+    role: "developer",
     image: DeveloperCow,
-    alt: 'Developer Cow',
+    alt: "Developer Cow",
   },
   {
-    label: 'DESIGNER',
-    role: 'designer',
+    label: "DESIGNER",
+    role: "designer",
     image: DesignerBunny,
-    alt: 'Designer Bunny',
+    alt: "Designer Bunny",
   },
   {
-    label: 'PROJECT MANAGER',
-    role: 'pm',
+    label: "PROJECT MANAGER",
+    role: "pm",
     image: PmFroggy,
-    alt: 'PM Froggy',
+    alt: "PM Froggy",
   },
   {
-    label: 'OTHER',
-    role: 'other',
+    label: "OTHER",
+    role: "other",
     image: OtherDucky,
-    alt: 'Other Ducky',
+    alt: "Other Ducky",
   },
 ];
 
@@ -43,20 +43,20 @@ export default function DetailForm({ id }: any) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [valid, setValid] = useState(false);
-  const [selectedPosition, setSelectedPosition] = useState('');
+  const [selectedPosition, setSelectedPosition] = useState("");
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
-    setError('');
+    setError("");
 
     const formData = new FormData(e.currentTarget);
 
-    const position = formData.get('position') as string;
-    const is_beginner = formData.get('beginner') !== null;
+    const position = formData.get("position") as string;
+    const is_beginner = formData.get("beginner") !== null;
 
     const userRes = await updateUser(id, {
       $set: {
@@ -66,16 +66,16 @@ export default function DetailForm({ id }: any) {
     });
 
     if (userRes.ok) {
-      router.push('/');
+      router.push("/");
     } else {
-      setError(userRes.error ?? 'Error updating details');
+      setError(userRes.error ?? "Error updating details");
     }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    setValid(selectedPosition !== '');
+    setValid(selectedPosition !== "");
   }, [selectedPosition]);
 
   return (
@@ -88,7 +88,7 @@ export default function DetailForm({ id }: any) {
             <div
               key={role}
               className={`${styles.characterOption} ${
-                selectedPosition === role ? styles.selected : ''
+                selectedPosition === role ? styles.selected : ""
               }`}
             >
               <input
@@ -105,12 +105,12 @@ export default function DetailForm({ id }: any) {
                   src={image}
                   alt={alt}
                   className={`${styles.characterImage} ${
-                    selectedPosition === role ? styles.selected : ''
+                    selectedPosition === role ? styles.selected : ""
                   }`}
                 />
                 <span
                   className={`${styles.characterLabel} ${
-                    selectedPosition === role ? styles.selected : ''
+                    selectedPosition === role ? styles.selected : ""
                   }`}
                 >
                   {label}

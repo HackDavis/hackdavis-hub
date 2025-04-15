@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { fetchLinkPreview } from '@actions/starter_kit/getLinkPreview';
+import { useState, useEffect } from "react";
+import { fetchLinkPreview } from "@actions/starter_kit/getLinkPreview";
 
 interface LinkPreview {
   title: string;
@@ -12,7 +12,7 @@ interface LinkPreview {
 export function useLinkPreview(url: string, fallbackTitle: string) {
   const [preview, setPreview] = useState<LinkPreview>({
     title: fallbackTitle,
-    description: '',
+    description: "",
     images: [],
   });
   const [loading, setLoading] = useState(true);
@@ -30,17 +30,17 @@ export function useLinkPreview(url: string, fallbackTitle: string) {
           const data = result.data;
           setPreview({
             title: data.title || fallbackTitle,
-            description: data.description || '',
+            description: data.description || "",
             images:
               Array.isArray(data.images) && data.images.length
-                ? data.images.filter((img) => typeof img === 'string')
+                ? data.images.filter((img) => typeof img === "string")
                 : [],
           });
         } else {
-          throw new Error(result.error || 'Failed to fetch preview');
+          throw new Error(result.error || "Failed to fetch preview");
         }
       } catch (error) {
-        console.error('Failed to fetch preview:', error);
+        console.error("Failed to fetch preview:", error);
         setError(true);
       } finally {
         setLoading(false);

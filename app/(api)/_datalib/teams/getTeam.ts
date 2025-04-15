@@ -1,12 +1,12 @@
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { HttpError, NotFoundError } from '@utils/response/Errors';
-import { ObjectId } from 'mongodb';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import { HttpError, NotFoundError } from "@utils/response/Errors";
+import { ObjectId } from "mongodb";
 
 export const GetTeam = async (id: string) => {
   try {
     const object_id = new ObjectId(id);
     const db = await getDatabase();
-    const team = await db.collection('teams').findOne({
+    const team = await db.collection("teams").findOne({
       _id: object_id,
     });
 
@@ -25,22 +25,22 @@ export const GetManyTeams = async (query: object = {}) => {
   try {
     const db = await getDatabase();
     const teams = await db
-      .collection('teams')
+      .collection("teams")
       .aggregate([
         {
           $match: query,
         },
         {
           $lookup: {
-            from: 'submissions',
-            localField: '_id',
-            foreignField: 'team_id',
-            as: 'submissions',
+            from: "submissions",
+            localField: "_id",
+            foreignField: "team_id",
+            as: "submissions",
           },
         },
       ])
       .project({
-        'submissions.team_id': 0,
+        "submissions.team_id": 0,
       })
       .toArray();
 

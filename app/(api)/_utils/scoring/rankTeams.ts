@@ -1,7 +1,7 @@
-import Team from '@typeDefs/team';
-import Submission from '@typeDefs/submission';
-import { getManySubmissions } from '@actions/submissions/getSubmission';
-import data from '@data/db_validation_data.json' assert { type: 'json' };
+import Team from "@typeDefs/team";
+import Submission from "@typeDefs/submission";
+import { getManySubmissions } from "@actions/submissions/getSubmission";
+import data from "@data/db_validation_data.json" assert { type: "json" };
 
 const tracks = data.tracks;
 // TODO: Rework calculateTrackScore
@@ -56,7 +56,7 @@ async function computeAllTeams(teams: Team[]) {
     const submissions = (
       await getManySubmissions({
         team_id: {
-          '*convertId': {
+          "*convertId": {
             id: team._id,
           },
         },
@@ -75,7 +75,7 @@ export default async function rankTeams(teams: Team[]) {
   const trackResults = [];
 
   for (const track of tracks) {
-    if (track === 'No Track') continue;
+    if (track === "No Track") continue;
 
     const topEntries = [];
 
@@ -93,9 +93,9 @@ export default async function rankTeams(teams: Team[]) {
 
     topEntries.sort((entry1, entry2) => entry2.score - entry1.score);
     if (
-      track !== ('Best Hack for Life of Kai' as string) ||
-      track !== ('Best Hack for DCMH' as string) ||
-      track !== ('Best Hack for AggieHouse' as string)
+      track !== ("Best Hack for Life of Kai" as string) ||
+      track !== ("Best Hack for DCMH" as string) ||
+      track !== ("Best Hack for AggieHouse" as string)
     ) {
       topEntries.splice(10);
     }

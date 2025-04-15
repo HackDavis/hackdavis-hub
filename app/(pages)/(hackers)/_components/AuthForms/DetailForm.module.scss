@@ -1,4 +1,4 @@
-@import 'app/(pages)/_globals/mixins';
+@import "app/(pages)/_globals/mixins";
 
 .container {
   display: flex;
@@ -107,11 +107,10 @@
   align-self: flex-end;
   height: 100%;
 
-
   &.selected {
     border-radius: 20px;
     border: 1px dashed #005271;
-  }  
+  }
 }
 
 .radioInput {
@@ -138,12 +137,12 @@
   transition: transform 0.2s;
 
   &.selected {
-    filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.60));
+    filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.6));
   }
 }
 
 .characterImage:hover {
-  filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.60));
+  filter: drop-shadow(32px 32px 2rem rgba(255, 243, 216, 0.6));
 }
 
 .characterLabel {
@@ -197,11 +196,11 @@
   border-radius: 4px;
   position: relative;
   cursor: pointer;
-  
+
   &:checked {
     background-color: #4a90e2;
     border-color: #4a90e2;
-    
+
     &:after {
       content: "✓";
       color: white;

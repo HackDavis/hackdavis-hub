@@ -1,9 +1,9 @@
-import styles from './DemoTime.module.scss';
-import hackathon from '@public/hackers/project-info/hackathon.svg';
-import cow_icon from '@public/hackers/project-info/cow_icon.svg';
-import froggy_icon from '@public/hackers/project-info/froggy_icon.svg';
-import ducky_icon from '@public/hackers/project-info/ducky_icon.svg';
-import Image from 'next/image';
+import styles from "./DemoTime.module.scss";
+import hackathon from "@public/hackers/project-info/hackathon.svg";
+import cow_icon from "@public/hackers/project-info/cow_icon.svg";
+import froggy_icon from "@public/hackers/project-info/froggy_icon.svg";
+import ducky_icon from "@public/hackers/project-info/ducky_icon.svg";
+import Image from "next/image";
 
 export default function DemoTime() {
   return (
@@ -13,7 +13,7 @@ export default function DemoTime() {
         <div className={styles.left_panel}>TIMELINE</div>
         <div
           className={styles.right_panel}
-          style={{ backgroundColor: '#AFD157' }}
+          style={{ backgroundColor: "#AFD157" }}
         >
           <h3>Here is a breakdown of the 2 hour demo time.</h3>
           <div className={styles.panels}>
@@ -43,7 +43,7 @@ export default function DemoTime() {
               </p>
               <p
                 className={styles.individual_text}
-                style={{ color: '#005271' }}
+                style={{ color: "#005271" }}
               >
                 MLH/ NPO/ SPONSOR REP if applicable
               </p>
@@ -56,7 +56,7 @@ export default function DemoTime() {
         <div className={styles.left_panel} />
         <div
           className={styles.right_panel}
-          style={{ backgroundColor: '#AFD157' }}
+          style={{ backgroundColor: "#AFD157" }}
         >
           <h3>You will not be visited by a judge in EVERY round.</h3>
           <p>
@@ -78,7 +78,7 @@ export default function DemoTime() {
         <div className={styles.left_panel}>JUDGES</div>
         <div
           className={styles.right_panel}
-          style={{ backgroundColor: '#9EE7E5' }}
+          style={{ backgroundColor: "#9EE7E5" }}
         >
           <div className={styles.estimation_group}>
             <div className={styles.estimation}>
@@ -128,14 +128,14 @@ export default function DemoTime() {
         <div className={styles.left_panel} />
         <div
           className={styles.right_panel}
-          style={{ backgroundColor: '#9EE7E5' }}
+          style={{ backgroundColor: "#9EE7E5" }}
         >
           <div className={styles.be_at_table}>
             <div>
               <h3>Please be at your table during demo time.</h3>
               <p>
                 If your team isn't at your table when a judge arrives, they will
-                mark you as missing and move on, placing your team at the{' '}
+                mark you as missing and move on, placing your team at the{" "}
                 <b>end of their queue.</b> Please track your position to avoid
                 delays.
               </p>
@@ -160,7 +160,7 @@ export default function DemoTime() {
         <div className={styles.left_panel}>POST DEMO</div>
         <div
           className={styles.right_panel}
-          style={{ backgroundColor: '#FFC5AB' }}
+          style={{ backgroundColor: "#FFC5AB" }}
         >
           <div className={styles.post_demo}>
             <div className={styles.zero_judges_group}>
@@ -182,7 +182,7 @@ export default function DemoTime() {
                 before visiting tables without a judge.
               </p>
               <p>
-                If your team experiences any disruptions,{' '}
+                If your team experiences any disruptions,{" "}
                 <b>please report them</b> to the Director Table, and we will
                 address them promptly.
               </p>

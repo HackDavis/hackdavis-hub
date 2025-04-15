@@ -1,6 +1,6 @@
-import styles from './NotificationIndividual.module.scss';
-import notif from '@public/hackers/hero/notif.svg';
-import Image from 'next/image';
+import styles from "./NotificationIndividual.module.scss";
+import notif from "@public/hackers/hero/notif.svg";
+import Image from "next/image";
 
 export default function NotificationIndividual({
   name,

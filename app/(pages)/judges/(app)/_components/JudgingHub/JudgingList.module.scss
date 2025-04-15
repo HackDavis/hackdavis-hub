@@ -1,65 +1,65 @@
 .container {
-    width: 100%;
-    padding: 40px 0px;
+  width: 100%;
+  padding: 40px 0px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f2f7;
+
+  .top_text {
     display: flex;
     flex-direction: column;
-    background-color: #f2f2f7;
+    gap: 8px;
+    padding: 0px 17px;
+    display: flex;
+    flex-direction: column;
 
-    .top_text {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        padding: 0px 17px;
-        display: flex;
-        flex-direction: column;
-
-        > h3 {
-            font-weight: 700;
-            font-size: 1.7rem;
-            text-align: center;
-        }
-
-        span {
-            font-weight: 600;
-        }
-
-        .options {
-            background-color: #f2f2f7;
-            text-align: center;
-
-            .box {
-                border-radius: 20px;
-                background-color: white;
-                padding: 5%;
-                margin: 15px;
-                font-size: 1.5rem;
-                box-shadow: 0px 4px 8px 4px rgba(195, 194, 194, 0.08);
-            }
-        }
+    > h3 {
+      font-weight: 700;
+      font-size: 1.7rem;
+      text-align: center;
     }
 
-    .projects_button {
-        display: flex;
-        width: 70%;
-        height: 43px;
-        // padding: 11.623px 112.594px 11.623px 104.846px;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 9.686px;
-        border-radius: 15.497px;
-        background: #FFC53D;
-        box-shadow: 0px 3.874px 61.987px 0px rgba(255, 197, 61, 0.16);
-        border: none;
-        align-self: center;
-        
-        color: #173A52;
-        text-align: center;
-        font-family: "Proxima Nova";
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        letter-spacing: 0.32px;
+    span {
+      font-weight: 600;
     }
+
+    .options {
+      background-color: #f2f2f7;
+      text-align: center;
+
+      .box {
+        border-radius: 20px;
+        background-color: white;
+        padding: 5%;
+        margin: 15px;
+        font-size: 1.5rem;
+        box-shadow: 0px 4px 8px 4px rgba(195, 194, 194, 0.08);
+      }
+    }
+  }
+
+  .projects_button {
+    display: flex;
+    width: 70%;
+    height: 43px;
+    // padding: 11.623px 112.594px 11.623px 104.846px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 9.686px;
+    border-radius: 15.497px;
+    background: #ffc53d;
+    box-shadow: 0px 3.874px 61.987px 0px rgba(255, 197, 61, 0.16);
+    border: none;
+    align-self: center;
+
+    color: #173a52;
+    text-align: center;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.32px;
+  }
 }

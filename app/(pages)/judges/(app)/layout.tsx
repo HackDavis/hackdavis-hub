@@ -1,6 +1,6 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
-import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
+import ProtectedDisplay from "../../_components/ProtectedDisplay/ProtectedDisplay";
 // import CodeProtectedDisplay from '@components/CodeProtectedDisplay/CodeProtectedDisplay';
 
 type Props = {
@@ -8,13 +8,13 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: 'HackDavis Judge Portal',
+  title: "HackDavis Judge Portal",
 };
 
 export default function JudgesLayout({ children }: Props) {
   return (
     <ProtectedDisplay
-      allowedRoles={['admin', 'judge']}
+      allowedRoles={["admin", "judge"]}
       failRedirectRoute="/judges/login"
     >
       {/* <CodeProtectedDisplay failRedirectRoute="/judges/check-in"> */}

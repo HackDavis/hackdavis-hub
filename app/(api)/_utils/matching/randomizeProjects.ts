@@ -1,8 +1,8 @@
-import Submission from '@typeDefs/submission';
-import Team from '@typeDefs/team';
-import { getManySubmissions } from '@actions/submissions/getSubmission';
-import { getManyTeams } from '@actions/teams/getTeams';
-import bulkWriteCollection from '@actions/bulkWrite/bulkWriteCollection';
+import Submission from "@typeDefs/submission";
+import Team from "@typeDefs/team";
+import { getManySubmissions } from "@actions/submissions/getSubmission";
+import { getManyTeams } from "@actions/teams/getTeams";
+import bulkWriteCollection from "@actions/bulkWrite/bulkWriteCollection";
 
 function shuffle(array: any[]) {
   let currentIndex = array.length;
@@ -20,7 +20,7 @@ function shuffle(array: any[]) {
 
 const groupByJudge = (
   acc: Record<string, Submission[]>,
-  submission: Submission
+  submission: Submission,
 ) => {
   if (!acc[submission.judge_id]) {
     acc[submission.judge_id] = [];
@@ -30,26 +30,26 @@ const groupByJudge = (
 };
 
 export default async function randomizeProjects(
-  secondFloorStart: number = 100
+  secondFloorStart: number = 100,
 ) {
   try {
     const subRes = await getManySubmissions();
 
     if (!subRes.ok) {
-      throw new Error(subRes.error ?? 'Error getting submissions');
+      throw new Error(subRes.error ?? "Error getting submissions");
     }
 
     const submissions = subRes.body;
 
     const submissionsByJudge: Record<string, Submission[]> = submissions.reduce(
       groupByJudge,
-      {} as Record<string, Submission[]>
+      {} as Record<string, Submission[]>,
     );
 
     const teamRes = await getManyTeams();
 
     if (!teamRes.ok) {
-      throw new Error(teamRes.error ?? 'Error getting teams');
+      throw new Error(teamRes.error ?? "Error getting teams");
     }
 
     const teams: Team[] = teamRes.body;
@@ -65,8 +65,8 @@ export default async function randomizeProjects(
     for (const submissions of Object.values(submissionsByJudge)) {
       const floor = Object.groupBy(submissions, ({ team_id }) => {
         const tableNumber = tableNumbers.get(team_id);
-        if (!tableNumber) return 'missing';
-        return tableNumber < secondFloorStart ? 'first' : 'second';
+        if (!tableNumber) return "missing";
+        return tableNumber < secondFloorStart ? "first" : "second";
       });
 
       const missing = floor.missing;
@@ -99,26 +99,26 @@ export default async function randomizeProjects(
           updateOne: {
             filter: {
               _id: {
-                '*convertId': {
+                "*convertId": {
                   id: submission._id,
                 },
               },
             },
             update: { $set: { queuePosition: index + 1 } },
           },
-        })
+        }),
       );
 
       updatedSubmissions.push(...updateOperations);
     }
 
     const updateRes = await bulkWriteCollection(
-      'submissions',
-      updatedSubmissions
+      "submissions",
+      updatedSubmissions,
     );
 
     if (!updateRes.ok) {
-      throw new Error(updateRes.error ?? 'Error shuffling some submissions.');
+      throw new Error(updateRes.error ?? "Error shuffling some submissions.");
     }
 
     return {

@@ -1,12 +1,5 @@
 {
-  "domains": [
-    "swe",
-    "business",
-    "aiml",
-    "hardware",
-    "design",
-    "medtech"
-  ],
+  "domains": ["swe", "business", "aiml", "hardware", "design", "medtech"],
   "tracks": [
     "Best Hack for Social Good",
     "Best Beginner Hack",

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { CreatePanel } from '@datalib/panels/createPanels';
+import { NextRequest, NextResponse } from "next/server";
+import { CreatePanel } from "@datalib/panels/createPanels";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -8,9 +8,9 @@ export async function POST(request: NextRequest) {
       {
         ok: false,
         body: null,
-        error: 'Bad Request: Payload missing track name.',
+        error: "Bad Request: Payload missing track name.",
       },
-      { status: 400 }
+      { status: 400 },
     );
 
   const res = await CreatePanel(body.track);

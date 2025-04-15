@@ -1,7 +1,7 @@
 const tips = [
-  '🔋 Charge your phone!',
-  '👋 Say hi to other judges!',
-  '🍿 Grab a snack and water!',
+  "🔋 Charge your phone!",
+  "👋 Say hi to other judges!",
+  "🍿 Grab a snack and water!",
 ];
 
 const TipCard = (tip: string) => {

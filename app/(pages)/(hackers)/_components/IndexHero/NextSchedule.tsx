@@ -1,10 +1,14 @@
-import styles from './IndexHeroContent.module.scss'; //using styling from other file....
-import location_icon from '@public/hackers/hero/location_icon.svg';
-import Image from 'next/image';
-import Link from 'next/link';
-import { LuArrowUpRight } from 'react-icons/lu';
+import styles from "./IndexHeroContent.module.scss"; //using styling from other file....
+import location_icon from "@public/hackers/hero/location_icon.svg";
+import Image from "next/image";
+import Link from "next/link";
+import { LuArrowUpRight } from "react-icons/lu";
 
-export default function NextSchedule({ title, time, location }: NextScheduleProps) {
+export default function NextSchedule({
+  title,
+  time,
+  location,
+}: NextScheduleProps) {
   return (
     <div className={styles.notification}>
       <h2>
@@ -26,4 +30,3 @@ export default function NextSchedule({ title, time, location }: NextScheduleProp
     </div>
   );
 }
-

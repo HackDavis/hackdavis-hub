@@ -1,5 +1,5 @@
-import Team from '@typeDefs/team';
-import Link from 'next/link';
+import Team from "@typeDefs/team";
+import Link from "next/link";
 interface ProjectTabProps {
   team: Team;
   disabled?: boolean;
@@ -11,7 +11,7 @@ const ProjectTab: React.FC<ProjectTabProps> = ({ team, disabled }) => {
       href={`/judges/score/${team._id}`}
       className="flex items-center justify-center bg-white rounded-[16px] gap-[24px] py-[20px]"
       style={{
-        pointerEvents: disabled ? 'none' : 'auto',
+        pointerEvents: disabled ? "none" : "auto",
       }}
     >
       <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">

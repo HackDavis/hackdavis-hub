@@ -1,4 +1,4 @@
-@import '@globals/mixins.scss';
+@import "@globals/mixins.scss";
 
 .item_button {
   cursor: pointer;
@@ -22,7 +22,7 @@
     @include tablet-l {
       padding: 16px;
     }
-  
+
     .left {
       display: flex;
       flex-direction: row;
@@ -38,7 +38,7 @@
         }
       }
     }
-  
+
     .header_text {
       display: flex;
       flex-direction: column;
@@ -91,4 +91,4 @@
 
 .item_content {
   transition: height 0.3s ease-in-out;
-} 
+}

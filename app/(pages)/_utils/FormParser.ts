@@ -1,12 +1,12 @@
-import Submission from '@typeDefs/submission';
-import { TrackScore } from '@typeDefs/submission';
+import Submission from "@typeDefs/submission";
+import { TrackScore } from "@typeDefs/submission";
 
 export function PackScores(dynamicQuestions: { [key: string]: number }) {
   const pairs = Object.entries(dynamicQuestions);
   const scoreDict: { [key: string]: { [question: string]: number } } = {};
 
   for (const [fullQuestion, value] of pairs) {
-    const [category, question] = fullQuestion.split('::');
+    const [category, question] = fullQuestion.split("::");
     if (category in scoreDict) {
       scoreDict[category][question] = value;
     } else {
@@ -25,18 +25,21 @@ export function FlattenScores(dynamicQuestions: any) {
     dynamicQuestions
       .map((trackScore: TrackScore) => {
         const trackScores = Object.entries(trackScore.rawScores).map(
-          ([question, score]) => [`${trackScore.trackName}::${question}`, score]
+          ([question, score]) => [
+            `${trackScore.trackName}::${question}`,
+            score,
+          ],
         );
         return trackScores;
       })
-      .flat()
+      .flat(),
   );
 }
 
 export function UpdateSubmission(
   submission: Submission,
   baseQuestions: any,
-  dynamicQuestions: any
+  dynamicQuestions: any,
 ) {
   return {
     ...submission,

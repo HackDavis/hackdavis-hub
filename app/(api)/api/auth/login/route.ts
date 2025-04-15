@@ -1,8 +1,8 @@
-'use server';
+"use server";
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
-import Login from '@datalib/auth/login';
+import Login from "@datalib/auth/login";
 
 /*
 I created a custom API route to log in because the default route provided by Auth.js

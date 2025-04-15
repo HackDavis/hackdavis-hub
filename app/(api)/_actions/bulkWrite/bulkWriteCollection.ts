@@ -1,10 +1,10 @@
-'use server';
+"use server";
 
-import { BulkWriteCollection } from '@datalib/bulkWrite/bulkWriteCollection';
+import { BulkWriteCollection } from "@datalib/bulkWrite/bulkWriteCollection";
 
 export default async function bulkWriteCollection(
   collection: string,
-  operations: object[]
+  operations: object[],
 ) {
   return BulkWriteCollection(collection, operations);
 }

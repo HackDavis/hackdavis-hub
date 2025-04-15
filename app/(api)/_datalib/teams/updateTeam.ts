@@ -1,13 +1,13 @@
-import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { ObjectId } from 'mongodb';
+import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
+import { ObjectId } from "mongodb";
 
-import isBodyEmpty from '@utils/request/isBodyEmpty';
-import parseAndReplace from '@utils/request/parseAndReplace';
+import isBodyEmpty from "@utils/request/isBodyEmpty";
+import parseAndReplace from "@utils/request/parseAndReplace";
 import {
   HttpError,
   NoContentError,
   NotFoundError,
-} from '@utils/response/Errors';
+} from "@utils/response/Errors";
 
 export const UpdateTeam = async (id: string, body: object) => {
   try {
@@ -18,11 +18,11 @@ export const UpdateTeam = async (id: string, body: object) => {
     const parsedBody = await parseAndReplace(body);
 
     const db = await getDatabase();
-    const team = await db.collection('teams').updateOne(
+    const team = await db.collection("teams").updateOne(
       {
         _id: object_id,
       },
-      parsedBody
+      parsedBody,
     );
 
     if (team.matchedCount === 0) {

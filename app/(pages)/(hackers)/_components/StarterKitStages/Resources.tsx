@@ -1,7 +1,7 @@
-import StarterKitSlide from '../StarterKit/StarterKitSlide';
-import ResourceHelp from '../StarterKit/Resources/ResourceHelp';
-import DesignersResources from '../StarterKit/Resources/DesignersResources';
-import DevelopersResources from '../StarterKit/Resources/DevelopersResources';
+import StarterKitSlide from "../StarterKit/StarterKitSlide";
+import ResourceHelp from "../StarterKit/Resources/ResourceHelp";
+import DesignersResources from "../StarterKit/Resources/DesignersResources";
+import DevelopersResources from "../StarterKit/Resources/DevelopersResources";
 // import MentorResources from '../StarterKit/Resources/MentorResources';
 
 export default function Resources() {

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import styles from './RadioSelect.module.scss';
-import { useState } from 'react';
-import tooltipIcon from '@public/judges/scoring/tooltip_icon.svg';
-import arrowDownIcon from '@public/judges/scoring/down_arrow.svg';
-import Image from 'next/image';
+import styles from "./RadioSelect.module.scss";
+import { useState } from "react";
+import tooltipIcon from "@public/judges/scoring/tooltip_icon.svg";
+import arrowDownIcon from "@public/judges/scoring/down_arrow.svg";
+import Image from "next/image";
 
 interface RadioSelectProps {
   question: string;
@@ -39,7 +39,7 @@ export default function RadioSelect({
           <Image
             src={arrowDownIcon}
             alt="tooltip collapse icon"
-            style={{ visibility: showTooltip ? 'visible' : 'hidden' }}
+            style={{ visibility: showTooltip ? "visible" : "hidden" }}
           />
         </div>
       </div>
@@ -59,7 +59,7 @@ export default function RadioSelect({
       {/* {showTooltip && ( */}
       <div
         className={`${styles.tooltip_text} ${
-          showTooltip ? styles.expanded : ''
+          showTooltip ? styles.expanded : ""
         }`}
       >
         {Object.entries(rubric).map(([key, value]) => (

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-import verifyCode from '@actions/auth/verifyCode';
-import AuthForm from '@components/AuthForm/AuthForm';
+import verifyCode from "@actions/auth/verifyCode";
+import AuthForm from "@components/AuthForm/AuthForm";
 
 export default function CheckInForm({ id }: any) {
   const router = useRouter();
@@ -13,15 +13,15 @@ export default function CheckInForm({ id }: any) {
   };
 
   const onSuccess = () => {
-    router.push('/judges');
+    router.push("/judges");
   };
 
   const formFields = [
     {
-      name: 'code' as const,
-      type: 'text',
-      label: 'Check-in Code',
-      placeholder: '',
+      name: "code" as const,
+      type: "text",
+      label: "Check-in Code",
+      placeholder: "",
       readOnly: false,
     },
   ];
@@ -32,7 +32,7 @@ export default function CheckInForm({ id }: any) {
       fields={formFields}
       buttonText="Check in →"
       initialValues={{
-        code: '',
+        code: "",
       }}
       onSubmit={onSubmit}
       onSuccess={onSuccess}
