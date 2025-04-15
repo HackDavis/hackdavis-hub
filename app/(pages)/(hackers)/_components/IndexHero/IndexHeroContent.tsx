@@ -38,12 +38,12 @@ export default function IndexHeroContent() {
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
 
-      <div className={styles.star_social_good}>
+      {/* <div className={styles.star_social_good}>
         <div className={styles.star_box}>
           <Image src={star} alt="star" className={styles.box_star} />
         </div>
         <div className={styles.social_good}>{'// for social good'}</div>
-      </div>
+      </div> */}
 
       <div className={styles.heroRow}>
         <MusicPlayer />
@@ -64,6 +64,13 @@ export default function IndexHeroContent() {
             </button>
           </div>
         </div>
+      </div>
+
+      <div className={styles.star_social_good}>
+        <div className={styles.star_box}>
+          <Image src={star} alt="star" className={styles.box_star} />
+        </div>
+        <div className={styles.social_good}>{'// for social good'}</div>
       </div>
 
       <div className={styles.spacer_star_container}>
