@@ -4,12 +4,14 @@ import styles from './JudgeBannerIndividual.module.scss';
 type JudgeBannerIndividualProps = {
   name: string;
   description: string;
+  teams: number;
   onDismiss: () => void;
 };
 
 export default function JudgeBannerIndividual({
   name,
   description,
+  teams,
   onDismiss,
 }: JudgeBannerIndividualProps) {
   const [isFinishing, setIsFinishing] = useState(false);
@@ -34,6 +36,7 @@ export default function JudgeBannerIndividual({
         className={styles.dismissButton}
         onClick={handleFinish}
       >
+        <p>{teams}</p>
         Finished
       </button>
     </div>

@@ -130,6 +130,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    width: 60%; // hopefully no merge conflict...
   
     @include mixins.tablet-l {
       align-items: center;

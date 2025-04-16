@@ -6,27 +6,28 @@ type Notification = {
   id: number;
   name: string;
   description: string;
+  teams: number;
 };
 
 export default function JudgeBanners() {
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: 1,
-      name: 'JUDGE BANNER PLEASE',
-      description:
-        'Since you submitted for an MLH track, you will also be visited by a representative.',
+      name: 'Judge Name',
+      description: 'There are 2 teams ahead of you for this judge.',
+      teams: 2,
     },
     {
       id: 2,
-      name: 'JUDGE BANNER PLEASE',
-      description:
-        'Since you submitted for an NPO track, you will also be visited by a representative.',
+      name: 'Judge Name',
+      description: 'There are 3 teams ahead of you for this judge.',
+      teams: 3,
     },
     {
       id: 3,
-      name: 'JUDGE BANNER PLEASE',
-      description:
-        'You and your team need to be present at your assigned table during judging!',
+      name: 'Judge Name',
+      description: 'There are 6 teams ahead of you for this judge.',
+      teams: 6,
     },
   ]);
 
@@ -41,6 +42,7 @@ export default function JudgeBanners() {
           key={notification.id}
           name={notification.name}
           description={notification.description}
+          teams={notification.teams}
           onDismiss={() => dismissNotification(notification.id)}
         />
       ))}
