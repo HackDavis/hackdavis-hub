@@ -233,11 +233,19 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
+        attribute: 'Solves an Original Problem Involving Multiple Disciplines',
+        guidelines: {
+          1: 'Project does not make use of knowledge from multiple disciplines.',
+          3: 'Problem involves multiple disciplines but is not very original.',
+          5: "Highly original problem statement that deeply incorporates all members' disciplines.",
+        },
+      },
+      {
         attribute: 'Integration of Multiple Disciplines',
         guidelines: {
           1: 'All CS-related majors or fields combined with unclear purpose/synergy.',
-          3: 'Disciplines are integrated well, but the overlap could be more cohesive.',
-          5: 'Disciplines are deeply interwoven; project depends on insights from each field to work.',
+          3: 'Disciplines are clearly applied to the solution and work together.',
+          5: 'Disciplines are deeply interwoven; solution depends on insights from each field to work.',
         },
       },
       {
@@ -246,14 +254,6 @@ const optedHDTracks: Tracks = {
           1: 'Conventional approach with little interplay between disciplines.',
           3: 'Some novel ideas emerge from blending fields; mostly conventional execution.',
           5: 'Brilliant unexpected solution made possible by this unique mix of disciplines.',
-        },
-      },
-      {
-        attribute: 'Collaboration Across Disciplines',
-        guidelines: {
-          1: 'Limited collaboration, causing confusion or inefficiencies.',
-          3: 'Good teamwork with some knowledge-sharing across disciplines.',
-          5: 'Worked fluidly; ideas, roles and skills were shared and combined seamlessly.',
         },
       },
     ],
@@ -342,11 +342,11 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        attribute: 'Innovation in AI/ML Application',
+        attribute: 'Necessity of AI/ML for Solving the Problem',
         guidelines: {
-          1: 'Off-the-shelf or basic use of AI/ML tools (ex: LLM wrapper).',
-          3: 'Some creativity in model use or application context.',
-          5: 'Unique or inventive AI/ML integration, solving a novel problem or using an unexpected technique.',
+          1: 'Problem is obviously solvable with deterministic algorithms with more reliable output.',
+          3: 'Problem can be solved with complex deterministic algorithms, but AI/ML is a reasonable choice.',
+          5: 'Deterministic algorithms are unable to solve the problem. AI/ML is the only solution.',
         },
       },
       {
@@ -362,7 +362,7 @@ const optedHDTracks: Tracks = {
         guidelines: {
           1: 'Surface-level use of tools; no customization or tuning.',
           3: 'Proper use of libraries with some tuning or data pipeline effort.',
-          5: 'Deep technical execution with custom methods, advanced techniques, or SOTA models.',
+          5: 'Deep technical execution with custom methods, advanced techniques, or strong tool mastery.',
         },
       },
     ],
@@ -374,15 +374,15 @@ const optedHDTracks: Tracks = {
     images: [camera],
     eligibility_criteria:
       'Hack must address a social justice issue such as racial inequality, economic injustice, environmental justice, etc. This project should develop tangible solutions and/or raise awareness on these topics.',
-    domain: 'swe',
-    domainDisplayName: 'Software Engineering',
+    domain: 'business',
+    domainDisplayName: 'Business',
     scoring_criteria: [
       {
         attribute: 'Social Justice Relevance',
         guidelines: {
           1: 'Loose connection; unclear purpose',
-          3: 'Clearly linked to a real issue',
-          5: 'Sharp focus on impactful issue',
+          3: 'Clearly linked to a real social issue',
+          5: 'Sharp focus on impactful social issue',
         },
       },
       {
