@@ -14,6 +14,7 @@ import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
 import Notifications from './Notifications';
+import AssigningJudges from './AssigningJudges';
 
 export default function IndexHeroContent() {
   return (
@@ -38,8 +39,6 @@ export default function IndexHeroContent() {
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
 
-      <TimeTracker targetTime="2025-05-01T09:00:00Z" />
-
       <div className={styles.star_social_good}>
         <div className={styles.star_box}>
           <Image src={star} alt="star" className={styles.box_star} />
@@ -49,15 +48,16 @@ export default function IndexHeroContent() {
 
       <MusicPlayer />
       <div className={styles.center_right}>
-        <Countdown />
-        <p className={styles.info}>
+        {/* <Countdown /> */}
+        <AssigningJudges />
+        {/* <p className={styles.info}>
           A HACKDAVIS HUB
           <br />
           FOR EVERYONE WHO
           <span className={styles.monospace}>
             {' // creates for social good'}
           </span>
-        </p>
+        </p> */}
       </div>
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
