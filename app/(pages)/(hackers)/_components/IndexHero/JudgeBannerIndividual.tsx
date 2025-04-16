@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import styles from './JudgeBannerIndividual.module.scss';
+import Image from 'next/image';
 
 type JudgeBannerIndividualProps = {
+  icon: string;
   name: string;
   description: string;
   teams: number;
-  icon?: React.ReactNode;
   onDismiss: () => void;
 };
 
@@ -18,19 +19,20 @@ export default function JudgeBannerIndividual({
   const [isFinishing, setIsFinishing] = useState(false);
 
   const handleFinish = () => {
-    // Trigger the blur effect.
     setIsFinishing(true);
-    // Do not call onDismiss so the component doesn't disappear.
-    // If you need to call any callback, you can do so here without removing the component.
   };
 
   return (
     <div
       className={`${styles.judgeBanner} ${isFinishing ? styles.finishing : ''}`}
     >
-      {/* <Image src={icon} alt="star" className={styles.box_star} /> */}
-      {icon && <span className={styles.icon}>{icon}</span>}
-
+      <Image
+        src={icon}
+        alt={`${name} icon`}
+        width={124}
+        height={124}
+        className={styles.icon}
+      />
       <div className={styles.info}>
         <h3>{name}</h3>
         <p>{description}</p>
