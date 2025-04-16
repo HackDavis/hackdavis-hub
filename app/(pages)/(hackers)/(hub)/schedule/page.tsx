@@ -24,6 +24,7 @@ export interface EventDetails {
   event: Event;
   attendeeCount?: number;
   inPersonalSchedule?: boolean;
+  isRecommended?: boolean;
 }
 
 interface ScheduleData {
@@ -33,13 +34,13 @@ interface ScheduleData {
 export default function Page() {
   const { user, loading: userLoading } = useActiveUser('/');
 
-  // Use the events hook to get events with attendee counts
+  // Pass the user to useEvents
   const {
     eventsWithAttendeeCount,
     isLoading: eventsLoading,
     error: eventsError,
     refreshEvents,
-  } = useEvents();
+  } = useEvents(user);
 
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
@@ -51,6 +52,49 @@ export default function Page() {
   const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
+
+  // Add debugging to track recommended events
+  useEffect(() => {
+    if (scheduleData && user) {
+      console.log('User position:', user.position);
+      console.log('Active filters:', activeFilters);
+
+      // Check how many recommended events we have
+      let recommendedCount = 0;
+      Object.keys(scheduleData).forEach((day) => {
+        scheduleData[day].forEach((event) => {
+          if (event.isRecommended) {
+            recommendedCount++;
+            console.log(
+              'Recommended event found:',
+              event.event.name,
+              'Tags:',
+              event.event.tags
+            );
+          }
+        });
+      });
+      console.log('Total recommended events:', recommendedCount);
+
+      // Check what happens when filtering
+      if (activeFilters.includes('RECOMMENDED')) {
+        console.log('RECOMMENDED filter is active');
+        // Check what events would match
+        let matchingEvents = 0;
+        Object.keys(scheduleData).forEach((day) => {
+          scheduleData[day].forEach((event) => {
+            if (event.isRecommended) {
+              matchingEvents++;
+            }
+          });
+        });
+        console.log(
+          'Events that should match RECOMMENDED filter:',
+          matchingEvents
+        );
+      }
+    }
+  }, [scheduleData, activeFilters, user]);
 
   const changeActiveDay = (day: '19' | '20') => {
     setActiveDay(day);
@@ -135,7 +179,7 @@ export default function Page() {
     setIsActionInProgress(false);
   };
 
-  // Update this useEffect to use eventsWithAttendeeCount instead of fetching events directly
+  // Update the existing useEffect - simplify to just set the schedule data without virtual events
   useEffect(() => {
     if (eventsWithAttendeeCount.length > 0 && !personalEventsLoading) {
       // Group events by day key - "19" or "20".
@@ -157,6 +201,7 @@ export default function Page() {
             event,
             attendeeCount: eventWithCount.attendeeCount,
             inPersonalSchedule: isPersonal,
+            isRecommended: eventWithCount.isRecommended,
           });
           return acc;
         },
@@ -201,6 +246,7 @@ export default function Page() {
         event,
         attendeeCount: eventWithCount?.attendeeCount || 0,
         inPersonalSchedule: true,
+        isRecommended: eventWithCount?.isRecommended || false,
       });
       return acc;
     }, {});
@@ -211,18 +257,30 @@ export default function Page() {
   const dataToUse =
     activeTab === 'personal' ? personalScheduleData : scheduleData;
 
-  // Combined transformation: filtering, sorting, grouping and then sorting the groups.
+  // Update the filtering logic to handle recommended events correctly
   const sortedGroupedEntries = useMemo(() => {
     if (!dataToUse) return [];
 
-    // Filter events for the active day and by active filters.
-    const unfilteredEvents = dataToUse[activeDay] || [];
-    const filteredEvents =
-      activeFilters.length === 0
-        ? unfilteredEvents
-        : unfilteredEvents.filter((ed) =>
-            activeFilters.includes(ed.event.type)
-          );
+    // Filter events for the active day
+    const eventsForDay = dataToUse[activeDay] || [];
+
+    // Apply filter logic
+    let filteredEvents = eventsForDay;
+
+    if (activeFilters.length > 0) {
+      filteredEvents = eventsForDay.filter((eventDetail) => {
+        // Special handling for RECOMMENDED filter
+        if (activeFilters.includes('RECOMMENDED')) {
+          // If user wants recommended events and this one is recommended, include it
+          if (eventDetail.isRecommended) {
+            return true;
+          }
+        }
+
+        // Regular type filtering for other filters
+        return activeFilters.includes(eventDetail.event.type);
+      });
+    }
 
     // If no events found after filtering, return empty array
     if (filteredEvents.length === 0) return [];

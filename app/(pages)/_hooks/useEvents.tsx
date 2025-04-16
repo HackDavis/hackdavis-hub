@@ -3,14 +3,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getEvents } from '@actions/events/getEvent';
 import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
-import Event from '@typeDefs/event';
+import Event, { EventTag } from '@typeDefs/event';
+import User from '@typeDefs/user';
 
 export interface EventWithAttendeeCount {
   event: Event;
   attendeeCount: number;
+  isRecommended?: boolean;
 }
 
-export function useEvents() {
+export function useEvents(currentUser?: User | null) {
   const [events, setEvents] = useState<Event[]>([]);
   const [eventsWithAttendeeCount, setEventsWithAttendeeCount] = useState<
     EventWithAttendeeCount[]
@@ -57,41 +59,60 @@ export function useEvents() {
   }, []);
 
   // Fetch attendee count for all events
-  const fetchAttendeeCount = useCallback(async (eventsList: Event[]) => {
-    try {
-      setIsLoading(true);
+  const fetchAttendeeCount = useCallback(
+    async (eventsList: Event[]) => {
+      try {
+        setIsLoading(true);
 
-      // Process events in parallel for efficiency
-      const eventsWithCount = await Promise.all(
-        eventsList.map(async (event) => {
-          if (!event._id) return { event, attendeeCount: 0 };
+        // Process events in parallel for efficiency
+        const eventsWithCount = await Promise.all(
+          eventsList.map(async (event) => {
+            if (!event._id) return { event, attendeeCount: 0 };
 
-          try {
-            const result = await getUsersForOneEvent(event._id);
-            const attendeeCount = result.ok ? result.body.length : 0;
-            return { event, attendeeCount };
-          } catch (err) {
-            console.error(
-              `Error fetching attendees for event ${event._id}:`,
-              err
-            );
-            return { event, attendeeCount: 0 };
-          }
-        })
-      );
+            try {
+              const result = await getUsersForOneEvent(event._id);
+              const attendeeCount = result.ok ? result.body.length : 0;
 
-      setEventsWithAttendeeCount(eventsWithCount);
-    } catch (err) {
-      console.error('Error in fetchAttendeeCount:', err);
-      setError(
-        `Error fetching attendee counts: ${
-          err instanceof Error ? err.message : String(err)
-        }`
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+              // Check if this event is recommended for the current user
+              const isRecommended = checkIfRecommended(event, currentUser);
+
+              return { event, attendeeCount, isRecommended };
+            } catch (err) {
+              console.error(
+                `Error fetching attendees for event ${event._id}:`,
+                err
+              );
+              return { event, attendeeCount: 0, isRecommended: false };
+            }
+          })
+        );
+
+        setEventsWithAttendeeCount(eventsWithCount);
+      } catch (err) {
+        console.error('Error in fetchAttendeeCount:', err);
+        setError(
+          `Error fetching attendee counts: ${
+            err instanceof Error ? err.message : String(err)
+          }`
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentUser]
+  );
+
+  // Function to check if an event is recommended for a user
+  const checkIfRecommended = (event: Event, user?: User | null): boolean => {
+    // If no user or not a hacker or no position, then not recommended
+    if (!user || user.role !== 'hacker' || !user.position) return false;
+
+    // If event has no tags, then not recommended
+    if (!event.tags || event.tags.length === 0) return false;
+
+    // Check if user's position is included in event tags
+    return event.tags.includes(user.position as EventTag);
+  };
 
   // Combined function to fetch events and their attendee counts
   const fetchEventsWithAttendeeCount = useCallback(async () => {

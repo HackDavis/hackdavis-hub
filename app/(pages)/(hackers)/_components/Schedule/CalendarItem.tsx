@@ -11,11 +11,6 @@ const getBgColor = (type: EventType): string => {
   return color.replace('1)', '0.5)');
 };
 
-// todo: fix order by end_time within the same group
-// todo: fix html structure for add button on workshops
-// todo: "send in your project" button on hacking ends
-// todo: tags, host and recommended
-
 const formatTime = (pstDate: Date): string => {
   return pstDate.toLocaleString('en-US', {
     hour: 'numeric',
@@ -30,6 +25,7 @@ interface CalendarItemProps {
   inPersonalSchedule?: boolean;
   onAddToSchedule?: () => void;
   onRemoveFromSchedule?: () => void;
+  isRecommended?: boolean;
 }
 
 export function CalendarItem({
@@ -40,7 +36,9 @@ export function CalendarItem({
   onRemoveFromSchedule,
 }: CalendarItemProps) {
   const { name, type, location, start_time, end_time } = event;
-  const bgColor = getBgColor(type);
+  // Use originalType if available (for recommended events) or the regular type
+  const displayType = (event as any).originalType || type;
+  const bgColor = getBgColor(displayType);
 
   // Handle different time display scenarios
   let timeDisplay;
@@ -67,7 +65,7 @@ export function CalendarItem({
           <div className="flex items-center">
             <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
               {timeDisplay}
-              {type === 'MEALS' && ' (Subject to change)'}
+              {displayType === 'MEALS' && ' (Subject to change)'}
             </span>
             {location && (
               <div className="flex items-center">
@@ -84,7 +82,7 @@ export function CalendarItem({
               </div>
             )}
           </div>
-          {type === 'WORKSHOPS' &&
+          {displayType === 'WORKSHOPS' &&
             attendeeCount !== undefined &&
             attendeeCount > 0 && (
               <div className="flex gap-2 items-center">
@@ -104,7 +102,7 @@ export function CalendarItem({
             )}
         </div>
 
-        {event.type !== 'GENERAL' && (
+        {displayType !== 'GENERAL' && (
           <Button
             onClick={
               inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
