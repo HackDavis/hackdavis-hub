@@ -36,7 +36,7 @@ export default function Page() {
 
   // Pass the user to useEvents
   const {
-    eventsWithAttendeeCount,
+    eventData,
     isLoading: eventsLoading,
     error: eventsError,
     refreshEvents,
@@ -181,9 +181,9 @@ export default function Page() {
 
   // Update the existing useEffect - simplify to just set the schedule data without virtual events
   useEffect(() => {
-    if (eventsWithAttendeeCount.length > 0 && !personalEventsLoading) {
+    if (eventData.length > 0 && !personalEventsLoading) {
       // Group events by day key - "19" or "20".
-      const groupedByDay = eventsWithAttendeeCount.reduce(
+      const groupedByDay = eventData.reduce(
         (acc: ScheduleData, eventWithCount) => {
           const event = eventWithCount.event;
           const dayKey = event.start_time.toLocaleString('en-US', {
@@ -210,12 +210,7 @@ export default function Page() {
 
       setScheduleData(groupedByDay);
     }
-  }, [
-    eventsWithAttendeeCount,
-    personalEvents,
-    isInPersonalSchedule,
-    personalEventsLoading,
-  ]);
+  }, [eventData, personalEvents, isInPersonalSchedule, personalEventsLoading]);
 
   useEffect(() => {
     if (activeTab === 'personal') {
@@ -237,10 +232,8 @@ export default function Page() {
         acc[dayKey] = [];
       }
 
-      // Find the attendee count for this event from eventsWithAttendeeCount
-      const eventWithCount = eventsWithAttendeeCount.find(
-        (e) => e.event._id === event._id
-      );
+      // Find the attendee count for this event from eventData
+      const eventWithCount = eventData.find((e) => e.event._id === event._id);
 
       acc[dayKey].push({
         event,
@@ -252,7 +245,7 @@ export default function Page() {
     }, {});
 
     return groupedByDay;
-  }, [personalEvents, eventsWithAttendeeCount]);
+  }, [personalEvents, eventData]);
 
   const dataToUse =
     activeTab === 'personal' ? personalScheduleData : scheduleData;
@@ -469,6 +462,7 @@ export default function Page() {
                       event={eventDetail.event}
                       attendeeCount={eventDetail.attendeeCount}
                       inPersonalSchedule={eventDetail.inPersonalSchedule}
+                      tags={eventDetail.event.tags}
                       onAddToSchedule={() =>
                         handleAddToSchedule(eventDetail.event._id || '')
                       }

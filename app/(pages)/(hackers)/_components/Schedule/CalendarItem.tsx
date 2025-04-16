@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { EventType } from '@typeDefs/event';
+import { EventTag, EventType } from '@typeDefs/event';
 import { pageFilters } from '@typeDefs/filters';
 import { Button } from '@pages/_globals/components/ui/button';
 
@@ -26,12 +26,14 @@ interface CalendarItemProps {
   onAddToSchedule?: () => void;
   onRemoveFromSchedule?: () => void;
   isRecommended?: boolean;
+  tags?: EventTag[];
 }
 
 export function CalendarItem({
   event,
   attendeeCount,
   inPersonalSchedule = false,
+  tags,
   onAddToSchedule,
   onRemoveFromSchedule,
 }: CalendarItemProps) {
@@ -82,6 +84,21 @@ export function CalendarItem({
               </div>
             )}
           </div>
+          {tags && tags.length > 0 && (
+            <div className="flex gap-2 items-center py-2">
+              {tags.map((tag) => (
+                <div className="border-black p-1 border-2" key={tag}>
+                  <span
+                    key={tag}
+                    className="text-black font-plus-jakarta-sans text-sm font-normal leading-[145%] tracking-[0.36px]"
+                  >
+                    {tag.toUpperCase()}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
           {displayType === 'WORKSHOPS' &&
             attendeeCount !== undefined &&
             attendeeCount > 0 && (

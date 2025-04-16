@@ -6,17 +6,14 @@ import { getUsersForOneEvent } from '@actions/userToEvents/getUserToEvent';
 import Event, { EventTag } from '@typeDefs/event';
 import User from '@typeDefs/user';
 
-export interface EventWithAttendeeCount {
+export interface EventData {
   event: Event;
   attendeeCount: number;
   isRecommended?: boolean;
 }
 
 export function useEvents(currentUser?: User | null) {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [eventsWithAttendeeCount, setEventsWithAttendeeCount] = useState<
-    EventWithAttendeeCount[]
-  >([]);
+  const [eventData, setEventData] = useState<EventData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,7 +36,6 @@ export function useEvents(currentUser?: User | null) {
           return event;
         });
 
-        setEvents(fetchedEvents);
         return fetchedEvents;
       } else {
         setError(response.error || 'Failed to fetch events');
@@ -58,14 +54,14 @@ export function useEvents(currentUser?: User | null) {
     }
   }, []);
 
-  // Fetch attendee count for all events
-  const fetchAttendeeCount = useCallback(
+  // Fetch attendee count for all events and create enhanced event data
+  const fetchEnhancedEventData = useCallback(
     async (eventsList: Event[]) => {
       try {
         setIsLoading(true);
 
         // Process events in parallel for efficiency
-        const eventsWithCount = await Promise.all(
+        const enhancedEvents = await Promise.all(
           eventsList.map(async (event) => {
             if (!event._id) return { event, attendeeCount: 0 };
 
@@ -87,9 +83,9 @@ export function useEvents(currentUser?: User | null) {
           })
         );
 
-        setEventsWithAttendeeCount(eventsWithCount);
+        setEventData(enhancedEvents);
       } catch (err) {
-        console.error('Error in fetchAttendeeCount:', err);
+        console.error('Error in fetchEnhancedEventData:', err);
         setError(
           `Error fetching attendee counts: ${
             err instanceof Error ? err.message : String(err)
@@ -111,31 +107,39 @@ export function useEvents(currentUser?: User | null) {
     if (!event.tags || event.tags.length === 0) return false;
 
     // Check if user's position is included in event tags
-    return event.tags.includes(user.position as EventTag);
+    // return event.tags.includes(
+    //   (user.position as EventTag) ||
+    //     ((user.is_beginner ? 'beginner' : null) as EventTag)
+    // );
+    return (
+      (event.tags.includes(user.position as EventTag) ||
+        (user.is_beginner === true &&
+          event.tags.includes('beginner' as EventTag))) ??
+      false
+    );
   };
 
   // Combined function to fetch events and their attendee counts
-  const fetchEventsWithAttendeeCount = useCallback(async () => {
+  const fetchEventsWithData = useCallback(async () => {
     try {
       const fetchedEvents = await fetchEvents();
       if (fetchedEvents.length > 0) {
-        await fetchAttendeeCount(fetchedEvents);
+        await fetchEnhancedEventData(fetchedEvents);
       }
     } catch (err) {
-      console.error('Error in fetchEventsWithAttendeeCount:', err);
+      console.error('Error in fetchEventsWithData:', err);
     }
-  }, [fetchEvents, fetchAttendeeCount]);
+  }, [fetchEvents, fetchEnhancedEventData]);
 
   // Initialize on component mount
   useEffect(() => {
-    fetchEventsWithAttendeeCount();
-  }, [fetchEventsWithAttendeeCount]);
+    fetchEventsWithData();
+  }, [fetchEventsWithData]);
 
   return {
-    events,
-    eventsWithAttendeeCount,
+    eventData,
     isLoading,
     error,
-    refreshEvents: fetchEventsWithAttendeeCount,
+    refreshEvents: fetchEventsWithData,
   };
 }
