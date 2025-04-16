@@ -11,16 +11,15 @@ type JudgeBannerIndividualProps = {
 export default function JudgeBannerIndividual({
   name,
   description,
-  teams,
-  onDismiss,
+  teams, // onDismiss,
 }: JudgeBannerIndividualProps) {
   const [isFinishing, setIsFinishing] = useState(false);
 
   const handleFinish = () => {
+    // Trigger the blur effect.
     setIsFinishing(true);
-    setTimeout(() => {
-      onDismiss();
-    }, 500);
+    // Do not call onDismiss so the component doesn't disappear.
+    // If you need to call any callback, you can do so here without removing the component.
   };
 
   return (
@@ -36,8 +35,8 @@ export default function JudgeBannerIndividual({
         className={styles.dismissButton}
         onClick={handleFinish}
       >
+        {/* i have it so that when u click on this part, it blurs bc i'm not sure when you want it/how you're gonna wanan link it to backend  */}
         <p>{teams}</p>
-        Finished
       </button>
     </div>
   );
