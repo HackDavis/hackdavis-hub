@@ -56,7 +56,7 @@ export default async function matchAllTeams(options?: {
   alpha?: number;
 }): Promise<{
   judgeToTeam: JudgeToTeam[];
-  extraAssignmentsMap: Record<string, number>;
+  matchStats: { [avg: string]: number };
   judgeTeamDistribution: {
     sum: number;
     count: number;
@@ -64,7 +64,7 @@ export default async function matchAllTeams(options?: {
     min: number;
     max: number;
   };
-  matchStats: { [avg: string]: number };
+  extraAssignmentsMap: Record<string, number>;
   matchQualityStats: {
     [teamId: string]: {
       sum: number;
@@ -162,15 +162,8 @@ export default async function matchAllTeams(options?: {
   );
   console.log(extraAssignmentsMap);
   // Main loop: process each team for each round.
-  for (let i = 0; i < rounds; i++) {
+  for (let trackIndex = 0; trackIndex < rounds; trackIndex++) {
     for (const team of modifiedTeams) {
-      // if (!team.tracks || team.tracks.length === 0 || !team.tracks[i]) {
-      //   extraAssignmentsMap[team._id ?? String(team.tableNumber)] =
-      //     (extraAssignmentsMap[team._id ?? String(team.tableNumber)] || 0) + 1;
-      //   continue;
-      // }
-
-      const trackIndex = i;
       updateQueue(team, trackIndex, judgesQueue, ALPHA);
       const trackUsed = team.tracks[trackIndex];
 
@@ -192,7 +185,9 @@ export default async function matchAllTeams(options?: {
       }
       if (!selectedJudge) {
         throw new Error(
-          `No available unique judge for team ${team._id} in round ${i + 1}`
+          `No available unique judge for team ${team._id} in round ${
+            trackIndex + 1
+          }`
         );
       }
 
@@ -345,8 +340,8 @@ export default async function matchAllTeams(options?: {
   return {
     judgeToTeam,
     judgeTeamDistribution,
-    extraAssignmentsMap,
     matchStats,
+    extraAssignmentsMap,
     matchQualityStats,
   };
 }
