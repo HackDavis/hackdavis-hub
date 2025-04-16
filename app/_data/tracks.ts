@@ -236,7 +236,7 @@ const optedHDTracks: Tracks = {
         attribute: 'Integration of Multiple Disciplines',
         guidelines: {
           1: 'All CS-related majors or fields combined with unclear purpose/synergy.',
-          3: 'Disciplines are clearly applied and work together.',
+          3: 'Disciplines are integrated well, but the overlap could be more cohesive.',
           5: 'Disciplines are deeply interwoven; project depends on insights from each field to work.',
         },
       },
@@ -249,7 +249,6 @@ const optedHDTracks: Tracks = {
         },
       },
       {
-        // dont like this too much, would rather replace w a new criterion
         attribute: 'Collaboration Across Disciplines',
         guidelines: {
           1: 'Limited collaboration, causing confusion or inefficiencies.',
@@ -273,7 +272,7 @@ const optedHDTracks: Tracks = {
         attribute: 'Originality of Concept',
         guidelines: {
           1: 'Common idea; similar to known projects',
-          3: 'Interesting twist or framing',
+          3: 'Interesting twist or framing of a common idea',
           5: 'Fresh, unexpected concept',
         },
       },
@@ -314,6 +313,7 @@ const optedHDTracks: Tracks = {
         },
       },
       {
+        // sandy doesnt approve
         attribute: 'Hardware Design and Creativity',
         guidelines: {
           1: 'Generic components; standard use',
@@ -344,7 +344,7 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Innovation in AI/ML Application',
         guidelines: {
-          1: 'Off-the-shelf or basic use of AI/ML tools.',
+          1: 'Off-the-shelf or basic use of AI/ML tools (ex: LLM wrapper).',
           3: 'Some creativity in model use or application context.',
           5: 'Unique or inventive AI/ML integration, solving a novel problem or using an unexpected technique.',
         },
@@ -362,7 +362,7 @@ const optedHDTracks: Tracks = {
         guidelines: {
           1: 'Surface-level use of tools; no customization or tuning.',
           3: 'Proper use of libraries with some tuning or data pipeline effort.',
-          5: 'Deep technical execution with custom methods, advanced techniques, or strong tool mastery.',
+          5: 'Deep technical execution with custom methods, advanced techniques, or SOTA models.',
         },
       },
     ],
@@ -398,7 +398,7 @@ const optedHDTracks: Tracks = {
         guidelines: {
           1: 'Unlikely to create change',
           3: 'Plausible concept with room to grow',
-          5: 'Clear, actionable path to real impact',
+          5: 'Clear, actionable path to real, widespread impact',
         },
       },
     ],
@@ -430,7 +430,7 @@ const optedHDTracks: Tracks = {
         },
       },
       {
-        attribute: 'Accessibility and Responsiveness',
+        attribute: 'Accessibility', // redo with this attribute TODO
         guidelines: {
           1: 'Limited device support; poor accessibility',
           3: 'Mostly responsive; some inclusive features',
@@ -490,7 +490,7 @@ const optedHDTracks: Tracks = {
         guidelines: {
           1: 'No clear model or unrealistic assumptions',
           3: 'Some viability; needs refinement',
-          5: 'Compelling, realistic model',
+          5: 'Compelling, realistic revenue model',
         },
       },
       {
@@ -502,7 +502,7 @@ const optedHDTracks: Tracks = {
         },
       },
       {
-        attribute: 'Market Insight',
+        attribute: 'Product-Market Fit',
         guidelines: {
           1: 'Vague or missing audience info',
           3: 'Some understanding of user base',
@@ -517,7 +517,7 @@ const optedHDTracks: Tracks = {
     prizes: ['Portable Hacking Kit'],
     images: [hackingKit],
     eligibility_criteria:
-      'Projects must seamlessly incorporate significance tests that evaluate a hypothesis based on their primary question or project goal, with an emphasis on accuracy metrics such as MSE, R^2, adjusted R^2, precision and recall.',
+      'Projects must seamlessly incorporate significance tests that evaluate a hypothesis based on their primary question or project goal, with an emphasis on accuracy metrics such as MSE, R^2, adjusted R^2, precision and recall.', // emphasize EDA demonstration in scoring as well
     domain: 'aiml',
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
