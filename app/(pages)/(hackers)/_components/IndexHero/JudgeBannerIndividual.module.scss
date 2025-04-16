@@ -1,9 +1,12 @@
+@import '@globals/mixins.scss';
+
 .container_position {
   width: 100%;
   margin-bottom: 20px;
 }
 
 .judgeBanner {
+  position: relative;         // 1) Must be relative (or absolute) for child absolute positioning
   display: flex;
   width: 100%;
   align-items: center;
@@ -14,13 +17,51 @@
   border-radius: 18px;
   margin-bottom: 15px;
   transition: filter 0.5s ease-out, opacity 0.5s ease-out;
+  padding-left: 26%;
+
+  @include desktop-s {
+    padding-left: 30%;
+  }
+
+  @include tablet-l {
+    padding-left: 25%;
+  }
+
+  @include mobile-l {
+    padding-left: 28%;
+  }
 
   .icon {
-    height: 100%;
-    margin-right: 25px;
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;         
+    top: 65%;                 
+    left: 0;                  
+    transform: translate(10%, -50%); 
+    height: 124px;
+    width: 124px;
+
+    @include desktop-s {
+      height: 100px;
+      width: 100px;
+      transform: translate(15%, -50%); 
+    }
+
+    @include tablet-s {
+      height: 80px;
+      width: 80px;
+      transform: translate(15%, -40%); 
+    }
+
+    @include mobile-l {
+      height: 60px;
+      width: 60px;
+      transform: translate(28%, -38%); 
+    }
+
+    @include mobile-m {
+      transform: translate(15%, -38%); 
+    }
   }
+
 
   h1 {
     color: var(--text-dark);
@@ -29,6 +70,18 @@
     font-weight: 400;
     line-height: 145%;
     letter-spacing: 1.6px;
+
+    @include desktop-s {
+      font-size: 60px;
+    }
+
+    @include tablet-s {
+      font-size: 40px; 
+    }
+
+    @include mobile-l {
+      font-size: 30px;
+    }
   }
 }
 
@@ -45,6 +98,32 @@
     line-height: 40px;
     letter-spacing: 0.72px;
     margin-bottom: 5px;
+
+    @include desktop-s {
+      font-size: 24px;
+      margin-bottom: 0px;
+    }
+
+    @include tablet-l {
+      font-size: 20px;
+    }
+
+    @include tablet-s {
+      font-size: 14px;
+      line-height: 30px;
+    }
+
+    @include mobile-l {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  p {
+    @include tablet-l {
+      font-size: 12px;
+      padding-bottom: 3%;
+    }
   }
 }
 
