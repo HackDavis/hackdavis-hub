@@ -15,6 +15,7 @@ import Link from 'next/link';
 import TimeTracker from './TimeTracker';
 import Notifications from './Notifications';
 import AssigningJudges from './AssigningJudges';
+import DoneJudging from './DoneJudging';
 
 export default function IndexHeroContent() {
   return (
@@ -49,7 +50,8 @@ export default function IndexHeroContent() {
       <MusicPlayer />
       <div className={styles.center_right}>
         {/* <Countdown /> */}
-        <AssigningJudges />
+        {/* <AssigningJudges /> */}
+        <DoneJudging />
         {/* <p className={styles.info}>
           A HACKDAVIS HUB
           <br />

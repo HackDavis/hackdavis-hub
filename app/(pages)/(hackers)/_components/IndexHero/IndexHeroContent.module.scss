@@ -86,10 +86,11 @@
     justify-content: space-between;
     justify-content: center;
     align-items: flex-start;
-    // width: 60%;
+    width: 60%; //needed for some components
 
     @include mixins.tablet-l {
         align-items: center;
+        width: 100%;
     }
 }
 
