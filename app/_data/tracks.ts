@@ -16,13 +16,13 @@ import wixLogo from '@public/prizes/wix_logo.png';
 import fitbit from '@public/prizes/fitbit.png';
 import logitechMouse from '@public/prizes/logitech_mouse.png';
 import datalabLogo from '@public/prizes/datalab_logo.png';
-import cerebrasLogo from '@public/prizes/cerebras_logo.png';
 import vectaraLogo from '@public/prizes/vectara_logo.png';
 import hackingKit from '@public/prizes/hacking_kit.png';
 import googleLogo from '@public/prizes/google_logo.png';
 import jblHeadphones from '@public/prizes/jbl_headphones.png';
 import iotKit from '@public/prizes/iot_kit.png';
 import microphone from '@public/prizes/microphone.png';
+import keyboard from '@public/prizes/keyboard.png';
 
 interface TrackData {
   name: string;
@@ -82,8 +82,8 @@ const nonHDTracks: Tracks = {
   'Best Use of Cerebras API': {
     name: 'Best Use of Cerebras API',
     filter: 'Sponsor',
-    prizes: ['TBA'],
-    images: [cerebrasLogo],
+    prizes: ['Keychron Wireless Keyboard'],
+    images: [keyboard],
     eligibility_criteria: 'Projects must use Cerebras API.',
   },
   'Best Use of Vectara': {
@@ -156,42 +156,32 @@ const optedHDTracks: Tracks = {
     prizes: ['AWS credits worth $250'],
     images: [awsLogo],
     eligibility_criteria:
-      'Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced techical tools + algorithms/data structures, integration of multiple technologies, quality of implementation, displays technical depth, graded on performance/scalability.',
+      'Projects must showcase breadth and application of technical knowledge, including the use of complex algorithms or data structures, integration of multiple tools or technologies, and well-engineered implementation. Evaluated based on technical depth, system quality and performance/scalability.',
     domain: 'swe',
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
-        // dont like 3 and 4
-        attribute: 'Complexity of Problem Solved',
+        attribute: 'Technical Complexity of the Problem',
         guidelines: {
-          1: 'The problem solved is basic or routine, with minimal technical challenges.',
-          3: 'Moderate complexity with some technical depth.',
-          5: 'High complexity with advanced technical implementation.',
+          1: 'Basic or well-known problem with low complexity.',
+          3: 'Problem has multiple edge cases that require thoughtful design.',
+          5: 'Highly complex or novel problem requiring significant technical insight.',
         },
       },
       {
-        attribute: 'Technical Execution and Engineering',
+        attribute: 'Depth and Quality of Engineering',
         guidelines: {
-          1: 'The technical implementation is incomplete or inefficient, with many flaws.',
-          3: 'The technical execution is solid but could be more optimized or refined.',
-          5: 'The project demonstrates flawless technical execution, with well-optimized, scalable solutions and robust engineering.',
+          1: 'Incomplete or poorly structured project; limited depth.',
+          3: 'Solid implementation with good practices and structure.',
+          5: 'Exceptionally well-engineered; modular, robust, scalable and performant.',
         },
       },
       {
-        // like this kind of
-        attribute: 'Advanced Use of Technologies or Techniques',
+        attribute: 'Use of Advanced Tools or Techniques',
         guidelines: {
-          1: 'Uses basic or traditional technologies.',
-          3: 'Uses a combination of standard and some advanced technologies.',
-          5: 'Utilizes highly specialized or emerging technologies.',
-        },
-      },
-      {
-        attribute: 'Scalability and performance optimization',
-        guidelines: {
-          1: 'Minimal scalability with performance issues.',
-          3: 'Moderate scalability with acceptable performance.',
-          5: 'Highly scalable with optimized performance.',
+          1: 'Relies on basic technologies.',
+          3: 'Uses advanced tools (frameworks/APIs/libraries) with purpose and understanding.',
+          5: 'Integrates multiple advanced technologies/techniques (like parallelism, optimization, etc.) skillfully.',
         },
       },
     ],
@@ -202,32 +192,32 @@ const optedHDTracks: Tracks = {
     prizes: ["Tickets to Freepik's Upscale Conference"],
     images: [upscaleTickets],
     eligibility_criteria:
-      'Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project. Foster creativity and collaboration within the team and display a committment to building skills.',
+      'Every team member MUST be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project. Foster creativity and collaboration within the team and display a commitment to building skills.',
     domain: 'swe',
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
-        attribute: 'Learning and growth demonstrated',
+        attribute: 'Evidence of Learning and Growth',
         guidelines: {
-          1: 'Little to no evidence of personal or team growth.',
-          3: 'Moderate improvement with some evidence of learning.',
-          5: 'Exceptional personal/team growth, with clear evidence of learning new tools, technologies, and approaches to problem-solving.',
+          '1': 'Little learning shown; reused known skills',
+          '3': 'Used new tools or concepts with some success',
+          '5': 'Strong grasp of entirely new topics; applied effectively',
         },
       },
       {
-        attribute: 'Effective teamwork and collaboration among beginners',
+        attribute: 'Team Collaboration',
         guidelines: {
-          1: 'Limited teamwork with minimal collaboration.',
-          3: 'Some teamwork with occasional collaboration.',
-          5: 'Excellent teamwork with strong collaboration.',
+          '1': 'Disjointed teamwork; unclear roles',
+          '3': 'Some coordination; shared effort',
+          '5': 'Strong team balance; active support across roles',
         },
       },
       {
-        attribute: 'Commitment to overcoming challenges and building skills',
+        attribute: 'Problem-Solving and Persistence',
         guidelines: {
-          1: 'Minimal effort to overcome challenges.',
-          3: 'Moderate effort with some success.',
-          5: 'Exceptional determination and skill-building.',
+          '1': 'Gave up easily or avoided hard problems',
+          '3': 'Worked through some challenges with effort',
+          '5': 'Tackled tough issues with creative persistence',
         },
       },
     ],
@@ -245,27 +235,26 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Integration of Multiple Disciplines',
         guidelines: {
-          1: 'Disciplines are loosely connected or added on without a clear synergy.',
-          3: 'Disciplines are integrated well, but the overlap could be more cohesive.',
-          5: 'Disciplines are seamlessly interwoven, creating a solution that could not exist without the collaboration of all involved fields.',
+          1: 'All CS-related majors or fields combined with unclear purpose/synergy.',
+          3: 'Disciplines are clearly applied and work together.',
+          5: 'Disciplines are deeply interwoven; project depends on insights from each field to work.',
         },
       },
       {
-        // want to rephrase more, esp 5th
-        attribute: 'Innovation in Multidisciplinary Problem-Solving',
+        attribute: 'Innovation in Cross-Disciplinary Problem-Solving',
         guidelines: {
-          1: 'The project uses familiar approaches without any real blending of disciplines.',
-          3: 'The project introduces some innovative combinations of disciplines but still relies on conventional methods.',
-          5: 'The project presents a groundbreaking, new approach by merging disciplines in a way that produces creative solutions and exceeds the sum of its parts.',
+          1: 'Conventional approach with little interplay between disciplines.',
+          3: 'Some novel ideas emerge from blending fields; mostly conventional execution.',
+          5: 'Brilliant unexpected solution made possible by this unique mix of disciplines.',
         },
       },
       {
         // dont like this too much, would rather replace w a new criterion
-        attribute: 'Cross-Disciplinary Collaboration and Workflow',
+        attribute: 'Collaboration Across Disciplines',
         guidelines: {
-          1: 'Limited communication or collaboration between disciplines, causing confusion or inefficiencies.',
-          3: 'Collaboration between disciplines is evident, but the workflow could be more structured or streamlined.',
-          5: 'The team displays exceptional cross-disciplinary communication, where the diverse skill sets are optimized, and the workflow is seamless.',
+          1: 'Limited collaboration, causing confusion or inefficiencies.',
+          3: 'Good teamwork with some knowledge-sharing across disciplines.',
+          5: 'Worked fluidly; ideas, roles and skills were shared and combined seamlessly.',
         },
       },
     ],
@@ -281,27 +270,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Originality and uniqueness of the concept',
+        attribute: 'Originality of Concept',
         guidelines: {
-          1: 'Common or derivative concept.',
-          3: 'Some originality with unique elements.',
-          5: 'Truly unique and original concept.',
+          '1': 'Common idea; similar to known projects',
+          '3': 'Interesting twist or framing',
+          '5': 'Fresh, unexpected concept',
         },
       },
       {
-        attribute: 'Innovative problem-solving approach',
+        attribute: 'Creative Execution',
         guidelines: {
-          1: 'Minimal innovation in solving problems.',
-          3: 'Moderate innovation with creative solutions.',
-          5: 'Highly innovative and groundbreaking solutions.',
+          '1': 'Conventional build; little imagination',
+          '3': 'Some creative choices in implementation',
+          '5': 'Inventive design; imaginative features',
         },
       },
       {
-        attribute: 'Ability to surprise and engage the audience',
+        attribute: 'User Engagement',
         guidelines: {
-          1: 'Limited engagement or surprise.',
-          3: 'Moderate engagement with some surprise elements.',
-          5: 'Highly engaging and memorable experience.',
+          '1': 'Uninspiring or hard to connect with',
+          '3': 'Moderately interesting or novel',
+          '5': 'Memorable and captivating experience',
         },
       },
     ],
@@ -317,29 +306,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Hardware or Embedded Systems',
     scoring_criteria: [
       {
-        // dont like 3rd
-        attribute: 'Hardware Integration and Functionality',
+        attribute: 'Hardware Integration',
         guidelines: {
-          1: 'Hardware is either non-functional or not integrated meaningfully into the project.',
-          3: 'Hardware works as intended but lacks refinement or advanced features.',
-          5: 'Hardware is seamlessly integrated, fully functional, and enhances the project’s overall performance.',
+          '1': 'Disconnected or non-functional hardware',
+          '3': 'Working hardware with basic integration',
+          '5': 'Seamless integration; essential to project',
         },
       },
       {
-        // could improve 3rd and 5th
-        attribute: 'Creativity and Innovation in Hardware Design',
+        attribute: 'Hardware Design and Creativity',
         guidelines: {
-          1: 'Standard hardware design with minimal innovation.',
-          3: 'Design incorporates some innovative features or a novel use of existing technology.',
-          5: 'Design is highly creative, leveraging new or uncommon technologies in an innovative way.',
+          '1': 'Generic components; standard use',
+          '3': 'Some custom elements or unusual applications',
+          '5': 'Unique design; innovative use of components',
         },
       },
       {
-        attribute: 'Usability and Interaction',
+        attribute: 'Interactivity and Usability',
         guidelines: {
-          1: 'Difficult to use or doesn’t provide a clear user experience.',
-          3: 'Usable, but could benefit from design or interaction improvements..',
-          5: 'Intuitive, user-friendly, and offers an exceptional user experience.',
+          '1': 'Hard to use or test',
+          '3': 'Basic user experience; limited feedback',
+          '5': 'Smooth interaction; enjoyable experience',
         },
       },
     ],
@@ -350,35 +337,32 @@ const optedHDTracks: Tracks = {
     prizes: ['Claude API credits worth $750'],
     images: [claudeLogo],
     eligibility_criteria:
-      'Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms + ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. We encourage that models work accurately on unseen circumstances.',
+      'Project must demostrate unique or creative application of AI/ML, built on high-quality data, utilizing relevant algorithms and libraries and/or cloud platforms for development and evaluated with relevant performance metrics. Participants should show how their data was collected or sourced and clearly explain the reasoning or behavior of their AI. We encourage that models aim for generalization to unseen circumstances.',
     domain: 'aiml',
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        // dont like 5th
-        attribute: 'Innovative Use of AI/ML Techniques',
+        attribute: 'Innovation in AI/ML Application',
         guidelines: {
-          1: 'Employs basic techniques or is an LLM wrapper.',
-          3: 'Employs creative AI/ML techniques, but there’s room for further exploration and sophistication.',
-          5: 'Highly innovative with unique functionality.',
+          1: 'Off-the-shelf or basic use of AI/ML tools.',
+          3: 'Some creativity in model use or application context.',
+          5: 'Unique or inventive AI/ML integration, solving a novel problem or using an unexpected technique.',
         },
       },
       {
-        attribute: 'Model Performance and Accuracy',
+        attribute: 'Model Performance and Evaluation',
         guidelines: {
-          // i think there was a better one
-          1: 'Poor accuracy and generalization, producing unreliable results.',
-          3: 'Performs decently, but there’s room for improvement in accuracy, robustness, or scalability.',
-          5: 'Performs excellently, showing industry-grade capabilities.',
+          1: 'Poor accuracy and generalization; minimal performance metrics.',
+          3: 'Decent metrics; moderate evaluation efforts.',
+          5: 'Strong results backed by solid metrics; tested on unseen data or edge cases.',
         },
       },
       {
-        // dont like 3rd
-        attribute: 'Real-World Impact and Applicability of AI/ML Solution',
+        attribute: 'Technical Execution and Use of Tools',
         guidelines: {
-          1: 'Limited or theoretical applicability, with minimal real-world use cases.',
-          3: 'Moderate real-world potential but requires more refinement or testing.',
-          5: 'Highly applicable to real-world problems, demonstrating a clear, impactful potential for large-scale adoption.',
+          1: 'Surface-level use of tools; no customization or tuning.',
+          3: 'Proper use of libraries with some tuning or data pipeline effort.',
+          5: 'Deep technical execution with custom methods, advanced techniques, or strong tool mastery.',
         },
       },
     ],
@@ -394,29 +378,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
-        attribute: 'Relevance and Clarity of Focus on Social Justice',
+        attribute: 'Social Justice Relevance',
         guidelines: {
-          1: 'Loosely connects to social justice themes, with unclear goals or outcomes.',
-          3: 'Directly addresses a relevant social justice issue, but lacks depth in implementation.',
-          5: 'Has a clear, focused approach to a significant social justice issue.',
+          '1': 'Loose connection; unclear purpose',
+          '3': 'Clearly linked to a real issue',
+          '5': 'Sharp focus on impactful issue',
         },
       },
       {
         attribute: 'Advocacy and Awareness',
         guidelines: {
-          // dont like 3rd
-          1: 'Doesn’t include any advocacy or awareness-raising elements.',
-          3: 'Some sustainability with potential for scaling.',
-          5: 'Actively advocates for social justice, raising awareness and prompting action from stakeholders.',
+          '1': 'No call to action or outreach',
+          '3': 'Some effort to inform or engage',
+          '5': 'Strong call to action; inspires involvement',
         },
       },
       {
-        // dont like 1 and 3
-        attribute: 'Real-World Applicability and Impact',
+        attribute: 'Potential for Real-World Impact',
         guidelines: {
-          1: 'Has limited application to real-world social justice issues.',
-          3: 'Has moderate real-world applicability, but needs further development for true impact.',
-          5: 'Provides a realistic and actionable solution with clear potential for positive societal change.',
+          '1': 'Unlikely to create change',
+          '3': 'Plausible concept with room to grow',
+          '5': 'Clear, actionable path to real impact',
         },
       },
     ],
@@ -432,27 +414,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
-        attribute: 'Aesthetic Appeal and Visual Consistency',
+        attribute: 'Visual Design',
         guidelines: {
-          1: 'Not attractive, inconsistent theme and style.',
-          3: 'Moderately attractive, generally consistent style and theme.',
-          5: 'Highly attractive and professional look, cohesive and consistent theme and style.',
+          '1': 'Inconsistent style; cluttered or dull',
+          '3': 'Mostly clean design with some inconsistencies',
+          '5': 'Cohesive, polished, and visually appealing',
         },
       },
       {
-        attribute: 'Intuitive User Flow and Ease of Navigation',
+        attribute: 'User Flow and Navigation',
         guidelines: {
-          1: 'Difficult to navigate, confusing layout and poorly organized.',
-          3: 'Generally intuitive navigation and layout with some areas for improvement.',
-          5: 'Excellent, with superior navigation and highly intuitive layout.',
+          '1': 'Confusing paths; hard to find key actions',
+          '3': 'Reasonable flow with minor issues',
+          '5': 'Clear, intuitive journey throughout',
         },
       },
       {
-        attribute: 'Inclusivity, Responsiveness and Accessibility',
+        attribute: 'Accessibility and Responsiveness',
         guidelines: {
-          1: 'Not responsive or accessible, lacks consideration for varied users.',
-          3: 'Moderately responsive and accessible.',
-          5: 'Excellent responsiveness and accessibility, fully accommodates all users.',
+          '1': 'Limited device support; poor accessibility',
+          '3': 'Mostly responsive; some inclusive features',
+          '5': 'Accessible across devices; thoughtful inclusivity',
         },
       },
     ],
@@ -468,27 +450,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
-        attribute: 'Depth and quality of user research conducted',
+        attribute: 'Research Depth',
         guidelines: {
-          1: 'Minimal research with poor depth.',
-          3: 'Moderate research with acceptable depth.',
-          5: 'Thorough research with high depth and quality.',
+          '1': 'Few or irrelevant data points',
+          '3': 'Some effort to gather user needs',
+          '5': 'Extensive, targeted research',
         },
       },
       {
-        attribute: 'Incorporation of User Feedback',
+        attribute: 'Feedback Integration',
         guidelines: {
-          1: 'Ineffective design that poorly supports functionality or user needs',
-          3: 'Adequately supports functionality and mostly aligns with user needs.',
-          5: 'Perfectly supports functionality, completely aligned with user needs and goals.',
+          '1': 'Feedback ignored or misaligned',
+          '3': 'Partial integration; some user alignment',
+          '5': 'Strong alignment; clear influence of feedback',
         },
       },
       {
-        attribute: 'Originality and Creativity in Meeting User Needs',
+        attribute: 'Creative Problem Fit',
         guidelines: {
-          1: 'Lacks creativity, very conventional, similar to other products in the market.',
-          3: 'Moderately creative, noticeable innovative elements.',
-          5: 'Highly innovative and unique, pushes boundaries.',
+          '1': 'Generic solution; weak fit to users',
+          '3': 'Some alignment with user needs',
+          '5': 'Clever, well-matched solution to user goals',
         },
       },
     ],
@@ -504,27 +486,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Viability and feasibility of the business model',
+        attribute: 'Business Model Viability',
         guidelines: {
-          1: 'Unviable or unrealistic model.',
-          3: 'Moderately viable with some feasibility.',
-          5: 'Highly viable and feasible business model.',
+          '1': 'No clear model or unrealistic assumptions',
+          '3': 'Some viability; needs refinement',
+          '5': 'Compelling, realistic model',
         },
       },
       {
-        attribute: 'Clarity and persuasiveness of the pitch',
+        attribute: 'Pitch Effectiveness',
         guidelines: {
-          1: 'Unclear and unconvincing pitch.',
-          3: 'Moderately clear with some persuasion.',
-          5: 'Highly persuasive and clear pitch.',
+          '1': 'Unclear or unconvincing pitch',
+          '3': 'Decent clarity; some persuasion',
+          '5': 'Clear, persuasive, well-structured pitch',
         },
       },
       {
-        attribute: 'Identification of target market and revenue streams',
+        attribute: 'Market Insight',
         guidelines: {
-          1: 'Minimal understanding of the market.',
-          3: 'Moderate understanding with some insights.',
-          5: 'Comprehensive market understanding with clear revenue streams.',
+          '1': 'Vague or missing audience info',
+          '3': 'Some understanding of user base',
+          '5': 'Well-defined market; strategic focus',
         },
       },
     ],
@@ -540,31 +522,32 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        attribute: 'Accuracy and reliability of the statistical model',
+        attribute: 'Model Accuracy and Reliability',
         guidelines: {
-          1: 'Low accuracy with unreliable results.',
-          3: 'Moderate accuracy with some reliable outcomes.',
-          5: 'High accuracy with consistently reliable results.',
+          '1': 'High error; weak predictions',
+          '3': 'Reasonable accuracy; moderate metrics',
+          '5': 'Consistently reliable; strong metrics',
         },
       },
       {
-        attribute: 'Appropriate use of significance tests and metrics',
+        attribute: 'Use of Statistical Tests',
         guidelines: {
-          1: 'Inappropriate or minimal use of metrics.',
-          3: 'Moderate use with partially relevant metrics.',
-          5: 'Excellent use with highly relevant metrics.',
+          '1': 'Wrong or missing tests',
+          '3': 'Some relevant tests included',
+          '5': 'Appropriate, well-used tests',
         },
       },
       {
-        attribute: "Interpretability and clarity of the model's output",
+        attribute: 'Output Interpretability',
         guidelines: {
-          1: 'Difficult to interpret or unclear.',
-          3: 'Moderately clear with some interpretability.',
-          5: 'Highly interpretable and clearly presented.',
+          '1': 'Unclear or hard to read',
+          '3': 'Some clarity; basic visualizations',
+          '5': 'Clear insights; easy to understand',
         },
       },
     ],
   },
+  // waiting on Med School groups for the next two tracks
   'Best Medical Hack': {
     name: 'Best Medical Hack',
     filter: 'Technical',
