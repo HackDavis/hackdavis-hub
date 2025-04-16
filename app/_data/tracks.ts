@@ -199,25 +199,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Evidence of Learning and Growth',
         guidelines: {
-          '1': 'Little learning shown; reused known skills',
-          '3': 'Used new tools or concepts with some success',
-          '5': 'Strong grasp of entirely new topics; applied effectively',
+          1: 'Little learning shown; reused known skills',
+          3: 'Used new tools or concepts with some success',
+          5: 'Strong grasp of entirely new topics; applied effectively',
         },
       },
       {
         attribute: 'Team Collaboration',
         guidelines: {
-          '1': 'Disjointed teamwork; unclear roles',
-          '3': 'Some coordination; shared effort',
-          '5': 'Strong team balance; active support across roles',
+          1: 'Disjointed teamwork; unclear roles',
+          3: 'Some coordination; shared effort',
+          5: 'Strong team balance; active support across roles',
         },
       },
       {
         attribute: 'Problem-Solving and Persistence',
         guidelines: {
-          '1': 'Gave up easily or avoided hard problems',
-          '3': 'Worked through some challenges with effort',
-          '5': 'Tackled tough issues with creative persistence',
+          1: 'Gave up easily or avoided hard problems',
+          3: 'Worked through some challenges with effort',
+          5: 'Tackled tough issues with creative persistence',
         },
       },
     ],
@@ -272,25 +272,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Originality of Concept',
         guidelines: {
-          '1': 'Common idea; similar to known projects',
-          '3': 'Interesting twist or framing',
-          '5': 'Fresh, unexpected concept',
+          1: 'Common idea; similar to known projects',
+          3: 'Interesting twist or framing',
+          5: 'Fresh, unexpected concept',
         },
       },
       {
         attribute: 'Creative Execution',
         guidelines: {
-          '1': 'Conventional build; little imagination',
-          '3': 'Some creative choices in implementation',
-          '5': 'Inventive design; imaginative features',
+          1: 'Conventional build; little imagination',
+          3: 'Some creative choices in implementation',
+          5: 'Inventive design; imaginative features',
         },
       },
       {
         attribute: 'User Engagement',
         guidelines: {
-          '1': 'Uninspiring or hard to connect with',
-          '3': 'Moderately interesting or novel',
-          '5': 'Memorable and captivating experience',
+          1: 'Uninspiring or hard to connect with',
+          3: 'Moderately interesting or novel',
+          5: 'Memorable and captivating experience',
         },
       },
     ],
@@ -308,25 +308,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Hardware Integration',
         guidelines: {
-          '1': 'Disconnected or non-functional hardware',
-          '3': 'Working hardware with basic integration',
-          '5': 'Seamless integration; essential to project',
+          1: 'Disconnected or non-functional hardware',
+          3: 'Working hardware with basic integration',
+          5: 'Seamless integration; essential to project',
         },
       },
       {
         attribute: 'Hardware Design and Creativity',
         guidelines: {
-          '1': 'Generic components; standard use',
-          '3': 'Some custom elements or unusual applications',
-          '5': 'Unique design; innovative use of components',
+          1: 'Generic components; standard use',
+          3: 'Some custom elements or unusual applications',
+          5: 'Unique design; innovative use of components',
         },
       },
       {
         attribute: 'Interactivity and Usability',
         guidelines: {
-          '1': 'Hard to use or test',
-          '3': 'Basic user experience; limited feedback',
-          '5': 'Smooth interaction; enjoyable experience',
+          1: 'Hard to use or test',
+          3: 'Basic user experience; limited feedback',
+          5: 'Smooth interaction; enjoyable experience',
         },
       },
     ],
@@ -380,25 +380,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Social Justice Relevance',
         guidelines: {
-          '1': 'Loose connection; unclear purpose',
-          '3': 'Clearly linked to a real issue',
-          '5': 'Sharp focus on impactful issue',
+          1: 'Loose connection; unclear purpose',
+          3: 'Clearly linked to a real issue',
+          5: 'Sharp focus on impactful issue',
         },
       },
       {
         attribute: 'Advocacy and Awareness',
         guidelines: {
-          '1': 'No call to action or outreach',
-          '3': 'Some effort to inform or engage',
-          '5': 'Strong call to action; inspires involvement',
+          1: 'No call to action or outreach',
+          3: 'Some effort to inform or engage',
+          5: 'Strong call to action; inspires involvement',
         },
       },
       {
         attribute: 'Potential for Real-World Impact',
         guidelines: {
-          '1': 'Unlikely to create change',
-          '3': 'Plausible concept with room to grow',
-          '5': 'Clear, actionable path to real impact',
+          1: 'Unlikely to create change',
+          3: 'Plausible concept with room to grow',
+          5: 'Clear, actionable path to real impact',
         },
       },
     ],
@@ -416,25 +416,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Visual Design',
         guidelines: {
-          '1': 'Inconsistent style; cluttered or dull',
-          '3': 'Mostly clean design with some inconsistencies',
-          '5': 'Cohesive, polished, and visually appealing',
+          1: 'Inconsistent style; cluttered or dull',
+          3: 'Mostly clean design with some inconsistencies',
+          5: 'Cohesive, polished, and visually appealing',
         },
       },
       {
         attribute: 'User Flow and Navigation',
         guidelines: {
-          '1': 'Confusing paths; hard to find key actions',
-          '3': 'Reasonable flow with minor issues',
-          '5': 'Clear, intuitive journey throughout',
+          1: 'Confusing paths; hard to find key actions',
+          3: 'Reasonable flow with minor issues',
+          5: 'Clear, intuitive journey throughout',
         },
       },
       {
         attribute: 'Accessibility and Responsiveness',
         guidelines: {
-          '1': 'Limited device support; poor accessibility',
-          '3': 'Mostly responsive; some inclusive features',
-          '5': 'Accessible across devices; thoughtful inclusivity',
+          1: 'Limited device support; poor accessibility',
+          3: 'Mostly responsive; some inclusive features',
+          5: 'Accessible across devices; thoughtful inclusivity',
         },
       },
     ],
@@ -452,25 +452,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Research Depth',
         guidelines: {
-          '1': 'Few or irrelevant data points',
-          '3': 'Some effort to gather user needs',
-          '5': 'Extensive, targeted research',
+          1: 'Few or irrelevant data points',
+          3: 'Some effort to gather user needs',
+          5: 'Extensive, targeted research',
         },
       },
       {
         attribute: 'Feedback Integration',
         guidelines: {
-          '1': 'Feedback ignored or misaligned',
-          '3': 'Partial integration; some user alignment',
-          '5': 'Strong alignment; clear influence of feedback',
+          1: 'Feedback ignored or misaligned',
+          3: 'Partial integration; some user alignment',
+          5: 'Strong alignment; clear influence of feedback',
         },
       },
       {
         attribute: 'Creative Problem Fit',
         guidelines: {
-          '1': 'Generic solution; weak fit to users',
-          '3': 'Some alignment with user needs',
-          '5': 'Clever, well-matched solution to user goals',
+          1: 'Generic solution; weak fit to users',
+          3: 'Some alignment with user needs',
+          5: 'Clever, well-matched solution to user goals',
         },
       },
     ],
@@ -488,25 +488,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Business Model Viability',
         guidelines: {
-          '1': 'No clear model or unrealistic assumptions',
-          '3': 'Some viability; needs refinement',
-          '5': 'Compelling, realistic model',
+          1: 'No clear model or unrealistic assumptions',
+          3: 'Some viability; needs refinement',
+          5: 'Compelling, realistic model',
         },
       },
       {
         attribute: 'Pitch Effectiveness',
         guidelines: {
-          '1': 'Unclear or unconvincing pitch',
-          '3': 'Decent clarity; some persuasion',
-          '5': 'Clear, persuasive, well-structured pitch',
+          1: 'Unclear or unconvincing pitch',
+          3: 'Decent clarity; some persuasion',
+          5: 'Clear, persuasive, well-structured pitch',
         },
       },
       {
         attribute: 'Market Insight',
         guidelines: {
-          '1': 'Vague or missing audience info',
-          '3': 'Some understanding of user base',
-          '5': 'Well-defined market; strategic focus',
+          1: 'Vague or missing audience info',
+          3: 'Some understanding of user base',
+          5: 'Well-defined market; strategic focus',
         },
       },
     ],
@@ -524,25 +524,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Model Accuracy and Reliability',
         guidelines: {
-          '1': 'High error; weak predictions',
-          '3': 'Reasonable accuracy; moderate metrics',
-          '5': 'Consistently reliable; strong metrics',
+          1: 'High error; weak predictions',
+          3: 'Reasonable accuracy; moderate metrics',
+          5: 'Consistently reliable; strong metrics',
         },
       },
       {
         attribute: 'Use of Statistical Tests',
         guidelines: {
-          '1': 'Wrong or missing tests',
-          '3': 'Some relevant tests included',
-          '5': 'Appropriate, well-used tests',
+          1: 'Wrong or missing tests',
+          3: 'Some relevant tests included',
+          5: 'Appropriate, well-used tests',
         },
       },
       {
         attribute: 'Output Interpretability',
         guidelines: {
-          '1': 'Unclear or hard to read',
-          '3': 'Some clarity; basic visualizations',
-          '5': 'Clear insights; easy to understand',
+          1: 'Unclear or hard to read',
+          3: 'Some clarity; basic visualizations',
+          5: 'Clear insights; easy to understand',
         },
       },
     ],
