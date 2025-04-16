@@ -106,6 +106,14 @@ export default function JudgeTeamGrouping() {
     csvContent += `num_judges,${dist.numJudges}\n`;
     csvContent += '\n';
 
+    csvContent += 'Match Stats\n';
+    csvContent += 'value,count\n';
+    for (const value in fullMatchData.matchStats) {
+      const count = fullMatchData.matchQualityStats[value];
+      csvContent += `${value},${count}\n`;
+    }
+    csvContent += '\n';
+
     // Match Quality Stats Section
     csvContent += 'Match Quality Stats\n';
     csvContent += 'team_id,sum,average,min,max,count\n';

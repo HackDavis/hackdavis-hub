@@ -95,6 +95,8 @@ export default async function matchAllTeams(options?: {
       ? user.specialties.reduce(
           (acc, domain, index) => {
             // Assign a decreasing score for each ranked domain.
+            // acc[domain] = index === 0 ? 1 : 1 / index; // old
+            // acc[domain] = 1 - index / 6;
             acc[domain] = 1 / (index + 1);
             return acc;
           },
@@ -148,19 +150,25 @@ export default async function matchAllTeams(options?: {
 
   // Arrays to hold submissions and track issues.
   const judgeToTeam: JudgeToTeam[] = [];
-  const extraAssignmentsMap: Record<string, number> = {};
   const teamMatchQualities: { [teamId: string]: number[] } = {};
   const teamJudgeTrackTypes: { [teamId: string]: string[] } = {};
 
   const rounds = 3;
+
+  const extraAssignmentsMap = Object.fromEntries(
+    modifiedTeams
+      .filter((team) => team.tracks.length < rounds)
+      .map((team) => [team._id ?? '', team.tracks.length - rounds])
+  );
+  console.log(extraAssignmentsMap);
   // Main loop: process each team for each round.
   for (let i = 0; i < rounds; i++) {
     for (const team of modifiedTeams) {
-      if (!team.tracks || team.tracks.length === 0 || !team.tracks[i]) {
-        extraAssignmentsMap[team._id ?? String(team.tableNumber)] =
-          (extraAssignmentsMap[team._id ?? String(team.tableNumber)] || 0) + 1;
-        continue;
-      }
+      // if (!team.tracks || team.tracks.length === 0 || !team.tracks[i]) {
+      //   extraAssignmentsMap[team._id ?? String(team.tableNumber)] =
+      //     (extraAssignmentsMap[team._id ?? String(team.tableNumber)] || 0) + 1;
+      //   continue;
+      // }
 
       const trackIndex = i;
       updateQueue(team, trackIndex, judgesQueue, ALPHA);
