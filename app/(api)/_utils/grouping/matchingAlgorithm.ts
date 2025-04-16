@@ -97,7 +97,7 @@ export default async function matchAllTeams(options?: {
             // Assign a decreasing score for each ranked domain.
             // acc[domain] = index === 0 ? 1 : 1 / index; // old
             // acc[domain] = 1 - index / 6;
-            acc[domain] = 1 / (index + 1);
+            acc[domain] = 1 / (index + 1); // alpha 5 or 6
             return acc;
           },
           {} as { [domain: string]: number }
@@ -158,12 +158,15 @@ export default async function matchAllTeams(options?: {
   const extraAssignmentsMap = Object.fromEntries(
     modifiedTeams
       .filter((team) => team.tracks.length < rounds)
-      .map((team) => [team._id ?? '', team.tracks.length - rounds])
+      .map((team) => [team._id ?? '', rounds - team.tracks.length])
   );
   console.log(extraAssignmentsMap);
   // Main loop: process each team for each round.
   for (let trackIndex = 0; trackIndex < rounds; trackIndex++) {
     for (const team of modifiedTeams) {
+      if (extraAssignmentsMap[team._id ?? ''] >= rounds - trackIndex) {
+        continue;
+      }
       updateQueue(team, trackIndex, judgesQueue, ALPHA);
       const trackUsed = team.tracks[trackIndex];
 
