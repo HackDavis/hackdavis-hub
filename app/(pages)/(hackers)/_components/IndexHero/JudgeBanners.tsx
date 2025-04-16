@@ -3,6 +3,7 @@ import JudgeBannerIndividual from './JudgeBannerIndividual';
 import styles from './JudgeBannerIndividual.module.scss';
 
 type Notification = {
+  icon: URL;
   id: number;
   name: string;
   description: string;

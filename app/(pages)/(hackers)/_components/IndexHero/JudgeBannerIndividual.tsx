@@ -5,13 +5,15 @@ type JudgeBannerIndividualProps = {
   name: string;
   description: string;
   teams: number;
+  icon?: React.ReactNode;
   onDismiss: () => void;
 };
 
 export default function JudgeBannerIndividual({
   name,
   description,
-  teams, // onDismiss,
+  teams,
+  icon,
 }: JudgeBannerIndividualProps) {
   const [isFinishing, setIsFinishing] = useState(false);
 
@@ -26,6 +28,9 @@ export default function JudgeBannerIndividual({
     <div
       className={`${styles.judgeBanner} ${isFinishing ? styles.finishing : ''}`}
     >
+      {/* <Image src={icon} alt="star" className={styles.box_star} /> */}
+      {icon && <span className={styles.icon}>{icon}</span>}
+
       <div className={styles.info}>
         <h3>{name}</h3>
         <p>{description}</p>
@@ -36,7 +41,7 @@ export default function JudgeBannerIndividual({
         onClick={handleFinish}
       >
         {/* i have it so that when u click on this part, it blurs bc i'm not sure when you want it/how you're gonna wanan link it to backend  */}
-        <p>{teams}</p>
+        <h1>{teams}</h1>
       </button>
     </div>
   );
