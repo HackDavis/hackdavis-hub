@@ -48,6 +48,13 @@ function updateQueue(
   judges.sort((a, b) => b.priority - a.priority);
 }
 
+function shuffleArray<T>(array: T[]): void {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 /**
  * Match teams with judges and return an array of minimal judgeToTeam.
  * Each submission only contains the judge_id and team_id.
@@ -229,7 +236,10 @@ export default async function matchAllTeams(options?: {
       judgeToTeam.push(submission);
       selectedJudge.teamsAssigned += 1;
     }
+    shuffleArray(modifiedTeams);
   }
+
+  console.log('No. of judgeToTeam:', judgeToTeam.length);
 
   const judgeAssignments = judgesQueue.map((judge) => judge.teamsAssigned);
   const judgeTeamDistribution = {
