@@ -154,6 +154,14 @@
       width: 24px;
       height: 24px;
     }
+
+    @include tablet-l {
+        padding: 5% 20%;
+
+        p { 
+            font-size: 14px;
+        }
+    }
   }
   
 
