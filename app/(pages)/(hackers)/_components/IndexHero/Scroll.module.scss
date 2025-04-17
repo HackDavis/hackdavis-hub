@@ -26,6 +26,10 @@
     flex-direction: row;
     justify-content: center;
     gap: 20px;
+
+    @include tablet-l {
+      gap: 10px;
+    }
   }
 
   .child {
@@ -38,6 +42,12 @@
     height: 100px;
     cursor: pointer;
 
+    @include tablet-l {
+      width: 40px;
+      gap: 5px;
+      height: 80px;
+    }
+
     .note {
       position: absolute;
       top: 0;
@@ -45,6 +55,11 @@
       opacity: 1;
       transform: translateY(0);
       transition: opacity 0.2s ease;
+
+      @include tablet-l {
+        height: 20px;
+        gap: 5px;
+      }
     }
 
     .head {
@@ -59,7 +74,11 @@
         height: 30px;
         opacity: 1;
         transform: translateY(0);
-        transition: transform 0.3s ease; // smooth return
+        transition: transform 0.3s ease;
+
+        @include tablet-l {
+          height: 20px;
+        }
       }
     
       &:hover .note {
