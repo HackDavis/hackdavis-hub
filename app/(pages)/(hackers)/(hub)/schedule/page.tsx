@@ -53,49 +53,6 @@ export default function Page() {
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
 
-  // Add debugging to track recommended events
-  useEffect(() => {
-    if (scheduleData && user) {
-      console.log('User position:', user.position);
-      console.log('Active filters:', activeFilters);
-
-      // Check how many recommended events we have
-      let recommendedCount = 0;
-      Object.keys(scheduleData).forEach((day) => {
-        scheduleData[day].forEach((event) => {
-          if (event.isRecommended) {
-            recommendedCount++;
-            console.log(
-              'Recommended event found:',
-              event.event.name,
-              'Tags:',
-              event.event.tags
-            );
-          }
-        });
-      });
-      console.log('Total recommended events:', recommendedCount);
-
-      // Check what happens when filtering
-      if (activeFilters.includes('RECOMMENDED')) {
-        console.log('RECOMMENDED filter is active');
-        // Check what events would match
-        let matchingEvents = 0;
-        Object.keys(scheduleData).forEach((day) => {
-          scheduleData[day].forEach((event) => {
-            if (event.isRecommended) {
-              matchingEvents++;
-            }
-          });
-        });
-        console.log(
-          'Events that should match RECOMMENDED filter:',
-          matchingEvents
-        );
-      }
-    }
-  }, [scheduleData, activeFilters, user]);
-
   const changeActiveDay = (day: '19' | '20') => {
     setActiveDay(day);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -463,6 +420,7 @@ export default function Page() {
                       attendeeCount={eventDetail.attendeeCount}
                       inPersonalSchedule={eventDetail.inPersonalSchedule}
                       tags={eventDetail.event.tags}
+                      host={eventDetail.event.host}
                       onAddToSchedule={() =>
                         handleAddToSchedule(eventDetail.event._id || '')
                       }

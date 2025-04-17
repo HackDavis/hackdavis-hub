@@ -27,6 +27,7 @@ interface CalendarItemProps {
   onRemoveFromSchedule?: () => void;
   isRecommended?: boolean;
   tags?: EventTag[];
+  host?: string;
 }
 
 export function CalendarItem({
@@ -34,6 +35,7 @@ export function CalendarItem({
   attendeeCount,
   inPersonalSchedule = false,
   tags,
+  host,
   onAddToSchedule,
   onRemoveFromSchedule,
 }: CalendarItemProps) {
@@ -56,15 +58,15 @@ export function CalendarItem({
 
   return (
     <div
-      className="w-full py-[16px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[16px] lg:px-[40px] lg:py-[24px] mb-[16px] flex flex-col justify-center"
+      className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[24px] lg:px-[40px] lg:py-[32px] mb-[16px] flex flex-col justify-center"
       style={{ backgroundColor: bgColor }}
     >
       <div className="flex justify-between items-start flex-col sm:items-center sm:flex-row gap-4 sm:gap-0">
-        <div>
-          <h2 className="text-black font-metropolis text-xl sm:text-2xl font-semibold tracking-[0.72px] mb-2">
+        <div className="w-full sm:w-auto">
+          <h2 className="text-black font-metropolis text-xl sm:text-2xl font-semibold tracking-[0.72px] mb-2 break-words">
             {name}
           </h2>
-          <div className="flex items-center">
+          <div className="flex items-center flex-wrap gap-y-2">
             <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-2 xs:mr-3 md:mr-4 lg:mr-5">
               {timeDisplay}
               {displayType === 'MEALS' && ' (Subject to change)'}
@@ -78,19 +80,19 @@ export function CalendarItem({
                   height={13.44}
                   className="mr-2 xs:mr-3 md:mr-4 lg:mr-5"
                 />
-                <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
+                <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] break-words">
                   {location}
                 </span>
               </div>
             )}
           </div>
           {tags && tags.length > 0 && (
-            <div className="flex gap-2 items-center py-2">
+            <div className="flex gap-2 items-center py-2 flex-wrap">
               {tags.map((tag) => (
                 <div className="border-black p-1 border-2" key={tag}>
                   <span
                     key={tag}
-                    className="text-black font-plus-jakarta-sans text-sm font-normal leading-[145%] tracking-[0.36px]"
+                    className="text-black font-plus-jakarta-sans text-sm font-normal leading-[145%] tracking-[0.36px] break-words"
                   >
                     {tag.toUpperCase()}
                   </span>
@@ -102,7 +104,7 @@ export function CalendarItem({
           {displayType === 'WORKSHOPS' &&
             attendeeCount !== undefined &&
             attendeeCount > 0 && (
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center flex-wrap">
                 <div className="relative w-12 h-12">
                   <Image
                     src="/index/schedule/attendee.svg"
@@ -110,7 +112,7 @@ export function CalendarItem({
                     fill
                   />
                 </div>
-                <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
+                <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] break-words">
                   {`${attendeeCount} Hacker${
                     attendeeCount < 2 ? ' is' : 's are'
                   } attending this event`}
@@ -120,22 +122,29 @@ export function CalendarItem({
         </div>
 
         {displayType !== 'GENERAL' && (
-          <Button
-            onClick={
-              inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
-            }
-            className={`w-full sm:w-32 px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group`}
-            variant="ghost"
-          >
-            <div
-              className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full`}
-            />
-            <p
-              className={`font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white`}
+          <div className="flex flex-col gap-2 items-end">
+            {host && (
+              <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] break-words">
+                {host}
+              </span>
+            )}
+            <Button
+              onClick={
+                inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
+              }
+              className={`w-full sm:w-32 px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group shrink-0`}
+              variant="ghost"
             >
-              {inPersonalSchedule ? 'Remove' : 'Add'}
-            </p>
-          </Button>
+              <div
+                className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full`}
+              />
+              <p
+                className={`font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white`}
+              >
+                {inPersonalSchedule ? 'Remove' : 'Add'}
+              </p>
+            </Button>
+          </div>
         )}
       </div>
     </div>
