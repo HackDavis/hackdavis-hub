@@ -305,7 +305,7 @@ export default function Page() {
         id="schedule"
         className="w-full h-screen flex items-center justify-center"
       >
-        Error Loading Events
+        Oops, an error occured!
       </main>
     );
 
