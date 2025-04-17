@@ -51,7 +51,7 @@ export default function ImportantAnnouncement() {
               <div className={styles.sign}>
                 <Image src={GreenSign} alt="Green sign" />
               </div>
-              <p>{info}</p>
+              <div>{info}</div>
             </div>
           ))}
         </div>
@@ -61,7 +61,7 @@ export default function ImportantAnnouncement() {
               <div className={styles.sign}>
                 <Image src={BlueSign} alt="Blue sign" />
               </div>
-              <p>{info}</p>
+              <div>{info}</div>
             </div>
           ))}
         </div>
