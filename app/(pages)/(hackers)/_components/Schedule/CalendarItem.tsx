@@ -131,26 +131,28 @@ export function CalendarItem({
             displayType !== 'ACTIVITIES' ? '' : 'sm:w-auto'
           }`}
         >
-          {/* <div className="w-full sm:w-auto"> */}
-          {displayType === 'WORKSHOPS' &&
-            attendeeCount !== undefined &&
-            attendeeCount > 0 && (
-              <div className="flex gap-2 items-center w-full sm:w-auto">
-                <div className="relative w-16 h-12">
-                  <Image
-                    src="/index/schedule/attendee.svg"
-                    alt="location icon"
-                    fill
-                  />
-                </div>
-                <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] text-balance">
-                  {`${attendeeCount} Hacker${
-                    attendeeCount < 2 ? ' is' : 's are'
-                  } attending this event`}
-                </span>
-              </div>
-            )}
-          {/* </div> */}
+          <div
+            className={`flex gap-2 items-center w-full sm:w-auto ${
+              displayType === 'WORKSHOPS' &&
+              attendeeCount !== undefined &&
+              attendeeCount > 0
+                ? 'visible'
+                : 'invisible'
+            }`}
+          >
+            <div className="relative w-16 h-12">
+              <Image
+                src="/index/schedule/attendee.svg"
+                alt="location icon"
+                fill
+              />
+            </div>
+            <span className="text-black font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] text-balance">
+              {`${attendeeCount ?? ''} Hacker${
+                attendeeCount && attendeeCount < 2 ? ' is' : 's are'
+              } attending this event`}
+            </span>
+          </div>
 
           {displayType !== 'GENERAL' && displayType !== 'MEALS' && (
             <div className="flex flex-col gap-2 items-end w-full sm:w-auto">
