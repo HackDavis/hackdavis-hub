@@ -44,30 +44,6 @@ const commonXOptions: ChartOptions<'line'> = {
   },
 };
 
-const distOptions: ChartOptions<'line'> = {
-  scales: {
-    x: {
-      ...commonXOptions.scales!.x,
-      title: { display: true, text: 'Alpha' },
-    },
-    y: {
-      title: { display: true, text: 'Assignments per Judge' },
-    },
-  },
-};
-
-const statsOptions: ChartOptions<'line'> = {
-  scales: {
-    x: {
-      ...commonXOptions.scales!.x,
-      title: { display: true, text: 'Average Match Quality' },
-    },
-    y: {
-      title: { display: true, text: 'Team Count' },
-    },
-  },
-};
-
 export default function JudgeTeamGrouping() {
   const [trackResults, scoreAction] = useFormState(scoreTeams, null);
   const [matching, setMatching] = useState('');
@@ -111,8 +87,31 @@ export default function JudgeTeamGrouping() {
     }
   };
 
+  const commonX = commonXOptions.scales!.x;
+  const distOptions: ChartOptions<'line'> = {
+    scales: {
+      x: { ...commonX, title: { display: true, text: 'Alpha' } },
+      y: { title: { display: true, text: 'Assignments per Judge' } },
+    },
+  };
+  const statsOptions: ChartOptions<'line'> = {
+    scales: {
+      x: {
+        ...commonX,
+        title: { display: true, text: 'Average Match Quality' },
+      },
+      y: { title: { display: true, text: 'Team Count' } },
+    },
+  };
+  const weightedOptions: ChartOptions<'line'> = {
+    scales: {
+      x: { ...commonX, title: { display: true, text: 'Alpha' } },
+      y: { title: { display: true, text: 'Weighted Avg Quality' } },
+    },
+  };
+
   // Prepare chart data once diagnostics are loaded
-  let distChartData, statsChartData;
+  let distChartData, statsChartData, weightedChartData, medianChartData;
   if (diagnostics) {
     const alphas = Object.keys(diagnostics)
       .map(Number)
@@ -153,10 +152,57 @@ export default function JudgeTeamGrouping() {
     statsChartData = {
       labels: qualities,
       datasets: alphas.map((a) => ({
-        label: `α=${a}`,
+        label: `alpha=${a}`,
         data: qualities.map((q) => diagnostics[a].matchStats[q] || 0),
         tension: 0.3,
       })),
+    };
+
+    // 3) weighted average = Σ(q * count)/Σ(count)
+    weightedChartData = {
+      labels: alphas,
+      datasets: [
+        {
+          label: 'Weighted Avg Quality',
+          data: alphas.map((a) => {
+            const stats = diagnostics[a].matchStats;
+            const entries = Object.entries(stats) as [string, number][];
+            const total = entries.reduce((s, [, c]) => s + c, 0);
+            const sumQ = entries.reduce((s, [q, c]) => s + Number(q) * c, 0);
+            return total > 0 ? sumQ / total : 0;
+          }),
+          tension: 0.3,
+        },
+      ],
+    };
+
+    // 4) median match quality
+    medianChartData = {
+      labels: alphas,
+      datasets: [
+        {
+          label: 'Median Quality',
+          data: alphas.map((a) => {
+            const stats = diagnostics[a].matchStats;
+            // build sorted array of [quality, count]
+            const entries = Object.entries(stats)
+              .map(([q, c]) => [Number(q), c] as [number, number])
+              .sort((a, b) => a[0] - b[0]);
+            const total = entries.reduce((sum, [, c]) => sum + c, 0);
+            const midpoint = Math.ceil(total / 2);
+            // walk cumulative counts
+            let cum = 0;
+            for (const [quality, count] of entries) {
+              cum += count;
+              if (cum >= midpoint) {
+                return quality;
+              }
+            }
+            return entries.length ? entries[entries.length - 1][0] : 0;
+          }),
+          tension: 0.3,
+        },
+      ],
     };
   }
 
@@ -286,7 +332,8 @@ export default function JudgeTeamGrouping() {
         )}
       </div>
 
-      <div style={{ marginTop: 20 }}>
+      {/* Diagnostics inputs */}
+      <div className="mt-6">
         <h4>Diagnostics</h4>
         <label>
           Min alpha:{' '}
@@ -295,6 +342,7 @@ export default function JudgeTeamGrouping() {
             step={0.5}
             value={minAlpha}
             onChange={(e) => setMinAlpha(Number(e.target.value))}
+            className="border px-1"
           />
         </label>
         <label className="ml-4">
@@ -304,29 +352,32 @@ export default function JudgeTeamGrouping() {
             step={0.5}
             value={maxAlpha}
             onChange={(e) => setMaxAlpha(Number(e.target.value))}
+            className="border px-1"
           />
         </label>
-        <button
-          onClick={runDiagnostics}
-          className="ml-4"
-          style={{ marginTop: '10px', outline: '1px solid black' }}
-        >
+        <button onClick={runDiagnostics} className="ml-4 px-3 py-1 border">
           Run Diagnostics
         </button>
       </div>
 
+      {/* Charts: 1‑col on sm, 2‑cols on lg */}
       {diagnostics && (
-        <div className="flex flex-col lg:flex-row gap-6 mt-6">
-          {/* Distribution chart */}
-          <div className="w-full lg:w-1/2">
-            <h4>Judge–Team Distribution vs. α</h4>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          <div>
+            <h4>Judge–Team Distribution vs. alpha</h4>
             <Line data={distChartData!} options={distOptions} />
           </div>
-
-          {/* Match‑Stats chart */}
-          <div className="w-full lg:w-1/2">
-            <h4>Match‐Stats Distributions</h4>
+          <div>
+            <h4>Match‑Stats Distributions</h4>
             <Line data={statsChartData!} options={statsOptions} />
+          </div>
+          <div>
+            <h4>Weighted Avg Match Quality vs. alpha</h4>
+            <Line data={weightedChartData!} options={weightedOptions} />
+          </div>
+          <div>
+            <h4>Median Match Quality vs. alpha</h4>
+            <Line data={medianChartData!} options={weightedOptions} />
           </div>
         </div>
       )}
