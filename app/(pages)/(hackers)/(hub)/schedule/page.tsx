@@ -451,7 +451,7 @@ export default function Page() {
                   </Button>
                 </div>
               ) : (
-                'No events found for this day and filters.'
+                'No events found for this day and filter(s).'
               )}
             </div>
           )}
