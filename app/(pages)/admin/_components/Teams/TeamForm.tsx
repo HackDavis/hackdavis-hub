@@ -1,12 +1,18 @@
 'use client';
 import styles from './TeamForm.module.scss';
-import ShortInput from '../ShortInput/ShortInput';
 import useFormContext from '@pages/admin/_hooks/useFormContext';
+
+import ShortInput from '../ShortInput/ShortInput';
 import ListInput from '../ListInput/ListInput';
-import { IoTrashOutline } from 'react-icons/io5';
 import DropdownInput from '../DropdownInput/DropdownInput';
-import { updateTeam } from '@actions/teams/updateTeam';
+import JudgeCard from '../Judges/JudgeCard';
+
+import { IoTrashOutline } from 'react-icons/io5';
+import { IoIosArrowRoundUp, IoIosArrowRoundDown } from 'react-icons/io';
+
+import { useJudges } from '@pages/_hooks/useJudges';
 import { createTeam } from '@actions/teams/createTeam';
+import { updateTeamWithJudges } from '@actions/teams/updateTeamWithJudges';
 
 import tracksAndDomains from '@data/db_validation_data.json';
 
@@ -20,6 +26,15 @@ export default function TeamForm({
   revalidate = () => {},
 }: TeamFormProps) {
   const { data, updateField, setData } = useFormContext();
+  const { loading, judges, getJudges } = useJudges();
+
+  if (loading) return '...loading';
+  if (!judges.ok) return judges.error;
+
+  const judgeOptions = judges.body.map((judge: any) => ({
+    option: `${judge.name} - ${judge._id}`,
+    value: judge,
+  }));
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,13 +78,21 @@ export default function TeamForm({
 
     const { _id, submissions: _, judges: __, ...body } = data;
 
-    const res = !_id
-      ? await createTeam(body)
-      : await updateTeam(_id, { $set: body });
+    let team_id = _id;
+    if (!team_id) {
+      const createRes = await createTeam(body);
+      if (!createRes.ok) {
+        throw new Error(createRes?.error ?? '');
+      }
+      team_id = createRes.body?._id;
+    }
+
+    const res = await updateTeamWithJudges(team_id, { $set: body }, judges);
 
     if (res.ok) {
       setData({});
       revalidate();
+      getJudges();
     } else {
       alert(res.error);
     }
@@ -128,6 +151,41 @@ export default function TeamForm({
                 option: track,
                 value: track,
               }))}
+            />
+          );
+        }}
+      />
+      <ListInput
+        label="judges"
+        value={data.judges}
+        direction="column"
+        updateValue={(value: any) => updateField('judges', value)}
+        itemRenderer={({ key, item, deleteItem, shiftUp, shiftDown }) => {
+          return (
+            <div key={key} className={styles.judge_card_wrapper}>
+              <JudgeCard judge={item} editable={false} />
+              <div className={styles.judge_card_list_options}>
+                <div className={styles.trash_icon} onClick={deleteItem}>
+                  <IoTrashOutline />
+                </div>
+                <div className={styles.shift_up} onClick={shiftUp}>
+                  <IoIosArrowRoundUp />
+                </div>
+                <div className={styles.shift_down} onClick={shiftDown}>
+                  <IoIosArrowRoundDown />
+                </div>
+              </div>
+            </div>
+          );
+        }}
+        addRenderer={({ addItem }) => {
+          return (
+            <DropdownInput
+              label="new judge"
+              value={null}
+              updateValue={(value: any) => addItem(value)}
+              width="100%"
+              options={judgeOptions}
             />
           );
         }}

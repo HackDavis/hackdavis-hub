@@ -12,20 +12,24 @@ interface JudgeWithTeams extends User {
 interface TeamCardProps {
   judge: JudgeWithTeams;
   onEditClick?: () => void;
+  editable?: boolean;
 }
 
 export default function JudgeCard({
   judge,
   onEditClick = () => {},
+  editable = true,
 }: TeamCardProps) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <span className={styles.title}>{judge.name}</span>
         <div className={styles.header_details}>
-          <button className={styles.edit_button} onClick={onEditClick}>
-            <FaRegEdit />
-          </button>
+          {editable && (
+            <button className={styles.edit_button} onClick={onEditClick}>
+              <FaRegEdit />
+            </button>
+          )}
           <p>{judge._id}</p>
         </div>
       </div>
