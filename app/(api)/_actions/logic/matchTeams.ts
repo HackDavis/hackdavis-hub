@@ -63,8 +63,8 @@ export default async function matchTeams(
   if (valid) {
     for (const submission of parsedJudgeToTeam) {
       const res = await CreateSubmission({
-        judge_id: submission.judge_id,
-        team_id: submission.team_id,
+        judge_id: { '*convertId': { id: submission.judge_id } },
+        team_id: { '*convertId': { id: submission.team_id } },
       });
       if (!res.ok) {
         console.error(res.error);

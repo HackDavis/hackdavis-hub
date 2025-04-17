@@ -1,6 +1,6 @@
 interface JudgeToTeam {
-  judge_id: object;
-  team_id: object;
+  judge_id: string;
+  team_id: string;
 }
 
 export default JudgeToTeam;

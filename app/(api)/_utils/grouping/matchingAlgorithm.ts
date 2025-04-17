@@ -194,10 +194,8 @@ export default async function matchAllTeams(options?: {
       for (const judge of judgesQueue) {
         const duplicateExists = judgeToTeam.some(
           (entry) =>
-            (entry.judge_id as Record<string, { id: string }>)['*convertId']
-              .id === judge.user._id?.toString() &&
-            (entry.team_id as Record<string, { id: string }>)['*convertId']
-              .id === team._id
+            entry.judge_id === judge.user._id?.toString() &&
+            entry.team_id === team._id
         );
         if (!duplicateExists) {
           selectedJudge = judge;
@@ -230,8 +228,8 @@ export default async function matchAllTeams(options?: {
       teamJudgeTrackTypes[teamId].push(trackUsed);
 
       const submission: JudgeToTeam = {
-        judge_id: { '*convertId': { id: selectedJudge.user._id?.toString() } },
-        team_id: { '*convertId': { id: team._id } },
+        judge_id: selectedJudge.user._id?.toString() || '',
+        team_id: team._id || '',
       };
       judgeToTeam.push(submission);
       selectedJudge.teamsAssigned += 1;
