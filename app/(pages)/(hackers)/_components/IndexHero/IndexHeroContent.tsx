@@ -14,22 +14,24 @@ import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
 import Notifications from './Notifications';
-import AssigningJudges from './AssigningJudges';
+// import AssigningJudges from './AssigningJudges';
 import DoneJudging from './DoneJudging';
 
 export default function IndexHeroContent() {
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
-        <p className={styles.date}>
-          APRIL 19-20
-          <br />
-          2025
-        </p>
-        <a href="/map" className={styles.link}>
-          <p className={styles.map}>ARC BALLROOM MAP</p>
-          <LuArrowUpRight size={23} />
-        </a>
+        <div className={styles.heading_split}>
+          <p className={styles.date}>
+            APRIL 19-20
+            <br />
+            2025
+          </p>
+          <a href="/map" className={styles.link}>
+            <p className={styles.map}>ARC BALLROOM MAP</p>
+            <LuArrowUpRight size={23} />
+          </a>
+        </div>
         <div>
           <Notifications />
         </div>

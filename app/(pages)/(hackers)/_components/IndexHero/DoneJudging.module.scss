@@ -6,6 +6,9 @@
     margin-right: 7%;
     // margin-right: 20%;
     position: relative;
+    @include mixins.desktop-s{
+        margin-right: 10%;
+    }
     @include mixins.tablet-l{
         margin-left: 0%;
         margin-right: 0;
@@ -14,6 +17,13 @@
         align-items: center;
         margin-top: 15%;
     }
+
+    a{
+        font-weight: 600;
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+    }
+
 
 }
 

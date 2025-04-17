@@ -1,12 +1,42 @@
+@use 'app/(pages)/_globals/mixins';
+
 .container_position{
-    position: absolute;
-    top: 100px;
-    right: 7.5%;
-    z-index: 999;
-    backdrop-filter: blur(15px);
-    row-gap: 50px;
+    position: fixed;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    right: 5%;
+    top: 100px;
+
+    z-index: 999;
+    width: 89%;
+    height: 85vh;
+    
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.60);
+    background: rgba(0, 0, 0, 0.01);
+    backdrop-filter: blur(15px);
+
+    row-gap: 50px;
+    overflow:scroll;
+
+    padding: 5% 0 5% 0;
+
+    @include mixins.tablet-l{
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) -5.78%, rgba(255, 255, 255, 0.01) 57.32%, rgba(255, 255, 255, 0.00) 135.47%);
+        backdrop-filter: blur(15px);
+        border-radius: 0%;
+        border: none;
+        // padding: 0;
+        width: 100%;
+        right: 0;
+        top: 30%;
+        height: 50%;
+        row-gap: 25px;
+    }
+
+    
+    
 }
 
 .container{
@@ -14,10 +44,57 @@
     border: 1.5px solid rgba(255, 255, 255, 0.10);
     backdrop-filter: blur(30px);
     border-radius: 18px;
-    padding: 3%;
+    padding: 1%;
     display: flex;
     gap: 3%;
+    align-items: center;
     // margin-bottom: 9%;
+    width: 44%;
+    @include mixins.tablet-l{
+        width: 88%;
+        border-radius: 8px;
+    }
+
+    h3{
+        @include mixins.tablet-l{
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+    p{
+        @include mixins.tablet-l{
+            font-size: 12px;
+        }
+    }
+
+}
+
+.close_button{
+    border-radius: 24px;
+    background: rgba(250, 254, 254, 0.70);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 14%;
+    @include mixins.tablet-l{
+        display: none;
+    }
+}
+.close_button_mobile{
+    
+    display: none;
+    @include mixins.tablet-l{
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 14%;
+        p{
+            font-size: 12px;
+            color: #FFF;
+        }
+    }
 }
 
 .button{

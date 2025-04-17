@@ -52,6 +52,15 @@
     flex-direction: row;
     justify-content: space-between;
 
+    .heading_split{
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        @include mixins.tablet-l{
+            width: 100%;
+        }
+    }
+
     .date {
         // flex: 1;
         text-align: left;
