@@ -58,14 +58,14 @@ export default function IndexHeroContent() {
             <Scroll />
           </div>
         </div>
-      </div>
 
-      {/* bottom one */}
-      <div className={styles.star_social_good}>
-        <div className={styles.star_box}>
-          <Image src={star} alt="star" className={styles.box_star} />
+        {/* bottom one */}
+        <div className={styles.star_social_good}>
+          <div className={styles.star_box}>
+            <Image src={star} alt="star" className={styles.box_star} />
+          </div>
+          <div className={styles.social_good}>{'// for social good'}</div>
         </div>
-        <div className={styles.social_good}>{'// for social good'}</div>
       </div>
 
       <div className={styles.spacer_star_container}>
