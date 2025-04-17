@@ -3,7 +3,13 @@
 import { createRollout } from '@actions/rollouts/createRollout';
 import updateRollout from '@actions/rollouts/updateRollout';
 import Rollout from '@typeDefs/rollout';
-import { FormEvent, Dispatch, SetStateAction, useState, useEffect } from 'react';
+import {
+  FormEvent,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+} from 'react';
 
 interface RolloutFormProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -58,39 +64,37 @@ export function AddRolloutForm({ setLoading, setError }: RolloutFormProps) {
         placeholder="Component Key"
       />
       <div className="flex gap-12 justify-between">
-        <div className='flex items-start flex-col'>
-        <label className="mt-4" htmlFor="rollout_time">
-          Rollout time:
-        </label>
-        <input name="rollout_time" type="datetime-local" required />
-          
+        <div className="flex items-start flex-col">
+          <label className="mt-4" htmlFor="rollout_time">
+            Rollout time:
+          </label>
+          <input name="rollout_time" type="datetime-local" required />
         </div>
-        <div className='flex items-start flex-col'>
-
-        <label className="mt-4" htmlFor="rollback_time">
-          Rollback time (Optional):
-        </label>
-        <input name="rollback_time" type="datetime-local" />
+        <div className="flex items-start flex-col">
+          <label className="mt-4" htmlFor="rollback_time">
+            Rollback time (Optional):
+          </label>
+          <input name="rollback_time" type="datetime-local" />
         </div>
-      <button className="bg-background-light" type="submit">
-        Add Rollout
-      </button>
+        <button className="bg-background-light" type="submit">
+          Add Rollout
+        </button>
       </div>
     </form>
   );
 }
 
 interface UpdateFormProps extends RolloutFormProps {
-  rollout?: Rollout;
-  setRolloutToEdit: Dispatch<SetStateAction<string | null>>
+  rollout: Rollout;
+  setRolloutToEdit: Dispatch<SetStateAction<number | null>>;
 }
 
-export function UpdateRolloutForm({ setLoading, setError, rollout, setRolloutToEdit }: UpdateFormProps) {
-  if (!rollout) {
-    setError('no rollout to edit found')
-    return;
-  }
-
+export function UpdateRolloutForm({
+  setLoading,
+  setError,
+  rollout,
+  setRolloutToEdit,
+}: UpdateFormProps) {
   // Format epoch time to the required datetime-local format (YYYY-MM-DDTHH:MM)
   const formatDate = (epochTime: number): string => {
     const options: Intl.DateTimeFormatOptions = {
@@ -114,17 +118,21 @@ export function UpdateRolloutForm({ setLoading, setError, rollout, setRolloutToE
 
   // State for form values
   const [componentKey, setComponentKey] = useState(rollout.component_key);
-  const [rolloutTime, setRolloutTime] = useState(formatDate(rollout.rollout_time));
-  const [rollbackTime, setRollbackTime] = useState(rollout.rollback_time ? formatDate(rollout.rollback_time) : '');
+  const [rolloutTime, setRolloutTime] = useState(
+    formatDate(rollout.rollout_time)
+  );
+  const [rollbackTime, setRollbackTime] = useState(
+    rollout.rollback_time ? formatDate(rollout.rollback_time) : ''
+  );
 
   useEffect(() => {
     // Initialize values when rollout is updated
     setComponentKey(rollout.component_key);
     setRolloutTime(formatDate(rollout.rollout_time));
-    setRollbackTime(rollout.rollback_time ? formatDate(rollout.rollback_time) : '');
+    setRollbackTime(
+      rollout.rollback_time ? formatDate(rollout.rollback_time) : ''
+    );
   }, [rollout]);
-
-  
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -134,8 +142,7 @@ export function UpdateRolloutForm({ setLoading, setError, rollout, setRolloutToE
       setLoading(true);
       setError('');
 
-      if(!rollout._id)
-        throw new Error('rollout ID not found');
+      if (!rollout._id) throw new Error('rollout ID not found');
 
       // Create a FormData object to extract form values
       const formData = new FormData(e.currentTarget);
@@ -155,9 +162,9 @@ export function UpdateRolloutForm({ setLoading, setError, rollout, setRolloutToE
       // Simulate an API call for creating or updating a rollout
       const rolloutRes = await updateRollout(rollout._id, payload);
 
-      if (!rolloutRes.ok) 
-        throw new Error(rolloutRes.error?? 'failed to update rollout');
-      
+      if (!rolloutRes.ok)
+        throw new Error(rolloutRes.error ?? 'failed to update rollout');
+
       setRolloutToEdit(null);
     } catch (err) {
       const error = err as Error;
@@ -212,7 +219,6 @@ export function UpdateRolloutForm({ setLoading, setError, rollout, setRolloutToE
           Update Rollout
         </button>
       </div>
-
     </form>
   );
 }

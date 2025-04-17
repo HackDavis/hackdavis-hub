@@ -7,7 +7,7 @@ import styles from './Break.module.scss';
 import useRolloutCheck from '@pages/_hooks/useRolloutCheck';
 
 export default function Break() {
-  const {ready} = useRolloutCheck('hackers-choice-link');
+  const { ready } = useRolloutCheck('hackers-choice-link');
 
   return (
     <div className={styles.container}>
@@ -23,13 +23,15 @@ export default function Break() {
             Meanwhile, panels of judges will be choosing the winners from the
             top 5 projects shortlisted for each track after demos.
           </p>
-          {ready && <a
-            href="https://forms.gle/6SktCxAFAvYZ1hKz5"
-            target="_blank"
-            className={styles.link}
-          >
-            Submit Vote
-          </a> }
+          {ready && (
+            <a
+              href="https://forms.gle/6SktCxAFAvYZ1hKz5"
+              target="_blank"
+              className={styles.link}
+            >
+              Submit Vote
+            </a>
+          )}
         </div>
         <div className={styles.right}>
           <Image src={RelaxingCow} alt="Relaxing Cow" />
