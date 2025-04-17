@@ -13,7 +13,7 @@ import star from 'public/index/hero/star.svg';
 import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
-import Notifications from './Notifications';
+// import Notifications from './Notifications';
 import { GoArrowRight } from 'react-icons/go';
 
 export default function IndexHeroContent() {
@@ -29,9 +29,7 @@ export default function IndexHeroContent() {
           <p className={styles.map}>ARC BALLROOM MAP</p>
           <LuArrowUpRight size={23} />
         </a>
-        <div>
-          <Notifications />
-        </div>
+        <div>{/* <Notifications /> */}</div>
       </div>
 
       <div className={styles.spacer_star_container}>
