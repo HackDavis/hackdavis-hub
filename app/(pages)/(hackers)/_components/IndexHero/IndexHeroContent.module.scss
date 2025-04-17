@@ -94,8 +94,19 @@
     }
 }
 
+.live_now_heading{
+    display: flex;
+    gap: 1%;
+    padding-bottom: 1%;
+    align-items: center;
+    @include mixins.tablet-l{
+        display: none;
+    }
+}
+
 .group_width{
     width: 100%;
+    
     .countdown{
         p{
             font-size: 18px;
@@ -245,6 +256,12 @@
     align-items: center;
     flex-direction: column;
     padding: 5% 10%;
+    .cow_img{
+        width: 26%;
+        @include mixins.tablet-l{
+            width: 46%;
+        }
+    }
 }
 
 .live_now{
@@ -255,11 +272,18 @@
     background: rgba(255, 255, 255, 0.50);
     backdrop-filter: blur(30px);
     width: 100%;
-    // text-align: center;
+
+    text-align: center;
     padding: 0% 10%;
     scrollbar-color: white white;
     @include mixins.tablet-l{
-        padding: 0% 5%;
+        padding: 5% 5%;
+    }
+    .live_now_title{
+        display: none;
+        @include mixins.tablet-l{
+            display: initial;
+        }
     }
 
     .announcement{

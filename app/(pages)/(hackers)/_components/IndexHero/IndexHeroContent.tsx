@@ -33,7 +33,6 @@ export default function IndexHeroContent() {
         <div>
           <Notifications />
         </div>
-
       </div>
 
       <div className={styles.spacer_star_container}>
@@ -72,54 +71,112 @@ export default function IndexHeroContent() {
         everything on home page doesnt get taken down - prizes, 
       </p> */}
       <div className={styles.group_width}>
-        <div style={{display:"flex", gap:'1%', paddingBottom:'1%', alignItems:'center'}}>
+        <div className={styles.live_now_heading}>
           <p>LIVE NOW</p>
-          <Image src={star_icon} alt='star icon' className={styles.star_icon_img}/>
+          <Image
+            src={star_icon}
+            alt="star icon"
+            className={styles.star_icon_img}
+          />
         </div>
         <div className={styles.live_now}>
-          <Announcement time={'10:00 AM'} title={'🧃 Fuel Up!'} description={'Snacks have landed in the main room! Come grab some chips, fruit, and possibly too many Capri Suns. Hydration is innovation.'} isNew={true}/>
-          <Announcement time={'10:00 AM'} title={'💻 Workshop Starting Soon'} description={'“Building Your First AI Bot (That Doesn’t Go Rogue)” starts in 10 minutes in Room B! Bring your laptop, your curiosity, and maybe a charger.'} isNew={false}/>
-          <Announcement time={'10:00 AM'} title={'⚠️ Lost & Found'} description={'Someone left AirPods, a water bottle, and what might be the dignity of a sleep-deprived coder near the front desk. Claim them before they become community property.'} isNew={false}/>
+          <div className={styles.live_now_title}>
+            <p>LIVE NOW</p>
+          </div>
+          <Announcement
+            time={'10:00 AM'}
+            title={'🧃 Fuel Up!'}
+            description={
+              'Snacks have landed in the main room! Come grab some chips, fruit, and possibly too many Capri Suns. Hydration is innovation.'
+            }
+            isNew={true}
+          />
+          <Announcement
+            time={'10:00 AM'}
+            title={'💻 Workshop Starting Soon'}
+            description={
+              '“Building Your First AI Bot (That Doesn’t Go Rogue)” starts in 10 minutes in Room B! Bring your laptop, your curiosity, and maybe a charger.'
+            }
+            isNew={false}
+          />
+          <Announcement
+            time={'10:00 AM'}
+            title={'⚠️ Lost & Found'}
+            description={
+              'Someone left AirPods, a water bottle, and what might be the dignity of a sleep-deprived coder near the front desk. Claim them before they become community property.'
+            }
+            isNew={false}
+          />
         </div>
         <div className={styles.live_now_empty}>
-          <Image src={cow_tada} alt='cow tada'/>
+          <Image src={cow_tada} alt="cow tada" className={styles.cow_img} />
           <p>NO ANNOUNCEMENTS YET, HAPPY HACKING!</p>
         </div>
       </div>
-      
+
       <div className={styles.group_width}>
-          <div style={{display:"flex", gap:'1%', paddingBottom:'1%', alignItems:'center'}}>
-            <p>NEXT ON YOUR SCHEDULE</p>
-            <Image src={star_icon} alt='star icon'  className={styles.star_icon_img}/>
-            <div className={styles.countdown}>
-              <TimeTracker targetTime="2025-05-01T09:00:00Z" />
-            </div>
+        <div
+          style={{
+            display: 'flex',
+            gap: '1%',
+            paddingBottom: '1%',
+            alignItems: 'center',
+          }}
+        >
+          <p>NEXT ON YOUR SCHEDULE</p>
+          <Image
+            src={star_icon}
+            alt="star icon"
+            className={styles.star_icon_img}
+          />
+          <div className={styles.countdown}>
+            <TimeTracker targetTime="2025-05-01T09:00:00Z" />
           </div>
-          <NextSchedule title={'Team Mixer'} time={'11:00 - 12:00 PM'} location={'ARC Ballroom B'}/>
+        </div>
+        <NextSchedule
+          title={'Team Mixer'}
+          time={'11:00 - 12:00 PM'}
+          location={'ARC Ballroom B'}
+        />
       </div>
 
       <div className={styles.group_width}>
-          <div style={{display:"flex", gap:'1%', paddingBottom:'1%', alignItems:'center'}}>
-            <p>WHILE YOU WAIT, CHECK OUT OUR JUDGING INFORMATION</p>
-            <Image src={star_icon} alt='star icon'  className={styles.star_icon_img}/>
+        <div
+          style={{
+            display: 'flex',
+            gap: '1%',
+            paddingBottom: '1%',
+            alignItems: 'center',
+          }}
+        >
+          <p>WHILE YOU WAIT, CHECK OUT OUR JUDGING INFORMATION</p>
+          <Image
+            src={star_icon}
+            alt="star icon"
+            className={styles.star_icon_img}
+          />
+        </div>
+        <div className={styles.judge_info}>
+          <div>
+            <h2>
+              <strong>Judging Information</strong>
+            </h2>
+            <Link href={'/judging'}>
+              <button className={styles.schedule_button}>
+                Read on the process
+                <LuArrowUpRight size={23} />
+              </button>
+            </Link>
           </div>
-          <div className={styles.judge_info}>
-            <div>
-              <h2>
-                  <strong>Judging Information</strong>
-              </h2>
-              <Link href={'/judging'}>
-                <button className={styles.schedule_button}>Read on the process<LuArrowUpRight size={23} /></button>
-              </Link>
-            </div>
-            <div style={{display:'flex', justifyContent:'center'}}>
-              <Image src={judge_bunny_and_ducky} alt='judge bunny and ducky' className={styles.judge_bunny_ducky_img}/>
-            </div>
-            
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Image
+              src={judge_bunny_and_ducky}
+              alt="judge bunny and ducky"
+              className={styles.judge_bunny_ducky_img}
+            />
+          </div>
         </div>
       </div>
-
-      
     </div>
   );
 }
