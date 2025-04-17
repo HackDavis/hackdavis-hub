@@ -36,12 +36,12 @@ export default function IndexHeroContent() {
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
 
-      {/* <div className={styles.star_social_good}>
+      <div className={styles.star_social_good}>
         <div className={styles.star_box}>
           <Image src={star} alt="star" className={styles.box_star} />
         </div>
         <div className={styles.social_good}>{'// for social good'}</div>
-      </div> */}
+      </div>
 
       <div className={styles.heroRow}>
         <MusicPlayer />
@@ -61,20 +61,18 @@ export default function IndexHeroContent() {
               <GoArrowRight className={styles.submitArrow} />
             </button>
           </div>
+          <div className={styles.scrollSection}>
+            <Scroll />
+          </div>
         </div>
-      </div>
-
-      <div className={styles.star_social_good}>
-        <div className={styles.star_box}>
-          <Image src={star} alt="star" className={styles.box_star} />
-        </div>
-        <div className={styles.social_good}>{'// for social good'}</div>
       </div>
 
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
-      <Scroll />
+      <div className={styles.scrollDesktopSection}>
+        <Scroll />
+      </div>
       <div className={styles.group_width}>
         <div
           style={{
