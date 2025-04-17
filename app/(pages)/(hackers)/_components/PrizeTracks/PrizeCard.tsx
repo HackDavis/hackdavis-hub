@@ -49,6 +49,7 @@ export default function PrizeCard({
       align: 'start',
       dragFree: false,
       skipSnaps: false,
+      containScroll: 'trimSnaps',
       watchDrag: width > 760 ? false : true,
     },
     []

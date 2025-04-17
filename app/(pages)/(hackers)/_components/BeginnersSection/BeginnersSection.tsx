@@ -12,11 +12,11 @@ export default function BeginnersSection() {
       <div className={styles.main_content}>
         <div>
           <p className={styles.top_line}>
-            NOT SURE WHERE TO START? DON’T WORRY, WE GOT YOU :)
+            NOT SURE WHERE TO START? DON'T WORRY, WE GOT YOU :)
           </p>
           <h1>For beginners</h1>
           <p className={styles.description}>
-            We’ve created a <strong>Starter kit</strong> for all beginner
+            We've created a <strong>Starter kit</strong> for all beginner
             hackers to get their hack started! Inside includes: resources, past
             winning hacks, and more.
           </p>
