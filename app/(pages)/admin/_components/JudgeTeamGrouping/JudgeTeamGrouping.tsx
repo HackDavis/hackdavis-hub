@@ -1,4 +1,11 @@
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
+import { ChartOptions } from 'chart.js';
+
 import matchTeams from '@actions/logic/matchTeams';
+import matchTeamsDiagnostics, {
+  DiagnosticResult,
+} from '@actions/logic/matchTeamDiagnostics';
 import scoreTeams from '@actions/logic/scoreTeams';
 import { useFormState } from 'react-dom';
 import { useState } from 'react';
@@ -6,33 +13,60 @@ import deleteManySubmissions from '@actions/submissions/deleteSubmission';
 import JudgeToTeam from '@typeDefs/judgeToTeam';
 import styles from './JudgeTeamGrouping.module.scss';
 
-interface JudgeTeamDistribution {
-  sum: number;
-  count: number;
-  average: number;
-  min: number;
-  max: number;
-  numJudges: number;
-  numTeams: number;
-}
-
-interface MatchQualityStats {
-  sum: number;
-  average: number;
-  min: number;
-  max: number;
-  count: number;
-  teamTracks: string[];
-  judgeTracks: string[];
-}
-
 interface FullMatchData {
   judgeToTeam: JudgeToTeam[];
   extraAssignmentsMap: Record<string, number>;
-  judgeTeamDistribution: JudgeTeamDistribution;
-  matchQualityStats: Record<string, MatchQualityStats>;
+  judgeTeamDistribution: {
+    sum: number;
+    count: number;
+    average: number;
+    min: number;
+    max: number;
+    numJudges: number;
+    numTeams: number;
+  };
+  matchQualityStats: Record<string, any>;
+  matchStats: Record<string, number>;
   [key: string]: any;
 }
+
+const commonXOptions: ChartOptions<'line'> = {
+  scales: {
+    x: {
+      ticks: {
+        callback: function (_value, index) {
+          // `this.chart.data.labels` is the labels array
+          const raw = this.chart.data.labels?.[index];
+          return String(raw).slice(0, 4);
+        },
+      },
+    },
+  },
+};
+
+const distOptions: ChartOptions<'line'> = {
+  scales: {
+    x: {
+      ...commonXOptions.scales!.x,
+      title: { display: true, text: 'Alpha' },
+    },
+    y: {
+      title: { display: true, text: 'Assignments per Judge' },
+    },
+  },
+};
+
+const statsOptions: ChartOptions<'line'> = {
+  scales: {
+    x: {
+      ...commonXOptions.scales!.x,
+      title: { display: true, text: 'Average Match Quality' },
+    },
+    y: {
+      title: { display: true, text: 'Team Count' },
+    },
+  },
+};
 
 export default function JudgeTeamGrouping() {
   const [trackResults, scoreAction] = useFormState(scoreTeams, null);
@@ -42,28 +76,89 @@ export default function JudgeTeamGrouping() {
     null
   );
   const [alpha, setAlpha] = useState<number>(4);
-  const [showSubmissions, setShowSubmissions] = useState<boolean>(false);
-  const [showMatching, setShowMatching] = useState<boolean>(false);
+  const [showSubmissions, setShowSubmissions] = useState(false);
+  const [showMatching, setShowMatching] = useState(false);
 
-  // Match teams and store the submissions locally.
+  const [minAlpha, setMinAlpha] = useState<number>(3);
+  const [maxAlpha, setMaxAlpha] = useState<number>(6);
+  const [diagnostics, setDiagnostics] = useState<Record<
+    number,
+    DiagnosticResult
+  > | null>(null);
+
   const handleMatchTeams = async () => {
     const result = await matchTeams({ alpha });
-    let matchData: any = {};
     if (result.ok) {
-      matchData = result.body;
-      const { judgeToTeam: subs, ...otherMatchData } = matchData;
-
+      const { judgeToTeam: subs, ...otherData } = result.body!;
       setSubmissions(subs);
-      setFullMatchData(matchData);
-      setMatching(JSON.stringify(otherMatchData, null, 2));
+      setFullMatchData(result.body!);
+      setMatching(JSON.stringify(otherData, null, 2));
       setShowSubmissions(true);
       setShowMatching(true);
     } else {
-      matchData = result.error;
-      setMatching(matchData);
+      setMatching(result.error!);
       setShowMatching(true);
     }
   };
+
+  // diagnostics
+  const runDiagnostics = async () => {
+    const res = await matchTeamsDiagnostics({ minAlpha, maxAlpha });
+    if (res.ok && res.body) {
+      setDiagnostics(res.body);
+    } else {
+      alert('Diagnostics failed: ' + res.error);
+    }
+  };
+
+  // Prepare chart data once diagnostics are loaded
+  let distChartData, statsChartData;
+  if (diagnostics) {
+    const alphas = Object.keys(diagnostics)
+      .map(Number)
+      .sort((a, b) => a - b);
+
+    // 1) judgeTeamDistribution: plot max/min/average vs alpha
+    distChartData = {
+      labels: alphas,
+      datasets: [
+        {
+          label: 'Max',
+          data: alphas.map((a) => diagnostics[a].judgeTeamDistribution.max),
+          tension: 0.3,
+        },
+        {
+          label: 'Min',
+          data: alphas.map((a) => diagnostics[a].judgeTeamDistribution.min),
+          tension: 0.3,
+        },
+        {
+          label: 'Average',
+          data: alphas.map((a) => diagnostics[a].judgeTeamDistribution.average),
+          tension: 0.3,
+        },
+      ],
+    };
+
+    // 2) matchStats: build a unified x‑axis of all average‐quality keys
+    const allQualities = new Set<string>();
+    alphas.forEach((a) =>
+      Object.keys(diagnostics[a].matchStats).forEach((q) => allQualities.add(q))
+    );
+    const qualities = Array.from(allQualities)
+      .map(Number)
+      .sort((x, y) => x - y)
+      .map(String);
+
+    statsChartData = {
+      labels: qualities,
+      datasets: alphas.map((a) => ({
+        label: `α=${a}`,
+        data: qualities.map((q) => diagnostics[a].matchStats[q] || 0),
+        tension: 0.3,
+      })),
+    };
+  }
 
   // Generate full CSV content from all match data and trigger a download.
   const downloadCSV = () => {
@@ -190,6 +285,51 @@ export default function JudgeTeamGrouping() {
           </div>
         )}
       </div>
+
+      <div style={{ marginTop: 20 }}>
+        <h4>Diagnostics</h4>
+        <label>
+          Min alpha:{' '}
+          <input
+            type="number"
+            step={0.5}
+            value={minAlpha}
+            onChange={(e) => setMinAlpha(Number(e.target.value))}
+          />
+        </label>
+        <label className="ml-4">
+          Max alpha:{' '}
+          <input
+            type="number"
+            step={0.5}
+            value={maxAlpha}
+            onChange={(e) => setMaxAlpha(Number(e.target.value))}
+          />
+        </label>
+        <button
+          onClick={runDiagnostics}
+          className="ml-4"
+          style={{ marginTop: '10px', outline: '1px solid black' }}
+        >
+          Run Diagnostics
+        </button>
+      </div>
+
+      {diagnostics && (
+        <div className="flex flex-col lg:flex-row gap-6 mt-6">
+          {/* Distribution chart */}
+          <div className="w-full lg:w-1/2">
+            <h4>Judge–Team Distribution vs. α</h4>
+            <Line data={distChartData!} options={distOptions} />
+          </div>
+
+          {/* Match‑Stats chart */}
+          <div className="w-full lg:w-1/2">
+            <h4>Match‐Stats Distributions</h4>
+            <Line data={statsChartData!} options={statsOptions} />
+          </div>
+        </div>
+      )}
 
       <form action={scoreAction}>
         <button

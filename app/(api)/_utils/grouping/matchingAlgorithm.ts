@@ -70,6 +70,8 @@ export default async function matchAllTeams(options?: {
     average: number;
     min: number;
     max: number;
+    numJudges: number;
+    numTeams: number;
   };
   extraAssignmentsMap: Record<string, number>;
   matchQualityStats: {
@@ -94,7 +96,7 @@ export default async function matchAllTeams(options?: {
   // Fetch all checked in judges.
   const judgesResponse = await getManyUsers({
     role: 'judge',
-    has_checked_in: true,
+    has_checked_in: false,
   });
   if (!judgesResponse.ok) {
     throw new Error(`Failed to fetch judges: ${judgesResponse.error}`);
