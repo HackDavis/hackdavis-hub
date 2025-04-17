@@ -1,4 +1,9 @@
-type EventType = 'GENERAL' | 'ACTIVITIES' | 'WORKSHOPS' | 'MEALS';
+type EventType =
+  | 'GENERAL'
+  | 'ACTIVITIES'
+  | 'WORKSHOPS'
+  | 'MEALS'
+  | 'RECOMMENDED';
 type EventTag = 'developer' | 'designer' | 'pm' | 'other' | 'beginner';
 
 interface Event {
