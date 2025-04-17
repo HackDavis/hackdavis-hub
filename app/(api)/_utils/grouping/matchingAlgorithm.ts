@@ -77,6 +77,12 @@ export default async function matchAllTeams(options?: {
     };
   };
 }> {
+  // Arrays to hold submissions and track issues.
+  const judgeToTeam: JudgeToTeam[] = [];
+  const teamMatchQualities: { [teamId: string]: number[] } = {};
+  const teamJudgeTrackTypes: { [teamId: string]: string[] } = {};
+
+  const rounds = 3;
   const ALPHA = options?.alpha ?? 4;
   // Fetch all checked in judges.
   const judgesResponse = await getManyUsers({
@@ -143,24 +149,31 @@ export default async function matchAllTeams(options?: {
         )
       );
     }
+    // Ensure the team has exactly three tracks.
+    // If it has less than 3, duplicate the first track 3 times.
+    if (!team.tracks || team.tracks.length < rounds) {
+      // Use team.tracks[0] if available, otherwise fallback to an empty string.
+      if (team.tracks.length === 0) {
+        // No tracks at all → ["", "", ""]
+        team.tracks = Array(rounds).fill('');
+      } else {
+        // 1 or 2 tracks → cycle through them to get exactly `rounds` entries
+        team.tracks = Array.from(
+          { length: rounds },
+          (_, i) => team.tracks[i % team.tracks.length]
+        );
+      }
+    }
   });
 
   console.log('Number of judges:', judgesQueue.length);
   console.log('Number of teams:', modifiedTeams.length);
-
-  // Arrays to hold submissions and track issues.
-  const judgeToTeam: JudgeToTeam[] = [];
-  const teamMatchQualities: { [teamId: string]: number[] } = {};
-  const teamJudgeTrackTypes: { [teamId: string]: string[] } = {};
-
-  const rounds = 3;
 
   const extraAssignmentsMap = Object.fromEntries(
     modifiedTeams
       .filter((team) => team.tracks.length < rounds)
       .map((team) => [team._id ?? '', rounds - team.tracks.length])
   );
-  console.log(extraAssignmentsMap);
   // Main loop: process each team for each round.
   for (let trackIndex = 0; trackIndex < rounds; trackIndex++) {
     for (const team of modifiedTeams) {
@@ -218,75 +231,6 @@ export default async function matchAllTeams(options?: {
     }
   }
 
-  console.log(
-    'No. of judgeToTeam before processing extra assignments:',
-    judgeToTeam.length
-  );
-
-  for (let i = 0; i < rounds; i++) {
-    // Process missing assignments from rounds where a team lacked a track.
-    for (const [_, [teamId, numRounds]] of Object.entries(
-      extraAssignmentsMap
-    ).entries()) {
-      if (i > numRounds - 1) {
-        continue;
-      }
-      const team = modifiedTeams.find((t) => t._id === teamId);
-      if (!team) continue;
-      // Use the last available track.
-      const trackIndex = team.tracks.length - 1;
-      updateQueue(team, trackIndex, judgesQueue, ALPHA);
-      const trackUsed = team.tracks[trackIndex];
-
-      let selectedJudge: Judge | undefined = undefined;
-      for (const judge of judgesQueue) {
-        const duplicateExists = judgeToTeam.some(
-          (entry) =>
-            (entry.judge_id as Record<string, { id: string }>)['*convertId']
-              .id === judge.user._id?.toString() &&
-            (entry.team_id as Record<string, { id: string }>)['*convertId']
-              .id === team._id
-        );
-        if (!duplicateExists) {
-          selectedJudge = judge;
-          break;
-        }
-      }
-      if (!selectedJudge) {
-        throw new Error(
-          `No available unique judge for team ${
-            team._id
-          } during supplemental assignment for round ${i + 1}.`
-        );
-      }
-
-      const matchQuality = getSpecialtyMatchScore(
-        team,
-        selectedJudge,
-        trackIndex
-      );
-      if (!teamMatchQualities[teamId]) {
-        teamMatchQualities[teamId] = [];
-      }
-      teamMatchQualities[teamId].push(matchQuality);
-      if (!teamJudgeTrackTypes[teamId]) {
-        teamJudgeTrackTypes[teamId] = [];
-      }
-      teamJudgeTrackTypes[teamId].push(trackUsed);
-
-      const submission: JudgeToTeam = {
-        judge_id: { '*convertId': { id: selectedJudge.user._id?.toString() } },
-        team_id: { '*convertId': { id: team._id } },
-      };
-      judgeToTeam.push(submission);
-      selectedJudge.teamsAssigned += 1;
-    }
-  }
-  console.log(
-    'No. of judgeToTeam after accounting for missing assignments:',
-    judgeToTeam.length
-  );
-
   const judgeAssignments = judgesQueue.map((judge) => judge.teamsAssigned);
   const judgeTeamDistribution = {
     sum: judgeAssignments.reduce((acc, curr) => acc + curr, 0),
@@ -339,6 +283,7 @@ export default async function matchAllTeams(options?: {
     const avgKey = avg.toString();
     matchStats[avgKey] = (matchStats[avgKey] || 0) + 1;
   }
+  console.log(extraAssignmentsMap);
 
   return {
     judgeToTeam,
