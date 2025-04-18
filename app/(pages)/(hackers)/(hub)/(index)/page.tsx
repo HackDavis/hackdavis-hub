@@ -10,7 +10,6 @@ import BeginnersSection from '../../_components/BeginnersSection/BeginnersSectio
 import Footer from '@components/Footer/Footer';
 import Modal from '../../_components/Modal/Modal';
 
-// Hackathon end date from the Countdown component
 const COUNTDOWN_TARGET = new Date('2025-04-20T11:00:00-07:00');
 const MODAL_COMPLETED_KEY = 'hackdavis-modal-completed';
 
