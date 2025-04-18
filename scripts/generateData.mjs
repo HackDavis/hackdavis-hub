@@ -124,6 +124,15 @@ function generateData(collectionName, numDocuments) {
       domain: trackTypes[trackName],
       user_ids: [],
     }));
+  } else if (collectionName === 'rollouts') {
+    data = Array.from({ length: numDocuments }, () => {
+      return {
+        component_key: 'judge-check-in',
+        // component_key: 'hackers-choice-link',
+        rollout_time: Date.now() + 1 * 60 * 1000,
+        rollback_time: Date.now() + 2 * 60 * 1000,
+      };
+    });
   }
 
   return data;

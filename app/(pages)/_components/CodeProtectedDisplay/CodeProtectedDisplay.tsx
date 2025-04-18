@@ -1,26 +1,22 @@
 import { redirect } from 'next/navigation';
-
+import checkFeatureAvailability from '@actions/rollouts/checkFeatureAvailability';
 import getActiveUser from 'app/(pages)/_utils/getActiveUser';
-import fetchRollout from '@pages/_utils/fetchRolloutTime';
-import Rollout from '@typeDefs/rollout';
-import RolloutWaiter from '../RolloutWaiter/RolloutWaiter';
 
 export default async function CodeProtectedDisplay({
   failRedirectRoute,
+  featureId,
   children,
 }: {
   failRedirectRoute: string;
+  featureId: string;
   children: React.ReactNode;
 }) {
-  const user = await getActiveUser(failRedirectRoute);
-  const rollout: Rollout = await fetchRollout('judge-check-in');
+  const res = await checkFeatureAvailability(featureId);
+  if (!res.ok) return <>{children}</>;
 
-  if (user.has_checked_in) return <>{children}</>;
-  if (!rollout || (rollout && Date.now() < rollout.rollout_time)) {
-    // feature hasnt rolled out yet
-    return (
-      <RolloutWaiter component_key="judge-check-in">{children}</RolloutWaiter>
-    );
+  const user = await getActiveUser(failRedirectRoute);
+  if (user.has_checked_in) {
+    return <>{children}</>;
   } else {
     redirect(failRedirectRoute);
   }
