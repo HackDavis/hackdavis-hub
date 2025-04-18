@@ -6,6 +6,14 @@ import { useState, useEffect } from 'react';
 const COUNTDOWN_TARGET = new Date('2025-04-20T11:00:00-07:00');
 
 export default function Countdown() {
+  const [mounted, setMounted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
   const calculateTimeLeft = () => {
     const difference =
       new Date(COUNTDOWN_TARGET).getTime() - new Date().getTime();
@@ -19,15 +27,19 @@ export default function Countdown() {
     };
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
   useEffect(() => {
+    setMounted(true);
+    setTimeLeft(calculateTimeLeft());
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
+
+  if (!mounted) {
+    return null; // or a loading placeholder
+  }
 
   const displayDays = timeLeft.days > 1;
   return (
