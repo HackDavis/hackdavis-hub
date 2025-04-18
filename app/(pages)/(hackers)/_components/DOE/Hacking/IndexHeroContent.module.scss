@@ -1,0 +1,353 @@
+@use 'app/(pages)/_globals/mixins';
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+
+.container {
+    position: absolute;
+    left: 120px;
+    right: 120px;
+    top: 10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 162px;
+    column-gap: 96px;
+
+    text-align: left;
+    color: var(--text-dark);
+    font-size: 1.125rem;
+    font-weight: 400;
+
+    @include mixins.desktop-m {
+        left: 64px;
+        right: 64px;
+        row-gap: 100px;
+        column-gap: 64px;
+
+    }
+
+    @include mixins.desktop-s {
+        left: 48px;
+        right: 48px;
+        column-gap: 48px;
+    }
+
+    @include mixins.tablet-l {
+        justify-content: center;
+        row-gap: 16px;
+        left: 20px;
+        right: 20px;
+    }
+
+}
+  
+
+.infoContainer {
+    width: 100%;
+    order: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .date {
+        flex: 1;
+        text-align: left;
+    }
+
+    .link {
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .map {
+        // flex: 1;
+        text-align: right;
+    }
+
+    .map:hover {
+        text-decoration: underline;
+    }
+
+    @include mixins.tablet-l {
+        text-align: center;
+        flex-direction: column;
+    }
+}
+
+.heroRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    width: 100%;
+  
+    @include mixins.desktop-s {
+      justify-content: center;
+      gap: 25px;
+      padding: 0% 2%;
+    }
+  
+    @include mixins.tablet-l {
+      flex-direction: column-reverse; // 👈 flips order
+      align-items: center;
+      gap: 24px;
+    }
+  
+    > * {
+      flex-shrink: 0;
+    }
+  }
+  
+  
+
+.belowClock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px; 
+    justify-content: space-between;
+    width: 100%;
+
+    @include mixins.tablet-l {
+      flex-direction: row; 
+      justify-content: center;
+      align-items: flex-start;
+    }
+}
+
+.center_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    @include mixins.desktop-m {
+        width: 80%;
+        padding-bottom: 10%;
+    }
+  
+    @include mixins.tablet-l {
+        align-items: center;
+        order: 1;
+    }
+  }
+  
+
+  .submitButton {
+    background-color: var(--background-secondary);
+    display: flex;
+    font-weight: 600;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 3% 6%;
+    color: var(--text-light);
+    border-radius: 1000px;
+  
+    .submitArrow {
+      color: white;
+      width: 24px;
+      height: 24px;
+    }
+
+    @include mixins.tablet-l {
+        padding: 5% 20%;
+
+        p { 
+            font-size: 14px;
+        }
+    }
+  }
+  
+
+.group_width{
+    width: 100%;
+    .countdown{
+        p{
+            font-size: 18px;
+            font-weight: 400;
+            color: #000;
+
+            @include mixins.tablet-l{
+                font-size: 14px;
+            }
+        }
+        span{
+            font-size: 18px;
+            @include mixins.tablet-l{
+                font-size: 14px;
+            }
+        }
+        
+    }
+    p {
+        @include mixins.tablet-l{
+            font-size: 14px;
+        }
+    }
+    h2{
+        font-size: 36px;
+        font-weight: 700;
+        @include mixins.tablet-l{
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+    .star_icon_img{
+        @include mixins.tablet-l{
+            width: 16px;
+            height: 16px;
+        }
+        
+    }
+    button{
+        font-size: 18px;
+        @include mixins.tablet-l{
+            font-size: 14px;
+        }
+    }
+    h6{
+        font-size: 20px;
+        @include mixins.tablet-l{
+            font-size: 16px;
+        }
+    }
+}
+
+.judge_info{
+    border-radius: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(30px);
+    width: 100%;
+    padding: 35px 32px;
+    display: flex;
+    justify-content: space-between;
+
+    .judge_bunny_ducky_img{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    .schedule_button{
+        padding: 2% 6%;
+        border-radius: 20px;
+        border: 1.5px dashed #000;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.notification {
+    border-radius: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(30px);
+    width: 100%;
+    text-align: center;
+    padding: 35px 32px;
+
+    @include mixins.desktop-s {
+        padding: 24px;
+    }
+
+    @include mixins.tablet-l {
+        order: 3;
+        padding: 50px 35px;
+        margin-top: 50px;
+        text-align: left;
+    }
+}
+
+.monospace {
+    font-family: "DM Mono", monospace;
+    font-size: 18px;
+    @include mixins.desktop-s {
+        font-size: 17px;
+    }
+}
+
+.info {
+    font-size: 18px;
+    @include mixins.desktop-s {
+        font-size: 17px;
+    }
+    @include mixins.tablet-l {
+        display: none;
+    }
+}
+
+.scrollSection {
+    display: none;
+
+    @include mixins.tablet-l {
+        padding-top: 15%;
+        display: flex;
+    }
+}
+
+.scrollDesktopSection {
+    width: 100%;
+
+    @include mixins.tablet-l {
+        display: none;
+    }
+}
+
+.star_social_good {
+    display: none;
+
+    @include mixins.tablet-l {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        order: 0;
+        width: 100%;
+        // padding: 0% 2%;
+        order: 0;
+    }
+}
+
+.star_box, .social_good {
+    border-radius: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(30px);
+}
+
+.star_box {
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 28px;
+    order: 4;
+}
+
+.social_good {
+    font-family: "DM Mono", monospace;
+    text-align: left;
+    flex-grow: 1;
+    padding: 28px;
+}
+
+.box_star {
+    width: 36px;
+    height: auto;
+}
+
+.spacer_star_container {
+    display: none;
+
+    @include mixins.tablet-l {
+        order: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 24px;
+    }
+}
