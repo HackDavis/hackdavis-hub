@@ -6,13 +6,14 @@ import PrizeTracks from '../../_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '../../_components/BeginnersSection/BeginnersSection';
 import Footer from '@components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
-// import IndexHero from '../../_components/IndexHero/IndexHero';
+import IndexHero from '../../_components/IndexHero/IndexHero';
 import IndexHeroJudging from '../../_components/DOE/Judging/IndexHero';
 
 export default function Page() {
   return (
     <main id="home">
-      <IndexHeroJudging />
+      {/* <IndexHeroJudging /> */}
+      <IndexHero />
       <BeginnersSection />
       <Contact />
       <PrizeTracks />
