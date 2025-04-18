@@ -8,6 +8,7 @@ export default function Admin() {
       <Link href="/admin/panels">Create Panels</Link>
       <Link href="/admin/invite-link">Invite Users</Link>
       <Link href="/admin/randomize-projects">Randomize Projects</Link>
+      <Link href="/admin/announcements">Announcements</Link>
     </div>
   );
 }
