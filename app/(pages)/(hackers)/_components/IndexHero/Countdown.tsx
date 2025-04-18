@@ -40,21 +40,21 @@ export default function Countdown() {
     <div className={styles.container}>
       <div className={styles.time_countdown}>
         <div>
-          <p>HOURS</p>
+          <p className={styles.words}>HOURS</p>
           <p className={`${styles.countdown_text}`}>
             {timeLeft.hours.toString().padStart(2, '0')}
           </p>
         </div>
         <p className={styles.countdown_text}>{' : '}</p>
         <div>
-          <p>MINUTES</p>
+          <p className={styles.words}>MINUTES</p>
           <p className={`${styles.countdown_text}`}>
             {timeLeft.minutes.toString().padStart(2, '0')}
           </p>
         </div>
         <p className={styles.countdown_text}>{' : '}</p>
         <div>
-          <p className={styles.seconds}>SECONDS</p>
+          <p className={styles.words}>SECONDS</p>
           <p className={`${styles.countdown_text} ${styles.fixed_text}`}>
             {timeLeft.seconds.toString().padStart(2, '0')}
           </p>

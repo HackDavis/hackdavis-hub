@@ -12,7 +12,7 @@ import IndexHeroJudging from '../../_components/DOE/Judging/IndexHero';
 export default function Page() {
   return (
     <main id="home">
-      {/* <IndexHeroJudging /> */}
+      <IndexHeroJudging />
       <IndexHero />
       <BeginnersSection />
       <Contact />
