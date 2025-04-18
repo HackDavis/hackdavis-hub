@@ -16,6 +16,8 @@ interface ModalProps {
   onClose: () => void;
 }
 
+const MODAL_COMPLETED_KEY = 'hackdavis-modal-completed';
+
 export default function Modal({ isOpen, onClose }: ModalProps) {
   const [currentStage, setCurrentStage] = useState(1);
   const [teamNumber, setTeamNumber] = useState('');
@@ -88,6 +90,10 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
   };
 
   const handleYesClick = () => {
+    // Save to localStorage that the user has completed the modal flow
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(MODAL_COMPLETED_KEY, 'true');
+    }
     onClose();
   };
 
