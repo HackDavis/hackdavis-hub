@@ -2,23 +2,19 @@
 
 import Waterfall from '../../_components/Waterfall/Waterfall';
 import BigVinyl from '../../_components/BigVinyl/BigVinyl';
-import IndexHero from '../../_components/IndexHero/IndexHero';
-// import UnderConstruction from '../../_components/UnderConstruction/UnderConstruction';
 import PrizeTracks from '../../_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '../../_components/BeginnersSection/BeginnersSection';
 import Footer from '@components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
+// import IndexHero from '../../_components/IndexHero/IndexHero';
+import IndexHeroJudging from '../../_components/DOE/Judging/IndexHero';
 
 export default function Page() {
   return (
     <main id="home">
-      <IndexHero />
+      <IndexHeroJudging />
       <BeginnersSection />
-      {/* <UnderConstruction /> */}
-<<<<<<< HEAD
-=======
       <Contact />
->>>>>>> feat/judge-home-banners
       <PrizeTracks />
       <BigVinyl />
       <Waterfall />

@@ -15,9 +15,9 @@ import Link from 'next/link';
 import TimeTracker from '../../IndexHero/TimeTracker';
 // import Notifications from './Notifications';
 import JudgeBanners from '../../IndexHero/JudgeBanners';
-// import { GoArrowRight } from 'react-icons/go';
+import { GoArrowRight } from 'react-icons/go';
 
-export default function IndexHeroContent() {
+export default function IndexHeroContentJudging() {
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -46,7 +46,7 @@ export default function IndexHeroContent() {
           {/* <Countdown /> */}
           <JudgeBanners />
           {/* please work bro */}
-          {/* <div className={styles.belowClock}>
+          <div className={styles.belowClock}>
             <p className={styles.info}>
               A HACKDAVIS HUB
               <br />
@@ -59,7 +59,7 @@ export default function IndexHeroContent() {
               <p>SUBMIT!</p>
               <GoArrowRight className={styles.submitArrow} />
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
 
