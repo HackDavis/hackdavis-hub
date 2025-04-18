@@ -8,12 +8,14 @@ import Footer from '@components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
 import IndexHero from '../../_components/IndexHero/IndexHero';
 import IndexHeroJudging from '../../_components/DOE/Judging/IndexHero';
+import IndexHeroHacking from '../../_components/DOE/Hacking/IndexHero';
 
 export default function Page() {
   return (
     <main id="home">
       <IndexHeroJudging />
       <IndexHero />
+      <IndexHeroHacking />
       <BeginnersSection />
       <Contact />
       <PrizeTracks />
