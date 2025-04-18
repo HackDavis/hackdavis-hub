@@ -1,22 +1,10 @@
 'use server';
 
-import { UpdateSubmission } from '@datalib/submissions/updateSubmission';
+import { UpdateTeam } from '@datalib/teams/updateTeam';
+import { revalidatePath } from 'next/cache';
 
-export async function updateTeam(
-  judgeId: string,
-  teamId: string,
-  updateData: any
-) {
-  try {
-    const result = await UpdateSubmission(judgeId, teamId, updateData);
-    return result;
-  } catch (error) {
-    console.error('Error updating team:', error);
-    return {
-      ok: false,
-      body: null,
-      error:
-        error instanceof Error ? error.message : 'An unknown error occurred',
-    };
-  }
+export async function updateTeam(id: string, body: object) {
+  const updateRes = await UpdateTeam(id, body);
+  revalidatePath('/');
+  return updateRes;
 }

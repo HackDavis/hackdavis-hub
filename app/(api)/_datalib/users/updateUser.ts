@@ -22,9 +22,9 @@ export const UpdateUser = async (id: string, body: object) => {
 
     // check for duplicate email or second admin
     if (parsedBody.$set.email) {
-      const existingUserWithEmail = await db
-        .collection('users')
-        .findOne({ email: parsedBody.$set.email });
+      const existingUserWithEmail = await db.collection('users').findOne({
+        $and: [{ email: parsedBody.$set.email }, { _id: { $ne: object_id } }],
+      });
       if (existingUserWithEmail) {
         throw new BadRequestError(
           `Duplicate: user email ${parsedBody.$set.email} already in use by another user.`
