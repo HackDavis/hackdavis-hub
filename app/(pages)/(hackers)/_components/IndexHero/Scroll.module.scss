@@ -1,0 +1,69 @@
+@import '@globals/mixins.scss';
+
+.container {
+  padding: 2%;
+  width: 100%;
+  text-align: center;
+
+  @include tablet-l {
+    padding: 0%;
+    margin: 5% 0% 5% 0%;
+}
+
+  .star {
+    display: block; 
+    margin: 0 auto; 
+    width: fit-content; 
+    padding-bottom: 3%;
+
+    @include tablet-l {
+        display: none;
+    }
+  }
+
+  .parent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .child {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 60px;
+    height: 100px;
+    cursor: pointer;
+
+    .note {
+      position: absolute;
+      top: 0;
+      height: 30px;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.2s ease;
+    }
+
+    .head {
+      width: 60px;
+      height: auto;
+      z-index: 1;
+    }
+
+    .note {
+        position: absolute;
+        top: 0;
+        height: 30px;
+        opacity: 1;
+        transform: translateY(0);
+        transition: transform 0.3s ease; // smooth return
+      }
+    
+      &:hover .note {
+        transform: translateY(-8px);
+      }
+    }
+}
