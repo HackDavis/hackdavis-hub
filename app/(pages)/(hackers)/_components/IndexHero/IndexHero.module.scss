@@ -2,42 +2,45 @@
 
 .container {
     width: 100%;
-    aspect-ratio: calc(16 / 14);
-    overflow-x: clip;
+    // aspect-ratio: calc(16 / 14);
+    // overflow-x: clip;
     background: linear-gradient(154deg, #76DEEB 45.75%, #FCFCD1 92.58%);
 
-    position: relative;
+    // position: relative;
 
-    margin-bottom: 15%;
+    // height: 300vh; //hard code height :/
+    // height: auto;
 
     @include mixins.desktop-s {
-        aspect-ratio: calc(16 / 17);
+        // aspect-ratio: calc(16 / 17);
     }
 
     @include mixins.tablet-l {
-        height: 1500px;
-        z-index: 50;
+        // height: 1500px;
+        // margin-bottom: 0;
+        // z-index: 50;
     }
 
     @include mixins.mobile-l {
-        height: 1350px;
+        // height: 1350px;
     }
 }
 
 .base_grass {
     width: 100%;
-    position: absolute;
-    bottom: 0;
+    // position: absolute;
+    // bottom: 0;
+    margin-top: -5%;
     transform: translateY(42%);
 }
 
-.bunny {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20%;
-}
+// .bunny {
+//     // position: absolute;
+//     // bottom: 0;
+//     // left: 50%;
+//     transform: translate(200%, 270%);
+//     width: 20%;
+// }
 
 .small_left_cloud {
     position: absolute;
