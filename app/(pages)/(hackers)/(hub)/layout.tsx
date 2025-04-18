@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       allowedRoles={['hacker', 'admin']}
       failRedirectRoute="/login"
     >
-      <Navbar />
+      {/* <Navbar /> */}
       {children}
     </ProtectedDisplay>
   );

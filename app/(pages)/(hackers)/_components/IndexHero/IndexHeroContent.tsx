@@ -8,11 +8,11 @@ import star from 'public/index/hero/star.svg';
 export default function IndexHeroContent() {
   return (
     <div className={styles.container}>
-      <p className={styles.date}>
+      {/* <p className={styles.date}>
         APRIL 19-20
         <br />
         2025
-      </p>
+      </p> */}
       <MusicPlayer />
       <div className={styles.center_right}>
         <Countdown />
