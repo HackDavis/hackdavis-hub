@@ -87,29 +87,6 @@ export default function JudgeTeamGrouping() {
     }
   };
 
-  const commonX = commonXOptions.scales!.x;
-  const distOptions: ChartOptions<'line'> = {
-    scales: {
-      x: { ...commonX, title: { display: true, text: 'Alpha' } },
-      y: { title: { display: true, text: 'Assignments per Judge' } },
-    },
-  };
-  const statsOptions: ChartOptions<'line'> = {
-    scales: {
-      x: {
-        ...commonX,
-        title: { display: true, text: 'Average Match Quality' },
-      },
-      y: { title: { display: true, text: 'Team Count' } },
-    },
-  };
-  const weightedOptions: ChartOptions<'line'> = {
-    scales: {
-      x: { ...commonX, title: { display: true, text: 'Alpha' } },
-      y: { title: { display: true, text: 'Weighted Avg Quality' } },
-    },
-  };
-
   // Prepare chart data once diagnostics are loaded
   let distChartData, statsChartData, weightedChartData, medianChartData;
   if (diagnostics) {
@@ -205,6 +182,29 @@ export default function JudgeTeamGrouping() {
       ],
     };
   }
+
+  const commonX = commonXOptions.scales!.x;
+  const distOptions: ChartOptions<'line'> = {
+    scales: {
+      x: { ...commonX, title: { display: true, text: 'Alpha' } },
+      y: { title: { display: true, text: 'Assignments per Judge' } },
+    },
+  };
+  const statsOptions: ChartOptions<'line'> = {
+    scales: {
+      x: {
+        ...commonX,
+        title: { display: true, text: 'Average Match Quality' },
+      },
+      y: { title: { display: true, text: 'Team Count' } },
+    },
+  };
+  const weightedOptions: ChartOptions<'line'> = {
+    scales: {
+      x: { ...commonX, title: { display: true, text: 'Alpha' } },
+      y: { title: { display: true, text: 'Weighted Avg Quality' } },
+    },
+  };
 
   // Generate full CSV content from all match data and trigger a download.
   const downloadCSV = () => {
@@ -364,11 +364,11 @@ export default function JudgeTeamGrouping() {
       {diagnostics && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
           <div>
-            <h4>Judge–Team Distribution vs. alpha</h4>
+            <h4>Judge - Team Distribution vs. alpha</h4>
             <Line data={distChartData!} options={distOptions} />
           </div>
           <div>
-            <h4>Match‑Stats Distributions</h4>
+            <h4>Match - Stats Distributions</h4>
             <Line data={statsChartData!} options={statsOptions} />
           </div>
           <div>
