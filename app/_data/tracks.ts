@@ -224,9 +224,9 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Problem-Solving and Persistence',
         guidelines: {
-          1: 'Gave up easily or avoided addressing problems',
-          3: 'Worked through some challenges with effort',
-          5: 'Tackled tough issues with creative persistence',
+          1: 'Gave up easily or avoided addressing problems.',
+          3: 'Worked through some challenges with effort.',
+          5: 'Tackled tough issues with creative persistence.',
         },
       },
     ],
@@ -280,25 +280,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Originality of Concept',
         guidelines: {
-          1: 'Common idea; similar to known projects',
-          3: 'Interesting twist or framing of a common idea',
-          5: 'Fresh, unexpected concept',
+          1: 'Common idea; similar to known projects.',
+          3: 'Interesting twist or framing of a common idea.',
+          5: 'Fresh, unexpected concept.',
         },
       },
       {
         attribute: 'Creative Execution',
         guidelines: {
-          1: 'Conventional build; little imagination',
-          3: 'Some creative choices in implementation',
-          5: 'Inventive design; imaginative features',
+          1: 'Conventional build; little imagination.',
+          3: 'Some creative choices in implementation.',
+          5: 'Inventive design; imaginative features.',
         },
       },
       {
         attribute: 'User Engagement',
         guidelines: {
-          1: 'Uninspiring or hard to connect with',
-          3: 'Moderately interesting or novel',
-          5: 'Memorable and captivating experience',
+          1: 'Uninspiring or hard to connect with.',
+          3: 'Moderately interesting or novel.',
+          5: 'Memorable and captivating experience.',
         },
       },
     ],
@@ -316,26 +316,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Hardware Integration',
         guidelines: {
-          1: 'Disconnected or non-functional hardware',
-          3: 'Working hardware with basic integration',
-          5: 'Seamless integration; essential to project',
+          1: 'Disconnected or non-functional hardware.',
+          3: 'Working hardware with basic integration.',
+          5: 'Seamless integration; essential to project.',
         },
       },
       {
-        // sandy doesnt approve
-        attribute: 'Hardware Design and Creativity',
+        attribute: 'Feasibility and Technical Soundness',
         guidelines: {
-          1: 'Generic components; standard use',
-          3: 'Some custom elements or unusual applications',
-          5: 'Unique design; innovative use of components',
+          1: 'Unrealistic approach; unlikely to work outside controlled conditions.',
+          3: 'Functional demo with some practical limitations or assumptions.',
+          5: 'Well-grounded and executable design; feasible to reproduce or extend.',
         },
       },
       {
         attribute: 'User Interaction',
         guidelines: {
-          1: 'Difficult to operate or requires technical knowledge to use',
-          3: 'Straightforward interaction with clear feedback to user actions',
-          5: 'Intuitive, responsive interaction that feels natural and engaging',
+          1: 'Difficult to operate or requires technical knowledge to use.',
+          3: 'Straightforward interaction with clear feedback to user actions.',
+          5: 'Intuitive, responsive interaction that feels natural and engaging.',
         },
       },
     ],
@@ -387,27 +386,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Social Justice Relevance',
+        attribute: 'Issue Understanding & Community Consideration',
         guidelines: {
-          1: 'Loose connection; unclear purpose',
-          3: 'Clearly linked to a real social issue',
-          5: 'Sharp focus on impactful social issue',
+          1: 'Surface-level grasp of the social issue; minimal thought about affected communities.',
+          3: 'Good research and knowledge of the problem; considers needs of target communities.',
+          5: 'Deep insight into nuances of the issue; clearly centers the voices and needs of affected groups.',
         },
       },
       {
-        attribute: 'Advocacy and Awareness',
+        attribute: 'Advocacy Effectiveness',
         guidelines: {
-          1: 'No call to action or outreach',
-          3: 'Some effort to inform or engage',
-          5: 'Strong call to action; inspires involvement',
+          1: 'Passive presentation; no community engagement strategy.',
+          3: 'Thoughtful awareness campaign with specific audience targeting.',
+          5: 'Compelling call to action with practical pathways for audience involvement.',
         },
       },
       {
-        attribute: 'Potential for Real-World Impact',
+        attribute: 'Implementation Feasibility & Impact',
         guidelines: {
-          1: 'Unlikely to create change',
-          3: 'Plausible concept with room to grow',
-          5: 'Clear, actionable path to real, widespread impact',
+          1: 'Conceptual solution with significant barriers to deployment.',
+          3: 'Viable prototype that could be developed with additional resources.',
+          5: 'Ready-to-launch solution with demonstrated potential for measurable impact.',
         },
       },
     ],
@@ -425,25 +424,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Visual Design',
         guidelines: {
-          1: 'Inconsistent style; cluttered or dull; poor accessibility',
-          3: 'Mostly clean design with some inconsistencies; some inclusive features',
-          5: 'Beautiful, cohesive, polished; thoughtful inclusivity',
+          1: 'Inconsistent style; cluttered or dull; poor accessibility.',
+          3: 'Mostly clean design with some inconsistencies; some inclusive features.',
+          5: 'Beautiful, cohesive, polished; thoughtful inclusivity.',
         },
       },
       {
         attribute: 'Navigation Flow',
         guidelines: {
-          1: 'Confusing user journey; hard to find key actions',
-          3: 'Clear pathways through the interface with minor issues',
-          5: 'Effortless, intuitive navigation throughout',
+          1: 'Confusing user journey; hard to find key actions.',
+          3: 'Clear pathways through the interface with minor issues.',
+          5: 'Effortless, intuitive navigation throughout.',
         },
       },
       {
         attribute: 'Design Process',
         guidelines: {
-          1: 'Limited evidence of design planning',
-          3: 'Some wireframes or design iterations shown',
-          5: 'Comprehensive design process with wireframes to final product',
+          1: 'Limited evidence of design planning.',
+          3: 'Some wireframes or design iterations shown.',
+          5: 'Comprehensive design process with wireframes to final product.',
         },
       },
     ],
@@ -459,27 +458,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
-        attribute: 'Research Depth',
+        attribute: 'User Understanding',
         guidelines: {
-          1: 'Few or irrelevant data points',
-          3: 'Some effort to gather user needs',
-          5: 'Extensive, targeted research',
+          1: 'Assumptions made with minimal research.',
+          3: 'Clear effort to understand target users.',
+          5: 'Comprehensive insights into user needs and behaviors.',
         },
       },
       {
-        attribute: 'Feedback Integration',
+        attribute: 'Depth of Research Methods',
         guidelines: {
-          1: 'Feedback ignored or misaligned',
-          3: 'Partial integration; some user alignment',
-          5: 'Strong alignment; clear influence of feedback',
+          1: 'Few or irrelevant data points.',
+          3: 'Basic research approach (like one survey).',
+          5: 'Thoughtful combination of multiple research methods.',
         },
       },
       {
-        attribute: 'Creative Problem Fit',
+        attribute: 'Design Application & Feedback Integration',
         guidelines: {
-          1: 'Generic solution; weak fit to users',
-          3: 'Some alignment with user needs',
-          5: 'Clever, well-matched solution to user goals',
+          1: 'Research/feedback ignored or misaligned.',
+          3: 'Limited connection between research and design; some user alignment.',
+          5: 'Each design element directly tied to research findings.',
         },
       },
     ],
@@ -495,27 +494,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Business Model Viability',
+        attribute: 'Target Customer Clarity',
         guidelines: {
-          1: 'No clear model or unrealistic assumptions',
-          3: 'Some viability; needs refinement',
-          5: 'Compelling, realistic revenue model',
+          1: 'Vague idea of potential users.',
+          3: 'Defined customer segments with needs.',
+          5: 'Detailed customer profiles with validated pain points.',
         },
       },
       {
-        attribute: 'Pitch Effectiveness',
+        attribute: 'Business Model',
         guidelines: {
-          1: 'Unclear or unconvincing pitch',
-          3: 'Decent clarity; some persuasion',
-          5: 'Clear, persuasive, well-structured pitch',
+          1: 'Unclear how the project would make money.',
+          3: 'Reasonable revenue model identified.',
+          5: 'Well-thought-out pricing and monetization strategy.',
         },
       },
       {
-        attribute: 'Product-Market Fit',
+        attribute: 'Market Differentiation',
         guidelines: {
-          1: 'Vague or missing audience info',
-          3: 'Some understanding of user base',
-          5: 'Well-defined market; strategic focus',
+          1: 'Little distinction from existing solutions.',
+          3: 'Some unique selling points identified.',
+          5: 'Clear competitive advantage with strong market positioning.',
         },
       },
     ],
@@ -533,25 +532,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Exploratory Data Analysis',
         guidelines: {
-          1: 'Minimal data exploration with basic statistics only',
-          3: 'Thoughtful exploration revealing patterns and relationships in the data',
-          5: 'Comprehensive EDA; insightful visualizations; directly informs model design',
+          1: 'Minimal data exploration with basic statistics only.',
+          3: 'Thoughtful exploration revealing patterns and relationships in the data.',
+          5: 'Comprehensive EDA; insightful visualizations; directly informs model design.',
         },
       },
       {
         attribute: 'Use of Statistical Tests',
         guidelines: {
-          1: 'Inappropriate or missing tests',
-          3: 'Some relevant tests included',
-          5: 'Proper tests applied correctly to the data and analysed',
+          1: 'Inappropriate or missing tests.',
+          3: 'Some relevant tests included.',
+          5: 'Proper tests applied correctly to the data and analysed.',
         },
       },
       {
         attribute: 'Results Interpretation',
         guidelines: {
-          1: 'Unclear; hard to read; numbers presented with little explanation',
-          3: 'Some clarity in explanation; basic visualizations',
-          5: 'Insightful interpretation connecting statistics to real world',
+          1: 'Unclear; hard to read; numbers presented with little explanation.',
+          3: 'Some clarity in explanation; basic visualizations.',
+          5: 'Insightful interpretation connecting statistics to real world.',
         },
       },
     ],
@@ -567,28 +566,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'MedTech/BioTech',
     scoring_criteria: [
       {
-        attribute: 'Relevance to health and well-being themes',
+        attribute: 'Relevance to a Real Medical Problem',
         guidelines: {
-          1: 'Minimal relevance to health topics.',
-          3: 'Moderate relevance with some impact.',
-          5: 'Highly relevant with significant health impact.',
+          1: 'Vague or unclear medical application; doesn’t address a meaningful or specific issue.',
+          3: 'Addresses a relevant medical use case with some research and reasoning shown.',
+          5: 'Clearly identifies a pressing medical need with evidence of research, user need, or potential impact.',
         },
       },
       {
-        attribute:
-          'Effectiveness in addressing accessibility or service issues',
+        attribute: 'Feasibility of Implementation',
         guidelines: {
-          1: 'Limited effectiveness with minimal impact.',
-          3: 'Moderate effectiveness with some impact.',
-          5: 'Highly effective with significant positive impact.',
+          1: 'Solution appears difficult to implement practically or lacks technical grounding.',
+          3: 'Somewhat feasible; working prototype shown, though parts may be underdeveloped or theoretical.',
+          5: 'Technically feasible with a working prototype that could realistically be deployed or scaled.',
         },
       },
       {
-        attribute: 'Potential for real-world application',
+        attribute: 'Data Privacy, Security & Compliance',
         guidelines: {
-          1: 'Minimal potential with unlikely application.',
-          3: 'Moderate potential with some applicability.',
-          5: 'High potential with clear real-world applicability.',
+          1: 'Lacks basic protections and ignores regulatory requirements.',
+          3: 'Implements safeguards and is aware of HIPAA/GDPR.',
+          5: 'Fully addresses privacy and security and demonstrates understanding of relevant regulations.',
         },
       },
     ],
@@ -605,28 +603,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'MedTech/BioTech',
     scoring_criteria: [
       {
-        attribute: 'Relevance to health and well-being themes',
+        attribute: 'Accessibility Impact',
         guidelines: {
-          1: 'Minimal relevance to health topics.',
-          3: 'Moderate relevance with some impact.',
-          5: 'Highly relevant with significant health impact.',
+          1: 'Minimal consideration for accessibility; doesn’t address a specific disability or user group.',
+          3: 'Targets a specific disability or accessibility need; partially addresses barriers.',
+          5: 'Thoughtfully addresses a real accessibility challenge with a clear use case and significant potential to empower users.',
         },
       },
       {
-        attribute:
-          'Effectiveness in addressing accessibility or service issues',
+        attribute: 'Customization & Personalization',
         guidelines: {
-          1: 'Limited effectiveness with minimal impact.',
-          3: 'Moderate effectiveness with some impact.',
-          5: 'Highly effective with significant positive impact.',
+          1: 'One‑size‑fits‑all interface with no user‑adjustable settings; not adaptable to individual needs.',
+          3: 'Offers a handful of presets or adjustable parameters (e.g. text size, volume), but limited depth.',
+          5: 'Deep personalization: multiple adjustable modalities (voice, touch, gesture), fine‑tunable settings, user profiles saved for repeat use.',
         },
       },
       {
-        attribute: 'Potential for real-world application',
+        attribute: 'Inclusive Design',
         guidelines: {
-          1: 'Minimal potential with unlikely application.',
-          3: 'Moderate potential with some applicability.',
-          5: 'High potential with clear real-world applicability.',
+          1: 'Minimal or no accessibility considerations; uses hard-to-read fonts, poor color contrast, or inaccessible controls.',
+          3: 'Addresses some accessibility needs (e.g., high contrast mode, keyboard navigation), but lacks full inclusivity or testing.',
+          5: 'Demonstrates comprehensive inclusive design—supports color blindness (e.g., non-color-based cues), screen reader compatibility, keyboard-only navigation, simple language, clear layout, cognitive-friendly design, etc.',
         },
       },
     ],
