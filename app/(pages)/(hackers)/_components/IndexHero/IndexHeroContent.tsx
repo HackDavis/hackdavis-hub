@@ -15,6 +15,7 @@ export default function IndexHeroContent() {
       </p>
       <MusicPlayer />
       <div className={styles.center_right}>
+        <p>UNTIL HACKATHON BEGINS</p>
         <Countdown />
         <p className={styles.info}>
           A HACKDAVIS HUB
