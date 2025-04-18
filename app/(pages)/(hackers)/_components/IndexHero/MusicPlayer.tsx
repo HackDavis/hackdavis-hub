@@ -24,7 +24,7 @@ export default function MusicPlayer() {
       const deltaTime = timestamp - lastTimeRef.current;
       lastTimeRef.current = timestamp;
 
-      setRotation((prevRotation) => prevRotation + (deltaTime / 16.67) * 2);
+      setRotation((prevRotation) => prevRotation + (deltaTime / 16.67) * 0.25);
 
       if (isPlaying) {
         animationRef.current = requestAnimationFrame(rotate);
