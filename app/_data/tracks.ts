@@ -23,6 +23,7 @@ import jblHeadphones from '@public/prizes/jbl_headphones.png';
 import iotKit from '@public/prizes/iot_kit.png';
 import microphone from '@public/prizes/microphone.png';
 import keyboard from '@public/prizes/keyboard.png';
+import arduino from '@public/prizes/arduino.png';
 
 interface TrackData {
   name: string;
@@ -53,7 +54,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Plushie'],
     images: [catPlushie],
     eligibility_criteria:
-      'The California Government Operations Agency works to advance effectiveness, efficiency, and equity in state operations. In light of recent events, craft an analytics solutions that support data-driven fire recovery, response, and survivor support. The state is not interested in “chat bot” proposals for this challenge.',
+      'California has the largest and most diverse population in the country. Our diversity is our strength, and the Governor is committed to a California for All. How can the state create analytics opportunities and solutions to support data-driven, culturally and demographically sensitive fire recovery, response, and survivor support? The state is not interested in “chat bot” proposals for this challenge.',
   },
   'Best Hack for NAMI Yolo': {
     name: 'Best Hack for NAMI Yolo',
@@ -61,7 +62,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Plushie'],
     images: [catPlushie],
     eligibility_criteria:
-      'The Yolo County chapter of National Alliance on Mental Illness provides free mental health support and resources in Yolo County and heavily relies on trained volunteers. Implement a centralized volunteer management system that provides an intuitive interface for tracking volunteer activity, training history, and scheduling.',
+      'NAMI Yolo is an organization that provides free mental health support and resources in Yolo County. It is primarily led by families, friends and individuals whose lives have been affected by mental illness. The organization heavily relies on trained volunteers to deliver educational programs, lead support groups, assist with events, and give community presentations. However, there is no unified system to track the entire volunteer process—from recruitment and onboarding to training, scheduling, and tracking volunteer hours. Additionally, it is important to track which courses each volunteer is trained to teach to ensure proper program delivery.  Currently, NAMI Yolo uses Google Drive and spreadsheets, which makes managing volunteer engagement and program coordination inefficient and time-consuming. To enhance organization and communication, NAMI Yolo seeks to implement a centralized volunteer management system that provides an intuitive interface for tracking volunteer activity, training history, and scheduling. How can we upgrade NAMI Yolo’s current system to create a streamlined and effective volunteer management system?',
   },
   'Best Hack for Fourth and Hope': {
     name: 'Best Hack for Fourth and Hope',
@@ -69,7 +70,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Plushie'],
     images: [catPlushie],
     eligibility_criteria:
-      'Fourth & Hope provides essential services to individuals experiencing homelessness and housing insecurity, including meals, showers, shelter beds, etc. Build a secure and user-friendly digital intake and service-tracking system to enhance service coordination and data management.',
+      'Fourth and Hope provides essential services to individuals experiencing homelessness and housing insecurity, including meals, showers, shelter beds, etc. These services support both daily visitors and long-term residents, helping them access basic necessities and work toward stability. However, the organization does not have a centralized and efficient digital tool to track these services for each client, alongside their demographic data (e.g., ethnicity, language, age, gender), and outcomes over time. To enhance service coordination and data management, Fourth & Hope seeks to implement a secure and user-friendly digital intake and service-tracking system. This system should log daily service usage, track client demographics and progress, generate custom reports (e.g., number of showers given by age group), and help identify areas where additional support is needed. How can we improve upon Fourth & Hope’s current system to create a comprehensive and efficient client service tracking system?',
   },
   'Best Open Data Hack': {
     name: 'Best Open Data Hack',
@@ -77,7 +78,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Luncheon and internship program invite', 'DataLab Swag bags'],
     images: [datalabLogo],
     eligibility_criteria:
-      'Projects must use at least one publicly accessible dataset that relates to UC Davis to address questions of interest to our campus community. For consideration for this award, the team must produce a GitHub repository with a readME, annotated code, and a reproducible static data visualization. The visualization should have an accompanying 1-page narrative describing the goals, methods, and interpretation of the project.',
+      'To qualify, projects must use at least one publicly accessible dataset that relates to UC Davis to address questions of interest to our campus community. For consideration for this award, the team must produce a GitHub repository with a readME, annotated code, and a reproducible static data visualization. The visualization should have an accompanying 1-page narrative describing the goals, methods, and interpretation of the project.',
   },
   'Best Use of Cerebras API': {
     name: 'Best Use of Cerebras API',
@@ -100,7 +101,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Google Branded Backpacks'],
     images: [googleLogo],
     eligibility_criteria:
-      "It’s time to push the boundaries of what's possible with AI using Google Gemini. Check out the Gemini API to build AI-powered apps that make your friends say WHOA. So, what can Gemini do for your hackathon project? Think of the possibilities… what will you build with the Google Gemini API this weekend?",
+      "It’s time to push the boundaries of what's possible with AI using Google Gemini. Check out the Gemini API to build AI-powered apps that make your friends say WHOA. So, what can Gemini do for your hackathon project? Understand language like a human and build a chatbot that gives personalized advice, analyze info like a supercomputer and create an app that summarizes complex research papers, generate creative content like code, scripts, music, and more! Think of the possibilities… what will you build with the Google Gemini API this weekend?",
   },
   'Best Use of MongoDB Atlas': {
     name: 'Best Use of MongoDB Atlas',
@@ -108,7 +109,7 @@ const nonHDTracks: Tracks = {
     prizes: ['M5GO IoT Kit'],
     images: [iotKit],
     eligibility_criteria:
-      "MongoDB Atlas takes the leading modern database and makes it accessible in the cloud!  Along with a suite of services and functionalities, you'll have everything you need to manage all of your data, and you can get a headstart with free resources from MongoDB University! Build a hack using MongoDB Atlas",
+      "MongoDB Atlas takes the leading modern database and makes it accessible in the cloud! Get started with a $50 credit for students or sign up for the Atlas free forever tier (no credit card required). Along with a suite of services and functionalities, you'll have everything you need to manage all of your data, and you can get a headstart with free resources from MongoDB University! Build a hack using MongoDB Atlas for a chance to win a M5GO IoT Starter Kit for you and each member of your team.",
   },
   'Best .Tech Domain Name': {
     name: 'Best .Tech Domain Name',
@@ -118,7 +119,7 @@ const nonHDTracks: Tracks = {
     ],
     images: [microphone],
     eligibility_criteria:
-      "Make your team's achievements timeless! Win a .tech domain name for up to 10 years to showcase and expand Your project, and a blue Snowball Mic for effortless collaboration on Zoom, empowering you to build even more cool things together!",
+      "Make your Team's Achievements timeless: Win a .Tech Domain Name for up to 10 years to Showcase and Expand Your Project, Plus 4 Blue Snowball Mics for Effortless Collaboration on Zoom, empowering you to build even more cool things together!",
   },
   'Best Use of Auth0': {
     name: 'Best Use of Auth0',
@@ -126,7 +127,15 @@ const nonHDTracks: Tracks = {
     prizes: ['Wireless Headphones'],
     images: [jblHeadphones],
     eligibility_criteria:
-      'Auth0 wants your applications to be secure! Why spend hours building features like social sign-in, Multi-Factor Authentication, and passwordless log-in when you can enable them through Auth0 straight out of the box? Auth0 is free to try, doesn’t require a credit card, and allows for up to 7,000 free active users and unlimited log-ins. Use any of the Auth0 APIs in your project.',
+      'Auth0 wants your applications to be secure! Why spend hours building features like social sign-in, Multi-Factor Authentication, and passwordless log-in when you can enable them through Auth0 straight out of the box? Auth0 is free to try, doesn’t require a credit card, and allows for up to 7,000 free active users and unlimited log-ins. Make your new account today and use any of the Auth0 APIs for a chance to win a pair of wireless headphones for you and each member of your team!',
+  },
+  'Best Use of Snowflake API': {
+    name: 'Best Use of Snowflake API',
+    filter: 'MLH',
+    prizes: ['Arduino Tiny ML Kit'],
+    images: [arduino],
+    eligibility_criteria:
+      'Play with industry-leading LLMs on a single account using the Snowflake APIs. Adding AI capabilities into your application can be as simple as a single CURL command to Snowflake’s REST API. Build customized applications, RAG powered chat bots, or embed AI-powered features into your app in half the time with half the hassle. Get started for free with a special, student 120-day Snowflake trial and check out this repository for an example of the Snowflake REST API in action.',
   },
 };
 
