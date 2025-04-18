@@ -1,18 +1,18 @@
 <svg width="112" height="74" viewBox="0 0 112 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_2216_1934)">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M56.0189 30.0431C70.0802 30.0431 81.4791 23.3177 81.4791 15.0216C81.4791 6.72538 70.0802 0 56.0189 0C41.9575 0 30.5586 6.72538 30.5586 15.0216C30.5586 23.3177 41.9575 30.0431 56.0189 30.0431ZM56.017 24.4416C64.1725 24.4416 70.7839 20.9079 70.7839 16.5489C70.7839 12.1899 64.1725 8.65625 56.017 8.65625C47.8614 8.65625 41.25 12.1899 41.25 16.5489C41.25 20.9079 47.8614 24.4416 56.017 24.4416Z" fill="#123041"/>
-<path d="M0 49.1296C0 30.4335 15.1561 15.2773 33.8522 15.2773H77.6637C96.3598 15.2773 111.516 30.4335 111.516 49.1296V53.5246C111.516 64.7423 102.422 73.836 91.2047 73.836H20.3113C9.09371 73.836 0 64.7423 0 53.5246V49.1296Z" fill="#FFC53D"/>
-<circle cx="30.5566" cy="44.3027" r="17.8222" fill="#123041"/>
-<circle cx="81.4784" cy="44.8105" r="17.0584" fill="#123041" stroke="#123041" stroke-width="1.52762"/>
-<rect x="45.832" y="59.0703" width="20.3682" height="6.11046" rx="2.03682" fill="#173A52"/>
-<path d="M37.6094 30.043L15.9625 51.6898" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
-<path d="M88.5156 30.043L66.8688 51.6898" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
-<path d="M45.6016 38.0312L24.8128 59.1217" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
-<path d="M96.5078 38.0312L75.719 59.1217" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
-<path d="M45.6016 51.8047L23.8365 30.1088" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
-<path d="M96.5078 51.8047L74.7428 30.1088" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
-<path d="M36.4609 58.5781L15.798 37.9152" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
-<path d="M87.3711 58.5781L66.7082 37.9152" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<g id="Radio" clip-path="url(#clip0_2216_1934)">
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M56.0189 30.0431C70.0802 30.0431 81.4791 23.3177 81.4791 15.0216C81.4791 6.72538 70.0802 0 56.0189 0C41.9575 0 30.5586 6.72538 30.5586 15.0216C30.5586 23.3177 41.9575 30.0431 56.0189 30.0431ZM56.017 24.4416C64.1725 24.4416 70.7839 20.9079 70.7839 16.5489C70.7839 12.1899 64.1725 8.65625 56.017 8.65625C47.8614 8.65625 41.25 12.1899 41.25 16.5489C41.25 20.9079 47.8614 24.4416 56.017 24.4416Z" fill="#123041"/>
+<path id="Rectangle 1778" d="M0 49.1296C0 30.4335 15.1561 15.2773 33.8522 15.2773H77.6637C96.3598 15.2773 111.516 30.4335 111.516 49.1296V53.5246C111.516 64.7423 102.422 73.836 91.2047 73.836H20.3113C9.09371 73.836 0 64.7423 0 53.5246V49.1296Z" fill="#FFC53D"/>
+<circle id="Ellipse 829" cx="30.5566" cy="44.3027" r="17.8222" fill="#123041"/>
+<circle id="Ellipse 830" cx="81.4784" cy="44.8105" r="17.0584" fill="#123041" stroke="#123041" stroke-width="1.52762"/>
+<rect id="Rectangle 1779" x="45.832" y="59.0703" width="20.3682" height="6.11046" rx="2.03682" fill="#173A52"/>
+<path id="Line 23" d="M37.6094 30.043L15.9625 51.6898" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<path id="Line 27" d="M88.5156 30.043L66.8688 51.6898" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<path id="Line 24" d="M45.6016 38.0312L24.8128 59.1217" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<path id="Line 28" d="M96.5078 38.0312L75.719 59.1217" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<path id="Line 25" d="M45.6016 51.8047L23.8365 30.1088" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<path id="Line 29" d="M96.5078 51.8047L74.7428 30.1088" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<path id="Line 26" d="M36.4609 58.5781L15.798 37.9152" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
+<path id="Line 30" d="M87.3711 58.5781L66.7082 37.9152" stroke="#005271" stroke-width="1.52762" stroke-linecap="round"/>
 </g>
 <defs>
 <clipPath id="clip0_2216_1934">

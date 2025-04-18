@@ -1,37 +1,54 @@
 @import "@globals/mixins.scss";
 
 .container {
-    background: var(--gradient-primary);
+  background: var(--gradient-primary);
+  overflow: hidden;
 
-    .containerContent {
-        padding: 7% 5%;
-        padding-top: 10%;
+  .containerContent {
+    padding: 88px 80px;
+    padding-top: 130px;
 
-        @include desktop-s {
-          padding-top: 15%;
-        }
-
-        @include tablet-l {
-          padding-top: 20%;
-        }
-
-        @include tablet-s {
-          padding-top: 25%;
-        }
-
-        h4 {
-            font-weight: bold;
-            padding-bottom: 1.5%;
-            color: var(--text-dark);
-
-            @include tablet-s {
-              padding-bottom: 1%;
-              font-size: 1.2rem;
-            }
-        }
+    @include tablet-l {
+      padding: 40px 32px;
+      padding-top: 104px;
     }
 
-  button {
+    .commonHeader {
+      padding-left: 64px;
+
+      @include desktop-s {
+        padding-left: 32px;
+      }
+
+      @include tablet-l {
+        padding-left: 0px;
+      }
+
+      .processButtons {
+        margin-top: 8px;
+        display: flex;
+        gap: 8px;
+      }
+    }
+
+    > h2 {
+      font-weight: bold;
+      padding-bottom: 32px;
+      color: var(--text-dark);
+
+      @include desktop-s {
+        padding-bottom: 16px;
+        font-size: 32px;
+      }
+
+      @include tablet-s {
+        padding-bottom: 1%;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  div > button {
     display: inline-flex;
     padding: 10px 20px;
     background: none;
@@ -45,21 +62,19 @@
       font-size: 1rem;
     }
 
-    @include mobile-l {
+    @include tablet-l {
+      margin-top: 8px;
       font-size: 12px;
-      padding: 10px 15px;
+      padding: 7.5px 10px;
     }
 
     &.selected {
         background: var(--background-secondary);
         border: 1.5px solid var(--background-secondary);
         color: var(--text-light);
-        margin-top: 2%;
-        margin-bottom: 2%;
+        // margin-top: 2%;
+        // margin-bottom: 2%;
     }
-  }
 
-  .GrassDivider {
-    width: 100%;
   }
 }

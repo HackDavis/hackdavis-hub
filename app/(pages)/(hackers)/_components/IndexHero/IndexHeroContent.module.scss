@@ -319,7 +319,7 @@
 }
 
 .monospace {
-    font-family: "DM Mono";
+    font-family: "DM Mono", monospace;
     font-size: 18px;
     @include mixins.desktop-s {
         font-size: 17px;
@@ -364,7 +364,7 @@
 }
 
 .social_good {
-    font-family: "DM Mono";
+    font-family: "DM Mono", monospace;
     text-align: left;
     flex-grow: 1;
     padding: 28px;

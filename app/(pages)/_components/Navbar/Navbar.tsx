@@ -17,6 +17,8 @@ interface NavLink {
   action?: () => void;
 }
 
+// todo: change hamburger menu color in mobile
+// todo: fix logout button around 400px
 const sections = [
   {
     id: 'home',
@@ -36,16 +38,16 @@ const sections = [
     id: 'project-info',
     page: '/project-info',
     baseColor: '#1589BE',
-    activeColor: '#FFC53D',
+    activeColor: '#7FB732',
     background: 'rgba(255, 255, 255, 0.50)',
   },
-  // {
-  //   id: 'starter-kit',
-  //   page: '/starter-kit',
-  //   baseColor: '#1589BE',
-  //   activeColor: '#AFD157',
-  //   background: 'rgba(255, 255, 255, 0.50)',
-  // },
+  {
+    id: 'starter-kit',
+    page: '/starter-kit',
+    baseColor: '#1589BE',
+    activeColor: '#AFD157',
+    background: 'rgba(255, 255, 255, 0.50)',
+  },
 ];
 
 export default function Navbar() {
@@ -76,14 +78,14 @@ export default function Navbar() {
       page: '/schedule',
       path: '/schedule',
     },
-    // {
-    //   ids: ['starter-kit'],
-    //   body: 'STARTER KIT',
-    //   page: '/starter-kit',
-    //   path: '/starter-kit',
-    // },
     {
-      ids: [],
+      ids: ['starter-kit'],
+      body: 'STARTER KIT',
+      page: '/starter-kit',
+      path: '/starter-kit',
+    },
+    {
+      ids: ['project-info'],
       body: 'PROJECT INFO',
       page: '/project-info',
       path: '/project-info',
@@ -120,10 +122,9 @@ export default function Navbar() {
           (section) => section.sectionStart !== 0 || section.sectionEnd !== 0
         );
 
-      // added
+      // Add safety check for empty pageSections array
       if (pageSections.length === 0) {
-        setActiveLink('');
-        setActiveSection('');
+        // No valid sections found, so don't update state
         return;
       }
 

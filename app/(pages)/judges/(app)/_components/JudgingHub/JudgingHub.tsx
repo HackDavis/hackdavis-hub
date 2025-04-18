@@ -16,7 +16,6 @@ export default function JudgingHub() {
       <Dismiss/> */}
       <HubHero />
       <Waiting />
-      {/* <JudgingList projects={unjudgedTeams} /> */}
       <TableLocations />
     </div>
   );

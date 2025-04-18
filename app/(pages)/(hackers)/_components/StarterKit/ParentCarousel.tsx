@@ -220,6 +220,10 @@ export function ParentCarousel() {
     });
   }, [api]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [activeIndex]);
+
   return (
     <main
       className="w-full flex-col items-center justify-center p-8 pt-24 xs:pt-28 xl:p-16 xl:pt-32 overflow-hidden"

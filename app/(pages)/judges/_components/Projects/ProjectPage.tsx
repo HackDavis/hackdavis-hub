@@ -1,11 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { FaChevronLeft } from 'react-icons/fa6';
-import UnjudgedPage from './UnjudgedPage';
+import { useJudgeSubmissions } from '@pages/_hooks/useJudgeSubmissions';
+import UnscoredPage from './UnscoredPage';
 import ScoredPage from './ScoredPage';
-import { useSubmissions } from '@hooks/useSubmissions';
 import Link from 'next/link';
-import Loader from '@components/Loader/Loader';
+import Loader from '@pages/_components/Loader/Loader';
 
 interface ButtonProps {
   text: string;
@@ -34,31 +35,38 @@ const ProjectPage = () => {
   const [selectedButton, setSelectedButton] = useState<'Unjudged' | 'Scored'>(
     'Unjudged'
   );
+  const { data: session } = useSession();
+  const user = session?.user;
+  const userId = user?.id ?? '';
 
-  const { submissions, unjudgedTeams, judgedTeams, loading } = useSubmissions();
+  const { scoredTeams, unscoredTeams, loading, error, updateSubmissions } =
+    useJudgeSubmissions(userId);
 
   if (loading) {
     return <Loader />;
   }
 
-  if (!submissions.ok) {
-    return submissions.error;
+  if (error) {
+    return error;
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F2F2F7] px-[20px]">
-      <Link href={'/judges'} className="flex items-center gap-[12px] mt-[24px]">
+    <div className="flex flex-col h-full bg-[#F2F2F7]">
+      <Link
+        href="/judges"
+        className="flex items-center ml-[20px] gap-[12px] mt-[59px]"
+      >
         <FaChevronLeft fill="#005271" height={8.48} width={4.24} />
         <span className="font-semibold text-[18px] tracking-[0.36px] text-[#005271] leading-[100%]">
           Back to home
         </span>
       </Link>
-      <div className="flex flex-col mt-[24px]">
-        <span className="font-bold text-[48px] tracking-[0.96px] text-[#000000] mb-[20px]">
-          Projects
+      <div className="flex flex-col px-[20px] mt-[24px]">
+        <span className="font-bold text-[48px] tracking-[0.96px] text-[#000000] ">
+          Project
         </span>
       </div>
-      <div className="flex space-x-[8px] mb-[32px]">
+      <div className="flex px-[20px] space-x-[8px] mb-[32px]">
         <Button
           text="Unjudged"
           isSelected={selectedButton === 'Unjudged'}
@@ -72,11 +80,20 @@ const ProjectPage = () => {
           onClick={() => setSelectedButton('Scored')}
         />
       </div>
-      <div>
-        {selectedButton === 'Unjudged' ? (
-          <UnjudgedPage projects={unjudgedTeams} />
+      <div className="px-[20px]">
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <div className="bg-red-100 p-4 rounded">
+            <p className="text-red-800">{error}</p>
+          </div>
+        ) : selectedButton === 'Unjudged' ? (
+          <UnscoredPage
+            teams={unscoredTeams}
+            revalidateData={() => updateSubmissions(userId)}
+          />
         ) : (
-          <ScoredPage projects={judgedTeams} />
+          <ScoredPage teams={scoredTeams} />
         )}
       </div>
     </div>

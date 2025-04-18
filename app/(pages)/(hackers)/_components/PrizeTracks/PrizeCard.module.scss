@@ -136,8 +136,10 @@
 // carousel classes
 .prizeImage {
   object-fit: contain;
-  width: 50%;
+  width: 100%;
   flex: 0 0 100%;
+  display: block;
+  max-height: 100%;
 }
 
 .emblaWrapper {
@@ -146,6 +148,7 @@
   overflow: hidden;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
 .emblaContainer {
@@ -153,6 +156,8 @@
   display: flex;
   width: 100%;
   height: 100%;
+  align-items: center; 
+  justify-content: flex-start; // Add this to horizontally center images
 }
 
 .info {
