@@ -1,0 +1,34 @@
+.page_container {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .page_title {
+        font-size: 2rem;
+    }
+}
+
+.dashboard_container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    .overview_container {
+        flex-grow: 1;
+    }
+
+    .problems_container {
+        flex-grow: 1;
+    }
+
+    .divider {
+        height: 100%;
+        border-left: solid 1px black;
+    }
+}
+
