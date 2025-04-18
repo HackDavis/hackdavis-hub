@@ -1,0 +1,76 @@
+@import '@globals/mixins.scss';
+
+$data-gap: 24px;
+
+.container {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.page_title {
+  font-size: 2rem;
+}
+
+.search_bar {
+  position: relative;
+
+  >input {
+    padding-left: 48px;
+    width: 100%;
+  }
+
+  .search_icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+  }
+}
+
+.data_portion {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: $data-gap;
+
+  @include desktop-m {
+    flex-direction: column;
+  }
+}
+
+.announcements_list, .bar_chart_container {
+  height: 70vh;
+  min-height: 400px;
+  overflow-y: scroll;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1.5px solid var(--teal-1, #005271);
+}
+
+.announcements_list {
+  width: 100%;
+  flex-shrink: 0;
+  flex-grow: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @include desktop-m {
+    width: 100%;
+  }
+}
+
+.announcement_card_wrapper {
+  border-radius: 16px;
+  box-shadow: 0px 4px 16px 0px rgba(107, 107, 107, 0.06);
+  border: 1.353px solid #8E8E8E;
+  padding: 16px;
+}
+
+.action_header {
+  font-size: 1.75rem;
+}
