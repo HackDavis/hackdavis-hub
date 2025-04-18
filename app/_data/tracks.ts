@@ -178,18 +178,18 @@ const optedHDTracks: Tracks = {
         },
       },
       {
-        attribute: 'Depth and Quality of Engineering',
+        attribute: 'Quality of Engineering',
         guidelines: {
-          1: 'Incomplete or poorly structured project; limited depth.',
-          3: 'Solid implementation with good practices and structure.',
-          5: 'Exceptionally well-engineered; modular, robust, scalable and performant.',
+          1: 'Incomplete or poorly structured project; minimal components.',
+          3: 'Implements organized architecture with clear separation of concerns and good practices.',
+          5: 'Exceptionally well-engineered; modular, scalable, fault-tolerant and efficient.',
         },
       },
       {
-        attribute: 'Use of Advanced Tools or Techniques',
+        attribute: 'Integration of Tools or Techniques',
         guidelines: {
-          1: 'Relies on basic technologies.',
-          3: 'Uses advanced tools (frameworks/APIs/libraries) with purpose and understanding.',
+          1: 'Utilizes minimal external tools, frameworks, or libraries.',
+          3: 'Uses advanced tools with purpose and understanding.',
           5: 'Integrates multiple advanced technologies/techniques (like parallelism, optimization, etc.) skillfully.',
         },
       },
@@ -208,23 +208,23 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Evidence of Learning and Growth',
         guidelines: {
-          1: 'Little learning shown; reused known skills',
-          3: 'Used new tools or concepts with some success',
-          5: 'Strong grasp of entirely new topics; applied effectively',
+          1: 'Little learning shown; reused known skills.',
+          3: 'Used new tools or concepts with some success.',
+          5: 'Strong grasp of entirely new topics; applied effectively.',
         },
       },
       {
         attribute: 'Team Collaboration',
         guidelines: {
-          1: 'Disjointed teamwork; unclear roles',
-          3: 'Some coordination; shared effort',
-          5: 'Strong team balance; active support across roles',
+          1: 'Disjointed teamwork; unclear roles.',
+          3: 'Some coordination; shared effort.',
+          5: 'Strong team balance; active support across roles.',
         },
       },
       {
         attribute: 'Problem-Solving and Persistence',
         guidelines: {
-          1: 'Gave up easily or avoided hard problems',
+          1: 'Gave up easily or avoided addressing problems',
           3: 'Worked through some challenges with effort',
           5: 'Tackled tough issues with creative persistence',
         },
@@ -242,27 +242,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
-        attribute: 'Solves an Original Problem Involving Multiple Disciplines',
+        attribute: 'Problem Selection',
         guidelines: {
-          1: 'Project does not make use of knowledge from multiple disciplines.',
-          3: 'Problem involves multiple disciplines but is not very original.',
-          5: "Highly original problem statement that deeply incorporates all members' disciplines.",
+          1: 'Problem could be solved within one discipline.',
+          3: 'Problem benefits from multiple perspectives but is not very original.',
+          5: "Highly original problem that requires all members' disciplines.",
         },
       },
       {
-        attribute: 'Integration of Multiple Disciplines',
+        attribute: 'Disciplinary Balance',
         guidelines: {
-          1: 'All CS-related majors or fields combined with unclear purpose/synergy.',
-          3: 'Disciplines are clearly applied to the solution and work together.',
-          5: 'Disciplines are deeply interwoven; solution depends on insights from each field to work.',
+          1: 'All CS-related majors or one discipline heavily dominates the project.',
+          3: 'Multiple disciplines with clear contributions.',
+          5: 'Disciplines are deeply interwoven; equal importance given to insights from each field.',
         },
       },
       {
-        attribute: 'Innovation in Cross-Disciplinary Problem-Solving',
+        attribute: 'Cross-Field Innovation',
         guidelines: {
-          1: 'Conventional approach with little interplay between disciplines.',
-          3: 'Some novel ideas emerge from blending fields; mostly conventional execution.',
-          5: 'Brilliant unexpected solution made possible by this unique mix of disciplines.',
+          1: 'Disciplines barely connected/combined with unclear purpose.',
+          3: 'Fields work together to enhance the solution.',
+          5: 'True blend creating something impossible within one field.',
         },
       },
     ],
@@ -331,11 +331,11 @@ const optedHDTracks: Tracks = {
         },
       },
       {
-        attribute: 'Interactivity and Usability',
+        attribute: 'User Interaction',
         guidelines: {
-          1: 'Hard to use or test',
-          3: 'Basic user experience; limited feedback',
-          5: 'Smooth interaction; enjoyable experience',
+          1: 'Difficult to operate or requires technical knowledge to use',
+          3: 'Straightforward interaction with clear feedback to user actions',
+          5: 'Intuitive, responsive interaction that feels natural and engaging',
         },
       },
     ],
@@ -418,32 +418,32 @@ const optedHDTracks: Tracks = {
     prizes: ['Beats Studio Pro'],
     images: [headphones],
     eligibility_criteria:
-      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing, responsive design and promots intuitive user experiences.',
+      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing, responsive design and promotes intuitive user experiences.',
     domain: 'design',
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
         attribute: 'Visual Design',
         guidelines: {
-          1: 'Inconsistent style; cluttered or dull',
-          3: 'Mostly clean design with some inconsistencies',
-          5: 'Cohesive, polished, and visually appealing',
+          1: 'Inconsistent style; cluttered or dull; poor accessibility',
+          3: 'Mostly clean design with some inconsistencies; some inclusive features',
+          5: 'Beautiful, cohesive, polished; thoughtful inclusivity',
         },
       },
       {
-        attribute: 'User Flow and Navigation',
+        attribute: 'Navigation Flow',
         guidelines: {
-          1: 'Confusing paths; hard to find key actions',
-          3: 'Reasonable flow with minor issues',
-          5: 'Clear, intuitive journey throughout',
+          1: 'Confusing user journey; hard to find key actions',
+          3: 'Clear pathways through the interface with minor issues',
+          5: 'Effortless, intuitive navigation throughout',
         },
       },
       {
-        attribute: 'Accessibility', // redo with this attribute TODO
+        attribute: 'Design Process',
         guidelines: {
-          1: 'Limited device support; poor accessibility',
-          3: 'Mostly responsive; some inclusive features',
-          5: 'Accessible across devices; thoughtful inclusivity',
+          1: 'Limited evidence of design planning',
+          3: 'Some wireframes or design iterations shown',
+          5: 'Comprehensive design process with wireframes to final product',
         },
       },
     ],
@@ -526,37 +526,36 @@ const optedHDTracks: Tracks = {
     prizes: ['Portable Hacking Kit'],
     images: [hackingKit],
     eligibility_criteria:
-      'Projects must seamlessly incorporate significance tests that evaluate a hypothesis based on their primary question or project goal, with an emphasis on accuracy metrics such as MSE, R^2, adjusted R^2, precision and recall.', // emphasize EDA demonstration in scoring as well
+      'Projects must use exploratory data analysis (EDA) to guide their modeling decisions and hypotheses. Final models should include significance tests and be evaluated with metrics like MSE, R², adjusted R², precision, or recall, demonstrating clear statistical reasoning aligned with the project’s core question or goal.',
     domain: 'aiml',
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        attribute: 'Model Accuracy and Reliability',
+        attribute: 'Exploratory Data Analysis',
         guidelines: {
-          1: 'High error; weak predictions',
-          3: 'Reasonable accuracy; moderate metrics',
-          5: 'Consistently reliable; strong metrics',
+          1: 'Minimal data exploration with basic statistics only',
+          3: 'Thoughtful exploration revealing patterns and relationships in the data',
+          5: 'Comprehensive EDA; insightful visualizations; directly informs model design',
         },
       },
       {
         attribute: 'Use of Statistical Tests',
         guidelines: {
-          1: 'Wrong or missing tests',
+          1: 'Inappropriate or missing tests',
           3: 'Some relevant tests included',
-          5: 'Appropriate, well-used tests',
+          5: 'Proper tests applied correctly to the data and analysed',
         },
       },
       {
-        attribute: 'Output Interpretability',
+        attribute: 'Results Interpretation',
         guidelines: {
-          1: 'Unclear or hard to read',
-          3: 'Some clarity; basic visualizations',
-          5: 'Clear insights; easy to understand',
+          1: 'Unclear; hard to read; numbers presented with little explanation',
+          3: 'Some clarity in explanation; basic visualizations',
+          5: 'Insightful interpretation connecting statistics to real world',
         },
       },
     ],
   },
-  // waiting on Med School groups for the next two tracks
   'Best Medical Hack': {
     name: 'Best Medical Hack',
     filter: 'Technical',
@@ -594,6 +593,7 @@ const optedHDTracks: Tracks = {
       },
     ],
   },
+  // waiting on Med School groups for the next two tracks
   'Best Assistive Technology': {
     name: 'Best Assistive Technology',
     filter: 'Technical',
