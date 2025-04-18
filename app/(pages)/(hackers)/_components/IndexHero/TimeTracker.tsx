@@ -7,28 +7,18 @@ type CountdownProps = {
 };
 
 const Countdown = ({ targetTime }: CountdownProps) => {
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const difference = new Date(targetTime).getTime() - new Date().getTime();
-
-    if (difference <= 0) {
-      return { hours: 0, minutes: 0, seconds: 0 };
-    }
-
-    return {
-      hours: Math.floor(difference / (1000 * 60 * 60)),
-      minutes: Math.floor((difference / (1000 * 60)) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
-    };
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
   });
 
   useEffect(() => {
     const calculateTimeLeft = () => {
       const difference = new Date(targetTime).getTime() - new Date().getTime();
-
       if (difference <= 0) {
         return { hours: 0, minutes: 0, seconds: 0 };
       }
-
       return {
         hours: Math.floor(difference / (1000 * 60 * 60)),
         minutes: Math.floor((difference / (1000 * 60)) % 60),

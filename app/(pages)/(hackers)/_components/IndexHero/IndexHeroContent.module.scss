@@ -16,6 +16,7 @@
     color: var(--text-dark);
     font-size: 1.125rem;
     font-weight: 400;
+    justify-content: space-between; // ONLY FOR WAITING FOR JUDGING STATE
 
     @include mixins.desktop-m {
         left: 64px;
@@ -47,6 +48,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    .heading_split{
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        @include mixins.tablet-l{
+            width: 100%;
+        }
+    }
 
     .date {
         flex: 1;
@@ -119,17 +129,24 @@
 .center_right {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     justify-content: center;
     align-items: flex-start;
+    width: 60%; //needed for some components
 
-    @include mixins.desktop-m {
-        width: 80%;
-        padding-bottom: 10%;
-    }
-  
     @include mixins.tablet-l {
         align-items: center;
-        order: 1;
+        width: 100%;
+    }
+}
+
+.live_now_heading{
+    display: flex;
+    gap: 1%;
+    padding-bottom: 1%;
+    align-items: center;
+    @include mixins.tablet-l{
+        display: none;
     }
   }
   
@@ -164,6 +181,7 @@
 
 .group_width{
     width: 100%;
+    
     .countdown{
         p{
             font-size: 18px;
@@ -225,11 +243,24 @@
     padding: 35px 32px;
     display: flex;
     justify-content: space-between;
+    // align-items: center;
+
+    @include mixins.tablet-l{
+        flex-direction: column;
+        padding: 35px 32px 0 35px ;
+        text-align: center;
+        width: 100%;
+    }
 
     .judge_bunny_ducky_img{
         position: absolute;
         bottom: 0;
         right: 0;
+
+        @include mixins.tablet-l{
+            position: relative;
+            width: 67%;
+        }
     }
     .schedule_button{
         padding: 2% 6%;
@@ -237,6 +268,11 @@
         border: 1.5px dashed #000;
         display: flex;
         align-items: center;
+        @include mixins.tablet-l{
+            width: 100%;
+            justify-content: center;
+            margin-top: 5%;
+        }
     }
 }
 
@@ -258,6 +294,94 @@
         padding: 50px 35px;
         margin-top: 50px;
         text-align: left;
+    }
+
+    .schedule_button{
+        padding: 1% 4%;
+        border-radius: 20px;
+        border: 1.5px dashed #000;
+        display: flex;
+        align-items: center;
+        @include mixins.tablet-s{
+            width: 100%;
+            margin-top: 5%;
+            justify-content: center;
+        }
+    }
+    .time_location{
+        display: flex;
+        gap: 1%;
+        @include mixins.tablet-l{
+            gap: 4%;
+        }
+    }
+    .button_cont{
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.live_now_empty{
+    border-radius: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(30px);
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 5% 10%;
+    .cow_img{
+        width: 26%;
+        @include mixins.tablet-l{
+            width: 46%;
+        }
+    }
+}
+
+.live_now{
+    overflow: auto;
+    height: 554px;
+    border-radius: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(30px);
+    width: 100%;
+
+    text-align: center;
+    padding: 0% 10%;
+    scrollbar-color: white white;
+    @include mixins.tablet-l{
+        padding: 5% 5%;
+    }
+    .live_now_title{
+        display: none;
+        @include mixins.tablet-l{
+            display: initial;
+        }
+    }
+
+    .announcement{
+        background-color: white;
+        padding: 3%;
+        border-radius: 16px;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        @include mixins.tablet-l{
+            margin-top: 10%;
+            padding: 10%;
+        }
+    }
+    .time_and_icon{
+        display: flex;
+        justify-content: space-between;
+        .circle{
+            width: 15px;
+            height: 15px;
+            background-color: #9EE7E5;
+            border-radius: 50%;
+        }
     }
 }
 

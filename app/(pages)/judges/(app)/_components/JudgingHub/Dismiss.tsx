@@ -5,11 +5,8 @@ export default function Dismiss() {
     const x = document.getElementById('dismiss');
     if (x && x.style.display === 'none') {
       x.style.display = 'block';
-    } else if (x) {
-      x.style.display = 'none';
     }
   }
-
   return (
     <div className={styles.container} id="dismiss">
       <div className={styles.projects}>

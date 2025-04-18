@@ -4,11 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LuArrowUpRight } from 'react-icons/lu';
 
-type NextScheduleProps = {
+interface NextScheduleProps {
   title: string;
   time: string;
   location: string;
-};
+}
 
 export default function NextSchedule({
   title,
@@ -25,7 +25,7 @@ export default function NextSchedule({
         <Image src={location_icon} alt="location_icon" />
         <p>{location}</p>
       </div>
-      <Link href="/schedule">
+      <Link href={'/schedule'}>
         <div className={styles.button_cont}>
           <button className={styles.schedule_button}>
             View full schedule
