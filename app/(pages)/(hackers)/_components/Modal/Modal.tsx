@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTeams } from '@hooks/useTeams';
 
 import styles from './Modal.module.scss';
 import mascots from 'public/index/modal/mascots_with_stars.svg';
@@ -16,13 +17,86 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onClose }: ModalProps) {
-  const [currentStage, setCurrentStage] = useState(3);
+  const [currentStage, setCurrentStage] = useState(1);
   const [teamNumber, setTeamNumber] = useState('');
-  const [tableNumber, setTableNumber] = useState('42'); // Example table number
+  const [searchTeamNumber, setSearchTeamNumber] = useState<number | null>(null);
+  const [isError, setIsError] = useState(false);
+  const [foundTeam, setFoundTeam] = useState<any>(null);
+  const [canLeaveStage2, setCanLeaveStage2] = useState(false);
+
+  useEffect(() => {
+    if (currentStage === 2) {
+      setCanLeaveStage2(false);
+      const timer = setTimeout(() => {
+        setCanLeaveStage2(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentStage]);
+
+  const query = useMemo(
+    () => (searchTeamNumber ? { teamNumber: searchTeamNumber } : {}),
+    [searchTeamNumber]
+  );
+
+  const { teams, loading } = useTeams(query);
+
+  useEffect(() => {
+    if (searchTeamNumber === null) return;
+
+    if (currentStage === 1) {
+      setCurrentStage(2);
+      return;
+    }
+
+    if (currentStage === 2 && !loading && canLeaveStage2) {
+      if (teams && teams.length > 0) {
+        const exactMatch = teams.find(
+          (team) => team.teamNumber === searchTeamNumber
+        );
+
+        if (exactMatch) {
+          setFoundTeam(exactMatch);
+          setCurrentStage(3);
+        } else {
+          console.log('No exact match found:', searchTeamNumber, teams);
+          setIsError(true);
+          setSearchTeamNumber(null);
+          setCurrentStage(1);
+        }
+      } else {
+        setIsError(true);
+        setSearchTeamNumber(null);
+        setCurrentStage(1);
+      }
+    }
+  }, [loading, teams, searchTeamNumber, currentStage, canLeaveStage2]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 5);
     setTeamNumber(value);
+    setIsError(false);
+  };
+
+  const handleSubmitTeam = () => {
+    const inputNumber = parseInt(teamNumber);
+
+    setIsError(false);
+    setFoundTeam(null);
+    setSearchTeamNumber(inputNumber);
+  };
+
+  const handleYesClick = () => {
+    onClose();
+  };
+
+  const handleWrongTeam = () => {
+    setCurrentStage(1);
+    setSearchTeamNumber(null);
+    setTeamNumber('');
+    setIsError(false);
+    setFoundTeam(null);
   };
 
   const isButtonActive = teamNumber.length === 5;
@@ -47,7 +121,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
               <input
                 type="text"
                 placeholder="#####"
-                className={styles.input}
+                className={`${styles.input} ${isError ? styles.error : ''}`}
                 value={teamNumber}
                 onChange={handleInputChange}
                 maxLength={5}
@@ -57,11 +131,17 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                   isButtonActive ? styles.active : ''
                 }`}
                 disabled={!isButtonActive}
+                onClick={handleSubmitTeam}
               >
                 See my teammates!
                 <Image src={rightArrow} alt="right arrow" />
               </button>
             </div>
+            {isError && (
+              <p className={styles.errorText}>
+                Team not found. Please check your team number.
+              </p>
+            )}
           </div>
         )}
         {currentStage === 2 && (
@@ -75,7 +155,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
             </p>
           </div>
         )}
-        {currentStage === 3 && (
+        {currentStage === 3 && foundTeam && (
           <div className={styles.stage}>
             <div className={styles.tableInfoContainer}>
               <div className={styles.leftContent}>
@@ -96,28 +176,24 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                   judges arrive.
                 </p>
               </div>
-              <div className={styles.tableNumber}>{tableNumber}</div>
+              <div className={styles.tableNumber}>{foundTeam.tableNumber}</div>
             </div>
             <div className={styles.inputContainer}>
               <input
                 type="text"
-                placeholder="#####"
                 className={styles.input}
                 value={teamNumber}
-                onChange={handleInputChange}
-                maxLength={5}
+                readOnly
               />
-              <button
-                className={`${styles.secondButton} ${
-                  isButtonActive ? styles.active : ''
-                }`}
-                disabled={!isButtonActive}
-              >
+              <button className={styles.secondButton} onClick={handleYesClick}>
                 Yes!
                 <Image src={rightArrow} alt="right arrow" />
               </button>
             </div>
-            <button className={styles.wrongTeamButton}>
+            <button
+              className={styles.wrongTeamButton}
+              onClick={handleWrongTeam}
+            >
               Wait! This is not my team
             </button>
           </div>

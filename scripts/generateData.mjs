@@ -54,13 +54,10 @@ function generateData(collectionName, numDocuments) {
     });
   } else if (collectionName === 'teams') {
     data = Array.from({ length: numDocuments }, () => ({
-      teamNumber: faker.number.int({ min: 1, max: 200 }),
-      tableNumber: faker.number.int({ min: 1, max: 200 }),
-      name: faker.lorem.word(),
-      tracks: faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
-        faker.number.int({ min: 1, max: 5 })
-      ),
+      teamNumber: faker.number.int({ min: 10000, max: 99999 }),
+      tableNumber: faker.number.int({ min: 1, max: 50 }),
+      name: faker.company.name(),
+      tracks: faker.helpers.arrayElements(tracks, { min: 1, max: 3 }),
       active: true,
     }));
   } else if (collectionName === 'submissions') {

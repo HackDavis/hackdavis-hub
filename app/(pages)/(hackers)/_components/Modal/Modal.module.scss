@@ -131,6 +131,13 @@
   box-shadow: none;
   color: #005271;
   text-align: center;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+
+  &.error {
+    border-color: #FF0000;
+  }
+
   &::placeholder {
     font-weight: 400;
     color: #005271;
@@ -138,19 +145,33 @@
 
   &:focus {
     outline: 0;
-    border: 0;
     border-style: none;
     border-color: transparent;
     box-shadow: none;
+
+    &.error {
+      border: 1px solid #FF0000;
+    }
   }
 
   &:not(:focus) {
-    border: 0;
     border-style: none;
     border-color: transparent;
     outline: none;
     box-shadow: none;
+
+    &.error {
+      border: 1px solid #FF0000;
+    }
   }
+}
+
+.errorText {
+  color: #FF0000;
+  font-family: var(--font-jakarta);
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: center;
 }
 
 .button {
