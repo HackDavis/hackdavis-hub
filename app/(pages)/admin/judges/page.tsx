@@ -68,11 +68,9 @@ export default function Judges() {
       <div className={styles.data_portion}>
         <div className={styles.judge_list}>
           {judgeData.map((judge: JudgeWithTeams) => (
-            <JudgeCard
-              key={judge._id}
-              judge={judge}
-              onEditClick={() => setData(judge)}
-            />
+            <div className={styles.judge_card_wrapper} key={judge._id}>
+              <JudgeCard judge={judge} onEditClick={() => setData(judge)} />
+            </div>
           ))}
         </div>
         <div className={styles.bar_chart_container}>

@@ -36,7 +36,7 @@ export async function updateJudgeWithTeams(
 
     // create team_id[] for current state and future state for judge teams
     const currentJudgeTeams: string[] = judgeSubmissions.body.map(
-      (submission: Submission) => submission.team_id
+      (submission: Submission) => submission.team_id.toString()
     );
 
     const newJudgeTeams = teams.map((team: Team) => team._id ?? '');
@@ -62,7 +62,9 @@ export async function updateJudgeWithTeams(
     const updateSubmissionsResList = await Promise.all(
       updateList.map((team_id) =>
         UpdateSubmission(judge_id, team_id, {
-          queuePosition: teamOrderMap[team_id],
+          $set: {
+            queuePosition: teamOrderMap[team_id],
+          },
         })
       )
     );

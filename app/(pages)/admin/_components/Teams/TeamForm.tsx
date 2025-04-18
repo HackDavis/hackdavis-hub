@@ -13,7 +13,9 @@ import { IoIosArrowRoundUp, IoIosArrowRoundDown } from 'react-icons/io';
 import { useJudges } from '@pages/_hooks/useJudges';
 import { createTeam } from '@actions/teams/createTeam';
 import { updateTeamWithJudges } from '@actions/teams/updateTeamWithJudges';
+import { HttpError } from '@utils/response/Errors';
 
+import User from '@typeDefs/user';
 import tracksAndDomains from '@data/db_validation_data.json';
 
 interface TeamFormProps {
@@ -39,8 +41,6 @@ export default function TeamForm({
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let dataIsValid;
-
     try {
       const verificationList = [
         {
@@ -61,19 +61,28 @@ export default function TeamForm({
             tracks.every((track: any) => track?.length > 0),
         },
         {
+          field: 'judges',
+          validation: (judges: User[]) => {
+            const serializedJudges = judges.map((judge) => judge._id);
+            const judgeSet = new Set(serializedJudges);
+            return judges.length === judgeSet.size;
+          },
+        },
+        {
           field: 'active',
           validation: (active: any) => active === true || active === false,
         },
       ];
-      dataIsValid = verificationList.every(({ field, validation }) =>
-        validation(data?.[field])
-      );
-    } catch {
-      dataIsValid = false;
-    }
 
-    if (!dataIsValid) {
-      alert('Form has invalid data');
+      verificationList.forEach(({ field, validation }) => {
+        if (!validation(data?.[field])) {
+          throw new Error(`Form field ${field} failed validation.`);
+        }
+      });
+    } catch (e) {
+      const error = e as HttpError;
+      alert(error.message);
+      return;
     }
 
     const { _id, submissions: _, judges: __, ...body } = data;
@@ -87,7 +96,11 @@ export default function TeamForm({
       team_id = createRes.body?._id;
     }
 
-    const res = await updateTeamWithJudges(team_id, { $set: body }, judges);
+    const res = await updateTeamWithJudges(
+      team_id,
+      { $set: body },
+      judges.body
+    );
 
     if (res.ok) {
       setData({});

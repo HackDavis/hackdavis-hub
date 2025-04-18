@@ -17,6 +17,8 @@ import TeamCard from '../Teams/TeamCard';
 
 import tracksAndDomains from '@data/db_validation_data.json';
 import { updateJudgeWithTeams } from '@actions/judges/updateJudgeWithTeams';
+import { HttpError } from '@utils/response/Errors';
+import Team from '@typeDefs/team';
 
 interface JudgeFormProps {
   cancelAction?: () => void;
@@ -55,9 +57,6 @@ export default function JudgeForm({
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    let dataIsValid;
-
     try {
       const verificationList = [
         {
@@ -80,20 +79,29 @@ export default function JudgeForm({
             ),
         },
         {
+          field: 'teams',
+          validation: (teams: Team[]) => {
+            const serializedTeams = teams.map((teams) => teams._id);
+            const teamSet = new Set(serializedTeams);
+            return teams.length === teamSet.size;
+          },
+        },
+        {
           field: 'has_checked_in',
           validation: (has_checked_in: any) =>
             has_checked_in === true || has_checked_in === false,
         },
       ];
-      dataIsValid = verificationList.every(({ field, validation }) =>
-        validation(data?.[field])
-      );
-    } catch {
-      dataIsValid = false;
-    }
 
-    if (!dataIsValid) {
-      alert('Form has invalid data');
+      verificationList.forEach(({ field, validation }) => {
+        if (!validation(data?.[field])) {
+          throw new Error(`Form field ${field} failed validation.`);
+        }
+      });
+    } catch (e) {
+      const error = e as HttpError;
+      alert(error.message);
+      return;
     }
 
     const { _id, name, email, role, specialties, teams, has_checked_in } = data;

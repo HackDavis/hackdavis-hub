@@ -7,6 +7,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { FaRegEdit } from 'react-icons/fa';
 import JudgeList from './JudgeList';
 import User from '@typeDefs/user';
+import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 
 interface TeamWithJudges extends Team {
   judges: User[];
@@ -22,9 +23,9 @@ export default function TeamCard({
   onEditClick = () => {},
   editable = true,
 }: TeamCardProps) {
-  const backgroundColor = team.active ? 'white' : '#ffc6bf';
+  const reports = team.reports ?? [];
   return (
-    <div className={styles.container} style={{ backgroundColor }}>
+    <div className={styles.container}>
       <div className={styles.header}>
         <span className={styles.title}>
           <p className={styles.table_number}>
@@ -32,6 +33,11 @@ export default function TeamCard({
             {team.tableNumber}
           </p>
           Team {team.teamNumber}: {team.name}
+          {team.active ? (
+            <IoIosCheckmarkCircle className={styles.active_icon} />
+          ) : (
+            <IoIosCloseCircle className={styles.inactive_icon} />
+          )}
         </span>
         <div className={styles.header_details}>
           {editable && (
@@ -46,6 +52,17 @@ export default function TeamCard({
       <div className={styles.details}>
         <TrackList team={team} />
         {team?.judges && <JudgeList judges={team.judges} />}
+        <div className={styles.reports_container}>
+          {reports.map(({ timestamp, judge_id }) => (
+            <div
+              key={JSON.stringify({ timestamp, judge_id })}
+              className={styles.report_container}
+            >
+              <p>{judge_id}</p>
+              <p>{new Date(timestamp).toLocaleTimeString()}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
