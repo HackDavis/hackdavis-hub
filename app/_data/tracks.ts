@@ -23,6 +23,7 @@ import jblHeadphones from '@public/prizes/jbl_headphones.png';
 import iotKit from '@public/prizes/iot_kit.png';
 import microphone from '@public/prizes/microphone.png';
 import keyboard from '@public/prizes/keyboard.png';
+import arduino from '@public/prizes/arduino.png';
 
 interface TrackData {
   name: string;
@@ -53,7 +54,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Plushie'],
     images: [catPlushie],
     eligibility_criteria:
-      'The California Government Operations Agency works to advance effectiveness, efficiency, and equity in state operations. In light of recent events, craft an analytics solutions that support data-driven fire recovery, response, and survivor support. The state is not interested in “chat bot” proposals for this challenge.',
+      'California has the largest and most diverse population in the country. Our diversity is our strength, and the Governor is committed to a California for All. How can the state create analytics opportunities and solutions to support data-driven, culturally and demographically sensitive fire recovery, response, and survivor support? The state is not interested in “chat bot” proposals for this challenge.',
   },
   'Best Hack for NAMI Yolo': {
     name: 'Best Hack for NAMI Yolo',
@@ -61,7 +62,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Plushie'],
     images: [catPlushie],
     eligibility_criteria:
-      'The Yolo County chapter of National Alliance on Mental Illness provides free mental health support and resources in Yolo County and heavily relies on trained volunteers. Implement a centralized volunteer management system that provides an intuitive interface for tracking volunteer activity, training history, and scheduling.',
+      "NAMI Yolo is an organization that provides free mental health support and resources in Yolo County. It is primarily led by families, friends and individuals whose lives have been affected by mental illness. The organization heavily relies on trained volunteers to deliver educational programs, lead support groups, assist with events, and give community presentations. However, there is no unified system to track the entire volunteer process—from recruitment and onboarding to training, scheduling, and tracking volunteer hours. Additionally, it is important to track which courses each volunteer is trained to teach to ensure proper program delivery.  Currently, NAMI Yolo uses Google Drive and spreadsheets, which makes managing volunteer engagement and program coordination inefficient and time-consuming. To enhance organization and communication, NAMI Yolo seeks to implement a centralized volunteer management system that provides an intuitive interface for tracking volunteer activity, training history, and scheduling. How can we upgrade NAMI Yolo's current system to create a streamlined and effective volunteer management system?",
   },
   'Best Hack for Fourth and Hope': {
     name: 'Best Hack for Fourth and Hope',
@@ -69,7 +70,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Plushie'],
     images: [catPlushie],
     eligibility_criteria:
-      'Fourth & Hope provides essential services to individuals experiencing homelessness and housing insecurity, including meals, showers, shelter beds, etc. Build a secure and user-friendly digital intake and service-tracking system to enhance service coordination and data management.',
+      "Fourth and Hope provides essential services to individuals experiencing homelessness and housing insecurity, including meals, showers, shelter beds, etc. These services support both daily visitors and long-term residents, helping them access basic necessities and work toward stability. However, the organization does not have a centralized and efficient digital tool to track these services for each client, alongside their demographic data (e.g., ethnicity, language, age, gender), and outcomes over time. To enhance service coordination and data management, Fourth & Hope seeks to implement a secure and user-friendly digital intake and service-tracking system. This system should log daily service usage, track client demographics and progress, generate custom reports (e.g., number of showers given by age group), and help identify areas where additional support is needed. How can we improve upon Fourth & Hope's current system to create a comprehensive and efficient client service tracking system?",
   },
   'Best Open Data Hack': {
     name: 'Best Open Data Hack',
@@ -77,7 +78,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Luncheon and internship program invite', 'DataLab Swag bags'],
     images: [datalabLogo],
     eligibility_criteria:
-      'Projects must use at least one publicly accessible dataset that relates to UC Davis to address questions of interest to our campus community. For consideration for this award, the team must produce a GitHub repository with a readME, annotated code, and a reproducible static data visualization. The visualization should have an accompanying 1-page narrative describing the goals, methods, and interpretation of the project.',
+      'To qualify, projects must use at least one publicly accessible dataset that relates to UC Davis to address questions of interest to our campus community. For consideration for this award, the team must produce a GitHub repository with a readME, annotated code, and a reproducible static data visualization. The visualization should have an accompanying 1-page narrative describing the goals, methods, and interpretation of the project.',
   },
   'Best Use of Cerebras API': {
     name: 'Best Use of Cerebras API',
@@ -100,7 +101,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Google Branded Backpacks'],
     images: [googleLogo],
     eligibility_criteria:
-      "It’s time to push the boundaries of what's possible with AI using Google Gemini. Check out the Gemini API to build AI-powered apps that make your friends say WHOA. So, what can Gemini do for your hackathon project? Think of the possibilities… what will you build with the Google Gemini API this weekend?",
+      "It's time to push the boundaries of what's possible with AI using Google Gemini. Check out the Gemini API to build AI-powered apps that make your friends say WHOA. So, what can Gemini do for your hackathon project? Understand language like a human and build a chatbot that gives personalized advice, analyze info like a supercomputer and create an app that summarizes complex research papers, generate creative content like code, scripts, music, and more! Think of the possibilities… what will you build with the Google Gemini API this weekend?",
   },
   'Best Use of MongoDB Atlas': {
     name: 'Best Use of MongoDB Atlas',
@@ -108,7 +109,7 @@ const nonHDTracks: Tracks = {
     prizes: ['M5GO IoT Kit'],
     images: [iotKit],
     eligibility_criteria:
-      "MongoDB Atlas takes the leading modern database and makes it accessible in the cloud!  Along with a suite of services and functionalities, you'll have everything you need to manage all of your data, and you can get a headstart with free resources from MongoDB University! Build a hack using MongoDB Atlas",
+      "MongoDB Atlas takes the leading modern database and makes it accessible in the cloud! Get started with a $50 credit for students or sign up for the Atlas free forever tier (no credit card required). Along with a suite of services and functionalities, you'll have everything you need to manage all of your data, and you can get a headstart with free resources from MongoDB University! Build a hack using MongoDB Atlas for a chance to win a M5GO IoT Starter Kit for you and each member of your team.",
   },
   'Best .Tech Domain Name': {
     name: 'Best .Tech Domain Name',
@@ -118,7 +119,7 @@ const nonHDTracks: Tracks = {
     ],
     images: [microphone],
     eligibility_criteria:
-      "Make your team's achievements timeless! Win a .tech domain name for up to 10 years to showcase and expand Your project, and a blue Snowball Mic for effortless collaboration on Zoom, empowering you to build even more cool things together!",
+      "Make your Team's Achievements timeless: Win a .Tech Domain Name for up to 10 years to Showcase and Expand Your Project, Plus 4 Blue Snowball Mics for Effortless Collaboration on Zoom, empowering you to build even more cool things together!",
   },
   'Best Use of Auth0': {
     name: 'Best Use of Auth0',
@@ -126,7 +127,15 @@ const nonHDTracks: Tracks = {
     prizes: ['Wireless Headphones'],
     images: [jblHeadphones],
     eligibility_criteria:
-      'Auth0 wants your applications to be secure! Why spend hours building features like social sign-in, Multi-Factor Authentication, and passwordless log-in when you can enable them through Auth0 straight out of the box? Auth0 is free to try, doesn’t require a credit card, and allows for up to 7,000 free active users and unlimited log-ins. Use any of the Auth0 APIs in your project.',
+      "Auth0 wants your applications to be secure! Why spend hours building features like social sign-in, Multi-Factor Authentication, and passwordless log-in when you can enable them through Auth0 straight out of the box? Auth0 is free to try, doesn't require a credit card, and allows for up to 7,000 free active users and unlimited log-ins. Make your new account today and use any of the Auth0 APIs for a chance to win a pair of wireless headphones for you and each member of your team!",
+  },
+  'Best Use of Snowflake API': {
+    name: 'Best Use of Snowflake API',
+    filter: 'MLH',
+    prizes: ['Arduino Tiny ML Kit'],
+    images: [arduino],
+    eligibility_criteria:
+      "Play with industry-leading LLMs on a single account using the Snowflake APIs. Adding AI capabilities into your application can be as simple as a single CURL command to Snowflake's REST API. Build customized applications, RAG powered chat bots, or embed AI-powered features into your app in half the time with half the hassle. Get started for free with a special, student 120-day Snowflake trial and check out this repository for an example of the Snowflake REST API in action.",
   },
 };
 
@@ -169,18 +178,18 @@ const optedHDTracks: Tracks = {
         },
       },
       {
-        attribute: 'Depth and Quality of Engineering',
+        attribute: 'Quality of Engineering',
         guidelines: {
-          1: 'Incomplete or poorly structured project; limited depth.',
-          3: 'Solid implementation with good practices and structure.',
-          5: 'Exceptionally well-engineered; modular, robust, scalable and performant.',
+          1: 'Incomplete or poorly structured project; minimal components.',
+          3: 'Implements organized architecture with clear separation of concerns and good practices.',
+          5: 'Exceptionally well-engineered; modular, scalable, fault-tolerant and efficient.',
         },
       },
       {
-        attribute: 'Use of Advanced Tools or Techniques',
+        attribute: 'Integration of Tools or Techniques',
         guidelines: {
-          1: 'Relies on basic technologies.',
-          3: 'Uses advanced tools (frameworks/APIs/libraries) with purpose and understanding.',
+          1: 'Utilizes minimal external tools, frameworks, or libraries.',
+          3: 'Uses advanced tools with purpose and understanding.',
           5: 'Integrates multiple advanced technologies/techniques (like parallelism, optimization, etc.) skillfully.',
         },
       },
@@ -199,25 +208,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Evidence of Learning and Growth',
         guidelines: {
-          1: 'Little learning shown; reused known skills',
-          3: 'Used new tools or concepts with some success',
-          5: 'Strong grasp of entirely new topics; applied effectively',
+          1: 'Little learning shown; reused known skills.',
+          3: 'Used new tools or concepts with some success.',
+          5: 'Strong grasp of entirely new topics; applied effectively.',
         },
       },
       {
         attribute: 'Team Collaboration',
         guidelines: {
-          1: 'Disjointed teamwork; unclear roles',
-          3: 'Some coordination; shared effort',
-          5: 'Strong team balance; active support across roles',
+          1: 'Disjointed teamwork; unclear roles.',
+          3: 'Some coordination; shared effort.',
+          5: 'Strong team balance; active support across roles.',
         },
       },
       {
         attribute: 'Problem-Solving and Persistence',
         guidelines: {
-          1: 'Gave up easily or avoided hard problems',
-          3: 'Worked through some challenges with effort',
-          5: 'Tackled tough issues with creative persistence',
+          1: 'Gave up easily or avoided addressing problems.',
+          3: 'Worked through some challenges with effort.',
+          5: 'Tackled tough issues with creative persistence.',
         },
       },
     ],
@@ -233,27 +242,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
-        attribute: 'Solves an Original Problem Involving Multiple Disciplines',
+        attribute: 'Problem Selection',
         guidelines: {
-          1: 'Project does not make use of knowledge from multiple disciplines.',
-          3: 'Problem involves multiple disciplines but is not very original.',
-          5: "Highly original problem statement that deeply incorporates all members' disciplines.",
+          1: 'Problem could be solved within one discipline.',
+          3: 'Problem benefits from multiple perspectives but is not very original.',
+          5: "Highly original problem that requires all members' disciplines.",
         },
       },
       {
-        attribute: 'Integration of Multiple Disciplines',
+        attribute: 'Disciplinary Balance',
         guidelines: {
-          1: 'All CS-related majors or fields combined with unclear purpose/synergy.',
-          3: 'Disciplines are clearly applied to the solution and work together.',
-          5: 'Disciplines are deeply interwoven; solution depends on insights from each field to work.',
+          1: 'All CS-related majors or one discipline heavily dominates the project.',
+          3: 'Multiple disciplines with clear contributions.',
+          5: 'Disciplines are deeply interwoven; equal importance given to insights from each field.',
         },
       },
       {
-        attribute: 'Innovation in Cross-Disciplinary Problem-Solving',
+        attribute: 'Cross-Field Innovation',
         guidelines: {
-          1: 'Conventional approach with little interplay between disciplines.',
-          3: 'Some novel ideas emerge from blending fields; mostly conventional execution.',
-          5: 'Brilliant unexpected solution made possible by this unique mix of disciplines.',
+          1: 'Disciplines barely connected/combined with unclear purpose.',
+          3: 'Fields work together to enhance the solution.',
+          5: 'True blend creating something impossible within one field.',
         },
       },
     ],
@@ -271,25 +280,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Originality of Concept',
         guidelines: {
-          1: 'Common idea; similar to known projects',
-          3: 'Interesting twist or framing of a common idea',
-          5: 'Fresh, unexpected concept',
+          1: 'Common idea; similar to known projects.',
+          3: 'Interesting twist or framing of a common idea.',
+          5: 'Fresh, unexpected concept.',
         },
       },
       {
         attribute: 'Creative Execution',
         guidelines: {
-          1: 'Conventional build; little imagination',
-          3: 'Some creative choices in implementation',
-          5: 'Inventive design; imaginative features',
+          1: 'Conventional build; little imagination.',
+          3: 'Some creative choices in implementation.',
+          5: 'Inventive design; imaginative features.',
         },
       },
       {
         attribute: 'User Engagement',
         guidelines: {
-          1: 'Uninspiring or hard to connect with',
-          3: 'Moderately interesting or novel',
-          5: 'Memorable and captivating experience',
+          1: 'Uninspiring or hard to connect with.',
+          3: 'Moderately interesting or novel.',
+          5: 'Memorable and captivating experience.',
         },
       },
     ],
@@ -307,26 +316,25 @@ const optedHDTracks: Tracks = {
       {
         attribute: 'Hardware Integration',
         guidelines: {
-          1: 'Disconnected or non-functional hardware',
-          3: 'Working hardware with basic integration',
-          5: 'Seamless integration; essential to project',
+          1: 'Disconnected or non-functional hardware.',
+          3: 'Working hardware with basic integration.',
+          5: 'Seamless integration; essential to project.',
         },
       },
       {
-        // sandy doesnt approve
-        attribute: 'Hardware Design and Creativity',
+        attribute: 'Feasibility and Technical Soundness',
         guidelines: {
-          1: 'Generic components; standard use',
-          3: 'Some custom elements or unusual applications',
-          5: 'Unique design; innovative use of components',
+          1: 'Unrealistic approach; unlikely to work outside controlled conditions.',
+          3: 'Functional demo with some practical limitations or assumptions.',
+          5: 'Well-grounded and executable design; feasible to reproduce or extend.',
         },
       },
       {
-        attribute: 'Interactivity and Usability',
+        attribute: 'User Interaction',
         guidelines: {
-          1: 'Hard to use or test',
-          3: 'Basic user experience; limited feedback',
-          5: 'Smooth interaction; enjoyable experience',
+          1: 'Difficult to operate or requires technical knowledge to use.',
+          3: 'Straightforward interaction with clear feedback to user actions.',
+          5: 'Intuitive, responsive interaction that feels natural and engaging.',
         },
       },
     ],
@@ -378,27 +386,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Social Justice Relevance',
+        attribute: 'Issue Understanding & Community Consideration',
         guidelines: {
-          1: 'Loose connection; unclear purpose',
-          3: 'Clearly linked to a real social issue',
-          5: 'Sharp focus on impactful social issue',
+          1: 'Surface-level grasp of the social issue; minimal thought about affected communities.',
+          3: 'Good research and knowledge of the problem; considers needs of target communities.',
+          5: 'Deep insight into nuances of the issue; clearly centers the voices and needs of affected groups.',
         },
       },
       {
-        attribute: 'Advocacy and Awareness',
+        attribute: 'Advocacy Effectiveness',
         guidelines: {
-          1: 'No call to action or outreach',
-          3: 'Some effort to inform or engage',
-          5: 'Strong call to action; inspires involvement',
+          1: 'Passive presentation; no community engagement strategy.',
+          3: 'Thoughtful awareness campaign with specific audience targeting.',
+          5: 'Compelling call to action with practical pathways for audience involvement.',
         },
       },
       {
-        attribute: 'Potential for Real-World Impact',
+        attribute: 'Implementation Feasibility & Impact',
         guidelines: {
-          1: 'Unlikely to create change',
-          3: 'Plausible concept with room to grow',
-          5: 'Clear, actionable path to real, widespread impact',
+          1: 'Conceptual solution with significant barriers to deployment.',
+          3: 'Viable prototype that could be developed with additional resources.',
+          5: 'Ready-to-launch solution with demonstrated potential for measurable impact.',
         },
       },
     ],
@@ -409,32 +417,32 @@ const optedHDTracks: Tracks = {
     prizes: ['Beats Studio Pro'],
     images: [headphones],
     eligibility_criteria:
-      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing, responsive design and promots intuitive user experiences.',
+      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing, responsive design and promotes intuitive user experiences.',
     domain: 'design',
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
         attribute: 'Visual Design',
         guidelines: {
-          1: 'Inconsistent style; cluttered or dull',
-          3: 'Mostly clean design with some inconsistencies',
-          5: 'Cohesive, polished, and visually appealing',
+          1: 'Inconsistent style; cluttered or dull; poor accessibility.',
+          3: 'Mostly clean design with some inconsistencies; some inclusive features.',
+          5: 'Beautiful, cohesive, polished; thoughtful inclusivity.',
         },
       },
       {
-        attribute: 'User Flow and Navigation',
+        attribute: 'Navigation Flow',
         guidelines: {
-          1: 'Confusing paths; hard to find key actions',
-          3: 'Reasonable flow with minor issues',
-          5: 'Clear, intuitive journey throughout',
+          1: 'Confusing user journey; hard to find key actions.',
+          3: 'Clear pathways through the interface with minor issues.',
+          5: 'Effortless, intuitive navigation throughout.',
         },
       },
       {
-        attribute: 'Accessibility', // redo with this attribute TODO
+        attribute: 'Design Process',
         guidelines: {
-          1: 'Limited device support; poor accessibility',
-          3: 'Mostly responsive; some inclusive features',
-          5: 'Accessible across devices; thoughtful inclusivity',
+          1: 'Limited evidence of design planning.',
+          3: 'Some wireframes or design iterations shown.',
+          5: 'Comprehensive design process with wireframes to final product.',
         },
       },
     ],
@@ -450,27 +458,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
-        attribute: 'Research Depth',
+        attribute: 'User Understanding',
         guidelines: {
-          1: 'Few or irrelevant data points',
-          3: 'Some effort to gather user needs',
-          5: 'Extensive, targeted research',
+          1: 'Assumptions made with minimal research.',
+          3: 'Clear effort to understand target users.',
+          5: 'Comprehensive insights into user needs and behaviors.',
         },
       },
       {
-        attribute: 'Feedback Integration',
+        attribute: 'Depth of Research Methods',
         guidelines: {
-          1: 'Feedback ignored or misaligned',
-          3: 'Partial integration; some user alignment',
-          5: 'Strong alignment; clear influence of feedback',
+          1: 'Few or irrelevant data points.',
+          3: 'Basic research approach (like one survey).',
+          5: 'Thoughtful combination of multiple research methods.',
         },
       },
       {
-        attribute: 'Creative Problem Fit',
+        attribute: 'Design Application & Feedback Integration',
         guidelines: {
-          1: 'Generic solution; weak fit to users',
-          3: 'Some alignment with user needs',
-          5: 'Clever, well-matched solution to user goals',
+          1: 'Research/feedback ignored or misaligned.',
+          3: 'Limited connection between research and design; some user alignment.',
+          5: 'Each design element directly tied to research findings.',
         },
       },
     ],
@@ -486,27 +494,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Business Model Viability',
+        attribute: 'Target Customer Clarity',
         guidelines: {
-          1: 'No clear model or unrealistic assumptions',
-          3: 'Some viability; needs refinement',
-          5: 'Compelling, realistic revenue model',
+          1: 'Vague idea of potential users.',
+          3: 'Defined customer segments with needs.',
+          5: 'Detailed customer profiles with validated pain points.',
         },
       },
       {
-        attribute: 'Pitch Effectiveness',
+        attribute: 'Business Model',
         guidelines: {
-          1: 'Unclear or unconvincing pitch',
-          3: 'Decent clarity; some persuasion',
-          5: 'Clear, persuasive, well-structured pitch',
+          1: 'Unclear how the project would make money.',
+          3: 'Reasonable revenue model identified.',
+          5: 'Well-thought-out pricing and monetization strategy.',
         },
       },
       {
-        attribute: 'Product-Market Fit',
+        attribute: 'Market Differentiation',
         guidelines: {
-          1: 'Vague or missing audience info',
-          3: 'Some understanding of user base',
-          5: 'Well-defined market; strategic focus',
+          1: 'Little distinction from existing solutions.',
+          3: 'Some unique selling points identified.',
+          5: 'Clear competitive advantage with strong market positioning.',
         },
       },
     ],
@@ -517,37 +525,36 @@ const optedHDTracks: Tracks = {
     prizes: ['Portable Hacking Kit'],
     images: [hackingKit],
     eligibility_criteria:
-      'Projects must seamlessly incorporate significance tests that evaluate a hypothesis based on their primary question or project goal, with an emphasis on accuracy metrics such as MSE, R^2, adjusted R^2, precision and recall.', // emphasize EDA demonstration in scoring as well
+      "Projects must use exploratory data analysis (EDA) to guide their modeling decisions and hypotheses. Final models should include significance tests and be evaluated with metrics like MSE, R², adjusted R², precision, or recall, demonstrating clear statistical reasoning aligned with the project's core question or goal.",
     domain: 'aiml',
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        attribute: 'Model Accuracy and Reliability',
+        attribute: 'Exploratory Data Analysis',
         guidelines: {
-          1: 'High error; weak predictions',
-          3: 'Reasonable accuracy; moderate metrics',
-          5: 'Consistently reliable; strong metrics',
+          1: 'Minimal data exploration with basic statistics only.',
+          3: 'Thoughtful exploration revealing patterns and relationships in the data.',
+          5: 'Comprehensive EDA; insightful visualizations; directly informs model design.',
         },
       },
       {
         attribute: 'Use of Statistical Tests',
         guidelines: {
-          1: 'Wrong or missing tests',
-          3: 'Some relevant tests included',
-          5: 'Appropriate, well-used tests',
+          1: 'Inappropriate or missing tests.',
+          3: 'Some relevant tests included.',
+          5: 'Proper tests applied correctly to the data and analysed.',
         },
       },
       {
-        attribute: 'Output Interpretability',
+        attribute: 'Results Interpretation',
         guidelines: {
-          1: 'Unclear or hard to read',
-          3: 'Some clarity; basic visualizations',
-          5: 'Clear insights; easy to understand',
+          1: 'Unclear; hard to read; numbers presented with little explanation.',
+          3: 'Some clarity in explanation; basic visualizations.',
+          5: 'Insightful interpretation connecting statistics to real world.',
         },
       },
     ],
   },
-  // waiting on Med School groups for the next two tracks
   'Best Medical Hack': {
     name: 'Best Medical Hack',
     filter: 'Technical',
@@ -559,32 +566,32 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'MedTech/BioTech',
     scoring_criteria: [
       {
-        attribute: 'Relevance to health and well-being themes',
+        attribute: 'Relevance to a Real Medical Problem',
         guidelines: {
-          1: 'Minimal relevance to health topics.',
-          3: 'Moderate relevance with some impact.',
-          5: 'Highly relevant with significant health impact.',
+          1: "Vague or unclear medical application; doesn't address a meaningful or specific issue.",
+          3: 'Addresses a relevant medical use case with some research and reasoning shown.',
+          5: 'Clearly identifies a pressing medical need with evidence of research, user need, or potential impact.',
         },
       },
       {
-        attribute:
-          'Effectiveness in addressing accessibility or service issues',
+        attribute: 'Feasibility of Implementation',
         guidelines: {
-          1: 'Limited effectiveness with minimal impact.',
-          3: 'Moderate effectiveness with some impact.',
-          5: 'Highly effective with significant positive impact.',
+          1: 'Solution appears difficult to implement practically or lacks technical grounding.',
+          3: 'Somewhat feasible; working prototype shown, though parts may be underdeveloped or theoretical.',
+          5: 'Technically feasible with a working prototype that could realistically be deployed or scaled.',
         },
       },
       {
-        attribute: 'Potential for real-world application',
+        attribute: 'Data Privacy, Security & Compliance',
         guidelines: {
-          1: 'Minimal potential with unlikely application.',
-          3: 'Moderate potential with some applicability.',
-          5: 'High potential with clear real-world applicability.',
+          1: 'Lacks basic protections and ignores regulatory requirements.',
+          3: 'Implements safeguards and is aware of HIPAA/GDPR.',
+          5: 'Fully addresses privacy and security and demonstrates understanding of relevant regulations.',
         },
       },
     ],
   },
+  // waiting on Med School groups for the next two tracks
   'Best Assistive Technology': {
     name: 'Best Assistive Technology',
     filter: 'Technical',
@@ -596,28 +603,27 @@ const optedHDTracks: Tracks = {
     domainDisplayName: 'MedTech/BioTech',
     scoring_criteria: [
       {
-        attribute: 'Relevance to health and well-being themes',
+        attribute: 'Accessibility Impact',
         guidelines: {
-          1: 'Minimal relevance to health topics.',
-          3: 'Moderate relevance with some impact.',
-          5: 'Highly relevant with significant health impact.',
+          1: "Minimal consideration for accessibility; doesn't address a specific disability or user group.",
+          3: 'Targets a specific disability or accessibility need; partially addresses barriers.',
+          5: 'Thoughtfully addresses a real accessibility challenge with a clear use case and significant potential to empower users.',
         },
       },
       {
-        attribute:
-          'Effectiveness in addressing accessibility or service issues',
+        attribute: 'Customization & Personalization',
         guidelines: {
-          1: 'Limited effectiveness with minimal impact.',
-          3: 'Moderate effectiveness with some impact.',
-          5: 'Highly effective with significant positive impact.',
+          1: 'One-size-fits-all interface with no user-adjustable settings; not adaptable to individual needs.',
+          3: 'Offers a handful of presets or adjustable parameters (e.g. text size, volume), but limited depth.',
+          5: 'Deep personalization: multiple adjustable modalities (voice, touch, gesture), fine-tunable settings, user profiles saved for repeat use.',
         },
       },
       {
-        attribute: 'Potential for real-world application',
+        attribute: 'Inclusive Design',
         guidelines: {
-          1: 'Minimal potential with unlikely application.',
-          3: 'Moderate potential with some applicability.',
-          5: 'High potential with clear real-world applicability.',
+          1: 'Minimal or no accessibility considerations; uses hard-to-read fonts, poor color contrast, or inaccessible controls.',
+          3: 'Addresses some accessibility needs (e.g., high contrast mode, keyboard navigation), but lacks full inclusivity or testing.',
+          5: 'Demonstrates comprehensive inclusive design—supports color blindness (e.g., non-color-based cues), screen reader compatibility, keyboard-only navigation, simple language, clear layout, cognitive-friendly design, etc.',
         },
       },
     ],
