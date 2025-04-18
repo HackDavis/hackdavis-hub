@@ -17,7 +17,7 @@ import Notifications from './Notifications';
 // import AssigningJudges from './AssigningJudges';
 import DoneJudging from './DoneJudging';
 
-export default function IndexHeroContent() {
+export default function IndexHeroContentDone() {
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>

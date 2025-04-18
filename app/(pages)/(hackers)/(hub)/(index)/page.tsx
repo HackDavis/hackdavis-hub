@@ -6,15 +6,15 @@ import PrizeTracks from '../../_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '../../_components/BeginnersSection/BeginnersSection';
 import Footer from '@components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
-import IndexHero from '../../_components/IndexHero/IndexHero';
-import IndexHeroJudging from '../../_components/DOE/Judging/IndexHero';
-import IndexHeroHacking from '../../_components/DOE/Hacking/IndexHero';
+import IndexHeroDone from '@pages/(hackers)/_components/IndexHero/IndexHero';
+import IndexHeroJudging from '@pages/(hackers)/_components/DOE/Judging/IndexHero';
+import IndexHeroHacking from '@pages/(hackers)/_components/DOE/Hacking/IndexHero';
 
 export default function Page() {
   return (
     <main id="home">
       <IndexHeroJudging />
-      <IndexHero />
+      <IndexHeroDone />
       <IndexHeroHacking />
       <BeginnersSection />
       <Contact />

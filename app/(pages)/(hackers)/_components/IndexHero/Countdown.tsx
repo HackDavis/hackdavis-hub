@@ -3,7 +3,7 @@
 import styles from './Countdown.module.scss';
 import { useState, useEffect } from 'react';
 
-const COUNTDOWN_TARGET = new Date('2025-04-19T11:00:00-08:00');
+const COUNTDOWN_TARGET = new Date('2025-04-20T11:00:00-07:00');
 
 export default function Countdown() {
   const calculateTimeLeft = () => {
