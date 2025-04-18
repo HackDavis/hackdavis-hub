@@ -8,7 +8,7 @@ import pauseIcon from 'public/index/hero/pause-icon.svg';
 import playIcon from 'public/index/hero/play-icon.svg';
 
 export default function MusicPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [rotation, setRotation] = useState(0);
 
   const [showTooltip, setShowTooltip] = useState(false);

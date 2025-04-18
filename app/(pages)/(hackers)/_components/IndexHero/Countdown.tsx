@@ -29,7 +29,7 @@ export default function Countdown() {
     return () => clearInterval(timer);
   }, []);
 
-  const displayDays = timeLeft.days > 1;
+  // const displayDays = timeLeft.days > 1;
   return (
     <div className={styles.container}>
       {/* {displayDays ? (
