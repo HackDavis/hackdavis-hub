@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Countdown from './Countdown';
+// import Countdown from './Countdown';
 import styles from './IndexHeroContent.module.scss';
 import MusicPlayer from './MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
