@@ -20,6 +20,9 @@
 
     .overview_container {
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
     }
 
     .problems_container {
@@ -29,6 +32,34 @@
     .divider {
         height: 100%;
         border-left: solid 1px black;
+    }
+}
+
+.navigation_flex {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.action_links, .data_links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: calc(calc(100% - 16px) / 2);
+
+    .action_link, .data_link {
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+
+    .action_link {
+        background-color: var(--background-secondary);
+        color: white;
+    }
+
+    .data_link {
+        background-color: var(--hd-orange);
+        color: black;
     }
 }
 

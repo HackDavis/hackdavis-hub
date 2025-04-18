@@ -133,6 +133,10 @@ p {
   font-size: 1rem;
 }
 
+hr {
+    border-color: var(--background-primary);
+}
+
 input[type="email"],
 input[type="password"],
 input[type="text"],
