@@ -1,33 +1,12 @@
 'use server';
 
 import JudgeToTeam from '@typeDefs/judgeToTeam';
-import Submission from '@typeDefs/submission';
 import matchAllTeams from '@utils/grouping/matchingAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import { GetManyTeams } from '@datalib/teams/getTeam';
 import { CreateSubmission } from '@datalib/submissions/createSubmission';
 import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
-
-function checkMatches(matches: Submission[], teamsLength: number) {
-  if (matches.length < 3 * teamsLength) return false;
-
-  let valid = true;
-  const mp: Map<string, number> = new Map();
-  for (const match of matches) {
-    const teamKey = match.team_id.toString();
-    if (mp.get(teamKey) === undefined) {
-      mp.set(teamKey, 1);
-    } else {
-      mp.set(teamKey, mp.get(teamKey)! + 1);
-    }
-  }
-
-  mp.forEach((count) => {
-    if (count !== 3) valid = false;
-  });
-
-  return valid;
-}
+import checkMatches from '@actions/logic/checkMatches';
 
 export default async function matchTeams(
   options: { alpha: number } = { alpha: 4 }

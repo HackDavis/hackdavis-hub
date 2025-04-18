@@ -12,6 +12,7 @@ import { useState } from 'react';
 import deleteManySubmissions from '@actions/submissions/deleteSubmission';
 import JudgeToTeam from '@typeDefs/judgeToTeam';
 import styles from './JudgeTeamGrouping.module.scss';
+import applyDiagnosticAlpha from '@actions/logic/applyDiagnosticAlpha';
 
 interface FullMatchData {
   judgeToTeam: JudgeToTeam[];
@@ -61,6 +62,7 @@ export default function JudgeTeamGrouping() {
     number,
     DiagnosticResult
   > | null>(null);
+  const [selectedAlpha, setSelectedAlpha] = useState<number | null>(null);
 
   const handleMatchTeams = async () => {
     const result = await matchTeams({ alpha });
@@ -82,8 +84,43 @@ export default function JudgeTeamGrouping() {
     const res = await matchTeamsDiagnostics({ minAlpha, maxAlpha });
     if (res.ok && res.body) {
       setDiagnostics(res.body);
+      const first = Object.keys(res.body)
+        .map(Number)
+        .sort((a, b) => a - b)[0];
+      setSelectedAlpha(first);
     } else {
       alert('Diagnostics failed: ' + res.error);
+    }
+  };
+
+  // apply the chosen alpha
+  const applyAlpha = async () => {
+    if (selectedAlpha == null || !diagnostics) return;
+    const diag = diagnostics[selectedAlpha];
+    const pairs = diag.judgeToTeam;
+
+    const res = await applyDiagnosticAlpha({
+      alpha: selectedAlpha,
+      judgeToTeam: pairs,
+    });
+
+    if (res.ok) {
+      setSubmissions(pairs);
+      setFullMatchData({
+        extraAssignmentsMap: fullMatchData?.extraAssignmentsMap ?? {},
+        judgeTeamDistribution: diag.judgeTeamDistribution,
+        matchStats: diag.matchStats,
+        matchQualityStats: fullMatchData?.matchQualityStats ?? {},
+        judgeToTeam: pairs,
+      });
+
+      // update the JSON viewer if you like
+      setMatching(JSON.stringify(diag, null, 2));
+      setShowSubmissions(true);
+      setShowMatching(true);
+    } else {
+      setMatching(res.error!);
+      setShowMatching(true);
     }
   };
 
@@ -379,6 +416,35 @@ export default function JudgeTeamGrouping() {
             <h4>Median Match Quality vs. alpha</h4>
             <Line data={medianChartData!} options={weightedOptions} />
           </div>
+        </div>
+      )}
+
+      {/* Apply one alpha’s assignments */}
+      {diagnostics && (
+        <div className="mt-6 flex items-center gap-4">
+          <label>
+            Choose alpha to apply:{' '}
+            <select
+              value={selectedAlpha ?? undefined}
+              onChange={(e) => setSelectedAlpha(Number(e.target.value))}
+              className="border px-2 py-1"
+            >
+              {Object.keys(diagnostics)
+                .map(Number)
+                .sort((a, b) => a - b)
+                .map((a) => (
+                  <option key={a} value={a}>
+                    {a}
+                  </option>
+                ))}
+            </select>
+          </label>
+          <button
+            onClick={applyAlpha}
+            className="px-3 py-1 border bg-blue-100 hover:bg-blue-200"
+          >
+            Apply Matching
+          </button>
         </div>
       )}
 

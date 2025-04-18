@@ -1,6 +1,7 @@
 'use server';
 
 import matchAllTeams from '@utils/grouping/matchingAlgorithm';
+import JudgeToTeam from '@typeDefs/judgeToTeam';
 
 export type DiagnosticResult = {
   judgeTeamDistribution: {
@@ -12,7 +13,8 @@ export type DiagnosticResult = {
     numJudges: number;
     numTeams: number;
   };
-  matchStats: { [avgQuality: string]: number };
+  matchStats: Record<string, number>;
+  judgeToTeam: JudgeToTeam[];
 };
 
 export default async function matchTeamsDiagnostics(options: {
@@ -33,9 +35,12 @@ export default async function matchTeamsDiagnostics(options: {
       alpha = Math.round((alpha + 0.5) * 10) / 10
     ) {
       const matchResults = await matchAllTeams({ alpha });
-      // pull only the two stats objects
-      const { judgeTeamDistribution, matchStats } = matchResults;
-      results[alpha] = { judgeTeamDistribution, matchStats };
+      const { judgeTeamDistribution, matchStats, judgeToTeam } = matchResults;
+      results[alpha] = {
+        judgeTeamDistribution,
+        matchStats,
+        judgeToTeam,
+      };
     }
 
     return { ok: true, body: results, error: null };
