@@ -1,18 +1,18 @@
 @import '@globals/mixins.scss';
 
 .container {
-    padding: 15% 120px 7.5%;
+    padding: 0 120px 15%;
     
     @include desktop-m {
-        padding: 15% 64px 7.5%;
+        padding: 0 64px 15%;
     }
 
     @include desktop-s {
-        padding: 15% 48px 7.5%;
+        padding: 0 48px 15%;
     }
 
     @include mobile-l {
-        padding: 20% 20px 7.5%;
+        padding: 0% 20px 15%;
     }
 }
 

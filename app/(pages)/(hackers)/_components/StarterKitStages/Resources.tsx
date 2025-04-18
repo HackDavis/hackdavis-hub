@@ -2,7 +2,7 @@ import StarterKitSlide from '../StarterKit/StarterKitSlide';
 import ResourceHelp from '../StarterKit/Resources/ResourceHelp';
 import DesignersResources from '../StarterKit/Resources/DesignersResources';
 import DevelopersResources from '../StarterKit/Resources/DevelopersResources';
-import MentorResources from '../StarterKit/Resources/MentorResources';
+// import MentorResources from '../StarterKit/Resources/MentorResources';
 
 export default function Resources() {
   return (
@@ -17,7 +17,7 @@ export default function Resources() {
       <StarterKitSlide title="Developers" subtitle="MORE RESOURCES FOR">
         <DevelopersResources />
       </StarterKitSlide>
-      <MentorResources />
+      {/* <MentorResources /> */}
     </div>
   );
 }

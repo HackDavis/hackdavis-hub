@@ -2,6 +2,8 @@ import { getClient } from '../app/(api)/_utils/mongodb/mongoClient.mjs';
 import readline from 'readline';
 import generateData from './generateData.mjs';
 
+const uri = process.env.MONGODB_URI;
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -115,6 +117,22 @@ function askQuestion(question) {
 
 async function gatherInput() {
   try {
+    if (uri.startsWith('mongodb+srv')) {
+      let confirm = '';
+      while (confirm !== 'y' && confirm !== 'n') {
+        confirm = (
+          await askQuestion(
+            'YOU ARE ABOUT TO RUN A DATABASE SEEDING SCRIPT ON THE STAGING/PRODUCTION DATABASE. ARE YOU SURE YOU WANT TO CONTINUE? (y/n): '
+          )
+        ).toLowerCase();
+        if (confirm !== 'y' && confirm !== 'n') {
+          console.log('Please enter either "y" or "n".');
+        }
+      }
+
+      if (confirm === 'n') throw new Error('Canceled seeding.');
+    }
+
     const collectionNames = await askQuestion(
       'Which collection(s) would you like to generate data for? List their names (case-sensitive) separated by spaces: '
     );

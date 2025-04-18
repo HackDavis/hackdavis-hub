@@ -4,9 +4,9 @@ interface User {
   email: string;
   password: string;
   role: string;
-  specialties?: string[];
-  position?: string;
-  is_beginner?: boolean;
+  specialties?: string[]; // for judges only
+  position?: string; // for hackers only
+  is_beginner?: boolean; // for hackers only
   has_checked_in: boolean;
 }
 

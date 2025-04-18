@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import json_data from '../app/_data/db_validation_data.json' with { type: 'json' };
+import data from '../app/_data/db_validation_data.json' with { type: 'json' };
+
+const specialties = [...new Set(data.domains)];
+const tracks = [...new Set(data.tracks)];
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -15,8 +18,6 @@ function shuffleSpecialties(specialties) {
 }
 
 function generateData(collectionName, numDocuments, existingData = {}) {
-  const specialties = [...new Set(json_data.domains)];
-
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
@@ -153,6 +154,19 @@ function generateData(collectionName, numDocuments, existingData = {}) {
           : [],
       };
     });
+  } else if (collectionName === 'panels') {
+    const trackNames = tracks;
+
+    const trackTypes = trackNames.reduce((acc, trackName) => {
+      acc[trackName] = faker.helpers.arrayElement(specialties);
+      return acc;
+    }, {});
+
+    data = trackNames.map((trackName) => ({
+      track: trackName,
+      domain: trackTypes[trackName],
+      user_ids: [],
+    }));
   }
 
   return data;

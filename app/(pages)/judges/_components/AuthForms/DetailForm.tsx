@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { updateUser } from '@actions/users/updateUser';
 import styles from './DetailForm.module.scss';
 import Loader from '@pages/_components/Loader/Loader';
-import { categorizedTracks, displayNameToDomainMap } from '@data/tracks';
+import { optedHDTracks, displayNameToDomainMap } from '@data/tracks';
 
 interface OptionItem {
   id: number;
@@ -17,9 +17,7 @@ interface OptionItem {
 
 const initialOptions = [
   ...new Set(
-    Object.values(categorizedTracks).map(
-      (track) => track.domainDisplayName ?? ''
-    )
+    Object.values(optedHDTracks).map((track) => track.domainDisplayName ?? '')
   ),
 ].filter((option) => option !== '');
 
@@ -105,7 +103,6 @@ export default function DetailForm({ id }: any) {
       (option) => displayNameToDomainMap.get(option.text) ?? ''
     );
 
-    console.log(specialties);
     const userRes = await updateUser(id, {
       $set: {
         specialties,

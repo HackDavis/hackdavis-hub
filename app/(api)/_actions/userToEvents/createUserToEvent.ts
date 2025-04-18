@@ -7,5 +7,5 @@ export async function createUserToEvent(user_id: string, event_id: string) {
   const result = await LinkUserToEvent(
     await prepareIdsInQuery({ user_id, event_id })
   );
-  return result;
+  return JSON.parse(JSON.stringify(result));
 }
