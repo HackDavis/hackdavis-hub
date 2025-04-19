@@ -456,10 +456,10 @@ export default function JudgeTeamGrouping() {
           Score Teams
         </button>
         {trackResults !== null
-          ? trackResults.map((result) => (
+          ? Object.values(trackResults).map((result: any) => (
               <div key={result.track}>
                 <h4>{result.track}</h4>
-                {result.topEntries.map((entry, i) => (
+                {result.topEntries.map((entry: any, i: any) => (
                   <div key={i} className={styles.score}>
                     <p>
                       Team No. {entry.number}, {entry.name}, {entry.score}
@@ -467,7 +467,7 @@ export default function JudgeTeamGrouping() {
                     <p>Comments:</p>
                     <ul>
                       {entry.comments.map(
-                        (comment, i) =>
+                        (comment: any, i: any) =>
                           comment !== undefined && <li key={i}>{comment}</li>
                       )}
                     </ul>
