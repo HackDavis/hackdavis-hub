@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Countdown from '../../IndexHero/Countdown';
 import styles from './IndexHeroContentHacking.module.scss';
 import MusicPlayer from '../../IndexHero/MusicPlayer';
-// import star_icon from '@public/hackers/hero/star.svg';
+import star_icon from '@public/hackers/hero/star.svg';
 // import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import Scroll from '../../IndexHero/Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
@@ -15,6 +15,8 @@ import { GoArrowRight } from 'react-icons/go';
 import Announcements from '../../IndexHero/Announcements';
 import { useRollout } from '@pages/_hooks/useRollout';
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
+import TimeTracker from '../../IndexHero/TimeTracker';
+import NextSchedule from '../../IndexHero/NextSchedule';
 
 export default function IndexHeroContentHacking() {
   const { loading, rolloutRes, fetchRollout } = useRollout('hacking-starts');
@@ -32,7 +34,10 @@ export default function IndexHeroContentHacking() {
           <br />
           2025
         </p>
-        <a href="/map" className={styles.link}>
+        <a
+          href="https://drive.google.com/file/d/1l6fxi9jDKlleaStt4xXSgCjVg4dfQkjz/view?usp=sharing"
+          className={styles.link}
+        >
           <p className={styles.map}>ARC BALLROOM MAP</p>
           <LuArrowUpRight size={23} />
         </a>
@@ -89,9 +94,7 @@ export default function IndexHeroContentHacking() {
         <Scroll />
       </div>
 
-      <Announcements />
-
-      {/* <div className={styles.group_width}>
+      <div className={styles.group_width}>
         <div
           style={{
             display: 'flex',
@@ -111,7 +114,8 @@ export default function IndexHeroContentHacking() {
           </div>
         </div>
         <NextSchedule />
-      </div> */}
+      </div>
+      <Announcements />
     </div>
   );
 }
