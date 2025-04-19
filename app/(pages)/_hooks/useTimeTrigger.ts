@@ -1,9 +1,11 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 export function useTimeTrigger(triggerTime: number, callback: any) {
   const timerRef = useRef<any>(null);
   const [triggered, setTriggered] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const updateTimer = () => {
@@ -15,8 +17,9 @@ export function useTimeTrigger(triggerTime: number, callback: any) {
         setTriggered(true);
         return;
       }
-      timerRef.current = setTimeout(() => {
-        callback?.();
+      timerRef.current = setTimeout(async () => {
+        await callback?.();
+        router.refresh();
         setTriggered(true);
       }, timeToTrigger);
     };
@@ -32,7 +35,7 @@ export function useTimeTrigger(triggerTime: number, callback: any) {
       clearTimeout(timerRef.current);
       window.removeEventListener('focus', onFocus);
     };
-  }, [triggerTime, callback]);
+  }, [triggerTime, callback, router]);
 
   return { triggered };
 }
