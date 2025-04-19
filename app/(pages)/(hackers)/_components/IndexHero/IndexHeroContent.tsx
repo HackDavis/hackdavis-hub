@@ -50,6 +50,7 @@ export default function IndexHeroContentDone() {
 
       <MusicPlayer />
       <div className={styles.center_right}>
+        <p>UNTIL HACKATHON BEGINS</p>
         {/* <Countdown /> */}
         {/* <AssigningJudges /> */}
         <DoneJudging />
@@ -131,11 +132,7 @@ export default function IndexHeroContentDone() {
             <TimeTracker targetTime="2025-05-01T09:00:00Z" />
           </div>
         </div>
-        <NextSchedule
-          title={'Team Mixer'}
-          time={'11:00 - 12:00 PM'}
-          location={'ARC Ballroom B'}
-        />
+        <NextSchedule />
       </div>
 
       <div className={styles.group_width}>

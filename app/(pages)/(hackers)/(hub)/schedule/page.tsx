@@ -136,6 +136,13 @@ export default function Page() {
     setIsActionInProgress(false);
   };
 
+  // Force refresh events when user data changes
+  useEffect(() => {
+    if (user && !userLoading) {
+      refreshEvents();
+    }
+  }, [user, userLoading, refreshEvents]);
+
   // Update the existing useEffect - simplify to just set the schedule data without virtual events
   useEffect(() => {
     if (eventData.length > 0 && !personalEventsLoading) {
