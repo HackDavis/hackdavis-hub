@@ -78,7 +78,7 @@ export default function Announcements() {
       </div>
       <div className={styles.announcements}>
         {announcementData.length === 0 ? (
-          <div className={styles.live_now_empty}>
+          <div className={styles.empty}>
             <Image src={cow_tada} alt="cow tada" className={styles.cow_img} />
             <p>NO ANNOUNCEMENTS YET, HAPPY HACKING!</p>
           </div>

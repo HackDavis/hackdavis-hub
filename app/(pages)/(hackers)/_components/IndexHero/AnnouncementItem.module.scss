@@ -1,3 +1,5 @@
+@import "@globals/mixins.scss";
+
 .announcement {
   display: flex;
   flex-direction: column;
@@ -10,7 +12,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+
     > p {
       color: #848484;
     }
@@ -20,6 +22,11 @@
       width: 15px;
       border-radius: var(--b-radius-large);
       background-color: #9EE7E5;
+
+      @include tablet-l {
+        height: 12px;
+        width: 12px;
+      }
     }
   }
 
@@ -29,6 +36,10 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+
+    @include tablet-l {
+      font-size: 1rem;
+    }
   }
 
   p {
@@ -37,5 +48,9 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    @include tablet-l {
+      font-size: 0.875rem;
+    }
   }
 }
