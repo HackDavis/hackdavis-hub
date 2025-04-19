@@ -17,6 +17,39 @@ function shuffleSpecialties(specialties) {
   return shuffledSpecialties;
 }
 
+function weightedShuffleSpecialties(specialties) {
+  // Adjusted weight map for the new domains (all lowercase).
+  const weightMap = {
+    swe: 0.571,
+    business: 0.217,
+    aiml: 0.1,
+    hardware: 0.039,
+    design: 0.158,
+    medtech: 0.015,
+  };
+  const availableWeighted = specialties.filter(
+    (s) => weightMap[s.toLowerCase()] !== undefined
+  );
+  let first;
+  if (availableWeighted.length > 0) {
+    const totalWeight = availableWeighted.reduce(
+      (acc, s) => acc + weightMap[s.toLowerCase()],
+      0
+    );
+    let r = Math.random() * totalWeight;
+    for (const s of availableWeighted) {
+      r -= weightMap[s.toLowerCase()];
+      if (r <= 0) {
+        first = s;
+        break;
+      }
+    }
+  }
+  const remaining = specialties.filter((s) => s !== first);
+  const shuffledRemaining = shuffleSpecialties(remaining);
+  return first ? [first, ...shuffledRemaining] : shuffledRemaining;
+}
+
 function generateData(collectionName, numDocuments, existingData = {}) {
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
@@ -28,7 +61,7 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      specialties: shuffleSpecialties(specialties),
+      specialties: weightedShuffleSpecialties(specialties),
       role: 'judge',
       has_checked_in: false,
     }));
