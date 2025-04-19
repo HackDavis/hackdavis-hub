@@ -57,7 +57,6 @@ export default async function csvAlgorithm(
               data['Table Number'] !== '' &&
               data['Project Status'] === 'Submitted (Gallery/Visible)'
             ) {
-              console.log(data);
               const track1: string = data['Track #1 (Primary Track)'].trim();
               const track2: string = data['Track #2'].trim();
               const track3: string = data['Track #3'].trim();
@@ -100,7 +99,6 @@ export default async function csvAlgorithm(
     });
 
     const results: ParsedRecord[] = await parsePromise;
-    console.log(results);
 
     return { ok: true, body: results, error: null };
   } catch (e) {
