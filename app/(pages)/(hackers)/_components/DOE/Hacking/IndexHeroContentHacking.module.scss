@@ -2,13 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
 
 .container {
-    position: absolute;
-    left: 120px;
-    right: 120px;
-    top: 10%;
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
     row-gap: 162px;
     column-gap: 96px;
 
@@ -18,29 +16,20 @@
     font-weight: 400;
 
     @include mixins.desktop-m {
-        left: 64px;
-        right: 64px;
         row-gap: 100px;
         column-gap: 64px;
-
     }
 
     @include mixins.desktop-s {
-        left: 48px;
-        right: 48px;
         column-gap: 48px;
     }
 
     @include mixins.tablet-l {
         justify-content: center;
         row-gap: 16px;
-        left: 20px;
-        right: 20px;
     }
-
 }
   
-
 .infoContainer {
     width: 100%;
     order: 0;
@@ -70,7 +59,6 @@
 
     @include mixins.tablet-l {
         text-align: center;
-        flex-direction: column;
     }
 }
 
@@ -78,28 +66,23 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: nowrap;
     width: 100%;
+    gap: 40px;
   
-    @include mixins.desktop-s {
-      justify-content: center;
-      gap: 25px;
-      padding: 0% 2%;
-    }
+    // @include mixins.desktop-s {
+    //   justify-content: center;
+    //   gap: 25px;
+    //   padding: 0% 2%;
+    // }
   
     @include mixins.tablet-l {
-      flex-direction: column-reverse; // 👈 flips order
+      flex-direction: column-reverse;
       align-items: center;
       gap: 24px;
     }
-  
-    > * {
-      flex-shrink: 0;
-    }
-  }
-  
-  
+}
 
 .belowClock {
     display: flex;
@@ -108,6 +91,10 @@
     gap: 40px; 
     justify-content: space-between;
     width: 100%;
+
+    @include mixins.desktop-m {
+        gap: 20px;
+    }
 
     @include mixins.tablet-l {
       flex-direction: row; 
@@ -121,15 +108,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-
-    @include mixins.desktop-m {
-        width: 80%;
-        padding-bottom: 10%;
-    }
+    width: fit-content;
   
     @include mixins.tablet-l {
         align-items: center;
         order: 1;
+    }
+
+    .countdown {
+        max-width: 100%;
     }
   }
   
@@ -142,7 +129,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    padding: 3% 6%;
+    padding: 36px 108px;
     color: var(--text-light);
     border-radius: 1000px;
   
@@ -152,9 +139,11 @@
       height: 24px;
     }
 
-    @include mixins.tablet-l {
-        padding: 5% 20%;
+    @include mixins.desktop-l {
+        padding: 18px 54px;
+    }
 
+    @include mixins.tablet-l {
         p { 
             font-size: 14px;
         }
@@ -164,24 +153,7 @@
 
 .group_width{
     width: 100%;
-    .countdown{
-        p{
-            font-size: 18px;
-            font-weight: 400;
-            color: #000;
 
-            @include mixins.tablet-l{
-                font-size: 14px;
-            }
-        }
-        span{
-            font-size: 18px;
-            @include mixins.tablet-l{
-                font-size: 14px;
-            }
-        }
-        
-    }
     p {
         @include mixins.tablet-l{
             font-size: 14px;
@@ -264,6 +236,7 @@
 .monospace {
     font-family: "DM Mono", monospace;
     font-size: 18px;
+
     @include mixins.desktop-s {
         font-size: 17px;
     }

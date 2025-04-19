@@ -9,31 +9,30 @@ import Scroll from '../../IndexHero/Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
-// import Announcement from './Announcement';
-import NextSchedule from '../../IndexHero/NextSchedule';
 import Link from 'next/link';
-import TimeTracker from '../../IndexHero/TimeTracker';
-// import Notifications from './Notifications';
+// import TimeTracker from '../../IndexHero/TimeTracker';
+import Notifications from '../../IndexHero/Notifications';
 import JudgeBanners from '../../IndexHero/JudgeBanners';
 import { GoArrowRight } from 'react-icons/go';
-import Announcements from '../../IndexHero/Announcements';
 
 export default function IndexHeroContentJudging() {
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
-        <p className={styles.date}>
-          APRIL 19-20
-          <br />
-          2025
-        </p>
-        <a href="/map" className={styles.link}>
-          <p className={styles.map}>ARC BALLROOM MAP</p>
-          <LuArrowUpRight size={23} />
-        </a>
-        <div>
-          {/* <JudgeBanners /> */}
-          {/* <Notifications /> */}
+        <div className={styles.text}>
+          <p className={styles.date}>
+            APRIL 19-20
+            <br />
+            2025
+          </p>
+          <a href="/map" className={styles.link}>
+            <p className={styles.map}>ARC BALLROOM MAP</p>
+            <LuArrowUpRight size={23} />
+          </a>
+        </div>
+        {/* <JudgeBanners /> */}
+        <div className={styles.notifications}>
+          <Notifications />
         </div>
       </div>
 
@@ -44,9 +43,7 @@ export default function IndexHeroContentJudging() {
       <div className={styles.heroRow}>
         <MusicPlayer />
         <div className={styles.center_right}>
-          {/* <Countdown /> */}
           <JudgeBanners />
-          {/* please work bro */}
           <div className={styles.belowClock}>
             <p className={styles.info}>
               A HACKDAVIS HUB
@@ -75,28 +72,6 @@ export default function IndexHeroContentJudging() {
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
       <Scroll />
-
-      <div className={styles.group_width}>
-        <div
-          style={{
-            display: 'flex',
-            gap: '1%',
-            paddingBottom: '1%',
-            alignItems: 'center',
-          }}
-        >
-          <p>NEXT ON YOUR SCHEDULE</p>
-          <Image
-            src={star_icon}
-            alt="star icon"
-            className={styles.star_icon_img}
-          />
-          <div className={styles.countdown}>
-            <TimeTracker targetTime="2025-05-01T09:00:00Z" />
-          </div>
-        </div>
-        {/* <NextSchedule /> */}
-      </div>
 
       <div className={styles.group_width}>
         <div
