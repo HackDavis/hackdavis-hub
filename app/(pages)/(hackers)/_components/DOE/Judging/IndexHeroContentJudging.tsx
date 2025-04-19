@@ -25,8 +25,11 @@ export default function IndexHeroContentJudging() {
             <br />
             2025
           </p>
-          <a href="/map" className={styles.link}>
-            <p className={styles.map}>ARC BALLROOM MAP</p>
+          <a
+            href="https://drive.google.com/file/d/1l6fxi9jDKlleaStt4xXSgCjVg4dfQkjz/view?usp=sharing"
+            className={styles.link}
+          >
+            <p className={styles.map}>VENUE MAP</p>
             <LuArrowUpRight size={23} />
           </a>
         </div>
