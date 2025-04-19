@@ -8,21 +8,22 @@ import IndexHero from '@pages/(hackers)/_components/IndexHero/IndexHero';
 import IndexHeroContentHacking from '@pages/(hackers)/_components/DOE/Hacking/IndexHeroContentHacking';
 import IndexHeroContentJudging from '@pages/(hackers)/_components/DOE/Judging/IndexHeroContentJudging';
 import IndexHeroContentDone from '@pages/(hackers)/_components/IndexHero/IndexHeroContentDone';
-import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
+// import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
+import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 
 export default function Page() {
   return (
     <main id="home">
       <IndexHero>
-        <TimeProtectedDisplay featureId="hero-hacking">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <IndexHeroContentHacking />
-        </TimeProtectedDisplay>
-        <TimeProtectedDisplay featureId="hero-judging">
+        </ClientTimeProtectedDisplay>
+        <ClientTimeProtectedDisplay featureId="hero-judging">
           <IndexHeroContentJudging />
-        </TimeProtectedDisplay>
-        <TimeProtectedDisplay featureId="hero-done">
+        </ClientTimeProtectedDisplay>
+        <ClientTimeProtectedDisplay featureId="hero-done">
           <IndexHeroContentDone />
-        </TimeProtectedDisplay>
+        </ClientTimeProtectedDisplay>
       </IndexHero>
 
       <BeginnersSection />
