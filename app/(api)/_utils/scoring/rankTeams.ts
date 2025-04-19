@@ -1,110 +1,182 @@
-import Team from '@typeDefs/team';
 import Submission from '@typeDefs/submission';
-import { getManySubmissions } from '@actions/submissions/getSubmission';
-import data from '@data/db_validation_data.json' assert { type: 'json' };
+import { optedHDTracks } from '@data/tracks';
 
-const tracks = data.tracks;
-// TODO: Rework calculateTrackScore
-// function calculateTrackScore(chosenTracks: string[], scores: Scores) {
-//   const finalScores = chosenTracks.map((chosenTrack) => {
-//     const weights = tracks.find((track) => track.name == chosenTrack)?.weights;
-//     if (weights === undefined) return 0;
-//     const score = weights.reduce((sum, weight, i) => {
-//       return sum + weight * scores[i];
-//     }, 0);
-
-//     if (score === undefined) {
-//       return 0;
-//     }
-
-//     return score! / 5;
-//   });
-
-//   return finalScores;
+// interface Team {
+//   _id?: string;
+//   teamNumber: number;
+//   tableNumber: number;
+//   name: string;
+//   tracks: string[];
+//   active: boolean;
 // }
 
-function calculateScores(team: Team, submissions: Submission[]) {
-  const results: number[] = [0, 0, 0, 0, 0];
+// export interface TrackScore {
+//   trackName: string;
+//   rawScores: {[question: string] : number};
+//   finalTrackScore: number | null;
+// }
 
-  let submissionsCount = 0;
-  for (const submission of submissions) {
-    if (submission.scores) {
-      submissionsCount++;
-      // const scores = calculateTrackScore(team.tracks, submission.scores);
+// export default interface Submission {
+//   _id?: string;
+//   judge_id: string;
+//   team_id: string;
+//   social_good: number;
+//   creativity: number;
+//   presentation: number;
+//   scores: TrackScore[];
+//   comments?: string;
+//   is_scored: boolean;
+//   queuePosition: number | null;
+// }
 
-      // results = results.map((res, i) => res + scores[i]);
+function calculateSubmissionScore(submission: Submission) {
+  return submission.scores
+    .map((track_score) => {
+      const trackName = track_score.trackName;
+
+      // Only process the track if it exists in optedHDTracks
+      if (!optedHDTracks[trackName]) {
+        // For tracks not in optedHDTracks, return null or a score of 0
+        // This will allow us to filter them out later
+        return {
+          track_name: trackName,
+          score: 0,
+          isValid: false,
+        };
+      }
+
+      // Calculate static scores (40%)
+      const staticScores = [
+        submission.social_good || 0,
+        submission.creativity || 0,
+        submission.presentation || 0,
+      ];
+      const totalStaticScore = staticScores.reduce(
+        (sum, score) => sum + score,
+        0
+      );
+
+      // Calculate dynamic scores (60%)
+      const dynamicScores = Object.values(track_score.rawScores);
+      const totalDynamicScore = dynamicScores.reduce(
+        (sum, score) => sum + score,
+        0
+      );
+
+      // Calculate final weighted score
+      const weightedStaticScore = 0.4 * totalStaticScore;
+      const weightedDynamicScore = 0.6 * totalDynamicScore;
+      const finalScore = weightedStaticScore + weightedDynamicScore;
+
+      return {
+        track_name: trackName,
+        score: finalScore,
+        isValid: true,
+      };
+    })
+    .filter((score) => score.isValid); // Filter out invalid/non-categorized tracks
+}
+
+export interface RankTeamsResults {
+  [track_name: string]: {
+    team: {
+      team_id: string;
+      final_score: number;
+      comments: string[];
+    };
+  }[];
+}
+
+export interface RankTeamsProps {
+  submissions: Submission[];
+}
+// export default interface Submission {
+//   _id?: string;
+//   judge_id: string;
+//   team_id: string;
+//   social_good: number;
+//   creativity: number;
+//   presentation: number;
+//   scores: TrackScore[];
+//   comments?: string;
+//   is_scored: boolean;
+//   queuePosition: number | null;
+// }
+
+export default function RankTeams({ submissions }: RankTeamsProps) {
+  const results: RankTeamsResults = {};
+
+  // Group submissions by team_id
+  const group_team = (
+    acc: Record<string, Submission[]>,
+    submission: Submission
+  ) => {
+    if (!acc[submission.team_id]) {
+      acc[submission.team_id] = [];
     }
-  }
-
-  const finalScores = results.map((res, i) => ({
-    track: team.tracks[i],
-    score: isNaN(res / submissionsCount) ? 0 : res / submissionsCount,
-  }));
-
-  return {
-    number: team.tableNumber,
-    name: team.name,
-    scores: finalScores,
-    comments: submissions.map((submission) => submission.comments),
+    acc[submission.team_id].push(submission);
+    return acc;
   };
-}
 
-async function computeAllTeams(teams: Team[]) {
-  const teamScores = [];
+  const submissionsByTeam = submissions.reduce(
+    group_team,
+    {} as Record<string, Submission[]>
+  ); // {"team_id": [submission1, submission2, ...]}
 
-  for (const team of teams) {
-    const submissions = (
-      await getManySubmissions({
-        team_id: {
-          '*convertId': {
-            id: team._id,
-          },
-        },
-      })
-    ).body;
+  // Process each team's submissions
+  for (const team_id in submissionsByTeam) {
+    const teamSubmissions = submissionsByTeam[team_id];
 
-    teamScores.push(calculateScores(team, submissions));
+    // each team has many submissions from the judges
+    for (const submission of teamSubmissions) {
+      const final_scores = calculateSubmissionScore(submission);
+
+      // process each track score from this submission
+      for (const trackScore of final_scores) {
+        const { track_name, score } = trackScore;
+
+        // Skip if the track isn't in optedHDTracks (though this should be filtered already)
+        if (!optedHDTracks[track_name]) continue;
+
+        // initialize the track in the results if haven't done yet
+        if (!results[track_name]) {
+          results[track_name] = [];
+        }
+
+        // if the team already exists in the track
+        const existingTeamIndex = results[track_name].findIndex(
+          (item) => item.team.team_id === team_id
+        );
+
+        if (existingTeamIndex !== -1) {
+          // - we update the score by adding it up
+          const existing_team = results[track_name][existingTeamIndex];
+          existing_team.team.final_score += score; // add the score up
+
+          // - add the comments as well
+          if (submission.comments) {
+            existing_team.team.comments.push(submission.comments);
+          }
+        } else {
+          // else we initialize a new team with the current score for that track
+          results[track_name].push({
+            team: {
+              team_id: team_id,
+              final_score: score,
+              comments: submission.comments
+                ? [submission.comments]
+                : ([] as string[]),
+            },
+          });
+        }
+      }
+    }
   }
 
-  return teamScores;
-}
-
-export default async function rankTeams(teams: Team[]) {
-  const teamScores = await computeAllTeams(teams);
-
-  const trackResults = [];
-
-  for (const track of tracks) {
-    if (track === 'No Track') continue;
-
-    const topEntries = [];
-
-    for (const team of teamScores) {
-      const foundScore = team.scores.find((score) => score.track === track);
-      if (foundScore === undefined) continue;
-
-      topEntries.push({
-        number: team.number,
-        name: team.name,
-        score: foundScore.score,
-        comments: team.comments,
-      });
-    }
-
-    topEntries.sort((entry1, entry2) => entry2.score - entry1.score);
-    if (
-      track !== ('Best Hack for Life of Kai' as string) ||
-      track !== ('Best Hack for DCMH' as string) ||
-      track !== ('Best Hack for AggieHouse' as string)
-    ) {
-      topEntries.splice(10);
-    }
-
-    trackResults.push({
-      track: track,
-      topEntries,
-    });
+  // Sort teams by score for each track (from highest to lowest)
+  for (const track_name in results) {
+    results[track_name].sort((a, b) => b.team.final_score - a.team.final_score);
   }
 
-  return trackResults;
+  return results;
 }

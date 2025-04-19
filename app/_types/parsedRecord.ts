@@ -1,7 +1,9 @@
 interface ParsedRecord {
   name: string;
-  number: number;
+  teamNumber: number;
+  tableNumber: number;
   tracks: string[];
+  active: boolean;
 }
 
 export default ParsedRecord;

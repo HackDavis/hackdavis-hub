@@ -1,10 +1,12 @@
 'use server';
 
-import { getManyTeams } from '@actions/teams/getTeams';
-import Team from '@typeDefs/team';
+import { getManySubmissions } from '@actions/submissions/getSubmission';
+import Submission from '@typeDefs/submission';
 import rankTeams from '@utils/scoring/rankTeams';
 
 export default async function scoreTeams() {
-  const teams: Team[] = (await getManyTeams()).body;
-  return rankTeams(teams);
+  // Get all submissions (no need to pass teams)
+  const submissions: Submission[] = (await getManySubmissions()).body;
+
+  return rankTeams({ submissions });
 }

@@ -1,5 +1,3 @@
-'use client';
-
 import Waterfall from '../../_components/Waterfall/Waterfall';
 import BigVinyl from '../../_components/BigVinyl/BigVinyl';
 import IndexHero from '../../_components/IndexHero/IndexHero';
