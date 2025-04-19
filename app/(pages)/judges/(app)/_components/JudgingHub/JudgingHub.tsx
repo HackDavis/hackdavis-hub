@@ -11,13 +11,9 @@ import Waiting from './Waiting';
 export default function JudgingHub() {
   return (
     <div className={styles.container}>
-<<<<<<< HEAD
-      {/* <ViewProjects /> */}
-=======
       <ViewProjects />
       {/* <ViewMap/>
       <Dismiss/> */}
->>>>>>> feat/announcements
       <HubHero />
       <Waiting />
       <TableLocations />

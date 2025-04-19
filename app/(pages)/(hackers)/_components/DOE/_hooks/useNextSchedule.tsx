@@ -82,6 +82,6 @@ export default function useNextSchedule() {
   return {
     event: nextEventData.event,
     attendeeCount: nextEventData.attendeeCount,
-    inPersonalSchedule: nextEventData.inPersonalSchedule
+    inPersonalSchedule: nextEventData.inPersonalSchedule,
   };
 }
