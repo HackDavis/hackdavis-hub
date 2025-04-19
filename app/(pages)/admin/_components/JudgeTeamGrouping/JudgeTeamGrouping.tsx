@@ -397,28 +397,6 @@ export default function JudgeTeamGrouping() {
         </button>
       </div>
 
-      {/* Charts: 1‑col on sm, 2‑cols on lg */}
-      {diagnostics && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-          <div>
-            <h4>Judge - Team Distribution vs. alpha</h4>
-            <Line data={distChartData!} options={distOptions} />
-          </div>
-          <div>
-            <h4>Match - Stats Distributions</h4>
-            <Line data={statsChartData!} options={statsOptions} />
-          </div>
-          <div>
-            <h4>Weighted Avg Match Quality vs. alpha</h4>
-            <Line data={weightedChartData!} options={weightedOptions} />
-          </div>
-          <div>
-            <h4>Median Match Quality vs. alpha</h4>
-            <Line data={medianChartData!} options={weightedOptions} />
-          </div>
-        </div>
-      )}
-
       {/* Apply one alpha’s assignments */}
       {diagnostics && (
         <div className="mt-6 flex items-center gap-4">
@@ -445,6 +423,28 @@ export default function JudgeTeamGrouping() {
           >
             Apply Matching
           </button>
+        </div>
+      )}
+
+      {/* Charts: 1‑col on sm, 2‑cols on lg */}
+      {diagnostics && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          <div>
+            <h4>Judge - Team Distribution vs. alpha</h4>
+            <Line data={distChartData!} options={distOptions} />
+          </div>
+          <div>
+            <h4>Match - Stats Distributions</h4>
+            <Line data={statsChartData!} options={statsOptions} />
+          </div>
+          <div>
+            <h4>Weighted Avg Match Quality vs. alpha</h4>
+            <Line data={weightedChartData!} options={weightedOptions} />
+          </div>
+          <div>
+            <h4>Median Match Quality vs. alpha</h4>
+            <Line data={medianChartData!} options={weightedOptions} />
+          </div>
         </div>
       )}
 
