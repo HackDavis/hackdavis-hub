@@ -1,53 +1,64 @@
 'use server';
-// TODO: Refactor for 2025
 
-// import matchingAlgorithm from '@utils/grouping/matchingAlgorithm';
-// import JudgeGroupToTeam from '@typeDefs/judgeToTeam';
-// import parseAndReplace from '@utils/request/parseAndReplace';
-// import { getManyTeams } from '@actions/teams/getTeams';
-// import { createSubmission } from '@actions/submissions/createSubmission';
-// import { getManyJudges } from '@actions/judges/getJudge';
+import JudgeToTeam from '@typeDefs/judgeToTeam';
+import matchAllTeams from '@utils/matching/judgesToTeamsAlgorithm';
+import parseAndReplace from '@utils/request/parseAndReplace';
+import { GetManyTeams } from '@datalib/teams/getTeam';
+import { CreateSubmission } from '@datalib/submissions/createSubmission';
+import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
+import checkMatches from '@actions/logic/checkMatches';
 
-// function checkMatches(matches: JudgeGroupToTeam[], teamsLength: number) {
-//   if (matches.length < 2 * teamsLength) return false;
+export default async function matchTeams(
+  options: { alpha: number } = { alpha: 4 }
+) {
+  const submissionsResponse = await GetManySubmissions();
+  if (
+    submissionsResponse.ok &&
+    submissionsResponse.body &&
+    submissionsResponse.body.length > 0
+  ) {
+    return {
+      ok: false,
+      body: null,
+      error:
+        'Submissions collection is not empty. Please clear submissions before matching teams.',
+    };
+  }
 
-//   let valid = true;
-//   const mp: Map<string, number> = new Map();
-//   for (const match of matches) {
-//     if (mp.get(match.team_id.toString()) === undefined) {
-//       mp.set(match.team_id.toString(), 1);
-//     } else {
-//       mp.set(match.team_id.toString(), mp.get(match.team_id.toString())! + 1);
-//     }
-//   }
-
-//   mp.forEach((count) => {
-//     if (count !== 2) valid = false;
-//   });
-
-//   return valid;
-// }
-
-export default async function matchTeams() {
-  // const judgeGroups = (await getManyJudgeGroups()).body;
-  // const teams = (await getManyTeams()).body;
-  // const matches = matchingAlgorithm(judgeGroups, teams);
-  // const parsedMatches = await parseAndReplace(matches);
-  // const valid = checkMatches(parsedMatches, teams.length);
-  // if (valid) {
-  //   await LinkManyJudgeGroupsToTeams(matches);
-  //   for (const match of parsedMatches) {
-  //     const judges = (
-  //       await getManyJudges({
-  //         judge_group_id: match.judge_group_id,
-  //       })
-  //     ).body;
-  //     for (const judge of judges) {
-  //       await createSubmission(judge._id, match.team_id.toString());
-  //     }
-  //   }
-  return 'Successfully matched teams!';
-  // } else {
-  //   return 'Failed to match teams: There may be fewer than two judge groups in one or more specialties.';
-  // }
+  // Generate submissions based on judge-team assignments.
+  const teamsRes = await GetManyTeams();
+  if (!teamsRes.ok) {
+    return {
+      ok: false,
+      body: null,
+      error: `GetManyTeams error: ${teamsRes.error}`,
+    };
+  }
+  const teams = teamsRes.body;
+  const matchResults = await matchAllTeams({ alpha: options.alpha });
+  const judgeToTeam: JudgeToTeam[] = matchResults.judgeToTeam;
+  const parsedJudgeToTeam = await parseAndReplace(judgeToTeam);
+  const valid = checkMatches(parsedJudgeToTeam, teams.length);
+  if (valid) {
+    for (const submission of parsedJudgeToTeam) {
+      const res = await CreateSubmission({
+        judge_id: { '*convertId': { id: submission.judge_id } },
+        team_id: { '*convertId': { id: submission.team_id } },
+      });
+      if (!res.ok) {
+        console.error(res.error);
+      }
+    }
+  } else {
+    return {
+      ok: false,
+      body: null,
+      error: 'Invalid submissions.',
+    };
+  }
+  return {
+    ok: true,
+    body: JSON.parse(JSON.stringify(matchResults)),
+    error: null,
+  };
 }
