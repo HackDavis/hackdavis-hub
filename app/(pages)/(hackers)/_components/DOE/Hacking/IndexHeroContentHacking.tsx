@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Countdown from '../../IndexHero/Countdown';
 import styles from './IndexHeroContentHacking.module.scss';
@@ -11,8 +13,17 @@ import star from 'public/index/hero/star.svg';
 import TimeTracker from '../../IndexHero/TimeTracker';
 import { GoArrowRight } from 'react-icons/go';
 import Announcements from '../../IndexHero/Announcements';
+import { useRollout } from '@pages/_hooks/useRollout';
+import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 
 export default function IndexHeroContentHacking() {
+  const { loading, rolloutRes } = useRollout('hacking-starts');
+
+  if (loading) return null;
+  if (!rolloutRes.ok) return JSON.stringify(rolloutRes.error);
+
+  const countdownTarget = rolloutRes.body.rollout_time + 24 * 60 * 60 * 1000;
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -35,7 +46,12 @@ export default function IndexHeroContentHacking() {
         <MusicPlayer />
         <div className={styles.center_right}>
           <div className={styles.countdown}>
-            <Countdown />
+            <ClientTimeProtectedDisplay
+              featureId="hacking-starts"
+              fallback={<Countdown />}
+            >
+              <Countdown countdownTarget={countdownTarget} />
+            </ClientTimeProtectedDisplay>
           </div>
           <div className={styles.belowClock}>
             <p className={styles.info}>
