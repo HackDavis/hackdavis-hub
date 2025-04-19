@@ -19,7 +19,7 @@ import TimeTracker from '../../IndexHero/TimeTracker';
 import NextSchedule from '../../IndexHero/NextSchedule';
 
 export default function IndexHeroContentHacking() {
-  const { loading, rolloutRes } = useRollout('hacking-starts');
+  const { loading, rolloutRes, fetchRollout } = useRollout('hacking-starts');
 
   if (loading) return null;
   if (!rolloutRes.ok) return JSON.stringify(rolloutRes.error);
@@ -34,7 +34,10 @@ export default function IndexHeroContentHacking() {
           <br />
           2025
         </p>
-        <a href="/map" className={styles.link}>
+        <a
+          href="https://drive.google.com/file/d/1l6fxi9jDKlleaStt4xXSgCjVg4dfQkjz/view?usp=sharing"
+          className={styles.link}
+        >
           <p className={styles.map}>ARC BALLROOM MAP</p>
           <LuArrowUpRight size={23} />
         </a>
@@ -51,6 +54,7 @@ export default function IndexHeroContentHacking() {
             <ClientTimeProtectedDisplay
               featureId="hacking-starts"
               fallback={<Countdown />}
+              callback={() => fetchRollout('hacking-starts')}
             >
               <Countdown countdownTarget={countdownTarget} />
             </ClientTimeProtectedDisplay>
