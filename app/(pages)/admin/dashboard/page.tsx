@@ -18,7 +18,7 @@ const action_links = [
     body: 'Create Panels',
   },
   {
-    href: '/admin/invite',
+    href: '/admin/invite-link',
     body: 'Invite Judges',
   },
   {
@@ -35,6 +35,10 @@ const data_links = [
   {
     href: '/admin/judges',
     body: 'View Judges',
+  },
+  {
+    href: '/admin/rollouts',
+    body: 'View Rollouts',
   },
 ];
 
