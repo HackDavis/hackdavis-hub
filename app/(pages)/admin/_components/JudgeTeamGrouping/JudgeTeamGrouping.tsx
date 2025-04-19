@@ -475,7 +475,7 @@ export default function JudgeTeamGrouping() {
                 ))}
               </div>
             ))
-          : ''}
+          : ''} */}
       </form>
 
       <div className={styles.delete}>

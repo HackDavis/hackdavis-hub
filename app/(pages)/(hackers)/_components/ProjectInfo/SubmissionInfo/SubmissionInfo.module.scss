@@ -1,0 +1,229 @@
+@import "@globals/mixins.scss";
+
+.container {
+  // border: 3px solid black;
+  padding-top: 3%;
+
+  @include desktop-s {
+    padding-top: 7%;
+  }
+
+  .submissionProcess {
+    padding: 64px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.5) 
+                url('/hackers/project-info/submissionProcess.svg') 
+                no-repeat;
+    background-position: right 64px bottom -8px;
+    background-size: auto 70%; /* Image height is 50% of container; width adjusts automatically */
+    z-index: 1;
+
+    @include desktop-m {
+      background-size: auto 60%; 
+    }
+    
+    @include desktop-s {
+      padding: 32px;
+      background-position: right 32px bottom -8px;
+      background-size: auto 65%; 
+    }
+
+    @include tablet-l {
+      padding: 16px;
+      background-position: right 16px bottom -8px;
+      // background-size: auto 70%; 
+    }
+    
+    @include mobile-l {
+      background-size: auto 55%; 
+    }
+  
+    h6, h4 {
+      color: var(--text-dark);
+
+      @include tablet-s {
+        width: 50%;
+        line-height: 1;
+        padding-bottom: 5px;
+      }
+    }
+
+    h4 {
+      font-size: 2.25rem;
+      font-weight: 700;
+
+      @include desktop-s {
+        font-size: 1.75rem;
+      }
+      @include tablet-l {
+        font-size: 1.5rem;
+      }
+      @include mobile-l {
+        font-size: 1rem;
+      }
+    }
+
+    h6 {
+      @include tablet-l {
+        font-size: 0.9rem;
+      }
+      @include mobile-l {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+.imageWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  aspect-ratio: 2.5;
+}  
+
+.primaryImageWrapper {
+  width: 50%;
+  margin: 12px;
+  position: relative;
+  aspect-ratio: calc(1580 / 1174);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 4px solid var(--background-tertiary);
+  z-index: 1;
+
+  @include tablet-s {
+      width: 100%;
+      margin: 0;
+      margin-bottom: 16px;
+  }
+
+  .primaryImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
+}
+
+.overlayImage {
+    z-index: 2;
+}
+
+.stepText {
+    width: 50%;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    padding-bottom: 32px;
+
+    @include desktop-m {
+        width: 90%;
+    }
+
+    @include tablet-l {
+        font-size: 1rem;
+        padding-bottom: 16px;
+      }
+
+    @include tablet-s {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    @include mobile-l {
+        font-size: 0.8rem;
+    }
+}
+
+
+.step2, .step3 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  margin-bottom: 32px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0px 0px 12px 12px;
+
+  @include tablet-l {
+    padding: 20px;
+    border-radius: 0px 0px 6px 6px;
+  }
+
+  @include tablet-s {
+    padding-bottom: 0;
+  }
+}
+
+.step2 { 
+  .imageWrapper {
+    width: 50%;
+    padding-bottom: 8%;
+
+    @include tablet-s {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    
+    .primaryImageWrapper {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  .overlayImage {
+    position: absolute;
+    top: 35%;
+    right: -45%;
+
+    @include tablet-s {
+      width: 50%;
+      top: 65%;
+      right: -10%;
+    }
+  }
+
+}
+.step3 {
+  .imageWrapper {
+    width: 100%;
+  }
+  .overlayImage {
+    position: absolute;
+    top: 0;
+    left: 5%;
+    height: 100%;
+    z-index: 2;     
+    
+    @include tablet-s {
+      display: none;
+    }
+  }
+}  
+
+.GrassDivider {
+  width: 100vw;
+
+  .grass_image {
+    width: 100vw;
+    margin: 88px -80px;
+
+    @include tablet-l {
+      transform: scale(1.5);
+      margin: 56px -32px;
+    }
+  }
+}
+
+.tips {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+
+  @include tablet-l {
+    gap: 32px;
+  }
+}

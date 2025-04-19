@@ -1,25 +1,9 @@
 import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
-import fs from 'fs';
-import path from 'path';
+import data from '../app/_data/db_validation_data.json' with { type: 'json' };
 
-const dataPath = path.resolve(
-  process.cwd(),
-  'app/_data/db_validation_data.json'
-);
-const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-const domains = [...new Set(data.domains)];
+const specialties = [...new Set(data.domains)];
 const tracks = [...new Set(data.tracks)];
-
-// Extract unique domains from the categorizedTracks.
-// Only tracks with a defined domain are considered.
-// const domains = Array.from(
-//   new Set(
-//     Object.values(categorizedTracks)
-//       .map((track) => track.domain)
-//       .filter((domain) => !!domain)
-//   )
-// );
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -66,9 +50,7 @@ function weightedShuffleSpecialties(specialties) {
   return first ? [first, ...shuffledRemaining] : shuffledRemaining;
 }
 
-function generateData(collectionName, numDocuments) {
-  // Use the extracted domains from categorizedTracks as specialties.
-  const specialties = domains;
+function generateData(collectionName, numDocuments, existingData = {}) {
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
@@ -115,21 +97,64 @@ function generateData(collectionName, numDocuments) {
       active: true,
     }));
   } else if (collectionName === 'submissions') {
-    data = Array.from({ length: numDocuments }, () => {
-      const randomTracks = faker.helpers.arrayElements(
-        tracks,
-        faker.number.int({ min: 1, max: 6 })
+    if (
+      !existingData.teams ||
+      !existingData.teams.length ||
+      !existingData.users ||
+      !existingData.users.length
+    ) {
+      throw new Error(
+        'Cannot generate submissions without existing teams and judges'
       );
-      const scores = randomTracks.map((t) => ({
-        trackName: t,
-        rawScores: Array.from({ length: 5 }, () =>
-          faker.number.int({ min: 1, max: 5 })
-        ),
-        finalTrackScore: null,
-      }));
+    }
+
+    const judges = existingData.users.filter((user) => user.role === 'judge');
+    if (judges.length === 0) {
+      throw new Error('No judges found in existing users data');
+    }
+
+    data = Array.from({ length: numDocuments }, () => {
+      const randomTeam = faker.helpers.arrayElement(existingData.teams);
+      const randomJudge = faker.helpers.arrayElement(judges);
+
+      const teamTracks = randomTeam.tracks || [];
+      const tracksToUse =
+        teamTracks.length > 0
+          ? teamTracks
+          : faker.helpers.arrayElements(
+              tracks,
+              faker.number.int({ min: 1, max: 3 })
+            );
+
+      const scores = tracksToUse.map((trackName) => {
+        const trackInfo = tracks.find((t) => t.name === trackName);
+        let rawScores = {};
+
+        if (trackInfo && trackInfo.scoring_criteria) {
+          trackInfo.scoring_criteria.forEach((criterion) => {
+            rawScores[criterion.attribute] = faker.number.int({
+              min: 1,
+              max: 5,
+            });
+          });
+        } else {
+          rawScores = {
+            'Criterion 1': faker.number.int({ min: 1, max: 5 }),
+            'Criterion 2': faker.number.int({ min: 1, max: 5 }),
+            'Criterion 3': faker.number.int({ min: 1, max: 5 }),
+          };
+        }
+
+        return {
+          trackName: trackName,
+          rawScores: rawScores,
+          finalTrackScore: null,
+        };
+      });
+
       return {
-        judge_id: new ObjectId(),
-        team_id: new ObjectId(),
+        judge_id: randomJudge._id || new ObjectId(),
+        team_id: randomTeam._id || new ObjectId(),
         social_good: faker.number.int({ min: 1, max: 5 }),
         creativity: faker.number.int({ min: 1, max: 5 }),
         presentation: faker.number.int({ min: 1, max: 5 }),
@@ -160,6 +185,28 @@ function generateData(collectionName, numDocuments) {
               min: 1,
             })
           : [],
+      };
+    });
+  } else if (collectionName === 'panels') {
+    const trackNames = tracks;
+
+    const trackTypes = trackNames.reduce((acc, trackName) => {
+      acc[trackName] = faker.helpers.arrayElement(specialties);
+      return acc;
+    }, {});
+
+    data = trackNames.map((trackName) => ({
+      track: trackName,
+      domain: trackTypes[trackName],
+      user_ids: [],
+    }));
+  } else if (collectionName === 'rollouts') {
+    data = Array.from({ length: numDocuments }, () => {
+      return {
+        component_key: 'judge-check-in',
+        // component_key: 'hackers-choice-link',
+        rollout_time: Date.now() + 1 * 60 * 1000,
+        rollback_time: Date.now() + 2 * 60 * 1000,
       };
     });
   }

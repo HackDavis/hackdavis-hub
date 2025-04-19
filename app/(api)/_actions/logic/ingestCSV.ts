@@ -14,5 +14,5 @@ export default async function ingestCSV(formData: FormData) {
     return res;
   }
 
-  return csvRes;
+  return JSON.parse(JSON.stringify(csvRes));
 }

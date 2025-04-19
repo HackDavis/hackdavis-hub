@@ -1,0 +1,117 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px 48px 24px;
+    background-color: #173A52;
+
+    >h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    >p {
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 80px;
+    }
+
+    >h3, p {
+        color: white;
+    }
+}
+
+.progress_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .flag_duck {
+        display: flex;
+        flex-direction: row;
+
+        .flag {
+            display: flex;
+            flex-direction: row;
+            transform: translate(8px, -50%);
+            .pole {
+                width: 4px;
+                height: 150%;
+                border-radius: 11px 11px 0px 0px;
+                background: #8E6143;
+            }
+
+            .fabric {
+                display: flex;
+                padding: 16px 22px;
+                justify-content: center;
+                align-items: center;
+                background: #FFBB4D;
+                box-shadow: 0px 5.451px 24px 0px rgba(255, 197, 61, 0.16);
+            }
+
+            .percentage {
+                color: black;
+                text-align: center;
+                font-size: 1.25rem;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .progress_box {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        padding: 12px 24px;
+        align-items: center;
+        gap: 10px;
+        background-color: #E5EEF1;
+        border-radius: 8px;
+        * {
+            color: #173A52;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .progress_num_container {
+            height: 1rem;
+            width: 100%;
+            position: relative;
+
+            .progress_num {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                transform: translateX(-50%);
+                transition: all 0.5s ease;
+            }
+        }
+
+        .bar_holder {
+            height: 12px;
+            width: 100%;
+            border-radius: 8px;
+            background-color: #E0DFD8;
+            position: relative;
+
+            .bar {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                border-radius: 8px;
+                background-color: #FFC53D;
+                transition: all 0.5s ease;
+            }
+        }
+
+        .scale_nums {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+}

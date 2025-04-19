@@ -2,6 +2,8 @@ import { getClient } from '../app/(api)/_utils/mongodb/mongoClient.mjs';
 import readline from 'readline';
 import generateData from './generateData.mjs';
 
+const uri = process.env.MONGODB_URI;
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -19,6 +21,52 @@ async function dbSeed(collectionNames, numDocuments, wipe) {
     }
     schemaKeys.push('admin');
 
+    // Prepare existingData for submissions if needed
+    let existingData = {};
+    if (collectionNames.includes('submissions')) {
+      console.log('Submissions require teams and users data. Fetching...');
+
+      // Check if teams collection exists
+      if (!schemaKeys.includes('teams')) {
+        console.error(
+          'Error: Teams collection does not exist. Please seed teams first.'
+        );
+        await client.close();
+        return;
+      }
+
+      // Check if users collection exists (for judges)
+      if (!schemaKeys.includes('users')) {
+        console.error(
+          'Error: Users collection does not exist. Please seed users first.'
+        );
+        await client.close();
+        return;
+      }
+
+      // Fetch teams
+      const teams = await db.collection('teams').find({}).toArray();
+      if (teams.length === 0) {
+        console.error('Error: No teams found. Please seed teams first.');
+        await client.close();
+        return;
+      }
+
+      // Fetch judges
+      const users = await db.collection('users').find({}).toArray();
+      const judges = users.filter((user) => user.role === 'judge');
+      if (judges.length === 0) {
+        console.error(
+          'Error: No judges found. Please seed users with judge role first.'
+        );
+        await client.close();
+        return;
+      }
+
+      existingData = { teams, users };
+      console.log(`Found ${teams.length} teams and ${judges.length} judges.`);
+    }
+
     for (const collectionName of collectionNames.split(' ')) {
       if (schemaKeys.find((key) => key === collectionName) === undefined) {
         console.log(`Collection ${collectionName} not found.`);
@@ -34,7 +82,13 @@ async function dbSeed(collectionNames, numDocuments, wipe) {
         console.log(`Wiped collection: ${collectionName}`);
       }
 
-      const fakeData = generateData(collectionName, numDocuments);
+      // Pass existingData to generateData for submissions
+      const fakeData = generateData(
+        collectionName,
+        numDocuments,
+        collectionName === 'submissions' ? existingData : {}
+      );
+
       const result = await collection.insertMany(fakeData);
       console.log(
         `${result.insertedCount} documents inserted into ${collectionName}`
@@ -43,7 +97,13 @@ async function dbSeed(collectionNames, numDocuments, wipe) {
 
     await client.close();
   } catch (error) {
-    console.log(error);
+    if (error.writeErrors) {
+      console.log(
+        error.writeErrors[0].err.errInfo.details.schemaRulesNotSatisfied[0]
+      );
+    } else {
+      console.error(error);
+    }
   }
 }
 
@@ -57,6 +117,22 @@ function askQuestion(question) {
 
 async function gatherInput() {
   try {
+    if (uri.startsWith('mongodb+srv')) {
+      let confirm = '';
+      while (confirm !== 'y' && confirm !== 'n') {
+        confirm = (
+          await askQuestion(
+            'YOU ARE ABOUT TO RUN A DATABASE SEEDING SCRIPT ON THE STAGING/PRODUCTION DATABASE. ARE YOU SURE YOU WANT TO CONTINUE? (y/n): '
+          )
+        ).toLowerCase();
+        if (confirm !== 'y' && confirm !== 'n') {
+          console.log('Please enter either "y" or "n".');
+        }
+      }
+
+      if (confirm === 'n') throw new Error('Canceled seeding.');
+    }
+
     const collectionNames = await askQuestion(
       'Which collection(s) would you like to generate data for? List their names (case-sensitive) separated by spaces: '
     );
