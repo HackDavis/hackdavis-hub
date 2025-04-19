@@ -7,7 +7,6 @@ import DuckHead from 'public/hackers/hero/DuckHead.svg';
 import star from 'public/hackers/hero/star.svg';
 import evenNote from 'public/hackers/hero/EvenMusic.svg';
 import oddNote from 'public/hackers/hero/OddMusic.svg';
-import Star from 'public/hackers/hero/Star.svg';
 
 // can delete scroll text
 // make music notes hidden + upon hover notes go up

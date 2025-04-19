@@ -7,7 +7,11 @@ import { useEvents } from '@hooks/useEvents';
 import CalendarItem from '../Schedule/CalendarItem';
 
 export default function NextSchedule() {
-  const [nextEventData, setNextEventData] = useState({
+  const [nextEventData, setNextEventData] = useState<{
+    event: Event | null;
+    attendeeCount: number;
+    inPersonalSchedule: boolean;
+  }>({
     event: null,
     attendeeCount: 0,
     inPersonalSchedule: false,
@@ -53,7 +57,7 @@ export default function NextSchedule() {
         );
 
         setNextEventData({
-          event: nextEvent,
+          event: nextEvent as unknown as Event, // please dont read this code T^T. 6 am brain
           attendeeCount: eventWithCount?.attendeeCount || 0,
           inPersonalSchedule: true,
         });

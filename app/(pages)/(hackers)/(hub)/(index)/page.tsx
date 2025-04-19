@@ -5,15 +5,15 @@ import BeginnersSection from '../../_components/BeginnersSection/BeginnersSectio
 import Footer from '@components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
 // import IndexHeroDone from '@pages/(hackers)/_components/IndexHero/IndexHeroDone';
-// import IndexHeroJudging from '@pages/(hackers)/_components/DOE/Judging/IndexHeroJudging';
-import IndexHeroHacking from '@pages/(hackers)/_components/DOE/Hacking/IndexHeroHacking';
+// import IndexHeroHacking from '@pages/(hackers)/_components/DOE/Hacking/IndexHeroHacking';
+// import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
+import IndexHeroJudging from '@pages/(hackers)/_components/DOE/Judging/IndexHeroJudging';
 
 export default function Page() {
   return (
     <main id="home">
-      {/* <IndexHeroJudging /> */}
+      <IndexHeroJudging />
       {/* <IndexHeroDone /> */}
-      <IndexHeroHacking />
       <BeginnersSection />
       <Contact />
       <PrizeTracks />

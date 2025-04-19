@@ -8,14 +8,14 @@ import Scroll from './Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
-import NextSchedule from './NextSchedule';
+// import NextSchedule from './NextSchedule';
 import Link from 'next/link';
 import TimeTracker from './TimeTracker';
 import Notifications from './Notifications';
 // import AssigningJudges from './AssigningJudges';
 import DoneJudging from './DoneJudging';
-import Announcements from './Announcements';
-import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
+// import Announcements from './Announcements';
+// import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
 
 export default function IndexHeroContentDone() {
   return (

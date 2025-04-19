@@ -10,7 +10,7 @@ import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
 // import Announcement from './Announcement';
-import NextSchedule from '../../IndexHero/NextSchedule';
+// import NextSchedule from '../../IndexHero/NextSchedule';
 import Link from 'next/link';
 import TimeTracker from '../../IndexHero/TimeTracker';
 // import Notifications from './Notifications';
