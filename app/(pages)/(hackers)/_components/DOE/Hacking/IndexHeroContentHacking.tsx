@@ -17,7 +17,7 @@ import { useRollout } from '@pages/_hooks/useRollout';
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 
 export default function IndexHeroContentHacking() {
-  const { loading, rolloutRes } = useRollout('hacking-starts');
+  const { loading, rolloutRes, fetchRollout } = useRollout('hacking-starts');
 
   if (loading) return null;
   if (!rolloutRes.ok) return JSON.stringify(rolloutRes.error);
@@ -52,6 +52,7 @@ export default function IndexHeroContentHacking() {
             <ClientTimeProtectedDisplay
               featureId="hacking-starts"
               fallback={<Countdown />}
+              callback={() => fetchRollout('hacking-starts')}
             >
               <Countdown countdownTarget={countdownTarget} />
             </ClientTimeProtectedDisplay>
