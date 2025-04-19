@@ -12,8 +12,8 @@ export default function Page() {
   return (
     <main id="home">
       {/* <IndexHeroJudging /> */}
-      <IndexHeroDone />
-      {/* <IndexHeroHacking /> */}
+      {/* <IndexHeroDone /> */}
+      <IndexHeroHacking />
       <BeginnersSection />
       <Contact />
       <PrizeTracks />

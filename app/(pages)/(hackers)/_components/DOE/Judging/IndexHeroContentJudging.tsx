@@ -63,7 +63,6 @@ export default function IndexHeroContentJudging() {
           </div>
         </div>
       </div>
-      <Announcements />
 
       <div className={styles.star_social_good}>
         <div className={styles.star_box}>
