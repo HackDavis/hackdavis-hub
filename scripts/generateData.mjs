@@ -200,6 +200,15 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       domain: trackTypes[trackName],
       user_ids: [],
     }));
+  } else if (collectionName === 'announcements') {
+    data = Array.from({ length: numDocuments }, () => ({
+      title: faker.company.catchPhrase(),
+      description: faker.commerce.productDescription(),
+      time: faker.date.between({
+        from: '2025-04-19T00:00:00.000Z',
+        to: '2025-04-20T23:59:59.999Z',
+      }),
+    }));
   } else if (collectionName === 'rollouts') {
     data = Array.from({ length: numDocuments }, () => {
       return {

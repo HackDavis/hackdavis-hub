@@ -103,7 +103,7 @@ export function CalendarItem({
             {tags && tags.length > 0 && (
               <div className="flex gap-2 items-center sm:py-2 flex-wrap mt-2">
                 {tags.map((tag) => (
-                  <div className="border-black p-1 border-2" key={tag}>
+                  <div className="border-black p-1 border-[2px]" key={tag}>
                     <span
                       key={tag}
                       className="text-black font-plus-jakarta-sans text-sm font-normal leading-[145%] tracking-[0.36px]"

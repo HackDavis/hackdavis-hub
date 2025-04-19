@@ -1,26 +1,14 @@
-@use 'app/(pages)/_globals/mixins';
+@import '@globals/mixins.scss';
 
 .container {
+    position: relative;
     width: 100%;
-    aspect-ratio: calc(16 / 14);
-    overflow-x: clip;
+    height: fit-content;
+    padding-bottom: 25%;
     background: linear-gradient(154deg, #76DEEB 45.75%, #FCFCD1 92.58%);
 
-    position: relative;
-
-    margin-bottom: 15%;
-
-    @include mixins.desktop-s {
-        aspect-ratio: calc(16 / 17);
-    }
-
-    @include mixins.tablet-l {
-        height: 1500px;
-        z-index: 50;
-    }
-
-    @include mixins.mobile-l {
-        height: 1350px;
+    @include tablet-l {
+        padding-bottom: 0;
     }
 }
 
@@ -34,8 +22,7 @@
 .bunny {
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(200%);
     width: 20%;
 }
 
@@ -69,4 +56,20 @@
     top: 0;
     width: 70%;
     transform: translateY(10%);
+}
+
+.children {
+    width: 100%;
+    padding: 0px 108px;
+    padding-top: 142px;
+
+    @include desktop-m {
+        padding: 0px 64px;
+        padding-top: 142px;
+    }
+
+    @include tablet-l {
+        padding: 0px 32px;
+        padding-top: 120px;
+    }
 }
