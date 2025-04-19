@@ -1,9 +1,10 @@
-import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
+// import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
+import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 
 export default function Test() {
   return (
-    <TimeProtectedDisplay featureId="test" fallback={'not ready'}>
+    <ClientTimeProtectedDisplay featureId="test" fallback={'not ready'}>
       hi
-    </TimeProtectedDisplay>
+    </ClientTimeProtectedDisplay>
   );
 }

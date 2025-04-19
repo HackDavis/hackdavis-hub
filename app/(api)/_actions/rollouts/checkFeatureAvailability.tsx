@@ -5,7 +5,9 @@ import Rollout from '@typeDefs/rollout';
 
 export default async function checkFeatureAvailability(component_key: string) {
   try {
-    const rolloutRes = await GetRollout(component_key);
+    const rolloutRes = JSON.parse(
+      JSON.stringify(await GetRollout(component_key))
+    );
 
     if (!rolloutRes.ok || !rolloutRes.body) {
       throw new Error(rolloutRes.error ?? 'Feature not found.');
