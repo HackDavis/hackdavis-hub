@@ -29,10 +29,10 @@ const designerResources = [
     name: 'Prototyping & Transitions',
     url: 'https://youtu.be/-d6zNGeF59M',
   },
-  {
-    name: 'Anatomy of a design pitch',
-    url: 'https://uxdesign.cc/anatomy-of-a-design-pitch-17435f3e7e0f',
-  },
+  // {
+  //   name: 'Anatomy of a design pitch',
+  //   url: 'https://uxdesign.cc/anatomy-of-a-design-pitch-17435f3e7e0f',
+  // },
   {
     name: 'Human-Centered Design',
     url: 'https://www.designkit.org/human-centered-design.html',
