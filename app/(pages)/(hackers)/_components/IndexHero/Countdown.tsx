@@ -3,38 +3,44 @@
 import styles from './Countdown.module.scss';
 import { useState, useEffect } from 'react';
 
-const COUNTDOWN_TARGET = new Date('2025-04-20T11:00:00-07:00');
+interface CountdownProps {
+  countdownTarget?: number;
+}
 
-export default function Countdown() {
-  const calculateTimeLeft = () => {
-    const now = Date.now();
-    const targetTime = COUNTDOWN_TARGET.getTime();
-    const difference = targetTime - now;
-
-    // when done, display 00:00:00
-    if (difference <= 0) return { hours: 0, minutes: 0, seconds: 0 };
-
-    // if > 24 hours before judging time, cap the display at 24:00:00
-    if (difference > 24 * 60 * 60 * 1000)
-      return { hours: 24, minutes: 0, seconds: 0 };
-
-    // actual functionality
-    return {
-      hours: Math.floor(difference / (1000 * 60 * 60)),
-      minutes: Math.floor((difference / (1000 * 60)) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
-    };
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+export default function Countdown({
+  countdownTarget = new Date('2026-04-20T07:00:00-07:00').getTime(),
+}: CountdownProps) {
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 24,
+    minutes: 0,
+    seconds: 0,
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {
+      const calculateTimeLeft = () => {
+        const now = Date.now();
+        const difference = countdownTarget - now;
+
+        // when done, display 00:00:00
+        if (difference <= 0) return { hours: 0, minutes: 0, seconds: 0 };
+
+        // if > 24 hours before judging time, cap the display at 24:00:00
+        if (difference > 24 * 60 * 60 * 1000)
+          return { hours: 24, minutes: 0, seconds: 0 };
+
+        // actual functionality
+        return {
+          hours: Math.floor(difference / (1000 * 60 * 60)),
+          minutes: Math.floor((difference / (1000 * 60)) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        };
+      };
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [countdownTarget]);
 
   return (
     <div className={styles.container}>

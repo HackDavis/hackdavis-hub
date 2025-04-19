@@ -52,19 +52,23 @@
     align-items: flex-end;
     // border: 1px solid red;
 
-    gap: 38px;
+    // gap: 3%;
 
     > div {
         text-align: center;
     }
 
-    @include mixins.desktop-s {
-        gap: 24px;
-    }
+    // @include mixins.desktop-m {
+    //     gap: 24px;
+    // }
 
-    @include mixins.tablet-l {
-        gap: 16px;
-    }
+    // @include mixins.desktop-s {
+    //     gap: 24px;
+    // }
+
+    // @include mixins.tablet-l {
+    //     gap: 16px;
+    // }
 
     @include mixins.mobile-l {
         padding-top: 8%;

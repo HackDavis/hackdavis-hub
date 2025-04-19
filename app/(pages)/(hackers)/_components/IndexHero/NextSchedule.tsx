@@ -5,6 +5,7 @@ import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import useActiveUser from '@pages/_hooks/useActiveUser';
 import { useEvents } from '@hooks/useEvents';
 import CalendarItem from '../Schedule/CalendarItem';
+import Event from '@typeDefs/event';
 
 export default function NextSchedule() {
   const [nextEventData, setNextEventData] = useState<{
@@ -57,7 +58,7 @@ export default function NextSchedule() {
         );
 
         setNextEventData({
-          event: nextEvent as unknown as Event, // please dont read this code T^T. 6 am brain
+          event: nextEvent as Event,
           attendeeCount: eventWithCount?.attendeeCount || 0,
           inPersonalSchedule: true,
         });

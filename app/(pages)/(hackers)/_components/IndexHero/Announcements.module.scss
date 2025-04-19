@@ -52,6 +52,10 @@
       padding: 28px 48px;
     }
 
+    @include tablet-l {
+      padding: 20px;
+    }
+
     .empty {
       display: flex;
       flex-direction: column;

@@ -12,6 +12,8 @@ export default function JudgingHub() {
   return (
     <div className={styles.container}>
       {/* <ViewProjects /> */}
+      {/* <ViewMap/>
+      <Dismiss/> */}
       <HubHero />
       <Waiting />
       <TableLocations />

@@ -1,23 +1,31 @@
+'use client';
+
 import Image from 'next/image';
 import Countdown from '../../IndexHero/Countdown';
 import styles from './IndexHeroContentHacking.module.scss';
 import MusicPlayer from '../../IndexHero/MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
 // import cow_tada from '@public/hackers/hero/cow_tada.svg';
-import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
 import Scroll from '../../IndexHero/Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
-// import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
-// import Announcement from './Announcement';
 // import NextSchedule from '../../IndexHero/NextSchedule';
-import Link from 'next/link';
-import TimeTracker from '../../IndexHero/TimeTracker';
-// import Notifications from './Notifications';
+// import TimeTracker from '../../IndexHero/TimeTracker';
 import { GoArrowRight } from 'react-icons/go';
 import Announcements from '../../IndexHero/Announcements';
+import { useRollout } from '@pages/_hooks/useRollout';
+import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
+import TimeTracker from '../../IndexHero/TimeTracker';
+import NextSchedule from '../../IndexHero/NextSchedule';
 
 export default function IndexHeroContentHacking() {
+  const { loading, rolloutRes } = useRollout('hacking-starts');
+
+  if (loading) return null;
+  if (!rolloutRes.ok) return JSON.stringify(rolloutRes.error);
+
+  const countdownTarget = rolloutRes.body.rollout_time + 24 * 60 * 60 * 1000;
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -30,7 +38,6 @@ export default function IndexHeroContentHacking() {
           <p className={styles.map}>ARC BALLROOM MAP</p>
           <LuArrowUpRight size={23} />
         </a>
-        <div>{/* <Notifications /> */}</div>
       </div>
 
       <div className={styles.spacer_star_container}>
@@ -40,7 +47,14 @@ export default function IndexHeroContentHacking() {
       <div className={styles.heroRow}>
         <MusicPlayer />
         <div className={styles.center_right}>
-          <Countdown />
+          <div className={styles.countdown}>
+            <ClientTimeProtectedDisplay
+              featureId="hacking-starts"
+              fallback={<Countdown />}
+            >
+              <Countdown countdownTarget={countdownTarget} />
+            </ClientTimeProtectedDisplay>
+          </div>
           <div className={styles.belowClock}>
             <p className={styles.info}>
               A HACKDAVIS HUB
@@ -75,7 +89,6 @@ export default function IndexHeroContentHacking() {
       <div className={styles.scrollDesktopSection}>
         <Scroll />
       </div>
-      <Announcements />
 
       <div className={styles.group_width}>
         <div
@@ -96,44 +109,9 @@ export default function IndexHeroContentHacking() {
             <TimeTracker targetTime="2025-05-01T09:00:00Z" />
           </div>
         </div>
-        {/* <NextSchedule /> */}
+        <NextSchedule />
       </div>
-
-      <div className={styles.group_width}>
-        <div
-          style={{
-            display: 'flex',
-            gap: '1%',
-            paddingBottom: '1%',
-            alignItems: 'center',
-          }}
-        >
-          <p>WHILE YOU WAIT, CHECK OUT OUR JUDGING INFORMATION</p>
-          <Image
-            src={star_icon}
-            alt="star icon"
-            className={styles.star_icon_img}
-          />
-        </div>
-        <div className={styles.judge_info}>
-          <div style={{ width: '50%' }}>
-            <h2>
-              <strong>Judging Information</strong>
-            </h2>
-            <Link href={'/judging'}>
-              <button className={styles.schedule_button}>
-                Read on the process
-                <LuArrowUpRight size={23} />
-              </button>
-            </Link>
-          </div>
-          <Image
-            src={judge_bunny_and_ducky}
-            alt="judge bunny and ducky"
-            className={styles.judge_bunny_ducky_img}
-          />
-        </div>
-      </div>
+      <Announcements />
     </div>
   );
 }
