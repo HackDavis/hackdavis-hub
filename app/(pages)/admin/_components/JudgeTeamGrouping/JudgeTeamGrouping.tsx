@@ -337,7 +337,7 @@ export default function JudgeTeamGrouping() {
           onClick={downloadCSV}
           style={{ marginTop: '10px', outline: '1px solid black' }}
         >
-          Download CSV
+          Download CSV (only for above matchData Button)
         </button>
       </div>
 
