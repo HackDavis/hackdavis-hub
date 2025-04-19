@@ -7,8 +7,13 @@ const validTracks: string[] = trackData.tracks.filter(
   (t) => t !== 'Best Hack for Social Good'
 );
 
-function sortTracks(track1: string, track2: string, chosentracks: string) {
-  let tracksInOrder: string[] = [track1, track2];
+function sortTracks(
+  track1: string,
+  track2: string,
+  track3: string,
+  chosentracks: string
+): string[] {
+  let tracksInOrder: string[] = [track1, track2, track3];
 
   if (chosentracks.length > 1) {
     const otherTracks = chosentracks
@@ -29,12 +34,14 @@ function sortTracks(track1: string, track2: string, chosentracks: string) {
   }
 
   tracksInOrder = tracksInOrder.filter(
-    (track) => track !== 'NA' && validTracks.includes(track)
+    (track: string) => track !== 'NA' && validTracks.includes(track)
   );
   return tracksInOrder;
 }
 
-export default async function csvAlgorithm(blob: Blob) {
+export default async function csvAlgorithm(
+  blob: Blob
+): Promise<{ ok: boolean; body: ParsedRecord[] | null; error: string | null }> {
   try {
     const parsePromise = new Promise<ParsedRecord[]>((resolve, reject) => {
       const output: ParsedRecord[] = [];
@@ -46,32 +53,52 @@ export default async function csvAlgorithm(blob: Blob) {
         stream
           .pipe(csv())
           .on('data', (data) => {
-            if (data['Table Number'] !== '') {
-              const track1 = data['Track #1'].trim();
-              const track2 = data['Track #2'].trim();
+            if (
+              data['Table Number'] !== '' &&
+              data['Project Status'] === 'Submitted (Gallery/Visible)'
+            ) {
+              const track1: string = data['Track #1 (Primary Track)'].trim();
+              const track2: string = data['Track #2'].trim();
+              const track3: string = data['Track #3'].trim();
 
               const tracksInOrder: string[] = sortTracks(
                 track1,
                 track2,
+                track3,
                 data['Opt-In Prizes']
               );
 
               output.push({
                 name: data['Project Title'],
-                number: parseInt(data['Table Number']),
+                teamNumber: parseInt(data['Table Number']),
+                tableNumber: 0, // doing it later (on end)
                 tracks: tracksInOrder,
+                active: true,
               });
             }
           })
           .on('end', () => {
-            resolve(output);
+            const bestHardwareTeams = output.filter((team) =>
+              team.tracks.includes('Best Hardware Hack')
+            );
+            const otherTeams = output.filter(
+              (team) => !team.tracks.includes('Best Hardware Hack')
+            );
+
+            const orderedTeams = [...bestHardwareTeams, ...otherTeams];
+
+            orderedTeams.forEach((team, index) => {
+              team.tableNumber = index + 1;
+            });
+
+            resolve(orderedTeams);
           })
           .on('error', (error) => reject(error));
       };
       parseBlob().catch(reject);
     });
 
-    const results = await parsePromise;
+    const results: ParsedRecord[] = await parsePromise;
 
     return { ok: true, body: results, error: null };
   } catch (e) {
