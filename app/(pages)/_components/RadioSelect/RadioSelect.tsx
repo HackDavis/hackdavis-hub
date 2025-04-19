@@ -56,7 +56,6 @@ export default function RadioSelect({
           </div>
         ))}
       </div>
-      {/* {showTooltip && ( */}
       <div
         className={`${styles.tooltip_text} ${
           showTooltip ? styles.expanded : ''
@@ -69,7 +68,6 @@ export default function RadioSelect({
           </p>
         ))}
       </div>
-      {/* )} */}
     </div>
   );
 }

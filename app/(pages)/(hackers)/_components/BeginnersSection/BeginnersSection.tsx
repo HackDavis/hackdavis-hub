@@ -20,11 +20,6 @@ export default function BeginnersSection() {
             hackers to get their hack started! Inside includes: resources, past
             winning hacks, and more.
           </p>
-          {/* <Image
-            src={grass_detail_light}
-            alt="grass detail"
-            className={styles.grass_light}
-          /> */}
         </div>
         <div className={styles.hackathon_cont}>
           <div className={styles.hack_img}>
@@ -33,7 +28,6 @@ export default function BeginnersSection() {
               src={grass_detail_light}
               alt="grass detail"
               className={styles.grass_light}
-              // style={{ position: 'absolute', right: 0, bottom: '-40px' }}
             />
           </div>
           <div className={styles.button}>
@@ -56,8 +50,6 @@ export default function BeginnersSection() {
           </div>
         </div>
       </div>
-      {/* <div className={styles.hack_w_grass}>
-      </div> */}
     </div>
   );
 }
