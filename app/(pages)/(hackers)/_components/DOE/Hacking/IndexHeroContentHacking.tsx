@@ -4,13 +4,13 @@ import Image from 'next/image';
 import Countdown from '../../IndexHero/Countdown';
 import styles from './IndexHeroContentHacking.module.scss';
 import MusicPlayer from '../../IndexHero/MusicPlayer';
-import star_icon from '@public/hackers/hero/star.svg';
+// import star_icon from '@public/hackers/hero/star.svg';
 // import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import Scroll from '../../IndexHero/Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
 import star from 'public/index/hero/star.svg';
 // import NextSchedule from '../../IndexHero/NextSchedule';
-import TimeTracker from '../../IndexHero/TimeTracker';
+// import TimeTracker from '../../IndexHero/TimeTracker';
 import { GoArrowRight } from 'react-icons/go';
 import Announcements from '../../IndexHero/Announcements';
 import { useRollout } from '@pages/_hooks/useRollout';
@@ -90,7 +90,7 @@ export default function IndexHeroContentHacking() {
 
       <Announcements />
 
-      <div className={styles.group_width}>
+      {/* <div className={styles.group_width}>
         <div
           style={{
             display: 'flex',
@@ -109,8 +109,8 @@ export default function IndexHeroContentHacking() {
             <TimeTracker targetTime="2025-05-01T09:00:00Z" />
           </div>
         </div>
-        {/* <NextSchedule /> */}
-      </div>
+        <NextSchedule />
+      </div> */}
     </div>
   );
 }
