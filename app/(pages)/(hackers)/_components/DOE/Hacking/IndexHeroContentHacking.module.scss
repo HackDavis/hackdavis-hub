@@ -151,43 +151,6 @@
   }
   
 
-.group_width{
-    width: 100%;
-
-    p {
-        @include mixins.tablet-l{
-            font-size: 14px;
-        }
-    }
-    h2{
-        font-size: 36px;
-        font-weight: 700;
-        @include mixins.tablet-l{
-            font-size: 20px;
-            font-weight: 600;
-        }
-    }
-    .star_icon_img{
-        @include mixins.tablet-l{
-            width: 16px;
-            height: 16px;
-        }
-        
-    }
-    button{
-        font-size: 18px;
-        @include mixins.tablet-l{
-            font-size: 14px;
-        }
-    }
-    h6{
-        font-size: 20px;
-        @include mixins.tablet-l{
-            font-size: 16px;
-        }
-    }
-}
-
 .judge_info{
     border-radius: 18px;
     border: 1.5px solid rgba(255, 255, 255, 0.10);

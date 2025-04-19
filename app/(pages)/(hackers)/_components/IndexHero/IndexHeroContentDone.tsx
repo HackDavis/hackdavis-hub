@@ -9,7 +9,7 @@ import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
 import Link from 'next/link';
-import TimeTracker from './TimeTracker';
+// import TimeTracker from './TimeTracker';
 import Notifications from './Notifications';
 // import AssigningJudges from './AssigningJudges';
 import DoneJudging from './DoneJudging';
@@ -72,9 +72,9 @@ export default function IndexHeroContentDone() {
             alt="star icon"
             className={styles.star_icon_img}
           />
-          <div className={styles.countdown}>
+          {/* <div className={styles.countdown}>
             <TimeTracker targetTime="2025-05-01T09:00:00Z" />
-          </div>
+          </div> */}
         </div>
         {/* <NextSchedule /> */}
       </div>

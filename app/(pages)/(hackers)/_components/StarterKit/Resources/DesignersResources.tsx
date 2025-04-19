@@ -35,7 +35,7 @@ const designerResources = [
   },
   {
     name: 'Human-Centered Design',
-    url: 'https://www.designkit.org/human-centered-design',
+    url: 'https://www.designkit.org/human-centered-design.html',
   },
 ];
 

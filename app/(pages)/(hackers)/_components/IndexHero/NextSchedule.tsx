@@ -1,11 +1,16 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import useActiveUser from '@pages/_hooks/useActiveUser';
 import { useEvents } from '@hooks/useEvents';
 import CalendarItem from '../Schedule/CalendarItem';
 import Event from '@typeDefs/event';
+import TimeTracker from './TimeTracker';
+import star_icon from '@public/hackers/hero/star.svg';
+
+import styles from './NextSchedule.module.scss';
 
 export default function NextSchedule() {
   const [nextEventData, setNextEventData] = useState<{
@@ -73,18 +78,37 @@ export default function NextSchedule() {
   }, [personalEvents, isLoading, eventsLoading, eventData]);
 
   const { event, attendeeCount, inPersonalSchedule } = nextEventData;
-
-  if (!event) {
-    return null;
-  }
+  const nextEventTime = event?.start_time.getTime() || undefined;
 
   return (
-    <>
-      <CalendarItem
-        event={event}
-        attendeeCount={attendeeCount}
-        inPersonalSchedule={inPersonalSchedule}
-      />
-    </>
+    <div className={styles.group_width}>
+      <div
+        style={{
+          display: 'flex',
+          gap: '1%',
+          paddingBottom: '1%',
+          alignItems: 'center',
+        }}
+      >
+        <p>NEXT ON YOUR SCHEDULE</p>
+        <Image
+          src={star_icon}
+          alt="star icon"
+          className={styles.star_icon_img}
+        />
+        {event && (
+          <div className={styles.countdown}>
+            <TimeTracker targetTime={nextEventTime} />
+          </div>
+        )}
+      </div>
+      {event && (
+        <CalendarItem
+          event={event}
+          attendeeCount={attendeeCount}
+          inPersonalSchedule={inPersonalSchedule}
+        />
+      )}
+    </div>
   );
 }
