@@ -4,7 +4,7 @@ import CowHead from 'public/hackers/hero/CowHead.svg';
 import BunnyHead from 'public/hackers/hero/BunnyHead.svg';
 import FrogHead from 'public/hackers/hero/FrogHead.svg';
 import DuckHead from 'public/hackers/hero/DuckHead.svg';
-import Star from 'public/hackers/hero/Star.svg';
+import star from 'public/hackers/hero/star.svg';
 
 // can delete scroll text
 // make music notes hidden + upon hover notes go up
@@ -12,7 +12,7 @@ import Star from 'public/hackers/hero/Star.svg';
 export default function Scroll() {
   return (
     <div className={styles.container}>
-      <Image src={Star} alt="Star" className={styles.star} />
+      <Image src={star} alt="Star" className={styles.star} />
       <div className={styles.parent}>
         <div className={styles.child}>
           <Image

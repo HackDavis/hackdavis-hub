@@ -20,6 +20,26 @@ export default function AnnouncementForm({
 }: AnnouncementFormProps) {
   const { data, updateField, setData } = useFormContext();
 
+  const formatDate = (epochTime: number): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'America/Los_Angeles',
+    };
+
+    const formattedDate = new Date(epochTime).toLocaleString('en-US', options);
+
+    const [datePart, timePart] = formattedDate.split(', ');
+    const [month, day, year] = datePart.split('/');
+    const [hour, minute] = timePart.split(':');
+
+    return `${year}-${month}-${day}T${hour}:${minute}`;
+  };
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -48,33 +68,28 @@ export default function AnnouncementForm({
 
     const { _id, ...body } = data;
 
-    let announcement_id = _id;
-    if (!announcement_id) {
+    if (!_id) {
+      if (!body.time) body.time = new Date(Date.now());
       const createRes = await createAnnouncement(body);
-      if (!createRes.ok) {
-        throw new Error(createRes?.error ?? '');
+      if (createRes.ok) {
+        setData({});
+        revalidate();
+      } else {
+        alert(createRes.error);
       }
-      announcement_id = createRes.body?._id;
-    }
-
-    const res = await updateAnnouncement(announcement_id, { $set: body });
-
-    if (res.ok) {
-      setData({});
-      revalidate();
     } else {
-      alert(res.error);
+      if (body.time) body.time = new Date(body.time);
+      const updateRes = await updateAnnouncement(_id, { $set: body });
+      if (updateRes.ok) {
+        setData({});
+        revalidate();
+      } else {
+        alert(updateRes.error);
+      }
     }
   };
 
-  const convertDate = (date: number): string => {
-    try {
-      const d = new Date(date);
-      return d.toISOString().substring(0, 16);
-    } catch (e) {
-      return '';
-    }
-  };
+  const timeDate = formatDate(data.time ?? Date.now());
 
   return (
     <form className={styles.container} onSubmit={onSubmit}>
@@ -95,7 +110,7 @@ export default function AnnouncementForm({
         }
         required
       />
-      <DateTimeInput label="time" value={convertDate(Date.now())} required />
+      <DateTimeInput label="time" value={timeDate} required disabled />
 
       <div className={styles.action_buttons}>
         <button className={styles.submit_button} type="submit">

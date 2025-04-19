@@ -35,9 +35,12 @@ export default function Announcements() {
   }, [loading, announcements]);
 
   useEffect(() => {
-    const pollingInterval = setInterval(() => {
-      getAnnouncements();
-    }, 300000);
+    const pollingInterval = setInterval(
+      () => {
+        getAnnouncements();
+      },
+      15 * 60 * 1000
+    ); // poll every 15 minutes
 
     return () => clearInterval(pollingInterval);
   }, [getAnnouncements]);

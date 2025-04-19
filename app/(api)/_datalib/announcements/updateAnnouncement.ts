@@ -9,6 +9,7 @@ import {
 
 export async function UpdateAnnouncement(id: string, body: object) {
   try {
+    console.log(body);
     const objectId = new ObjectId(id);
     if (isBodyEmpty(body)) {
       throw new NoContentError();
