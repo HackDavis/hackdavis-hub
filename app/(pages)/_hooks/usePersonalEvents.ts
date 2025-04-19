@@ -4,10 +4,9 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { getEventsForOneUser } from '@actions/userToEvents/getUserToEvent';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
 import { deleteUserToEvent } from '@actions/userToEvents/deleteUserToEvent';
+import { getEventsWithAttendees } from '@actions/userToEvents/getUserToEvent';
 import Event from '@typeDefs/event';
 import UserToEvent from '@typeDefs/userToEvent';
-
-// todo: automatically add general and meals to personal
 
 // Cache structure to store personal events data between component mounts
 interface PersonalEventsCache {
@@ -131,6 +130,42 @@ export function usePersonalEvents(userId: string) {
     [userId]
   );
 
+  // Function to automatically add General events to personal schedule
+  const addGeneralEventsToPersonal = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      // Get all events
+      const allEventsResult = await getEventsWithAttendees();
+
+      if (allEventsResult.ok) {
+        const allEvents = allEventsResult.body;
+        // Only filter for GENERAL events, not MEALS
+        const generalEvents = allEvents.filter(
+          (event: Event) => event.type === 'GENERAL'
+        );
+
+        // Get current personal events to know which general events are not yet added
+        const currentPersonalResult = await getEventsForOneUser(userId);
+        const currentEventIds = currentPersonalResult.ok
+          ? currentPersonalResult.body.map((relation: any) => relation.event_id)
+          : [];
+
+        // Add each general event if not already in personal schedule
+        for (const event of generalEvents) {
+          if (!currentEventIds.includes(event._id)) {
+            await createUserToEvent(userId, event._id);
+          }
+        }
+
+        // Refresh personal events to reflect the changes
+        return fetchPersonalEvents(true);
+      }
+    } catch (err) {
+      console.error('Error adding general events to personal schedule:', err);
+    }
+  }, [userId, fetchPersonalEvents]);
+
   // Add an event to the user's personal schedule
   const addToPersonalSchedule = useCallback(
     async (eventId: string) => {
@@ -214,10 +249,13 @@ export function usePersonalEvents(userId: string) {
     isMounted.current = true;
     fetchPersonalEvents();
 
+    // Automatically add general events to personal schedule
+    addGeneralEventsToPersonal();
+
     return () => {
       isMounted.current = false;
     };
-  }, [fetchPersonalEvents]);
+  }, [fetchPersonalEvents, addGeneralEventsToPersonal]);
 
   // Return a refreshPersonalEvents function that forces a cache refresh
   const refreshPersonalEventsForced = useCallback(() => {
@@ -232,5 +270,6 @@ export function usePersonalEvents(userId: string) {
     removeFromPersonalSchedule,
     isInPersonalSchedule,
     refreshPersonalEvents: refreshPersonalEventsForced,
+    addGeneralEventsToPersonal, // Export this function to allow manual trigger if needed
   };
 }

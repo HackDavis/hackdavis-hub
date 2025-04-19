@@ -1,8 +1,14 @@
 @use 'app/(pages)/_globals/mixins';
+@import '@globals/mixins.scss';
+
 .container {
     display: flex;
     flex-direction: column;
     padding-top: 3%;
+
+    @include tablet-l {
+        padding-bottom: 5%;
+    }
 }
 
 .labels {
@@ -19,42 +25,54 @@
     color: var(--background-secondary);
     font-size: 9.875vw;
     font-weight: 700;
+    justify-content: center;
+    // border: 1px solid black;
 
-    &.fixed_text {
-        width: 11vw;
-    }
+    // &.fixed_text {
+    //     width: 11vw;
+    // }
 
     @include mixins.tablet-l {
         text-align: center;
     }
 }
 
-.days_countdown {
-    > p {
-        @include mixins.tablet-l {
-            text-align: center;
-        }
-    }
+// .days_countdown {
+//     > p {
+//         @include mixins.tablet-l {
+//             text-align: center;
+//         }
+//     }
 
-}
+// }
 
 .time_countdown {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    // border: 1px solid red;
 
-    gap: 38px;
+    // gap: 3%;
 
     > div {
         text-align: center;
     }
 
-    @include mixins.desktop-s {
-        gap: 24px;
-    }
+    // @include mixins.desktop-m {
+    //     gap: 24px;
+    // }
 
-    @include mixins.tablet-l {
-        gap: 16px;
+    // @include mixins.desktop-s {
+    //     gap: 24px;
+    // }
+
+    // @include mixins.tablet-l {
+    //     gap: 16px;
+    // }
+
+    @include mixins.mobile-l {
+        padding-top: 8%;
+        gap: 10px;
     }
 
     &.countdown_text {
@@ -62,8 +80,16 @@
     }
 }
 
-.seconds {
-    @include mixins.tablet-s {
-        transform: translateX(-15%);
+// .seconds {
+//     @include mixins.tablet-s {
+//         transform: translateX(-15%);
+//     }
+// }
+
+.words {
+    @include mixins.mobile-l {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
     }
 }
