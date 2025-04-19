@@ -24,6 +24,7 @@ export interface EventDetails {
   event: Event;
   attendeeCount?: number;
   inPersonalSchedule?: boolean;
+  isRecommended?: boolean;
 }
 
 interface ScheduleData {
@@ -33,13 +34,13 @@ interface ScheduleData {
 export default function Page() {
   const { user, loading: userLoading } = useActiveUser('/');
 
-  // Use the events hook to get events with attendee counts
+  // Pass the user to useEvents
   const {
-    eventsWithAttendeeCount,
+    eventData,
     isLoading: eventsLoading,
     error: eventsError,
     refreshEvents,
-  } = useEvents();
+  } = useEvents(user);
 
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
@@ -135,11 +136,18 @@ export default function Page() {
     setIsActionInProgress(false);
   };
 
-  // Update this useEffect to use eventsWithAttendeeCount instead of fetching events directly
+  // Force refresh events when user data changes
   useEffect(() => {
-    if (eventsWithAttendeeCount.length > 0 && !personalEventsLoading) {
+    if (user && !userLoading) {
+      refreshEvents();
+    }
+  }, [user, userLoading, refreshEvents]);
+
+  // Update the existing useEffect - simplify to just set the schedule data without virtual events
+  useEffect(() => {
+    if (eventData.length > 0 && !personalEventsLoading) {
       // Group events by day key - "19" or "20".
-      const groupedByDay = eventsWithAttendeeCount.reduce(
+      const groupedByDay = eventData.reduce(
         (acc: ScheduleData, eventWithCount) => {
           const event = eventWithCount.event;
           const dayKey = event.start_time.toLocaleString('en-US', {
@@ -157,6 +165,7 @@ export default function Page() {
             event,
             attendeeCount: eventWithCount.attendeeCount,
             inPersonalSchedule: isPersonal,
+            isRecommended: eventWithCount.isRecommended,
           });
           return acc;
         },
@@ -165,12 +174,7 @@ export default function Page() {
 
       setScheduleData(groupedByDay);
     }
-  }, [
-    eventsWithAttendeeCount,
-    personalEvents,
-    isInPersonalSchedule,
-    personalEventsLoading,
-  ]);
+  }, [eventData, personalEvents, isInPersonalSchedule, personalEventsLoading]);
 
   useEffect(() => {
     if (activeTab === 'personal') {
@@ -192,37 +196,48 @@ export default function Page() {
         acc[dayKey] = [];
       }
 
-      // Find the attendee count for this event from eventsWithAttendeeCount
-      const eventWithCount = eventsWithAttendeeCount.find(
-        (e) => e.event._id === event._id
-      );
+      // Find the attendee count for this event from eventData
+      const eventWithCount = eventData.find((e) => e.event._id === event._id);
 
       acc[dayKey].push({
         event,
         attendeeCount: eventWithCount?.attendeeCount || 0,
         inPersonalSchedule: true,
+        isRecommended: eventWithCount?.isRecommended || false,
       });
       return acc;
     }, {});
 
     return groupedByDay;
-  }, [personalEvents, eventsWithAttendeeCount]);
+  }, [personalEvents, eventData]);
 
   const dataToUse =
     activeTab === 'personal' ? personalScheduleData : scheduleData;
 
-  // Combined transformation: filtering, sorting, grouping and then sorting the groups.
+  // Update the filtering logic to handle recommended events correctly
   const sortedGroupedEntries = useMemo(() => {
     if (!dataToUse) return [];
 
-    // Filter events for the active day and by active filters.
-    const unfilteredEvents = dataToUse[activeDay] || [];
-    const filteredEvents =
-      activeFilters.length === 0
-        ? unfilteredEvents
-        : unfilteredEvents.filter((ed) =>
-            activeFilters.includes(ed.event.type)
-          );
+    // Filter events for the active day
+    const eventsForDay = dataToUse[activeDay] || [];
+
+    // Apply filter logic
+    let filteredEvents = eventsForDay;
+
+    if (activeFilters.length > 0) {
+      filteredEvents = eventsForDay.filter((eventDetail) => {
+        // Special handling for RECOMMENDED filter
+        if (activeFilters.includes('RECOMMENDED')) {
+          // If user wants recommended events and this one is recommended, include it
+          if (eventDetail.isRecommended) {
+            return true;
+          }
+        }
+
+        // Regular type filtering for other filters
+        return activeFilters.includes(eventDetail.event.type);
+      });
+    }
 
     // If no events found after filtering, return empty array
     if (filteredEvents.length === 0) return [];
@@ -297,7 +312,7 @@ export default function Page() {
         id="schedule"
         className="w-full h-screen flex items-center justify-center"
       >
-        Error Loading Events
+        Oops, an error occured!
       </main>
     );
 
@@ -411,6 +426,8 @@ export default function Page() {
                       event={eventDetail.event}
                       attendeeCount={eventDetail.attendeeCount}
                       inPersonalSchedule={eventDetail.inPersonalSchedule}
+                      tags={eventDetail.event.tags}
+                      host={eventDetail.event.host}
                       onAddToSchedule={() =>
                         handleAddToSchedule(eventDetail.event._id || '')
                       }
@@ -441,7 +458,7 @@ export default function Page() {
                   </Button>
                 </div>
               ) : (
-                'No events found for this day and filters.'
+                'No events found for this day and filter(s).'
               )}
             </div>
           )}
