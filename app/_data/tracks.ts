@@ -650,4 +650,8 @@ export {
   nonHDTracks,
   displayNameToDomainMap,
 };
+
+export const bestHackForSocialGood =
+  automaticTracks['Best Hack for Social Good'];
+
 export type { TrackData, Tracks };

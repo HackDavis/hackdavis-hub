@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './NotificationIndividual.module.scss';
 import { useState, useEffect } from 'react';
 import notif from '@public/hackers/hero/notif.svg';

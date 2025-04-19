@@ -11,8 +11,12 @@
         padding: 15% 48px 15%;
     }
 
+    @include tablet-l {
+        padding: 25% 32px 15%;
+    }
+
     @include mobile-l {
-        padding: 20% 20px 15%;
+        padding: 25% 20px 15%;
     }
 }
 

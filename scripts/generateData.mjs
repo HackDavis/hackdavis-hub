@@ -17,7 +17,40 @@ function shuffleSpecialties(specialties) {
   return shuffledSpecialties;
 }
 
-function generateData(collectionName, numDocuments) {
+function weightedShuffleSpecialties(specialties) {
+  // Adjusted weight map for the new domains (all lowercase).
+  const weightMap = {
+    swe: 0.571,
+    business: 0.217,
+    aiml: 0.1,
+    hardware: 0.039,
+    design: 0.158,
+    medtech: 0.015,
+  };
+  const availableWeighted = specialties.filter(
+    (s) => weightMap[s.toLowerCase()] !== undefined
+  );
+  let first;
+  if (availableWeighted.length > 0) {
+    const totalWeight = availableWeighted.reduce(
+      (acc, s) => acc + weightMap[s.toLowerCase()],
+      0
+    );
+    let r = Math.random() * totalWeight;
+    for (const s of availableWeighted) {
+      r -= weightMap[s.toLowerCase()];
+      if (r <= 0) {
+        first = s;
+        break;
+      }
+    }
+  }
+  const remaining = specialties.filter((s) => s !== first);
+  const shuffledRemaining = shuffleSpecialties(remaining);
+  return first ? [first, ...shuffledRemaining] : shuffledRemaining;
+}
+
+function generateData(collectionName, numDocuments, existingData = {}) {
   const hackerPositions = ['developer', 'designer', 'pm', 'other'];
   const eventTypes = ['GENERAL', 'ACTIVITIES', 'WORKSHOPS', 'MEALS'];
 
@@ -28,7 +61,7 @@ function generateData(collectionName, numDocuments) {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      specialties: shuffleSpecialties(specialties),
+      specialties: weightedShuffleSpecialties(specialties),
       role: 'judge',
       has_checked_in: false,
     }));
@@ -58,27 +91,70 @@ function generateData(collectionName, numDocuments) {
       tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
+        tracks,
         faker.number.int({ min: 1, max: 5 })
       ),
       active: true,
     }));
   } else if (collectionName === 'submissions') {
-    data = Array.from({ length: numDocuments }, () => {
-      const randomTracks = faker.helpers.arrayElements(
-        tracks.map((t) => t.name),
-        faker.number.int({ min: 1, max: 6 })
+    if (
+      !existingData.teams ||
+      !existingData.teams.length ||
+      !existingData.users ||
+      !existingData.users.length
+    ) {
+      throw new Error(
+        'Cannot generate submissions without existing teams and judges'
       );
-      const scores = randomTracks.map((t) => ({
-        trackName: t,
-        rawScores: Array.from({ length: 5 }, () =>
-          faker.number.int({ min: 1, max: 5 })
-        ),
-        finalTrackScore: null,
-      }));
+    }
+
+    const judges = existingData.users.filter((user) => user.role === 'judge');
+    if (judges.length === 0) {
+      throw new Error('No judges found in existing users data');
+    }
+
+    data = Array.from({ length: numDocuments }, () => {
+      const randomTeam = faker.helpers.arrayElement(existingData.teams);
+      const randomJudge = faker.helpers.arrayElement(judges);
+
+      const teamTracks = randomTeam.tracks || [];
+      const tracksToUse =
+        teamTracks.length > 0
+          ? teamTracks
+          : faker.helpers.arrayElements(
+              tracks,
+              faker.number.int({ min: 1, max: 3 })
+            );
+
+      const scores = tracksToUse.map((trackName) => {
+        const trackInfo = tracks.find((t) => t.name === trackName);
+        let rawScores = {};
+
+        if (trackInfo && trackInfo.scoring_criteria) {
+          trackInfo.scoring_criteria.forEach((criterion) => {
+            rawScores[criterion.attribute] = faker.number.int({
+              min: 1,
+              max: 5,
+            });
+          });
+        } else {
+          rawScores = {
+            'Criterion 1': faker.number.int({ min: 1, max: 5 }),
+            'Criterion 2': faker.number.int({ min: 1, max: 5 }),
+            'Criterion 3': faker.number.int({ min: 1, max: 5 }),
+          };
+        }
+
+        return {
+          trackName: trackName,
+          rawScores: rawScores,
+          finalTrackScore: null,
+        };
+      });
+
       return {
-        judge_id: new ObjectId(),
-        team_id: new ObjectId(),
+        judge_id: randomJudge._id || new ObjectId(),
+        team_id: randomTeam._id || new ObjectId(),
         social_good: faker.number.int({ min: 1, max: 5 }),
         creativity: faker.number.int({ min: 1, max: 5 }),
         presentation: faker.number.int({ min: 1, max: 5 }),
@@ -124,6 +200,24 @@ function generateData(collectionName, numDocuments) {
       domain: trackTypes[trackName],
       user_ids: [],
     }));
+  } else if (collectionName === 'announcements') {
+    data = Array.from({ length: numDocuments }, () => ({
+      title: faker.company.catchPhrase(),
+      description: faker.commerce.productDescription(),
+      time: faker.date.between({
+        from: '2025-04-19T00:00:00.000Z',
+        to: '2025-04-20T23:59:59.999Z',
+      }),
+    }));
+  } else if (collectionName === 'rollouts') {
+    data = Array.from({ length: numDocuments }, () => {
+      return {
+        component_key: 'judge-check-in',
+        // component_key: 'hackers-choice-link',
+        rollout_time: Date.now() + 1 * 60 * 1000,
+        rollback_time: Date.now() + 2 * 60 * 1000,
+      };
+    });
   }
 
   return data;

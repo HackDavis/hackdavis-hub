@@ -38,6 +38,14 @@ export const GetManyTeams = async (query: object = {}) => {
             as: 'submissions',
           },
         },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'submissions.judge_id',
+            foreignField: '_id',
+            as: 'judges',
+          },
+        },
       ])
       .project({
         'submissions.team_id': 0,

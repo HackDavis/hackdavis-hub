@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header_details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 4px;
+  >p {
+      font-size: 0.875rem;
+  }
+}
+
+.edit_button {
+  color: #123041;
+  font-size: 1.125rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  .active_icon, .inactive_icon {
+      font-size: 1.5rem;
+  }
+
+  .active_icon {
+      color: var(--grass-background-dark);
+  }
+
+  .inactive_icon {
+      color: var(--text-error);
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

@@ -3,8 +3,8 @@
 // import Image from 'next/image';
 // import Link from 'next/link';
 // import { LuArrowUpRight } from 'react-icons/lu';
-import useNextSchedule from '@pages/(hackers)/_components/DOE/_hooks/useNextSchedule';
 import CalendarItem from '../Schedule/CalendarItem';
+import useNextSchedule from '../DOE/_hooks/useNextSchedule';
 
 export default function NextSchedule() {
   const { event, attendeeCount, inPersonalSchedule } = useNextSchedule();

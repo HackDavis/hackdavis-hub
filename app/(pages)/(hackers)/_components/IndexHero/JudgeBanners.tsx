@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
 import styles from './JudgeBannerIndividual.module.scss';

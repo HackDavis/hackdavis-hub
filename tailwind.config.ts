@@ -121,8 +121,6 @@ const config: Config = {
       },
       fontFamily: {
         jakarta: ['var(--font-jakarta)'],
-        montserrat: ['var(--font-montserrat)'],
-        inter: ['var(--font-inter)'],
         metropolis: ['Metropolis', 'sans-serif'],
       },
     },

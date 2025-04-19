@@ -1,0 +1,56 @@
+@import "@globals/mixins.scss";
+
+.announcement {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: var(--b-radius-large);
+  background-color: white;
+  padding: 32px;
+
+  .time_and_icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > p {
+      color: #848484;
+    }
+
+    .circle {
+      height: 15px;
+      width: 15px;
+      border-radius: var(--b-radius-large);
+      background-color: #9EE7E5;
+
+      @include tablet-l {
+        height: 12px;
+        width: 12px;
+      }
+    }
+  }
+
+  > h6 {
+    color: black;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    @include tablet-l {
+      font-size: 1rem;
+    }
+  }
+
+  p {
+    color: black;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    @include tablet-l {
+      font-size: 0.875rem;
+    }
+  }
+}

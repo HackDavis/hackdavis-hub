@@ -1,0 +1,15 @@
+.container {
+    position: relative;
+
+    >input {
+        width: 400px;
+    }
+}
+
+.label {
+    position: absolute;
+    left: 12px;
+    transform: translateY(-50%);
+    background-color: white;
+    padding: 0 4px;
+}
