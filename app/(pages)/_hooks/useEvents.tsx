@@ -33,19 +33,33 @@ export function useEvents(currentUser?: User | null) {
   const fetchEventsWithData = useCallback(
     async (forceRefresh = false) => {
       try {
-        // Check cache first (same as before)
+        // Check cache first, but only use if we have a user and the cache is valid
         const now = Date.now();
         if (
           !forceRefresh &&
           eventsCache.data &&
           eventsCache.timestamp &&
-          now - eventsCache.timestamp < CACHE_EXPIRY
+          now - eventsCache.timestamp < CACHE_EXPIRY &&
+          currentUser // Only use cache if we have a user
         ) {
-          setEventData(eventsCache.data);
+          // We have a user and valid cache data - make sure we're recomputing isRecommended
+          // based on the current user in case user changed
+          const refreshedEvents = eventsCache.data.map((item) => ({
+            ...item,
+            isRecommended: checkIfRecommended(item.event, currentUser),
+          }));
+
+          setEventData(refreshedEvents);
+
+          // Update cache with refreshed recommendation status
+          eventsCache.data = refreshedEvents;
+          eventsCache.timestamp = now;
+
           setIsLoading(false);
           return;
         }
 
+        // If no valid cache or force refresh, fetch fresh data
         // Make a single API call to get events with attendee counts
         setIsLoading(true);
         const response = await getEventsWithAttendees();
@@ -104,33 +118,35 @@ export function useEvents(currentUser?: User | null) {
   // Function to check if an event is recommended for a user
   const checkIfRecommended = (event: Event, user?: User | null): boolean => {
     // If no user or not a hacker or no position, then not recommended
-    if (!user || user.role !== 'hacker' || !user.position) return false;
+    if (!user || user.role !== 'hacker' || !user.position) {
+      return false;
+    }
 
     // If event has no tags, then not recommended
-    if (!event.tags || event.tags.length === 0) return false;
+    if (!event.tags || event.tags.length === 0) {
+      return false;
+    }
 
     // Check if user's position is included in event tags
-    // return event.tags.includes(
-    //   (user.position as EventTag) ||
-    //     ((user.is_beginner ? 'beginner' : null) as EventTag)
-    // );
-    return (
-      (event.tags.includes(user.position as EventTag) ||
-        (user.is_beginner === true &&
-          event.tags.includes('beginner' as EventTag))) ??
-      false
-    );
+    const isPositionMatch = event.tags.includes(user.position as EventTag);
+    const isBeginnerMatch =
+      user.is_beginner === true && event.tags.includes('beginner' as EventTag);
+    return isPositionMatch || isBeginnerMatch;
   };
 
   // Initialize on component mount
   useEffect(() => {
     isMounted.current = true;
-    fetchEventsWithData();
+
+    // Only fetch events if we have a user
+    if (currentUser) {
+      fetchEventsWithData();
+    }
 
     return () => {
       isMounted.current = false;
     };
-  }, [fetchEventsWithData]);
+  }, [fetchEventsWithData, currentUser]);
 
   // Force refresh function
   const refreshEvents = useCallback(() => {

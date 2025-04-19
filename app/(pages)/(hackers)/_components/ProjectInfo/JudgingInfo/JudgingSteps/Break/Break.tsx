@@ -4,8 +4,11 @@ import Image from 'next/image';
 import RelaxingCow from 'public/hackers/project-info/relaxingCow.svg';
 import Radio from 'public/hackers/project-info/radio.svg';
 import styles from './Break.module.scss';
+import { useFeatureFlag } from '@pages/_hooks/useFeatureFlag';
 
 export default function Break() {
+  const { available } = useFeatureFlag('hackers-choice-link');
+
   return (
     <div className={styles.container}>
       <div className={styles.tile}>
@@ -20,14 +23,15 @@ export default function Break() {
             Meanwhile, panels of judges will be choosing the winners from the
             top 5 projects shortlisted for each track after demos.
           </p>
-          {/* TODO: add devpost public voting link */}
-          {/* <a
-            href="https://www.google.com"
-            target="_blank"
-            className={styles.link}
-          >
-            Submit Vote
-          </a> */}
+          {available && (
+            <a
+              href="https://forms.gle/6SktCxAFAvYZ1hKz5"
+              target="_blank"
+              className={styles.link}
+            >
+              Submit Vote
+            </a>
+          )}
         </div>
         <div className={styles.right}>
           <Image src={RelaxingCow} alt="Relaxing Cow" />
