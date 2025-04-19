@@ -133,6 +133,15 @@ function generateData(collectionName, numDocuments) {
         to: '2025-04-20T23:59:59.999Z',
       }),
     }));
+  } else if (collectionName === 'rollouts') {
+    data = Array.from({ length: numDocuments }, () => {
+      return {
+        component_key: 'judge-check-in',
+        // component_key: 'hackers-choice-link',
+        rollout_time: Date.now() + 1 * 60 * 1000,
+        rollback_time: Date.now() + 2 * 60 * 1000,
+      };
+    });
   }
 
   return data;

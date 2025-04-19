@@ -5,6 +5,6 @@ import { revalidatePath } from 'next/cache';
 
 export async function createUser(body: object) {
   const response = await CreateUser(body);
-  revalidatePath('/');
+  revalidatePath('/', 'layout');
   return response;
 }

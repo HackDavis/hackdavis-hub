@@ -1,50 +1,31 @@
 'use client';
+import styles from './DateTimeInput.module.scss';
 
-interface DateTimeInputProps {
+interface DateTimeInput {
   label: string;
-  value: string;
-  updateValue?: (value: string) => void;
-  required?: boolean;
+  value: string | number;
+  updateValue?: (value: any) => void;
   disabled?: boolean;
-  min?: string;
-  max?: string;
+  required?: boolean;
 }
 
 export default function DateTimeInput({
   label,
   value,
   updateValue = () => {},
-  required,
   disabled,
-  min,
-  max,
-}: DateTimeInputProps) {
-  const formatDateValue = (dateString: string): string => {
-    if (!dateString) return '';
-
-    if (dateString.includes('T')) {
-      return dateString.substring(0, 16);
-    }
-
-    try {
-      const date = new Date(dateString);
-      return date.toISOString().substring(0, 16);
-    } catch (error) {
-      return '';
-    }
-  };
-
+  required,
+}: DateTimeInput) {
   return (
-    <div>
-      <label>{label}</label>
+    <div className={styles.container}>
+      <label className={styles.label}>{label}</label>
       <input
         type="datetime-local"
-        value={formatDateValue(value)}
+        value={value ?? ''}
         onChange={(event) => updateValue(event.target.value)}
-        required={required}
         disabled={disabled}
-        min={min}
-        max={max}
+        required={required}
+        style={{ cursor: disabled ? 'not-allowed' : 'text' }}
       />
     </div>
   );
