@@ -5,6 +5,6 @@ import { revalidatePath } from 'next/cache';
 
 export async function createTeam(body: object) {
   const createdTeam = await CreateManyTeams([body]);
-  revalidatePath('/');
+  revalidatePath('/', 'layout');
   return createdTeam;
 }

@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header_details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 4px;
+    >p {
+        font-size: 0.875rem;
+    }
+}
+
+.edit_button {
+    color: #123041;
+    font-size: 1.125rem;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+
+    .delete_button {
+        color: var(--text-error);
+        font-size: 1.125rem;
+    }
+}

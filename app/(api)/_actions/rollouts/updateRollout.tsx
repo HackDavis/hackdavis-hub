@@ -1,9 +1,10 @@
 'use server';
 
 import { UpdateRollout } from '@datalib/rollouts/updateRollout';
-import Rollout from '@typeDefs/rollout';
+import { revalidatePath } from 'next/cache';
 
-export default async function updateRollout(id: string, body: Rollout) {
-  const { _id: _, ...rest } = body;
-  return UpdateRollout(id, { $set: rest });
+export async function updateRollout(id: string, body: any) {
+  const updateRes = await UpdateRollout(id, body);
+  revalidatePath('/', 'layout');
+  return JSON.parse(JSON.stringify(updateRes));
 }

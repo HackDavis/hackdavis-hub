@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
 async function post() {
-  revalidatePath('/');
+  revalidatePath('/', 'layout');
   revalidatePath('/judges');
   revalidatePath('/admin');
 

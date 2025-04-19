@@ -140,7 +140,8 @@ hr {
 input[type="email"],
 input[type="password"],
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="datetime-local"] {
   padding: 10px 8px;
   border-radius: var(--b-radius);
   border: 1px solid rgba(0, 0, 0, 0.27);

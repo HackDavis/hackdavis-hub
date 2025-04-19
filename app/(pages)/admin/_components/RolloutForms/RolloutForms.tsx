@@ -1,7 +1,7 @@
 'use client';
 
 import { createRollout } from '@actions/rollouts/createRollout';
-import updateRollout from '@actions/rollouts/updateRollout';
+import { updateRollout } from '@actions/rollouts/updateRollout';
 import Rollout from '@typeDefs/rollout';
 import {
   FormEvent,

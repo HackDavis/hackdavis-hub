@@ -1,119 +1,82 @@
 'use client';
 
-import Loader from '@pages/_components/Loader/Loader';
-import { useEffect, useState } from 'react';
-import {
-  AddRolloutForm,
-  UpdateRolloutForm,
-} from '../_components/RolloutForms/RolloutForms';
+import { useState } from 'react';
+import styles from './page.module.scss';
+import { GoSearch } from 'react-icons/go';
+import useFormContext from '../_hooks/useFormContext';
+import useRollouts from '@pages/_hooks/useRollouts';
 import Rollout from '@typeDefs/rollout';
-import { getManyRollouts } from '@actions/rollouts/getRollouts';
+import RolloutForm from '../_components/Rollouts/RolloutForm';
+import RolloutCard from '../_components/Rollouts/RolloutCard';
 import { deleteRollout } from '@actions/rollouts/deleteRollout';
 
 export default function Rollouts() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [rollouts, setRollouts] = useState<Rollout[]>([]);
-  const [rolloutToEdit, setRolloutToEdit] = useState<number | null>(null);
-  const [refreshRollouts, setRefreshRollouts] = useState(false);
+  const [search, setSearch] = useState('');
+  const { loading, rolloutsRes, fetchRollouts } = useRollouts();
+  const { data, setData } = useFormContext();
+  const isEditing = Boolean(data._id);
 
-  // something is wrong here but im too sleepy
-  const handleDelete = async (idx: number) => {
-    setLoading(true);
-    try {
-      const id = rollouts[idx]._id;
-      if (!id) setError('No ID found for delete');
-      const deleteRes = await deleteRollout(id ?? '');
-      if (!deleteRes.ok) throw new Error('Failed to delete rollout');
+  if (loading) {
+    return 'loading...';
+  }
 
-      setRefreshRollouts(true);
-    } catch (e) {
-      setError((e as Error).message);
+  if (!rolloutsRes.ok) {
+    return rolloutsRes.error;
+  }
+
+  const rollouts: Rollout[] = rolloutsRes.body.sort(
+    (a: Rollout, b: Rollout) => {
+      if (a.rollback_time === b.rollback_time) {
+        if (a.rollback_time && b.rollback_time) {
+          return a.rollback_time - b.rollback_time;
+        }
+        return a.rollback_time ? -1 : 1;
+      }
+      return a.rollout_time - b.rollout_time;
     }
-    setRefreshRollouts(false);
-    setLoading(false);
+  );
+
+  const deleteSingleRollout = async (rollout_id: string) => {
+    await deleteRollout(rollout_id);
+    fetchRollouts();
   };
 
-  useEffect(() => {
-    const fetchRollouts = async () => {
-      setLoading(true);
-      setError('');
-      setRollouts([]);
-      try {
-        const rolloutsRes = await getManyRollouts();
-        if (!rolloutsRes.ok) throw new Error(rolloutsRes.error);
-
-        setRollouts(rolloutsRes.body);
-      } catch (e) {
-        setError((e as Error).message);
-      }
-      setLoading(false);
-    };
-    fetchRollouts();
-  }, [rolloutToEdit, refreshRollouts]);
-
   return (
-    <div className="flex flex-col w-3/4 m-auto py-20 gap-12">
-      {loading && <Loader />}
-      <div>
-        <p className="text-text-error">{error}</p>
-        {rolloutToEdit ? (
-          <>
-            <h3>Edit {rolloutToEdit}</h3>
-            <UpdateRolloutForm
-              setLoading={setLoading}
-              setError={setError}
-              rollout={rollouts[rolloutToEdit]}
-              setRolloutToEdit={setRolloutToEdit}
-            />
-          </>
-        ) : (
-          <>
-            <h3>Add Rollout:</h3>
-            <AddRolloutForm setLoading={setLoading} setError={setError} />
-          </>
-        )}
+    <div className={styles.container}>
+      <h1 className={styles.page_title}>Rollout Manager</h1>
+      <h2 className={styles.action_header}>
+        {isEditing ? 'Edit' : 'Create'} Rollout
+      </h2>
+      <RolloutForm
+        cancelAction={() => setData({})}
+        revalidate={fetchRollouts}
+      />
+      <hr />
+      <h2 className={styles.action_header}>View Rollouts</h2>
+      <div className={styles.search_bar}>
+        <input
+          name="search"
+          type="text"
+          value={search}
+          placeholder="Filter rollouts"
+          onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value)
+          }
+        />
+        <GoSearch className={styles.search_icon} />
       </div>
-      <div>
-        <h3>Rollouts:</h3>
-        {rollouts.length === 0 ? (
-          !loading && <p>No rollouts in DB!</p>
-        ) : (
-          <div className="h-[30vh] overflow-y-scroll bg-background-light p-4">
-            {rollouts.map((roll, idx) => {
-              const rollout_time = new Date(roll.rollout_time).toString();
-              let rollback_time;
-              if (roll.rollback_time)
-                rollback_time = new Date(roll.rollback_time).toString();
-              return (
-                <div
-                  key={idx}
-                  className="bg-slate-200 rounded-md p-2 flex justify-between"
-                >
-                  <div>
-                    <p>{roll.component_key}</p>
-                    <p>{rollout_time}</p>
-                    {rollback_time && <p>{rollback_time}</p>}
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      className="bg-red-400 rounded p-2"
-                      onClick={() => handleDelete(idx)}
-                    >
-                      delete
-                    </button>
-                    <button
-                      className="bg-yellow-400 rounded p-2"
-                      onClick={() => setRolloutToEdit(idx)}
-                    >
-                      edit
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+      <div className={styles.data_portion}>
+        <div className={styles.rollout_list}>
+          {rollouts.map((rollout: Rollout) => (
+            <div className={styles.rollout_card_wrapper} key={rollout._id}>
+              <RolloutCard
+                rollout={rollout}
+                onEditClick={() => setData(rollout)}
+                onDeleteClick={() => deleteSingleRollout(rollout._id ?? '')}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

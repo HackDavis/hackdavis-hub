@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import checkFeatureAvailability from '@actions/rollouts/checkFeatureAvailability';
 import TimeTriggerEntity from './TimeTriggerEntity';
-import revalidatePathAction from '@actions/revalidate/revalidatePath';
+import revalidateAll from '@actions/revalidate/revalidateAll';
 import Rollout from '@typeDefs/rollout';
 
 export default async function TimeProtectedDisplay({
@@ -31,7 +31,7 @@ export default async function TimeProtectedDisplay({
         {fallback}
         <TimeTriggerEntity
           triggerTime={rollout.rollout_time}
-          callback={revalidatePathAction}
+          callback={revalidateAll}
         />
       </>
     );
@@ -42,8 +42,8 @@ export default async function TimeProtectedDisplay({
       {children}
       {rollout.rollback_time && (
         <TimeTriggerEntity
-          triggerTime={rollout.rollout_time}
-          callback={revalidatePathAction}
+          triggerTime={rollout.rollback_time}
+          callback={revalidateAll}
         />
       )}
     </>
