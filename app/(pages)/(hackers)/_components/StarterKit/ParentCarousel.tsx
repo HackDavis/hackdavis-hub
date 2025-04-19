@@ -131,7 +131,7 @@ function Header({ activeIndex }: { activeIndex: number }) {
           </p>
         </div>
       </div>
-      <div className="flex flex-col -mb-20 xs:-mb-28 md:-mb-0 mr-5 2xs:mr-0 md:gap-7 md:justify-between md:aspect-[calc(256/212)] md:h-[120px] lg:h-[200px] xl:h-[200px]">
+      <div className="flex flex-col -mb-20 xs:-mb-28 md:-mb-0 -ml-4 2xs:-ml-8 md:ml-0 md:mr-12 2xs:mr-8 md:gap-7  md:justify-between md:aspect-[calc(256/212)] md:h-[120px] lg:h-[200px] xl:h-[200px]">
         <Image
           src={good_froggie}
           alt="good_froggie"
