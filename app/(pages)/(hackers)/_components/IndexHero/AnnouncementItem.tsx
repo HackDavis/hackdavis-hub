@@ -8,7 +8,13 @@ interface AnnouncementProps {
   isNew: boolean;
 }
 
-const formatTime = (pstDate: Date): string => {
+const formatTime = (date: Date): string => {
+  const pstDate = new Date(
+    date.toLocaleString('en-US', {
+      timeZone: 'America/Los_Angeles',
+    })
+  );
+
   return pstDate.toLocaleString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
