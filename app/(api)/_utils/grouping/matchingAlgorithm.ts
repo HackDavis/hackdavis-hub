@@ -4,45 +4,49 @@ import JudgeToTeam from '@typeDefs/judgeToTeam';
 import Team from '@typeDefs/team';
 import { categorizedTracks, uncategorizedTracks } from '@data/tracks';
 
-import { getManyUsers } from '@actions/users/getUser';
-import { getManyTeams } from '@actions/teams/getTeams';
+import { GetManyUsers } from '@datalib/users/getUser';
+import { GetManyTeams } from '@datalib/teams/getTeam';
 
 interface Judge {
   user: User;
-  domainMatchScores: { [domain: string]: number }; // Higher score means better expertise.
+  domainMatchScores: { [track: string]: number }; // Higher score means better expertise.
   teamsAssigned: number;
   priority: number;
 }
 
-const trackMap = new Map<string, string>(
+const domainMap = new Map<string, string>(
   Object.values(categorizedTracks).map((track) => [
     track.name,
     track.domain ?? '',
   ])
 );
 
-// Helper: Get specialty match score for a given team and judge for the specified track index.
+// Helper: Get specialty match score for a given team and judge for the specified domain index.
 function getSpecialtyMatchScore(
-  team: Team,
-  judge: Judge,
-  trackIndex: number
+  domain: string,
+  // team: Team,
+  judge: Judge
+  // domainIndex: number
 ): number {
-  const domain =
-    team.tracks && team.tracks.length > trackIndex
-      ? team.tracks[trackIndex]
-      : null;
+  // const domain =
+  //   team.tracks && team.tracks.length > domainIndex
+  //     ? team.tracks[domainIndex]
+  //     : null;
   return domain ? judge.domainMatchScores[domain] ?? 0 : 0;
 }
 
-// Update the judges' priority based on the current team's track domain.
+// Update the judges' priority based on the current team's domain domain.
 function updateQueue(
   team: Team,
-  trackIndex: number,
+  domainIndex: number,
   judges: Judge[],
   ALPHA: number
 ): void {
   for (const judge of judges) {
-    const specialtyScore = getSpecialtyMatchScore(team, judge, trackIndex);
+    const specialtyScore = getSpecialtyMatchScore(
+      team.tracks[domainIndex],
+      judge
+    );
     judge.priority = ALPHA * specialtyScore - judge.teamsAssigned;
   }
   judges.sort((a, b) => b.priority - a.priority);
@@ -59,44 +63,18 @@ function shuffleArray<T>(array: T[]): void {
  * Match teams with judges and return an array of minimal judgeToTeam.
  * Each submission only contains the judge_id and team_id.
  */
-export default async function matchAllTeams(options?: {
-  alpha?: number;
-}): Promise<{
-  judgeToTeam: JudgeToTeam[];
-  matchStats: { [avg: string]: number };
-  judgeTeamDistribution: {
-    sum: number;
-    count: number;
-    average: number;
-    min: number;
-    max: number;
-    numJudges: number;
-    numTeams: number;
-  };
-  extraAssignmentsMap: Record<string, number>;
-  matchQualityStats: {
-    [teamId: string]: {
-      sum: number;
-      average: number;
-      min: number;
-      max: number;
-      count: number;
-      teamTracks: string[];
-      judgeTracks: string[];
-    };
-  };
-}> {
-  // Arrays to hold submissions and track issues.
+export default async function matchAllTeams(options?: { alpha?: number }) {
+  // Arrays to hold submissions and domain issues.
   const judgeToTeam: JudgeToTeam[] = [];
   const teamMatchQualities: { [teamId: string]: number[] } = {};
-  const teamJudgeTrackTypes: { [teamId: string]: string[] } = {};
+  const teamJudgeDomainTypes: { [teamId: string]: string[] } = {};
 
   const rounds = 3;
   const ALPHA = options?.alpha ?? 4;
   // Fetch all checked in judges.
-  const judgesResponse = await getManyUsers({
+  const judgesResponse = await GetManyUsers({
     role: 'judge',
-    has_checked_in: false,
+    has_checked_in: true,
   });
   if (!judgesResponse.ok) {
     throw new Error(`Failed to fetch judges: ${judgesResponse.error}`);
@@ -123,7 +101,7 @@ export default async function matchAllTeams(options?: {
   }));
 
   // Fetch teams.
-  const teamsResponse = await getManyTeams();
+  const teamsResponse = await GetManyTeams();
   if (!teamsResponse.ok) {
     throw new Error(`Failed to fetch teams: ${teamsResponse.error}`);
   }
@@ -137,36 +115,36 @@ export default async function matchAllTeams(options?: {
     }
   });
 
-  // Convert each team's tracks from name to domain and keep only unique values.
+  // Convert each team's domains from name to domain and keep only unique values.
   modifiedTeams.forEach((team) => {
     if (team.tracks && team.tracks.length) {
-      // Remove any tracks that are in the uncategorizedTracks keys.
-      const filteredTrackNames = team.tracks.filter(
-        (trackName: string) =>
-          !Object.keys(uncategorizedTracks).includes(trackName)
+      // Remove any domains that are in the uncategorizedDomains keys.
+      const filteredDomainNames = team.tracks.filter(
+        (domainName: string) =>
+          !Object.keys(uncategorizedTracks).includes(domainName)
       );
       team.tracks = Array.from(
         new Set(
-          filteredTrackNames
-            .map((trackName: string) => trackMap.get(trackName) ?? null)
+          filteredDomainNames
+            .map((domainName: string) => domainMap.get(domainName) ?? null)
             .filter(
-              (track: string | null): track is string =>
-                track !== null &&
-                track !== 'Best Hack for Social Good' &&
-                track !== "Hacker's Choice Award"
+              (domain: string | null): domain is string =>
+                domain !== null &&
+                domain !== 'Best Hack for Social Good' &&
+                domain !== "Hacker's Choice Award"
             )
         )
       );
     }
-    // Ensure the team has exactly three tracks.
-    // If it has less than 3, duplicate the first track 3 times.
+    // Ensure the team has exactly three domains (not unique).
+    // If it has less than 3, duplicate the first domain 3 times.
     if (!team.tracks || team.tracks.length < rounds) {
       // Use team.tracks[0] if available, otherwise fallback to an empty string.
       if (team.tracks.length === 0) {
-        // No tracks at all → ["", "", ""]
+        // No domains at all → ["", "", ""]
         team.tracks = Array(rounds).fill('');
       } else {
-        // 1 or 2 tracks → cycle through them to get exactly `rounds` entries
+        // 1 or 2 domains → cycle through them to get exactly `rounds` entries
         team.tracks = Array.from(
           { length: rounds },
           (_, i) => team.tracks[i % team.tracks.length]
@@ -184,20 +162,20 @@ export default async function matchAllTeams(options?: {
       .map((team) => [team._id ?? '', rounds - team.tracks.length])
   );
   // Main loop: process each team for each round.
-  for (let trackIndex = 0; trackIndex < rounds; trackIndex++) {
+  for (let domainIndex = 0; domainIndex < rounds; domainIndex++) {
     for (const team of modifiedTeams) {
-      if (extraAssignmentsMap[team._id ?? ''] >= rounds - trackIndex) {
+      if (extraAssignmentsMap[team._id ?? ''] >= rounds - domainIndex) {
         continue;
       }
-      updateQueue(team, trackIndex, judgesQueue, ALPHA);
-      const trackUsed = team.tracks[trackIndex];
+      updateQueue(team, domainIndex, judgesQueue, ALPHA);
+      const domainUsed = team.tracks[domainIndex];
 
       let selectedJudge: Judge | undefined = undefined;
       for (const judge of judgesQueue) {
         const duplicateExists = judgeToTeam.some(
           (entry) =>
             entry.judge_id === judge.user._id?.toString() &&
-            entry.team_id === team._id
+            entry.team_id === team._id?.toString()
         );
         if (!duplicateExists) {
           selectedJudge = judge;
@@ -209,29 +187,28 @@ export default async function matchAllTeams(options?: {
       if (!selectedJudge) {
         throw new Error(
           `No available unique judge for team ${team._id} in round ${
-            trackIndex + 1
+            domainIndex + 1
           }`
         );
       }
 
       const matchQuality = getSpecialtyMatchScore(
-        team,
-        selectedJudge,
-        trackIndex
+        team.tracks[domainIndex],
+        selectedJudge
       );
       const teamId = team._id as string;
       if (!teamMatchQualities[teamId]) {
         teamMatchQualities[teamId] = [];
       }
       teamMatchQualities[teamId].push(matchQuality);
-      if (!teamJudgeTrackTypes[teamId]) {
-        teamJudgeTrackTypes[teamId] = [];
+      if (!teamJudgeDomainTypes[teamId]) {
+        teamJudgeDomainTypes[teamId] = [];
       }
-      teamJudgeTrackTypes[teamId].push(trackUsed);
+      teamJudgeDomainTypes[teamId].push(domainUsed);
 
       const submission: JudgeToTeam = {
         judge_id: selectedJudge.user._id?.toString() || '',
-        team_id: team._id || '',
+        team_id: team._id?.toString() || '',
       };
       judgeToTeam.push(submission);
       selectedJudge.teamsAssigned += 1;
@@ -262,8 +239,8 @@ export default async function matchAllTeams(options?: {
       min: number;
       max: number;
       count: number;
-      teamTracks: string[];
-      judgeTracks: string[];
+      teamDomains: string[];
+      judgeDomains: string[];
     };
   } = {};
   for (const teamId in teamMatchQualities) {
@@ -273,16 +250,16 @@ export default async function matchAllTeams(options?: {
     const average = count > 0 ? sum / count : 0;
     const min = Math.min(...qualities);
     const max = Math.max(...qualities);
-    const teamTracks = teamById[teamId]?.tracks || [];
-    const judgeTracks = teamJudgeTrackTypes[teamId] || [];
+    const teamDomains = teamById[teamId]?.tracks || [];
+    const judgeDomains = teamJudgeDomainTypes[teamId] || [];
     matchQualityStats[teamId] = {
       sum,
       average,
       min,
       max,
       count,
-      teamTracks,
-      judgeTracks,
+      teamDomains,
+      judgeDomains,
     };
   }
 

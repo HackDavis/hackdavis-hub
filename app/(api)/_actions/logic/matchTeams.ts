@@ -58,7 +58,7 @@ export default async function matchTeams(
   }
   return {
     ok: true,
-    body: matchResults,
+    body: JSON.parse(JSON.stringify(matchResults)),
     error: null,
   };
 }

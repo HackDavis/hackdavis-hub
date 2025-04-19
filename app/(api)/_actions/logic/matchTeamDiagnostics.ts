@@ -43,7 +43,7 @@ export default async function matchTeamsDiagnostics(options: {
       };
     }
 
-    return { ok: true, body: results, error: null };
+    return { ok: true, body: JSON.parse(JSON.stringify(results)), error: null };
   } catch (e: any) {
     return {
       ok: false,
