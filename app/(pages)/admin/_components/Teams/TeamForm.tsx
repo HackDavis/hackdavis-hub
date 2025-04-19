@@ -38,6 +38,16 @@ export default function TeamForm({
     value: judge,
   }));
 
+  const judgeMap = Object.fromEntries(
+    judges.body.map((judge: any) => [judge._id, judge])
+  );
+
+  if (data?._id) {
+    data.judges = data.judges.map((judge: any) => {
+      return judgeMap[judge._id];
+    });
+  }
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
