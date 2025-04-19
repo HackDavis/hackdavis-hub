@@ -14,15 +14,15 @@ export default function Page() {
   return (
     <main id="home">
       <IndexHero>
-        <TimeProtectedDisplay featureId="hero-hacking">
+        {/* <TimeProtectedDisplay featureId="hero-hacking">
           <IndexHeroContentHacking />
         </TimeProtectedDisplay>
-        <TimeProtectedDisplay featureId="hero-judging">
-          <IndexHeroContentJudging />
-        </TimeProtectedDisplay>
+        <TimeProtectedDisplay featureId="hero-judging"> */}
+        <IndexHeroContentJudging />
+        {/* </TimeProtectedDisplay>
         <TimeProtectedDisplay featureId="hero-done">
           <IndexHeroContentDone />
-        </TimeProtectedDisplay>
+        </TimeProtectedDisplay> */}
       </IndexHero>
 
       <BeginnersSection />

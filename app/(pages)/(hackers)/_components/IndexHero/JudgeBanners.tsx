@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
+import { useTeam } from '@pages/_hooks/useTeam';
+import Team from '@typeDefs/team';
 import styles from './JudgeBannerIndividual.module.scss';
 
 type Notification = {
@@ -13,6 +15,7 @@ type Notification = {
 };
 
 export default function JudgeBanners() {
+  const [team, setTeam] = useState<Team | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       icon: '/hackers/hero/PeekingCow.svg',
@@ -41,6 +44,21 @@ export default function JudgeBanners() {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
+  useEffect(() => {
+    const storedTableNumber = localStorage.getItem('tableNumber');
+    if (storedTableNumber) {
+      const parsedNumber = parseInt(storedTableNumber);
+      if (!isNaN(parsedNumber)) {
+        setTableNumber(parsedNumber);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tableNumber) {
+    }
+  }, [tableNumber]);
+
   return (
     <div className={styles.container_position}>
       {notifications.map((notification) => (
@@ -49,7 +67,7 @@ export default function JudgeBanners() {
           icon={notification.icon}
           name={notification.name}
           description={notification.description}
-          teams={notification.teams}
+          teamNumber={notification.teams}
           onDismiss={() => dismissNotification(notification.id)}
         />
       ))}

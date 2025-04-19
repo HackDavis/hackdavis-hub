@@ -6,14 +6,14 @@ type JudgeBannerIndividualProps = {
   icon: string;
   name: string;
   description: string;
-  teams: number;
+  teamNumber: number;
   onDismiss: () => void;
 };
 
 export default function JudgeBannerIndividual({
   name,
   description,
-  teams,
+  teamNumber,
   icon,
 }: JudgeBannerIndividualProps) {
   const [isFinishing, setIsFinishing] = useState(false);
@@ -43,7 +43,7 @@ export default function JudgeBannerIndividual({
         onClick={handleFinish}
       >
         {/* i have it so that when u click on this part, it blurs bc i'm not sure when you want it/how you're gonna wanan link it to backend  */}
-        <h1>{teams}</h1>
+        <h1>{teamNumber}</h1>
       </button>
     </div>
   );

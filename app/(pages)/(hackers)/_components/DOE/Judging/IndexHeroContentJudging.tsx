@@ -14,8 +14,20 @@ import Link from 'next/link';
 import Notifications from '../../IndexHero/Notifications';
 import JudgeBanners from '../../IndexHero/JudgeBanners';
 import { GoArrowRight } from 'react-icons/go';
+import { getManyTeams } from '@actions/teams/getTeams';
 
 export default function IndexHeroContentJudging() {
+  const onTableConfirmation = async (tableNumber: number) => {
+    const teamRes = await getManyTeams({ tableNumber });
+
+    if (!teamRes.ok || !teamRes.body || teamRes.body.length !== 1) {
+      return {
+        ok: false,
+        error: teamRes.error ?? `Error getting team with ${tableNumber}`,
+      };
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
