@@ -331,7 +331,7 @@ export default function JudgeTeamGrouping() {
           onClick={handleMatchTeams}
           style={{ marginTop: '10px', outline: '1px solid black' }}
         >
-          Match Teams
+          Match Teams (above alpha value)
         </button>
         <button
           onClick={downloadCSV}
