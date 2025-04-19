@@ -58,7 +58,7 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       tableNumber: faker.number.int({ min: 1, max: 200 }),
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
-        json_data.tracks,
+        tracks,
         faker.number.int({ min: 1, max: 5 })
       ),
       active: true,
@@ -89,12 +89,12 @@ function generateData(collectionName, numDocuments, existingData = {}) {
         teamTracks.length > 0
           ? teamTracks
           : faker.helpers.arrayElements(
-              json_data.tracks,
+              tracks,
               faker.number.int({ min: 1, max: 3 })
             );
 
       const scores = tracksToUse.map((trackName) => {
-        const trackInfo = json_data.tracks.find((t) => t.name === trackName);
+        const trackInfo = tracks.find((t) => t.name === trackName);
         let rawScores = {};
 
         if (trackInfo && trackInfo.scoring_criteria) {

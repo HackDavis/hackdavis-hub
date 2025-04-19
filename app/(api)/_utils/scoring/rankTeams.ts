@@ -1,5 +1,5 @@
 import Submission from '@typeDefs/submission';
-import { categorizedTracks } from '@data/tracks';
+import { optedHDTracks } from '@data/tracks';
 
 // interface Team {
 //   _id?: string;
@@ -34,9 +34,9 @@ function calculateSubmissionScore(submission: Submission) {
     .map((track_score) => {
       const trackName = track_score.trackName;
 
-      // Only process the track if it exists in categorizedTracks
-      if (!categorizedTracks[trackName]) {
-        // For tracks not in categorizedTracks, return null or a score of 0
+      // Only process the track if it exists in optedHDTracks
+      if (!optedHDTracks[trackName]) {
+        // For tracks not in optedHDTracks, return null or a score of 0
         // This will allow us to filter them out later
         return {
           track_name: trackName,
@@ -135,8 +135,8 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
       for (const trackScore of final_scores) {
         const { track_name, score } = trackScore;
 
-        // Skip if the track isn't in categorizedTracks (though this should be filtered already)
-        if (!categorizedTracks[track_name]) continue;
+        // Skip if the track isn't in optedHDTracks (though this should be filtered already)
+        if (!optedHDTracks[track_name]) continue;
 
         // initialize the track in the results if haven't done yet
         if (!results[track_name]) {
