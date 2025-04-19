@@ -15,6 +15,7 @@ import Notifications from './Notifications';
 // import AssigningJudges from './AssigningJudges';
 import DoneJudging from './DoneJudging';
 import Announcements from './Announcements';
+import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
 
 export default function IndexHeroContent() {
   return (
@@ -71,7 +72,9 @@ export default function IndexHeroContent() {
         <strong> later this month </strong> for more information!
         everything on home page doesnt get taken down - prizes, 
       </p> */}
-      <Announcements />
+      <TimeProtectedDisplay featureId="display-announcements">
+        <Announcements />
+      </TimeProtectedDisplay>
 
       <div className={styles.group_width}>
         <div
