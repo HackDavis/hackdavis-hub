@@ -16,7 +16,6 @@ import TimeTracker from '../../IndexHero/TimeTracker';
 // import Notifications from './Notifications';
 import JudgeBanners from '../../IndexHero/JudgeBanners';
 import { GoArrowRight } from 'react-icons/go';
-import Announcements from '../../IndexHero/Announcements';
 
 export default function IndexHeroContentJudging() {
   return (
@@ -31,10 +30,6 @@ export default function IndexHeroContentJudging() {
           <p className={styles.map}>ARC BALLROOM MAP</p>
           <LuArrowUpRight size={23} />
         </a>
-        <div>
-          {/* <JudgeBanners /> */}
-          {/* <Notifications /> */}
-        </div>
       </div>
 
       <div className={styles.spacer_star_container}>
@@ -44,9 +39,7 @@ export default function IndexHeroContentJudging() {
       <div className={styles.heroRow}>
         <MusicPlayer />
         <div className={styles.center_right}>
-          {/* <Countdown /> */}
           <JudgeBanners />
-          {/* please work bro */}
           <div className={styles.belowClock}>
             <p className={styles.info}>
               A HACKDAVIS HUB
@@ -95,7 +88,7 @@ export default function IndexHeroContentJudging() {
             <TimeTracker targetTime="2025-05-01T09:00:00Z" />
           </div>
         </div>
-        {/* <NextSchedule /> */}
+        <NextSchedule />
       </div>
 
       <div className={styles.group_width}>

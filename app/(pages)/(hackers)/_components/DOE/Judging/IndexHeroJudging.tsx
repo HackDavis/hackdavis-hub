@@ -8,7 +8,7 @@ import smallLeftCloud from 'public/index/hero/small-left-cloud.svg';
 import bigRightCloud from 'public/index/hero/big-right-cloud.svg';
 import smallRightCloud from 'public/index/hero/small-right-cloud.svg';
 // import IndexHeroContent from '../DOE/Hacking/IndexHeroContent';
-import IndexHeroContent from './IndexHeroContentJudging';
+import IndexHeroContentJudging from './IndexHeroContentJudging';
 
 export default function IndexHeroJudging() {
   return (
@@ -29,7 +29,7 @@ export default function IndexHeroJudging() {
         alt="cloud"
         className={styles.small_right_cloud}
       />
-      <IndexHeroContent />
+      <IndexHeroContentJudging />
       <Image src={baseGrass} alt="base grass" className={styles.base_grass} />
     </div>
   );
