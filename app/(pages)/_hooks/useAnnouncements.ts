@@ -8,8 +8,8 @@ export function useAnnouncements(): any {
   const [loading, setLoading] = useState<boolean>(true);
 
   const getAnnouncements = async () => {
-    const announcement = await getManyAnnouncements();
-    setAnnouncements(announcement);
+    const res = await getManyAnnouncements();
+    setAnnouncements(res);
     setLoading(false);
   };
 

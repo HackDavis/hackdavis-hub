@@ -5,6 +5,7 @@ interface DateTimeInputProps {
   value: string;
   updateValue?: (value: string) => void;
   required?: boolean;
+  disabled?: boolean;
   min?: string;
   max?: string;
 }
@@ -14,6 +15,7 @@ export default function DateTimeInput({
   value,
   updateValue = () => {},
   required,
+  disabled,
   min,
   max,
 }: DateTimeInputProps) {
@@ -40,6 +42,7 @@ export default function DateTimeInput({
         value={formatDateValue(value)}
         onChange={(event) => updateValue(event.target.value)}
         required={required}
+        disabled={disabled}
         min={min}
         max={max}
       />

@@ -67,7 +67,7 @@ export default function AnnouncementForm({
     }
   };
 
-  const convertDate = (date: Date): string => {
+  const convertDate = (date: number): string => {
     try {
       const d = new Date(date);
       return d.toISOString().substring(0, 16);
@@ -95,12 +95,7 @@ export default function AnnouncementForm({
         }
         required
       />
-      <DateTimeInput
-        label="time"
-        value={convertDate(data.time)}
-        updateValue={(newTime) => updateField('time', new Date(newTime))}
-        required
-      />
+      <DateTimeInput label="time" value={convertDate(Date.now())} required />
 
       <div className={styles.action_buttons}>
         <button className={styles.submit_button} type="submit">

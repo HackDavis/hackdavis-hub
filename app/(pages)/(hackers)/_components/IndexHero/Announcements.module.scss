@@ -1,0 +1,51 @@
+@import "@globals/mixins.scss";
+
+.container {
+  width: 100%;
+
+  .heading {
+    display: flex;
+    gap: 1%;
+    padding-bottom: 1%;
+    align-items: center;
+  
+    @include tablet-l{
+      display: none;
+    }
+
+    .star_icon {
+      @include tablet-l {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    > h2 {
+      color: var(--text-dark);
+      font-size: 1.125rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 145%;
+      letter-spacing: 0.36px;
+    }
+  }
+
+  .announcements {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 554px;
+    padding: 28px 96px;
+    border-radius: 1.125rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.40);
+    backdrop-filter: blur(30px);
+    overflow-y: scroll;
+
+    .loader {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
