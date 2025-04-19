@@ -1,6 +1,6 @@
 'use server';
 
-import matchAllTeams from '@utils/grouping/matchingAlgorithm';
+import matchAllTeams from '@utils/matching/judgesToTeamsAlgorithm';
 import JudgeToTeam from '@typeDefs/judgeToTeam';
 
 export type DiagnosticResult = {

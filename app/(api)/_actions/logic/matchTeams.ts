@@ -1,7 +1,7 @@
 'use server';
 
 import JudgeToTeam from '@typeDefs/judgeToTeam';
-import matchAllTeams from '@utils/grouping/matchingAlgorithm';
+import matchAllTeams from '@utils/matching/judgesToTeamsAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import { GetManyTeams } from '@datalib/teams/getTeam';
 import { CreateSubmission } from '@datalib/submissions/createSubmission';
