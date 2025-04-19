@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 import ProtectedDisplay from '../../_components/ProtectedDisplay/ProtectedDisplay';
 import CodeProtectedDisplay from '@components/CodeProtectedDisplay/CodeProtectedDisplay';
-import FeatureGate from '@pages/_components/FeatureGate/FeatureGate';
+import TimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/TimeProtectedDisplay';
 
 type Props = {
   children: React.ReactNode;
@@ -18,11 +18,11 @@ export default async function JudgesLayout({ children }: Props) {
       allowedRoles={['admin', 'judge']}
       failRedirectRoute="/judges/login"
     >
-      <FeatureGate featureId="judge-check-in" unavailableView={children}>
+      <TimeProtectedDisplay featureId="judge-check-in" fallback={children}>
         <CodeProtectedDisplay failRedirectRoute="/judges/check-in">
           {children}
         </CodeProtectedDisplay>
-      </FeatureGate>
+      </TimeProtectedDisplay>
     </ProtectedDisplay>
   );
 }

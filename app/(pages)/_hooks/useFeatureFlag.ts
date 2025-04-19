@@ -1,21 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import checkFeatureAvailability from '@actions/rollouts/checkFeatureAvailability';
 
 export function useFeatureFlag(featureId: string) {
   const [available, setAvailable] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function checkAvailability() {
-      const res = await checkFeatureAvailability(featureId);
-      setAvailable(res.ok);
-      setLoading(false);
-    }
-
-    checkAvailability();
+  const fetchFeatureAvailability = useCallback(async () => {
+    const res = await checkFeatureAvailability(featureId);
+    setAvailable(res.ok);
+    setLoading(false);
   }, [featureId]);
 
-  return { available, loading };
+  useEffect(() => {
+    fetchFeatureAvailability();
+  }, [fetchFeatureAvailability]);
+
+  return { available, loading, fetchFeatureAvailability };
 }

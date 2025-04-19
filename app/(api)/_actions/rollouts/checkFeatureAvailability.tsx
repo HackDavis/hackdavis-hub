@@ -13,17 +13,17 @@ export default async function checkFeatureAvailability(component_key: string) {
 
     const rollout: Rollout = rolloutRes.body;
 
-    if (Date.now() < rollout.rollout_time) {
-      throw new Error('Feature is not available yet.');
-    }
-
-    if (rollout.rollback_time && Date.now() > rollout.rollback_time) {
-      throw new Error('Feature is no longer available.');
-    }
+    const startTime = rollout.rollout_time;
+    const endTime = rollout.rollback_time || Infinity;
+    const now = Date.now();
+    const available = startTime <= now && now <= endTime;
 
     return {
       ok: true,
-      body: rollout,
+      body: {
+        available,
+        rollout,
+      },
       error: null,
     };
   } catch (e) {

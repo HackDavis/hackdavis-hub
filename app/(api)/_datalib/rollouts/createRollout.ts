@@ -1,6 +1,7 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import Rollout from '@typeDefs/rollout';
 import { DuplicateError, HttpError } from '@utils/response/Errors';
+
+import Rollout from '@typeDefs/rollout';
 
 export default async function CreateRollout(body: Rollout) {
   try {

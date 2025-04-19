@@ -5,7 +5,7 @@ import { serializeMongoData } from '@utils/serialize/serialization';
 
 export async function getRollout(component_key: string) {
   const rollout = await GetRollout(component_key);
-  return serializeMongoData(rollout);
+  return JSON.parse(JSON.stringify(rollout));
 }
 
 export async function getManyRollouts(query: object = {}) {
