@@ -4,7 +4,8 @@ import Image from 'next/image';
 type JudgeBannerIndividualProps = {
   icon: string;
   name: string;
-  teamsAhead: number;
+  teamsAhead?: number;
+  description?: string;
   completed: boolean;
 };
 
@@ -12,6 +13,7 @@ export default function JudgeBannerIndividual({
   icon,
   name,
   teamsAhead,
+  description,
   completed,
 }: JudgeBannerIndividualProps) {
   return (
@@ -27,7 +29,10 @@ export default function JudgeBannerIndividual({
       />
       <div className={styles.info}>
         <h3>{name}</h3>
-        <p>There are {teamsAhead} teams ahead of you for this judge.</p>
+        {teamsAhead && (
+          <p>There are {teamsAhead} teams ahead of you for this judge.</p>
+        )}
+        {description && <p>{description}</p>}
       </div>
       <h1 className={`${completed ? styles.hidden : ''}`}>{teamsAhead}</h1>
     </div>

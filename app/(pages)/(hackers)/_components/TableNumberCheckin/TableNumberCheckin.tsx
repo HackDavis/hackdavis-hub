@@ -86,7 +86,7 @@ export default function TableNumberCheckin() {
         <h3>SEARCHING HIGH AND LOW...</h3>
         <p>
           Please wait patiently while we match you to a judging table. Btw did
-          you know next year will be HackDavis’s 10 year anniversary?
+          you know next year will be HackDavis's 10 year anniversary?
         </p>
       </div>
     </div>
@@ -133,7 +133,7 @@ export default function TableNumberCheckin() {
         <button
           className={styles.yes_button}
           disabled={!hasTeamNumber}
-          onClick={() => setValue(teamNumber.toString())}
+          onClick={() => setValue(tableNumber)}
         >
           Yes! <Image src={modalArrow} alt="" />
         </button>

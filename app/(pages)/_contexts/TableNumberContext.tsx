@@ -28,7 +28,7 @@ export default function TableNumberContextProvider({
     useLocalStorage('tableNumber');
 
   const value = {
-    storedValue,
+    storedValue: Number(storedValue),
     setValue,
     fetchValue,
     loading,

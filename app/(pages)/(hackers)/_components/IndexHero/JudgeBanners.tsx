@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
-import Team from '@typeDefs/team';
 import User from '@typeDefs/user';
-import { getManyTeams } from '@actions/teams/getTeams';
 import styles from './JudgeBannerIndividual.module.scss';
-import Submission from '@typeDefs/submission';
 import DoneJudging from './DoneJudging';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
+import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';
+import { nonHDTracks } from '@data/tracks';
 
 const icons = [
   '/hackers/hero/PeekingCow.svg',
@@ -19,101 +18,83 @@ const icons = [
   '/hackers/hero/PeekingDuck.svg',
 ];
 
-interface TeamExpanded extends Team {
-  judges: User[];
-  submissions: Submission[];
+interface HydratedJudge extends User {
+  queuePosition: number;
+  isScored: boolean;
 }
 
 export default function JudgeBanners() {
-  const [judges, setJudges] = useState<User[] | null>(null);
-  const [submissions, setSubmissions] = useState<Submission[] | null>(null);
-  const { loading, storedValue: tableNumber } = useTableNumberContext();
+  const { storedValue: tableNumber } = useTableNumberContext();
+  const { team, judges, loading, error, fetchTeamJudges } =
+    useTeamJudgesFromTableNumber(tableNumber ?? -1);
+
   useEffect(() => {
-    const fetchJudges = async () => {
-      try {
-        const teamRes = await getManyTeams({ tableNumber });
-
-        if (!teamRes.ok || !teamRes.body || teamRes.body.length !== 1) {
-          throw new Error(
-            teamRes.error ?? `Error getting team with ${tableNumber}`
-          );
-        }
-
-        const team: TeamExpanded = teamRes.body[0];
-        setJudges(team.judges);
-        setSubmissions(team.submissions);
-      } catch (e) {
-        const error = e as Error;
-        return {
-          ok: false,
-          error: error.message,
-        };
-      }
-    };
-
     if (tableNumber) {
-      fetchJudges();
+      fetchTeamJudges();
     }
 
     const pollingInterval = setInterval(() => {
       if (tableNumber) {
-        fetchJudges();
+        fetchTeamJudges();
       }
     }, 60 * 1000);
 
     return () => clearInterval(pollingInterval);
-  }, [tableNumber]);
+  }, [fetchTeamJudges, tableNumber]);
 
-  if (submissions) {
-    const allScored = submissions.every((sub: Submission) => sub.is_scored);
-    if (allScored) {
-      return <DoneJudging />;
-    }
+  if (!tableNumber) {
+    return <>no table number</>;
   }
 
-  if (loading) {
-    return null;
+  if (loading || error) return error;
+
+  const allScored = judges.every((judge: HydratedJudge) => judge.isScored);
+  if (allScored) {
+    return <DoneJudging />;
   }
+
+  const teamNonHDCategories: string[] = team.tracks
+    .filter((track: string) => track in nonHDTracks)
+    .map((track: string) => nonHDTracks[track].filter);
+  const hasNonprofitTrack = teamNonHDCategories.includes('Nonprofit');
+  const hasSponsorTrack = teamNonHDCategories.includes('Sponsor');
+  const hasMLHTrack = teamNonHDCategories.includes('MLH');
 
   return (
     <div className={styles.container_position}>
-      {judges &&
-        judges
-          .sort((a: User, b: User) => {
-            const aSubmission = submissions?.find(
-              (submission) => submission.judge_id === a._id
-            );
-            const bSubmission = submissions?.find(
-              (submission) => submission.judge_id === b._id
-            );
-
-            const aScored = aSubmission?.is_scored ?? false;
-            const bScored = bSubmission?.is_scored ?? false;
-            if (!aScored && bScored) return -1;
-            else if (!bScored && aScored) return 1;
-            else if (aScored && bScored) return 0;
-
-            const aQueuePosition = aSubmission?.queuePosition ?? 0;
-            const bQueuePosition = bSubmission?.queuePosition ?? 0;
-            return aQueuePosition - bQueuePosition;
-          })
-          .map((judge, index) => (
-            <JudgeBannerIndividual
-              key={judge._id}
-              icon={icons[index]}
-              name={judge.name}
-              teamsAhead={
-                submissions?.find(
-                  (submission) => submission.judge_id === judge._id
-                )?.queuePosition ?? 0
-              }
-              completed={
-                submissions?.find(
-                  (submission) => submission.judge_id === judge._id
-                )?.is_scored ?? false
-              }
-            />
-          ))}
+      {hasNonprofitTrack && (
+        <JudgeBannerIndividual
+          icon="/hackers/hero/PeekingCow.svg"
+          name="NPO Judge"
+          description="Since you submitted for an NPO track, you will also be visited by an NPO representative."
+          completed={false}
+        />
+      )}
+      {hasSponsorTrack && (
+        <JudgeBannerIndividual
+          icon="/hackers/hero/PeekingBunny.svg"
+          name="Sponsor Judge"
+          description="Since you submitted for a sponsor track, you will also be visited by a sponsor representative."
+          completed={false}
+        />
+      )}
+      {hasMLHTrack && (
+        <JudgeBannerIndividual
+          icon="/hackers/hero/PeekingDuck.svg"
+          name="MLH Judge"
+          description="Since you submitted for an MLH track, you will also be visited by an MLH representative."
+          completed={false}
+        />
+      )}
+      {judges.map((judge: HydratedJudge, index: number) => (
+        <JudgeBannerIndividual
+          key={judge._id}
+          icon={icons[index]}
+          name={judge.name}
+          teamsAhead={judge.queuePosition}
+          completed={judge.isScored}
+        />
+      ))}
     </div>
   );
 }
