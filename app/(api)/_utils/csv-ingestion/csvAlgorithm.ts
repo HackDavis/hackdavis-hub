@@ -49,7 +49,9 @@ function sortTracks(
     initialTracks.length = 4;
   }
 
-  return initialTracks;
+  const tracksSet = Array.from(new Set(initialTracks));
+
+  return tracksSet;
 }
 
 export default async function csvAlgorithm(
