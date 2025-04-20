@@ -95,7 +95,7 @@ export default function TeamForm({
       return;
     }
 
-    const { _id, submissions: _, judges: __, ...body } = data;
+    const { _id, submissions: _, judges, ...body } = data;
 
     let team_id = _id;
     if (!team_id) {
@@ -106,11 +106,7 @@ export default function TeamForm({
       team_id = createRes.body?._id;
     }
 
-    const res = await updateTeamWithJudges(
-      team_id,
-      { $set: body },
-      judges.body
-    );
+    const res = await updateTeamWithJudges(team_id, { $set: body }, judges);
 
     if (res.ok) {
       setData({});

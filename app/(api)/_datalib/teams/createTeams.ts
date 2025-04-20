@@ -59,7 +59,7 @@ export const CreateManyTeams = async (body: object) => {
       });
 
       // automatically add Best Hack for Social Good
-      team.tracks.push('Best Hack for Social Good');
+      // team.tracks.push('Best Hack for Social Good');
     });
 
     const creationStatus = await db.collection('teams').insertMany(parsedBody);
