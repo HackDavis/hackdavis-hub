@@ -63,7 +63,7 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
       <div
         className={`${styles.info_container} ${showInfo ? styles.show : null}`}
       >
-        <p>Judging categories Table {team.body.teamNumber} signed up for:</p>
+        <p>Judging categories Table {team.body.tableNumber} signed up for:</p>
         {team.body.tracks.map((category: string) => (
           <p key={category} className={styles.category_card}>
             {category}
