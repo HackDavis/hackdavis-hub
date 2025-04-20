@@ -39,10 +39,12 @@ export default function JudgePanelMatching() {
   const handleGetPanels = async () => {
     setError(null);
     setPanelsDeleted(false);
+    setPanels([]);
     const response = await getManyPanels();
     if (!response.ok) {
-      setPanels([]);
-      setError(response.error ?? 'Failed to delete panels');
+      setError(response.error ?? 'Failed to get panels');
+    } else if (response.body.length === 0) {
+      setError('Panels collection is empty!');
     } else {
       setPanels(response.body);
     }

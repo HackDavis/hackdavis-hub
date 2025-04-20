@@ -34,7 +34,7 @@ export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
     };
   }
 
-  const judgesRes = await GetManyUsers({ role: 'judge' });
+  const judgesRes = await GetManyUsers({ role: 'judge', has_checked_in: true });
   if (!judgesRes.ok || judgesRes.body.length === 0) {
     return {
       ok: false,
