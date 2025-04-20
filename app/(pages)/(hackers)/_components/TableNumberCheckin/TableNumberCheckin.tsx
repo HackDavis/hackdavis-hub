@@ -4,26 +4,28 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useTableNumber } from '@pages/_hooks/useTableNumber';
-import { useLocalStorage } from '@pages/_hooks/useLocalStorage';
 
 import stars from '@public/hackers/stars.svg';
 import mascots from '@public/hackers/mascots-hanging-out.svg';
 import sleepyFrog from '@public/hackers/sleeping-frog.svg';
 import modalArrow from '@public/hackers/modal-arrow.svg';
+import diagArrow from '@public/hackers/diag-arrow.svg';
 
 import styles from './TableNumberCheckin.module.scss';
+import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 
 export default function TableNumberCheckin() {
   const {
-    loading: lsLoading,
-    value,
+    loading: localStorageLoading,
+    storedValue,
     setValue,
-  } = useLocalStorage('tableNumber');
+  } = useTableNumberContext();
+
   const [teamNumber, setTeamNumber] = useState<string>('');
-  const { loading, tableNumber, fetchTableNumber, setTableNumber } =
+  const { loading, tableNumber, fetchTableNumber, setTableNumber, error } =
     useTableNumber();
 
-  if (lsLoading || value) {
+  if (localStorageLoading || storedValue) {
     return null;
   }
 
@@ -52,7 +54,7 @@ export default function TableNumberCheckin() {
       <div className={styles.text_container}>
         <h3>THE HACKATHON HAS ENDED</h3>
         <p>
-          Thank you for all your hard work during the past 30 hours, HackDavis
+          Thank you for all your hard work during the past 24 hours, HackDavis
           recognizes your passion and talent. Please enter in the team number
           you received from Devpost.
         </p>
@@ -60,7 +62,7 @@ export default function TableNumberCheckin() {
       <div className={styles.input_container}>
         <input
           type="text"
-          className={styles.team_input}
+          className={`${styles.team_input} ${error ? styles.error : null}`}
           placeholder="#####"
           value={teamNumber}
           onChange={(event) => setTeamNumber(event.target.value)}
@@ -97,7 +99,20 @@ export default function TableNumberCheckin() {
         <div className={styles.text_container}>
           <h3>YOUR TABLE NUMBER</h3>
           <div className={styles.info_container}>
-            <Link href={'#'}>Map Link</Link>
+            <Link
+              href={
+                'https://drive.google.com/file/d/1l6fxi9jDKlleaStt4xXSgCjVg4dfQkjz/view'
+              }
+              target="_blank"
+              className={styles.link}
+            >
+              Map Link{' '}
+              <Image
+                src={diagArrow}
+                alt="arrow"
+                className={styles.diag_arrow}
+              />
+            </Link>
             <p>
               Check that you and your team members received the same table
               number. It is extremely important to be{' '}
@@ -113,6 +128,7 @@ export default function TableNumberCheckin() {
           placeholder="#####"
           value={teamNumber}
           onChange={(event) => setTeamNumber(event.target.value)}
+          disabled
         />
         <button
           className={styles.yes_button}

@@ -1,3 +1,5 @@
+@use 'app/(pages)/_globals/mixins';
+
 .background_dimmer {
     position: fixed;
     left: 0; 
@@ -10,12 +12,15 @@
     align-items: center;
     padding: 70px;
     z-index: 101; 
+    
+    @include mixins.tablet-s {
+        padding: 70px 32px;
+    }
 }
 
 .modal_container {
     width: 100%;
     max-width: 900px;
-    height: 730px;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.70);
     background: linear-gradient(357deg, rgba(255, 255, 255, 0.85) 54.41%, #B2E7DD 88.18%, #76D6E6 112.56%);
@@ -32,31 +37,57 @@
     font-family: var(--font-jakarta);
     padding: 0 24px;
 
+    @include mixins.tablet-s {
+        padding: 0 8px;
+    }
+
     > h3 {
         font-size: 1.125rem;
         font-weight: 600;
+        @include mixins.tablet-s {
+            font-size: 0.875rem;
+        }
+    
     }
 
     > p {
         font-size: 1.125rem;
         font-weight: 400;
+        @include mixins.tablet-s {
+            font-size: 0.875rem;
+        }
     }
 }
 
 .team_input {
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.70);
-    border: none !important;
     border-color: transparent; 
     padding: 16px 16px;
     flex-grow: 1;
+    min-width: 0;
 
     color: #005271;
     font-size: 1.125rem;
+    border: none !important;
+    &.error {
+        border: solid 1px var(--text-error) !important;
+    }
+
+    @include mixins.tablet-s {
+        font-size: 0.875rem;
+        padding: 8px 16px;
+    }
+
+    @include mixins.desktop-s {
+        font-size: 1rem;
+    }
 
     &::placeholder {
         color: #005271;
-        font-size: 1.125rem;
+        @include mixins.desktop-s {
+            font-size: 1rem;
+        }    
     }
 
     &:focus {
@@ -70,8 +101,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 87px 130px;
+    padding: 10% 15%;
     gap: 70px;
+
+    @include mixins.desktop-s {
+        gap: 40px;
+    }
+
+    @include mixins.tablet-l {
+        padding: 15% 32px;
+    }
 
     .mascot_container {
         display: flex;
@@ -92,6 +131,12 @@
         gap: 44px;
         width: 100%;
         padding: 0 24px;
+        min-width: none;
+
+        @include mixins.tablet-xl {
+            padding: 0;
+            gap: 8px;
+        }
 
         .see_teammates_button {
             color: white;
@@ -101,31 +146,42 @@
             justify-content: center;
             align-items: center;
             padding: 12px 24px;
-            border-radius: 20px;
+            border-radius: 8px;
             background: #005271;
-            flex-grow: 1;
             cursor: pointer;
+            flex-shrink: 0;
+
+            @include mixins.tablet-s {
+                font-size: 0.875rem;
+                padding: 8px 16px;
+            }
         }
     }
 }
 
 .loading_content_container {
-    position: relative;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    padding: 80px 150px;
+    padding: 250px 120px 80px 120px;
+    gap: 150px;
+
+    @include mixins.tablet-xl {
+        padding: 120px 60px 60px 60px;
+        gap: 80px;
+    }
+
+    @include mixins.tablet-s {
+        padding: 80px 40px 40px 40px;
+        gap: 60px;
+    }
 
     .frog {
-        position: absolute;
-        width: 33%;
+        width: 50%;
         height: auto;
         transform: translateX(-5%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-55%, -60%);
     }
 }
 
@@ -138,16 +194,44 @@
     padding: 80px 120px;
     gap: 40px;
 
+    @include mixins.tablet-xl {
+        padding: 60px 90px;
+        gap: 32px;
+    }
+
+
+    @include mixins.tablet-l {
+        padding: 40px;
+        gap: 24px;
+    }
+
+    @include mixins.tablet-s {
+        padding: 24px;
+        gap: 24px;
+    }
+
+
     .header {
         display: flex;
         flex-direction: row-reverse;
         height: min-content;
         gap: 80px;
 
+        @include mixins.tablet-xl {
+            flex-direction: column;
+            gap: 16px;
+        }
+
         >h1 {
             font-size: 250px;
             font-weight: 300;
-            margin: 0;
+
+            @include mixins.tablet-xl {
+                width: 100%;
+                text-align: center;
+                font-size: 64px;
+                width: 100%;
+            }
         }
 
         .text_container {
@@ -157,6 +241,11 @@
             text-align: left;
             justify-content: space-between;
             padding: 60px 0;
+
+            @include mixins.tablet-xl {
+                padding: 0;
+                align-items: center;
+            }
         }
     }
 
@@ -164,8 +253,16 @@
         display: flex;
         flex-direction: row;
         gap: 44px;
-        width: 70%;
+        width: 100%;
         padding: 0 24px;
+
+        @include mixins.tablet-xl {
+            gap: 16px;
+        }
+
+        @include mixins.tablet-s {
+            padding: 0;
+        }
 
         .yes_button {
             color: white;
@@ -175,7 +272,7 @@
             justify-content: center;
             align-items: center;
             padding: 12px 24px;
-            border-radius: 20px;
+            border-radius: 8px;
             background: #005271;
             flex-grow: 1;
             cursor: pointer;
@@ -191,5 +288,13 @@
         opacity: 0.5;
         background: #005271;
         padding: 6px 24px;
+    }
+
+    .link {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 1rem;
     }
 }

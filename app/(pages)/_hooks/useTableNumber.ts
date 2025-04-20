@@ -6,21 +6,26 @@ import { useState } from 'react';
 export function useTableNumber() {
   const [tableNumber, setTableNumber] = useState<null | number>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchTableNumber = async (teamNumber: number | null) => {
     if (!teamNumber) return;
     setLoading(true);
     const teamsRes = await getManyTeams({ teamNumber });
-    if (!teamsRes) {
-      setLoading(false);
-      return;
+    if (!teamsRes.ok) {
+      setError(teamsRes.error);
+    } else {
+      // grab first team that matches teamNumber, get tableNumber back
+      const tableNumber = teamsRes.body?.[0]?.tableNumber ?? null;
+      setTableNumber(tableNumber);
+      if (!tableNumber) {
+        setError('No team with given teamNumber');
+      } else {
+        setError(null);
+      }
     }
-
-    // grab first team that matches teamNumber, get tableNumber back
-    const tableNumber = teamsRes.body?.[0]?.tableNumber ?? null;
-    setTableNumber(tableNumber);
     setLoading(false);
   };
 
-  return { loading, tableNumber, fetchTableNumber, setTableNumber };
+  return { loading, tableNumber, fetchTableNumber, setTableNumber, error };
 }
