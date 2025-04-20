@@ -4,7 +4,7 @@ import JudgeToTeam from '@typeDefs/judgeToTeam';
 import matchAllTeams from '@utils/matching/judgesToTeamsAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import { GetManyTeams } from '@datalib/teams/getTeam';
-import { CreateSubmission } from '@datalib/submissions/createSubmission';
+import { CreateManySubmissions } from '@datalib/submissions/createSubmission';
 import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
 import checkMatches from '@actions/logic/checkMatches';
 
@@ -41,14 +41,26 @@ export default async function matchTeams(
   const valid = checkMatches(parsedJudgeToTeam, teams.length);
   if (valid) {
     for (const submission of parsedJudgeToTeam) {
-      const res = await CreateSubmission({
-        judge_id: { '*convertId': { id: submission.judge_id } },
-        team_id: { '*convertId': { id: submission.team_id } },
-      });
-      if (!res.ok) {
-        console.error(res.error);
-      }
+      submission.judge_id = { '*convertId': { id: submission.judge_id } };
+      submission.team_id = { '*convertId': { id: submission.team_id } };
     }
+    const res = await CreateManySubmissions(parsedJudgeToTeam);
+    if (!res.ok) {
+      return {
+        ok: false,
+        body: null,
+        error: 'Invalid submissions.',
+      };
+    }
+    // for (const submission of parsedJudgeToTeam) {
+    //   const res = await CreateSubmission({
+    //     judge_id: { '*convertId': { id: submission.judge_id } },
+    //     team_id: { '*convertId': { id: submission.team_id } },
+    //   });
+    //   if (!res.ok) {
+    //     console.error(res.error);
+    //   }
+    // }
   } else {
     return {
       ok: false,

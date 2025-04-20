@@ -2,7 +2,7 @@
 
 import JudgeToTeam from '@typeDefs/judgeToTeam';
 import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
-import { CreateSubmission } from '@datalib/submissions/createSubmission';
+import { CreateManySubmissions } from '@datalib/submissions/createSubmission';
 import { GetManyTeams } from '@datalib/teams/getTeam';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import checkMatches from '@actions/logic/checkMatches';
@@ -41,16 +41,26 @@ export default async function applyDiagnosticAlpha(options: {
       error: `Invalid assignments for alpha ${options.alpha}.`,
     };
   }
-
   for (const submission of parsedSubmissions) {
-    const res = await CreateSubmission({
-      judge_id: { '*convertId': { id: submission.judge_id } },
-      team_id: { '*convertId': { id: submission.team_id } },
-    });
-    if (!res.ok) {
-      return { ok: false, body: null, error: res.error };
-    }
+    submission.judge_id = { '*convertId': { id: submission.judge_id } };
+    submission.team_id = { '*convertId': { id: submission.team_id } };
   }
+  const res = await CreateManySubmissions(parsedSubmissions);
+  if (!res.ok) {
+    return {
+      ok: false,
+      body: null,
+      error: `Invalid submissions. ${res.error}`,
+    };
+  }
+  // for (const submission of parsedSubmissions) {
+  //   const res = await CreateSubmission({
+  //     judge_id: { '*convertId': { id: submission.judge_id } },
+  //     team_id: { '*convertId': { id: submission.team_id } },
+  //   });
+  //   if (!res.ok) {
+  //     return { ok: false, body: null, error: res.error };
+  //   }
 
   return { ok: true, body: options.judgeToTeam, error: null };
 }

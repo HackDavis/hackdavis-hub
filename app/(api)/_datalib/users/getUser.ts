@@ -1,4 +1,5 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import parseAndReplace from '@utils/request/parseAndReplace';
 import { HttpError, NotFoundError } from '@utils/response/Errors';
 import { ObjectId } from 'mongodb';
 
@@ -24,13 +25,15 @@ export const GetUser = async (id: string) => {
 
 export const GetManyUsers = async (query: object = {}) => {
   try {
+    const parsedQuery = await parseAndReplace(query);
+
     const db = await getDatabase();
 
     const users = await db
       .collection('users')
       .aggregate([
         {
-          $match: query,
+          $match: parsedQuery,
         },
         {
           $lookup: {

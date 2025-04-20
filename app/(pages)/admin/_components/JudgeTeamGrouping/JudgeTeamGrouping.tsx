@@ -6,8 +6,6 @@ import matchTeams from '@actions/logic/matchTeams';
 import matchTeamsDiagnostics, {
   DiagnosticResult,
 } from '@actions/logic/matchTeamDiagnostics';
-import scoreTeams from '@actions/logic/scoreTeams';
-import { useFormState } from 'react-dom';
 import { useState } from 'react';
 import deleteManySubmissions from '@actions/submissions/deleteSubmission';
 import JudgeToTeam from '@typeDefs/judgeToTeam';
@@ -46,7 +44,6 @@ const commonXOptions: ChartOptions<'line'> = {
 };
 
 export default function JudgeTeamGrouping() {
-  const [trackResults, scoreAction] = useFormState(scoreTeams, null);
   const [matching, setMatching] = useState('');
   const [submissions, setSubmissions] = useState<JudgeToTeam[]>([]);
   const [fullMatchData, setFullMatchData] = useState<FullMatchData | null>(
@@ -63,8 +60,12 @@ export default function JudgeTeamGrouping() {
     DiagnosticResult
   > | null>(null);
   const [selectedAlpha, setSelectedAlpha] = useState<number | null>(null);
+  const [error, setError] = useState('');
+  const [applyAlphaSuccess, setApplyAlphaSuccess] = useState(false);
 
   const handleMatchTeams = async () => {
+    setShowMatching(true);
+    setMatching('Currently Matching, Please Wait');
     const result = await matchTeams({ alpha });
     if (result.ok) {
       const { judgeToTeam: subs, ...otherData } = result.body!;
@@ -74,13 +75,17 @@ export default function JudgeTeamGrouping() {
       setShowSubmissions(true);
       setShowMatching(true);
     } else {
-      setMatching(result.error!);
-      setShowMatching(true);
+      setError(result.error!);
+      setShowMatching(false);
+      setMatching('');
     }
   };
 
   // diagnostics
   const runDiagnostics = async () => {
+    setShowMatching(true);
+    setMatching('Currently running Diagnostics, Please Wait');
+
     const res = await matchTeamsDiagnostics({ minAlpha, maxAlpha });
     if (res.ok && res.body) {
       setDiagnostics(res.body);
@@ -89,13 +94,19 @@ export default function JudgeTeamGrouping() {
         .sort((a, b) => a - b)[0];
       setSelectedAlpha(first);
     } else {
+      setError(res.error!);
+      setShowMatching(false);
+      setMatching('');
       alert('Diagnostics failed: ' + res.error);
     }
   };
 
   // apply the chosen alpha
   const applyAlpha = async () => {
+    setApplyAlphaSuccess(false);
     if (selectedAlpha == null || !diagnostics) return;
+    setShowMatching(true);
+    setMatching('Currently Matching, Please Wait');
     const diag = diagnostics[selectedAlpha];
     const pairs = diag.judgeToTeam;
 
@@ -117,10 +128,12 @@ export default function JudgeTeamGrouping() {
       // update the JSON viewer if you like
       setMatching(JSON.stringify(diag, null, 2));
       setShowSubmissions(true);
-      setShowMatching(true);
+      setApplyAlphaSuccess(true);
+      setError('');
     } else {
-      setMatching(res.error!);
-      setShowMatching(true);
+      setError(res.error!);
+      setShowMatching(false);
+      setMatching('');
     }
   };
 
@@ -313,58 +326,11 @@ export default function JudgeTeamGrouping() {
 
   return (
     <div className={styles.body}>
-      <div>
-        <label htmlFor="alphaInput" style={{ paddingLeft: 5, marginLeft: 10 }}>
-          Alpha value (default 4):
-        </label>
-        <input
-          id="alphaInput"
-          type="number"
-          value={alpha}
-          onChange={(e) => setAlpha(Number(e.target.value))}
-          placeholder="Alpha value (default 4)"
-          style={{ paddingLeft: 5, marginLeft: 10, marginTop: '20px' }}
-        />
-      </div>
-      <div className={styles.body}>
-        <button
-          onClick={handleMatchTeams}
-          style={{ marginTop: '10px', outline: '1px solid black' }}
-        >
-          Match Teams
-        </button>
-        <button
-          onClick={downloadCSV}
-          style={{ marginTop: '10px', outline: '1px solid black' }}
-        >
-          Download CSV
-        </button>
-      </div>
-
-      <div>
-        <h4
-          onClick={() => setShowSubmissions(!showSubmissions)}
-          style={{ cursor: 'pointer' }}
-        >
-          Submissions {showSubmissions ? '▲' : '▼'}
-        </h4>
-        {showSubmissions && (
-          <div className={styles.collapsible}>
-            <pre>{JSON.stringify(submissions, null, 2)}</pre>
-          </div>
-        )}
-      </div>
-
-      <div>
-        <h4
-          onClick={() => setShowMatching(!showMatching)}
-          style={{ cursor: 'pointer' }}
-        >
-          Match Data {showMatching ? '▲' : '▼'}
-        </h4>
-        {showMatching && (
-          <div className={styles.collapsible}>
-            <pre>{matching}</pre>
+      <div className="flex items-center gap-4">
+        <h4 style={{ cursor: 'pointer' }}>Error</h4>
+        {error && (
+          <div>
+            <pre style={{ color: 'red' }}>{error}</pre>
           </div>
         )}
       </div>
@@ -397,28 +363,6 @@ export default function JudgeTeamGrouping() {
         </button>
       </div>
 
-      {/* Charts: 1‑col on sm, 2‑cols on lg */}
-      {diagnostics && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-          <div>
-            <h4>Judge - Team Distribution vs. alpha</h4>
-            <Line data={distChartData!} options={distOptions} />
-          </div>
-          <div>
-            <h4>Match - Stats Distributions</h4>
-            <Line data={statsChartData!} options={statsOptions} />
-          </div>
-          <div>
-            <h4>Weighted Avg Match Quality vs. alpha</h4>
-            <Line data={weightedChartData!} options={weightedOptions} />
-          </div>
-          <div>
-            <h4>Median Match Quality vs. alpha</h4>
-            <Line data={medianChartData!} options={weightedOptions} />
-          </div>
-        </div>
-      )}
-
       {/* Apply one alpha’s assignments */}
       {diagnostics && (
         <div className="mt-6 flex items-center gap-4">
@@ -445,44 +389,100 @@ export default function JudgeTeamGrouping() {
           >
             Apply Matching
           </button>
+          {applyAlphaSuccess && (
+            <p style={{ color: 'green' }}>
+              Saving for Selected Alpha Successful!
+            </p>
+          )}
         </div>
       )}
 
-      <form action={scoreAction}>
+      {/* Charts: 1‑col on sm, 2‑cols on lg */}
+      {diagnostics && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          <div>
+            <h4>Judge - Team Distribution vs. alpha</h4>
+            <Line data={distChartData!} options={distOptions} />
+          </div>
+          <div>
+            <h4>Match - Stats Distributions</h4>
+            <Line data={statsChartData!} options={statsOptions} />
+          </div>
+          <div>
+            <h4>Weighted Avg Match Quality vs. alpha</h4>
+            <Line data={weightedChartData!} options={weightedOptions} />
+          </div>
+          <div>
+            <h4>Median Match Quality vs. alpha</h4>
+            <Line data={medianChartData!} options={weightedOptions} />
+          </div>
+        </div>
+      )}
+
+      <div>
+        <h4
+          onClick={() => setShowSubmissions(!showSubmissions)}
+          style={{ cursor: 'pointer' }}
+        >
+          Submissions {showSubmissions ? '▲' : '▼'}
+        </h4>
+        {showSubmissions && (
+          <div className={styles.collapsible}>
+            <pre>{JSON.stringify(submissions, null, 2)}</pre>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h4
+          onClick={() => setShowMatching(!showMatching)}
+          style={{ cursor: 'pointer' }}
+        >
+          Match Data {showMatching ? '▲' : '▼'}
+        </h4>
+        {showMatching && (
+          <div className={styles.collapsible}>
+            <pre>{matching}</pre>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h4 style={{ marginTop: '50px' }}> Old Method, single alpha value ↓</h4>
+        <label htmlFor="alphaInput" style={{ paddingLeft: 5, marginLeft: 10 }}>
+          Alpha value (default 4):
+        </label>
+        <input
+          id="alphaInput"
+          type="number"
+          value={alpha}
+          onChange={(e) => setAlpha(Number(e.target.value))}
+          placeholder="Alpha value (default 4)"
+          style={{ paddingLeft: 5, marginLeft: 10, marginTop: '20px' }}
+        />
+      </div>
+      <div className={styles.body}>
         <button
-          type="submit"
+          onClick={handleMatchTeams}
           style={{ marginTop: '10px', outline: '1px solid black' }}
         >
-          Score Teams
+          Match Teams
         </button>
-        {trackResults !== null
-          ? Object.values(trackResults).map((result: any) => (
-              <div key={result.track}>
-                <h4>{result.track}</h4>
-                {result.topEntries.map((entry: any, i: any) => (
-                  <div key={i} className={styles.score}>
-                    <p>
-                      Team No. {entry.number}, {entry.name}, {entry.score}
-                    </p>
-                    <p>Comments:</p>
-                    <ul>
-                      {entry.comments.map(
-                        (comment: any, i: any) =>
-                          comment !== undefined && <li key={i}>{comment}</li>
-                      )}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            ))
-          : ''}
-      </form>
+        <button
+          onClick={downloadCSV}
+          style={{ marginTop: '10px', outline: '1px solid black' }}
+        >
+          Download CSV (only for above matchData Button)
+        </button>
+      </div>
 
       <div className={styles.delete}>
         <button
           onClick={async () => {
             await deleteManySubmissions();
+            setShowMatching(true);
             setMatching('Submissions deleted');
+            setError('Submissions deleted');
           }}
           className={styles.deleteButton}
         >
