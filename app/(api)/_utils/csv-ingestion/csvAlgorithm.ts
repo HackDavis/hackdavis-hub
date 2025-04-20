@@ -3,8 +3,13 @@ import trackData from '@data/db_validation_data.json' assert { type: 'json' };
 import { Readable } from 'stream';
 import ParsedRecord from '@typeDefs/parsedRecord';
 
+const filteredTracks = [
+  'Best Hack for Social Good',
+  "Hacker's Choice Award",
+  'NA',
+];
 const validTracks: string[] = trackData.tracks.filter(
-  (t) => t !== 'Best Hack for Social Good'
+  (t) => !filteredTracks.includes(t)
 );
 
 function sortTracks(
@@ -13,30 +18,35 @@ function sortTracks(
   track3: string,
   chosentracks: string
 ): string[] {
-  let tracksInOrder: string[] = [track1, track2, track3];
+  const initialTracks = [track1, track2, track3]
+    .map((t) => t.trim())
+    .filter(
+      (t) => validTracks.includes(t) && t !== 'Best Hack for Social Good'
+    ); // explicitly filter it out
+
+  const existingTrackSet = new Set(initialTracks);
 
   if (chosentracks.length > 1) {
-    const otherTracks = chosentracks
+    chosentracks
       .split(',')
-      .map((track: string) => track.trim())
-      .filter(
-        (track: string) =>
-          validTracks.includes(track) && !tracksInOrder.includes(track)
-      );
-
-    const uniqueTracks = [...new Set(otherTracks)];
-
-    tracksInOrder.push(...uniqueTracks);
+      .map((t) => t.trim())
+      .forEach((track) => {
+        if (
+          validTracks.includes(track) &&
+          !existingTrackSet.has(track) &&
+          track !== 'Best Hack for Social Good' // explicitly filter it out
+        ) {
+          initialTracks.push(track);
+          existingTrackSet.add(track);
+        }
+      });
   }
 
-  if (tracksInOrder.length > 4) {
-    tracksInOrder.length = 4;
+  if (initialTracks.length > 4) {
+    initialTracks.length = 4;
   }
 
-  tracksInOrder = tracksInOrder.filter(
-    (track: string) => track !== 'NA' && validTracks.includes(track)
-  );
-  return tracksInOrder;
+  return initialTracks;
 }
 
 export default async function csvAlgorithm(
@@ -49,7 +59,7 @@ export default async function csvAlgorithm(
       const parseBlob = async () => {
         const buffer = Buffer.from(await blob.arrayBuffer());
         const stream = Readable.from(buffer.toString());
-
+        // let i = 0;
         stream
           .pipe(csv())
           .on('data', (data) => {
@@ -57,16 +67,12 @@ export default async function csvAlgorithm(
               data['Table Number'] !== '' &&
               data['Project Status'] === 'Submitted (Gallery/Visible)'
             ) {
-              const track1: string = data['Track #1 (Primary Track)'].trim();
-              const track2: string = data['Track #2'].trim();
-              const track3: string = data['Track #3'].trim();
+              const track1 = data['Track #1 (Primary Track)'] ?? '';
+              const track2 = data['Track #2'] ?? '';
+              const track3 = data['Track #3'] ?? '';
+              const optIns = data['Opt-In Prizes'] ?? '';
 
-              const tracksInOrder: string[] = sortTracks(
-                track1,
-                track2,
-                track3,
-                data['Opt-In Prizes']
-              );
+              const tracksInOrder = sortTracks(track1, track2, track3, optIns);
 
               output.push({
                 name: data['Project Title'],
