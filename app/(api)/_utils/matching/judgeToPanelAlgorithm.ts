@@ -4,10 +4,10 @@ import User from '@typeDefs/user';
 export default async function judgeToPanelAlgorithm(
   panels: Panel[],
   judges: User[],
-  maxPanelSize: number = 5
+  panelSize: number = 5
 ) {
   for (const panel of panels) {
-    if (judges.length < 2) return null;
+    if (judges.length < panelSize) return null;
 
     judges = judges.sort(
       (a, b) =>
@@ -16,7 +16,7 @@ export default async function judgeToPanelAlgorithm(
     );
 
     panel.user_ids = judges
-      .splice(0, maxPanelSize)
+      .splice(0, panelSize)
       .map((judge) => judge._id ?? '');
   }
 

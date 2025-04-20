@@ -8,7 +8,7 @@ import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
 import { HttpError } from '@utils/response/Errors';
 
-export function useJudgeSubmissions(judge_id: string) {
+export function useJudgeSubmissions(judge_id: string | undefined) {
   const [loading, setLoading] = useState<boolean>(true);
   const [submissions, setSubmissions] = useState<any>(null);
   const [teams, setTeams] = useState<any>(null);
@@ -16,7 +16,11 @@ export function useJudgeSubmissions(judge_id: string) {
   const [unscoredTeams, setUnscoredTeams] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const updateSubmissions = useCallback(async (judge_id: string) => {
+  const fetchSubmissions = useCallback(async () => {
+    setLoading(true);
+    if (judge_id === undefined) {
+      return;
+    }
     try {
       const submissionsRes = await getManySubmissions({
         judge_id: {
@@ -52,18 +56,29 @@ export function useJudgeSubmissions(judge_id: string) {
       }
 
       const rawTeams = teamsRes.body ?? [];
+      const activeTeams = rawTeams.filter((team: Team) => team.active);
       const teamsMap = Object.fromEntries(
-        rawTeams.map((team: Team) => [team._id, team])
+        activeTeams.map((team: Team) => [team._id, team])
       );
 
-      const sortedTeams = sortedSubs.map((sub: Submission) => ({
-        ...teamsMap[sub.team_id],
-        queuePosition: sub.queuePosition,
-      }));
+      const sortedTeams = sortedSubs
+        .map((sub: Submission) => {
+          if (teamsMap[sub.team_id]) {
+            return {
+              ...teamsMap[sub.team_id],
+              queuePosition: sub.queuePosition,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
 
-      const scoredSubs = sortedSubs.filter((sub: Submission) => sub.is_scored);
+      const scoredSubs = sortedSubs.filter(
+        (sub: Submission) => sub.is_scored && teamsMap[sub.team_id]
+      );
+
       const unscoredSubs = sortedSubs.filter(
-        (sub: Submission) => !sub.is_scored
+        (sub: Submission) => !sub.is_scored && teamsMap[sub.team_id]
       );
 
       const scoredTeams = scoredSubs.map((sub: Submission) => ({
@@ -91,11 +106,11 @@ export function useJudgeSubmissions(judge_id: string) {
       setError(error.message);
       setLoading(false);
     }
-  }, []);
+  }, [judge_id]);
 
   useEffect(() => {
-    updateSubmissions(judge_id);
-  }, [judge_id, updateSubmissions]);
+    fetchSubmissions();
+  }, [judge_id, fetchSubmissions]);
 
   return {
     submissions,
@@ -104,6 +119,6 @@ export function useJudgeSubmissions(judge_id: string) {
     unscoredTeams,
     loading,
     error,
-    updateSubmissions,
+    fetchSubmissions,
   };
 }

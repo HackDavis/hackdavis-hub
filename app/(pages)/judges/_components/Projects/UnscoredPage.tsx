@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import ProjectTab from './ProjectTab';
 import Team from '@typeDefs/team';
@@ -8,6 +9,9 @@ import { reportMissingProject } from '@actions/teams/reportMissingTeam';
 import styles from './UnscoredPage.module.scss';
 import ReportModal from './ReportModal';
 import EmptyState from './EmptyState';
+
+import firstFloorMap from '@public/judges/projects/lower-tabling.svg';
+import secondFloorMap from '@public/judges/projects/upper-tabling.svg';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -92,7 +96,14 @@ export default function UnscoredPage({
           />
         </svg>
       </Link>
-      <div className="flex h-[284px] bg-[#D9D9D9] rounded-[24px] mb-[20px]"></div>
+      <div className="flex bg-[#D9D9D9] rounded-[24px] mb-[20px]">
+        <div className="relative">
+          <Image src={firstFloorMap} alt="first floor map" />
+        </div>
+        <div className="relative">
+          <Image src={secondFloorMap} alt="second floor map" />
+        </div>
+      </div>
 
       <div className={styles.report_container}>
         {expandReportButton ? (

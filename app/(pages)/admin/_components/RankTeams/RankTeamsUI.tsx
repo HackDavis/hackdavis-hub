@@ -5,6 +5,7 @@ import scoreTeams from '@actions/logic/scoreTeams';
 import { getManyTeams } from '@actions/teams/getTeams';
 import { RankTeamsResults } from '@utils/scoring/rankTeams';
 import Team from '@typeDefs/team';
+import { TrackScore } from '@typeDefs/submission';
 
 import {
   Card,
@@ -21,12 +22,18 @@ import {
 import { Badge } from '@pages/_globals/components/ui/badge';
 import { Button } from '@pages/_globals/components/ui/button';
 import { Download } from 'lucide-react';
+import { getManySubmissions } from '@actions/submissions/getSubmission';
+import Submission from '@typeDefs/submission';
 
 export default function RankTeamsUI() {
   const [rankingResults, setRankingResults] = useState<RankTeamsResults | null>(
     null
   );
   const [teams, setTeams] = useState<Record<string, Team>>({});
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [questionsByTrack, setQuestionsByTrack] = useState<
+    Record<string, string[]>
+  >({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTrack, setActiveTrack] = useState<string>('');
@@ -44,6 +51,34 @@ export default function RankTeamsUI() {
             }
           });
           setTeams(teamsById);
+        }
+
+        // Get submissions to extract question data
+        const submissionsResponse = await getManySubmissions();
+        if (submissionsResponse.ok) {
+          setSubmissions(submissionsResponse.body);
+
+          // Extract unique questions for each track
+          const questions: Record<string, Set<string>> = {};
+          submissionsResponse.body.forEach((submission: Submission) => {
+            submission.scores.forEach((trackScore: TrackScore) => {
+              if (!questions[trackScore.trackName]) {
+                questions[trackScore.trackName] = new Set();
+              }
+
+              Object.keys(trackScore.rawScores).forEach((question) => {
+                questions[trackScore.trackName].add(question);
+              });
+            });
+          });
+
+          // Convert Sets to Arrays
+          const questionsByTrack: Record<string, string[]> = {};
+          Object.keys(questions).forEach((track) => {
+            questionsByTrack[track] = Array.from(questions[track]);
+          });
+
+          setQuestionsByTrack(questionsByTrack);
         }
 
         // Get ranking results
@@ -65,14 +100,47 @@ export default function RankTeamsUI() {
     fetchData();
   }, []);
 
+  // Get question scores for a specific team
+  const getQuestionScores = (trackName: string, teamId: string) => {
+    // Get all submissions for this team
+    const teamSubmissions = submissions.filter((sub) => sub.team_id === teamId);
+
+    // Initialize score map
+    const questionScores: Record<string, number> = {};
+    const questions = questionsByTrack[trackName] || [];
+
+    questions.forEach((question) => {
+      questionScores[question] = 0;
+    });
+
+    // Sum up scores from all submissions
+    teamSubmissions.forEach((submission) => {
+      const trackScore = submission.scores.find(
+        (score) => score.trackName === trackName
+      );
+      if (trackScore) {
+        Object.entries(trackScore.rawScores).forEach(([question, score]) => {
+          if (questionScores[question] !== undefined) {
+            questionScores[question] += score;
+          }
+        });
+      }
+    });
+
+    return questionScores;
+  };
+
   const exportAsCSV = () => {
     if (!rankingResults || !activeTrack) return;
 
     const trackResults = rankingResults[activeTrack];
+    const questions = questionsByTrack[activeTrack] || [];
 
     // Create CSV header
     let csvContent =
-      'Rank,Team Name,Team ID,Table Number,Team Number,Score,Comments\n';
+      'Rank,Team Name,Team ID,Table Number,Team Number,Score,' +
+      questions.join(',') +
+      ',Comments\n';
 
     // Add data rows
     trackResults.forEach((result, index) => {
@@ -82,11 +150,20 @@ export default function RankTeamsUI() {
       const teamNumber = team ? team.teamNumber : 'N/A';
       const comments = result.team.comments.join(' | ').replace(/"/g, '""');
 
+      // Get question scores
+      const questionScores = getQuestionScores(
+        activeTrack,
+        result.team.team_id
+      );
+      const questionColumns = questions
+        .map((q) => questionScores[q] || 0)
+        .join(',');
+
       csvContent += `${index + 1},"${teamName}",${
         result.team.team_id
       },${tableNumber},${teamNumber},${result.team.final_score.toFixed(
         2
-      )},"${comments}"\n`;
+      )},${questionColumns},"${comments}"\n`;
     });
 
     // Create and download the file
@@ -105,10 +182,24 @@ export default function RankTeamsUI() {
     if (!rankingResults || !activeTrack) return;
 
     const trackResults = rankingResults[activeTrack];
+    const questions = questionsByTrack[activeTrack] || [];
 
     // Create formatted data with team info
     const exportData = trackResults.map((result, index) => {
       const team = teams[result.team.team_id];
+
+      // Get question scores
+      const questionScores = getQuestionScores(
+        activeTrack,
+        result.team.team_id
+      );
+
+      // Create an object with question scores
+      const questionData: Record<string, number> = {};
+      questions.forEach((question) => {
+        questionData[question] = questionScores[question] || 0;
+      });
+
       return {
         rank: index + 1,
         team_id: result.team.team_id,
@@ -116,6 +207,7 @@ export default function RankTeamsUI() {
         table_number: team ? team.tableNumber : null,
         team_number: team ? team.teamNumber : null,
         score: result.team.final_score,
+        question_scores: questionData,
         comments: result.team.comments,
       };
     });
@@ -154,13 +246,17 @@ export default function RankTeamsUI() {
   const exportAllAsCSV = () => {
     if (!rankingResults) return;
 
-    // Create CSV header
+    // Create CSV header with all possible questions
+    const allQuestions = Object.values(questionsByTrack).flat();
     let csvContent =
-      'Track,Rank,Team Name,Team ID,Table Number,Team Number,Score,Comments\n';
+      'Track,Rank,Team Name,Team ID,Table Number,Team Number,Score,' +
+      allQuestions.join(',') +
+      ',Comments\n';
 
     // Loop through each track
     Object.keys(rankingResults).forEach((trackName) => {
       const trackResults = rankingResults[trackName];
+      const trackQuestions = questionsByTrack[trackName] || [];
 
       // Add data rows for this track
       trackResults.forEach((result, index) => {
@@ -170,11 +266,24 @@ export default function RankTeamsUI() {
         const teamNumber = team ? team.teamNumber : 'N/A';
         const comments = result.team.comments.join(' | ').replace(/"/g, '""');
 
+        // Get question scores for this team in this track
+        const questionScores = getQuestionScores(
+          trackName,
+          result.team.team_id
+        );
+
+        // Build the question columns - leaving empty cells for questions not in this track
+        const questionColumns = allQuestions
+          .map((q) =>
+            trackQuestions.includes(q) ? questionScores[q] || 0 : ''
+          )
+          .join(',');
+
         csvContent += `"${trackName}",${index + 1},"${teamName}",${
           result.team.team_id
         },${tableNumber},${teamNumber},${result.team.final_score.toFixed(
           2
-        )},"${comments}"\n`;
+        )},${questionColumns},"${comments}"\n`;
       });
     });
 
@@ -229,7 +338,7 @@ export default function RankTeamsUI() {
   const defaultTrack = trackNames[0];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold">Team Rankings</h1>
 
@@ -309,6 +418,12 @@ export default function RankTeamsUI() {
                   {rankingResults[trackName].length > 0 ? (
                     rankingResults[trackName].map((result, index) => {
                       const team = teams[result.team.team_id];
+                      const questionScores = getQuestionScores(
+                        trackName,
+                        result.team.team_id
+                      );
+                      const questions = questionsByTrack[trackName] || [];
+
                       return (
                         <div
                           key={result.team.team_id}
@@ -336,6 +451,29 @@ export default function RankTeamsUI() {
                                 Score: {result.team.final_score.toFixed(2)}
                               </Badge>
                             </div>
+
+                            {questions.length > 0 && (
+                              <div className="mt-3">
+                                <p className="text-sm font-medium text-gray-700">
+                                  Question Scores:
+                                </p>
+                                <div className="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                                  {questions.map((question) => (
+                                    <div
+                                      key={question}
+                                      className="text-sm p-2 bg-gray-50 rounded flex justify-between"
+                                    >
+                                      <span className="font-medium">
+                                        {question}:
+                                      </span>
+                                      <span>
+                                        {questionScores[question] || 0}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
 
                             {result.team.comments.length > 0 && (
                               <div className="mt-3">

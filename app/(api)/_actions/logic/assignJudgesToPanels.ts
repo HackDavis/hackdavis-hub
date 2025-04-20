@@ -7,6 +7,7 @@ import { optedHDTracks } from '@data/tracks';
 import { CreateManyPanels } from '@datalib/panels/createPanels';
 import { UpdatePanel } from '@datalib/panels/updatePanel';
 import Panel from '@typeDefs/panel';
+import { DeleteManyPanels } from '@datalib/panels/deletePanel';
 
 async function initializeEmptyPanels() {
   const panelData: Panel[] = Object.values(optedHDTracks).map((track) => ({
@@ -18,7 +19,7 @@ async function initializeEmptyPanels() {
   return JSON.parse(JSON.stringify(response));
 }
 
-export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
+export default async function assignJudgesToPanels(panelSize: number = 5) {
   const initRes = await initializeEmptyPanels();
   if (!initRes.ok) {
     initRes.error = `Failed to initialize empty panels: ${initRes.error}`;
@@ -34,7 +35,7 @@ export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
     };
   }
 
-  const judgesRes = await GetManyUsers({ role: 'judge' });
+  const judgesRes = await GetManyUsers({ role: 'judge', has_checked_in: true });
   if (!judgesRes.ok || judgesRes.body.length === 0) {
     return {
       ok: false,
@@ -46,13 +47,20 @@ export default async function assignJudgesToPanels(maxPanelSize: number = 5) {
   const response = await judgeToPanelAlgorithm(
     panelsRes.body,
     judgesRes.body,
-    maxPanelSize
+    panelSize
   );
   if (!response) {
+    console.log(response);
+    const deleteRes = await DeleteManyPanels();
+    console.log(deleteRes);
     return {
       ok: false,
       body: response,
-      error: `Not enough judges for panels of size ${maxPanelSize}. Reduce maxPanelSize, delete all panels and try again.`,
+      error:
+        `Not enough judges for panels of size ${panelSize}, reduce panelSize.` +
+        (deleteRes.ok
+          ? ''
+          : 'Failed to clear collection, delete all panels before retrying'),
     };
   }
 

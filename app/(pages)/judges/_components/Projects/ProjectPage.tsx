@@ -37,9 +37,9 @@ const ProjectPage = () => {
   );
   const { data: session } = useSession();
   const user = session?.user;
-  const userId = user?.id ?? '';
+  const userId = user?.id;
 
-  const { scoredTeams, unscoredTeams, loading, error, updateSubmissions } =
+  const { scoredTeams, unscoredTeams, loading, error, fetchSubmissions } =
     useJudgeSubmissions(userId);
 
   if (loading) {
@@ -51,7 +51,7 @@ const ProjectPage = () => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#F2F2F7]">
+    <div className="flex flex-col h-full">
       <Link
         href="/judges"
         className="flex items-center ml-[20px] gap-[12px] mt-[59px]"
@@ -90,7 +90,7 @@ const ProjectPage = () => {
         ) : selectedButton === 'Unjudged' ? (
           <UnscoredPage
             teams={unscoredTeams}
-            revalidateData={() => updateSubmissions(userId)}
+            revalidateData={() => fetchSubmissions()}
           />
         ) : (
           <ScoredPage teams={scoredTeams} />

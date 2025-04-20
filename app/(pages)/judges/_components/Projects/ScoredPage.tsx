@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Team from '@typeDefs/team';
 import ProjectTab from './ProjectTab';
 import ProjectsEmptyState from './EmptyState';
@@ -17,15 +16,7 @@ const ScoredPage = ({ teams }: ScoredPageProps) => {
           }
         />
       ) : (
-        teams.map((team) => (
-          <Link
-            key={team._id}
-            href={`/judges/project/${team._id}`}
-            className="block"
-          >
-            <ProjectTab team={team} />
-          </Link>
-        ))
+        teams.map((team) => <ProjectTab key={team._id} team={team} />)
       )}
     </div>
   );
