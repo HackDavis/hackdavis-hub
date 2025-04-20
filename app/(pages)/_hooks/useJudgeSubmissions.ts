@@ -56,18 +56,29 @@ export function useJudgeSubmissions(judge_id: string | undefined) {
       }
 
       const rawTeams = teamsRes.body ?? [];
+      const activeTeams = rawTeams.filter((team: Team) => team.active);
       const teamsMap = Object.fromEntries(
-        rawTeams.map((team: Team) => [team._id, team])
+        activeTeams.map((team: Team) => [team._id, team])
       );
 
-      const sortedTeams = sortedSubs.map((sub: Submission) => ({
-        ...teamsMap[sub.team_id],
-        queuePosition: sub.queuePosition,
-      }));
+      const sortedTeams = sortedSubs
+        .map((sub: Submission) => {
+          if (teamsMap[sub.team_id]) {
+            return {
+              ...teamsMap[sub.team_id],
+              queuePosition: sub.queuePosition,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
 
-      const scoredSubs = sortedSubs.filter((sub: Submission) => sub.is_scored);
+      const scoredSubs = sortedSubs.filter(
+        (sub: Submission) => sub.is_scored && teamsMap[sub.team_id]
+      );
+
       const unscoredSubs = sortedSubs.filter(
-        (sub: Submission) => !sub.is_scored
+        (sub: Submission) => !sub.is_scored && teamsMap[sub.team_id]
       );
 
       const scoredTeams = scoredSubs.map((sub: Submission) => ({
