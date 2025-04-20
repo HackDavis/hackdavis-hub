@@ -8,6 +8,7 @@ import DoneJudging from './DoneJudging';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';
 import { nonHDTracks } from '@data/tracks';
+import AssigningJudges from './AssigningJudges';
 
 const icons = [
   '/hackers/hero/PeekingCow.svg',
@@ -43,10 +44,10 @@ export default function JudgeBanners() {
   }, [fetchTeamJudges, tableNumber]);
 
   if (!tableNumber) {
-    return <>no table number</>;
+    return <AssigningJudges />;
   }
 
-  if (loading || error) return error;
+  if (loading || error !== null) return error;
 
   const allScored = judges.every((judge: HydratedJudge) => judge.isScored);
   if (allScored) {

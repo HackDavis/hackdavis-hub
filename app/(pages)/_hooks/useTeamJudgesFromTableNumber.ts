@@ -25,7 +25,7 @@ export function useTeamJudgesFromTableNumber(tableNumber: number): any {
       const teamRes = await getManyTeams({ tableNumber });
 
       if (!teamRes.ok || (teamRes.body && teamRes.body.length !== 1)) {
-        throw new Error(teamRes.error ?? '');
+        throw new Error(teamRes.error ?? 'No team found');
       }
 
       const rawTeam = teamRes.body[0];
@@ -40,7 +40,7 @@ export function useTeamJudgesFromTableNumber(tableNumber: number): any {
       });
 
       if (!submissionsRes.ok) {
-        throw new Error(submissionsRes.error ?? '');
+        throw new Error(submissionsRes.error ?? 'No submissions found');
       }
 
       const submissions = submissionsRes.body;
@@ -58,7 +58,7 @@ export function useTeamJudgesFromTableNumber(tableNumber: number): any {
       });
 
       if (!judgesRes.ok) {
-        throw new Error(judgesRes.error ?? '');
+        throw new Error(judgesRes.error ?? 'No judges found');
       }
 
       const submissionMap = Object.fromEntries(
