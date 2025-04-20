@@ -1,30 +1,24 @@
-import { useState } from 'react';
 import styles from './JudgeBannerIndividual.module.scss';
 import Image from 'next/image';
 
 type JudgeBannerIndividualProps = {
   icon: string;
   name: string;
-  description: string;
-  teams: number;
-  onDismiss: () => void;
+  teamsAhead?: number;
+  description?: string;
+  completed: boolean;
 };
 
 export default function JudgeBannerIndividual({
-  name,
-  description,
-  teams,
   icon,
+  name,
+  teamsAhead,
+  description,
+  completed,
 }: JudgeBannerIndividualProps) {
-  const [isFinishing, setIsFinishing] = useState(false);
-
-  const handleFinish = () => {
-    setIsFinishing(true);
-  };
-
   return (
     <div
-      className={`${styles.judgeBanner} ${isFinishing ? styles.finishing : ''}`}
+      className={`${styles.judgeBanner} ${completed ? styles.finishing : ''}`}
     >
       <Image
         src={icon}
@@ -35,16 +29,12 @@ export default function JudgeBannerIndividual({
       />
       <div className={styles.info}>
         <h3>{name}</h3>
-        <p>{description}</p>
+        {teamsAhead && (
+          <p>There are {teamsAhead} teams ahead of you for this judge.</p>
+        )}
+        {description && <p>{description}</p>}
       </div>
-      <button
-        type="button"
-        className={styles.dismissButton}
-        onClick={handleFinish}
-      >
-        {/* i have it so that when u click on this part, it blurs bc i'm not sure when you want it/how you're gonna wanan link it to backend  */}
-        <h1>{teams}</h1>
-      </button>
+      <h1 className={`${completed ? styles.hidden : ''}`}>{teamsAhead}</h1>
     </div>
   );
 }
