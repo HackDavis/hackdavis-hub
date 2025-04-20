@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 // import Countdown from './Countdown';
 import styles from './IndexHeroContentJudging.module.scss';
@@ -5,38 +8,32 @@ import MusicPlayer from '../../IndexHero/MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
 // import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
-import Scroll from '../../IndexHero/Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
 import star from 'public/index/hero/star.svg';
 import Link from 'next/link';
 // import TimeTracker from '../../IndexHero/TimeTracker';
-import Notifications from '../../IndexHero/Notifications';
 import JudgeBanners from '../../IndexHero/JudgeBanners';
-import { GoArrowRight } from 'react-icons/go';
 
 export default function IndexHeroContentJudging() {
+  const [refetchJudges, setRefetchJudges] = useState(false);
+
+  const onTableConfirmation = () => {
+    setRefetchJudges(true);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
-        <div className={styles.text}>
-          <p className={styles.date}>
-            APRIL 19-20
-            <br />
-            2025
-          </p>
-          <a
-            href="https://drive.google.com/file/d/1l6fxi9jDKlleaStt4xXSgCjVg4dfQkjz/view?usp=sharing"
-            className={styles.link}
-          >
-            <p className={styles.map}>VENUE MAP</p>
-            <LuArrowUpRight size={23} />
-          </a>
-        </div>
-        {/* <JudgeBanners /> */}
-        <div className={styles.notifications}>
-          <Notifications />
-        </div>
+        <p className={styles.date}>
+          APRIL 19-20
+          <br />
+          2025
+        </p>
+        <a href="/map" className={styles.link}>
+          <p className={styles.map}>VENUE MAP</p>
+          <LuArrowUpRight size={23} />
+        </a>
       </div>
 
       <div className={styles.spacer_star_container}>
@@ -46,23 +43,7 @@ export default function IndexHeroContentJudging() {
       <div className={styles.heroRow}>
         <MusicPlayer />
         <div className={styles.center_right}>
-          <JudgeBanners />
-          <div className={styles.belowClock}>
-            <p className={styles.info}>
-              A HACKDAVIS HUB
-              <br />
-              FOR EVERYONE WHO
-              <span className={styles.monospace}>
-                {' // creates for social good'}
-              </span>
-            </p>
-            <a href="https://hackdavis-2025.devpost.com/">
-              <button className={styles.submitButton}>
-                <p>SUBMIT!</p>
-                <GoArrowRight className={styles.submitArrow} />
-              </button>
-            </a>
-          </div>
+          <JudgeBanners refetchJudges={refetchJudges} />
         </div>
       </div>
 
@@ -72,11 +53,6 @@ export default function IndexHeroContentJudging() {
         </div>
         <div className={styles.social_good}>{'// for social good'}</div>
       </div>
-
-      <div className={styles.spacer_star_container}>
-        <Image src={star} alt="star" className={styles.spacer_star} />
-      </div>
-      <Scroll />
 
       <div className={styles.group_width}>
         <div
