@@ -12,11 +12,11 @@ export default function DoneJudging() {
           <p>CONGRATS!</p>
           <br />
           <p>
-            You’re all done, thank you so much for your participation at
+            You're all done, thank you so much for your participation at
             HackDavis 2025. Please wait until <b>Closing Ceremony</b> for
             judging results! In the meantime, put in your vote for{' '}
             <a href="/" target="_blank">
-              Hacker’s Choice Award
+              Hacker's Choice Award
             </a>{' '}
             and check out our insta <b>@hackdavis!</b>
           </p>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 type CountdownProps = {
-  targetTime: string;
+  targetTime: number;
 };
 
 const Countdown = ({ targetTime }: CountdownProps) => {
@@ -15,7 +15,7 @@ const Countdown = ({ targetTime }: CountdownProps) => {
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const difference = new Date(targetTime).getTime() - new Date().getTime();
+      const difference = targetTime - new Date().getTime();
       if (difference <= 0) {
         return { hours: 0, minutes: 0, seconds: 0 };
       }
@@ -43,26 +43,12 @@ const Countdown = ({ targetTime }: CountdownProps) => {
 };
 
 type TimeTrackerProps = {
-  targetTime?: string;
+  targetTime?: number;
 };
 
 const TimeTracker = ({ targetTime }: TimeTrackerProps) => {
-  const getNextSaturday11AM = () => {
-    const now = new Date();
-    const target = new Date(now);
-
-    let daysUntilSaturday = (6 - now.getDay() + 7) % 7;
-    if (daysUntilSaturday === 0 && now.getHours() >= 11) {
-      daysUntilSaturday = 7;
-    }
-
-    target.setDate(now.getDate() + daysUntilSaturday);
-    target.setHours(11, 0, 0, 0);
-
-    return target.toISOString();
-  };
-
-  const effectiveTargetTime = targetTime || getNextSaturday11AM();
+  const effectiveTargetTime =
+    targetTime || new Date('2025-05-01T09:00:00Z').getTime();
 
   return <Countdown targetTime={effectiveTargetTime} />;
 };

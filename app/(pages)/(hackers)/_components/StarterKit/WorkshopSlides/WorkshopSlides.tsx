@@ -23,7 +23,7 @@ export default function WorkshopSlides() {
 
         <div className={styles.Overlay}>
           <iframe
-            src="https://docs.google.com/presentation/d/e/2PACX-1vRwPegDb3tMoSINsOSQiDCdoC35qx6gojknjaKE1QyyFwjPVnGUAGB5jKtbsXT-F1paps4rOcr7gjWg/embed?start=false&loop=false&delayms=3000"
+            src="https://docs.google.com/presentation/d/e/2PACX-1vSHmljU98XbyiyjBViiWGvqeWSWXKjCx_MBRBaKsb1k7YoH8dl9_wocT4DwEc4uUU8h1eRsmXa3TMqn/pubembed?start=false&loop=false&delayms=60000"
             className={styles.Slides}
           ></iframe>
         </div>

@@ -1,6 +1,6 @@
 import StarterKitSlide from '../StarterKit/StarterKitSlide';
 import EventPosting from '../StarterKit/EventPosting/EventPosting';
-// import WorkshopSlides from '../StarterKit/WorkshopSlides/WorkshopSlides';
+import WorkshopSlides from '../StarterKit/WorkshopSlides/WorkshopSlides';
 
 export default function LetsBegin() {
   return (
@@ -13,12 +13,12 @@ export default function LetsBegin() {
           description="Join us on April 19th and hear from a panel of experienced hackers to learn about the hackathon process, how to get started with a project, and what to expect during the hackathon."
         ></EventPosting>
       </StarterKitSlide>
-      {/* <StarterKitSlide
+      <StarterKitSlide
         title="In case you missed it..."
         subtitle="HERE'S A RECAP OF THE WORKSHOP"
       >
         <WorkshopSlides />
-      </StarterKitSlide> */}
+      </StarterKitSlide>
     </div>
   );
 }

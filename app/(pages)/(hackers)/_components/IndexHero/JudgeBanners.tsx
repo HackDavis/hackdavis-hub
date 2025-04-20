@@ -1,56 +1,98 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
+import User from '@typeDefs/user';
 import styles from './JudgeBannerIndividual.module.scss';
+import DoneJudging from './DoneJudging';
+import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
+import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';
+import { nonHDTracks } from '@data/tracks';
 
-type Notification = {
-  icon: string;
-  id: number;
-  name: string;
-  description: string;
-  teams: number;
-};
+const icons = [
+  '/hackers/hero/PeekingCow.svg',
+  '/hackers/hero/PeekingBunny.svg',
+  '/hackers/hero/PeekingDuck.svg',
+  '/hackers/hero/PeekingCow.svg',
+  '/hackers/hero/PeekingBunny.svg',
+  '/hackers/hero/PeekingDuck.svg',
+];
+
+interface HydratedJudge extends User {
+  queuePosition: number;
+  isScored: boolean;
+}
 
 export default function JudgeBanners() {
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      icon: '/hackers/hero/PeekingCow.svg',
-      id: 1,
-      name: 'Judge Name',
-      description: 'There are 2 teams ahead of you for this judge.',
-      teams: 2,
-    },
-    {
-      icon: '/hackers/hero/PeekingBunny.svg',
-      id: 2,
-      name: 'Judge Name',
-      description: 'There are 3 teams ahead of you for this judge.',
-      teams: 3,
-    },
-    {
-      icon: '/hackers/hero/PeekingDuck.svg',
-      id: 3,
-      name: 'Judge Name',
-      description: 'There are 6 teams ahead of you for this judge.',
-      teams: 6,
-    },
-  ]);
+  const { storedValue: tableNumber } = useTableNumberContext();
+  const { team, judges, loading, error, fetchTeamJudges } =
+    useTeamJudgesFromTableNumber(tableNumber ?? -1);
 
-  const dismissNotification = (id: number) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
-  };
+  useEffect(() => {
+    if (tableNumber) {
+      fetchTeamJudges();
+    }
+
+    const pollingInterval = setInterval(() => {
+      if (tableNumber) {
+        fetchTeamJudges();
+      }
+    }, 60 * 1000);
+
+    return () => clearInterval(pollingInterval);
+  }, [fetchTeamJudges, tableNumber]);
+
+  if (!tableNumber) {
+    return <>no table number</>;
+  }
+
+  if (loading || error) return error;
+
+  const allScored = judges.every((judge: HydratedJudge) => judge.isScored);
+  if (allScored) {
+    return <DoneJudging />;
+  }
+
+  const teamNonHDCategories: string[] = team.tracks
+    .filter((track: string) => track in nonHDTracks)
+    .map((track: string) => nonHDTracks[track].filter);
+  const hasNonprofitTrack = teamNonHDCategories.includes('Nonprofit');
+  const hasSponsorTrack = teamNonHDCategories.includes('Sponsor');
+  const hasMLHTrack = teamNonHDCategories.includes('MLH');
 
   return (
     <div className={styles.container_position}>
-      {notifications.map((notification) => (
+      {hasNonprofitTrack && (
         <JudgeBannerIndividual
-          key={notification.id}
-          icon={notification.icon}
-          name={notification.name}
-          description={notification.description}
-          teams={notification.teams}
-          onDismiss={() => dismissNotification(notification.id)}
+          icon="/hackers/hero/PeekingCow.svg"
+          name="NPO Judge"
+          description="Since you submitted for an NPO track, you will also be visited by an NPO representative."
+          completed={false}
+        />
+      )}
+      {hasSponsorTrack && (
+        <JudgeBannerIndividual
+          icon="/hackers/hero/PeekingBunny.svg"
+          name="Sponsor Judge"
+          description="Since you submitted for a sponsor track, you will also be visited by a sponsor representative."
+          completed={false}
+        />
+      )}
+      {hasMLHTrack && (
+        <JudgeBannerIndividual
+          icon="/hackers/hero/PeekingDuck.svg"
+          name="MLH Judge"
+          description="Since you submitted for an MLH track, you will also be visited by an MLH representative."
+          completed={false}
+        />
+      )}
+      {judges.map((judge: HydratedJudge, index: number) => (
+        <JudgeBannerIndividual
+          key={judge._id}
+          icon={icons[index]}
+          name={judge.name}
+          teamsAhead={judge.queuePosition}
+          completed={judge.isScored}
         />
       ))}
     </div>
