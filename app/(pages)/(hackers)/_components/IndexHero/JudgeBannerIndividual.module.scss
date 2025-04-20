@@ -35,7 +35,7 @@
     position: absolute;         
     top: 65%;                 
     left: 0;                  
-    transform: translate(10%, -50%); 
+    transform: translate(10%, -55%); 
     height: 124px;
     width: 124px;
 
@@ -135,8 +135,10 @@
   padding: 8px 12px;
 }
 
-/* This class is added when the judge has finished, initiating the blur transition */
 .finishing {
   filter: blur(3px);
-  // opacity: 0;
+}
+
+.hidden {
+  display: none;
 }

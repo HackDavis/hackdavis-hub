@@ -16,5 +16,5 @@ export async function getSubmission(judge_id: string, team_id: string) {
 export async function getManySubmissions(query: object = {}) {
   const newQuery = await parseAndReplace(query);
   const submissions = await GetManySubmissions(newQuery);
-  return serializeMongoData(submissions);
+  return JSON.parse(JSON.stringify(submissions));
 }

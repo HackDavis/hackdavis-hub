@@ -24,6 +24,12 @@
     }
 }
 
+@mixin tablet-xl {
+    @media screen and (max-width: 900px) {
+        @content;
+    }
+}
+
 @mixin tablet-l { // tailwind md
     @media screen and (max-width: 768px) {
         @content;
