@@ -49,6 +49,10 @@ export default function JudgeBanners() {
 
   if (loading || error !== null) return error;
 
+  if (judges.length === 0) {
+    return <AssigningJudges />;
+  }
+
   const allScored = judges.every((judge: HydratedJudge) => judge.isScored);
   if (allScored) {
     return <DoneJudging />;
