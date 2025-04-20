@@ -17,6 +17,8 @@ export const CreateSubmission = async (body: any) => {
     }
     const parsedBody = await parseAndReplace(body);
 
+    console.log(parsedBody);
+
     const db = await getDatabase();
 
     const judge = await db.collection('users').findOne({
@@ -44,7 +46,6 @@ export const CreateSubmission = async (body: any) => {
     }
 
     const creationStatus = await db.collection('submissions').insertOne({
-      ...parsedBody,
       social_good: null,
       creativity: null,
       presentation: null,
@@ -52,6 +53,7 @@ export const CreateSubmission = async (body: any) => {
       comments: '',
       is_scored: false,
       queuePosition: null,
+      ...parsedBody,
     });
 
     const submission = await db.collection('submissions').findOne({
