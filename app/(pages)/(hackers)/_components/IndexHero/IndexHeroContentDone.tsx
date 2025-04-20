@@ -100,7 +100,7 @@ export default function IndexHeroContentDone() {
             <h2>
               <strong>Judging Information</strong>
             </h2>
-            <Link href={'/judging'}>
+            <Link href={'/project-info'}>
               <button className={styles.schedule_button}>
                 Read on the process
                 <LuArrowUpRight size={23} />

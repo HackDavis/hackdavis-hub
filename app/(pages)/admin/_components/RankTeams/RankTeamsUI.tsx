@@ -447,9 +447,17 @@ export default function RankTeamsUI() {
                                   </p>
                                 )}
                               </div>
-                              <Badge variant="secondary" className="ml-2">
-                                Score: {result.team.final_score.toFixed(2)}
-                              </Badge>
+                              <div className="flex flex-col items-end gap-1">
+                                <Badge variant="secondary">
+                                  Score: {result.team.final_score.toFixed(2)}
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  {result.team.submission_count}{' '}
+                                  {result.team.submission_count === 1
+                                    ? 'Judge'
+                                    : 'Judges'}
+                                </Badge>
+                              </div>
                             </div>
 
                             {questions.length > 0 && (

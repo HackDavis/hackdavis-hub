@@ -83,6 +83,7 @@ export interface RankTeamsResults {
       team_id: string;
       final_score: number;
       comments: string[];
+      submission_count: number; // Track number of submissions
     };
   }[];
 }
@@ -152,6 +153,7 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
           // - we update the score by adding it up
           const existing_team = results[track_name][existingTeamIndex];
           existing_team.team.final_score += score; // add the score up
+          existing_team.team.submission_count += 1; // increment submission count
 
           // - add the comments as well
           if (submission.comments) {
@@ -166,6 +168,7 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
               comments: submission.comments
                 ? [submission.comments]
                 : ([] as string[]),
+              submission_count: 1, // initialize submission count
             },
           });
         }
@@ -173,8 +176,17 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
     }
   }
 
-  // Sort teams by score for each track (from highest to lowest)
+  // Calculate average scores and sort teams for each track
   for (const track_name in results) {
+    // Calculate average scores
+    results[track_name].forEach((item) => {
+      if (item.team.submission_count > 0) {
+        item.team.final_score =
+          item.team.final_score / item.team.submission_count;
+      }
+    });
+
+    // Sort teams by score (from highest to lowest)
     results[track_name].sort((a, b) => b.team.final_score - a.team.final_score);
   }
 
