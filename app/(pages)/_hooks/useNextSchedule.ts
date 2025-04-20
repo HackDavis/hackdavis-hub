@@ -12,7 +12,7 @@ export interface NextEventData {
   inPersonalSchedule: boolean;
 }
 
-export default function useNextSchedule() {
+export function useNextSchedule() {
   const [nextEventData, setNextEventData] = useState<NextEventData>({
     event: null,
     attendeeCount: 0,

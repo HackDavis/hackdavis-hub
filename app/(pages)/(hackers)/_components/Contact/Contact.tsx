@@ -26,7 +26,9 @@ export default function Contact() {
             className={`${styles.blueBox} ${styles.textBox} ${styles.alignBottom}`}
           >
             <div className={styles.textContent}>
-              <button className={styles.button}>CONTACT A MENTOR</button>
+              <a href="https://discord.gg/Ba5xAtf8">
+                <button className={styles.button}>CONTACT A MENTOR</button>
+              </a>
               <p>
                 MENTORS are here to support developers and designers with any
                 technical challenges you might face during your project. Whether
@@ -48,7 +50,9 @@ export default function Contact() {
                 If you're unsure where to go or what to do, they're your go-to
                 guide.
               </p>
-              <button className={styles.button}>CONTACT A DIRECTOR</button>
+              <a href="https://discord.gg/Wu3NzsPW">
+                <button className={styles.button}>CONTACT A DIRECTOR</button>
+              </a>
             </div>
           </div>
           <div className={styles.whiteBox}>
@@ -100,7 +104,9 @@ export default function Contact() {
               MENTORS can support you with feedback in development and
               designing. Feel free to call one over!
             </p>
-            <button>CONTACT A MENTOR</button>
+            <a href="https://discord.gg/Ba5xAtf8">
+              <button>CONTACT A MENTOR</button>
+            </a>
           </div>
         </div>
 
@@ -128,7 +134,9 @@ export default function Contact() {
               DIRECTORS can help you with any questions regarding hackathon
               events, schedules, and overall logistics!
             </p>
-            <button>CONTACT A DIRECTOR</button>
+            <a href="https://discord.gg/Wu3NzsPW">
+              <button>CONTACT A DIRECTOR</button>
+            </a>
           </div>
         </div>
       </div>

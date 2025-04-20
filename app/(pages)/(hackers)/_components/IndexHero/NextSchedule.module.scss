@@ -1,0 +1,38 @@
+@use 'app/(pages)/_globals/mixins';
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+.group_width{
+    width: 100%;
+
+    p {
+        @include mixins.tablet-l{
+            font-size: 14px;
+        }
+    }
+    h2{
+        font-size: 36px;
+        font-weight: 700;
+        @include mixins.tablet-l{
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+    .star_icon_img{
+        @include mixins.tablet-l{
+            width: 16px;
+            height: 16px;
+        }
+        
+    }
+    button{
+        font-size: 18px;
+        @include mixins.tablet-l{
+            font-size: 14px;
+        }
+    }
+    h6{
+        font-size: 20px;
+        @include mixins.tablet-l{
+            font-size: 16px;
+        }
+    }
+}

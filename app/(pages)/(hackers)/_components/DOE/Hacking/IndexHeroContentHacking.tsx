@@ -1,18 +1,27 @@
+'use client';
+
 import Image from 'next/image';
-import Countdown from '../../IndexHero/Countdown';
+import { LuArrowUpRight } from 'react-icons/lu';
+import { GoArrowRight } from 'react-icons/go';
 import styles from './IndexHeroContentHacking.module.scss';
 import MusicPlayer from '../../IndexHero/MusicPlayer';
-import star_icon from '@public/hackers/hero/star.svg';
-// import cow_tada from '@public/hackers/hero/cow_tada.svg';
 import Scroll from '../../IndexHero/Scroll';
-import { LuArrowUpRight } from 'react-icons/lu';
-import star from 'public/index/hero/star.svg';
-// import NextSchedule from '../../IndexHero/NextSchedule';
-import TimeTracker from '../../IndexHero/TimeTracker';
-import { GoArrowRight } from 'react-icons/go';
+import { useRollout } from '@pages/_hooks/useRollout';
+import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 import Announcements from '../../IndexHero/Announcements';
+import NextSchedule from '../../IndexHero/NextSchedule';
+import Countdown from '../../IndexHero/Countdown';
+
+import star from 'public/index/hero/star.svg';
 
 export default function IndexHeroContentHacking() {
+  const { loading, rolloutRes, fetchRollout } = useRollout('hacking-starts');
+
+  if (loading) return null;
+  if (!rolloutRes.ok) return JSON.stringify(rolloutRes.error);
+
+  const countdownTarget = rolloutRes.body.rollout_time + 24 * 60 * 60 * 1000;
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -21,21 +30,28 @@ export default function IndexHeroContentHacking() {
           <br />
           2025
         </p>
-        <a href="/map" className={styles.link}>
-          <p className={styles.map}>ARC BALLROOM MAP</p>
+        <a
+          href="https://drive.google.com/file/d/1l6fxi9jDKlleaStt4xXSgCjVg4dfQkjz/view?usp=sharing"
+          className={styles.link}
+        >
+          <p className={styles.map}>VENUE MAP</p>
           <LuArrowUpRight size={23} />
         </a>
       </div>
-
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
-
       <div className={styles.heroRow}>
         <MusicPlayer />
         <div className={styles.center_right}>
           <div className={styles.countdown}>
-            <Countdown />
+            <ClientTimeProtectedDisplay
+              featureId="hacking-starts"
+              fallback={<Countdown />}
+              callback={() => fetchRollout('hacking-starts')}
+            >
+              <Countdown countdownTarget={countdownTarget} />
+            </ClientTimeProtectedDisplay>
           </div>
           <div className={styles.belowClock}>
             <p className={styles.info}>
@@ -46,10 +62,12 @@ export default function IndexHeroContentHacking() {
                 {' // creates for social good'}
               </span>
             </p>
-            <button className={styles.submitButton}>
-              <p>SUBMIT!</p>
-              <GoArrowRight className={styles.submitArrow} />
-            </button>
+            <a href="https://hackdavis-2025.devpost.com/">
+              <button className={styles.submitButton}>
+                <p>SUBMIT!</p>
+                <GoArrowRight className={styles.submitArrow} />
+              </button>
+            </a>
           </div>
           <div className={styles.scrollSection}>
             <Scroll />
@@ -64,37 +82,14 @@ export default function IndexHeroContentHacking() {
           <div className={styles.social_good}>{'// for social good'}</div>
         </div>
       </div>
-
       <div className={styles.spacer_star_container}>
         <Image src={star} alt="star" className={styles.spacer_star} />
       </div>
       <div className={styles.scrollDesktopSection}>
         <Scroll />
       </div>
-
+      <NextSchedule />
       <Announcements />
-
-      <div className={styles.group_width}>
-        <div
-          style={{
-            display: 'flex',
-            gap: '1%',
-            paddingBottom: '1%',
-            alignItems: 'center',
-          }}
-        >
-          <p>NEXT ON YOUR SCHEDULE</p>
-          <Image
-            src={star_icon}
-            alt="star icon"
-            className={styles.star_icon_img}
-          />
-          <div className={styles.countdown}>
-            <TimeTracker targetTime="2025-05-01T09:00:00Z" />
-          </div>
-        </div>
-        {/* <NextSchedule /> */}
-      </div>
     </div>
   );
 }
