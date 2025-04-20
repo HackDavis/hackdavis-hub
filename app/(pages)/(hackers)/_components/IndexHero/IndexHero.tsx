@@ -1,15 +1,14 @@
 import styles from './IndexHero.module.scss';
 import Image from 'next/image';
-
-import baseGrass from 'public/index/hero/grass.svg';
-import needHelpBunny from 'public/index/hero/need-help-bunny.svg';
+import baseGrass from 'public/hackers/hero/GrassDivider.svg';
+// import baseGrass from 'public/index/hero/grass.svg';
+// import needHelpBunny from 'public/index/hero/need-help-bunny.svg';
 import bigLeftCloud from 'public/index/hero/big-left-cloud.svg';
 import smallLeftCloud from 'public/index/hero/small-left-cloud.svg';
 import bigRightCloud from 'public/index/hero/big-right-cloud.svg';
 import smallRightCloud from 'public/index/hero/small-right-cloud.svg';
-import IndexHeroContent from './IndexHeroContent';
 
-export default function IndexHero() {
+export default function IndexHero({ children }: { children: React.ReactNode }) {
   return (
     <div className={styles.container}>
       <Image src={bigLeftCloud} alt="cloud" className={styles.big_left_cloud} />
@@ -28,13 +27,8 @@ export default function IndexHero() {
         alt="cloud"
         className={styles.small_right_cloud}
       />
+      <div className={styles.children}>{children}</div>
       <Image src={baseGrass} alt="base grass" className={styles.base_grass} />
-      <Image
-        src={needHelpBunny}
-        alt="need help bunny"
-        className={styles.bunny}
-      />
-      <IndexHeroContent />
     </div>
   );
 }

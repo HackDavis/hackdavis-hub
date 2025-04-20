@@ -47,8 +47,10 @@ export default function SubmissionTips() {
             className={styles.peeping_animals}
           />
           <div className={styles.devpost_submission}>
-            {/* TODO: devpost link here: */}
-            <Link href="/starter-kit" className={styles.button}>
+            <Link
+              href="https://hackdavis-2025.devpost.com/"
+              className={styles.button}
+            >
               <Image src={arrow} alt="arrow" />
               <p>
                 FOR YOUR

@@ -30,6 +30,7 @@ export default async function GenerateInvite(
 
     const hmac_sig = generateHMACSignature(data_encoded);
     const hmac_url = `${process.env.BASE_URL}/${type}/${data_encoded}&${hmac_sig}`;
+    console.log(hmac_url);
 
     return { ok: true, body: hmac_url, error: null };
   } catch (e) {

@@ -15,7 +15,7 @@ export default function MentorResources() {
               priority
             />
             <a
-              href="/"
+              href="https://discord.gg/Ba5xAtf8"
               target="_blank"
               rel="noopener noreferrer"
               className="absolute bottom-[10%] md:bottom-[15%] left-1/2 transform -translate-x-1/2 font-metropolis font-bold text-xs sm:text-lg md:text-2xl lg:text-4xl tracking-[0.02em] underline text-white z-100 hover:opacity-80 transition-opacity"
@@ -23,7 +23,6 @@ export default function MentorResources() {
               Click Here
             </a>
           </div>
-          {/* TODO: NEED TO ADD LINK */}
         </div>
       </main>
     </StarterKitSlide>
