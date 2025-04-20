@@ -53,16 +53,34 @@ export default function JudgePanelMatching() {
   return (
     <div className="flex flex-col gap-8 items-start p-16">
       <h1>Assign Judges to Panels</h1>
-      <button onClick={() => handleDeletePanels()}>Delete All Panels</button>
-      <button onClick={() => handleGetPanels()}>Get All Panels</button>
       <div className="flex gap-4">
+        <button
+          onClick={() => handleDeletePanels()}
+          className="rounded border-2 bg-yellow-400 text-bold p-4"
+        >
+          Delete All Panels
+        </button>
+        <button
+          onClick={() => handleGetPanels()}
+          className="rounded border-2 bg-yellow-400 text-bold p-4"
+        >
+          Get All Panels
+        </button>
+      </div>
+      <div className="flex gap-4 align-center justify-center">
+        <p className="py-4">Panel Size (must be less than 6): </p>
         <input
           type="number"
           value={panelSize}
           onChange={(e) => setPanelSize(parseInt(e.target.value))}
           placeholder="Panel Size"
         ></input>
-        <button onClick={() => handleAssignJudges()}>Assign Judges</button>
+        <button
+          onClick={() => handleAssignJudges()}
+          className="rounded border-2 bg-yellow-400 text-bold p-4"
+        >
+          Assign Judges
+        </button>
       </div>
       {error && <p className="text-text-error">{error}</p>}
       {panelsDeleted && <p>!! Deleted all panels RAHHHH !!</p>}
