@@ -36,7 +36,7 @@ export async function addJudgeToTeam(team_id: string, judge_id: string) {
           id: team_id,
         },
       },
-      $set: { queuePosition: numTeamsToJudge },
+      queuePosition: numTeamsToJudge,
     });
 
     if (!createRes.ok) {
@@ -169,17 +169,21 @@ export async function updateTeamWithJudges(
       );
     }
 
-    return {
-      ok: true,
-      body: {
-        updateRes,
-        createSubmissionsResList,
-        deleteSubmissionResList,
-      },
-      error: null,
-    };
+    return JSON.parse(
+      JSON.stringify({
+        ok: true,
+        body: {
+          updateRes,
+          createSubmissionsResList,
+          deleteSubmissionResList,
+        },
+        error: null,
+      })
+    );
   } catch (e) {
     const error = e as HttpError;
-    return { ok: false, body: null, error: error.message };
+    return JSON.parse(
+      JSON.stringify({ ok: false, body: null, error: error.message })
+    );
   }
 }
