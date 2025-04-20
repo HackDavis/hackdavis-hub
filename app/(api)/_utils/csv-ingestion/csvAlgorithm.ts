@@ -6,7 +6,7 @@ import ParsedRecord from '@typeDefs/parsedRecord';
 const filteredTracks = [
   'Best Hack for Social Good',
   "Hacker's Choice Award",
-  'NA',
+  'N/A',
 ];
 const validTracks: string[] = trackData.tracks.filter(
   (t) => !filteredTracks.includes(t)
