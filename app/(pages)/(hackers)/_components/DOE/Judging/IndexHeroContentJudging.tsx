@@ -16,12 +16,6 @@ import Link from 'next/link';
 import JudgeBanners from '../../IndexHero/JudgeBanners';
 
 export default function IndexHeroContentJudging() {
-  const [refetchJudges, setRefetchJudges] = useState(false);
-
-  const onTableConfirmation = () => {
-    setRefetchJudges(true);
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -43,7 +37,7 @@ export default function IndexHeroContentJudging() {
       <div className={styles.heroRow}>
         <MusicPlayer />
         <div className={styles.center_right}>
-          <JudgeBanners refetchJudges={refetchJudges} />
+          <JudgeBanners />
         </div>
       </div>
 

@@ -8,6 +8,7 @@ import { getManyTeams } from '@actions/teams/getTeams';
 import styles from './JudgeBannerIndividual.module.scss';
 import Submission from '@typeDefs/submission';
 import DoneJudging from './DoneJudging';
+import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 
 const icons = [
   '/hackers/hero/PeekingCow.svg',
@@ -23,25 +24,10 @@ interface TeamExpanded extends Team {
   submissions: Submission[];
 }
 
-interface JudgeBannersProps {
-  refetchJudges: boolean;
-}
-
-export default function JudgeBanners({ refetchJudges }: JudgeBannersProps) {
-  const [tableNumber, setTableNumber] = useState<number | null>(null);
+export default function JudgeBanners() {
   const [judges, setJudges] = useState<User[] | null>(null);
   const [submissions, setSubmissions] = useState<Submission[] | null>(null);
-
-  useEffect(() => {
-    const storedTableNumber = localStorage.getItem('tableNumber');
-    if (storedTableNumber) {
-      const parsedNumber = parseInt(storedTableNumber);
-      if (!isNaN(parsedNumber)) {
-        setTableNumber(parsedNumber);
-      }
-    }
-  }, [refetchJudges]);
-
+  const { loading, storedValue: tableNumber } = useTableNumberContext();
   useEffect(() => {
     const fetchJudges = async () => {
       try {
@@ -79,18 +65,14 @@ export default function JudgeBanners({ refetchJudges }: JudgeBannersProps) {
   }, [tableNumber]);
 
   if (submissions) {
-    let allScored = true;
-
-    for (const submission of submissions) {
-      if (!submission.is_scored) {
-        allScored = false;
-        break;
-      }
-    }
-
+    const allScored = submissions.every((sub: Submission) => sub.is_scored);
     if (allScored) {
       return <DoneJudging />;
     }
+  }
+
+  if (loading) {
+    return null;
   }
 
   return (
