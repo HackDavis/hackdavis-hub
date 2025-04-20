@@ -21,8 +21,11 @@ function sortTracks(
   const initialTracks = [track1, track2, track3]
     .map((t) => t.trim())
     .filter(
-      (t) => validTracks.includes(t) && t !== 'Best Hack for Social Good'
-    ); // explicitly filter it out
+      (t) =>
+        validTracks.includes(t) &&
+        t !== 'Best Hack for Social Good' &&
+        t !== "Hacker's Choice Award"
+    ); // explicitly filter it out again
 
   const existingTrackSet = new Set(initialTracks);
 
