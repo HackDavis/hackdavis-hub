@@ -109,7 +109,8 @@ export default function TeamForm({
     const res = await updateTeamWithJudges(
       team_id,
       { $set: body },
-      judges.body
+      // judges.body
+      data.judges
     );
 
     if (res.ok) {

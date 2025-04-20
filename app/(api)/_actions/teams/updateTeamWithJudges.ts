@@ -45,6 +45,8 @@ export async function addJudgeToTeam(team_id: string, judge_id: string) {
 
     return createRes;
   } catch (e) {
+    console.log('🚀 ~ :49 ~ addJudgeToTeam ~ e:', e);
+
     const error = e as HttpError;
     return { ok: false, body: null, error: error.message };
   }
