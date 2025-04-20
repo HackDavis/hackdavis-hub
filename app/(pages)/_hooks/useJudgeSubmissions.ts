@@ -8,7 +8,7 @@ import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
 import { HttpError } from '@utils/response/Errors';
 
-export function useJudgeSubmissions(judge_id: string) {
+export function useJudgeSubmissions(judge_id: string | undefined) {
   const [loading, setLoading] = useState<boolean>(true);
   const [submissions, setSubmissions] = useState<any>(null);
   const [teams, setTeams] = useState<any>(null);
@@ -16,7 +16,11 @@ export function useJudgeSubmissions(judge_id: string) {
   const [unscoredTeams, setUnscoredTeams] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const updateSubmissions = useCallback(async (judge_id: string) => {
+  const fetchSubmissions = useCallback(async () => {
+    setLoading(true);
+    if (judge_id === undefined) {
+      return;
+    }
     try {
       const submissionsRes = await getManySubmissions({
         judge_id: {
@@ -91,11 +95,11 @@ export function useJudgeSubmissions(judge_id: string) {
       setError(error.message);
       setLoading(false);
     }
-  }, []);
+  }, [judge_id]);
 
   useEffect(() => {
-    updateSubmissions(judge_id);
-  }, [judge_id, updateSubmissions]);
+    fetchSubmissions();
+  }, [judge_id, fetchSubmissions]);
 
   return {
     submissions,
@@ -104,6 +108,6 @@ export function useJudgeSubmissions(judge_id: string) {
     unscoredTeams,
     loading,
     error,
-    updateSubmissions,
+    fetchSubmissions,
   };
 }
