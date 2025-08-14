@@ -398,18 +398,18 @@ export default function RankTeamsUI() {
         {/* container wrapper */}
         <div className="relative mb-4">
           <TabsList className="w-full h-auto min-h-[3rem] flex overflow-x-auto overflow-y-hidden gap-2 p-4 bg-muted rounded-lg scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <TabsList className="flex w-max gap-2 h-auto min-h-[3rem] p-4 bg-muted rounded-lg">
             {trackNames.map((trackName) => (
               <TabsTrigger
                 key={trackName}
                 value={trackName}
                 className="px-4 py-3 whitespace-nowrap flex-shrink-0 min-w-fit text-sm font-medium rounded-md transition-colors hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                className="px-4 py-3 whitespace-nowrap flex-shrink-0 min-w-fit text-sm font-medium rounded-md"
               >
                 {trackName}
               </TabsTrigger>
             ))}
           </TabsList>
-          
-          {/* scroll indicators (fading effect) */}
           <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-muted to-transparent pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-muted to-transparent pointer-events-none" />
         </div>
@@ -434,9 +434,9 @@ export default function RankTeamsUI() {
                       return (
                         <div
                           key={result.team.team_id}
-                          className="flex items-start gap-4 p-4 border rounded-lg"
+                          className="flex items-start gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow"
                         >
-                          <div className="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-800 font-bold rounded-full flex items-center justify-center">
+                          <div className="flex-shrink-0 w-10 h-10 bg-blue-100 text-blue-800 font-bold rounded-full flex items-center justify-center text-lg">
                             {index + 1}
                           </div>
                           <div className="flex-grow">
@@ -455,7 +455,7 @@ export default function RankTeamsUI() {
                                 )}
                               </div>
                               <div className="flex flex-col items-end gap-1">
-                                <Badge variant="secondary">
+                                <Badge variant="secondary" className="text-lg px-3 py-1">
                                   Score: {result.team.final_score.toFixed(2)}
                                 </Badge>
                                 <Badge variant="outline" className="text-xs">
@@ -468,20 +468,19 @@ export default function RankTeamsUI() {
                             </div>
 
                             {questions.length > 0 && (
-                              <div className="mt-3">
-                                <p className="text-sm font-medium text-gray-700">
+                                <p className="text-sm font-medium text-gray-700 mb-2">
                                   Question Scores:
                                 </p>
                                 <div className="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                                   {questions.map((question) => (
                                     <div
                                       key={question}
-                                      className="text-sm p-2 bg-gray-50 rounded flex justify-between"
+                                      className="text-sm p-3 bg-gray-50 rounded-lg flex justify-between items-center"
                                     >
                                       <span className="font-medium">
                                         {question}:
                                       </span>
-                                      <span>
+                                      <span className="font-bold text-blue-600">
                                         {questionScores[question] || 0}
                                       </span>
                                     </div>
@@ -491,17 +490,18 @@ export default function RankTeamsUI() {
                             )}
 
                             {result.team.comments.length > 0 && (
-                              <div className="mt-3">
-                                <p className="text-sm font-medium text-gray-700">
+                              <div className="mt-4">
+                                <p className="text-sm font-medium text-gray-700 mb-2">
                                   Judge Comments:
                                 </p>
                                 <ul className="mt-2 space-y-2">
                                   {result.team.comments.map((comment, i) => (
                                     <li
                                       key={i}
-                                      className="text-sm p-2 bg-gray-50 rounded"
+                                      className="text-sm p-3 bg-blue-50 rounded-lg border-l-4 border-blue-200"
                                     >
                                       "{comment}"
+                                      <span className="italic">"{comment}"</span>
                                     </li>
                                   ))}
                                 </ul>
@@ -512,7 +512,7 @@ export default function RankTeamsUI() {
                       );
                     })
                   ) : (
-                    <p className="text-gray-500">
+                    <p className="text-gray-500 text-center py-8">
                       No teams ranked for this track yet.
                     </p>
                   )}
