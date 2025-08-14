@@ -395,23 +395,18 @@ export default function RankTeamsUI() {
         className="w-full"
         onValueChange={(value) => setActiveTrack(value)}
       >
-        {/* container wrapper */}
-        <div className="relative mb-4">
-          <TabsList className="w-full h-auto min-h-[3rem] flex overflow-x-auto overflow-y-hidden gap-2 p-4 bg-muted rounded-lg scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="overflow-x-auto -mx-6 px-6">
           <TabsList className="flex w-max gap-2 h-auto min-h-[3rem] p-4 bg-muted rounded-lg">
             {trackNames.map((trackName) => (
               <TabsTrigger
                 key={trackName}
                 value={trackName}
-                className="px-4 py-3 whitespace-nowrap flex-shrink-0 min-w-fit text-sm font-medium rounded-md transition-colors hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
                 className="px-4 py-3 whitespace-nowrap flex-shrink-0 min-w-fit text-sm font-medium rounded-md"
               >
                 {trackName}
               </TabsTrigger>
             ))}
           </TabsList>
-          <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-muted to-transparent pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-muted to-transparent pointer-events-none" />
         </div>
 
         {trackNames.map((trackName) => (
@@ -468,6 +463,7 @@ export default function RankTeamsUI() {
                             </div>
 
                             {questions.length > 0 && (
+                              <div className="mt-4">
                                 <p className="text-sm font-medium text-gray-700 mb-2">
                                   Question Scores:
                                 </p>
@@ -500,7 +496,6 @@ export default function RankTeamsUI() {
                                       key={i}
                                       className="text-sm p-3 bg-blue-50 rounded-lg border-l-4 border-blue-200"
                                     >
-                                      "{comment}"
                                       <span className="italic">"{comment}"</span>
                                     </li>
                                   ))}
