@@ -395,17 +395,24 @@ export default function RankTeamsUI() {
         className="w-full"
         onValueChange={(value) => setActiveTrack(value)}
       >
-        <TabsList className="flex overflow-x-auto gap-2 mb-4">
-          {trackNames.map((trackName) => (
-            <TabsTrigger
-              key={trackName}
-              value={trackName}
-              className="px-3 py-2"
-            >
-              {trackName}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        {/* container wrapper */}
+        <div className="relative mb-4">
+          <TabsList className="w-full h-auto min-h-[3rem] flex overflow-x-auto overflow-y-hidden gap-2 p-4 bg-muted rounded-lg scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            {trackNames.map((trackName) => (
+              <TabsTrigger
+                key={trackName}
+                value={trackName}
+                className="px-4 py-3 whitespace-nowrap flex-shrink-0 min-w-fit text-sm font-medium rounded-md transition-colors hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+              >
+                {trackName}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          
+          {/* scroll indicators (fading effect) */}
+          <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-muted to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-muted to-transparent pointer-events-none" />
+        </div>
 
         {trackNames.map((trackName) => (
           <TabsContent key={trackName} value={trackName} className="space-y-4">
