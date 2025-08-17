@@ -450,7 +450,10 @@ export default function RankTeamsUI() {
                                 )}
                               </div>
                               <div className="flex flex-col items-end gap-1">
-                                <Badge variant="secondary" className="text-lg px-3 py-1">
+                                <Badge
+                                  variant="secondary"
+                                  className="text-lg px-3 py-1"
+                                >
                                   Score: {result.team.final_score.toFixed(2)}
                                 </Badge>
                                 <Badge variant="outline" className="text-xs">
@@ -496,7 +499,9 @@ export default function RankTeamsUI() {
                                       key={i}
                                       className="text-sm p-3 bg-blue-50 rounded-lg border-l-4 border-blue-200"
                                     >
-                                      <span className="italic">"{comment}"</span>
+                                      <span className="italic">
+                                        "{comment}"
+                                      </span>
                                     </li>
                                   ))}
                                 </ul>
