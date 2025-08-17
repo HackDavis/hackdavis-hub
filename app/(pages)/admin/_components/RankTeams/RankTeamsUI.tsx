@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import scoreTeams from '@actions/logic/scoreTeams';
-import { getManyTeams } from '@actions/teams/getTeams';
-import { RankTeamsResults } from '@utils/scoring/rankTeams';
-import Team from '@typeDefs/team';
-import { TrackScore } from '@typeDefs/submission';
+import { useEffect, useState } from "react";
+import scoreTeams from "@actions/logic/scoreTeams";
+import { getManyTeams } from "@actions/teams/getTeams";
+import { RankTeamsResults } from "@utils/scoring/rankTeams";
+import Team from "@typeDefs/team";
+import { TrackScore } from "@typeDefs/submission";
 
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from '@pages/_globals/components/ui/card';
+} from "@pages/_globals/components/ui/card";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@pages/_globals/components/ui/tabs';
-import { Badge } from '@pages/_globals/components/ui/badge';
-import { Button } from '@pages/_globals/components/ui/button';
-import { Download } from 'lucide-react';
-import { getManySubmissions } from '@actions/submissions/getSubmission';
-import Submission from '@typeDefs/submission';
+} from "@pages/_globals/components/ui/tabs";
+import { Badge } from "@pages/_globals/components/ui/badge";
+import { Button } from "@pages/_globals/components/ui/button";
+import { Download } from "lucide-react";
+import { getManySubmissions } from "@actions/submissions/getSubmission";
+import Submission from "@typeDefs/submission";
 
 export default function RankTeamsUI() {
   const [rankingResults, setRankingResults] = useState<RankTeamsResults | null>(
-    null
+    null,
   );
   const [teams, setTeams] = useState<Record<string, Team>>({});
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -36,7 +36,7 @@ export default function RankTeamsUI() {
   >({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTrack, setActiveTrack] = useState<string>('');
+  const [activeTrack, setActiveTrack] = useState<string>("");
 
   useEffect(() => {
     async function fetchData() {
@@ -90,7 +90,7 @@ export default function RankTeamsUI() {
           setActiveTrack(Object.keys(results)[0]);
         }
       } catch (err) {
-        setError('Error fetching data. Please try again later.');
+        setError("Error fetching data. Please try again later.");
         console.error(err);
       } finally {
         setLoading(false);
@@ -116,7 +116,7 @@ export default function RankTeamsUI() {
     // Sum up scores from all submissions
     teamSubmissions.forEach((submission) => {
       const trackScore = submission.scores.find(
-        (score) => score.trackName === trackName
+        (score) => score.trackName === trackName,
       );
       if (trackScore) {
         Object.entries(trackScore.rawScores).forEach(([question, score]) => {
@@ -138,41 +138,41 @@ export default function RankTeamsUI() {
 
     // Create CSV header
     let csvContent =
-      'Rank,Team Name,Team ID,Table Number,Team Number,Score,' +
-      questions.join(',') +
-      ',Comments\n';
+      "Rank,Team Name,Team ID,Table Number,Team Number,Score," +
+      questions.join(",") +
+      ",Comments\n";
 
     // Add data rows
     trackResults.forEach((result, index) => {
       const team = teams[result.team.team_id];
-      const teamName = team ? team.name : 'Unknown Team';
-      const tableNumber = team ? team.tableNumber : 'N/A';
-      const teamNumber = team ? team.teamNumber : 'N/A';
-      const comments = result.team.comments.join(' | ').replace(/"/g, '""');
+      const teamName = team ? team.name : "Unknown Team";
+      const tableNumber = team ? team.tableNumber : "N/A";
+      const teamNumber = team ? team.teamNumber : "N/A";
+      const comments = result.team.comments.join(" | ").replace(/"/g, '""');
 
       // Get question scores
       const questionScores = getQuestionScores(
         activeTrack,
-        result.team.team_id
+        result.team.team_id,
       );
       const questionColumns = questions
         .map((q) => questionScores[q] || 0)
-        .join(',');
+        .join(",");
 
       csvContent += `${index + 1},"${teamName}",${
         result.team.team_id
       },${tableNumber},${teamNumber},${result.team.final_score.toFixed(
-        2
+        2,
       )},${questionColumns},"${comments}"\n`;
     });
 
     // Create and download the file
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `${activeTrack}_rankings.csv`);
-    link.style.visibility = 'hidden';
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${activeTrack}_rankings.csv`);
+    link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -191,7 +191,7 @@ export default function RankTeamsUI() {
       // Get question scores
       const questionScores = getQuestionScores(
         activeTrack,
-        result.team.team_id
+        result.team.team_id,
       );
 
       // Create an object with question scores
@@ -203,7 +203,7 @@ export default function RankTeamsUI() {
       return {
         rank: index + 1,
         team_id: result.team.team_id,
-        team_name: team ? team.name : 'Unknown Team',
+        team_name: team ? team.name : "Unknown Team",
         table_number: team ? team.tableNumber : null,
         team_number: team ? team.teamNumber : null,
         score: result.team.final_score,
@@ -214,12 +214,12 @@ export default function RankTeamsUI() {
 
     // Create and download the file
     const jsonContent = JSON.stringify(exportData, null, 2);
-    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const blob = new Blob([jsonContent], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `${activeTrack}_rankings.json`);
-    link.style.visibility = 'hidden';
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${activeTrack}_rankings.json`);
+    link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -231,12 +231,12 @@ export default function RankTeamsUI() {
 
     // Create and download the file with the original structure
     const jsonContent = JSON.stringify(rankingResults, null, 2);
-    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const blob = new Blob([jsonContent], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'all_rankings.json');
-    link.style.visibility = 'hidden';
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "all_rankings.json");
+    link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -249,9 +249,9 @@ export default function RankTeamsUI() {
     // Create CSV header with all possible questions
     const allQuestions = Object.values(questionsByTrack).flat();
     let csvContent =
-      'Track,Rank,Team Name,Team ID,Table Number,Team Number,Score,' +
-      allQuestions.join(',') +
-      ',Comments\n';
+      "Track,Rank,Team Name,Team ID,Table Number,Team Number,Score," +
+      allQuestions.join(",") +
+      ",Comments\n";
 
     // Loop through each track
     Object.keys(rankingResults).forEach((trackName) => {
@@ -261,39 +261,39 @@ export default function RankTeamsUI() {
       // Add data rows for this track
       trackResults.forEach((result, index) => {
         const team = teams[result.team.team_id];
-        const teamName = team ? team.name : 'Unknown Team';
-        const tableNumber = team ? team.tableNumber : 'N/A';
-        const teamNumber = team ? team.teamNumber : 'N/A';
-        const comments = result.team.comments.join(' | ').replace(/"/g, '""');
+        const teamName = team ? team.name : "Unknown Team";
+        const tableNumber = team ? team.tableNumber : "N/A";
+        const teamNumber = team ? team.teamNumber : "N/A";
+        const comments = result.team.comments.join(" | ").replace(/"/g, '""');
 
         // Get question scores for this team in this track
         const questionScores = getQuestionScores(
           trackName,
-          result.team.team_id
+          result.team.team_id,
         );
 
         // Build the question columns - leaving empty cells for questions not in this track
         const questionColumns = allQuestions
           .map((q) =>
-            trackQuestions.includes(q) ? questionScores[q] || 0 : ''
+            trackQuestions.includes(q) ? questionScores[q] || 0 : "",
           )
-          .join(',');
+          .join(",");
 
         csvContent += `"${trackName}",${index + 1},"${teamName}",${
           result.team.team_id
         },${tableNumber},${teamNumber},${result.team.final_score.toFixed(
-          2
+          2,
         )},${questionColumns},"${comments}"\n`;
       });
     });
 
     // Create and download the file
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'all_rankings.csv');
-    link.style.visibility = 'hidden';
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "all_rankings.csv");
+    link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -422,7 +422,7 @@ export default function RankTeamsUI() {
                       const team = teams[result.team.team_id];
                       const questionScores = getQuestionScores(
                         trackName,
-                        result.team.team_id
+                        result.team.team_id,
                       );
                       const questions = questionsByTrack[trackName] || [];
 
@@ -450,14 +450,17 @@ export default function RankTeamsUI() {
                                 )}
                               </div>
                               <div className="flex flex-col items-end gap-1">
-                                <Badge variant="secondary" className="text-lg px-3 py-1">
+                                <Badge
+                                  variant="secondary"
+                                  className="text-lg px-3 py-1"
+                                >
                                   Score: {result.team.final_score.toFixed(2)}
                                 </Badge>
                                 <Badge variant="outline" className="text-xs">
-                                  {result.team.submission_count}{' '}
+                                  {result.team.submission_count}{" "}
                                   {result.team.submission_count === 1
-                                    ? 'Judge'
-                                    : 'Judges'}
+                                    ? "Judge"
+                                    : "Judges"}
                                 </Badge>
                               </div>
                             </div>
@@ -496,7 +499,9 @@ export default function RankTeamsUI() {
                                       key={i}
                                       className="text-sm p-3 bg-blue-50 rounded-lg border-l-4 border-blue-200"
                                     >
-                                      <span className="italic">"{comment}"</span>
+                                      <span className="italic">
+                                        "{comment}"
+                                      </span>
                                     </li>
                                   ))}
                                 </ul>
