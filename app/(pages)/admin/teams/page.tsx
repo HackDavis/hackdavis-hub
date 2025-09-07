@@ -20,6 +20,7 @@ export default function Teams() {
   const { loading, teams, getTeams } = useTeams();
   const { data, setData } = useFormContext();
   const isEditing = Boolean(data._id);
+  const [reportedTeamsDisplay, setReportedTeamsDisplay] = useState(false);
 
   if (loading) {
     return 'loading...';
@@ -27,6 +28,10 @@ export default function Teams() {
 
   if (!teams.ok) {
     return teams.error;
+  }
+
+  function toggleReportedTeamsDisplay() {
+    setReportedTeamsDisplay(!reportedTeamsDisplay);
   }
 
   const teamData: TeamWithJudges[] = teams.body
@@ -43,6 +48,8 @@ export default function Teams() {
     value: team.judges.length,
     backgroundColor: '#9EE7E5',
   }));
+
+  const reportedTeams = teamData.filter((team) => team.reports?.length > 0);
 
   return (
     <div className={styles.container}>
@@ -65,10 +72,25 @@ export default function Teams() {
         />
         <GoSearch className={styles.search_icon} />
       </div>
+      <div>
+        <div className={styles.reported_teams_container}>
+          <button onClick={toggleReportedTeamsDisplay}> {reportedTeamsDisplay ? "v" : ">"} </button>
+          <h3 className={styles.page_title}> Reported Teams</h3>
+        </div>
+        <div className={styles.reports_container}>
+          {reportedTeamsDisplay &&
+            reportedTeams.map((team) => (
+              <div className={styles.report_container} key={team._id}>
+                <a href={`#${team._id}`}>{team.name}</a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
       <div className={styles.data_portion}>
         <div className={styles.teams_list}>
           {teamData.map((team: TeamWithJudges) => (
-            <div className={styles.team_card_wrapper} key={team._id}>
+            <div id={team._id} className={styles.team_card_wrapper} key={team._id}>
               <TeamCard team={team} onEditClick={() => setData(team)} />
             </div>
           ))}
