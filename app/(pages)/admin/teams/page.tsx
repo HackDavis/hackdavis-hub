@@ -75,7 +75,7 @@ export default function Teams() {
       <div>
         <div className={styles.reported_teams_container}>
           <button onClick={toggleReportedTeamsDisplay}> {reportedTeamsDisplay ? "v" : ">"} </button>
-          <h3 className={styles.page_title}> Reported Teams</h3>
+          <h2 className={styles.action_header}> Reported Teams</h2>
         </div>
         <div className={styles.reports_container}>
           {reportedTeamsDisplay &&
