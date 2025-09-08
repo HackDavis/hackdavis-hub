@@ -1,4 +1,5 @@
 import NextAuth, { DefaultSession } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 import 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
 import { compare } from 'bcryptjs';
@@ -79,6 +80,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+          scope: 'openid email profile',
+        },
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -95,6 +108,24 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       session.user.role = token.role;
       return session;
     },
+    async signIn({ account, profile }) {
+      if (!account || !profile?.email) {
+        console.log('[NextAuth] Missing account or profile', { account, profile });
+        return false;
+      }
+      if (account?.provider === 'google' && profile?.email) {
+        const response = await GetManyUsers({ email: profile.email });
+        if (!response.ok || response.body.length === 0) {
+          console.log(`[NextAuth] Google login denied, user not found: ${profile.email}`);
+          return false; // Deny sign-in if user not in DB
+        }
+
+        console.log(`[NextAuth] Google login allowed for: ${profile.email}`);
+        return true;
+      }
+
+    return true; // allow sign-in
+  },
   },
   secret: process.env.AUTH_SECRET,
 });

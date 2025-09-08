@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import LoginAction from '@actions/auth/login';
 import AuthForm from '@components/AuthForm/AuthForm';
+import { signIn } from 'next-auth/react';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -33,7 +34,12 @@ export default function LoginForm() {
     },
   ];
 
+  const handleGoogleLogin = async () => {
+    await signIn('google', { callbackUrl: '/' });
+  };
+
   return (
+    <div>
     <AuthForm
       role="hacker"
       fields={formFields}
@@ -47,5 +53,20 @@ export default function LoginForm() {
       onSubmit={onSubmit}
       onSuccess={onSuccess}
     />
+    <button
+        onClick={handleGoogleLogin}
+        style={{
+          marginTop: '1rem',
+          padding: '0.75rem 1.5rem',
+          backgroundColor: '#4285F4',
+          color: '#fff',
+          borderRadius: '6px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+        }}
+      >
+        Sign in with Google
+      </button>
+    </div>
   );
 }
