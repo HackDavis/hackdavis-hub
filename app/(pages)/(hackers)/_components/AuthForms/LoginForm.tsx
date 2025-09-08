@@ -40,20 +40,20 @@ export default function LoginForm() {
 
   return (
     <div>
-    <AuthForm
-      role="hacker"
-      fields={formFields}
-      buttonText="Log in →"
-      linkText="Forgot Password?"
-      linkHref="/login/forgot-password"
-      initialValues={{
-        email: '',
-        password: '',
-      }}
-      onSubmit={onSubmit}
-      onSuccess={onSuccess}
-    />
-    <button
+      <AuthForm
+        role="hacker"
+        fields={formFields}
+        buttonText="Log in →"
+        linkText="Forgot Password?"
+        linkHref="/login/forgot-password"
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        onSubmit={onSubmit}
+        onSuccess={onSuccess}
+      />
+      <button
         onClick={handleGoogleLogin}
         style={{
           marginTop: '1rem',

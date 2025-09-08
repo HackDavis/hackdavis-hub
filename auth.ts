@@ -110,13 +110,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async signIn({ account, profile }) {
       if (!account || !profile?.email) {
-        console.log('[NextAuth] Missing account or profile', { account, profile });
+        console.log('[NextAuth] Missing account or profile', {
+          account,
+          profile,
+        });
         return false;
       }
       if (account?.provider === 'google' && profile?.email) {
         const response = await GetManyUsers({ email: profile.email });
         if (!response.ok || response.body.length === 0) {
-          console.log(`[NextAuth] Google login denied, user not found: ${profile.email}`);
+          console.log(
+            `[NextAuth] Google login denied, user not found: ${profile.email}`
+          );
           return false; // Deny sign-in if user not in DB
         }
 
@@ -124,8 +129,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return true;
       }
 
-    return true; // allow sign-in
-  },
+      return true; // allow sign-in
+    },
   },
   secret: process.env.AUTH_SECRET,
 });
