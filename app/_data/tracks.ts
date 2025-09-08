@@ -140,14 +140,6 @@ const nonHDTracks: Tracks = {
 };
 
 const automaticTracks: Tracks = {
-  'Best Hack for Social Good': {
-    name: 'Best Hack for Social Good',
-    filter: 'General',
-    prizes: ['IPad', 'JBL Speaker'],
-    images: [ipad, jblSpeaker],
-    eligibility_criteria:
-      'Encapsulate your authentic idea of "social good". All entries are automatically considered for this prize category.',
-  },
   "Hacker's Choice Award": {
     name: "Hacker's Choice Award",
     filter: 'General',
@@ -159,6 +151,14 @@ const automaticTracks: Tracks = {
 };
 
 const optedHDTracks: Tracks = {
+  'Best Hack for Social Good': {
+    name: 'Best Hack for Social Good',
+    filter: 'General',
+    prizes: ['IPad', 'JBL Speaker'],
+    images: [ipad, jblSpeaker],
+    eligibility_criteria:
+      'Encapsulate your authentic idea of "social good". All entries are automatically considered for this prize category.',
+  },
   'Most Technically Challenging Hack': {
     name: 'Most Technically Challenging Hack',
     filter: 'Technical',
