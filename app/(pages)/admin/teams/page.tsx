@@ -74,8 +74,8 @@ export default function Teams() {
       </div>
       <div>
         <div className={styles.reported_teams_container}>
-          <button onClick={toggleReportedTeamsDisplay}> 
-            {reportedTeamsDisplay ? "v" : ">"} 
+          <button onClick={toggleReportedTeamsDisplay}>
+            {reportedTeamsDisplay ? "v" : ">"}
           </button>
           <h2 className={styles.action_header}> Reported Teams</h2>
         </div>
@@ -89,14 +89,17 @@ export default function Teams() {
                   Team #{team.teamNumber}: {team.name} @ Table {team.tableNumber}
                 </a>
               </a>
-            ))
-          }
+            ))}
         </div>
       </div>
       <div className={styles.data_portion}>
         <div className={styles.teams_list}>
           {teamData.map((team: TeamWithJudges) => (
-            <div id={team._id} className={styles.team_card_wrapper} key={team._id}>
+            <div 
+            id={team._id}
+            className={styles.team_card_wrapper}
+            key={team._id}
+            >
               <TeamCard team={team} onEditClick={() => setData(team)} />
             </div>
           ))}
