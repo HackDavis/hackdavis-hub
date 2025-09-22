@@ -83,8 +83,9 @@ export default function Teams() {
           {reportedTeamsDisplay &&
             reportedTeams.map((team) => (
               <div className={styles.report_container} key={team._id}>
+                {/* prettier-ignore */}
                 <a href={`#${team._id}`}>
-                  Team #{team.teamNumber}: {team.name} @ Table {team.tableNumber}
+                  Team #{team.teamNumber}: {team.name} @Table {team.tableNumber}
                 </a>
               </div>
             ))}
