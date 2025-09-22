@@ -74,15 +74,21 @@ export default function Teams() {
       </div>
       <div>
         <div className={styles.reported_teams_container}>
-          <button onClick={toggleReportedTeamsDisplay}> {reportedTeamsDisplay ? "v" : ">"} </button>
+          <button onClick={toggleReportedTeamsDisplay}> 
+            {reportedTeamsDisplay ? "v" : ">"} 
+          </button>
           <h2 className={styles.action_header}> Reported Teams</h2>
         </div>
         <div className={styles.reports_container}>
           {reportedTeamsDisplay &&
             reportedTeams.map((team) => (
-              <div className={styles.report_container} key={team._id}>
-                <a href={`#${team._id}`}>Team #{team.teamNumber}: {team.name} @ Table {team.tableNumber}</a>
-              </div>
+              <a className={styles.report_container} 
+              key={team._id}
+              >
+                <a href={`#${team._id}`}>
+                  Team #{team.teamNumber}: {team.name} @ Table {team.tableNumber}
+                </a>
+              </a>
             ))
           }
         </div>
