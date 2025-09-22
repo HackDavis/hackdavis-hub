@@ -85,7 +85,6 @@ export default function Teams() {
               <div className={styles.report_container} key={team._id}>
                 <a href={`#${team._id}`}>
                   Team #{team.teamNumber}: {team.name} @ Table {team.tableNumber}
-                  
                 </a>
               </div>
             ))}
