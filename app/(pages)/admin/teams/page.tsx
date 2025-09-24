@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useTeams } from '@pages/_hooks/useTeams';
 import { GoSearch } from 'react-icons/go';
+import { IoAdd } from 'react-icons/io5';
+import { RxCross1 } from 'react-icons/rx';
 import TeamCard from '../_components/Teams/TeamCard';
 import Team from '@typeDefs/team';
 import User from '@typeDefs/user';
@@ -72,38 +74,60 @@ export default function Teams() {
         />
         <GoSearch className={styles.search_icon} />
       </div>
-      <div>
-        <div className={styles.reported_teams_container}>
-          <button onClick={toggleReportedTeamsDisplay}>
-            {reportedTeamsDisplay ? 'v' : '>'}
-          </button>
-          <h2 className={styles.action_header}> Reported Teams</h2>
-        </div>
-        <div className={styles.reports_container}>
-          {reportedTeamsDisplay &&
-            reportedTeams.map((team) => (
+      <div className={styles.reported_teams_container}>
+        <h2 className={styles.action_header}> Reported Teams</h2>
+        <button
+          onClick={toggleReportedTeamsDisplay}
+          style={{
+            fontSize: '1.25rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '40px',
+            height: '40px',
+            backgroundColor: reportedTeamsDisplay
+              ? 'var(--text-error)'
+              : 'var(--text-gray-light)',
+            color: reportedTeamsDisplay ? 'white' : 'black',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            border: 'none',
+          }}
+        >
+          {reportedTeamsDisplay ? <RxCross1 /> : <IoAdd />}
+        </button>
+      </div>
+      <div className={styles.reports_container}>
+        {reportedTeamsDisplay &&
+          reportedTeams
+            .sort((a, b) => (b.reports?.length || 0) - (a.reports?.length || 0))
+            .map((team) => (
               <div className={styles.report_container} key={team._id}>
-                {/* prettier-ignore */}
                 <a href={`#${team._id}`}>
-                  Team #{team.teamNumber}: {team.name} @Table {team.tableNumber}
+                  <strong style={{ color: 'var(--text-error)' }}>
+                    [{team.reports?.length}]
+                  </strong>{' '}
+                  Table {team.tableNumber}: {team.name} (Team {team.teamNumber})
                 </a>
               </div>
             ))}
-        </div>
       </div>
       <div className={styles.data_portion}>
         <div className={styles.teams_list}>
-          {teamData.map((team: TeamWithJudges) => (
-            <div
-              id={team._id}
-              className={styles.team_card_wrapper}
-              key={team._id}
-            >
-              <TeamCard team={team} onEditClick={() => setData(team)} />
-            </div>
-          ))}
+          {teamData
+            .sort((a, b) => (b.reports?.length || 0) - (a.reports?.length || 0))
+            .map((team: TeamWithJudges) => (
+              <div
+                id={team._id}
+                className={styles.team_card_wrapper}
+                key={team._id}
+              >
+                <TeamCard team={team} onEditClick={() => setData(team)} />
+              </div>
+            ))}
         </div>
         <div className={styles.bar_chart_container}>
+          <h2 className={styles.action_header}>Judge Count</h2>
           <BarChart
             data={chartData}
             lines={[{ style: 'dashed 1px red', value: 3 }]}

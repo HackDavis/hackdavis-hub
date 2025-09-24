@@ -15,7 +15,8 @@
     "seed:windows": "node --env-file=\".\\.env\" \".\\scripts\\dbSeed.mjs\"",
     "test": "run-script-os",
     "test:nix": "echo 'module.exports = { presets: [[\"@babel/preset-env\"]] };' > babel.config.js && npx jest --detectOpenHandles && rm babel.config.js",
-    "test:windows": "echo module.exports = { presets: [['@babel/preset-env']] }; > babel.config.js && npx jest --detectOpenHandles && rm babel.config.js"
+    "test:windows": "echo module.exports = { presets: [['@babel/preset-env']] }; > babel.config.js && npx jest --detectOpenHandles && rm babel.config.js",
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
