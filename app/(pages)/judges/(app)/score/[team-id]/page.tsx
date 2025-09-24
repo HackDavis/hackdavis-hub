@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './page.module.scss';
 import ScoringForm from '@components/ScoringForm/ScoringForm';
 import Loader from '@components/Loader/Loader';
@@ -13,15 +13,19 @@ import { useTeam } from '@hooks/useTeam';
 import leftArrow from '@public/judges/scoring/left-arrow.svg';
 
 interface ScoringFormProps {
-  params: {
+  params: Promise<{
     'team-id': string;
-  };
+  }>;
 }
 
 export default function ScoreTeam({ params }: ScoringFormProps) {
   const [showInfo, setShowInfo] = useState(false);
-  const { submission, loading: subLoading } = useSubmission(params['team-id']);
-  const { team, loading: teamLoading } = useTeam(params['team-id']);
+  const [teamId, setTeamId] = useState<string>('');
+  useEffect(() => {
+    params.then((p) => setTeamId(p['team-id']));
+  }, [params]);
+  const { submission, loading: subLoading } = useSubmission(teamId);
+  const { team, loading: teamLoading } = useTeam(teamId);
   const loading = subLoading || teamLoading;
 
   if (loading) {
