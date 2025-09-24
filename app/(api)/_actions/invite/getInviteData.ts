@@ -12,7 +12,8 @@ export async function getInviteData() {
   if (noUsers) {
     return null;
   } else {
-    const data = cookies().get('data');
+    const cookieStore = await cookies();
+    const data = cookieStore.get('data');
     if (!data) return null;
 
     const dataJson = atob(data.value);

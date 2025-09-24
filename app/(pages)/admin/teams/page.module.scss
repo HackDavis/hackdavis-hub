@@ -82,3 +82,29 @@ $data-gap: 24px;
 .action_header {
     font-size: 1.75rem;
 }
+
+.reported_teams_container {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.reports_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 4px;
+
+    @include desktop-m {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.report_container {
+    font-size: 0.9rem;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--text-gray-light);
+    box-shadow: 0px 4px 8px 4px rgba(195, 194, 194, 0.08);
+}

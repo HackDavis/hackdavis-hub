@@ -4,9 +4,9 @@ import { auth } from '@/auth';
 import { HttpError, NotAuthenticatedError } from '@utils/response/Errors';
 
 export default function authenticated(
-  handler: (request: NextRequest, params: any) => Promise<NextResponse>
+  handler: (request: NextRequest, params?: any) => Promise<NextResponse>
 ) {
-  return async (request: NextRequest, params: object) => {
+  return async (request: NextRequest, params?: any) => {
     try {
       const session = await auth();
       if (!session) {

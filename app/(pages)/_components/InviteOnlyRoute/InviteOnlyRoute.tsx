@@ -8,8 +8,9 @@ export default async function InviteOnlyRoute({
 }: {
   children: React.ReactNode;
 }) {
-  const data = cookies().get('data');
-  const sig = cookies().get('sig');
+  const cookieStore = await cookies();
+  const data = cookieStore.get('data');
+  const sig = cookieStore.get('sig');
 
   const users = await getManyUsers();
   const noUsers = users.body.length === 0;

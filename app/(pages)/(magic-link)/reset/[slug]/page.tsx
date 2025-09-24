@@ -5,13 +5,18 @@ import { useRouter } from 'next/navigation';
 import { processInvite } from '@actions/invite/processInvite';
 import Loader from '@pages/_components/Loader/Loader';
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const router = useRouter();
   const [valid, setValid] = useState(true);
 
   useEffect(() => {
     const handleReset = async () => {
-      if (await processInvite(params.slug)) {
+      const resolvedParams = await params;
+      if (await processInvite(resolvedParams.slug)) {
         setValid(true);
         router.push('/reset-password');
       } else {
