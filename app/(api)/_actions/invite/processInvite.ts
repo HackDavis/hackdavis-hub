@@ -10,8 +10,9 @@ export async function processInvite(slug: string) {
     const data = slugComponents[0];
     const sig = slugComponents[1];
 
-    cookies().set('data', data, { httpOnly: true });
-    cookies().set('sig', sig, { httpOnly: true });
+    const cookieStore = await cookies();
+    cookieStore.set('data', data, { httpOnly: true });
+    cookieStore.set('sig', sig, { httpOnly: true });
 
     return true;
   }
