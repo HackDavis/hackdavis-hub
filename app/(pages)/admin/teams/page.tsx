@@ -125,6 +125,17 @@ export default function Teams() {
                 <TeamCard team={team} onEditClick={() => setData(team)} />
               </div>
             ))}
+          {teamData
+            .sort((a, b) => (b.reports?.length || 0) - (a.reports?.length || 0))
+            .map((team: TeamWithJudges) => (
+              <div
+                id={team._id}
+                className={styles.team_card_wrapper}
+                key={team._id}
+              >
+                <TeamCard team={team} onEditClick={() => setData(team)} />
+              </div>
+            ))}
         </div>
         <div className={styles.bar_chart_container}>
           <h2 className={styles.action_header}>Judge Count</h2>
