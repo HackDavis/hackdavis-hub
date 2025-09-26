@@ -117,7 +117,10 @@ export default function Teams() {
       <div className={styles.data_portion}>
         <div className={styles.teams_list}>
           {teamData
-            .sort((a, b) => (b.reports?.length || 0) - (a.reports?.length || 0))
+            .sort((a, b) => {
+              if (a.active !== b.active) return b.active ? 1 : -1;
+              return (b.reports?.length || 0) - (a.reports?.length || 0);
+            })
             .map((team: TeamWithJudges) => (
               <div
                 id={team._id}
