@@ -216,7 +216,7 @@ export default function JudgeForm({
         itemRenderer={({ key, item, deleteItem, shiftUp, shiftDown }) => {
           return (
             <div key={key} className={styles.team_card_wrapper}>
-              {/* <TeamCard team={item} editable={false} /> */}
+              <TeamCard team={item} editable={false} />
               <div className={styles.team_card_list_options}>
                 <div className={styles.trash_icon} onClick={deleteItem}>
                   <IoTrashOutline />
