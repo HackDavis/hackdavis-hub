@@ -49,10 +49,16 @@ export default function JudgeForm({
     teams.body.map((team: any) => [team._id, team])
   );
 
-  if (data?._id) {
-    data.teams = data.teams.map((team: any) => {
-      return teamMap[team._id];
-    });
+  if (data?._id && data.teams) {
+    data.teams = data.teams
+      .map((team: any) => {
+        // Handle case where team might be just an ID string or already be a full team object
+        if (typeof team === 'string') {
+          return teamMap[team] || team;
+        }
+        return team._id ? teamMap[team._id] || team : team;
+      })
+      .filter(Boolean); // Remove any undefined teams
   }
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,6 +97,11 @@ export default function JudgeForm({
           validation: (has_checked_in: any) =>
             has_checked_in === true || has_checked_in === false,
         },
+        {
+          field: 'opted_into_panels',
+          validation: (opted_into_panels: any) =>
+            opted_into_panels === true || opted_into_panels === false,
+        },
       ];
 
       verificationList.forEach(({ field, validation }) => {
@@ -104,13 +115,23 @@ export default function JudgeForm({
       return;
     }
 
-    const { _id, name, email, role, specialties, teams, has_checked_in } = data;
+    const {
+      _id,
+      name,
+      email,
+      role,
+      specialties,
+      teams,
+      has_checked_in,
+      opted_into_panels,
+    } = data;
     const body = {
       name,
       email,
       role,
       specialties,
       has_checked_in,
+      opted_into_panels,
     };
 
     const res = await updateJudgeWithTeams(_id, { $set: body }, teams);
@@ -195,7 +216,7 @@ export default function JudgeForm({
         itemRenderer={({ key, item, deleteItem, shiftUp, shiftDown }) => {
           return (
             <div key={key} className={styles.team_card_wrapper}>
-              <TeamCard team={item} editable={false} />
+              {/* <TeamCard team={item} editable={false} /> */}
               <div className={styles.team_card_list_options}>
                 <div className={styles.trash_icon} onClick={deleteItem}>
                   <IoTrashOutline />
@@ -226,6 +247,16 @@ export default function JudgeForm({
         label="checked in"
         value={data.has_checked_in}
         updateValue={(value: any) => updateField('has_checked_in', value)}
+        width="400px"
+        options={[
+          { option: 'true', value: true },
+          { option: 'false', value: false },
+        ]}
+      />
+      <DropdownInput
+        label="opted into panels"
+        value={data.opted_into_panels}
+        updateValue={(value: any) => updateField('opted_into_panels', value)}
         width="400px"
         options={[
           { option: 'true', value: true },
