@@ -6,6 +6,7 @@ import { optedHDTracks, nonHDTracks } from '@data/tracks';
 
 import { GetManyUsers } from '@datalib/users/getUser';
 import { GetManyTeams } from '@datalib/teams/getTeam';
+import { GetJudgeToTeamPairings } from '@datalib/judgeToTeam/getJudgeToTeamPairings';
 
 interface Judge {
   user: User;
@@ -66,7 +67,7 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
   const teamMatchQualities: { [teamId: string]: number[] } = {};
   const teamJudgeDomainTypes: { [teamId: string]: string[] } = {};
 
-  const rounds = 3;
+  const rounds = 2;
   const ALPHA = options?.alpha ?? 4;
   // Fetch all checked in judges.
   const judgesResponse = await GetManyUsers({
@@ -157,6 +158,16 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       .filter((team) => team.tracks.length < rounds)
       .map((team) => [team._id ?? '', rounds - team.tracks.length])
   );
+
+  // Get previous pairings
+  const previousPairings = await GetJudgeToTeamPairings();
+  if (previousPairings.ok) {
+    const isSecondRound = previousPairings.body.length !== 0 ? true : false;
+  } else {
+    console.log(previousPairings.error);
+    const isSecondRound = false; 
+  }
+
   // Main loop: process each team for each round.
   for (let domainIndex = 0; domainIndex < rounds; domainIndex++) {
     for (const team of modifiedTeams) {
