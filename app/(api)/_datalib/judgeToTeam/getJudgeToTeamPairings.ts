@@ -19,8 +19,10 @@ export const GetJudgeToTeamPairings = async () => {
         }));
         // erm im not sure if i did this right??
 
-        return { ok: true, body: pairings as JudgeToTeam[], error: null}; 
+        return { ok: true, body: pairings as JudgeToTeam[], error: null}; // um not sure if the format in the db is the exact same as the judgetoteam??
+    } catch (e) {
         const error = e as HttpError;
         return { ok: false, body: null, error: error.message };
     }
 }
+
