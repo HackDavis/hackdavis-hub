@@ -30,30 +30,17 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       - name: Lint and build code, then publish to Vercel
-        run: >
-          npx vercel
-          --token ${{ secrets.VERCEL_TOKEN }}
-          -n ${{ vars.VERCEL_PROJECT }}
-          --yes
-          --prod
-          --env MONGODB_URI=${{ secrets.MONGODB_URI }}
-          --env BASE_URL=${{ vars.ENV_URL }}
-          --env AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-          --env HMAC_INVITE_SECRET=${{ secrets.HMAC_INVITE_SECRET }}
-          --env INVITE_TIMEOUT=${{ vars.INVITE_TIMEOUT }}
-          --env RESET_TIMEOUT=${{ vars.RESET_TIMEOUT }}
-          --env SENDER_EMAIL=${{ vars.SENDER_EMAIL }}
-          --env SENDER_PWD=${{ secrets.SENDER_PWD }}
-          --env CHECK_IN_CODE=${{ secrets.CHECK_IN_CODE }}
-          --build-env MONGODB_URI=${{ secrets.MONGODB_URI }}
-          --build-env BASE_URL=${{ vars.ENV_URL }}
-          --build-env AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-          --build-env HMAC_INVITE_SECRET=${{ secrets.HMAC_INVITE_SECRET }}
-          --build-env INVITE_TIMEOUT=${{ vars.INVITE_TIMEOUT }}
-          --build-env RESET_TIMEOUT=${{ vars.RESET_TIMEOUT }}
-          --build-env SENDER_EMAIL=${{ vars.SENDER_EMAIL }}
-          --build-env SENDER_PWD=${{ secrets.SENDER_PWD }}
-          --build-env CHECK_IN_CODE=${{ secrets.CHECK_IN_CODE }}
+        run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} -n ${{ vars.VERCEL_PROJECT }} --yes --prod
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          BASE_URL: ${{ vars.ENV_URL }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          HMAC_INVITE_SECRET: ${{ secrets.HMAC_INVITE_SECRET }}
+          INVITE_TIMEOUT: ${{ vars.INVITE_TIMEOUT }}
+          RESET_TIMEOUT: ${{ vars.RESET_TIMEOUT }}
+          SENDER_EMAIL: ${{ vars.SENDER_EMAIL }}
+          SENDER_PWD: ${{ secrets.SENDER_PWD }}
+          CHECK_IN_CODE: ${{ secrets.CHECK_IN_CODE }}
 
       - name: Success
         run: echo "🚀  Deploy successful - BLAST OFF WOO! (woot woot) !!! 🐕 🐕 🐕 🚀 "
