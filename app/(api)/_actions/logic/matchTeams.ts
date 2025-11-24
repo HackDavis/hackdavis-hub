@@ -11,7 +11,7 @@ import checkMatches from '@actions/logic/checkMatches';
 export default async function matchTeams(
   options: { alpha: number } = { alpha: 4 }
 ) {
-  const submissionsResponse = await GetManySubmissions();
+  /*const submissionsResponse = await GetManySubmissions();
   if (
     submissionsResponse.ok &&
     submissionsResponse.body &&
@@ -23,7 +23,7 @@ export default async function matchTeams(
       error:
         'Submissions collection is not empty. Please clear submissions before matching teams.',
     };
-  }
+  }*/
 
   // Generate submissions based on judge-team assignments.
   const teamsRes = await GetManyTeams();
@@ -46,10 +46,11 @@ export default async function matchTeams(
     }
     const res = await CreateManySubmissions(parsedJudgeToTeam);
     if (!res.ok) {
+      console.log(`${res.error}`);
       return {
         ok: false,
         body: null,
-        error: 'Invalid submissions.',
+        error: 'Invalid submissions.1',
       };
     }
     // for (const submission of parsedJudgeToTeam) {
@@ -65,7 +66,7 @@ export default async function matchTeams(
     return {
       ok: false,
       body: null,
-      error: 'Invalid submissions.',
+      error: 'Invalid submissions.2',
     };
   }
   return {
