@@ -14,8 +14,8 @@ export const GetJudgeToTeamPairings = async () => {
             .toArray();
         
         const pairings = submissions.map((submission: Submission) => ({ 
-            judge_id: submission.judge_id, 
-            team_id: submission.team_id
+            judge_id: String(submission.judge_id), 
+            team_id: String(submission.team_id)
         }));
         // erm im not sure if i did this right??
 

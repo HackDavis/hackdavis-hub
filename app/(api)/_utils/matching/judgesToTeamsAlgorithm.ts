@@ -182,8 +182,8 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       for (const judge of judgesQueue) {
         const duplicateExists = judgeToTeam.some(
           (entry) =>
-            entry.judge_id === judge.user._id?.toString() &&
-            entry.team_id === team._id?.toString()
+            String(entry.judge_id) === judge.user._id?.toString() &&
+            String(entry.team_id) === team._id?.toString()
         );
         if (!duplicateExists) {
           selectedJudge = judge;
