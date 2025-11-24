@@ -5,7 +5,7 @@ import matchAllTeams from '@utils/matching/judgesToTeamsAlgorithm';
 import parseAndReplace from '@utils/request/parseAndReplace';
 import { GetManyTeams } from '@datalib/teams/getTeam';
 import { CreateManySubmissions } from '@datalib/submissions/createSubmission';
-import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
+//import { GetManySubmissions } from '@datalib/submissions/getSubmissions';
 import checkMatches from '@actions/logic/checkMatches';
 
 export default async function matchTeams(
