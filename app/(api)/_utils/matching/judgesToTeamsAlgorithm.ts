@@ -161,7 +161,7 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
 
   // Get previous pairings and push it to the judgeToTeam array (so that it triggers duplicate exists??)
   const previousPairings = await GetJudgeToTeamPairings();
-  if (previousPairings.body) {
+  if (previousPairings.ok && previousPairings.body) {
     //const isSecondRound = previousPairings.body.length !== 0 ? true : false; // theres a red line??
     judgeToTeam.push(...previousPairings.body);
   } else {
