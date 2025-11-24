@@ -17,9 +17,8 @@ export const GetJudgeToTeamPairings = async () => {
             judge_id: String(submission.judge_id), 
             team_id: String(submission.team_id)
         }));
-        // erm im not sure if i did this right??
 
-        return { ok: true, body: pairings as JudgeToTeam[], error: null}; // um not sure if the format in the db is the exact same as the judgetoteam??
+        return { ok: true, body: pairings as JudgeToTeam[], error: null}; 
     } catch (e) {
         const error = e as HttpError;
         return { ok: false, body: null, error: error.message };

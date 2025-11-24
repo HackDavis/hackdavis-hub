@@ -159,14 +159,12 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       .map((team) => [team._id ?? '', rounds - team.tracks.length])
   );
 
-  // Get previous pairings and push it to the judgeToTeam array (so that it triggers duplicate exists??)
+  // Get previous pairings and push it to the judgeToTeam array (so that !duplicateExists is true)
   const previousPairings = await GetJudgeToTeamPairings();
   if (previousPairings.ok && previousPairings.body) {
-    //const isSecondRound = previousPairings.body.length !== 0 ? true : false; // theres a red line??
     judgeToTeam.push(...previousPairings.body);
   } else {
     console.log(previousPairings.error);
-    //const isSecondRound = false; 
   }
 
   // Main loop: process each team for each round.
@@ -224,7 +222,7 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
     shuffleArray(modifiedTeams);
   }
 
-  // Remove the previous pairings??
+  // Remove the previous pairings
   if (previousPairings.body) {
     judgeToTeam.splice(0, previousPairings.body.length);
   }
