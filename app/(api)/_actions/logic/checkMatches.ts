@@ -4,7 +4,7 @@ export default function checkMatches(
   matches: Submission[],
   teamsLength: number
 ) {
-  if (matches.length < 3 * teamsLength) return false;
+  if (matches.length < 2 * teamsLength) return false;
 
   let valid = true;
   const mp: Map<string, number> = new Map();
@@ -18,7 +18,7 @@ export default function checkMatches(
   }
 
   mp.forEach((count) => {
-    if (count !== 3) valid = false;
+    if (count !== 2) valid = false;
   });
 
   return valid;

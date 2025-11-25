@@ -6,6 +6,7 @@ import { optedHDTracks, nonHDTracks } from '@data/tracks';
 
 import { GetManyUsers } from '@datalib/users/getUser';
 import { GetManyTeams } from '@datalib/teams/getTeam';
+import { GetJudgeToTeamPairings } from '@datalib/judgeToTeam/getJudgeToTeamPairings';
 
 interface Judge {
   user: User;
@@ -66,7 +67,7 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
   const teamMatchQualities: { [teamId: string]: number[] } = {};
   const teamJudgeDomainTypes: { [teamId: string]: string[] } = {};
 
-  const rounds = 3;
+  const rounds = 2;
   const ALPHA = options?.alpha ?? 4;
   // Fetch all checked in judges.
   const judgesResponse = await GetManyUsers({
@@ -157,6 +158,15 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       .filter((team) => team.tracks.length < rounds)
       .map((team) => [team._id ?? '', rounds - team.tracks.length])
   );
+
+  // Get previous pairings and push it to the judgeToTeam array (so that !duplicateExists is true)
+  const previousPairings = await GetJudgeToTeamPairings();
+  if (previousPairings.ok && previousPairings.body) {
+    judgeToTeam.push(...previousPairings.body);
+  } else {
+    console.log(previousPairings.error);
+  }
+
   // Main loop: process each team for each round.
   for (let domainIndex = 0; domainIndex < rounds; domainIndex++) {
     for (const team of modifiedTeams) {
@@ -170,8 +180,8 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       for (const judge of judgesQueue) {
         const duplicateExists = judgeToTeam.some(
           (entry) =>
-            entry.judge_id === judge.user._id?.toString() &&
-            entry.team_id === team._id?.toString()
+            String(entry.judge_id) === judge.user._id?.toString() &&
+            String(entry.team_id) === team._id?.toString()
         );
         if (!duplicateExists) {
           selectedJudge = judge;
@@ -210,6 +220,11 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       selectedJudge.teamsAssigned += 1;
     }
     shuffleArray(modifiedTeams);
+  }
+
+  // Remove the previous pairings
+  if (previousPairings.body) {
+    judgeToTeam.splice(0, previousPairings.body.length);
   }
 
   console.log('No. of judgeToTeam:', judgeToTeam.length);
