@@ -4,7 +4,6 @@ import ProjectInfoAccordion, {
   AccordionItemInt,
 } from '../ProjectInfoAccordion/ProjectInfoAccordion';
 import SubmissionDue from './JudgingSteps/SubmissionDue/SubmissionDue';
-import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 import DemoTime from './JudgingSteps/DemoTime/DemoTime';
 import Break from './JudgingSteps/Break/Break';
 import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
@@ -17,11 +16,6 @@ const accordionItems: AccordionItemInt[] = [
     subtitle: '11:00 AM',
     title: 'Submission Due',
     content: <SubmissionDue />,
-  },
-  {
-    subtitle: '11:30 - 12:00 AM',
-    title: 'Important Announcement',
-    content: <ImportantAnnouncement />,
   },
   {
     subtitle: '12:00 - 2:00 PM',

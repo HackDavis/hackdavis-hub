@@ -1,0 +1,583 @@
+{
+  "meta": {
+    "year": 2025,
+    "timezone": "America/Los_Angeles"
+  },
+  "validation": {
+    "domains": [
+      "swe",
+      "business",
+      "aiml",
+      "hardware",
+      "design",
+      "medtech"
+    ],
+    "tracks": [
+      "Best Hack for Social Good",
+      "Best Beginner Hack",
+      "Best Interdisciplinary Hack",
+      "Most Creative Hack",
+      "Best Hack for Social Justice",
+      "Best Hardware Hack",
+      "Most Technically Challenging Hack",
+      "Best Open Data Hack",
+      "Best AI/ML Hack",
+      "Best UI/UX Design",
+      "Best User Research",
+      "Best Statistical Model",
+      "Best Medical Hack",
+      "Best Entrepreneurship Hack",
+      "Hacker's Choice Award",
+      "Best Hack for California GovOps Agency",
+      "Best Hack for NAMI Yolo",
+      "Best Hack for Fourth and Hope",
+      "Best Use of Cerebras API",
+      "Best Use of Vectara",
+      "Best Use of Gemini API",
+      "Best Use of MongoDB Atlas",
+      "Best .Tech Domain Name",
+      "Best Use of Auth0",
+      "Best Use of Snowflake API",
+      "Best Assistive Technology"
+    ]
+  },
+  "tracks": [
+    "Best Hack for Social Good",
+    "Best Beginner Hack",
+    "Best Interdisciplinary Hack",
+    "Most Creative Hack",
+    "Best Hack for Social Justice",
+    "Best Hardware Hack",
+    "Most Technically Challenging Hack",
+    "Best Open Data Hack",
+    "Best AI/ML Hack",
+    "Best UI/UX Design",
+    "Best User Research",
+    "Best Statistical Model",
+    "Best Medical Hack",
+    "Best Entrepreneurship Hack",
+    "Hacker's Choice Award",
+    "Best Hack for California GovOps Agency",
+    "Best Hack for NAMI Yolo",
+    "Best Hack for Fourth and Hope",
+    "Best Use of Cerebras API",
+    "Best Use of Vectara",
+    "Best Use of Gemini API",
+    "Best Use of MongoDB Atlas",
+    "Best .Tech Domain Name",
+    "Best Use of Auth0",
+    "Best Use of Snowflake API",
+    "Best Assistive Technology"
+  ],
+  "events": {
+    "raw": [
+      {
+        "name": "Check-in Starts",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-19T14:30:00.000Z"
+        }
+      },
+      {
+        "name": "Team Mixer",
+        "type": "ACTIVITIES",
+        "start_time": {
+          "$date": "2025-04-19T15:30:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T17:00:00.000Z"
+        },
+        "location": "ARC Ballroom A"
+      },
+      {
+        "name": "Opening Ceremony",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-19T17:00:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T18:00:00.000Z"
+        }
+      },
+      {
+        "name": "Hacking Begins",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-19T18:00:00.000Z"
+        }
+      },
+      {
+        "name": "Check-in Closes",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-19T23:00:00.000Z"
+        }
+      },
+      {
+        "name": "Closing Ceremony",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-20T22:00:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T23:00:00.000Z"
+        }
+      },
+      {
+        "name": "Hacking Ends",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-20T18:00:00.000Z"
+        }
+      },
+      {
+        "name": "Spaghetti & Marshmallow",
+        "type": "ACTIVITIES",
+        "start_time": {
+          "$date": "2025-04-19T21:00:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T22:00:00.000Z"
+        },
+        "location": "North Wing"
+      },
+      {
+        "name": "Bracelet Making",
+        "type": "ACTIVITIES",
+        "start_time": {
+          "$date": "2025-04-19T22:30:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T00:30:00.000Z"
+        },
+        "location": "North Wing"
+      },
+      {
+        "name": "Therapy Dogs",
+        "type": "ACTIVITIES",
+        "start_time": {
+          "$date": "2025-04-19T22:30:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T00:00:00.000Z"
+        },
+        "location": "South Wing"
+      },
+      {
+        "name": "Jeopardy/Kahoot",
+        "type": "ACTIVITIES",
+        "start_time": {
+          "$date": "2025-04-20T04:30:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T05:30:00.000Z"
+        },
+        "location": "ARC Ballroom B"
+      },
+      {
+        "name": "Demos",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-20T19:00:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T21:00:00.000Z"
+        }
+      },
+      {
+        "name": "Panel Judging",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-20T21:00:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T22:00:00.000Z"
+        }
+      },
+      {
+        "name": "Hackathons 101",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-19T18:40:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T20:00:00.000Z"
+        },
+        "location": "ARC Ballroom A",
+        "host": "HackDavis",
+        "tags": [
+          "beginner",
+          "developer",
+          "designer",
+          "pm",
+          "other"
+        ]
+      },
+      {
+        "name": "Surprise Mini-Event!",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-20T03:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T04:00:00.000Z"
+        },
+        "location": "ARC Ballroom A",
+        "host": "Major League Hacking",
+        "tags": [
+          "beginner",
+          "developer",
+          "pm",
+          "designer",
+          "other"
+        ]
+      },
+      {
+        "name": "Dinner Starts",
+        "type": "MEALS",
+        "start_time": {
+          "$date": "2025-04-20T02:00:00.000Z"
+        }
+      },
+      {
+        "name": "Brunch Starts",
+        "type": "MEALS",
+        "start_time": {
+          "$date": "2025-04-20T16:30:00.000Z"
+        }
+      },
+      {
+        "name": "Getting Started with Git & GitHub",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-19T20:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T22:00:00.000Z"
+        },
+        "location": "ARC Ballroom A",
+        "host": "UC Davis DataLab",
+        "tags": [
+          "beginner",
+          "developer"
+        ]
+      },
+      {
+        "name": "GitHub Copilot Workshop",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-19T22:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T23:00:00.000Z"
+        },
+        "location": "ARC Ballroom A",
+        "host": "Major League Hacking",
+        "tags": [
+          "beginner",
+          "developer",
+          "pm"
+        ]
+      },
+      {
+        "name": "Tech Together Meetup",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-19T23:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T00:00:00.000Z"
+        },
+        "location": "ARC Ballroom A",
+        "host": "Major League Hacking",
+        "tags": [
+          "beginner",
+          "developer",
+          "pm",
+          "designer",
+          "other"
+        ]
+      },
+      {
+        "name": "Intro to UI/UX",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-19T23:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T00:00:00.000Z"
+        },
+        "location": "ARC Ballroom B",
+        "host": "Design Interactive",
+        "tags": [
+          "beginner",
+          "designer"
+        ]
+      },
+      {
+        "name": "Lunch Starts",
+        "type": "MEALS",
+        "start_time": {
+          "$date": "2025-04-19T20:00:00.000Z"
+        }
+      },
+      {
+        "name": "Software Development",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-19T20:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T21:00:00.000Z"
+        },
+        "location": "ARC Ballroom B",
+        "host": "CodeLab",
+        "tags": [
+          "beginner",
+          "developer",
+          "pm"
+        ]
+      },
+      {
+        "name": "Intro to Freepik AI Suite",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-20T00:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T01:00:00.000Z"
+        },
+        "location": "ARC Ballroom B",
+        "host": "Freepik",
+        "tags": [
+          "developer",
+          "pm",
+          "designer",
+          "other"
+        ]
+      },
+      {
+        "name": "Break",
+        "type": "GENERAL",
+        "start_time": {
+          "$date": "2025-04-20T18:00:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T19:00:00.000Z"
+        }
+      },
+      {
+        "name": "Hacking with LLMs",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-19T21:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-19T22:00:00.000Z"
+        },
+        "location": "ARC Ballroom B",
+        "host": "Miguel Acevedo, Founder @ Marble",
+        "tags": [
+          "beginner",
+          "developer",
+          "pm"
+        ]
+      },
+      {
+        "name": "Intro to Letta AI Agents Framework",
+        "type": "WORKSHOPS",
+        "start_time": {
+          "$date": "2025-04-20T00:10:00.000Z"
+        },
+        "end_time": {
+          "$date": "2025-04-20T01:00:00.000Z"
+        },
+        "location": "ARC Ballroom A",
+        "host": "Letta",
+        "tags": [
+          "developer"
+        ]
+      }
+    ],
+    "key": [
+      {
+        "id": "check-in-starts",
+        "name": "Check-in Starts",
+        "category": "schedule",
+        "type": "GENERAL",
+        "start": "2025-04-19T14:30:00.000Z",
+        "end": null,
+        "location": null,
+        "host": null,
+        "url": "/hackers/hub/schedule"
+      },
+      {
+        "id": "opening-ceremony",
+        "name": "Opening Ceremony",
+        "category": "schedule",
+        "type": "GENERAL",
+        "start": "2025-04-19T17:00:00.000Z",
+        "end": "2025-04-19T18:00:00.000Z",
+        "location": null,
+        "host": null,
+        "url": "/hackers/hub/schedule"
+      },
+      {
+        "id": "hacking-begins",
+        "name": "Hacking Begins",
+        "category": "schedule",
+        "type": "GENERAL",
+        "start": "2025-04-19T18:00:00.000Z",
+        "end": null,
+        "location": null,
+        "host": null,
+        "url": "/hackers/hub/schedule"
+      },
+      {
+        "id": "hacking-ends",
+        "name": "Hacking Ends",
+        "category": "schedule",
+        "type": "GENERAL",
+        "start": "2025-04-20T18:00:00.000Z",
+        "end": null,
+        "location": null,
+        "host": null,
+        "summary": "Hacking for HackDavis ends on Sunday at 11:00 AM Pacific Time. All work must be completed and ready for submission before this deadline.",
+        "url": "/hackers/hub/schedule"
+      },
+      {
+        "id": "closing-ceremony",
+        "name": "Closing Ceremony",
+        "category": "schedule",
+        "type": "GENERAL",
+        "start": "2025-04-20T22:00:00.000Z",
+        "end": "2025-04-20T23:00:00.000Z",
+        "location": null,
+        "host": null,
+        "url": "/hackers/hub/schedule"
+      }
+    ]
+  },
+  "judging": {
+    "id": "judging-overview",
+    "title": "Judging Process Overview",
+    "url": "/hackers/hub/project-info#judging",
+    "summary": "Judging day timeline (Pacific Time): 11:00 AM submissions due on Devpost; 12:00-2:00 PM demo time with judges; 2:00-3:00 PM break; 3:00-4:00 PM closing ceremony. Rubric: 60% track-specific, 20% social good, 10% creativity, 10% presentation.",
+    "timeline": [
+      {
+        "time": "11:00 AM",
+        "title": "Submission Due",
+        "details": {
+          "rubric": [
+            {
+              "percentage": 60,
+              "criterion": "Track-Specific"
+            },
+            {
+              "percentage": 20,
+              "criterion": "Social Good"
+            },
+            {
+              "percentage": 10,
+              "criterion": "Creativity"
+            },
+            {
+              "percentage": 10,
+              "criterion": "Presentation"
+            }
+          ]
+        }
+      },
+      {
+        "time": "12:00 - 2:00 PM",
+        "title": "Demo Time",
+        "details": {
+          "sections": [
+            {
+              "title": "TIMELINE"
+            },
+            {
+              "title": "JUDGES"
+            },
+            {
+              "title": "POST DEMO"
+            }
+          ]
+        }
+      },
+      {
+        "time": "2:00 - 3:00 PM",
+        "title": "Break",
+        "details": {
+          "hackerChoice": {
+            "title": "Hacker's Choice Award",
+            "description": "Once demos end, you will have about an hour to visit other teams and vote for the Hacker's Choice Award. You can also look at projects in the gallery on Devpost.",
+            "notes": [
+              "Panels of judges will be choosing the winners from the top 5 projects shortlisted for each track after demos.",
+              "When feature flag 'hackers-choice-link' is enabled, a link is shown for submitting votes."
+            ],
+            "voteLink": "https://forms.gle/6SktCxAFAvYZ1hKz5"
+          }
+        }
+      },
+      {
+        "time": "3:00 - 4:00 PM",
+        "title": "Closing Ceremony",
+        "details": {
+          "notes": [
+            "If your team needs to leave before or during closing ceremony, please inform someone at the Director Table.",
+            "If your team wins a prize and is not at the venue, HackDavis will contact you via email after the event to get your prize to you."
+          ]
+        }
+      }
+    ]
+  },
+  "submission": {
+    "id": "submission-overview",
+    "title": "Submission Process Overview",
+    "url": "/hackers/hub/project-info#submission",
+    "summary": "Submission steps: (1) Log in or sign up on Devpost and join the HackDavis hackathon. (2) Register for the event. (3) Create a project (only one teammate needs to create it). (4) Invite teammates. (5) Fill out project details. (6) Submit the project on Devpost before the deadline.",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Login to Devpost",
+        "description": "When you click on the Devpost link, you should see the HackDavis Devpost page. Click \"Join Hackathon\". Log in or sign up for a Devpost account if you don't have one already."
+      },
+      {
+        "step": 2,
+        "title": "Register for the Event",
+        "description": "Register for the event on Devpost from the HackDavis hackathon page."
+      },
+      {
+        "step": 3,
+        "title": "Create a Project",
+        "description": "Click \"Create project\". Only one person per team has to create a project and complete the following steps."
+      },
+      {
+        "step": 4,
+        "title": "Invite Teammates",
+        "description": "Invite your teammates to join the Devpost project so everyone is correctly associated with the submission."
+      },
+      {
+        "step": 5,
+        "title": "Fill Out Details",
+        "description": "Fill out the required information such as project overview, description, technical details, and any other requested fields."
+      },
+      {
+        "step": 6,
+        "title": "Submit Project",
+        "description": "Once all information is filled out and teammates are added, submit the project on Devpost before the deadline."
+      }
+    ],
+    "tips": {
+      "devpost": {
+        "checklist": [
+          "Picked four relevant prize tracks.",
+          "Added your GitHub and/or Figma links.",
+          "Inserted a demo video."
+        ],
+        "url": "https://hackdavis-2025.devpost.com/"
+      }
+    }
+  }
+}
