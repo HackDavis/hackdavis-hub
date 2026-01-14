@@ -1,16 +1,16 @@
-"use server";
+'use server';
 
-import { validateCsvBlob } from "@utils/csv-ingestion/csvAlgorithm";
+import { validateCsvBlob } from '@utils/csv-ingestion/csvAlgorithm';
 
 export default async function validateCSV(formData: FormData) {
-  const file = formData.get("file") as File | null;
+  const file = formData.get('file') as File | null;
   if (!file) {
     return {
       ok: false,
       body: null,
       validBody: null,
       report: null,
-      error: "Missing file",
+      error: 'Missing file',
     };
   }
 

@@ -1,8 +1,8 @@
-"use client";
-import validateCSV from "@actions/logic/validateCSV";
-import ingestTeams from "@actions/logic/ingestTeams";
-import checkTeamsPopulated from "@actions/logic/checkTeamsPopulated";
-import React, { useEffect, useState } from "react";
+'use client';
+import validateCSV from '@actions/logic/validateCSV';
+import ingestTeams from '@actions/logic/ingestTeams';
+import checkTeamsPopulated from '@actions/logic/checkTeamsPopulated';
+import React, { useEffect, useState } from 'react';
 
 type ValidationResponse = {
   ok: boolean;
@@ -15,7 +15,7 @@ type ValidationResponse = {
 export default function CsvIngestion() {
   const [pending, setPending] = useState(false);
   const [validating, setValidating] = useState(false);
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState('');
   const [validation, setValidation] = useState<ValidationResponse | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
@@ -44,16 +44,16 @@ export default function CsvIngestion() {
 
   const validateHandler = async () => {
     if (!file) {
-      setResponse("Please choose a CSV file first.");
+      setResponse('Please choose a CSV file first.');
       return;
     }
     setValidating(true);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
     const res = (await validateCSV(formData)) as ValidationResponse;
     setValidation(res);
-    setResponse("");
+    setResponse('');
     setValidating(false);
   };
 
@@ -83,10 +83,10 @@ export default function CsvIngestion() {
   };
 
   const canonKey = (value: string) =>
-    String(value ?? "")
+    String(value ?? '')
       .trim()
       .toLowerCase()
-      .replace(/[^a-z0-9]/g, "");
+      .replace(/[^a-z0-9]/g, '');
 
   const buildTeamMemberLines = (issue: any): string[] => {
     const cols = Array.isArray(issue?.memberColumnsFromTeamMember1)
@@ -96,13 +96,13 @@ export default function CsvIngestion() {
     const findByHeaderPrefix = (prefix: string): string => {
       const p = canonKey(prefix);
       for (const c of cols) {
-        const header = String(c?.header ?? "");
-        const value = String(c?.value ?? "").trim();
+        const header = String(c?.header ?? '');
+        const value = String(c?.value ?? '').trim();
         if (!header) continue;
         const hk = canonKey(header);
         if (hk.startsWith(p)) return value;
       }
-      return "";
+      return '';
     };
 
     const lines: string[] = [];
@@ -113,19 +113,19 @@ export default function CsvIngestion() {
         findByHeaderPrefix(`Team member ${n} email`) ||
         findByHeaderPrefix(`Team member ${n} e-mail`);
 
-      const fullName = `${first} ${last}`.trim().replace(/\s+/g, " ");
+      const fullName = `${first} ${last}`.trim().replace(/\s+/g, ' ');
       if (!fullName && !email) continue;
 
-      const namePart = fullName || "(no name)";
-      const emailPart = email ? ` — ${email}` : "";
+      const namePart = fullName || '(no name)';
+      const emailPart = email ? ` — ${email}` : '';
       lines.push(`${namePart}${emailPart}`);
     }
 
     return lines;
   };
 
-  const buildCopyText = (severity: "error" | "warning") => {
-    if (!validation?.report) return "";
+  const buildCopyText = (severity: 'error' | 'warning') => {
+    if (!validation?.report) return '';
 
     const rows = validation.report.issues
       .filter((i: any) => i.severity === severity)
@@ -133,30 +133,30 @@ export default function CsvIngestion() {
         const header = `Team ${i.teamNumberRaw} — ${i.projectTitle}`;
 
         const submitterName = i.contactNames?.length
-          ? `Submitter: ${i.contactNames.join(", ")}`
-          : "";
+          ? `Submitter: ${i.contactNames.join(', ')}`
+          : '';
         const submitterEmail = i.contactEmails?.length
-          ? `Submitter Email: ${i.contactEmails.join(", ")}`
-          : "";
+          ? `Submitter Email: ${i.contactEmails.join(', ')}`
+          : '';
 
         const memberLines = buildTeamMemberLines(i);
         const membersBlock = memberLines.length
-          ? ["Members:", ...memberLines.map((l) => `  ${l}`)].join("\n")
-          : "";
+          ? ['Members:', ...memberLines.map((l) => `  ${l}`)].join('\n')
+          : '';
 
         return [header, submitterName, submitterEmail, membersBlock]
           .filter(Boolean)
-          .join("\n");
+          .join('\n');
       });
 
-    return rows.join("\n\n");
+    return rows.join('\n\n');
   };
 
   const copyToClipboard = async (text: string) => {
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
-      setResponse("Copied to clipboard.");
+      setResponse('Copied to clipboard.');
     } catch {
       setResponse(text);
     }
@@ -188,12 +188,12 @@ export default function CsvIngestion() {
               const next = e.target.files?.[0] ?? null;
               setFile(next);
               setValidation(null);
-              setResponse("");
+              setResponse('');
             }}
           />
 
           <button onClick={validateHandler} disabled={validating || pending}>
-            {validating ? "Validating..." : "Validate"}
+            {validating ? 'Validating...' : 'Validate'}
           </button>
 
           <button
@@ -201,7 +201,7 @@ export default function CsvIngestion() {
             onClick={() => {
               setFile(null);
               setValidation(null);
-              setResponse("");
+              setResponse('');
             }}
             disabled={validating || pending}
           >
@@ -213,9 +213,9 @@ export default function CsvIngestion() {
           <div className="py-2">
             <h4>Validation Results</h4>
             <p className="text-sm opacity-80">
-              Parsed: {validation.report.totalTeamsParsed} teams. Valid:{" "}
-              {validation.report.validTeams}. Errors:{" "}
-              {validation.report.errorRows}. Warnings:{" "}
+              Parsed: {validation.report.totalTeamsParsed} teams. Valid:{' '}
+              {validation.report.validTeams}. Errors:{' '}
+              {validation.report.errorRows}. Warnings:{' '}
               {validation.report.warningRows}.
             </p>
 
@@ -224,30 +224,30 @@ export default function CsvIngestion() {
                 <h4>Errors</h4>
                 <button
                   className="text-sm"
-                  onClick={() => copyToClipboard(buildCopyText("error"))}
+                  onClick={() => copyToClipboard(buildCopyText('error'))}
                 >
                   Copy Errors + Contact Info
                 </button>
                 <ul className="text-sm list-disc pl-6">
                   {validation.report.issues
-                    .filter((i: any) => i.severity === "error")
+                    .filter((i: any) => i.severity === 'error')
                     .map((i: any) => (
                       <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
                         Team {i.teamNumberRaw} — {i.projectTitle}
                         {i.contactNames?.length ? (
-                          <> (Submitter: {i.contactNames.join(", ")})</>
+                          <> (Submitter: {i.contactNames.join(', ')})</>
                         ) : null}
                         {i.missingFields?.length ? (
-                          <> (Missing: {i.missingFields.join(", ")})</>
+                          <> (Missing: {i.missingFields.join(', ')})</>
                         ) : null}
                         {i.invalidTracks?.length ? (
-                          <> (Invalid tracks: {i.invalidTracks.join(", ")})</>
+                          <> (Invalid tracks: {i.invalidTracks.join(', ')})</>
                         ) : null}
                         {buildTeamMemberLines(i).length ? (
                           <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
                             {buildTeamMemberLines(i)
                               .map((l) => `Member: ${l}`)
-                              .join("\n")}
+                              .join('\n')}
                           </pre>
                         ) : null}
                       </li>
@@ -261,24 +261,24 @@ export default function CsvIngestion() {
                 <h4>Warnings</h4>
                 <button
                   className="text-sm"
-                  onClick={() => copyToClipboard(buildCopyText("warning"))}
+                  onClick={() => copyToClipboard(buildCopyText('warning'))}
                 >
                   Copy Warnings + Contact Info
                 </button>
                 <ul className="text-sm list-disc pl-6">
                   {validation.report.issues
-                    .filter((i: any) => i.severity === "warning")
+                    .filter((i: any) => i.severity === 'warning')
                     .map((i: any) => (
                       <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
                         Team {i.teamNumberRaw} — {i.projectTitle}
                         {i.contactNames?.length ? (
-                          <> (Submitter: {i.contactNames.join(", ")})</>
+                          <> (Submitter: {i.contactNames.join(', ')})</>
                         ) : null}
                         {i.duplicateTracks?.length ? (
-                          <> (Duplicates: {i.duplicateTracks.join(", ")})</>
+                          <> (Duplicates: {i.duplicateTracks.join(', ')})</>
                         ) : null}
                         {i.excludedTracks?.length ? (
-                          <> (Excluded: {i.excludedTracks.join(", ")})</>
+                          <> (Excluded: {i.excludedTracks.join(', ')})</>
                         ) : null}
                         {i.autoFixedTracks?.length ? (
                           <> (Auto-fixed casing/spacing)</>
@@ -287,7 +287,7 @@ export default function CsvIngestion() {
                           <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
                             {buildTeamMemberLines(i)
                               .map((l) => `Member: ${l}`)
-                              .join("\n")}
+                              .join('\n')}
                           </pre>
                         ) : null}
                       </li>
@@ -313,7 +313,7 @@ export default function CsvIngestion() {
               onClick={uploadValidHandler}
               disabled={pending || validating || !validation.validBody?.length}
             >
-              {pending ? "Uploading..." : "Upload Valid Teams Only"}
+              {pending ? 'Uploading...' : 'Upload Valid Teams Only'}
             </button>
 
             <button
@@ -326,7 +326,7 @@ export default function CsvIngestion() {
         )}
 
         <pre className="text-xs whitespace-pre-wrap break-words">
-          {pending ? "parsing CSV and creating teams..." : response}
+          {pending ? 'parsing CSV and creating teams...' : response}
         </pre>
       </div>
     </div>
