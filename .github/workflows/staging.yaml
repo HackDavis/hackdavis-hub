@@ -43,6 +43,7 @@ jobs:
           printf "${{ secrets.SENDER_PWD }}" | vercel env add SENDER_PWD production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ secrets.CHECK_IN_CODE }}" | vercel env add CHECK_IN_CODE production --force --token=${{ secrets.VERCEL_TOKEN }}
 
+          printf "${{ vars.ENV_URL }}" | vercel env add BASE_URL production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ vars.INVITE_DEADLINE }}" | vercel env add INVITE_DEADLINE production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ vars.SENDER_EMAIL }}" | vercel env add SENDER_EMAIL production --force --token=${{ secrets.VERCEL_TOKEN }}
         env:
