@@ -54,10 +54,12 @@ export default function CsvIngestion() {
     try {
       const res = (await validateCSV(formData)) as ValidationResponse;
       setValidation(res);
-      setResponse("");
+      setResponse('');
     } catch (error) {
-      console.error("Error validating CSV file:", error);
-      setResponse("An error occurred while validating the CSV file. Please try again.");
+      console.error('Error validating CSV file:', error);
+      setResponse(
+        'An error occurred while validating the CSV file. Please try again.'
+      );
     } finally {
       setValidating(false);
     }
@@ -71,7 +73,9 @@ export default function CsvIngestion() {
       setResponse(JSON.stringify(res, null, 2));
     } catch (error: unknown) {
       const message =
-        error instanceof Error ? error.message : "An unknown error occurred during upload.";
+        error instanceof Error
+          ? error.message
+          : 'An unknown error occurred during upload.';
       setResponse(`Error uploading teams: ${message}`);
     } finally {
       setPending(false);
@@ -251,19 +255,19 @@ export default function CsvIngestion() {
                         <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
                           Team {i.teamNumberRaw} — {i.projectTitle}
                           {i.contactNames?.length ? (
-                            <> (Submitter: {i.contactNames.join(", ")})</>
+                            <> (Submitter: {i.contactNames.join(', ')})</>
                           ) : null}
                           {i.missingFields?.length ? (
-                            <> (Missing: {i.missingFields.join(", ")})</>
+                            <> (Missing: {i.missingFields.join(', ')})</>
                           ) : null}
                           {i.invalidTracks?.length ? (
-                            <> (Invalid tracks: {i.invalidTracks.join(", ")})</>
+                            <> (Invalid tracks: {i.invalidTracks.join(', ')})</>
                           ) : null}
                           {memberLines.length ? (
                             <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
                               {memberLines
                                 .map((l) => `Member: ${l}`)
-                                .join("\n")}
+                                .join('\n')}
                             </pre>
                           ) : null}
                         </li>
