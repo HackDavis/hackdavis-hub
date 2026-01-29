@@ -51,10 +51,16 @@ export default function CsvIngestion() {
     const formData = new FormData();
     formData.append('file', file);
 
-    const res = (await validateCSV(formData)) as ValidationResponse;
-    setValidation(res);
-    setResponse('');
-    setValidating(false);
+    try {
+      const res = (await validateCSV(formData)) as ValidationResponse;
+      setValidation(res);
+      setResponse("");
+    } catch (error) {
+      console.error("Error validating CSV file:", error);
+      setResponse("An error occurred while validating the CSV file. Please try again.");
+    } finally {
+      setValidating(false);
+    }
   };
 
   const uploadValidHandler = async () => {
