@@ -526,7 +526,7 @@ export default async function csvAlgorithm(
       return { ok: false, body: null, error: validated.error };
     }
 
-    return { ok: true, body: validated.body, error: null };
+    return { ok: true, body: validated.validBody, error: null };
   } catch (e) {
     const error = e as Error;
     return { ok: false, body: null, error: error.message };

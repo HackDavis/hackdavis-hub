@@ -331,6 +331,7 @@ export default function CsvIngestion() {
         {validation?.report && (
           <div className="flex flex-col py-2 gap-2">
             <button
+              type="button"
               onClick={uploadValidHandler}
               disabled={pending || validating || !validation.validBody?.length}
             >
@@ -338,6 +339,7 @@ export default function CsvIngestion() {
             </button>
 
             <button
+              type="button"
               onClick={uploadAllHandler}
               disabled={pending || validating || !validation.body?.length}
             >
