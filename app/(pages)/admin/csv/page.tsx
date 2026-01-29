@@ -66,9 +66,16 @@ export default function CsvIngestion() {
   const uploadValidHandler = async () => {
     if (!validation?.validBody) return;
     setPending(true);
-    const res = await ingestTeams(validation.validBody);
-    setResponse(JSON.stringify(res, null, 2));
-    setPending(false);
+    try {
+      const res = await ingestTeams(validation.validBody);
+      setResponse(JSON.stringify(res, null, 2));
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "An unknown error occurred during upload.";
+      setResponse(`Error uploading teams: ${message}`);
+    } finally {
+      setPending(false);
+    }
   };
 
   const uploadAllHandler = async () => {
