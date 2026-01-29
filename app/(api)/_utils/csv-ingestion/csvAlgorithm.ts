@@ -54,7 +54,7 @@ function normalizeTrackName(value: string): string {
 const filteredTrackSet = new Set(filteredTracks.map(normalizeTrackName));
 
 const validTracks: string[] = (trackData.tracks as string[]).filter(
-  (t) => !filteredTrackSet.has(normalizeTrackName(t))
+  (t) => !filteredTrackSet.has(normalizeTrackName(t)),
 );
 
 const trackCandidates: TrackMatchCandidate[] = validTracks.map((canonical) => ({
@@ -181,7 +181,7 @@ function canonicalHeaderKey(value: string): string {
 function extractMemberColumnsFromTeamMember1(
   data: Record<string, unknown>,
   headers: string[] | null,
-  startIndex: number
+  startIndex: number,
 ): Array<{ header: string; value: string }> {
   if (!headers || startIndex < 0 || startIndex >= headers.length) return [];
   const rows: Array<{ header: string; value: string }> = [];
@@ -253,7 +253,7 @@ function validateTracksFromColumns(
   track1: string,
   track2: string,
   track3: string,
-  optIns: string
+  optIns: string,
 ): {
   canonicalTracks: string[];
   invalidTracks: string[];
@@ -285,7 +285,7 @@ function validateTracksFromColumns(
   // - keep duplicates inside opt-in list
   // - DO NOT report duplicates that are just opt-in repeating a primary track
   const optInDuplicatesNotInPrimary = optIn.duplicateTracks.filter(
-    (t) => !primarySet.has(t)
+    (t) => !primarySet.has(t),
   );
 
   return {
@@ -304,7 +304,7 @@ export function sortTracks(
   track1: string,
   track2: string,
   track3: string,
-  chosentracks: string
+  chosenTracks: string,
 ): string[] {
   const ordered: string[] = [];
   const seen = new Set<string>();
@@ -319,8 +319,8 @@ export function sortTracks(
 
   [track1, track2, track3].forEach(maybeAdd);
 
-  if (chosentracks && chosentracks.trim().length > 0) {
-    for (const optIn of splitOptInTracks(chosentracks)) {
+  if (chosenTracks && chosenTracks.trim().length > 0) {
+    for (const optIn of splitOptInTracks(chosenTracks)) {
       maybeAdd(optIn);
     }
   }
@@ -355,7 +355,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
             headers = h;
             const target = canonicalHeaderKey('Team member 1 first name');
             teamMember1StartIndex = h.findIndex(
-              (header) => canonicalHeaderKey(header) === target
+              (header) => canonicalHeaderKey(header) === target,
             );
           })
           .on('data', (data) => {
@@ -376,7 +376,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
                 extractMemberColumnsFromTeamMember1(
                   data,
                   headers,
-                  teamMember1StartIndex
+                  teamMember1StartIndex,
                 );
 
               const track1 = data['Track #1 (Primary Track)'] ?? '';
@@ -448,10 +448,10 @@ export async function validateCsvBlob(blob: Blob): Promise<{
           })
           .on('end', () => {
             const bestHardwareTeams = output.filter((team) =>
-              team.tracks.includes('Best Hardware Hack')
+              team.tracks.includes('Best Hardware Hack'),
             );
             const otherTeams = output.filter(
-              (team) => !team.tracks.includes('Best Hardware Hack')
+              (team) => !team.tracks.includes('Best Hardware Hack'),
             );
 
             const orderedTeams = [...bestHardwareTeams, ...otherTeams];
@@ -474,10 +474,10 @@ export async function validateCsvBlob(blob: Blob): Promise<{
     const errorTeamNumbers = new Set(
       issues
         .filter((i) => i.severity === 'error' && i.teamNumber !== undefined)
-        .map((i) => i.teamNumber as number)
+        .map((i) => i.teamNumber as number),
     );
     const validBody = results.filter(
-      (t) => !errorTeamNumbers.has(t.teamNumber)
+      (t) => !errorTeamNumbers.has(t.teamNumber),
     );
 
     const report: CsvValidationReport = {
@@ -518,7 +518,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
 }
 
 export default async function csvAlgorithm(
-  blob: Blob
+  blob: Blob,
 ): Promise<{ ok: boolean; body: ParsedRecord[] | null; error: string | null }> {
   try {
     const validated = await validateCsvBlob(blob);
