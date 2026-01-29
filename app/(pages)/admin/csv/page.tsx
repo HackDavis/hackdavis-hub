@@ -289,30 +289,34 @@ export default function CsvIngestion() {
                 <ul className="text-sm list-disc pl-6">
                   {validation.report.issues
                     .filter((i: any) => i.severity === 'warning')
-                    .map((i: any) => (
-                      <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
-                        Team {i.teamNumberRaw} — {i.projectTitle}
-                        {i.contactNames?.length ? (
-                          <> (Submitter: {i.contactNames.join(', ')})</>
-                        ) : null}
-                        {i.duplicateTracks?.length ? (
-                          <> (Duplicates: {i.duplicateTracks.join(', ')})</>
-                        ) : null}
-                        {i.excludedTracks?.length ? (
-                          <> (Excluded: {i.excludedTracks.join(', ')})</>
-                        ) : null}
-                        {i.autoFixedTracks?.length ? (
-                          <> (Auto-fixed casing/spacing)</>
-                        ) : null}
-                        {buildTeamMemberLines(i).length ? (
-                          <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
-                            {buildTeamMemberLines(i)
-                              .map((l) => `Member: ${l}`)
-                              .join('\n')}
-                          </pre>
-                        ) : null}
-                      </li>
-                    ))}
+                    .map((i: any) => {
+                      const teamMemberLines = buildTeamMemberLines(i);
+
+                      return (
+                        <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
+                          Team {i.teamNumberRaw} — {i.projectTitle}
+                          {i.contactNames?.length ? (
+                            <> (Submitter: {i.contactNames.join(", ")})</>
+                          ) : null}
+                          {i.duplicateTracks?.length ? (
+                            <> (Duplicates: {i.duplicateTracks.join(", ")})</>
+                          ) : null}
+                          {i.excludedTracks?.length ? (
+                            <> (Excluded: {i.excludedTracks.join(", ")})</>
+                          ) : null}
+                          {i.autoFixedTracks?.length ? (
+                            <> (Auto-fixed casing/spacing)</>
+                          ) : null}
+                          {teamMemberLines.length ? (
+                            <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
+                              {teamMemberLines
+                                .map((l) => `Member: ${l}`)
+                                .join("\n")}
+                            </pre>
+                          ) : null}
+                        </li>
+                      );
+                    })}
                 </ul>
               </div>
             )}
