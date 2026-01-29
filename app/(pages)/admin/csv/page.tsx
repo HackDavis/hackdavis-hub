@@ -244,27 +244,31 @@ export default function CsvIngestion() {
                 <ul className="text-sm list-disc pl-6">
                   {validation.report.issues
                     .filter((i: any) => i.severity === 'error')
-                    .map((i: any) => (
-                      <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
-                        Team {i.teamNumberRaw} — {i.projectTitle}
-                        {i.contactNames?.length ? (
-                          <> (Submitter: {i.contactNames.join(', ')})</>
-                        ) : null}
-                        {i.missingFields?.length ? (
-                          <> (Missing: {i.missingFields.join(', ')})</>
-                        ) : null}
-                        {i.invalidTracks?.length ? (
-                          <> (Invalid tracks: {i.invalidTracks.join(', ')})</>
-                        ) : null}
-                        {buildTeamMemberLines(i).length ? (
-                          <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
-                            {buildTeamMemberLines(i)
-                              .map((l) => `Member: ${l}`)
-                              .join('\n')}
-                          </pre>
-                        ) : null}
-                      </li>
-                    ))}
+                    .map((i: any) => {
+                      const memberLines = buildTeamMemberLines(i);
+
+                      return (
+                        <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
+                          Team {i.teamNumberRaw} — {i.projectTitle}
+                          {i.contactNames?.length ? (
+                            <> (Submitter: {i.contactNames.join(", ")})</>
+                          ) : null}
+                          {i.missingFields?.length ? (
+                            <> (Missing: {i.missingFields.join(", ")})</>
+                          ) : null}
+                          {i.invalidTracks?.length ? (
+                            <> (Invalid tracks: {i.invalidTracks.join(", ")})</>
+                          ) : null}
+                          {memberLines.length ? (
+                            <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
+                              {memberLines
+                                .map((l) => `Member: ${l}`)
+                                .join("\n")}
+                            </pre>
+                          ) : null}
+                        </li>
+                      );
+                    })}
                 </ul>
               </div>
             )}
