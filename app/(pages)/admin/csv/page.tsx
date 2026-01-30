@@ -3,12 +3,14 @@ import validateCSV from '@actions/logic/validateCSV';
 import ingestTeams from '@actions/logic/ingestTeams';
 import checkTeamsPopulated from '@actions/logic/checkTeamsPopulated';
 import React, { useEffect, useState } from 'react';
+import ParsedRecord from '@typeDefs/parsedRecord';
+import { CsvValidationReport } from '@utils/csv-ingestion/csvAlgorithm';
 
 type ValidationResponse = {
   ok: boolean;
-  body: any;
-  validBody: any;
-  report: any;
+  body: ParsedRecord[] | null;
+  validBody: ParsedRecord[] | null;
+  report: CsvValidationReport | null;
   error: string | null;
 };
 
@@ -296,13 +298,13 @@ export default function CsvIngestion() {
                         <li key={`${i.rowIndex}-${i.teamNumberRaw}`}>
                           Team {i.teamNumberRaw} — {i.projectTitle}
                           {i.contactNames?.length ? (
-                            <> (Submitter: {i.contactNames.join(", ")})</>
+                            <> (Submitter: {i.contactNames.join(', ')})</>
                           ) : null}
                           {i.duplicateTracks?.length ? (
-                            <> (Duplicates: {i.duplicateTracks.join(", ")})</>
+                            <> (Duplicates: {i.duplicateTracks.join(', ')})</>
                           ) : null}
                           {i.excludedTracks?.length ? (
-                            <> (Excluded: {i.excludedTracks.join(", ")})</>
+                            <> (Excluded: {i.excludedTracks.join(', ')})</>
                           ) : null}
                           {i.autoFixedTracks?.length ? (
                             <> (Auto-fixed casing/spacing)</>
@@ -311,7 +313,7 @@ export default function CsvIngestion() {
                             <pre className="mt-2 text-xs whitespace-pre-wrap break-words">
                               {teamMemberLines
                                 .map((l) => `Member: ${l}`)
-                                .join("\n")}
+                                .join('\n')}
                             </pre>
                           ) : null}
                         </li>
