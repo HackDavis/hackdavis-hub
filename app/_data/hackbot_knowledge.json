@@ -4,14 +4,7 @@
     "timezone": "America/Los_Angeles"
   },
   "validation": {
-    "domains": [
-      "swe",
-      "business",
-      "aiml",
-      "hardware",
-      "design",
-      "medtech"
-    ],
+    "domains": ["swe", "business", "aiml", "hardware", "design", "medtech"],
     "tracks": [
       "Best Hack for Social Good",
       "Best Beginner Hack",
@@ -205,13 +198,7 @@
         },
         "location": "ARC Ballroom A",
         "host": "HackDavis",
-        "tags": [
-          "beginner",
-          "developer",
-          "designer",
-          "pm",
-          "other"
-        ]
+        "tags": ["beginner", "developer", "designer", "pm", "other"]
       },
       {
         "name": "Surprise Mini-Event!",
@@ -224,13 +211,7 @@
         },
         "location": "ARC Ballroom A",
         "host": "Major League Hacking",
-        "tags": [
-          "beginner",
-          "developer",
-          "pm",
-          "designer",
-          "other"
-        ]
+        "tags": ["beginner", "developer", "pm", "designer", "other"]
       },
       {
         "name": "Dinner Starts",
@@ -257,10 +238,7 @@
         },
         "location": "ARC Ballroom A",
         "host": "UC Davis DataLab",
-        "tags": [
-          "beginner",
-          "developer"
-        ]
+        "tags": ["beginner", "developer"]
       },
       {
         "name": "GitHub Copilot Workshop",
@@ -273,11 +251,7 @@
         },
         "location": "ARC Ballroom A",
         "host": "Major League Hacking",
-        "tags": [
-          "beginner",
-          "developer",
-          "pm"
-        ]
+        "tags": ["beginner", "developer", "pm"]
       },
       {
         "name": "Tech Together Meetup",
@@ -290,13 +264,7 @@
         },
         "location": "ARC Ballroom A",
         "host": "Major League Hacking",
-        "tags": [
-          "beginner",
-          "developer",
-          "pm",
-          "designer",
-          "other"
-        ]
+        "tags": ["beginner", "developer", "pm", "designer", "other"]
       },
       {
         "name": "Intro to UI/UX",
@@ -309,10 +277,7 @@
         },
         "location": "ARC Ballroom B",
         "host": "Design Interactive",
-        "tags": [
-          "beginner",
-          "designer"
-        ]
+        "tags": ["beginner", "designer"]
       },
       {
         "name": "Lunch Starts",
@@ -332,11 +297,7 @@
         },
         "location": "ARC Ballroom B",
         "host": "CodeLab",
-        "tags": [
-          "beginner",
-          "developer",
-          "pm"
-        ]
+        "tags": ["beginner", "developer", "pm"]
       },
       {
         "name": "Intro to Freepik AI Suite",
@@ -349,12 +310,7 @@
         },
         "location": "ARC Ballroom B",
         "host": "Freepik",
-        "tags": [
-          "developer",
-          "pm",
-          "designer",
-          "other"
-        ]
+        "tags": ["developer", "pm", "designer", "other"]
       },
       {
         "name": "Break",
@@ -377,11 +333,7 @@
         },
         "location": "ARC Ballroom B",
         "host": "Miguel Acevedo, Founder @ Marble",
-        "tags": [
-          "beginner",
-          "developer",
-          "pm"
-        ]
+        "tags": ["beginner", "developer", "pm"]
       },
       {
         "name": "Intro to Letta AI Agents Framework",
@@ -394,9 +346,7 @@
         },
         "location": "ARC Ballroom A",
         "host": "Letta",
-        "tags": [
-          "developer"
-        ]
+        "tags": ["developer"]
       }
     ],
     "key": [

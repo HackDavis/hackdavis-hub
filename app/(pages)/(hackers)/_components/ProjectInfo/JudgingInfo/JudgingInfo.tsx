@@ -10,12 +10,18 @@ import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
 import ResourceHelp from '../../StarterKit/Resources/ResourceHelp';
 import StarterKitSlide from '../../StarterKit/StarterKitSlide';
 import styles from './JudgingInfo.module.scss';
+import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 
 const accordionItems: AccordionItemInt[] = [
   {
     subtitle: '11:00 AM',
     title: 'Submission Due',
     content: <SubmissionDue />,
+  },
+  {
+    subtitle: '11:30 - 12:00 AM',
+    title: 'Important Announcement',
+    content: <ImportantAnnouncement />,
   },
   {
     subtitle: '12:00 - 2:00 PM',

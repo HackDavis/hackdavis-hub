@@ -1,6 +1,6 @@
-import { HackDoc, HackDocType } from "./hackbotTypes";
-import { getDatabase } from "@utils/mongodb/mongoClient.mjs";
-import { ObjectId } from "mongodb";
+import { HackDoc, HackDocType } from './hackbotTypes';
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import { ObjectId } from 'mongodb';
 
 export interface RetrievedContext {
   docs: HackDoc[];
@@ -15,22 +15,22 @@ function formatEventDateTime(raw: unknown): string | null {
 
   if (raw instanceof Date) {
     date = raw;
-  } else if (typeof raw === "string") {
+  } else if (typeof raw === 'string') {
     date = new Date(raw);
-  } else if (raw && typeof raw === "object" && "$date" in (raw as any)) {
+  } else if (raw && typeof raw === 'object' && '$date' in (raw as any)) {
     date = new Date((raw as any).$date);
   }
 
   if (!date || Number.isNaN(date.getTime())) return null;
 
-  return date.toLocaleString("en-US", {
-    timeZone: "America/Los_Angeles",
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
+  return date.toLocaleString('en-US', {
+    timeZone: 'America/Los_Angeles',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
   });
 }
 
@@ -41,35 +41,35 @@ function formatLiveEventDoc(event: any): {
   startISO?: string;
   endISO?: string;
 } {
-  const title = String(event?.name || "Event");
-  const type = event?.type ? String(event.type) : "";
+  const title = String(event?.name || 'Event');
+  const type = event?.type ? String(event.type) : '';
   const start = formatEventDateTime(event?.start_time);
   const end = formatEventDateTime(event?.end_time);
-  const location = event?.location ? String(event.location) : "";
-  const host = event?.host ? String(event.host) : "";
+  const location = event?.location ? String(event.location) : '';
+  const host = event?.host ? String(event.host) : '';
   const tags = Array.isArray(event?.tags) ? event.tags.map(String) : [];
 
   const parts = [
     `Event: ${title}`,
-    type ? `Type: ${type}` : "",
+    type ? `Type: ${type}` : '',
     // Machine-readable anchors to allow reliable chronological ordering.
     event?.start_time instanceof Date
       ? `StartISO: ${event.start_time.toISOString()}`
-      : "",
+      : '',
     event?.end_time instanceof Date
       ? `EndISO: ${event.end_time.toISOString()}`
-      : "",
-    start ? `Starts (Pacific Time): ${start}` : "",
-    end ? `Ends (Pacific Time): ${end}` : "",
-    location ? `Location: ${location}` : "",
-    host ? `Host: ${host}` : "",
-    tags.length ? `Tags: ${tags.join(", ")}` : "",
+      : '',
+    start ? `Starts (Pacific Time): ${start}` : '',
+    end ? `Ends (Pacific Time): ${end}` : '',
+    location ? `Location: ${location}` : '',
+    host ? `Host: ${host}` : '',
+    tags.length ? `Tags: ${tags.join(', ')}` : '',
   ].filter(Boolean);
 
   return {
     title,
-    text: parts.join("\n"),
-    url: "/hackers/hub/schedule",
+    text: parts.join('\n'),
+    url: '/hackers/hub/schedule',
     startISO:
       event?.start_time instanceof Date
         ? event.start_time.toISOString()
@@ -88,19 +88,19 @@ async function getQueryEmbedding(query: string): Promise<{
     totalTokens?: number;
   };
 } | null> {
-  const ollamaUrl = process.env.OLLAMA_URL || "http://localhost:11434";
+  const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434';
 
   try {
     const startedAt = Date.now();
     const res = await fetch(`${ollamaUrl}/api/embeddings`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model: "llama3.2", prompt: query }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'llama3.2', prompt: query }),
     });
 
     if (!res.ok) {
       console.error(
-        "[hackbot][embeddings] Upstream error",
+        '[hackbot][embeddings] Upstream error',
         res.status,
         res.statusText
       );
@@ -109,23 +109,23 @@ async function getQueryEmbedding(query: string): Promise<{
 
     const data = await res.json();
     if (!data || !Array.isArray(data.embedding)) {
-      console.error("[hackbot][embeddings] Invalid response shape");
+      console.error('[hackbot][embeddings] Invalid response shape');
       return null;
     }
 
     const promptTokens =
-      typeof data?.prompt_eval_count === "number"
+      typeof data?.prompt_eval_count === 'number'
         ? data.prompt_eval_count
         : undefined;
     const totalTokens =
-      typeof data?.eval_count === "number"
+      typeof data?.eval_count === 'number'
         ? data.eval_count
-        : typeof promptTokens === "number"
+        : typeof promptTokens === 'number'
         ? promptTokens
         : undefined;
 
-    console.log("[hackbot][ollama][embeddings]", {
-      model: data?.model ?? "unknown",
+    console.log('[hackbot][ollama][embeddings]', {
+      model: data?.model ?? 'unknown',
       promptTokens,
       totalTokens,
       ms: Date.now() - startedAt,
@@ -139,7 +139,7 @@ async function getQueryEmbedding(query: string): Promise<{
       },
     };
   } catch (err) {
-    console.error("[hackbot][embeddings] Failed to get embedding", err);
+    console.error('[hackbot][embeddings] Failed to get embedding', err);
     return null;
   }
 }
@@ -156,15 +156,15 @@ export async function retrieveContext(
     const embeddingResult = await getQueryEmbedding(trimmed);
     if (!embeddingResult) {
       console.error(
-        "[hackbot][retrieve] No embedding available for query; vector search required."
+        '[hackbot][retrieve] No embedding available for query; vector search required.'
       );
-      throw new Error("Embedding unavailable");
+      throw new Error('Embedding unavailable');
     }
 
     const embedding = embeddingResult.embedding;
 
     const db = await getDatabase();
-    const collection = db.collection("hackbot_docs");
+    const collection = db.collection('hackbot_docs');
 
     const preferredTypes = opts?.preferredTypes?.length
       ? Array.from(new Set(opts.preferredTypes))
@@ -176,9 +176,9 @@ export async function retrieveContext(
       .aggregate([
         {
           $vectorSearch: {
-            index: "hackbot_vector_index",
+            index: 'hackbot_vector_index',
             queryVector: embedding,
-            path: "embedding",
+            path: 'embedding',
             numCandidates,
             limit,
             ...(preferredTypes
@@ -194,7 +194,7 @@ export async function retrieveContext(
       .toArray();
 
     if (!vectorResults.length) {
-      console.warn("[hackbot][retrieve] Vector search returned no results.");
+      console.warn('[hackbot][retrieve] Vector search returned no results.');
       return { docs: [] };
     }
 
@@ -209,14 +209,14 @@ export async function retrieveContext(
     // Hydrate event docs from the live `events` collection so the answer
     // always reflects the current schedule (times/locations), even if the
     // vector index was seeded earlier.
-    const eventsCollection = db.collection("events");
+    const eventsCollection = db.collection('events');
     await Promise.all(
       docs.map(async (d) => {
-        if (d.type !== "event") return;
+        if (d.type !== 'event') return;
 
-        const suffix = d.id.startsWith("event-")
-          ? d.id.slice("event-".length)
-          : "";
+        const suffix = d.id.startsWith('event-')
+          ? d.id.slice('event-'.length)
+          : '';
         let event: any | null = null;
 
         if (suffix && ObjectId.isValid(suffix)) {
@@ -240,7 +240,7 @@ export async function retrieveContext(
       })
     );
 
-    console.log("[hackbot][retrieve][vector]", {
+    console.log('[hackbot][retrieve][vector]', {
       query: trimmed,
       docIds: docs.map((d) => d.id),
       titles: docs.map((d) => d.title),
@@ -249,7 +249,7 @@ export async function retrieveContext(
     return { docs, usage: embeddingResult.usage };
   } catch (err) {
     console.error(
-      "[hackbot][retrieve] Vector search failed (no fallback).",
+      '[hackbot][retrieve] Vector search failed (no fallback).',
       err
     );
     throw err;

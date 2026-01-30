@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { askHackbot, HackbotMessage } from "@actions/hackbot/askHackbot";
+import { NextRequest, NextResponse } from 'next/server';
+import { askHackbot, HackbotMessage } from '@actions/hackbot/askHackbot';
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           ok: false,
-          answer: "",
-          error: "Invalid request body. Expected { messages: [...] }.",
+          answer: '',
+          error: 'Invalid request body. Expected { messages: [...] }.',
         },
         { status: 400 }
       );
@@ -33,8 +33,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        answer: "",
-        error: "Invalid JSON body.",
+        answer: '',
+        error: 'Invalid JSON body.',
       },
       { status: 400 }
     );
