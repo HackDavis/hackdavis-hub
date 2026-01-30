@@ -14,16 +14,13 @@ import checkMatches from '@actions/logic/checkMatches';
 export default async function applyDiagnosticAlpha(options: {
   alpha: number;
   judgeToTeam: JudgeToTeam[];
-}): Promise<{ ok: boolean; body: JudgeToTeam[] | null; error: string | null }> {
+}): Promise<{
+  ok: boolean;
+  body: JudgeToTeam[] | null;
+  error: string | null;
+  message?: string;
+}> {
   const existing = await GetManySubmissions();
-  if (existing.ok && existing.body && existing.body.length > 0) {
-    return {
-      ok: false,
-      body: null,
-      error:
-        'Submissions collection is not empty. Please clear before applying diagnostics.',
-    };
-  }
   const teamsRes = await GetManyTeams();
   if (!teamsRes.ok) {
     return {
@@ -33,6 +30,19 @@ export default async function applyDiagnosticAlpha(options: {
     };
   }
   const teams = teamsRes.body;
+  const existingCount = existing.ok && existing.body ? existing.body.length : 0;
+  const maxRounds = 4;
+  const maxSubmissions = teams.length * maxRounds;
+  const isSecondRound = existingCount > 0;
+
+  if (existingCount >= maxSubmissions) {
+    return {
+      ok: false,
+      body: null,
+      error:
+        'Two rounds have already been completed. Clear submissions to rerun.',
+    };
+  }
   const parsedSubmissions = await parseAndReplace(options.judgeToTeam);
   if (!checkMatches(parsedSubmissions, teams.length)) {
     return {
@@ -62,5 +72,12 @@ export default async function applyDiagnosticAlpha(options: {
   //     return { ok: false, body: null, error: res.error };
   //   }
 
-  return { ok: true, body: options.judgeToTeam, error: null };
+  return {
+    ok: true,
+    body: options.judgeToTeam,
+    error: null,
+    message: isSecondRound
+      ? 'Second round detected: new pairings were added on top of existing submissions.'
+      : undefined,
+  };
 }
