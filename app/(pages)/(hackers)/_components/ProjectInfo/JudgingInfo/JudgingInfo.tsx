@@ -4,13 +4,13 @@ import ProjectInfoAccordion, {
   AccordionItemInt,
 } from '../ProjectInfoAccordion/ProjectInfoAccordion';
 import SubmissionDue from './JudgingSteps/SubmissionDue/SubmissionDue';
-import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 import DemoTime from './JudgingSteps/DemoTime/DemoTime';
 import Break from './JudgingSteps/Break/Break';
 import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
 import ResourceHelp from '../../StarterKit/Resources/ResourceHelp';
 import StarterKitSlide from '../../StarterKit/StarterKitSlide';
 import styles from './JudgingInfo.module.scss';
+import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 
 const accordionItems: AccordionItemInt[] = [
   {
