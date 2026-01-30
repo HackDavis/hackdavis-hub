@@ -34,7 +34,6 @@ export async function up(db) {
           },
           tracks: {
             bsonType: 'array',
-            maxItems: 6,
             items: {
               enum: tracks,
               description: 'track must be one of the valid tracks',
