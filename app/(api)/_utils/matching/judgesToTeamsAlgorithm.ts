@@ -161,11 +161,14 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
 
   // Get previous pairings and push it to the judgeToTeam array (so that !duplicateExists is true)
   const previousPairings = await GetJudgeToTeamPairings();
-  if (previousPairings.ok && previousPairings.body) {
-    judgeToTeam.push(...previousPairings.body);
-  } else {
-    console.log(previousPairings.error);
+  if (!previousPairings.ok || !previousPairings.body) {
+    throw new Error(
+      `Failed to load existing judge-to-team pairings: ${
+        previousPairings.error ?? 'Unknown error'
+      }`
+    );
   }
+  judgeToTeam.push(...previousPairings.body);
 
   // Main loop: process each team for each round.
   for (let domainIndex = 0; domainIndex < rounds; domainIndex++) {
