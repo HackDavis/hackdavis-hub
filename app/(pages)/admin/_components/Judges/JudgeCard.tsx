@@ -36,6 +36,9 @@ export default function JudgeCard({
             )}
           </span>
           <p className={styles.email}>{judge.email}</p>
+          <p className={styles.panel_status}>
+            Panel Opt-in: {judge.opted_into_panels ? 'Yes' : 'No'}
+          </p>
         </div>
         <div className={styles.header_details}>
           {editable && (
