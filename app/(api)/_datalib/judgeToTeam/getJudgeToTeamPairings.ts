@@ -2,7 +2,7 @@ import JudgeToTeam from '@typeDefs/judgeToTeam';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { HttpError } from '@utils/response/Errors';
 import Submission from '@typeDefs/submission';
-import { ObjectId } from 'mongodb';
+import { ObjectId, Db } from 'mongodb';
 
 type MongoSubmission = Omit<Submission, 'judge_id' | 'team_id'> & {
   judge_id: ObjectId;
@@ -11,7 +11,7 @@ type MongoSubmission = Omit<Submission, 'judge_id' | 'team_id'> & {
 
 export const GetJudgeToTeamPairings = async () => {
   try {
-    const db = await getDatabase();
+    const db = (await getDatabase()) as Db;
     const submissions = await db
       .collection<MongoSubmission>('submissions')
       .find()
