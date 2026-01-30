@@ -21,7 +21,8 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v4
         with:
-          node-version: '21.1.0'
+          node-version: '22'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -31,18 +32,50 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
-      - name: Lint and build code, then publish to Vercel
-        run: npx vercel --debug --token ${{ secrets.VERCEL_TOKEN }} -n ${{ vars.VERCEL_PROJECT }} --yes --prod
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Sync Environment Variables
+        run: |
+          printf "${{ secrets.MONGODB_URI }}" | vercel env add MONGODB_URI production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ secrets.AUTH_SECRET }}" | vercel env add AUTH_SECRET production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ secrets.HMAC_INVITE_SECRET }}" | vercel env add HMAC_INVITE_SECRET production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ secrets.SENDER_PWD }}" | vercel env add SENDER_PWD production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ secrets.CHECK_IN_CODE }}" | vercel env add CHECK_IN_CODE production --force --token=${{ secrets.VERCEL_TOKEN }}
+
+          printf "${{ vars.ENV_URL }}" | vercel env add BASE_URL production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.INVITE_DEADLINE }}" | vercel env add INVITE_DEADLINE production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.SENDER_EMAIL }}" | vercel env add SENDER_EMAIL production --force --token=${{ secrets.VERCEL_TOKEN }}
         env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        
+      - name: Build Project on Github
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          BASE_URL: ${{ vars.ENV_URL }}
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           HMAC_INVITE_SECRET: ${{ secrets.HMAC_INVITE_SECRET }}
-          INVITE_TIMEOUT: ${{ vars.INVITE_TIMEOUT }}
-          RESET_TIMEOUT: ${{ vars.RESET_TIMEOUT }}
-          SENDER_EMAIL: ${{ vars.SENDER_EMAIL }}
           SENDER_PWD: ${{ secrets.SENDER_PWD }}
           CHECK_IN_CODE: ${{ secrets.CHECK_IN_CODE }}
+
+          BASE_URL: ${{ vars.ENV_URL }}
+          INVITE_DEADLINE: ${{ vars.INVITE_DEADLINE }}
+          SENDER_EMAIL: ${{ vars.SENDER_EMAIL }}
+
+      - name: Deploy Project to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Success
         run: echo "🚀  Deploy successful - BLAST OFF WOO! (woot woot) !!! 🐕 🐕 🐕 🚀 "
