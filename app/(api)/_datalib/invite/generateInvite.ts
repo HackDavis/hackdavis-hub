@@ -20,14 +20,18 @@ export default async function GenerateInvite(
     const emailSchema = z.string().email('Invalid email address.');
     emailSchema.parse(data.email);
 
-    const exp =
-      type === 'invite'
-        ? (process.env.INVITE_TIMEOUT as string)
-        : (process.env.RESET_TIMEOUT as string);
+    if (type === 'invite') {
+      // Invite link valid until specified deadline (DOE)
+      const expiration = process.env.INVITE_DEADLINE;
+      if (!expiration) throw new Error('INVITE_DEADLINE is not set.');
+      data['exp'] = new Date(expiration).getTime();
+    } else {
+      // Reset password link valid for 1 day
+      const resetTimeoutDays = 1;
+      data['exp'] = Date.now() + 1000 * 60 * 60 * 24 * resetTimeoutDays;
+    }
 
-    data['exp'] = Date.now() + 1000 * 60 * 60 * 24 * (parseInt(exp) ?? 7);
     const data_encoded = btoa(JSON.stringify(data));
-
     const hmac_sig = generateHMACSignature(data_encoded);
     const hmac_url = `${process.env.BASE_URL}/${type}/${data_encoded}&${hmac_sig}`;
     console.log(hmac_url);
