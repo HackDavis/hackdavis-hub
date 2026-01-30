@@ -30,6 +30,7 @@ export type CsvRowIssue = {
   autoFixedTracks: CsvTrackAutoFix[];
   missingFields: string[];
   memberColumnsFromTeamMember1: Array<{ header: string; value: string }>;
+  duplicateTeamNumber?: number;
 };
 
 export type CsvValidationReport = {
@@ -339,6 +340,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
   const unknownTrackSet = new Set<string>();
   const output: ParsedRecord[] = [];
   const rowIndexToOutputIndex = new Map<number, number>();
+  const seenTeamNumbers = new Map<number, number>(); // teamNumber -> first rowIndex where seen
 
   try {
     const results = await new Promise<ParsedRecord[]>((resolve, reject) => {
@@ -406,15 +408,28 @@ export async function validateCsvBlob(blob: Blob): Promise<{
                 missingFields.push('Tracks');
               }
 
+              // Check for duplicate teamNumber
+              let isDuplicateTeamNumber = false;
+              if (Number.isFinite(parsedTeamNumber)) {
+                if (seenTeamNumbers.has(parsedTeamNumber)) {
+                  isDuplicateTeamNumber = true;
+                } else {
+                  seenTeamNumbers.set(parsedTeamNumber, rowIndex);
+                }
+              }
+
               if (
                 invalidTracks.length > 0 ||
                 missingFields.length > 0 ||
                 excludedTracks.length > 0 ||
                 duplicateTracks.length > 0 ||
-                autoFixedTracks.length > 0
+                autoFixedTracks.length > 0 ||
+                isDuplicateTeamNumber
               ) {
                 const severity =
-                  invalidTracks.length > 0 || missingFields.length > 0
+                  invalidTracks.length > 0 ||
+                  missingFields.length > 0 ||
+                  isDuplicateTeamNumber
                     ? 'error'
                     : 'warning';
                 issues.push({
@@ -435,6 +450,9 @@ export async function validateCsvBlob(blob: Blob): Promise<{
                   autoFixedTracks,
                   missingFields,
                   memberColumnsFromTeamMember1,
+                  duplicateTeamNumber: isDuplicateTeamNumber
+                    ? parsedTeamNumber
+                    : undefined,
                 });
               }
 

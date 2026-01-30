@@ -274,6 +274,12 @@ export default function CsvIngestion() {
                           {i.missingFields?.length ? (
                             <> (Missing: {i.missingFields.join(', ')})</>
                           ) : null}
+                          {i.duplicateTeamNumber !== undefined ? (
+                            <>
+                              {' '}
+                              (Duplicate Table Number: {i.duplicateTeamNumber})
+                            </>
+                          ) : null}
                           {i.invalidTracks?.length ? (
                             <> (Invalid tracks: {i.invalidTracks.join(', ')})</>
                           ) : null}
@@ -311,6 +317,12 @@ export default function CsvIngestion() {
                           Team {i.teamNumberRaw} — {i.projectTitle}
                           {i.contactNames?.length ? (
                             <> (Submitter: {i.contactNames.join(', ')})</>
+                          ) : null}
+                          {i.duplicateTeamNumber !== undefined ? (
+                            <>
+                              {' '}
+                              (Duplicate Table Number: {i.duplicateTeamNumber})
+                            </>
                           ) : null}
                           {i.duplicateTracks?.length ? (
                             <> (Duplicates: {i.duplicateTracks.join(', ')})</>
