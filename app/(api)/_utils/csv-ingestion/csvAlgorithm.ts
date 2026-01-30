@@ -338,6 +338,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
   const issues: CsvRowIssue[] = [];
   const unknownTrackSet = new Set<string>();
   const output: ParsedRecord[] = [];
+  const rowIndexToOutputIndex = new Map<number, number>();
 
   try {
     const results = await new Promise<ParsedRecord[]>((resolve, reject) => {
@@ -437,6 +438,9 @@ export async function validateCsvBlob(blob: Blob): Promise<{
                 });
               }
 
+              const outputIndex = output.length;
+              rowIndexToOutputIndex.set(rowIndex, outputIndex);
+
               output.push({
                 name: projectTitle,
                 teamNumber: parsedTeamNumber,
@@ -471,14 +475,21 @@ export async function validateCsvBlob(blob: Blob): Promise<{
     const errorRows = issues.filter((i) => i.severity === 'error').length;
     const warningRows = issues.filter((i) => i.severity === 'warning').length;
 
-    const errorTeamNumbers = new Set(
-      issues
-        .filter((i) => i.severity === 'error' && i.teamNumber !== undefined)
-        .map((i) => i.teamNumber as number)
+    // Use rowIndex-based filtering to avoid NaN equality issues with Set.has()
+    const errorRowIndexes = new Set(
+      issues.filter((i) => i.severity === 'error').map((i) => i.rowIndex)
     );
-    const validBody = results.filter(
-      (t) => !errorTeamNumbers.has(t.teamNumber)
-    );
+
+    const validBody = results.filter((_, index) => {
+      // Find the original rowIndex for this result
+      for (const [rowIdx, outputIdx] of rowIndexToOutputIndex.entries()) {
+        if (outputIdx === index) {
+          return !errorRowIndexes.has(rowIdx);
+        }
+      }
+      // If somehow not found, include it (should not happen in practice)
+      return true;
+    });
 
     const report: CsvValidationReport = {
       totalTeamsParsed: results.length,

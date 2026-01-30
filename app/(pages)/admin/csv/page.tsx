@@ -4,7 +4,10 @@ import ingestTeams from '@actions/logic/ingestTeams';
 import checkTeamsPopulated from '@actions/logic/checkTeamsPopulated';
 import React, { useEffect, useState } from 'react';
 import ParsedRecord from '@typeDefs/parsedRecord';
-import { CsvValidationReport } from '@utils/csv-ingestion/csvAlgorithm';
+import {
+  CsvValidationReport,
+  CsvRowIssue,
+} from '@utils/csv-ingestion/csvAlgorithm';
 
 type ValidationResponse = {
   ok: boolean;
@@ -116,7 +119,7 @@ export default function CsvIngestion() {
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '');
 
-  const buildTeamMemberLines = (issue: any): string[] => {
+  const buildTeamMemberLines = (issue: CsvRowIssue): string[] => {
     const cols = Array.isArray(issue?.memberColumnsFromTeamMember1)
       ? issue.memberColumnsFromTeamMember1
       : [];
@@ -156,8 +159,8 @@ export default function CsvIngestion() {
     if (!validation?.report) return '';
 
     const rows = validation.report.issues
-      .filter((i: any) => i.severity === severity)
-      .map((i: any) => {
+      .filter((i: CsvRowIssue) => i.severity === severity)
+      .map((i: CsvRowIssue) => {
         const header = `Team ${i.teamNumberRaw} — ${i.projectTitle}`;
 
         const submitterName = i.contactNames?.length
@@ -258,8 +261,8 @@ export default function CsvIngestion() {
                 </button>
                 <ul className="text-sm list-disc pl-6">
                   {validation.report.issues
-                    .filter((i: any) => i.severity === 'error')
-                    .map((i: any) => {
+                    .filter((i: CsvRowIssue) => i.severity === 'error')
+                    .map((i: CsvRowIssue) => {
                       const memberLines = buildTeamMemberLines(i);
 
                       return (
@@ -299,8 +302,8 @@ export default function CsvIngestion() {
                 </button>
                 <ul className="text-sm list-disc pl-6">
                   {validation.report.issues
-                    .filter((i: any) => i.severity === 'warning')
-                    .map((i: any) => {
+                    .filter((i: CsvRowIssue) => i.severity === 'warning')
+                    .map((i: CsvRowIssue) => {
                       const teamMemberLines = buildTeamMemberLines(i);
 
                       return (
