@@ -339,7 +339,6 @@ export async function validateCsvBlob(blob: Blob): Promise<{
   const issues: CsvRowIssue[] = [];
   const unknownTrackSet = new Set<string>();
   const output: ParsedRecord[] = [];
-  const rowIndexToOutputIndex = new Map<number, number>();
   const seenTeamNumbers = new Map<number, number>(); // teamNumber -> first rowIndex where seen
 
   try {
@@ -456,16 +455,14 @@ export async function validateCsvBlob(blob: Blob): Promise<{
                 });
               }
 
-              const outputIndex = output.length;
-              rowIndexToOutputIndex.set(rowIndex, outputIndex);
-
               output.push({
                 name: projectTitle,
                 teamNumber: parsedTeamNumber,
                 tableNumber: 0, // assigned after ordering
                 tracks: canonicalTracks,
                 active: true,
-              });
+                _rowIndex: rowIndex, // Store original CSV row index for error filtering
+              } as any);
             }
           })
           .on('end', () => {
@@ -498,20 +495,26 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       issues.filter((i) => i.severity === 'error').map((i) => i.rowIndex)
     );
 
-    const validBody = results.filter((_, index) => {
-      // Find the original rowIndex for this result
-      for (const [rowIdx, outputIdx] of rowIndexToOutputIndex.entries()) {
-        if (outputIdx === index) {
-          return !errorRowIndexes.has(rowIdx);
-        }
-      }
-      // If somehow not found, include it (should not happen in practice)
-      return true;
+    const validBody = results.filter((team) => {
+      // Use rowIndex stored on team object (set before reordering)
+      const rowIdx = (team as any)._rowIndex;
+      if (rowIdx === undefined) return true;
+      return !errorRowIndexes.has(rowIdx);
+    });
+
+    // Remove _rowIndex field before returning (only needed for internal filtering)
+    const cleanResults = results.map((team) => {
+      const { _rowIndex: _, ...clean } = team as any;
+      return clean as typeof team;
+    });
+    const cleanValidBody = validBody.map((team) => {
+      const { _rowIndex: _, ...clean } = team as any;
+      return clean as typeof team;
     });
 
     const report: CsvValidationReport = {
-      totalTeamsParsed: results.length,
-      validTeams: validBody.length,
+      totalTeamsParsed: cleanResults.length,
+      validTeams: cleanValidBody.length,
       errorRows,
       warningRows,
       unknownTracks: Array.from(unknownTrackSet).sort(),
@@ -521,8 +524,8 @@ export async function validateCsvBlob(blob: Blob): Promise<{
     const ok = report.errorRows === 0;
     return {
       ok,
-      body: results,
-      validBody,
+      body: cleanResults,
+      validBody: cleanValidBody,
       report,
       error: ok ? null : 'CSV validation failed. Fix errors and re-validate.',
     };
