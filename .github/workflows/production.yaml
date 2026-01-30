@@ -5,7 +5,27 @@ on:
     types: [published]
 
 jobs:
+  check_hackbot_knowledge:
+    name: Check if hackbot_knowledge.json changed
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.filter.outputs.hackbot_knowledge }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check file changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            hackbot_knowledge:
+              - 'app/_data/hackbot_knowledge.json'
+
   deploy_staging:
+    needs: check_hackbot_knowledge
     name: Deploy Production
     runs-on: ubuntu-latest
     environment:
@@ -29,6 +49,15 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
+      - name: Seed hackbot documentation
+        if: needs.check_hackbot_knowledge.outputs.changed == 'true'
+        run: npm run hackbot:seed
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_EMBEDDING_MODEL: ${{ vars.GOOGLE_EMBEDDING_MODEL }}
+          HACKBOT_MODE: google
+
       - name: Lint and build code, then publish to Vercel
         run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} -n ${{ vars.VERCEL_PROJECT }} --yes --prod
         env:
@@ -41,6 +70,11 @@ jobs:
           SENDER_EMAIL: ${{ vars.SENDER_EMAIL }}
           SENDER_PWD: ${{ secrets.SENDER_PWD }}
           CHECK_IN_CODE: ${{ secrets.CHECK_IN_CODE }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_MODEL: ${{ vars.GOOGLE_MODEL }}
+          GOOGLE_EMBEDDING_MODEL: ${{ vars.GOOGLE_EMBEDDING_MODEL }}
+          GOOGLE_MAX_TOKENS: ${{ vars.GOOGLE_MAX_TOKENS }}
+          HACKBOT_MODE: google
 
       - name: Success
         run: echo "🚀  Deploy successful - BLAST OFF WOO! (woot woot) !!! 🐕 🐕 🐕 🚀 "

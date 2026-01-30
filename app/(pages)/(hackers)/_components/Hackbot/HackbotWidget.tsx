@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@pages/_globals/components/ui/button';
 
 export type HackbotChatMessage = {
@@ -10,18 +10,55 @@ export type HackbotChatMessage = {
 };
 
 const MAX_USER_MESSAGE_CHARS = 200;
+const STORAGE_KEY = 'hackbot_chat_history';
+const MAX_STORED_MESSAGES = 20;
 
 export default function HackbotWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<HackbotChatMessage[]>([]);
+  const [messages, setMessages] = useState<HackbotChatMessage[]>(() => {
+    // Load from localStorage on mount
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) {
+            return parsed.slice(-MAX_STORED_MESSAGES);
+          }
+        }
+      } catch (err) {
+        console.error('[hackbot] Failed to load history', err);
+      }
+    }
+    return [];
+  });
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Persist messages to localStorage whenever they change
+  useEffect(() => {
+    if (typeof window !== 'undefined' && messages.length > 0) {
+      try {
+        const toStore = messages.slice(-MAX_STORED_MESSAGES);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(toStore));
+      } catch (err) {
+        console.error('[hackbot] Failed to save history', err);
+      }
+    }
+  }, [messages]);
 
   const canSend =
     !loading &&
     input.trim().length > 0 &&
     input.trim().length <= MAX_USER_MESSAGE_CHARS;
+
+  const clearHistory = () => {
+    setMessages([]);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  };
 
   const toggleOpen = () => {
     setOpen((prev) => !prev);
@@ -41,8 +78,15 @@ export default function HackbotWidget() {
     setError(null);
     setLoading(true);
 
+    // Add placeholder for assistant response
+    const assistantPlaceholder: HackbotChatMessage = {
+      role: 'assistant',
+      content: '',
+    };
+    setMessages((prev) => [...prev, assistantPlaceholder]);
+
     try {
-      const response = await fetch('/api/hackbot', {
+      const response = await fetch('/api/hackbot/stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,22 +99,51 @@ export default function HackbotWidget() {
         }),
       });
 
-      const data = await response.json();
-
-      if (!data.ok) {
-        setError(data.error || 'Something went wrong.');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Stream failed');
       }
 
-      const assistantMessage: HackbotChatMessage = {
-        role: 'assistant',
-        content: data.answer || 'Sorry, I could not answer that.',
-        url: data.url || undefined,
-      };
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = '';
 
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (err) {
-      setError('Network error. Please try again.');
-    } finally {
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('0:')) {
+              // Vercel AI SDK data stream format
+              const content = line.slice(2).trim().replace(/^"(.*)"$/, '$1');
+              if (content) {
+                accumulatedText += content;
+
+                // Update the last message with accumulated text
+                setMessages((prev) => {
+                  const updated = [...prev];
+                  updated[updated.length - 1] = {
+                    ...updated[updated.length - 1],
+                    content: accumulatedText,
+                  };
+                  return updated;
+                });
+              }
+            }
+          }
+        }
+      }
+
+      setLoading(false);
+    } catch (err: any) {
+      console.error('[hackbot] Stream error', err);
+      setError(err.message || 'Network error. Please try again.');
+      // Remove placeholder message on error
+      setMessages((prev) => prev.slice(0, -1));
       setLoading(false);
     }
   };
@@ -92,13 +165,25 @@ export default function HackbotWidget() {
                 judging, or submissions.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={toggleOpen}
-              className="h-6 w-6 rounded-full border border-slate-600 text-xs text-slate-200 flex items-center justify-center hover:bg-slate-700"
-            >
-              ✕
-            </button>
+            <div className="flex items-center gap-1">
+              {messages.length > 0 && (
+                <button
+                  type="button"
+                  onClick={clearHistory}
+                  className="h-6 w-6 rounded-full border border-slate-600 text-xs text-slate-200 flex items-center justify-center hover:bg-slate-700"
+                  title="Clear chat history"
+                >
+                  🗑️
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={toggleOpen}
+                className="h-6 w-6 rounded-full border border-slate-600 text-xs text-slate-200 flex items-center justify-center hover:bg-slate-700"
+              >
+                ✕
+              </button>
+            </div>
           </header>
 
           <section className="px-3 py-2 h-64 overflow-y-auto text-xs space-y-2">
@@ -164,10 +249,27 @@ export default function HackbotWidget() {
                 disabled={!canSend}
                 className="h-7 px-3 text-[11px]"
               >
-                {loading ? 'Thinking...' : 'Send'}
+                {loading ? (
+                  <span className="flex items-center gap-1">
+                    <span className="animate-pulse">●</span> Thinking...
+                  </span>
+                ) : (
+                  'Send'
+                )}
               </Button>
             </div>
-            {error && <p className="text-[10px] text-red-400 mt-1">{error}</p>}
+            {error && (
+              <div className="text-[10px] bg-red-900/20 border border-red-700 rounded px-2 py-1 mt-1">
+                <p className="text-red-400">{error}</p>
+                <button
+                  type="button"
+                  onClick={() => setError(null)}
+                  className="text-red-300 underline text-[9px] mt-1"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
           </form>
         </div>
       )}

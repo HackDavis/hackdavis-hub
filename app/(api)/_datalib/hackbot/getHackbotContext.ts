@@ -10,6 +10,97 @@ export interface RetrievedContext {
   };
 }
 
+interface QueryComplexity {
+  type: 'simple' | 'moderate' | 'complex';
+  docLimit: number;
+  reason: string;
+}
+
+interface RetryOptions {
+  maxAttempts: number;
+  delayMs: number;
+  backoffMultiplier: number;
+  retryableErrors?: string[];
+}
+
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  options: RetryOptions
+): Promise<T> {
+  const {
+    maxAttempts,
+    delayMs,
+    backoffMultiplier,
+    retryableErrors = ['ECONNREFUSED', 'ETIMEDOUT', 'ENOTFOUND'],
+  } = options;
+
+  let lastError: Error | null = null;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      lastError = err;
+
+      const isRetryable =
+        retryableErrors.some((code) => err.message?.includes(code)) ||
+        err.status === 429 || // Rate limit
+        err.status === 500 || // Server error
+        err.status === 502 || // Bad gateway
+        err.status === 503 || // Service unavailable
+        err.status === 504; // Gateway timeout
+
+      if (!isRetryable || attempt === maxAttempts) {
+        throw err;
+      }
+
+      const delay = delayMs * Math.pow(backoffMultiplier, attempt - 1);
+      console.log(
+        `[hackbot][retry] Attempt ${attempt}/${maxAttempts} failed. Retrying in ${delay}ms...`,
+        err.message
+      );
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+
+  throw lastError;
+}
+
+function analyzeQueryComplexity(query: string): QueryComplexity {
+  const trimmed = query.trim().toLowerCase();
+  const words = trimmed.split(/\s+/);
+
+  // Simple greeting or single fact
+  if (words.length <= 5) {
+    if (/^(hi|hello|hey|thanks|thank you|ok|okay)/.test(trimmed)) {
+      return { type: 'simple', docLimit: 5, reason: 'greeting' };
+    }
+    if (/^(what|when|where|who)\s+(is|are)/.test(trimmed)) {
+      return { type: 'simple', docLimit: 10, reason: 'single fact question' };
+    }
+  }
+
+  // Timeline/schedule queries (need more docs)
+  if (
+    /\b(schedule|timeline|agenda|itinerary|all events|list)\b/.test(trimmed) ||
+    (words.length >= 3 && /\b(what|show|tell)\b/.test(trimmed))
+  ) {
+    return { type: 'complex', docLimit: 30, reason: 'schedule/list query' };
+  }
+
+  // Multiple questions or comparisons
+  if (
+    /\b(and|or|versus|vs|compare)\b/.test(trimmed) ||
+    (trimmed.match(/\?/g) || []).length > 1
+  ) {
+    return { type: 'complex', docLimit: 25, reason: 'multi-part query' };
+  }
+
+  // Moderate: specific event or detail
+  return { type: 'moderate', docLimit: 15, reason: 'specific detail query' };
+}
+
 function formatEventDateTime(raw: unknown): string | null {
   let date: Date | null = null;
 
@@ -81,7 +172,84 @@ function formatLiveEventDoc(event: any): {
   };
 }
 
-async function getQueryEmbedding(query: string): Promise<{
+async function getGoogleEmbedding(query: string): Promise<{
+  embedding: number[];
+  usage?: {
+    promptTokens?: number;
+    totalTokens?: number;
+  };
+} | null> {
+  try {
+    const { embed } = await import('ai');
+    const { google } = await import('@ai-sdk/google');
+
+    const startedAt = Date.now();
+    const model = process.env.GOOGLE_EMBEDDING_MODEL || 'text-embedding-004';
+
+    const { embedding, usage } = await embed({
+      model: google.textEmbeddingModel(model),
+      value: query,
+    });
+
+    console.log('[hackbot][google][embeddings]', {
+      model,
+      tokens: usage.tokens,
+      ms: Date.now() - startedAt,
+    });
+
+    return {
+      embedding,
+      usage: {
+        promptTokens: usage.tokens,
+        totalTokens: usage.tokens,
+      },
+    };
+  } catch (err) {
+    console.error('[hackbot][embeddings][google] Failed', err);
+    return null;
+  }
+}
+
+async function getOpenAIEmbedding(query: string): Promise<{
+  embedding: number[];
+  usage?: {
+    promptTokens?: number;
+    totalTokens?: number;
+  };
+} | null> {
+  try {
+    const { embed } = await import('ai');
+    const { openai } = await import('@ai-sdk/openai');
+
+    const startedAt = Date.now();
+    const model =
+      process.env.OPENAI_EMBEDDING_MODEL || 'text-embedding-3-small';
+
+    const { embedding, usage } = await embed({
+      model: openai.embedding(model),
+      value: query,
+    });
+
+    console.log('[hackbot][openai][embeddings]', {
+      model,
+      tokens: usage.tokens,
+      ms: Date.now() - startedAt,
+    });
+
+    return {
+      embedding,
+      usage: {
+        promptTokens: usage.tokens,
+        totalTokens: usage.tokens,
+      },
+    };
+  } catch (err) {
+    console.error('[hackbot][embeddings][openai] Failed', err);
+    return null;
+  }
+}
+
+async function getOllamaEmbedding(query: string): Promise<{
   embedding: number[];
   usage?: {
     promptTokens?: number;
@@ -139,8 +307,26 @@ async function getQueryEmbedding(query: string): Promise<{
       },
     };
   } catch (err) {
-    console.error('[hackbot][embeddings] Failed to get embedding', err);
+    console.error('[hackbot][embeddings][ollama] Failed', err);
     return null;
+  }
+}
+
+async function getQueryEmbedding(query: string): Promise<{
+  embedding: number[];
+  usage?: {
+    promptTokens?: number;
+    totalTokens?: number;
+  };
+} | null> {
+  const mode = process.env.HACKBOT_MODE || 'google';
+
+  if (mode === 'google') {
+    return getGoogleEmbedding(query);
+  } else if (mode === 'openai') {
+    return getOpenAIEmbedding(query);
+  } else {
+    return getOllamaEmbedding(query);
   }
 }
 
@@ -148,17 +334,37 @@ export async function retrieveContext(
   query: string,
   opts?: { limit?: number; preferredTypes?: HackDocType[] }
 ): Promise<RetrievedContext> {
-  const limit = opts?.limit ?? 25;
   const trimmed = query.trim();
+
+  // Analyze query complexity if no explicit limit provided
+  let limit = opts?.limit;
+  if (!limit) {
+    const complexity = analyzeQueryComplexity(trimmed);
+    limit = complexity.docLimit;
+    console.log('[hackbot][retrieve][adaptive]', {
+      query: trimmed,
+      complexity: complexity.type,
+      docLimit: limit,
+      reason: complexity.reason,
+    });
+  }
 
   // Vector-only search over hackbot_docs in MongoDB.
   try {
-    const embeddingResult = await getQueryEmbedding(trimmed);
+    const embeddingResult = await retryWithBackoff(
+      () => getQueryEmbedding(trimmed),
+      {
+        maxAttempts: 3,
+        delayMs: 1000,
+        backoffMultiplier: 2,
+      }
+    );
+
     if (!embeddingResult) {
       console.error(
         '[hackbot][retrieve] No embedding available for query; vector search required.'
       );
-      throw new Error('Embedding unavailable');
+      throw new Error('Embedding unavailable after retries');
     }
 
     const embedding = embeddingResult.embedding;
