@@ -226,7 +226,7 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
   }
 
   // Remove the previous pairings
-  if (previousPairings.body) {
+  if (previousPairings.ok && previousPairings.body) {
     judgeToTeam.splice(0, previousPairings.body.length);
   }
 
