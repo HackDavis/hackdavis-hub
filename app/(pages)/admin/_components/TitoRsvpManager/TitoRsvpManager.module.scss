@@ -1,0 +1,181 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.container :global(h2) {
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.container :global(h3) {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.section {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup :global(label) {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.formGroup :global(input),
+.formGroup :global(select) {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.formGroup :global(input:focus),
+.formGroup :global(select:focus) {
+  outline: none;
+  border-color: #007bff;
+}
+
+.formGroup :global(input:disabled),
+.formGroup :global(select:disabled) {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.createListForm,
+.invitationForm {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.secondaryButton {
+  composes: button;
+  background-color: #6c757d;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background-color: #545b62;
+}
+
+.refreshButton {
+  composes: button;
+  margin-top: 0.5rem;
+  background-color: #28a745;
+}
+
+.refreshButton:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  border: 1px solid #f5c6cb;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  border: 1px solid #c3e6cb;
+}
+
+.releasesInfo {
+  margin-bottom: 1.5rem;
+}
+
+.releasesList {
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.releasesList :global(h4) {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.releasesList :global(ul) {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.releasesList :global(li) {
+  padding: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.releasesList :global(li:last-child) {
+  border-bottom: none;
+}
+
+.helpText {
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.autoFillButton {
+  composes: button;
+  margin-top: 0.5rem;
+  background-color: #17a2b8;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+
+.autoFillButton:hover:not(:disabled) {
+  background-color: #138496;
+}
