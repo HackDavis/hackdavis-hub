@@ -29,6 +29,7 @@ export default function TitoRsvpManager() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [invitationUrl, setInvitationUrl] = useState('');
   const [showCreateList, setShowCreateList] = useState(false);
   const [newListTitle, setNewListTitle] = useState('');
 
@@ -85,6 +86,7 @@ export default function TitoRsvpManager() {
     setLoading(true);
     setError('');
     setSuccess('');
+    setInvitationUrl('');
 
     try {
       const response = await createRsvpList(newListTitle);
@@ -135,9 +137,17 @@ export default function TitoRsvpManager() {
       });
 
       if (response.ok && response.body) {
+        const fullName = [response.body.first_name, response.body.last_name]
+          .filter(Boolean)
+          .join(' ');
         setSuccess(
-          `Invitation sent successfully to ${response.body.email} (${response.body.first_name} ${response.body.last_name})`
+          `Invitation sent successfully to ${response.body.email}${fullName ? ` (${fullName})` : ''}`
         );
+        // Use unique_url if available, fallback to url
+        const inviteUrl = response.body.unique_url || response.body.url;
+        if (inviteUrl) {
+          setInvitationUrl(inviteUrl);
+        }
         (e.target as HTMLFormElement).reset();
       } else {
         setError(response.error || 'Failed to send invitation');
@@ -359,7 +369,44 @@ export default function TitoRsvpManager() {
       </div>
 
       {error && <div className={styles.error}>{error}</div>}
-      {success && <div className={styles.success}>{success}</div>}
+      {success && (
+        <div className={styles.success}>
+          <p>{success}</p>
+          {invitationUrl && (
+            <div className={styles.invitationUrlContainer}>
+              <p>
+                <strong>Invitation URL:</strong>
+              </p>
+              <div className={styles.urlBox}>
+                <input
+                  type="text"
+                  value={invitationUrl}
+                  readOnly
+                  className={styles.urlInput}
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(invitationUrl);
+                    alert('Invitation URL copied to clipboard!');
+                  }}
+                  className={styles.copyButton}
+                >
+                  Copy
+                </button>
+              </div>
+              <a
+                href={invitationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.urlLink}
+              >
+                Open invitation link
+              </a>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
