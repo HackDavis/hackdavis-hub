@@ -19,12 +19,15 @@ interface Release {
 
 const EMAIL_TYPES = [
   {
-    value: '2026_accepted_template',
+    value: '2026AcceptedTemplate',
     label: 'Accepted (with Hub + Tito invite)',
   },
-  { value: '2026_waitlisted_template', label: 'Waitlisted' },
-  { value: '2026_waitlist_accepted_template', label: 'Waitlist Accepted' },
-  { value: '2026_waitlist_rejected_template', label: 'Waitlist Rejected' },
+  { value: '2026WaitlistedTemplate', label: 'Waitlisted' },
+  {
+    value: '2026WaitlistAcceptedTemplate',
+    label: 'Waitlist Accepted (with Hub + Tito invite)',
+  },
+  { value: '2026WaitlistRejectedTemplate', label: 'Waitlist Rejected' },
 ];
 
 export default function HackerEmailSender() {
@@ -32,7 +35,7 @@ export default function HackerEmailSender() {
   const [releases, setReleases] = useState<Release[]>([]);
   const [selectedListSlug, setSelectedListSlug] = useState('');
   const [selectedEmailType, setSelectedEmailType] = useState(
-    '2026_accepted_template'
+    '2026AcceptedTemplate'
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -90,13 +93,11 @@ export default function HackerEmailSender() {
         email,
         emailType: selectedEmailType as any,
         rsvpListSlug:
-          selectedEmailType === '2026_accepted_template'
+          selectedEmailType === '2026AcceptedTemplate'
             ? selectedListSlug
             : undefined,
         releaseIds:
-          selectedEmailType === '2026_accepted_template'
-            ? releaseIds
-            : undefined,
+          selectedEmailType === '2026AcceptedTemplate' ? releaseIds : undefined,
       });
 
       if (response.ok) {
@@ -114,7 +115,7 @@ export default function HackerEmailSender() {
     }
   };
 
-  const needsInvites = selectedEmailType === '2026_accepted_template';
+  const needsInvites = selectedEmailType === '2026AcceptedTemplate';
 
   return (
     <div className="max-w-3xl mx-auto p-8">
