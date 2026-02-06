@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState, useEffect } from 'react';
+import { FormEvent, useState, useEffect, useRef } from 'react';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import sendBulkMentorInvites from '@actions/emails/sendBulkMentorInvites';
@@ -36,6 +36,7 @@ export default function MentorBulkInvite() {
   const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
   const [inviteMode, setInviteMode] = useState<'single' | 'bulk'>('bulk');
   const [titoUrl, setTitoUrl] = useState('');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     loadData();
@@ -89,6 +90,17 @@ export default function MentorBulkInvite() {
       }
     };
     reader.readAsText(file);
+  };
+
+  const handleClearCsv = () => {
+    setMentors([]);
+    setResults([]);
+    setError('');
+    setSuccess('');
+    setTitoUrl('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -274,12 +286,23 @@ export default function MentorBulkInvite() {
               accept=".csv"
               onChange={handleFileUpload}
               disabled={loading}
+              ref={fileInputRef}
               className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed p-2"
             />
             {mentors.length > 0 && (
-              <p className="text-green-600 font-medium mt-2">
-                ✓ Loaded {mentors.length} mentors
-              </p>
+              <div className="flex items-center justify-between mt-2">
+                <p className="text-green-600 font-medium">
+                  ✓ Loaded {mentors.length} mentors
+                </p>
+                <button
+                  type="button"
+                  onClick={handleClearCsv}
+                  disabled={loading}
+                  className="text-sm text-red-600 hover:text-red-700 disabled:text-gray-400"
+                >
+                  Clear CSV
+                </button>
+              </div>
             )}
           </div>
         )}
