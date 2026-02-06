@@ -1,11 +1,8 @@
 'use server';
 
 import createRsvpInvitation from '@actions/tito/createRsvpInvitation';
-import nodemailer from 'nodemailer';
 import mentorInviteTemplate from './emailFormats/2026MentorInviteTemplate';
-
-const senderEmail = process.env.SENDER_EMAIL;
-const password = process.env.SENDER_PWD;
+import { DEFAULT_SENDER, transporter } from './transporter';
 
 interface MentorData {
   firstName: string;
@@ -67,22 +64,14 @@ export default async function sendBulkMentorInvites(
       const titoUrl = titoResponse.body.unique_url;
 
       // 2. Send email with Tito URL
-      if (!senderEmail || !password) {
+      if (!DEFAULT_SENDER) {
         throw new Error('Email configuration missing');
       }
 
       const htmlContent = mentorInviteTemplate(mentor.firstName, titoUrl);
 
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: senderEmail,
-          pass: password,
-        },
-      });
-
       await transporter.sendMail({
-        from: senderEmail,
+        from: DEFAULT_SENDER,
         to: mentor.email,
         subject: 'Welcome to HackDavis 2025 - Mentor Invitation',
         html: htmlContent,

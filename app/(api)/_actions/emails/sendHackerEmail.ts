@@ -2,14 +2,11 @@
 
 import createRsvpInvitation from '@actions/tito/createRsvpInvitation';
 import GenerateInvite from '@datalib/invite/generateInvite';
-import nodemailer from 'nodemailer';
 import acceptedTemplate from './emailFormats/2026AcceptedTemplate';
 import waitlistedTemplate from './emailFormats/2026WaitlistedTemplate';
 import waitlistAcceptedTemplate from './emailFormats/2026WaitlistAcceptedTemplate';
 import waitlistRejectedTemplate from './emailFormats/2026WaitlistRejectedTemplate';
-
-const senderEmail = process.env.SENDER_EMAIL;
-const password = process.env.SENDER_PWD;
+import { DEFAULT_SENDER, transporter } from './transporter';
 
 interface HackerEmailOptions {
   firstName: string;
@@ -39,7 +36,7 @@ export default async function sendHackerEmail(
       `[Hacker Email] Sending ${options.emailType} to ${options.email}`
     );
 
-    if (!senderEmail || !password) {
+    if (!DEFAULT_SENDER) {
       throw new Error('Email configuration missing');
     }
 
@@ -112,16 +109,8 @@ export default async function sendHackerEmail(
     }
 
     // 3. Send email
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: senderEmail,
-        pass: password,
-      },
-    });
-
     await transporter.sendMail({
-      from: senderEmail,
+      from: DEFAULT_SENDER,
       to: options.email,
       subject: getEmailSubject(options.emailType),
       html: htmlContent,
