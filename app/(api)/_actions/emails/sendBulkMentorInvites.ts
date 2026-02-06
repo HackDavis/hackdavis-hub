@@ -28,7 +28,9 @@ async function processMentor(
     releaseIds: options.releaseIds,
   });
   console.log(
-    `[Bulk Mentor Invites] Tito API call took ${Date.now() - titoStartTime}ms for ${mentor.email}`
+    `[Bulk Mentor Invites] Tito API call took ${
+      Date.now() - titoStartTime
+    }ms for ${mentor.email}`
   );
 
   if (!titoResponse.ok || !titoResponse.body?.unique_url) {
@@ -52,11 +54,15 @@ async function processMentor(
     html: htmlContent,
   });
   console.log(
-    `[Bulk Mentor Invites] Nodemailer sendMail took ${Date.now() - emailStartTime}ms for ${mentor.email}`
+    `[Bulk Mentor Invites] Nodemailer sendMail took ${
+      Date.now() - emailStartTime
+    }ms for ${mentor.email}`
   );
 
   console.log(
-    `[Bulk Mentor Invites] ✓ Success: ${mentor.email} (total: ${Date.now() - mentorStartTime}ms)`
+    `[Bulk Mentor Invites] ✓ Success: ${mentor.email} (total: ${
+      Date.now() - mentorStartTime
+    }ms)`
   );
   return { email: mentor.email, success: true, titoUrl };
 }
@@ -108,13 +114,17 @@ export default async function sendBulkMentorInvites(
     }
 
     console.log(
-      `[Bulk Mentor Invites] Batch ${batchNum}/${totalBatches} completed in ${Date.now() - batchStartTime}ms`
+      `[Bulk Mentor Invites] Batch ${batchNum}/${totalBatches} completed in ${
+        Date.now() - batchStartTime
+      }ms`
     );
   }
 
   const totalTime = Date.now() - totalStartTime;
   console.log(
-    `[Bulk Mentor Invites] Complete: ${successCount} success, ${failureCount} failed in ${(totalTime / 1000).toFixed(1)}s`
+    `[Bulk Mentor Invites] Complete: ${successCount} success, ${failureCount} failed in ${(
+      totalTime / 1000
+    ).toFixed(1)}s`
   );
 
   return {
