@@ -2,16 +2,11 @@
 
 import { FormEvent, useState, useEffect, useRef } from 'react';
 import { RsvpList, Release } from '@typeDefs/tito';
+import { MentorData } from '@typeDefs/emails';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import sendBulkMentorInvites from '@actions/emails/sendBulkMentorInvites';
 import sendSingleMentorInvite from '@actions/emails/sendSingleMentorInvite';
-
-interface MentorData {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
 
 export default function MentorBulkInvite() {
   const [rsvpLists, setRsvpLists] = useState<RsvpList[]>([]);

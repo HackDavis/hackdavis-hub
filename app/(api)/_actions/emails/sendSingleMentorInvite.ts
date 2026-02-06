@@ -3,24 +3,11 @@
 import createRsvpInvitation from '@actions/tito/createRsvpInvitation';
 import mentorInviteTemplate from './emailFormats/2026MentorInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
-
-interface SingleMentorOptions {
-  firstName: string;
-  lastName: string;
-  email: string;
-  rsvpListSlug: string;
-  releaseIds: string;
-}
-
-interface Response {
-  ok: boolean;
-  titoUrl?: string;
-  error: string | null;
-}
+import { SingleInviteResponse, SingleMentorOptions } from '@typeDefs/emails';
 
 export default async function sendSingleMentorInvite(
   options: SingleMentorOptions
-): Promise<Response> {
+): Promise<SingleInviteResponse> {
   try {
     console.log(`[Single Mentor Invite] Sending invite to ${options.email}`);
 

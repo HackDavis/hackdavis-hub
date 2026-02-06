@@ -7,30 +7,15 @@ import waitlistedTemplate from './emailFormats/2026WaitlistedTemplate';
 import waitlistAcceptedTemplate from './emailFormats/2026WaitlistAcceptedTemplate';
 import waitlistRejectedTemplate from './emailFormats/2026WaitlistRejectedTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
-
-interface HackerEmailOptions {
-  firstName: string;
-  lastName: string;
-  email: string;
-  emailType:
-    | '2026AcceptedTemplate'
-    | '2026WaitlistedTemplate'
-    | '2026WaitlistAcceptedTemplate'
-    | '2026WaitlistRejectedTemplate';
-  rsvpListSlug?: string;
-  releaseIds?: string;
-}
-
-interface Response {
-  ok: boolean;
-  titoUrl?: string;
-  hubUrl?: string;
-  error: string | null;
-}
+import {
+  EmailType,
+  HackerEmailOptions,
+  HackerEmailResponse,
+} from '@typeDefs/emails';
 
 export default async function sendHackerEmail(
   options: HackerEmailOptions
-): Promise<Response> {
+): Promise<HackerEmailResponse> {
   try {
     console.log(
       `[Hacker Email] Sending ${options.emailType} to ${options.email}`
@@ -134,7 +119,7 @@ export default async function sendHackerEmail(
   }
 }
 
-function getEmailSubject(emailType: string): string {
+function getEmailSubject(emailType: EmailType): string {
   switch (emailType) {
     case '2026AcceptedTemplate':
       return "Congratulations! You're Accepted to HackDavis 2025";

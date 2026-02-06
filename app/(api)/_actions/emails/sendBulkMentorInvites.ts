@@ -3,37 +3,15 @@
 import createRsvpInvitation from '@actions/tito/createRsvpInvitation';
 import mentorInviteTemplate from './emailFormats/2026MentorInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
-
-interface MentorData {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-
-interface BulkInviteOptions {
-  mentors: MentorData[];
-  rsvpListSlug: string;
-  releaseIds: string;
-}
-
-interface InviteResult {
-  email: string;
-  success: boolean;
-  titoUrl?: string;
-  error?: string;
-}
-
-interface Response {
-  ok: boolean;
-  results: InviteResult[];
-  successCount: number;
-  failureCount: number;
-  error: string | null;
-}
+import {
+  BulkInviteOptions,
+  BulkInviteResponse,
+  InviteResult,
+} from '@typeDefs/emails';
 
 export default async function sendBulkMentorInvites(
   options: BulkInviteOptions
-): Promise<Response> {
+): Promise<BulkInviteResponse> {
   const results: InviteResult[] = [];
   let successCount = 0;
   let failureCount = 0;

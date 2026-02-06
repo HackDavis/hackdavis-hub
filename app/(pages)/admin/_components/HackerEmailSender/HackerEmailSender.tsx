@@ -5,8 +5,9 @@ import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import sendHackerEmail from '@actions/emails/sendHackerEmail';
 import { RsvpList, Release } from '@typeDefs/tito';
+import { EmailType } from '@typeDefs/emails';
 
-const EMAIL_TYPES = [
+const EMAIL_TYPES: { value: EmailType; label: string }[] = [
   {
     value: '2026AcceptedTemplate',
     label: 'Accepted (with Hub + Tito invite)',
@@ -23,7 +24,7 @@ export default function HackerEmailSender() {
   const [rsvpLists, setRsvpLists] = useState<RsvpList[]>([]);
   const [releases, setReleases] = useState<Release[]>([]);
   const [selectedListSlug, setSelectedListSlug] = useState('');
-  const [selectedEmailType, setSelectedEmailType] = useState(
+  const [selectedEmailType, setSelectedEmailType] = useState<EmailType>(
     '2026AcceptedTemplate'
   );
   const [loading, setLoading] = useState(false);
@@ -80,7 +81,7 @@ export default function HackerEmailSender() {
         firstName,
         lastName,
         email,
-        emailType: selectedEmailType as any,
+        emailType: selectedEmailType,
         rsvpListSlug:
           selectedEmailType === '2026AcceptedTemplate'
             ? selectedListSlug
