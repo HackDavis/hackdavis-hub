@@ -1,38 +1,18 @@
 'use server';
 
+import {
+  ReleaseInvitation,
+  ReleaseInvitationRequest,
+  TitoResponse,
+} from '@typeDefs/tito';
+
 const TITO_API_TOKEN = process.env.TITO_API_TOKEN;
 const TITO_ACCOUNT_SLUG = process.env.TITO_ACCOUNT_SLUG;
 const TITO_EVENT_SLUG = process.env.TITO_EVENT_SLUG;
 
-interface InvitationData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  rsvpListSlug: string;
-  releaseIds: string;
-  discountCode?: string;
-}
-
-interface ReleaseInvitation {
-  id: string;
-  slug: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  url?: string;
-  unique_url?: string;
-  created_at: string;
-}
-
-interface Response {
-  ok: boolean;
-  body: ReleaseInvitation | null;
-  error: string | null;
-}
-
 export default async function createRsvpInvitation(
-  data: InvitationData
-): Promise<Response> {
+  data: ReleaseInvitationRequest
+): Promise<TitoResponse<ReleaseInvitation>> {
   try {
     if (!TITO_API_TOKEN || !TITO_ACCOUNT_SLUG || !TITO_EVENT_SLUG) {
       const error = 'Missing Tito API configuration in environment variables';

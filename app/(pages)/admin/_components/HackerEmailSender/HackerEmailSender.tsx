@@ -4,18 +4,7 @@ import { FormEvent, useState, useEffect } from 'react';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import sendHackerEmail from '@actions/emails/sendHackerEmail';
-
-interface RsvpList {
-  id: string;
-  slug: string;
-  title: string;
-}
-
-interface Release {
-  id: string;
-  slug: string;
-  title: string;
-}
+import { RsvpList, Release } from '@typeDefs/tito';
 
 const EMAIL_TYPES = [
   {

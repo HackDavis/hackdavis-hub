@@ -1,23 +1,11 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { RsvpList, Release } from '@typeDefs/tito';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import createRsvpList from '@actions/tito/createRsvpList';
 import createRsvpInvitation from '@actions/tito/createRsvpInvitation';
 import getReleases from '@actions/tito/getReleases';
-
-interface RsvpList {
-  id: string;
-  slug: string;
-  title: string;
-}
-
-interface Release {
-  id: string;
-  slug: string;
-  title: string;
-  quantity?: number;
-}
 
 export default function TitoRsvpManager() {
   const [rsvpLists, setRsvpLists] = useState<RsvpList[]>([]);

@@ -1,22 +1,11 @@
 'use client';
 
 import { FormEvent, useState, useEffect, useRef } from 'react';
+import { RsvpList, Release } from '@typeDefs/tito';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import sendBulkMentorInvites from '@actions/emails/sendBulkMentorInvites';
 import sendSingleMentorInvite from '@actions/emails/sendSingleMentorInvite';
-
-interface RsvpList {
-  id: string;
-  slug: string;
-  title: string;
-}
-
-interface Release {
-  id: string;
-  slug: string;
-  title: string;
-}
 
 interface MentorData {
   firstName: string;
