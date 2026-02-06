@@ -36,7 +36,7 @@ export default function TitoRsvpManager() {
   useEffect(() => {
     loadRsvpLists();
     loadReleases();
-  }, []);
+  });
 
   const loadReleases = async () => {
     try {
@@ -141,7 +141,9 @@ export default function TitoRsvpManager() {
           .filter(Boolean)
           .join(' ');
         setSuccess(
-          `Invitation sent successfully to ${response.body.email}${fullName ? ` (${fullName})` : ''}`
+          `Invitation sent successfully to ${response.body.email}${
+            fullName ? ` (${fullName})` : ''
+          }`
         );
         // Use unique_url if available, fallback to url
         const inviteUrl = response.body.unique_url || response.body.url;
@@ -248,8 +250,8 @@ export default function TitoRsvpManager() {
               {releases.length === 0 ? (
                 <div>
                   <p>
-                    No releases found via API. Your &quot;test ticket&quot; should appear
-                    here.
+                    No releases found via API. Your &quot;test ticket&quot;
+                    should appear here.
                   </p>
                   <p className={styles.helpText}>
                     Check the server console logs for API errors. Make sure your
@@ -257,8 +259,9 @@ export default function TitoRsvpManager() {
                     &quot;hackdavis-2026-test&quot;).
                   </p>
                   <p className={styles.helpText}>
-                    <strong>Workaround:</strong> Click on your &quot;test ticket&quot; in
-                    Tito, check the URL for its ID, and manually enter it below.
+                    <strong>Workaround:</strong> Click on your &quot;test
+                    ticket&quot; in Tito, check the URL for its ID, and manually
+                    enter it below.
                   </p>
                 </div>
               ) : (
@@ -274,8 +277,8 @@ export default function TitoRsvpManager() {
               )}
               {releases.length > 0 && (
                 <p className={styles.helpText}>
-                  Copy the ID numbers above and paste them below (comma-separated
-                  if multiple)
+                  Copy the ID numbers above and paste them below
+                  (comma-separated if multiple)
                 </p>
               )}
             </div>

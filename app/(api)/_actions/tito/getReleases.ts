@@ -49,7 +49,10 @@ export default async function getReleases(): Promise<Response> {
     const releases = data.releases || [];
 
     console.log('[Tito API] Successfully fetched', releases.length, 'releases');
-    console.log('[Tito API] Full releases response:', JSON.stringify(data, null, 2));
+    console.log(
+      '[Tito API] Full releases response:',
+      JSON.stringify(data, null, 2)
+    );
 
     return {
       ok: true,

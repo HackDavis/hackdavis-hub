@@ -125,7 +125,10 @@ export default async function createRsvpInvitation(
     const invitation = responseData.release_invitation;
 
     console.log('[Tito API] Successfully created invitation:', invitation);
-    console.log('[Tito API] Full response data:', JSON.stringify(responseData, null, 2));
+    console.log(
+      '[Tito API] Full response data:',
+      JSON.stringify(responseData, null, 2)
+    );
     if (invitation.unique_url) {
       console.log('[Tito API] Unique invitation URL:', invitation.unique_url);
     }
