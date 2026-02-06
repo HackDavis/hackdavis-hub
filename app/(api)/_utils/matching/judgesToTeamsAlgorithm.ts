@@ -181,6 +181,10 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
 
       let selectedJudge: Judge | undefined = undefined;
       for (const judge of judgesQueue) {
+        // String() conversion is necessary because:
+        // - previousPairings from GetJudgeToTeamPairings converts ObjectIds to strings
+        // - judge.user._id and team._id are ObjectIds that need .toString()
+        // - Comparing without String() would cause false negatives in duplicate detection
         const duplicateExists = judgeToTeam.some(
           (entry) =>
             String(entry.judge_id) === judge.user._id?.toString() &&

@@ -1,77 +1,124 @@
+import { db } from '../../jest.setup';
 import { GetJudgeToTeamPairings } from '@datalib/judgeToTeam/getJudgeToTeamPairings';
-import { setupDatabase, teardownDatabase } from './setup';
+import { ObjectId } from 'mongodb';
+import JudgeToTeam from '@typeDefs/judgeToTeam';
 
-describe('Judge To Team Pairings', () => {
-  beforeAll(async () => {
-    await setupDatabase();
+beforeEach(async () => {
+  await db.collection('submissions').deleteMany({});
+});
+
+// Helper to create valid submission documents
+function createSubmission(judgeId: ObjectId, teamId: ObjectId) {
+  return {
+    judge_id: judgeId,
+    team_id: teamId,
+    social_good: null,
+    creativity: null,
+    presentation: null,
+    scores: [],
+    is_scored: false,
+    queuePosition: null,
+  };
+}
+
+describe('GetJudgeToTeamPairings', () => {
+  it('should return an empty array when no submissions exist', async () => {
+    const result = await GetJudgeToTeamPairings();
+    expect(result.ok).toBe(true);
+    expect(result.body).toEqual([]);
+    expect(result.error).toBe(null);
   });
 
-  afterAll(async () => {
-    await teardownDatabase();
+  it('should return pairings with string IDs converted from ObjectIds', async () => {
+    const judgeId = new ObjectId();
+    const teamId = new ObjectId();
+
+    await db.collection('submissions').insertOne(createSubmission(judgeId, teamId));
+
+    const result = await GetJudgeToTeamPairings();
+    expect(result.ok).toBe(true);
+    expect(result.body).toHaveLength(1);
+    expect(result.error).toBe(null);
+
+    const pairing = result.body?.[0];
+    expect(pairing).toEqual({
+      judge_id: judgeId.toString(),
+      team_id: teamId.toString(),
+    });
   });
 
-  it('should return empty array when no submissions exist', async () => {
-    const res = await GetJudgeToTeamPairings();
+  it('should return multiple pairings correctly', async () => {
+    const judgeId1 = new ObjectId();
+    const judgeId2 = new ObjectId();
+    const teamId1 = new ObjectId();
+    const teamId2 = new ObjectId();
+    const teamId3 = new ObjectId();
 
-    expect(res.ok).toBe(true);
-    expect(res.body).toEqual([]);
-    expect(res.error).toBeNull();
+    await db.collection('submissions').insertMany([
+      createSubmission(judgeId1, teamId1),
+      createSubmission(judgeId1, teamId2),
+      createSubmission(judgeId2, teamId3),
+    ]);
+
+    const result = await GetJudgeToTeamPairings();
+    expect(result.ok).toBe(true);
+    expect(result.body).toHaveLength(3);
+    expect(result.error).toBe(null);
+
+    const pairings = result.body as JudgeToTeam[];
+    expect(pairings[0]).toEqual({
+      judge_id: judgeId1.toString(),
+      team_id: teamId1.toString(),
+    });
+    expect(pairings[1]).toEqual({
+      judge_id: judgeId1.toString(),
+      team_id: teamId2.toString(),
+    });
+    expect(pairings[2]).toEqual({
+      judge_id: judgeId2.toString(),
+      team_id: teamId3.toString(),
+    });
   });
 
-  it('should return all judge-to-team pairings with correct structure', async () => {
-    const db = await (await import('@utils/mongodb/mongoClient.mjs')).getDatabase();
+  it('should handle duplicate judge-team pairings', async () => {
+    const judgeId = new ObjectId();
+    const teamId = new ObjectId();
 
-    // Insert test submissions
-    const testSubmissions = [
-      {
-        judge_id: db.collection('judges').findOne({}).then((j: any) => j?._id),
-        team_id: db.collection('teams').findOne({}).then((t: any) => t?._id),
-        average_score: 85,
-        round: 1,
-      },
-    ];
+    await db.collection('submissions').insertMany([
+      createSubmission(judgeId, teamId),
+      createSubmission(judgeId, teamId),
+    ]);
 
-    // For now, just test that the function returns in the correct format
-    const res = await GetJudgeToTeamPairings();
+    const result = await GetJudgeToTeamPairings();
+    expect(result.ok).toBe(true);
+    expect(result.body).toHaveLength(2);
 
-    expect(res.ok).toBe(true);
-    expect(Array.isArray(res.body)).toBe(true);
-
-    if (res.body && res.body.length > 0) {
-      // Verify structure of returned pairings
-      const pairing = res.body[0];
-      expect(pairing).toHaveProperty('judge_id');
-      expect(pairing).toHaveProperty('team_id');
-      expect(typeof pairing.judge_id).toBe('string');
-      expect(typeof pairing.team_id).toBe('string');
-    }
+    const pairings = result.body as JudgeToTeam[];
+    expect(pairings[0]).toEqual(pairings[1]);
   });
 
-  it('should convert ObjectIds to strings in returned pairings', async () => {
-    const res = await GetJudgeToTeamPairings();
+  it('should convert ObjectIds to strings for duplicate prevention comparison', async () => {
+    const judgeId = new ObjectId();
+    const teamId = new ObjectId();
+    const judgeIdString = judgeId.toString();
+    const teamIdString = teamId.toString();
 
-    expect(res.ok).toBe(true);
+    await db.collection('submissions').insertOne(createSubmission(judgeId, teamId));
 
-    if (res.body && res.body.length > 0) {
-      // Verify that all IDs are strings, not ObjectIds
-      for (const pairing of res.body) {
-        expect(typeof pairing.judge_id).toBe('string');
-        expect(typeof pairing.team_id).toBe('string');
-        // ObjectIds have 24 character hex strings or similar patterns
-        // Strings should be valid
-        expect(pairing.judge_id).toBeTruthy();
-        expect(pairing.team_id).toBeTruthy();
-      }
-    }
-  });
+    const result = await GetJudgeToTeamPairings();
+    const pairings = result.body as JudgeToTeam[];
 
-  it('should handle database errors gracefully', async () => {
-    // Note: This test would need a mock or a way to trigger DB errors
-    // For now, we just verify the function handles the happy path
-    const res = await GetJudgeToTeamPairings();
+    // This test verifies that String() conversion is necessary for comparison
+    // in algorithms like judgesToTeamsAlgorithm.ts
+    expect(String(pairings[0].judge_id)).toBe(judgeIdString);
+    expect(String(pairings[0].team_id)).toBe(teamIdString);
 
-    expect(res).toHaveProperty('ok');
-    expect(res).toHaveProperty('body');
-    expect(res).toHaveProperty('error');
+    // Simulate the duplicate check from judgesToTeamsAlgorithm.ts (lines 183-189)
+    const duplicateExists = pairings.some(
+      (entry) =>
+        String(entry.judge_id) === judgeIdString &&
+        String(entry.team_id) === teamIdString
+    );
+    expect(duplicateExists).toBe(true);
   });
 });
