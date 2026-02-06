@@ -127,7 +127,7 @@ export default function HackerEmailSender() {
           <select
             id="emailType"
             value={selectedEmailType}
-            onChange={(e) => setSelectedEmailType(e.target.value)}
+            onChange={(e) => setSelectedEmailType(e.target.value as EmailType)}
             disabled={loading}
             className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
           >
