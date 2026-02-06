@@ -168,7 +168,8 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       }`
     );
   }
-  judgeToTeam.push(...previousPairings.body);
+  const previousPairingsBody = previousPairings.body;
+  judgeToTeam.push(...previousPairingsBody);
 
   // Main loop: process each team for each round.
   for (let domainIndex = 0; domainIndex < rounds; domainIndex++) {
@@ -229,9 +230,23 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
     shuffleArray(modifiedTeams);
   }
 
-  // Remove the previous pairings
-  if (previousPairings.ok && previousPairings.body) {
-    judgeToTeam.splice(0, previousPairings.body.length);
+  // Remove the previous pairings without relying on array insertion order.
+  if (previousPairingsBody.length > 0) {
+    const previousPairingKeySet = new Set(
+      previousPairingsBody.map((pairing) => {
+        const judgeId = String(pairing.judge_id);
+        const teamId = String(pairing.team_id);
+        return `${judgeId}::${teamId}`;
+      })
+    );
+    const filteredJudgeToTeam = judgeToTeam.filter((entry) => {
+      const judgeId = String(entry.judge_id);
+      const teamId = String(entry.team_id);
+      const key = `${judgeId}::${teamId}`;
+      return !previousPairingKeySet.has(key);
+    });
+    judgeToTeam.length = 0;
+    judgeToTeam.push(...filteredJudgeToTeam);
   }
 
   console.log('No. of judgeToTeam:', judgeToTeam.length);

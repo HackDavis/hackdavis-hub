@@ -33,7 +33,9 @@ describe('GetJudgeToTeamPairings', () => {
     const judgeId = new ObjectId();
     const teamId = new ObjectId();
 
-    await db.collection('submissions').insertOne(createSubmission(judgeId, teamId));
+    await db
+      .collection('submissions')
+      .insertOne(createSubmission(judgeId, teamId));
 
     const result = await GetJudgeToTeamPairings();
     expect(result.ok).toBe(true);
@@ -54,11 +56,13 @@ describe('GetJudgeToTeamPairings', () => {
     const teamId2 = new ObjectId();
     const teamId3 = new ObjectId();
 
-    await db.collection('submissions').insertMany([
-      createSubmission(judgeId1, teamId1),
-      createSubmission(judgeId1, teamId2),
-      createSubmission(judgeId2, teamId3),
-    ]);
+    await db
+      .collection('submissions')
+      .insertMany([
+        createSubmission(judgeId1, teamId1),
+        createSubmission(judgeId1, teamId2),
+        createSubmission(judgeId2, teamId3),
+      ]);
 
     const result = await GetJudgeToTeamPairings();
     expect(result.ok).toBe(true);
@@ -84,10 +88,12 @@ describe('GetJudgeToTeamPairings', () => {
     const judgeId = new ObjectId();
     const teamId = new ObjectId();
 
-    await db.collection('submissions').insertMany([
-      createSubmission(judgeId, teamId),
-      createSubmission(judgeId, teamId),
-    ]);
+    await db
+      .collection('submissions')
+      .insertMany([
+        createSubmission(judgeId, teamId),
+        createSubmission(judgeId, teamId),
+      ]);
 
     const result = await GetJudgeToTeamPairings();
     expect(result.ok).toBe(true);
@@ -103,7 +109,9 @@ describe('GetJudgeToTeamPairings', () => {
     const judgeIdString = judgeId.toString();
     const teamIdString = teamId.toString();
 
-    await db.collection('submissions').insertOne(createSubmission(judgeId, teamId));
+    await db
+      .collection('submissions')
+      .insertOne(createSubmission(judgeId, teamId));
 
     const result = await GetJudgeToTeamPairings();
     const pairings = result.body as JudgeToTeam[];

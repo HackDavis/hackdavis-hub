@@ -31,8 +31,8 @@ export default async function applyDiagnosticAlpha(options: {
   }
   const teams = teamsRes.body;
   const existingCount = existing.ok && existing.body ? existing.body.length : 0;
-  const maxRounds = 4;
-  const maxSubmissions = teams.length * maxRounds;
+  const maxTotalAssignmentsPerTeam = 4;
+  const maxSubmissions = teams.length * maxTotalAssignmentsPerTeam;
   const isSecondRound = existingCount > 0;
 
   if (existingCount >= maxSubmissions) {
@@ -40,7 +40,7 @@ export default async function applyDiagnosticAlpha(options: {
       ok: false,
       body: null,
       error:
-        'Two rounds have already been completed. Clear submissions to rerun.',
+        'Maximum judge assignments reached (4 judges per team). Clear submissions to rerun.',
     };
   }
   const parsedSubmissions = await parseAndReplace(options.judgeToTeam);

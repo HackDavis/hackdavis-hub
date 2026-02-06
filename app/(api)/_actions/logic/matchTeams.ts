@@ -50,7 +50,9 @@ export default async function matchTeams(
       return {
         ok: false,
         body: null,
-        error: 'Invalid submissions.1',
+        error: `Failed to create submissions in database: ${
+          res.error ?? 'Unknown error'
+        }`,
       };
     }
     // for (const submission of parsedJudgeToTeam) {
@@ -66,7 +68,7 @@ export default async function matchTeams(
     return {
       ok: false,
       body: null,
-      error: 'Invalid submissions.2',
+      error: 'Invalid submissions: assignment validation failed.',
     };
   }
   return {
