@@ -30,6 +30,10 @@ const action_links = [
     body: 'Tito RSVP Management',
   },
   {
+    href: '/admin/mentor-invites',
+    body: 'Send Mentor Invites (CSV)',
+  },
+  {
     href: '/admin/hacker-emails',
     body: 'Send Hacker Emails',
   },
