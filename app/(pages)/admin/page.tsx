@@ -30,6 +30,10 @@ const action_links = [
     body: 'Tito RSVP Management',
   },
   {
+    href: '/admin/hacker-emails',
+    body: 'Send Hacker Emails',
+  },
+  {
     href: '/admin/randomize-projects',
     body: 'Randomize Projects',
   },

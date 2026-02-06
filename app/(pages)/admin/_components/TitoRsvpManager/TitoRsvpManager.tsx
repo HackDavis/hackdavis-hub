@@ -1,11 +1,10 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import createRsvpList from '@actions/tito/createRsvpList';
 import createRsvpInvitation from '@actions/tito/createRsvpInvitation';
 import getReleases from '@actions/tito/getReleases';
-import styles from './TitoRsvpManager.module.scss';
 
 interface RsvpList {
   id: string;
@@ -25,20 +24,15 @@ export default function TitoRsvpManager() {
   const [selectedListId, setSelectedListId] = useState<string>('');
   const [selectedListSlug, setSelectedListSlug] = useState<string>('');
   const [releases, setReleases] = useState<Release[]>([]);
-  const [showReleases, setShowReleases] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [invitationUrl, setInvitationUrl] = useState('');
   const [showCreateList, setShowCreateList] = useState(false);
   const [newListTitle, setNewListTitle] = useState('');
+  const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
 
-  useEffect(() => {
-    loadRsvpLists();
-    loadReleases();
-  });
-
-  const loadReleases = async () => {
+  const loadReleases = useCallback(async () => {
     try {
       const response = await getReleases();
       if (response.ok && response.body) {
@@ -53,9 +47,9 @@ export default function TitoRsvpManager() {
     } catch (e) {
       console.error('Failed to load releases:', e);
     }
-  };
+  }, []);
 
-  const loadRsvpLists = async () => {
+  const loadRsvpLists = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -74,7 +68,12 @@ export default function TitoRsvpManager() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedListId]);
+
+  useEffect(() => {
+    loadRsvpLists();
+    loadReleases();
+  }, [loadRsvpLists, loadReleases]);
 
   const handleCreateList = async (e: FormEvent) => {
     e.preventDefault();
@@ -115,6 +114,11 @@ export default function TitoRsvpManager() {
       return;
     }
 
+    if (selectedReleases.length === 0) {
+      setError('Please select at least one release');
+      return;
+    }
+
     setLoading(true);
     setError('');
     setSuccess('');
@@ -123,8 +127,8 @@ export default function TitoRsvpManager() {
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
     const email = formData.get('email') as string;
-    const releaseIds = formData.get('releaseIds') as string;
     const discountCode = formData.get('discountCode') as string;
+    const releaseIds = selectedReleases.join(',');
 
     try {
       const response = await createRsvpInvitation({
@@ -145,7 +149,6 @@ export default function TitoRsvpManager() {
             fullName ? ` (${fullName})` : ''
           }`
         );
-        // Use unique_url if available, fallback to url
         const inviteUrl = response.body.unique_url || response.body.url;
         if (inviteUrl) {
           setInvitationUrl(inviteUrl);
@@ -162,16 +165,18 @@ export default function TitoRsvpManager() {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Tito RSVP Management</h2>
+    <div className="max-w-3xl mx-auto p-8">
+      <h2 className="text-3xl font-bold mb-8 text-gray-800">
+        Tito RSVP Management
+      </h2>
 
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <h3>RSVP Lists</h3>
+      <div className="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-semibold text-gray-700">RSVP Lists</h3>
           <button
             type="button"
             onClick={() => setShowCreateList(!showCreateList)}
-            className={styles.secondaryButton}
+            className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {showCreateList ? 'Cancel' : 'Create New List'}
@@ -179,9 +184,17 @@ export default function TitoRsvpManager() {
         </div>
 
         {showCreateList && (
-          <form onSubmit={handleCreateList} className={styles.createListForm}>
-            <div className={styles.formGroup}>
-              <label htmlFor="listTitle">New List Title</label>
+          <form
+            onSubmit={handleCreateList}
+            className="bg-white p-6 rounded-lg mb-4 border border-gray-200"
+          >
+            <div className="mb-4">
+              <label
+                htmlFor="listTitle"
+                className="block mb-2 font-medium text-gray-700"
+              >
+                New List Title
+              </label>
               <input
                 id="listTitle"
                 type="text"
@@ -190,16 +203,26 @@ export default function TitoRsvpManager() {
                 placeholder="e.g., VIP Attendees"
                 required
                 disabled={loading}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 disabled:bg-gray-100"
               />
             </div>
-            <button type="submit" disabled={loading} className={styles.button}>
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
               {loading ? 'Creating...' : 'Create List'}
             </button>
           </form>
         )}
 
-        <div className={styles.formGroup}>
-          <label htmlFor="rsvpList">Select RSVP List</label>
+        <div className="mb-4">
+          <label
+            htmlFor="rsvpList"
+            className="block mb-2 font-medium text-gray-700"
+          >
+            Select RSVP List
+          </label>
           <select
             id="rsvpList"
             value={selectedListId}
@@ -211,6 +234,7 @@ export default function TitoRsvpManager() {
               setSelectedListSlug(selectedList?.slug || '');
             }}
             disabled={loading || rsvpLists.length === 0}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 disabled:bg-gray-100"
           >
             {rsvpLists.length === 0 && (
               <option value="">No RSVP lists available</option>
@@ -224,7 +248,7 @@ export default function TitoRsvpManager() {
           <button
             type="button"
             onClick={loadRsvpLists}
-            className={styles.refreshButton}
+            className="mt-2 bg-green-600 text-white py-2 px-4 rounded text-sm hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
             disabled={loading}
           >
             Refresh Lists
@@ -232,84 +256,56 @@ export default function TitoRsvpManager() {
         </div>
       </div>
 
-      <div className={styles.section}>
-        <h3>Send Release Invitation</h3>
+      <div className="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
+        <h3 className="text-xl font-semibold mb-4 text-gray-700">
+          Send Release Invitation
+        </h3>
 
-        <div className={styles.releasesInfo}>
-          <button
-            type="button"
-            onClick={() => setShowReleases(!showReleases)}
-            className={styles.secondaryButton}
-          >
-            {showReleases ? 'Hide' : 'Show'} Available Releases
-          </button>
-
-          {showReleases && (
-            <div className={styles.releasesList}>
-              <h4>Available Releases (Ticket Types)</h4>
-              {releases.length === 0 ? (
-                <div>
-                  <p>
-                    No releases found via API. Your &quot;test ticket&quot;
-                    should appear here.
-                  </p>
-                  <p className={styles.helpText}>
-                    Check the server console logs for API errors. Make sure your
-                    TITO_EVENT_SLUG matches your event (currently using
-                    &quot;hackdavis-2026-test&quot;).
-                  </p>
-                  <p className={styles.helpText}>
-                    <strong>Workaround:</strong> Click on your &quot;test
-                    ticket&quot; in Tito, check the URL for its ID, and manually
-                    enter it below.
-                  </p>
-                </div>
-              ) : (
-                <ul>
-                  {releases.map((release) => (
-                    <li key={release.id}>
-                      <strong>ID: {release.id}</strong> - {release.title} (
-                      {release.slug})
-                      {release.quantity && ` - Qty: ${release.quantity}`}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {releases.length > 0 && (
-                <p className={styles.helpText}>
-                  Copy the ID numbers above and paste them below
-                  (comma-separated if multiple)
-                </p>
-              )}
-            </div>
-          )}
-        </div>
-
-        <form onSubmit={handleSendInvitation} className={styles.invitationForm}>
-          <div className={styles.formGroup}>
-            <label htmlFor="firstName">First Name</label>
+        <form
+          onSubmit={handleSendInvitation}
+          className="bg-white p-6 rounded-lg border border-gray-200"
+        >
+          <div className="mb-4">
+            <label
+              htmlFor="firstName"
+              className="block mb-2 font-medium text-gray-700"
+            >
+              First Name
+            </label>
             <input
               id="firstName"
               name="firstName"
               type="text"
               placeholder="John"
               disabled={loading}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 disabled:bg-gray-100"
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="lastName">Last Name</label>
+          <div className="mb-4">
+            <label
+              htmlFor="lastName"
+              className="block mb-2 font-medium text-gray-700"
+            >
+              Last Name
+            </label>
             <input
               id="lastName"
               name="lastName"
               type="text"
               placeholder="Doe"
               disabled={loading}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 disabled:bg-gray-100"
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="email">Email *</label>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block mb-2 font-medium text-gray-700"
+            >
+              Email *
+            </label>
             <input
               id="email"
               name="email"
@@ -317,75 +313,115 @@ export default function TitoRsvpManager() {
               placeholder="john@example.com"
               required
               disabled={loading}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 disabled:bg-gray-100"
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="releaseIds">
-              Release IDs * (comma-separated, e.g., 1,2,3)
+          <div className="mb-4">
+            <label className="block mb-2 font-medium text-gray-700">
+              Select Releases (Ticket Types) *
             </label>
-            <input
-              id="releaseIds"
-              name="releaseIds"
-              type="text"
-              placeholder="1,2,3"
-              required
-              disabled={loading}
-            />
-            {releases.length > 0 && (
-              <button
-                type="button"
-                className={styles.autoFillButton}
-                onClick={() => {
-                  const input = document.getElementById(
-                    'releaseIds'
-                  ) as HTMLInputElement;
-                  if (input) {
-                    input.value = releases.map((r) => r.id).join(',');
-                  }
-                }}
-              >
-                Auto-fill all release IDs
-              </button>
+            {releases.length === 0 ? (
+              <div className="p-3 bg-yellow-50 border border-yellow-300 rounded-lg text-yellow-800 text-sm">
+                No releases found. Check server logs for API errors.
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {releases.map((release) => (
+                  <label
+                    key={release.id}
+                    className="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedReleases.includes(release.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedReleases([
+                            ...selectedReleases,
+                            release.id,
+                          ]);
+                        } else {
+                          setSelectedReleases(
+                            selectedReleases.filter((id) => id !== release.id)
+                          );
+                        }
+                      }}
+                      disabled={loading}
+                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 disabled:cursor-not-allowed"
+                    />
+                    <span className="ml-3 text-gray-700">
+                      <strong>{release.title}</strong> ({release.slug})
+                      {release.quantity && ` - Qty: ${release.quantity}`}
+                    </span>
+                  </label>
+                ))}
+                <button
+                  type="button"
+                  className="mt-2 bg-cyan-600 text-white py-2 px-4 rounded text-sm hover:bg-cyan-700 disabled:bg-gray-400"
+                  disabled={loading}
+                  onClick={() => {
+                    if (selectedReleases.length === releases.length) {
+                      setSelectedReleases([]);
+                    } else {
+                      setSelectedReleases(releases.map((r) => r.id));
+                    }
+                  }}
+                >
+                  {selectedReleases.length === releases.length
+                    ? 'Deselect All'
+                    : 'Select All'}
+                </button>
+              </div>
             )}
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="discountCode">Discount Code (Optional)</label>
+          <div className="mb-4">
+            <label
+              htmlFor="discountCode"
+              className="block mb-2 font-medium text-gray-700"
+            >
+              Discount Code (Optional)
+            </label>
             <input
               id="discountCode"
               name="discountCode"
               type="text"
               placeholder="DISCOUNT2026"
               disabled={loading}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 disabled:bg-gray-100"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading || !selectedListSlug}
-            className={styles.button}
+            className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {loading ? 'Sending...' : 'Send Invitation'}
           </button>
         </form>
       </div>
 
-      {error && <div className={styles.error}>{error}</div>}
+      {error && (
+        <div className="bg-red-100 text-red-800 p-4 rounded-lg border border-red-300">
+          {error}
+        </div>
+      )}
       {success && (
-        <div className={styles.success}>
-          <p>{success}</p>
+        <div className="bg-green-100 text-green-800 p-4 rounded-lg border border-green-300">
+          <p className="mb-0">{success}</p>
           {invitationUrl && (
-            <div className={styles.invitationUrlContainer}>
-              <p>
+            <div className="mt-4 pt-4 border-t border-green-300">
+              <p className="mb-2">
                 <strong>Invitation URL:</strong>
               </p>
-              <div className={styles.urlBox}>
+              <div className="flex gap-2 mb-2">
                 <input
                   type="text"
                   value={invitationUrl}
                   readOnly
-                  className={styles.urlInput}
+                  className="flex-1 p-2 border border-green-300 rounded bg-white font-mono text-sm"
                 />
                 <button
                   type="button"
@@ -393,7 +429,7 @@ export default function TitoRsvpManager() {
                     navigator.clipboard.writeText(invitationUrl);
                     alert('Invitation URL copied to clipboard!');
                   }}
-                  className={styles.copyButton}
+                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                 >
                   Copy
                 </button>
@@ -402,7 +438,7 @@ export default function TitoRsvpManager() {
                 href={invitationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.urlLink}
+                className="text-green-900 underline text-sm"
               >
                 Open invitation link
               </a>
