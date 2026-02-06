@@ -27,6 +27,7 @@ export default async function createRsvpList(
     console.log('[Tito API] Creating RSVP list:', title);
     console.log('[Tito API] Request URL:', url);
 
+    const fetchStartTime = Date.now();
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -40,6 +41,10 @@ export default async function createRsvpList(
         },
       }),
     });
+    const fetchEndTime = Date.now();
+    console.log(
+      `[Tito API] HTTP POST create RSVP list request took ${fetchEndTime - fetchStartTime}ms`
+    );
 
     if (!response.ok) {
       const errorText = await response.text();

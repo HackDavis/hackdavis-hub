@@ -15,6 +15,7 @@ export default async function getReleases(): Promise<TitoResponse<Release[]>> {
 
     const url = `https://api.tito.io/v3/${TITO_ACCOUNT_SLUG}/${TITO_EVENT_SLUG}/releases`;
 
+    const fetchStartTime = Date.now();
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -22,6 +23,12 @@ export default async function getReleases(): Promise<TitoResponse<Release[]>> {
         Accept: 'application/json',
       },
     });
+    const fetchEndTime = Date.now();
+    console.log(
+      `[Tito API] HTTP GET releases request took ${
+        fetchEndTime - fetchStartTime
+      }ms`
+    );
 
     if (!response.ok) {
       const errorText = await response.text();

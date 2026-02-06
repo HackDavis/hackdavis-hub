@@ -41,6 +41,7 @@ export default async function sendHackerEmail(
       }
 
       // 1. Create Tito invitation
+      const titoStartTime = Date.now();
       const titoResponse = await createRsvpInvitation({
         firstName: options.firstName,
         lastName: options.lastName,
@@ -48,6 +49,12 @@ export default async function sendHackerEmail(
         rsvpListSlug: options.rsvpListSlug,
         releaseIds: options.releaseIds,
       });
+      const titoEndTime = Date.now();
+      console.log(
+        `[Hacker Email] Tito API call took ${
+          titoEndTime - titoStartTime
+        }ms for ${options.email}`
+      );
 
       if (!titoResponse.ok || !titoResponse.body?.unique_url) {
         throw new Error(
@@ -58,6 +65,7 @@ export default async function sendHackerEmail(
       titoUrl = titoResponse.body.unique_url;
 
       // 2. Generate Hub invite
+      const hubStartTime = Date.now();
       const hubInviteResponse = await GenerateInvite(
         {
           email: options.email,
@@ -65,6 +73,12 @@ export default async function sendHackerEmail(
           role: 'hacker',
         },
         'invite'
+      );
+      const hubEndTime = Date.now();
+      console.log(
+        `[Hacker Email] Hub invite generation took ${
+          hubEndTime - hubStartTime
+        }ms for ${options.email}`
       );
 
       if (!hubInviteResponse.ok || !hubInviteResponse.body) {
@@ -94,12 +108,19 @@ export default async function sendHackerEmail(
     }
 
     // 3. Send email
+    const emailStartTime = Date.now();
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: options.email,
       subject: getEmailSubject(options.emailType),
       html: htmlContent,
     });
+    const emailEndTime = Date.now();
+    console.log(
+      `[Hacker Email] Nodemailer sendMail took ${
+        emailEndTime - emailStartTime
+      }ms for ${options.email}`
+    );
 
     console.log(`[Hacker Email] ✓ Successfully sent to ${options.email}`);
 

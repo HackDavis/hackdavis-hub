@@ -12,6 +12,7 @@ export default async function sendSingleMentorInvite(
     console.log(`[Single Mentor Invite] Sending invite to ${options.email}`);
 
     // 1. Create Tito invitation
+    const titoStartTime = Date.now();
     const titoResponse = await createRsvpInvitation({
       firstName: options.firstName,
       lastName: options.lastName,
@@ -19,6 +20,12 @@ export default async function sendSingleMentorInvite(
       rsvpListSlug: options.rsvpListSlug,
       releaseIds: options.releaseIds,
     });
+    const titoEndTime = Date.now();
+    console.log(
+      `[Single Mentor Invite] Tito API call took ${
+        titoEndTime - titoStartTime
+      }ms for ${options.email}`
+    );
 
     if (!titoResponse.ok || !titoResponse.body?.unique_url) {
       throw new Error(titoResponse.error || 'Failed to create Tito invitation');
@@ -33,12 +40,19 @@ export default async function sendSingleMentorInvite(
 
     const htmlContent = mentorInviteTemplate(options.firstName, titoUrl);
 
+    const emailStartTime = Date.now();
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: options.email,
       subject: 'Welcome to HackDavis 2025 - Mentor Invitation',
       html: htmlContent,
     });
+    const emailEndTime = Date.now();
+    console.log(
+      `[Single Mentor Invite] Nodemailer sendMail took ${
+        emailEndTime - emailStartTime
+      }ms for ${options.email}`
+    );
 
     console.log(
       `[Single Mentor Invite] ✓ Successfully sent to ${options.email}`

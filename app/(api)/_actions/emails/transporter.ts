@@ -15,6 +15,7 @@ if (!SENDER_EMAIL || !SENDER_PWD) {
 export const transporter = nodemailer.createTransport({
   service: 'gmail',
   pool: true, // to reuse connections for multiple emails
+  maxConnections: 10, // allow more concurrent SMTP connections (default is 5)
   auth: {
     user: SENDER_EMAIL,
     pass: SENDER_PWD,

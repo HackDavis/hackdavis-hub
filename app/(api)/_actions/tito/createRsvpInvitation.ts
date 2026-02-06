@@ -80,6 +80,7 @@ export default async function createRsvpInvitation(
     console.log('[Tito API] Request URL:', url);
     console.log('[Tito API] Request body:', requestBody);
 
+    const fetchStartTime = Date.now();
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -91,6 +92,12 @@ export default async function createRsvpInvitation(
         release_invitation: requestBody,
       }),
     });
+    const fetchEndTime = Date.now();
+    console.log(
+      `[Tito API] HTTP POST request took ${
+        fetchEndTime - fetchStartTime
+      }ms for ${data.email}`
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -104,10 +111,9 @@ export default async function createRsvpInvitation(
     const responseData = await response.json();
     const invitation = responseData.release_invitation;
 
-    console.log('[Tito API] Successfully created invitation:', invitation);
     console.log(
-      '[Tito API] Full response data:',
-      JSON.stringify(responseData, null, 2)
+      '[Tito API] Successfully created invitation for',
+      invitation.email
     );
     if (invitation.unique_url) {
       console.log('[Tito API] Unique invitation URL:', invitation.unique_url);

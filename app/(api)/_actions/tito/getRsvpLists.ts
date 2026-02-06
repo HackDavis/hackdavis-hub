@@ -20,6 +20,7 @@ export default async function getRsvpLists(): Promise<
 
     console.log('[Tito API] Fetching RSVP lists from:', url);
 
+    const fetchStartTime = Date.now();
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -27,6 +28,12 @@ export default async function getRsvpLists(): Promise<
         Accept: 'application/json',
       },
     });
+    const fetchEndTime = Date.now();
+    console.log(
+      `[Tito API] HTTP GET RSVP lists request took ${
+        fetchEndTime - fetchStartTime
+      }ms`
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
