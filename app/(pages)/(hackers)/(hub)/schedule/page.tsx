@@ -145,7 +145,7 @@ export default function Page() {
 
   // Update the existing useEffect - simplify to just set the schedule data without virtual events
   useEffect(() => {
-    if (eventData.length > 0 && !personalEventsLoading) {
+    if (!eventsLoading && !personalEventsLoading) {
       // Group events by day key - "19" or "20".
       const groupedByDay = eventData.reduce(
         (acc: ScheduleData, eventWithCount) => {
@@ -174,7 +174,13 @@ export default function Page() {
 
       setScheduleData(groupedByDay);
     }
-  }, [eventData, personalEvents, isInPersonalSchedule, personalEventsLoading]);
+  }, [
+    eventData,
+    personalEvents,
+    isInPersonalSchedule,
+    personalEventsLoading,
+    eventsLoading,
+  ]);
 
   useEffect(() => {
     if (activeTab === 'personal') {
@@ -290,11 +296,7 @@ export default function Page() {
 
   // Update the loading state to include eventsLoading
   const isLoading =
-    userLoading ||
-    personalEventsLoading ||
-    eventsLoading ||
-    !scheduleData ||
-    isActionInProgress;
+    userLoading || personalEventsLoading || eventsLoading || isActionInProgress;
 
   const isError = personalEventsError || eventsError;
 
