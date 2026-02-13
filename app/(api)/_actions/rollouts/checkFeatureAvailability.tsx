@@ -15,8 +15,8 @@ export default async function checkFeatureAvailability(component_key: string) {
 
     const rollout: Rollout = rolloutRes.body;
 
-    const startTime = rollout.rollout_time;
-    const endTime = rollout.rollback_time || Infinity;
+    const startTime = Number(rollout.rollout_time);
+    const endTime = Number(rollout.rollback_time) || Infinity;
     const now = Date.now();
     const available = startTime <= now && now <= endTime;
 
@@ -24,7 +24,11 @@ export default async function checkFeatureAvailability(component_key: string) {
       ok: true,
       body: {
         available,
-        rollout,
+        rollout: {
+          ...rollout,
+          rollout_time: startTime,
+          rollback_time: endTime === Infinity ? null : endTime,
+        },
       },
       error: null,
     };

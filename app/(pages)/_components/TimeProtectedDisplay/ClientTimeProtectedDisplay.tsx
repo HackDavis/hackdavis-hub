@@ -6,7 +6,6 @@ import { useFeatureAvailability } from '@pages/_hooks/useFeatureAvailability';
 export default function ClientTimeProtectedDisplay({
   featureId,
   fallback = null,
-  callback = () => {},
   children,
 }: {
   featureId: string;
@@ -14,14 +13,11 @@ export default function ClientTimeProtectedDisplay({
   callback?: () => void;
   children: React.ReactNode;
 }) {
-  const { ok, loading, available, rollout, error, fetchAvailability } =
+  const { loading, available, rollout, fetchAvailability } =
     useFeatureAvailability(featureId);
-  if (loading) {
-    return 'loading...';
-  }
 
-  if (!ok) {
-    return JSON.stringify(error);
+  if (loading && !rollout) {
+    return 'Loading...';
   }
 
   if (!available) {
@@ -30,27 +26,11 @@ export default function ClientTimeProtectedDisplay({
         {fallback}
         <TimeTriggerEntity
           triggerTime={rollout.rollout_time}
-          callback={() => {
-            callback?.();
-            fetchAvailability(featureId);
-          }}
+          callback={() => fetchAvailability(featureId)}
         />
       </>
     );
   }
 
-  return (
-    <>
-      {children}
-      {rollout.rollback_time && (
-        <TimeTriggerEntity
-          triggerTime={rollout.rollback_time}
-          callback={() => {
-            callback?.();
-            fetchAvailability(featureId);
-          }}
-        />
-      )}
-    </>
-  );
+  return <>{children}</>;
 }

@@ -1,26 +1,35 @@
 import checkFeatureAvailability from '@actions/rollouts/checkFeatureAvailability';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 export function useFeatureAvailability(featureId: string) {
   const [loading, setLoading] = useState(true);
-  const [ok, setOk] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [available, setAvailable] = useState<any>(null);
+  const [available, setAvailable] = useState(false);
   const [rollout, setRollout] = useState<any>(null);
 
-  const fetchAvailability = async (featureId: string) => {
-    setLoading(true);
-    const { ok, body, error } = await checkFeatureAvailability(featureId);
-    setOk(ok);
-    setAvailable(body?.available);
-    setRollout(body?.rollout);
-    setError(error);
-    setLoading(false);
-  };
+  const lastFetchedId = useRef<string | null>(null);
+
+  const fetchAvailability = useCallback(
+    async (id: string) => {
+      if (lastFetchedId.current === id && rollout !== null) return;
+
+      setLoading(true);
+      try {
+        const { ok, body } = await checkFeatureAvailability(id);
+        if (ok && body) {
+          setAvailable(body.available);
+          setRollout(body.rollout);
+          lastFetchedId.current = id;
+        }
+      } finally {
+        setLoading(false);
+      }
+    },
+    [rollout]
+  );
 
   useEffect(() => {
     fetchAvailability(featureId);
-  }, [featureId]);
+  }, [featureId, fetchAvailability]);
 
-  return { ok, loading, available, rollout, error, fetchAvailability };
+  return { loading, available, rollout, fetchAvailability };
 }
