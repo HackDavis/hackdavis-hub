@@ -35,7 +35,8 @@ export function useTimeTrigger(triggerTime: number, callback: any) {
       clearTimeout(timerRef.current);
       window.removeEventListener('focus', onFocus);
     };
-  }, [triggerTime, callback, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [triggerTime, router]);
 
   return { triggered };
 }
