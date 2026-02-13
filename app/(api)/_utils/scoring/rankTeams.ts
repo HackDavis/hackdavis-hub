@@ -188,9 +188,9 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
       if (submission.social_good !== null) {
         totalSocialGood += submission.social_good;
         count++;
-      }
-      if (submission.comments) {
-        comments.push(submission.comments);
+        if (submission.comments) {
+          comments.push(submission.comments);
+        }
       }
     });
 
