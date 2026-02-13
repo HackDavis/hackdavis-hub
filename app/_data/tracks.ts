@@ -146,7 +146,7 @@ const automaticTracks: Tracks = {
     prizes: ['HackDavis Swag Bag'],
     images: [hdSwag],
     eligibility_criteria:
-      'Awarded to the project with the most votes from our 2025 hackers. All entries are automatically considered for this prize category. Vote for any project but your own!',
+      'Awarded to the project with the most votes from our 2026 hackers. All entries are automatically considered for this prize category. Vote for any project but your own!',
   },
 };
 
