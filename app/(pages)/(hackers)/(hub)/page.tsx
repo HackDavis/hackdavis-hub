@@ -1,8 +1,8 @@
-import Waterfall from '@pages/(hackers)/_components/Waterfall/Waterfall';
+// import Waterfall from '@pages/(hackers)/_components/2025Waterfall/Waterfall';
 import BigVinyl from '@pages/(hackers)/_components/BigVinyl/BigVinyl';
 import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/BeginnersSection/BeginnersSection';
-import Footer from '@components/Footer/Footer';
+// import Footer from '@pages/_components/2025Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
 import IndexHero from '@pages/(hackers)/_components/IndexHero/IndexHero';
 import IndexHeroContentHacking from '@pages/(hackers)/_components/DOE/Hacking/IndexHeroContentHacking';
@@ -23,16 +23,16 @@ export default function Page() {
             <IndexHeroContentJudging />
           </ClientTimeProtectedDisplay>
         </IndexHero>
-        <ClientTimeProtectedDisplay featureId="table-number-checkin">
+        {/* <ClientTimeProtectedDisplay featureId="table-number-checkin">
           <TableNumberCheckin />
-        </ClientTimeProtectedDisplay>
+        </ClientTimeProtectedDisplay> */}
       </TableNumberContextProvider>
       <BeginnersSection />
       <Contact />
       <PrizeTracks />
       <BigVinyl />
-      <Waterfall />
-      <Footer />
+      {/* <Waterfall />
+      <Footer /> */}
     </main>
   );
 }
