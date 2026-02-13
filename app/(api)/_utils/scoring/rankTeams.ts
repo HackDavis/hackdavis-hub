@@ -1,5 +1,5 @@
 import Submission from '@typeDefs/submission';
-import { optedHDTracks } from '@data/tracks';
+import { optedHDTracks, bestHackForSocialGood } from '@data/tracks';
 
 // interface Team {
 //   _id?: string;
@@ -176,15 +176,47 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
     }
   }
 
-  // Calculate average scores and sort teams for each track
-  for (const track_name in results) {
-    // Calculate average scores
-    results[track_name].forEach((item) => {
-      if (item.team.submission_count > 0) {
-        item.team.final_score =
-          item.team.final_score / item.team.submission_count;
+  // Best Hack for Social Good: automatic track (non-optedHDTracks) based on social_good scores
+  results[bestHackForSocialGood.name] = [];
+  for (const team_id in submissionsByTeam) {
+    const teamSubmissions = submissionsByTeam[team_id];
+    let totalSocialGood = 0;
+    let count = 0;
+    const comments: string[] = [];
+
+    teamSubmissions.forEach((submission) => {
+      if (submission.social_good !== null) {
+        totalSocialGood += submission.social_good;
+        count++;
+        if (submission.comments) {
+          comments.push(submission.comments);
+        }
       }
     });
+
+    if (count > 0) {
+      results[bestHackForSocialGood.name].push({
+        team: {
+          team_id,
+          final_score: totalSocialGood / count,
+          comments,
+          submission_count: count,
+        },
+      });
+    }
+  }
+
+  // Calculate average scores and sort teams for each track
+  for (const track_name in results) {
+    // Calculate average scores (skip Best Hack for Social Good since already averaged)
+    if (track_name !== bestHackForSocialGood.name) {
+      results[track_name].forEach((item) => {
+        if (item.team.submission_count > 0) {
+          item.team.final_score =
+            item.team.final_score / item.team.submission_count;
+        }
+      });
+    }
 
     // Sort teams by score (from highest to lowest)
     results[track_name].sort((a, b) => b.team.final_score - a.team.final_score);
