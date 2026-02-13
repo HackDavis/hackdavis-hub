@@ -140,17 +140,6 @@ const nonHDTracks: Tracks = {
 };
 
 const automaticTracks: Tracks = {
-  "Hacker's Choice Award": {
-    name: "Hacker's Choice Award",
-    filter: 'General',
-    prizes: ['HackDavis Swag Bag'],
-    images: [hdSwag],
-    eligibility_criteria:
-      'Awarded to the project with the most votes from our 2026 hackers. All entries are automatically considered for this prize category. Vote for any project but your own!',
-  },
-};
-
-const optedHDTracks: Tracks = {
   'Best Hack for Social Good': {
     name: 'Best Hack for Social Good',
     filter: 'General',
