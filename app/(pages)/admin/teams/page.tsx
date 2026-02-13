@@ -51,7 +51,9 @@ export default function Teams() {
     backgroundColor: '#9EE7E5',
   }));
 
-  const reportedTeams = teamData.filter((team) => team.reports?.length > 0);
+  const reportedTeams = teamData.filter(
+    (team) => team.reports?.length > 0 && team.active
+  );
 
   return (
     <div className={styles.container}>
@@ -75,7 +77,7 @@ export default function Teams() {
         <GoSearch className={styles.search_icon} />
       </div>
       <div className={styles.reported_teams_container}>
-        <h2 className={styles.action_header}> Reported Teams</h2>
+        <h2 className={styles.action_header}> Active Reported Teams</h2>
         <button
           onClick={toggleReportedTeamsDisplay}
           style={{
@@ -115,18 +117,10 @@ export default function Teams() {
       <div className={styles.data_portion}>
         <div className={styles.teams_list}>
           {teamData
-            .sort((a, b) => (b.reports?.length || 0) - (a.reports?.length || 0))
-            .map((team: TeamWithJudges) => (
-              <div
-                id={team._id}
-                className={styles.team_card_wrapper}
-                key={team._id}
-              >
-                <TeamCard team={team} onEditClick={() => setData(team)} />
-              </div>
-            ))}
-          {teamData
-            .sort((a, b) => (b.reports?.length || 0) - (a.reports?.length || 0))
+            .sort((a, b) => {
+              if (a.active !== b.active) return b.active ? 1 : -1;
+              return (b.reports?.length || 0) - (a.reports?.length || 0);
+            })
             .map((team: TeamWithJudges) => (
               <div
                 id={team._id}
