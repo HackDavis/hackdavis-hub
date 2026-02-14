@@ -14,15 +14,23 @@ export default function ClientTimeProtectedDisplay({
   callback?: () => void;
   children: React.ReactNode;
 }) {
-  const { ok, loading, available, rollout, error, fetchAvailability } =
+  const { loading, available, rollout, error, fetchAvailability } =
     useFeatureAvailability(featureId);
-  if (loading) {
+
+  // initial loading state
+  if (loading && !rollout) {
     return 'loading...';
   }
 
-  if (!ok) {
-    return JSON.stringify(error);
+  // error or no rollout info, then don't render 24 hr timer
+  if (error || !rollout) {
+    return <>{fallback}</>;
   }
+
+  const handleTrigger = async () => {
+    await fetchAvailability(featureId, true);
+    callback?.();
+  };
 
   if (!available) {
     return (
@@ -30,10 +38,7 @@ export default function ClientTimeProtectedDisplay({
         {fallback}
         <TimeTriggerEntity
           triggerTime={rollout.rollout_time}
-          callback={() => {
-            callback?.();
-            fetchAvailability(featureId);
-          }}
+          callback={handleTrigger}
         />
       </>
     );
@@ -45,10 +50,7 @@ export default function ClientTimeProtectedDisplay({
       {rollout.rollback_time && (
         <TimeTriggerEntity
           triggerTime={rollout.rollback_time}
-          callback={() => {
-            callback?.();
-            fetchAvailability(featureId);
-          }}
+          callback={handleTrigger}
         />
       )}
     </>
