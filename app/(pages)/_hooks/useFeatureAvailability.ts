@@ -3,23 +3,30 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 
 export function useFeatureAvailability(featureId: string) {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [available, setAvailable] = useState(false);
   const [rollout, setRollout] = useState<any>(null);
 
   const lastFetchedId = useRef<string | null>(null);
 
   const fetchAvailability = useCallback(
-    async (id: string) => {
-      if (lastFetchedId.current === id && rollout !== null) return;
+    async (id: string, force = false) => {
+      if (!force && lastFetchedId.current === id && rollout !== null) return;
 
       setLoading(true);
+      setError(null);
       try {
-        const { ok, body } = await checkFeatureAvailability(id);
+        const { ok, body, error } = await checkFeatureAvailability(id);
         if (ok && body) {
           setAvailable(body.available);
           setRollout(body.rollout);
           lastFetchedId.current = id;
+        } else {
+          setError(error);
         }
+      } catch (err: any) {
+        console.error('Failed to fetch feature availability:', err);
+        setError(err);
       } finally {
         setLoading(false);
       }
@@ -31,5 +38,5 @@ export function useFeatureAvailability(featureId: string) {
     fetchAvailability(featureId);
   }, [featureId, fetchAvailability]);
 
-  return { loading, available, rollout, fetchAvailability };
+  return { loading, available, rollout, error, fetchAvailability };
 }

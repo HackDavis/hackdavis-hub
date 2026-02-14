@@ -4,8 +4,13 @@ import { useRouter } from 'next/navigation';
 
 export function useTimeTrigger(triggerTime: number, callback: any) {
   const timerRef = useRef<any>(null);
+  const callbackRef = useRef(callback);
   const [triggered, setTriggered] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
 
   useEffect(() => {
     const updateTimer = () => {
@@ -18,7 +23,7 @@ export function useTimeTrigger(triggerTime: number, callback: any) {
         return;
       }
       timerRef.current = setTimeout(async () => {
-        await callback?.();
+        await callbackRef.current?.();
         router.refresh();
         setTriggered(true);
       }, timeToTrigger);
@@ -32,10 +37,9 @@ export function useTimeTrigger(triggerTime: number, callback: any) {
     updateTimer();
 
     return () => {
-      clearTimeout(timerRef.current);
+      if (timerRef.current) clearTimeout(timerRef.current);
       window.removeEventListener('focus', onFocus);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triggerTime, router]);
 
   return { triggered };
