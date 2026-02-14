@@ -1,0 +1,29 @@
+import Image from 'next/image';
+import bunny_phone from 'public/hackers/mvp/discord/bunny_phone.svg';
+import TextCard from '../BeginnersSection/TextCard';
+
+export default function Discord() {
+  return (
+    <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-[5%] py-[10%] gap-12 md:gap-0 bg-[#0B2638]">
+      <div className="flex-1">
+        <TextCard
+          short_text="JOIN US"
+          title="Stay Up To Date"
+          long_text="Get our announcements updates in our discord and instagram blah blah blah blah blah."
+          button_text="JOIN DISCORD"
+          button_link=""
+          button_color="9EE7E5"
+          text_color="FFFFFF"
+        />
+      </div>
+      <div className="flex-1 flex justify-end">
+        <Image
+          src={bunny_phone}
+          width={424}
+          height={611}
+          alt="large phone with hackdavis bunny mascot"
+        />
+      </div>
+    </div>
+  );
+}

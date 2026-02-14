@@ -2,6 +2,7 @@ import Waterfall from '@pages/(hackers)/_components/Waterfall/Waterfall';
 import BigVinyl from '@pages/(hackers)/_components/BigVinyl/BigVinyl';
 import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/BeginnersSection/BeginnersSection';
+import Discord from '@pages/(hackers)/_components/StayUpToDate/Discord';
 import Footer from '@components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
 import IndexHero from '@pages/(hackers)/_components/IndexHero/IndexHero';
@@ -29,6 +30,7 @@ export default function Page() {
       </TableNumberContextProvider>
       <BeginnersSection />
       <Contact />
+      <Discord />
       <PrizeTracks />
       <BigVinyl />
       <Waterfall />
