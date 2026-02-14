@@ -11,9 +11,10 @@ export default function Discord() {
           title="Stay Up To Date"
           long_text="Get our announcements updates in our discord and instagram blah blah blah blah blah."
           button_text="JOIN DISCORD"
-          button_link=""
+          button_link="https://discord.gg/wc6QQEc"
           button_color="9EE7E5"
           text_color="FFFFFF"
+          is_external={true}
         />
       </div>
       <div className="flex-1 flex justify-end">

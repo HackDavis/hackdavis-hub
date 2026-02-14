@@ -10,6 +10,7 @@ interface TextCardProps {
   button_link: string;
   button_color: string;
   text_color: string;
+  is_external?: boolean;
 }
 
 export default function TextCard({
@@ -20,13 +21,19 @@ export default function TextCard({
   button_link,
   button_color,
   text_color,
+  is_external = false,
 }: TextCardProps) {
   return (
     <div style={{ color: `#${text_color}` }} className="flex flex-col gap-4">
       <p>{short_text}</p>
       <h2 className="font-semibold">{title}</h2>
       <p>{long_text}</p>
-      <Link href={button_link} className="mt-8">
+      <Link
+        href={button_link}
+        target={is_external ? '_blank' : '_self'}
+        rel={is_external ? 'noopener noreferrer' : undefined}
+        className="mt-8"
+      >
         <button
           style={{ backgroundColor: `#${button_color}` }}
           className="flex flex-row items-center justify-center gap-[10px] px-[50px] py-[40px] rounded-[1000px] text-[#003D3D] font-semibold"
