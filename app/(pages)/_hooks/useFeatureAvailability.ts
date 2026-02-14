@@ -26,7 +26,7 @@ export function useFeatureAvailability(featureId: string) {
         }
       } catch (err: any) {
         console.error('Failed to fetch feature availability:', err);
-        setError(err);
+        setError(err instanceof Error ? err.message : String(err));
       } finally {
         setLoading(false);
       }

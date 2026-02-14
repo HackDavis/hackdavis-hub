@@ -19,7 +19,7 @@ export default function ClientTimeProtectedDisplay({
 
   // initial loading state
   if (loading && !rollout) {
-    return 'Loading...';
+    return 'loading...';
   }
 
   // error or no rollout info, then don't render 24 hr timer
