@@ -3,7 +3,7 @@ import BigVinyl from '@pages/(hackers)/_components/BigVinyl/BigVinyl';
 import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/BeginnersSection/BeginnersSection';
 import Footer from '@components/Footer/Footer';
-import Contact from '@pages/(hackers)/_components/Contact/Contact';
+// import Contact from '@pages/(hackers)/_components/Contact/Contact';
 import IndexHero from '@pages/(hackers)/_components/IndexHero/IndexHero';
 import IndexHeroContentHacking from '@pages/(hackers)/_components/DOE/Hacking/IndexHeroContentHacking';
 import IndexHeroContentJudging from '@pages/(hackers)/_components/DOE/Judging/IndexHeroContentJudging';
@@ -28,7 +28,7 @@ export default function Page() {
         </ClientTimeProtectedDisplay>
       </TableNumberContextProvider>
       <BeginnersSection />
-      <Contact />
+      {/* <Contact /> */}
       <PrizeTracks />
       <BigVinyl />
       <Waterfall />
