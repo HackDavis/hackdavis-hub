@@ -3,6 +3,7 @@
 import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/BeginnersSection/BeginnersSection';
 // import Footer from '@pages/_components/2025Footer/Footer';
+import Hero from '../_components/Hero/Hero';
 import Footer from '@pages/_components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
 import IndexHero from '@pages/(hackers)/_components/IndexHero/IndexHero';
@@ -16,6 +17,7 @@ export default function Page() {
   return (
     <main id="home">
       <TableNumberContextProvider>
+        <Hero />
         <IndexHero>
           <ClientTimeProtectedDisplay featureId="hero-hacking">
             <IndexHeroContentHacking />
