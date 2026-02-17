@@ -47,7 +47,7 @@ export default function SubmissionTips() {
           />
           <div className={styles.devpost_submission}>
             <Link
-              href="https://hackdavis-2025.devpost.com/"
+              href="https://hackdavis-2026.devpost.com/"
               className={styles.button}
               target="_blank"
             >
