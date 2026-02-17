@@ -23,8 +23,8 @@ const sections = [
   {
     id: 'home',
     page: '/',
-    baseColor: '#1589BE',
-    activeColor: '#005271',
+    baseColor: '#1A3819',
+    activeColor: '#1A3819',
     background: 'rgba(255, 255, 255, 0.50)',
   },
   {
@@ -74,25 +74,25 @@ export default function Navbar() {
   const links = [
     {
       ids: ['schedule'],
-      body: 'SCHEDULE',
+      body: 'Schedule',
       page: '/schedule',
       path: '/schedule',
     },
-    {
-      ids: ['starter-kit'],
-      body: 'STARTER KIT',
-      page: '/starter-kit',
-      path: '/starter-kit',
-    },
-    {
-      ids: ['project-info'],
-      body: 'PROJECT INFO',
-      page: '/project-info',
-      path: '/project-info',
-    },
+    // {
+    //   ids: ['starter-kit'],
+    //   body: 'STARTER KIT',
+    //   page: '/starter-kit',
+    //   path: '/starter-kit',
+    // },
+    // {
+    //   ids: ['project-info'],
+    //   body: 'PROJECT INFO',
+    //   page: '/project-info',
+    //   path: '/project-info',
+    // },
     {
       ids: [],
-      body: 'LOGOUT',
+      body: 'Log Out',
       page: '/',
       path: '/logout',
       action: handleLogout,
