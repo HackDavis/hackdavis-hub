@@ -41,16 +41,13 @@ export default function Hero() {
             width={320}
             height={320}
             className="
-                absolute 
-                z-10 
-                -left-20 
-                top-[15%] 
-                w-[500px] 
-                md:w-[400px] 
-                h-auto 
-                -rotate-6 
-                pointer-events-none 
-                select-none
+                absolute z-10
+                left-[-14%] sm:left-[-10%] md:left-[-8%]
+                top-[66%]  sm:top-[30%]  md:top-[15%]
+                w-[220px]  sm:w-[260px]  md:w-[400px]
+                h-auto
+                -rotate-6
+                pointer-events-none select-none
                 "
             priority
           />
@@ -62,8 +59,8 @@ export default function Hero() {
             </h2>
 
             <p className="mt-4 text-base md:text-lg text-[#222]/80 leading-relaxed">
-              It seems like you’re here a little early…check back in the hackerhub
-              in March for more information!
+              It seems like you’re here a little early…check back in the
+              hackerhub in March for more information!
             </p>
           </div>
         </div>
