@@ -1,46 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
-import { EventTag, EventType } from '@typeDefs/event';
+import { EventTag } from '@typeDefs/event';
 import { Button } from '@pages/_globals/components/ui/button';
-
-interface ScheduleEventStyle {
-  bgColor: string;
-  textColor: string;
-  addButtonColor?: string;
-}
-
-const SCHEDULE_EVENT_STYLES: Record<EventType, ScheduleEventStyle> = {
-  GENERAL: {
-    bgColor: '#CCFFFE',
-    textColor: '#003D3D',
-  },
-  ACTIVITIES: {
-    bgColor: '#FFE2D5',
-    textColor: '#52230C',
-    addButtonColor: '#FFD5C2',
-  },
-  WORKSHOPS: {
-    bgColor: '#E9FBBA',
-    textColor: '#1A3819',
-    addButtonColor: '#D1F76E',
-  },
-  MEALS: {
-    bgColor: '#FFE7B2',
-    textColor: '#572700',
-  },
-  RECOMMENDED: {
-    bgColor: '#CCFFFE',
-    textColor: '#003D3D',
-  },
-};
-
-const formatTime = (pstDate: Date): string => {
-  return pstDate.toLocaleString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-};
+import { SCHEDULE_EVENT_STYLES } from './scheduleEventStyles';
+import { formatScheduleTimeRange } from './scheduleTime';
 
 interface CalendarItemProps {
   event: any;
@@ -68,16 +31,10 @@ export function CalendarItem({
   const eventStyle = SCHEDULE_EVENT_STYLES[displayType];
 
   // Handle different time display scenarios
-  let timeDisplay;
-  if (!end_time) {
-    timeDisplay = formatTime(start_time);
-  } else if (start_time === end_time) {
-    timeDisplay = formatTime(start_time);
-  } else {
-    timeDisplay = `${formatTime(start_time).slice(0, -2)} - ${formatTime(
-      end_time
-    )}`;
-  }
+  const timeDisplay = formatScheduleTimeRange(
+    new Date(start_time),
+    end_time ? new Date(end_time) : undefined
+  );
 
   return (
     <div

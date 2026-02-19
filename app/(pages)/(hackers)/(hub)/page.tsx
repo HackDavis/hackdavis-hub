@@ -10,6 +10,7 @@ import IndexHeroContentJudging from '@pages/(hackers)/_components/DOE/Judging/In
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 import TableNumberCheckin from '@pages/(hackers)/_components/TableNumberCheckin/TableNumberCheckin';
 import TableNumberContextProvider from '@pages/_contexts/TableNumberContext';
+import ScheduleSneakPeek from '@pages/(hackers)/_components/IndexHero/ScheduleSneakPeek';
 
 export default function Page() {
   return (
@@ -27,6 +28,10 @@ export default function Page() {
           <TableNumberCheckin />
         </ClientTimeProtectedDisplay>
       </TableNumberContextProvider>
+      {/* so its visible underneath svgs. remove formatting later */}
+      <div className="relative z-10 pt-[24vw] md:pt-[18vw]">
+        <ScheduleSneakPeek />
+      </div>
       <BeginnersSection />
       <Contact />
       <PrizeTracks />
