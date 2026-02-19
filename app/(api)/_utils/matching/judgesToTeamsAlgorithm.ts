@@ -6,6 +6,7 @@ import { optedHDTracks, nonHDTracks } from '@data/tracks';
 
 import { GetManyUsers } from '@datalib/users/getUser';
 import { GetManyTeams } from '@datalib/teams/getTeam';
+import { GetJudgeToTeamPairings } from '@datalib/judgeToTeam/getJudgeToTeamPairings';
 
 interface Judge {
   user: User;
@@ -66,7 +67,7 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
   const teamMatchQualities: { [teamId: string]: number[] } = {};
   const teamJudgeDomainTypes: { [teamId: string]: string[] } = {};
 
-  const rounds = 3;
+  const rounds = 2;
   const ALPHA = options?.alpha ?? 4;
   // Fetch all checked in judges.
   const judgesResponse = await GetManyUsers({
@@ -157,6 +158,19 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       .filter((team) => team.tracks.length < rounds)
       .map((team) => [team._id ?? '', rounds - team.tracks.length])
   );
+
+  // Get previous pairings and push it to the judgeToTeam array (so that !duplicateExists is true)
+  const previousPairings = await GetJudgeToTeamPairings();
+  if (!previousPairings.ok || !previousPairings.body) {
+    throw new Error(
+      `Failed to load existing judge-to-team pairings: ${
+        previousPairings.error ?? 'Unknown error'
+      }`
+    );
+  }
+  const previousPairingsBody = previousPairings.body;
+  judgeToTeam.push(...previousPairingsBody);
+
   // Main loop: process each team for each round.
   for (let domainIndex = 0; domainIndex < rounds; domainIndex++) {
     for (const team of modifiedTeams) {
@@ -168,10 +182,14 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
 
       let selectedJudge: Judge | undefined = undefined;
       for (const judge of judgesQueue) {
+        // String() conversion is necessary because:
+        // - previousPairings from GetJudgeToTeamPairings converts ObjectIds to strings
+        // - judge.user._id and team._id are ObjectIds that need .toString()
+        // - Comparing without String() would cause false negatives in duplicate detection
         const duplicateExists = judgeToTeam.some(
           (entry) =>
-            entry.judge_id === judge.user._id?.toString() &&
-            entry.team_id === team._id?.toString()
+            String(entry.judge_id) === judge.user._id?.toString() &&
+            String(entry.team_id) === team._id?.toString()
         );
         if (!duplicateExists) {
           selectedJudge = judge;
@@ -210,6 +228,25 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
       selectedJudge.teamsAssigned += 1;
     }
     shuffleArray(modifiedTeams);
+  }
+
+  // Remove the previous pairings without relying on array insertion order.
+  if (previousPairingsBody.length > 0) {
+    const previousPairingKeySet = new Set(
+      previousPairingsBody.map((pairing) => {
+        const judgeId = String(pairing.judge_id);
+        const teamId = String(pairing.team_id);
+        return `${judgeId}::${teamId}`;
+      })
+    );
+    const filteredJudgeToTeam = judgeToTeam.filter((entry) => {
+      const judgeId = String(entry.judge_id);
+      const teamId = String(entry.team_id);
+      const key = `${judgeId}::${teamId}`;
+      return !previousPairingKeySet.has(key);
+    });
+    judgeToTeam.length = 0;
+    judgeToTeam.push(...filteredJudgeToTeam);
   }
 
   console.log('No. of judgeToTeam:', judgeToTeam.length);

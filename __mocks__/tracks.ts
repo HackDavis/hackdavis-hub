@@ -45,7 +45,7 @@ const uncategorizedTracks: Tracks = {
     prizes: ['HackDavis Swag Bag'],
     images: [],
     eligibility_criteria:
-      'Awarded to the project with the most votes from our 2025 hackers. Vote for any project but your own!',
+      'Awarded to the project with the most votes from our 2026 hackers. Vote for any project but your own!',
   },
   'Best Hack for California GovOps Agency': {
     name: 'Best Hack for California GovOps Agency',

@@ -43,13 +43,13 @@ export default function SubmissionTips() {
           <Image
             src={Animals}
             alt="Animals Peeping Behind Wall"
-            objectFit="cover"
             className={styles.peeping_animals}
           />
           <div className={styles.devpost_submission}>
             <Link
-              href="https://hackdavis-2025.devpost.com/"
+              href="https://hackdavis-2026.devpost.com/"
               className={styles.button}
+              target="_blank"
             >
               <Image src={arrow} alt="arrow" />
               <p>

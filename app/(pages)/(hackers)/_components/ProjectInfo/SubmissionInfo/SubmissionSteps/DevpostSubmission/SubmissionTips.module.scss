@@ -143,6 +143,7 @@
         max-width: none;
         height: 600px;
         transform: translateX(7.5%);
+        object-fit: 'cover';
 
         @include desktop-m {
             height: 400px;
