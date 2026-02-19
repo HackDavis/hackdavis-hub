@@ -10,6 +10,7 @@ import IndexHeroContentJudging from '@pages/(hackers)/_components/DOE/Judging/In
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 import TableNumberCheckin from '@pages/(hackers)/_components/TableNumberCheckin/TableNumberCheckin';
 import TableNumberContextProvider from '@pages/_contexts/TableNumberContext';
+import MDHelp from '@pages/(hackers)/_components/MentorAndDirectorHelp/MDHelp';
 
 export default function Page() {
   return (
@@ -29,6 +30,7 @@ export default function Page() {
       </TableNumberContextProvider>
       <BeginnersSection />
       {/* <Contact /> */}
+      <MDHelp />
       <PrizeTracks />
       <BigVinyl />
       <Waterfall />
