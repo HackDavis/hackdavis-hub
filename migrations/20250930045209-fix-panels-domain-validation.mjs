@@ -26,7 +26,7 @@ export const up = async (db) => {
           },
           track: {
             enum: tracks,
-            description: 'track must be a a valid track string',
+            description: 'track must be a valid track string',
           },
           domain: {
             anyOf: [

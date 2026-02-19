@@ -41,7 +41,7 @@ export default async function assignJudgesToPanels(panelSize: number = 5) {
     has_checked_in: true,
     opted_into_panels: true,
   });
-  console.log(judgesRes);
+
   if (!judgesRes.ok || judgesRes.body.length === 0) {
     return {
       ok: false,
