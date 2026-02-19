@@ -9,6 +9,7 @@ import Event from '@typeDefs/event';
 import { ScheduleFilter } from '@typeDefs/filters';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
+import ScheduleMobileControls from '@pages/(hackers)/_components/Schedule/ScheduleMobileControls';
 
 import {
   Tooltip,
@@ -48,6 +49,7 @@ export default function Page() {
   );
   const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
   const [activeFilters, setActiveFilters] = useState<ScheduleFilter[]>(['ALL']);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
 
@@ -327,14 +329,14 @@ export default function Page() {
 
   return (
     <main id="schedule" className="w-full">
-      <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip">
+      <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip pointer-events-none">
         <Image
           src={headerGrass}
           alt="header-grass"
           className="w-[calc(100vw*380/375)] lg:w-[calc(100vw*1583/1440)] margin-auto"
         />
       </div>
-      <div className="w-[90%] mx-auto pb-24 md:pb-44 mt-[100px] md:mt-[calc(100vw*150/1440)] grid grid-cols-1 md:grid-cols-[minmax(56px,1fr)_minmax(0,11fr)] md:grid-rows-[auto_auto_1fr] md:gap-x-8">
+      <div className="w-[90%] mx-auto pb-24 md:pb-44 mt-[100px] md:mt-[calc(100vw*150/1440)] flex flex-col gap-6 md:grid md:gap-0 md:grid-cols-[minmax(56px,1fr)_minmax(0,11fr)] md:grid-rows-[auto_auto_1fr] md:gap-x-8">
         <div className="md:col-start-2 md:row-start-1">
           <div className="flex justify-evenly md:justify-start items-center relative border-b-[3px] border-[#E9E9E7]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
@@ -385,42 +387,56 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="md:col-start-2 md:row-start-2 mt-6 md:mt-8">
-          <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
+        <ScheduleMobileControls
+          activeDay={activeDay}
+          changeActiveDay={changeActiveDay}
+          activeFilters={activeFilters}
+          toggleFilter={toggleFilter}
+          isMobileFilterOpen={isMobileFilterOpen}
+          setIsMobileFilterOpen={setIsMobileFilterOpen}
+        />
+
+        <div className="hidden md:contents">
+          <div className="min-w-0 flex-1 md:col-start-2 md:row-start-2 md:mt-8">
+            <Filters
+              toggleFilter={toggleFilter}
+              activeFilters={activeFilters}
+            />
+          </div>
+
+          <div className="shrink-0 flex flex-col gap-2 items-start md:col-start-1 md:row-start-2 md:mt-8">
+            <button
+              onClick={() => changeActiveDay('19')}
+              type="button"
+              className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
+                activeDay === '19' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
+              }`}
+            >
+              {activeDay === '19' && (
+                <span className="mr-2" aria-hidden>
+                  {'\u2022'}
+                </span>
+              )}
+              <span>MAY 9</span>
+            </button>
+            <button
+              onClick={() => changeActiveDay('20')}
+              type="button"
+              className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
+                activeDay === '20' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
+              }`}
+            >
+              {activeDay === '20' && (
+                <span className="mr-2" aria-hidden>
+                  {'\u2022'}
+                </span>
+              )}
+              <span>MAY 10</span>
+            </button>
+          </div>
         </div>
 
-        <div className="md:col-start-1 md:row-start-2 px-[calc(100vw*30/375)] md:px-0 mt-[24px] md:mt-8 flex flex-col gap-2 items-start">
-          <button
-            onClick={() => changeActiveDay('19')}
-            type="button"
-            className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
-              activeDay === '19' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
-            }`}
-          >
-            {activeDay === '19' && (
-              <span className="mr-2" aria-hidden>
-                {'\u2022'}
-              </span>
-            )}
-            <span>MAY 9</span>
-          </button>
-          <button
-            onClick={() => changeActiveDay('20')}
-            type="button"
-            className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
-              activeDay === '20' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
-            }`}
-          >
-            {activeDay === '20' && (
-              <span className="mr-2" aria-hidden>
-                {'\u2022'}
-              </span>
-            )}
-            <span>MAY 10</span>
-          </button>
-        </div>
-
-        <div className="w-full md:col-start-2 md:row-start-3 px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
+        <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px]">
           {sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">

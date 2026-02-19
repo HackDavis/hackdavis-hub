@@ -13,7 +13,7 @@ interface FiltersProps {
 
 export default function Filters({ activeFilters, toggleFilter }: FiltersProps) {
   return (
-    <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
+    <div className="flex gap-4 overflow-x-scroll no-scrollbar">
       {pageFilters.map((filter) => (
         <button
           key={filter.label}
@@ -28,10 +28,14 @@ export default function Filters({ activeFilters, toggleFilter }: FiltersProps) {
         `}
           style={{
             backgroundColor: activeFilters.includes(filter.label)
-              ? FILTER_BUTTON_BG_SELECTED
+              ? filter.label === 'ALL'
+                ? FILTER_BUTTON_BG_SELECTED
+                : filter.color
               : FILTER_BUTTON_BG_DEFAULT,
             color: activeFilters.includes(filter.label)
-              ? FILTER_BUTTON_TEXT_SELECTED
+              ? filter.label === 'ALL'
+                ? FILTER_BUTTON_TEXT_SELECTED
+                : FILTER_BUTTON_TEXT_DEFAULT
               : FILTER_BUTTON_TEXT_DEFAULT,
           }}
         >
