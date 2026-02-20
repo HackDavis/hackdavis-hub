@@ -1,5 +1,6 @@
 'use client';
 
+import Loader from '../Loader/Loader';
 import TimeTriggerEntity from './TimeTriggerEntity';
 import { useFeatureAvailability } from '@pages/_hooks/useFeatureAvailability';
 
@@ -19,7 +20,7 @@ export default function ClientTimeProtectedDisplay({
 
   // initial loading state
   if (loading && !rollout) {
-    return 'loading...';
+    return <Loader />;
   }
 
   // error or no rollout info, then don't render 24 hr timer

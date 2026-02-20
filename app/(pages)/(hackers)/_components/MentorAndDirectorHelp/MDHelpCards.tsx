@@ -60,20 +60,25 @@ export const Card: React.FC<CardProps> = ({
 
         {/* Card Links */}
         <div className="flex items-end mt-auto">
-          <Image
-            src="/components/MDHelp/arrow.svg"
-            alt={image}
-            width={1}
-            height={1}
-            className="w-6 h-auto m-0"
-          />
-
           <a
             href={link}
-            className={`${dmMono.className} leading-none m-0.5 text-[#3F3F3F] font-medium border-b border-[#3F3F3F]`}
             target="_blank"
+            rel="noopener noreferrer"
+            className={`${dmMono.className} group inline-flex items-center text-[#3F3F3F] font-medium leading-none`}
           >
-            {linkName}
+            <span className="w-0 group-hover:w-6 h-6 flex items-center overflow-hidden transition-all duration-300 ease-out shrink-0">
+              <Image
+                src="/components/MDHelp/arrow.svg"
+                alt=""
+                width={24}
+                height={24}
+                className="w-6 h-auto -translate-x-3 group-hover:translate-x-0 transition-transform duration-300 ease-out"
+              />
+            </span>
+
+            <span className="transition-transform duration-300 ease-out group-hover:translate-x-1 border-b border-[#3F3F3F] py-0.5 px-0.5">
+              {linkName}
+            </span>
           </a>
         </div>
       </div>

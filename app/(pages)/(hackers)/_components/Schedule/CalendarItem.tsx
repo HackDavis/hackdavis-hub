@@ -122,7 +122,7 @@ export function CalendarItem({
         </div>
         {displayType !== 'GENERAL' && displayType !== 'MEALS' && (
           <div
-            className={`flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 w-full ${
+            className={`flex flex-row justify-between items-center gap-2 sm:gap-6 w-full ${
               //bottom
               displayType !== 'ACTIVITIES' ? '' : 'sm:w-auto'
             }`}
@@ -152,12 +152,12 @@ export function CalendarItem({
               </div>
             )}
 
-            <div className="flex flex-col gap-2 items-end w-full sm:w-auto">
+            <div className="flex flex-col gap-2 items-end sm:w-auto ml-auto">
               <Button
                 onClick={
                   inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
                 }
-                className="w-full sm:w-32 px-8 py-2 rounded-3xl cursor-pointer relative shrink-0"
+                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0"
                 style={{
                   backgroundColor:
                     eventStyle.addButtonColor || 'rgba(0, 0, 0, 0)',

@@ -41,13 +41,13 @@ const sections = [
   //   activeColor: '#7FB732',
   //   background: 'rgba(255, 255, 255, 0.50)',
   // },
-  {
-    id: 'starter-kit',
-    page: '/starter-kit',
-    baseColor: '#1589BE',
-    activeColor: '#AFD157',
-    background: 'rgba(255, 255, 255, 0.50)',
-  },
+  // {
+  //   id: 'starter-kit',
+  //   page: '/starter-kit',
+  //   baseColor: '#1589BE',
+  //   activeColor: '#AFD157',
+  //   background: 'rgba(255, 255, 255, 0.50)',
+  // },
 ];
 
 export default function Navbar() {
@@ -78,12 +78,12 @@ export default function Navbar() {
       page: '/schedule',
       path: '/schedule',
     },
-    {
-      ids: ['starter-kit'],
-      body: 'Starter Kit',
-      page: '/starter-kit',
-      path: '/starter-kit',
-    },
+    // {
+    //   ids: ['starter-kit'],
+    //   body: 'Starter Kit',
+    //   page: '/starter-kit',
+    //   path: '/starter-kit',
+    // },
     // {
     //   ids: ['project-info'],
     //   body: 'Project Info',

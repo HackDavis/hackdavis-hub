@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import grass_top from 'public/hackers/mvp/beginners/grass_top.svg';
-import mobile_grass_top from 'public/hackers/mvp/beginners/mobile_grass_top.svg';
-import mascots from 'public/hackers/mvp/beginners/mascots.svg';
+import grass_top from 'public/hackers/beginners/grass_top.svg';
+import mobile_grass_top from 'public/hackers/beginners/mobile_grass_top.svg';
+import mascots from 'public/hackers/beginners/mascots.svg';
 import TextCard from './TextCard';
 
 export default function BeginnersSection() {
@@ -17,13 +17,14 @@ export default function BeginnersSection() {
         alt="grass detail lining top of section"
         className="md:hidden w-full h-auto"
       />
-      <div className="flex flex-col md:flex-row items-center justify-between px-[5%] py-[10%] gap-12 md:gap-0">
+      <div className="flex flex-col md:flex-row items-center justify-between px-[5%] pt-[5%] pb-[10%] gap-12 md:gap-0">
         <div className="flex-1 flex justify-center md:justify-start">
           <Image
             src={mascots}
             width={424}
             height={611}
             alt="four hackdavis mascots looking at a computer"
+            className="w-auto h-auto max-w-full"
           />
         </div>
         <div className="flex flex-1 justify-end">
