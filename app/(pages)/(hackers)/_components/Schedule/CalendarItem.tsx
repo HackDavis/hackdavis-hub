@@ -1,12 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
-import { EventTag } from '@typeDefs/event';
+import Event, { EventTag, EventType } from '@typeDefs/event';
 import { Button } from '@pages/_globals/components/ui/button';
 import { SCHEDULE_EVENT_STYLES } from './scheduleEventStyles';
 import { formatScheduleTimeRange } from './scheduleTime';
 
 interface CalendarItemProps {
-  event: any;
+  event: Event & { originalType?: string };
   attendeeCount?: number;
   inPersonalSchedule?: boolean;
   onAddToSchedule?: () => void;
@@ -15,6 +15,10 @@ interface CalendarItemProps {
   tags?: EventTag[];
   host?: string;
 }
+
+const isEventType = (value: string): value is EventType => {
+  return value in SCHEDULE_EVENT_STYLES;
+};
 
 export function CalendarItem({
   event,
@@ -26,8 +30,12 @@ export function CalendarItem({
   onRemoveFromSchedule,
 }: CalendarItemProps) {
   const { name, type, location, start_time, end_time } = event;
-  // Use originalType if available (for recommended events) or the regular type
-  const displayType = (event as any).originalType || type;
+  // Use originalType when present, but guard against unexpected values.
+  const rawType = event.originalType ?? type;
+  const normalizedType = rawType.toUpperCase();
+  const displayType: EventType = isEventType(normalizedType)
+    ? normalizedType
+    : 'GENERAL';
   const eventStyle = SCHEDULE_EVENT_STYLES[displayType];
 
   // Handle different time display scenarios
