@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { pageFilters, ScheduleFilter } from '@typeDefs/filters';
+import { useEffect, useState } from 'react';
 
 const MOBILE_FILTER_BG_DEFAULT = '#F3F3FC';
 const MOBILE_FILTER_TEXT_DEFAULT = '#3F3F3F';
@@ -28,6 +29,18 @@ export default function ScheduleMobileControls({
   const hasSelectedFilters = activeFilters.some((filter) => filter !== 'ALL');
   const selectedFilterDots = activeFilters.filter((filter) => filter !== 'ALL');
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Allows for filter button to disspear when user scroll down
+  useEffect(() => {
+    const handleScroll = () => {
+      // If scrolled more than 110px, hide filter button
+      setIsScrolled(window.scrollY > 110);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const renderDayButton = (day: '9' | '10', label: string) => (
     <button
       onClick={() => changeActiveDay(day)}
@@ -46,49 +59,57 @@ export default function ScheduleMobileControls({
   );
 
   return (
-    <div className="md:hidden">
+    <div className="md:hidden sticky top-10 z-20">
       <div className="flex items-start justify-between gap-4">
-        <button
-          onClick={() => setIsMobileFilterOpen((prev) => !prev)}
-          type="button"
-          className={`relative inline-flex w-fit min-w-[52px] h-[45px] px-3 py-[13px] justify-center items-center rounded-[22.5px] font-jakarta text-sm font-semibold leading-[100%] tracking-[0.32px] transition-all duration-200 shrink-0 ${
-            isMobileFilterOpen || hasSelectedFilters
-              ? 'bg-[#3F3F3F]'
-              : 'bg-[#F3F3FC]'
+        <div
+          className={`transition-all duration-300 ${
+            isScrolled && !isMobileFilterOpen
+              ? 'opacity-0 pointer-events-none -translate-x-4'
+              : 'opacity-100'
           }`}
         >
-          <Image
-            src={
-              isMobileFilterOpen
-                ? '/icons/white_x.svg'
-                : '/icons/hamburger_filter.svg'
-            }
-            alt={isMobileFilterOpen ? 'Close filters' : 'Open filters'}
-            width={16}
-            height={16}
-            className={
-              !isMobileFilterOpen && hasSelectedFilters ? 'invert' : ''
-            }
-          />
-          {selectedFilterDots.length > 0 && (
-            <span className="flex items-center gap-1.5 ml-2">
-              {selectedFilterDots.map((filter) => {
-                const color = pageFilters.find((f) => f.label === filter)
-                  ?.color;
-                return (
-                  <span
-                    key={`mobile-filter-dot-${filter}`}
-                    className="w-2.5 h-2.5 rounded-full border"
-                    style={{
-                      backgroundColor: color,
-                      borderColor: color,
-                    }}
-                  />
-                );
-              })}
-            </span>
-          )}
-        </button>
+          <button
+            onClick={() => setIsMobileFilterOpen((prev) => !prev)}
+            type="button"
+            className={`relative inline-flex w-fit min-w-[52px] h-[45px] px-3 py-[13px] justify-center items-center rounded-[22.5px] font-jakarta text-sm font-semibold leading-[100%] tracking-[0.32px] transition-all duration-200 shrink-0 ${
+              isMobileFilterOpen || hasSelectedFilters
+                ? 'bg-[#3F3F3F]'
+                : 'bg-[#F3F3FC]'
+            }`}
+          >
+            <Image
+              src={
+                isMobileFilterOpen
+                  ? '/icons/white_x.svg'
+                  : '/icons/hamburger_filter.svg'
+              }
+              alt={isMobileFilterOpen ? 'Close filters' : 'Open filters'}
+              width={16}
+              height={16}
+              className={
+                !isMobileFilterOpen && hasSelectedFilters ? 'invert' : ''
+              }
+            />
+            {selectedFilterDots.length > 0 && (
+              <span className="flex items-center gap-1.5 ml-2">
+                {selectedFilterDots.map((filter) => {
+                  const color = pageFilters.find((f) => f.label === filter)
+                    ?.color;
+                  return (
+                    <span
+                      key={`mobile-filter-dot-${filter}`}
+                      className="w-2.5 h-2.5 rounded-full border"
+                      style={{
+                        backgroundColor: color,
+                        borderColor: color,
+                      }}
+                    />
+                  );
+                })}
+              </span>
+            )}
+          </button>
+        </div>
 
         {!isMobileFilterOpen && (
           <div className="shrink-0 h-[45px] flex flex-row gap-8 items-center">
