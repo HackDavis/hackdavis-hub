@@ -111,27 +111,42 @@ function MobileFilterDropdown({
         setOpen(false);
       }
     }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setOpen(false);
+      }
+    }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   return (
     <div className="md:hidden relative" ref={dropdownRef}>
       <button
         onClick={() => setOpen((prev) => !prev)}
+        aria-label="Filter prize tracks"
+        aria-expanded={open}
         className="w-12 h-12 rounded-xl border-2 border-gray-300 flex items-center justify-center cursor-pointer"
       >
         <FilterIcon />
       </button>
 
       {open && (
-        <div className="absolute top-14 left-0 z-50 bg-white rounded-xl shadow-lg border border-gray-200 py-2 min-w-[180px]">
+        <div
+          role="menu"
+          className="absolute top-14 left-0 z-50 bg-white rounded-xl shadow-lg border border-gray-200 py-2 min-w-[180px]"
+        >
           {filters.map((track) => {
             const isActive =
               currentFilter.toLowerCase() === track.toLowerCase();
             return (
               <button
                 key={track}
+                role="menuitem"
                 className={`w-full text-left px-4 py-2.5 text-sm font-semibold cursor-pointer ${
                   isActive ? 'bg-[#3F3F3F] text-white' : 'hover:bg-gray-100'
                 }`}
@@ -158,6 +173,7 @@ function FilterIcon() {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
     >
       <path
         d="M4 6H20M6 12H18M9 18H15"
