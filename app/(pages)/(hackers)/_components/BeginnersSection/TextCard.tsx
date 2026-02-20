@@ -40,7 +40,6 @@ export default function TextCard({
         >
           {button_text}
           <div className="relative flex items-center overflow-hidden w-6 h-6">
-            {/* 2. Changed -translate-x-4 to -translate-x-7 to hide 1rem (approx 16px) more of the tail */}
             <div className="absolute left-0 transition-transform duration-300 ease-in-out -translate-x-2 group-hover:translate-x-0">
               <Image
                 src={button_arrow}
