@@ -1,13 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import MusicPlayer from '../../IndexHero/MusicPlayer';
+import MusicPlayer from '../../2025IndexHero/MusicPlayer';
 import star_icon from '@public/hackers/hero/star.svg';
 import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.svg';
 import { LuArrowUpRight } from 'react-icons/lu';
 import star from 'public/index/hero/star.svg';
 import Link from 'next/link';
-import JudgeBanners from '../../IndexHero/JudgeBanners';
+import JudgeBanners from '../../2025IndexHero/JudgeBanners';
 import styles from './IndexHeroContentJudging.module.scss';
 
 export default function IndexHeroContentJudging() {

@@ -1,45 +1,42 @@
 import { pageFilters } from '@typeDefs/filters';
-import { EventType } from '@typeDefs/event';
+import { ScheduleFilter } from '@typeDefs/filters';
+
+const FILTER_BUTTON_BG_DEFAULT = '#F3F3FC';
+const FILTER_BUTTON_TEXT_DEFAULT = '#3F3F3F';
+const FILTER_BUTTON_BG_SELECTED = '#3F3F3F';
+const FILTER_BUTTON_TEXT_SELECTED = '#FAFAFF';
 
 interface FiltersProps {
-  activeFilters: EventType[];
-  toggleFilter: (label: EventType) => void;
+  activeFilters: ScheduleFilter[];
+  toggleFilter: (label: ScheduleFilter) => void;
 }
 
 export default function Filters({ activeFilters, toggleFilter }: FiltersProps) {
   return (
-    <div className="px-[calc(100vw*32/375)] md:px-0 flex gap-4 mt-[28px] overflow-x-scroll no-scrollbar">
+    <div className="flex gap-4 overflow-x-scroll no-scrollbar">
       {pageFilters.map((filter) => (
         <button
           key={filter.label}
           onClick={() => toggleFilter(filter.label)}
+          type="button"
           className={`
           relative flex w-[163px] h-[45px] px-[38px] py-[13px]
           justify-center items-center
-          rounded-[22.5px] border-[1.5px]
+          rounded-[22.5px]
           font-jakarta text-sm sm:text-[16px] font-semibold leading-[100%] tracking-[0.32px]
-          text-[#123041] transition-all duration-200
-          ${
-            activeFilters.includes(filter.label)
-              ? `border-solid`
-              : 'border-dashed hover:bg-opacity-50'
-          }
+          transition-all duration-200
         `}
           style={{
-            borderColor: filter.color,
             backgroundColor: activeFilters.includes(filter.label)
-              ? filter.color
-              : 'transparent',
-          }}
-          onMouseEnter={(e) => {
-            if (!activeFilters.includes(filter.label)) {
-              e.currentTarget.style.backgroundColor = filter.color + '80'; // 80 is 50% opacity in hex
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!activeFilters.includes(filter.label)) {
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }
+              ? filter.label === 'ALL'
+                ? FILTER_BUTTON_BG_SELECTED
+                : filter.color
+              : FILTER_BUTTON_BG_DEFAULT,
+            color: activeFilters.includes(filter.label)
+              ? filter.label === 'ALL'
+                ? FILTER_BUTTON_TEXT_SELECTED
+                : FILTER_BUTTON_TEXT_DEFAULT
+              : FILTER_BUTTON_TEXT_DEFAULT,
           }}
         >
           {filter.label}

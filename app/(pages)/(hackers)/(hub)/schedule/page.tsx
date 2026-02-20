@@ -5,9 +5,11 @@ import Loader from '@components/Loader/Loader';
 import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
-import Event, { EventType } from '@typeDefs/event';
+import Event from '@typeDefs/event';
+import { ScheduleFilter } from '@typeDefs/filters';
 import { Button } from '@pages/_globals/components/ui/button';
 import Filters from '@pages/(hackers)/_components/Schedule/Filters';
+import ScheduleMobileControls from '@pages/(hackers)/_components/Schedule/ScheduleMobileControls';
 
 import {
   Tooltip,
@@ -45,15 +47,13 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
   );
-  const [hoveredTab, setHoveredTab] = useState<'schedule' | 'personal' | null>(
-    null
-  );
-  const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
-  const [activeFilters, setActiveFilters] = useState<EventType[]>([]);
+  const [activeDay, setActiveDay] = useState<'9' | '10'>('9');
+  const [activeFilters, setActiveFilters] = useState<ScheduleFilter[]>(['ALL']);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
 
-  const changeActiveDay = (day: '19' | '20') => {
+  const changeActiveDay = (day: '9' | '10') => {
     setActiveDay(day);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -230,7 +230,7 @@ export default function Page() {
     // Apply filter logic
     let filteredEvents = eventsForDay;
 
-    if (activeFilters.length > 0) {
+    if (activeFilters.length > 0 && !activeFilters.includes('ALL')) {
       filteredEvents = eventsForDay.filter((eventDetail) => {
         // Special handling for RECOMMENDED filter
         if (activeFilters.includes('RECOMMENDED')) {
@@ -286,12 +286,21 @@ export default function Page() {
     });
   }, [dataToUse, activeDay, activeFilters]);
 
-  const toggleFilter = (label: EventType) => {
-    if (activeFilters.includes(label)) {
-      setActiveFilters(activeFilters.filter((id) => id !== label));
-    } else {
-      setActiveFilters([...activeFilters, label]);
+  const toggleFilter = (label: ScheduleFilter) => {
+    if (label === 'ALL') {
+      setActiveFilters(['ALL']);
+      return;
     }
+
+    const withoutAll = activeFilters.filter((id) => id !== 'ALL');
+
+    if (withoutAll.includes(label)) {
+      const nextFilters = withoutAll.filter((id) => id !== label);
+      setActiveFilters(nextFilters.length > 0 ? nextFilters : ['ALL']);
+      return;
+    }
+
+    setActiveFilters([...withoutAll, label]);
   };
 
   // Update the loading state to include eventsLoading
@@ -320,48 +329,44 @@ export default function Page() {
 
   return (
     <main id="schedule" className="w-full">
-      <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip">
+      <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip pointer-events-none">
         <Image
           src={headerGrass}
           alt="header-grass"
           className="w-[calc(100vw*380/375)] lg:w-[calc(100vw*1583/1440)] margin-auto"
         />
       </div>
-      <div className="pb-24 md:pb-44 md:px-[calc(100vw*76/768)] lg:md:px-[calc(100vw*151/1440)] mt-[100px] md:mt-[calc(100vw*150/1440)]">
-        {/* Headers */}
-        <div className="flex flex-col gap-8">
-          <div className="flex justify-evenly md:justify-between items-center relative border-b-4 border-[#8F8F8F33]">
+      <div className="w-[90%] mx-auto pb-24 md:pb-44 mt-[100px] md:mt-[calc(100vw*150/1440)] flex flex-col gap-6 md:grid md:gap-0 md:grid-cols-[minmax(56px,1fr)_minmax(0,11fr)] md:grid-rows-[auto_auto_1fr] md:gap-x-8">
+        <div className="md:col-start-2 md:row-start-1">
+          <div className="flex justify-evenly md:justify-start items-center relative border-b-[3px] border-[#E9E9E7]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
-              <span
+              <button
                 onClick={() => setActiveTab('schedule')}
-                onMouseEnter={() => setHoveredTab('schedule')}
-                onMouseLeave={() => setHoveredTab(null)}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
+                type="button"
+                className={`relative text-center md:text-left cursor-pointer font-jakarta text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 bg-transparent border-none ${
                   activeTab === 'schedule'
-                    ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
-                    : hoveredTab === 'schedule'
-                    ? 'text-black'
-                    : 'text-[#8F8F8F]'
+                    ? 'text-[#3F3F3F] after:content-[""] after:absolute after:left-0 after:bottom-[-3px] after:w-full after:h-[3px] after:bg-[#3F3F3F] after:z-10'
+                    : 'text-[#ACACB9]'
                 }`}
               >
                 All Events
-              </span>
-              <span
-                onClick={() => setActiveTab('personal')}
-                onMouseEnter={() => setHoveredTab('personal')}
-                onMouseLeave={() => setHoveredTab(null)}
-                className={`relative text-center md:text-left cursor-pointer font-metropolis text-3xl font-bold leading-normal md:tracking-[0.96px] w-1/2 md:w-auto md:pr-4 pb-2 ${
-                  activeTab === 'personal'
-                    ? 'text-black after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-full after:h-[3px] after:bg-black after:z-10'
-                    : hoveredTab === 'personal'
-                    ? 'text-black'
-                    : 'text-[#8F8F8F]'
-                }`}
-              >
-                {/* Personal */}
+              </button>
+              <div className="w-1/2 md:w-auto">
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger>Personal</TooltipTrigger>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => setActiveTab('personal')}
+                        type="button"
+                        className={`relative text-center md:text-left cursor-pointer font-jakarta text-3xl font-bold leading-normal md:tracking-[0.96px] md:pr-4 pb-2 bg-transparent border-none ${
+                          activeTab === 'personal'
+                            ? 'text-[#3F3F3F] after:content-[""] after:absolute after:left-0 after:bottom-[-3px] after:w-full after:h-[3px] after:bg-[#3F3F3F] after:z-10'
+                            : 'text-[#ACACB9]'
+                        }`}
+                      >
+                        Personal
+                      </button>
+                    </TooltipTrigger>
                     <TooltipContent side="bottom" className="bg-[#EDFBFA]">
                       <div className="flex gap-4 rounded-full items-center justify-between ">
                         <div className="relative rounded-full w-12 h-12">
@@ -377,48 +382,65 @@ export default function Page() {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-              </span>
-            </div>
-
-            <div className="fixed bottom-4 z-20 md:static md:flex lg:pt-[10px]">
-              <div
-                className="relative bg-[#ffffffe6] md:bg-transparent flex items-center w-[202px] h-[48px] md:border-[1.5px] md:border-black rounded-[22px]"
-                style={{ borderStyle: 'dashed' }}
-              >
-                <div
-                  className={`absolute top-auto bottom-auto transition-all duration-300 ease-in-out w-[98px] h-[42px] bg-black rounded-[20px] ${
-                    activeDay === '19'
-                      ? 'left-[1.5px] top-[1.5px]'
-                      : 'left-[98.5px] top-[1.5px]'
-                  }`}
-                />
-                <button
-                  onClick={() => changeActiveDay('19')}
-                  className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === '19' ? 'text-white' : 'text-black'
-                  }`}
-                >
-                  Apr 19
-                </button>
-                <button
-                  onClick={() => changeActiveDay('20')}
-                  className={`relative z-10 flex-1 font-jakarta text-[18px] font-weight-[600] font-normal tracking-[0.36px] leading-[100%] bg-transparent ${
-                    activeDay === '20' ? 'text-white' : 'text-black'
-                  }`}
-                >
-                  Apr 20
-                </button>
               </div>
             </div>
           </div>
         </div>
-        <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
 
-        <div className="px-[calc(100vw*30/375)] md:px-0 mb-[100px] mt-[24px] lg:mt-[48px]">
+        <ScheduleMobileControls
+          activeDay={activeDay}
+          changeActiveDay={changeActiveDay}
+          activeFilters={activeFilters}
+          toggleFilter={toggleFilter}
+          isMobileFilterOpen={isMobileFilterOpen}
+          setIsMobileFilterOpen={setIsMobileFilterOpen}
+        />
+
+        <div className="hidden md:contents">
+          <div className="min-w-0 flex-1 md:col-start-2 md:row-start-2 md:mt-8">
+            <Filters
+              toggleFilter={toggleFilter}
+              activeFilters={activeFilters}
+            />
+          </div>
+
+          <div className="shrink-0 flex flex-col gap-2 items-start md:col-start-1 md:row-start-2 md:mt-8">
+            <button
+              onClick={() => changeActiveDay('9')}
+              type="button"
+              className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
+                activeDay === '9' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
+              }`}
+            >
+              {activeDay === '9' && (
+                <span className="mr-2" aria-hidden>
+                  {'\u2022'}
+                </span>
+              )}
+              <span>MAY 9</span>
+            </button>
+            <button
+              onClick={() => changeActiveDay('10')}
+              type="button"
+              className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
+                activeDay === '10' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
+              }`}
+            >
+              {activeDay === '10' && (
+                <span className="mr-2" aria-hidden>
+                  {'\u2022'}
+                </span>
+              )}
+              <span>MAY 10</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px]">
           {sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">
-                <div className="font-jakarta text-sm md:text-lg font-normal leading-[145%] tracking-[0.36px] text-black mt-[16px] mb-[6px]">
+                <div className="font-dm-mono text-sm md:text-lg font-normal leading-[145%] tracking-[0.36px] text-[#7C7C85] mt-[16px] mb-[6px]">
                   {timeKey}
                 </div>
                 <div>
