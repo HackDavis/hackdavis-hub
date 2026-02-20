@@ -138,7 +138,7 @@ export default function Page() {
   // Update the existing useEffect - simplify to just set the schedule data without virtual events
   useEffect(() => {
     if (!eventsLoading && !personalEventsLoading) {
-      // Group events by day key - "19" or "20".
+      // Group events by day key - "09" or "10".
       const groupedByDay = eventData.reduce(
         (acc: ScheduleData, eventWithCount) => {
           const event = eventWithCount.event;
@@ -451,6 +451,7 @@ export default function Page() {
               </div>
             ))
           ) : (
+            isInitialLoad ) && (
             <div className="text-center py-10">
               {activeTab === 'personal' ? (
                 <div>
