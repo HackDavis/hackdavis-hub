@@ -23,6 +23,7 @@ export default function Discord() {
           width={424}
           height={611}
           alt="large phone with hackdavis bunny mascot"
+          className="w-auto h-auto max-w-full"
         />
       </div>
     </div>
