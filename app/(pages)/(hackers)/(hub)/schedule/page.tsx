@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
-import Loader from '@components/Loader/Loader';
 import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
@@ -51,7 +50,6 @@ export default function Page() {
   const [activeFilters, setActiveFilters] = useState<ScheduleFilter[]>(['ALL']);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
-  const [isActionInProgress, setIsActionInProgress] = useState(false);
 
   const changeActiveDay = (day: '9' | '10') => {
     setActiveDay(day);
@@ -70,7 +68,6 @@ export default function Page() {
 
   // Function to handle adding to personal schedule with loading state
   const handleAddToSchedule = async (eventId: string) => {
-    setIsActionInProgress(true);
     const success = await addToPersonalSchedule(eventId);
 
     if (success) {
@@ -98,13 +95,10 @@ export default function Page() {
         }
       }
     }
-
-    setIsActionInProgress(false);
   };
 
   // Function to handle removing from personal schedule with loading state
   const handleRemoveFromSchedule = async (eventId: string) => {
-    setIsActionInProgress(true);
     const success = await removeFromPersonalSchedule(eventId);
 
     if (success) {
@@ -132,12 +126,9 @@ export default function Page() {
         }
       }
     }
-
-    setIsActionInProgress(false);
   };
 
   // Force refresh events when user data changes
-  // TODO: dont refesh whole page, just update the relevant events in the schedule data state
   useEffect(() => {
     if (user && !userLoading) {
       refreshEvents();
@@ -304,19 +295,10 @@ export default function Page() {
     setActiveFilters([...withoutAll, label]);
   };
 
-  // Update the loading state to include eventsLoading
-  const isLoading =
-    userLoading || personalEventsLoading || eventsLoading || isActionInProgress;
+  // Loading state only when initially loading data, not when performing add/remove actions (requested by design)
+  const isInitialLoad = userLoading;
 
   const isError = personalEventsError || eventsError;
-
-  // Determine if we're in a loading state
-  if (isLoading)
-    return (
-      <main id="schedule" className="w-full">
-        <Loader />
-      </main>
-    );
 
   if (isError)
     return (
@@ -438,7 +420,11 @@ export default function Page() {
         </div>
 
         <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px]">
-          {sortedGroupedEntries.length > 0 ? (
+          {isInitialLoad ? (
+            <div>
+              <p>loading...</p>
+            </div>
+          ) : sortedGroupedEntries.length > 0 ? (
             sortedGroupedEntries.map(([timeKey, events]) => (
               <div key={timeKey} className="relative mb-[24px]">
                 <div className="font-dm-mono text-sm md:text-lg font-normal leading-[145%] tracking-[0.36px] text-[#7C7C85] mt-[16px] mb-[6px]">
