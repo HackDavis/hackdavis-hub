@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import bunny_phone from 'public/hackers/mvp/discord/bunny_phone.svg';
+import bunny_phone from 'public/hackers/discord/bunny_phone.svg';
 import TextCard from '../BeginnersSection/TextCard';
 
 export default function Discord() {

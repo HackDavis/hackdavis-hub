@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import button_arrow from 'public/hackers/mvp/beginners/button_arrow.svg';
+import button_arrow from 'public/hackers/beginners/button_arrow.svg';
 
 interface TextCardProps {
   short_text: string;
@@ -36,10 +36,21 @@ export default function TextCard({
       >
         <button
           style={{ backgroundColor: `#${button_color}` }}
-          className="flex flex-row items-center justify-center gap-[10px] px-10 py-5 md:px-[50px] md:py-[40px] rounded-[1000px] text-[#003D3D] font-semibold"
+          className="group flex flex-row items-center justify-center gap-[10px] px-10 py-5 md:px-[50px] md:py-[40px] rounded-[1000px] text-[#003D3D] font-semibold transition-all duration-300 active:brightness-90"
         >
           {button_text}
-          <Image src={button_arrow} alt="small arrow" />
+          <div className="relative flex items-center overflow-hidden w-6 h-6">
+            {/* 2. Changed -translate-x-4 to -translate-x-7 to hide 1rem (approx 16px) more of the tail */}
+            <div className="absolute left-0 transition-transform duration-300 ease-in-out -translate-x-2 group-hover:translate-x-0">
+              <Image
+                src={button_arrow}
+                alt="arrow"
+                className="max-w-none"
+                width={24}
+                height={24}
+              />
+            </div>
+          </div>
         </button>
       </Link>
     </div>
