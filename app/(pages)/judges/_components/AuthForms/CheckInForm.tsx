@@ -27,7 +27,7 @@ export default function CheckInForm({ id }: any) {
     {
       name: 'opted_into_panels',
       type: 'checkbox',
-      label: "I'd like to be on a judging panel",
+      label: 'I would like to be on a judging panel',
       readOnly: false,
     },
   ];
