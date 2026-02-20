@@ -451,28 +451,29 @@ export default function Page() {
               </div>
             ))
           ) : (
-            isInitialLoad ) && (
-            <div className="text-center py-10">
-              {activeTab === 'personal' ? (
-                <div>
-                  <p className="mb-4">
-                    No events in your personal schedule yet.
-                  </p>
-                  <Button
-                    onClick={() => setActiveTab('schedule')}
-                    className="w-full sm:w-fit px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group"
-                    variant="ghost"
-                  >
-                    <div className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full" />
-                    <p className="font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white">
-                      Browse the schedule to add events
+            isInitialLoad && (
+              <div className="text-center py-10">
+                {activeTab === 'personal' ? (
+                  <div>
+                    <p className="mb-4">
+                      No events in your personal schedule yet.
                     </p>
-                  </Button>
-                </div>
-              ) : (
-                'No events found for this day and filter(s).'
-              )}
-            </div>
+                    <Button
+                      onClick={() => setActiveTab('schedule')}
+                      className="w-full sm:w-fit px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group"
+                      variant="ghost"
+                    >
+                      <div className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full" />
+                      <p className="font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white">
+                        Browse the schedule to add events
+                      </p>
+                    </Button>
+                  </div>
+                ) : (
+                  'No events found for this day and filter(s).'
+                )}
+              </div>
+            )
           )}
         </div>
       </div>
