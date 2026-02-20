@@ -36,9 +36,11 @@ export default function PrizeTracks() {
 
 function Header() {
   return (
-    <div className="flex flex-col">
-      <h6 className="tracking-widest text-sm text-gray-500">YOUR NEXT REWARD</h6>
-      <h3 className="font-bold text-3xl font-metropolis">
+    <div className="flex flex-col mt-16">
+      <h6 className="tracking-widest text-sm text-gray-500">
+        YOUR NEXT REWARD
+      </h6>
+      <h3 className="font-medium text-4xl font-metropolis mt-4">
         Prize Tracks
       </h3>
     </div>
@@ -51,7 +53,15 @@ interface FilterRowProps {
 }
 
 function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
-  const filters = ['ALL', 'GENERAL', 'TECHNICAL', 'DESIGN', 'BUSINESS', 'NON-PROFIT'];
+  const filters = [
+    'ALL',
+    'GENERAL',
+    'TECHNICAL',
+    'DESIGN',
+    'BUSINESS',
+    'SPONSOR',
+    'NON-PROFIT',
+  ];
 
   return (
     <div className="flex gap-4 overflow-x-scroll md:overflow-x-auto">
@@ -62,7 +72,7 @@ function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
             key={track}
             className={`px-8 py-2 border-2 rounded-3xl cursor-pointer w-32 ${
               isActive
-                ? 'bg-black text-white border-black'
+                ? 'bg-[#3F3F3F] text-white border-[#3F3F3F]'
                 : 'border-gray-300 hover:bg-gray-100'
             }`}
             variant="ghost"
