@@ -4,13 +4,13 @@ import Image from 'next/image';
 import { LuArrowUpRight } from 'react-icons/lu';
 import { GoArrowRight } from 'react-icons/go';
 import styles from './IndexHeroContentHacking.module.scss';
-import MusicPlayer from '../../IndexHero/MusicPlayer';
-import Scroll from '../../IndexHero/Scroll';
+import MusicPlayer from '../../2025IndexHero/MusicPlayer';
+import Scroll from '../../2025IndexHero/Scroll';
 import { useRollout } from '@pages/_hooks/useRollout';
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
-import Announcements from '../../IndexHero/Announcements';
-import NextSchedule from '../../IndexHero/NextSchedule';
-import Countdown from '../../IndexHero/Countdown';
+import Announcements from '../../2025IndexHero/Announcements';
+import NextSchedule from '../../2025IndexHero/NextSchedule';
+import Countdown from '../../2025IndexHero/Countdown';
 
 import star from 'public/index/hero/star.svg';
 
