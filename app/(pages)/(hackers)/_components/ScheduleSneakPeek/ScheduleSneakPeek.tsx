@@ -6,7 +6,7 @@ import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
 import {
   EventEntry,
   useScheduleSneakPeekData,
-} from './useScheduleSneakPeekData';
+} from '../../../_hooks/useScheduleSneakPeekData';
 
 interface ScheduleSneakPeekProps {
   className?: string;

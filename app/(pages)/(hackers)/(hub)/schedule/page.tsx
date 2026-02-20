@@ -47,13 +47,13 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
   );
-  const [activeDay, setActiveDay] = useState<'19' | '20'>('19');
+  const [activeDay, setActiveDay] = useState<'9' | '10'>('9');
   const [activeFilters, setActiveFilters] = useState<ScheduleFilter[]>(['ALL']);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
   const [isActionInProgress, setIsActionInProgress] = useState(false);
 
-  const changeActiveDay = (day: '19' | '20') => {
+  const changeActiveDay = (day: '9' | '10') => {
     setActiveDay(day);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -406,13 +406,13 @@ export default function Page() {
 
           <div className="shrink-0 flex flex-col gap-2 items-start md:col-start-1 md:row-start-2 md:mt-8">
             <button
-              onClick={() => changeActiveDay('19')}
+              onClick={() => changeActiveDay('9')}
               type="button"
               className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
-                activeDay === '19' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
+                activeDay === '9' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
               }`}
             >
-              {activeDay === '19' && (
+              {activeDay === '9' && (
                 <span className="mr-2" aria-hidden>
                   {'\u2022'}
                 </span>
@@ -420,13 +420,13 @@ export default function Page() {
               <span>MAY 9</span>
             </button>
             <button
-              onClick={() => changeActiveDay('20')}
+              onClick={() => changeActiveDay('10')}
               type="button"
               className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
-                activeDay === '20' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
+                activeDay === '10' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
               }`}
             >
-              {activeDay === '20' && (
+              {activeDay === '10' && (
                 <span className="mr-2" aria-hidden>
                   {'\u2022'}
                 </span>

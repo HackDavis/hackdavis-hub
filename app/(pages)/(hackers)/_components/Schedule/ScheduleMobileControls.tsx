@@ -7,8 +7,8 @@ const MOBILE_FILTER_BG_SELECTED = '#3F3F3F';
 const MOBILE_FILTER_TEXT_SELECTED = '#FAFAFF';
 
 interface ScheduleMobileControlsProps {
-  activeDay: '19' | '20'; //still using old days so i can still see events in db
-  changeActiveDay: (day: '19' | '20') => void;
+  activeDay: '9' | '10';
+  changeActiveDay: (day: '9' | '10') => void;
   activeFilters: ScheduleFilter[];
   toggleFilter: (label: ScheduleFilter) => void;
   isMobileFilterOpen: boolean;
@@ -28,7 +28,7 @@ export default function ScheduleMobileControls({
   const hasSelectedFilters = activeFilters.some((filter) => filter !== 'ALL');
   const selectedFilterDots = activeFilters.filter((filter) => filter !== 'ALL');
 
-  const renderDayButton = (day: '19' | '20', label: string) => (
+  const renderDayButton = (day: '9' | '10', label: string) => (
     <button
       onClick={() => changeActiveDay(day)}
       type="button"
@@ -92,8 +92,8 @@ export default function ScheduleMobileControls({
 
         {!isMobileFilterOpen && (
           <div className="shrink-0 h-[45px] flex flex-row gap-8 items-center">
-            {renderDayButton('19', 'MAY 9')}
-            {renderDayButton('20', 'MAY 10')}
+            {renderDayButton('9', 'MAY 9')}
+            {renderDayButton('10', 'MAY 10')}
           </div>
         )}
       </div>
