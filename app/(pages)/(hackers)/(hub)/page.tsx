@@ -1,4 +1,4 @@
-import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
+// import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/BeginnersSection/BeginnersSection';
 import Discord from '@pages/(hackers)/_components/StayUpToDate/Discord';
 import Footer from '@components/Footer/Footer';
@@ -29,9 +29,9 @@ export default function Page() {
         </ClientTimeProtectedDisplay>
       </TableNumberContextProvider>
       <BeginnersSection />
-      {/* <Contact /> */}
       <MDHelp />
-      <PrizeTracks />
+      <Discord />
+      {/* <PrizeTracks /> */}
       <Footer />
     </main>
   );

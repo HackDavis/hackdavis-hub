@@ -5,28 +5,28 @@ const items = [
   {
     title: 'Mentor Help',
     description:
-      'Get our announcements updates in our discord and instagram blah blah blah blah blah.',
+      'Stuck on a problem and need guidance? Contact a HackDavis mentor through our discord.',
     image: '/components/MDHelp/cow.svg',
-    link: '#',
+    link: 'https://discord.gg/wc6QQEc',
     linkName: 'CONTACT A MENTOR',
   },
   {
     title: 'Director Help',
     description:
-      'Get our announcements updates in our discord and instagram blah blah blah blah blah.',
+      'Got questions about this event? Contact a HackDavis director through our discord.',
     image: '/components/MDHelp/duck.svg',
-    link: '#',
+    link: 'https://discord.gg/wc6QQEc',
     linkName: 'CONTACT A DIRECTOR',
   },
 ];
 
 export default function cardTest() {
   return (
-    <div className="flex justify-center  bg-[#FAFAFF]">
+    <div className="flex bg-[#FAFAFF]">
       {/* Main Content */}
-      <main className="flex justify-center px-8 py-12">
+      <main className="flex px-[5%] py-[10%] w-full">
         {/* Items Grid */}
-        <div className="grid grid-row-2 gap-10 2xl:flex">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full 2xl:flex items-center">
           {items.map((item, index) => (
             <Card
               key={index}

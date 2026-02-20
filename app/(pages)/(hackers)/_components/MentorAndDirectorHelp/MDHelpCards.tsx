@@ -30,9 +30,9 @@ export const Card: React.FC<CardProps> = ({
   linkName,
 }) => {
   return (
-    <div className="flex flex-col w-[360px] md:w-[620px] rounded-2xl">
+    <div className="flex flex-col w-full rounded-2xl">
       {/* Image */}
-      <div className="w-[360px] md:w-[620px] aspect-4/3 m-0">
+      <div className="relative w-full">
         <Image
           src={image}
           alt={image}
@@ -71,6 +71,7 @@ export const Card: React.FC<CardProps> = ({
           <a
             href={link}
             className={`${dmMono.className} leading-none m-0.5 text-[#3F3F3F] font-medium border-b border-[#3F3F3F]`}
+            target="_blank"
           >
             {linkName}
           </a>
