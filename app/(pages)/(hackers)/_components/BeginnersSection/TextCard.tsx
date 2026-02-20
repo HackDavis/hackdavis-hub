@@ -36,7 +36,7 @@ export default function TextCard({
       >
         <button
           style={{ backgroundColor: `#${button_color}` }}
-          className="flex flex-row items-center justify-center gap-[10px] px-[50px] py-[40px] rounded-[1000px] text-[#003D3D] font-semibold"
+          className="flex flex-row items-center justify-center gap-[10px] px-10 py-5 md:px-[50px] md:py-[40px] rounded-[1000px] text-[#003D3D] font-semibold"
         >
           {button_text}
           <Image src={button_arrow} alt="small arrow" />

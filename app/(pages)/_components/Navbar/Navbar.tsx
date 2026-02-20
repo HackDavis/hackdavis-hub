@@ -78,12 +78,12 @@ export default function Navbar() {
       page: '/schedule',
       path: '/schedule',
     },
-    // {
-    //   ids: ['starter-kit'],
-    //   body: 'Starter Kit',
-    //   page: '/starter-kit',
-    //   path: '/starter-kit',
-    // },
+    {
+      ids: ['starter-kit'],
+      body: 'Starter Kit',
+      page: '/starter-kit',
+      path: '/starter-kit',
+    },
     // {
     //   ids: ['project-info'],
     //   body: 'Project Info',
