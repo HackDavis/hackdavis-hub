@@ -11,10 +11,9 @@ import hackerStyles from './HackerAuthForm.module.scss';
 import judgeStyles from './JudgeAuthForm.module.scss';
 
 type Role = 'hacker' | 'judge';
-type FieldName = 'email' | 'password' | 'passwordDupe' | 'code';
 
 interface FormField {
-  name: FieldName;
+  name: string;
   type: string;
   label: string;
   placeholder?: string;
@@ -27,8 +26,8 @@ interface AuthFormProps {
   buttonText: string;
   linkText?: string;
   linkHref?: string;
-  initialValues: Record<string, string>;
-  onSubmit: (values: Record<string, string>) => Promise<any>;
+  initialValues: Record<string, any>;
+  onSubmit: (values: Record<string, any>) => Promise<any>;
   onSuccess: () => void;
 }
 
@@ -68,17 +67,27 @@ export default function AuthForm({
                 <p className={styles.error_msg}>{errors[field.name]}</p>
                 <div className={styles.input_container}>
                   <label htmlFor={field.name}>{field.label}</label>
-                  <input
-                    name={field.name}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    value={formValues[field.name] || ''}
-                    onInput={handleChange}
-                    readOnly={field.readOnly}
-                    style={{
-                      cursor: field.readOnly ? 'not-allowed' : 'auto',
-                    }}
-                  />
+                  {field.type === 'checkbox' ? (
+                    <input
+                      name={field.name}
+                      type="checkbox"
+                      checked={!!formValues[field.name]}
+                      onChange={handleChange}
+                      readOnly={field.readOnly}
+                    />
+                  ) : (
+                    <input
+                      name={field.name}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      value={formValues[field.name] || ''}
+                      onInput={handleChange}
+                      readOnly={field.readOnly}
+                      style={{
+                        cursor: field.readOnly ? 'not-allowed' : 'auto',
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             ))}

@@ -35,7 +35,13 @@ export default async function assignJudgesToPanels(panelSize: number = 5) {
     };
   }
 
-  const judgesRes = await GetManyUsers({ role: 'judge', has_checked_in: true });
+  // only judges who have checked in and explicitly opted into panels
+  const judgesRes = await GetManyUsers({
+    role: 'judge',
+    has_checked_in: true,
+    opted_into_panels: true,
+  });
+
   if (!judgesRes.ok || judgesRes.body.length === 0) {
     return {
       ok: false,
