@@ -131,7 +131,6 @@ function MobileFilterDropdown({
         aria-label="Filter prize tracks"
         aria-expanded={open}
         className="w-12 h-12 rounded-xl border-2 border-gray-300 flex items-center justify-center cursor-pointer"
-        aria-label="Filter prize tracks"
       >
         <FilterIcon />
       </button>
