@@ -46,7 +46,7 @@ export default function ScheduleMobileControls({
   );
 
   return (
-    <div className="md:hidden">
+    <div className="md:hidden sticky top-10 z-[100]">
       <div className="flex items-start justify-between gap-4">
         <button
           onClick={() => setIsMobileFilterOpen((prev) => !prev)}

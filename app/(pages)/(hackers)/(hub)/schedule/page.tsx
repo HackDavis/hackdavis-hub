@@ -137,6 +137,7 @@ export default function Page() {
   };
 
   // Force refresh events when user data changes
+  // TODO: dont refesh whole page, just update the relevant events in the schedule data state
   useEffect(() => {
     if (user && !userLoading) {
       refreshEvents();
@@ -404,7 +405,7 @@ export default function Page() {
             />
           </div>
 
-          <div className="shrink-0 flex flex-col gap-2 items-start md:col-start-1 md:row-start-2 md:mt-8">
+          <div className="shrink-0 flex flex-col gap-2 items-start md:col-start-1 md:row-start-2 md:mt-8 sticky top-20">
             <button
               onClick={() => changeActiveDay('9')}
               type="button"
