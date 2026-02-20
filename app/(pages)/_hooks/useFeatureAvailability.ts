@@ -1,26 +1,42 @@
 import checkFeatureAvailability from '@actions/rollouts/checkFeatureAvailability';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 export function useFeatureAvailability(featureId: string) {
   const [loading, setLoading] = useState(true);
-  const [ok, setOk] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [available, setAvailable] = useState<any>(null);
+  const [available, setAvailable] = useState(false);
   const [rollout, setRollout] = useState<any>(null);
 
-  const fetchAvailability = async (featureId: string) => {
-    setLoading(true);
-    const { ok, body, error } = await checkFeatureAvailability(featureId);
-    setOk(ok);
-    setAvailable(body?.available);
-    setRollout(body?.rollout);
-    setError(error);
-    setLoading(false);
-  };
+  const lastFetchedId = useRef<string | null>(null);
+
+  const fetchAvailability = useCallback(
+    async (id: string, force = false) => {
+      if (!force && lastFetchedId.current === id && rollout !== null) return;
+
+      setLoading(true);
+      setError(null);
+      try {
+        const { ok, body, error } = await checkFeatureAvailability(id);
+        if (ok && body) {
+          setAvailable(body.available);
+          setRollout(body.rollout);
+          lastFetchedId.current = id;
+        } else {
+          setError(error);
+        }
+      } catch (err: any) {
+        console.error('Failed to fetch feature availability:', err);
+        setError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setLoading(false);
+      }
+    },
+    [rollout]
+  );
 
   useEffect(() => {
     fetchAvailability(featureId);
-  }, [featureId]);
+  }, [featureId, fetchAvailability]);
 
-  return { ok, loading, available, rollout, error, fetchAvailability };
+  return { loading, available, rollout, error, fetchAvailability };
 }

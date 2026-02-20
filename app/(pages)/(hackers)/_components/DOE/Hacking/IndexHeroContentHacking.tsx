@@ -62,7 +62,7 @@ export default function IndexHeroContentHacking() {
                 {' // creates for social good'}
               </span>
             </p>
-            <a href="https://hackdavis-2025.devpost.com/">
+            <a href="https://hackdavis-2026.devpost.com/">
               <button className={styles.submitButton}>
                 <p>SUBMIT!</p>
                 <GoArrowRight className={styles.submitArrow} />

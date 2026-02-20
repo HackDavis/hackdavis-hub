@@ -1,53 +1,41 @@
-import styles from './BeginnersSection.module.scss';
 import Image from 'next/image';
-import Link from 'next/link';
-import hackathon from 'public/hackers/mvp/hackathon.svg';
-import arrow from 'public/hackers/mvp/arrow.svg';
-import grass_detail_light from 'public/hackers/mvp/grass_detail_light.svg';
-import grass_detail_dark from 'public/hackers/mvp/grass_detail_dark.svg';
+import grass_top from 'public/hackers/mvp/beginners/grass_top.svg';
+import mobile_grass_top from 'public/hackers/mvp/beginners/mobile_grass_top.svg';
+import mascots from 'public/hackers/mvp/beginners/mascots.svg';
+import TextCard from './TextCard';
 
 export default function BeginnersSection() {
   return (
-    <div className={styles.container}>
-      <div className={styles.main_content}>
-        <div>
-          <p className={styles.top_line}>
-            NOT SURE WHERE TO START? DON'T WORRY, WE GOT YOU :)
-          </p>
-          <h1>For beginners</h1>
-          <p className={styles.description}>
-            We've created a <strong>Starter kit</strong> for all beginner
-            hackers to get their hack started! Inside includes: resources, past
-            winning hacks, and more.
-          </p>
+    <div className="bg-[#F1FFCC]">
+      <Image
+        src={grass_top}
+        alt="grass detail lining top of section"
+        className="hidden md:block w-full h-auto"
+      />
+      <Image
+        src={mobile_grass_top}
+        alt="grass detail lining top of section"
+        className="md:hidden w-full h-auto"
+      />
+      <div className="flex flex-col md:flex-row items-center justify-between px-[5%] py-[10%] gap-12 md:gap-0">
+        <div className="flex-1 flex justify-center md:justify-start">
+          <Image
+            src={mascots}
+            width={424}
+            height={611}
+            alt="four hackdavis mascots looking at a computer"
+          />
         </div>
-        <div className={styles.hackathon_cont}>
-          <div className={styles.hack_img}>
-            <Image src={hackathon} alt="hackathon" fill />
-            <Image
-              src={grass_detail_light}
-              alt="grass detail"
-              className={styles.grass_light}
-            />
-          </div>
-          <div className={styles.button}>
-            <Link href="/starter-kit" className="h-full w-full">
-              <button>
-                <Image src={arrow} alt="arrow" />
-                TAKE ME TO THE STARTER KIT!
-              </button>
-            </Link>
-            <Image
-              src={grass_detail_light}
-              alt="grass detail"
-              className={styles.grass_light}
-            />
-            <Image
-              src={grass_detail_dark}
-              alt="grass detail"
-              className={styles.grass_dark}
-            />
-          </div>
+        <div className="flex flex-1 justify-end">
+          <TextCard
+            short_text="CHECK IT OUT"
+            title="For Beginners"
+            long_text="We’ve created a Starter kit for all beginner hackers to get their hack started! Inside includes: resources, past winning hacks, and more."
+            button_text="STARTER KIT"
+            button_link="/starter-kit"
+            button_color="D1F76E"
+            text_color="1A3819"
+          />
         </div>
       </div>
     </div>

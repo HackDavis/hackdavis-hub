@@ -2,17 +2,24 @@
 
 import { updateUser } from '@actions/users/updateUser';
 
-export default async function verifyCode(id: string, code: string) {
+export default async function verifyCode(
+  id: string,
+  code: string,
+  optedIntoPanels?: boolean
+) {
   try {
     const validCode = code === (process.env.CHECK_IN_CODE as string);
     if (!validCode) {
       throw new Error('Invalid code.');
     }
 
+    const update: any = { has_checked_in: true };
+    if (typeof optedIntoPanels === 'boolean') {
+      update.opted_into_panels = optedIntoPanels;
+    }
+
     const res = await updateUser(id, {
-      $set: {
-        has_checked_in: true,
-      },
+      $set: update,
     });
 
     if (!res.ok) {
