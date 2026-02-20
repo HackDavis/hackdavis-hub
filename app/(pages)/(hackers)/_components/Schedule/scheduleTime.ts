@@ -12,9 +12,17 @@ export const formatScheduleTimeRange = (start: Date, end?: Date): string => {
     return formatScheduleTime(start);
   }
 
-  return `${formatScheduleTime(start).slice(0, -2)} - ${formatScheduleTime(
-    end
-  )}`;
+  const startTimeStr = formatScheduleTime(start);
+  const endTimeStr = formatScheduleTime(end);
+
+  const startAMPM = startTimeStr.slice(-2);
+  const endAMPM = endTimeStr.slice(-2);
+
+  if (startAMPM === endAMPM) {
+    return `${startTimeStr.slice(0, -2)} - ${endTimeStr}`;
+  }
+
+  return `${startTimeStr} - ${endTimeStr}`;
 };
 
 export const getScheduleEventEndTime = (event: Event): Date => {

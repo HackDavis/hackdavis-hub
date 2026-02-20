@@ -31,7 +31,7 @@ export function CalendarItem({
 }: CalendarItemProps) {
   const { name, type, location, start_time, end_time } = event;
   // Use originalType when present, but guard against unexpected values.
-  const rawType = event.originalType ?? type;
+  const rawType = event.originalType ?? type ?? '';
   const normalizedType = rawType.toUpperCase();
   const displayType: EventType = isEventType(normalizedType)
     ? normalizedType

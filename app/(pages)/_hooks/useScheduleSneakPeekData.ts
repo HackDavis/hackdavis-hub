@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Event from '@typeDefs/event';
 import { useEvents } from '@hooks/useEvents';
 import { usePersonalEvents } from '@hooks/usePersonalEvents';
@@ -54,33 +54,41 @@ export function useScheduleSneakPeekData() {
     });
   }, [personalEvents, eventData]);
 
-  const now = new Date();
+  const [now, setNow] = useState(new Date());
 
-  const liveAll = toSorted(
-    allEventEntries.filter((entry) => isScheduleEventLive(entry.event, now))
-  );
-  const upcomingAll = toSorted(
-    allEventEntries.filter((entry) =>
-      startsScheduleEventInNextMs(entry.event, THIRTY_MIN_MS, now)
-    )
-  );
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 60000); // Update every 60 seconds
+    return () => clearInterval(interval);
+  }, []);
 
-  const livePersonal = toSorted(
-    personalEventEntries.filter((entry) =>
-      isScheduleEventLive(entry.event, now)
-    )
-  );
-  const upcomingPersonal = toSorted(
-    personalEventEntries.filter((entry) =>
-      startsScheduleEventInNextMs(entry.event, THIRTY_MIN_MS, now)
-    )
+  const filteredLists = useMemo(
+    () => ({
+      liveAll: toSorted(
+        allEventEntries.filter((entry) => isScheduleEventLive(entry.event, now))
+      ),
+      upcomingAll: toSorted(
+        allEventEntries.filter((entry) =>
+          startsScheduleEventInNextMs(entry.event, THIRTY_MIN_MS, now)
+        )
+      ),
+      livePersonal: toSorted(
+        personalEventEntries.filter((entry) =>
+          isScheduleEventLive(entry.event, now)
+        )
+      ),
+      upcomingPersonal: toSorted(
+        personalEventEntries.filter((entry) =>
+          startsScheduleEventInNextMs(entry.event, THIRTY_MIN_MS, now)
+        )
+      ),
+    }),
+    [allEventEntries, personalEventEntries, now]
   );
 
   return {
-    liveAll,
-    upcomingAll,
-    livePersonal,
-    upcomingPersonal,
+    ...filteredLists,
     addToPersonalSchedule,
     removeFromPersonalSchedule,
   };

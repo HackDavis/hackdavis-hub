@@ -121,7 +121,7 @@ export default function ScheduleSneakPeek({
             />
           </span>
           <span className="transition-transform duration-300 ease-out group-hover:translate-x-1">
-            Sneak Peak at Your{' '}
+            Sneak Peek at Your{' '}
             <Link href="/schedule" className="underline hover:opacity-80">
               Schedule
             </Link>
