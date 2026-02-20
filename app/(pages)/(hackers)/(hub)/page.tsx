@@ -1,7 +1,8 @@
 import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/BeginnersSection/BeginnersSection';
+import Discord from '@pages/(hackers)/_components/StayUpToDate/Discord';
+import Footer from '@components/Footer/Footer';
 import Hero from '../_components/Hero/Hero';
-import Footer from '@pages/_components/Footer/Footer';
 import Contact from '@pages/(hackers)/_components/Contact/Contact';
 // import IndexHero from '@pages/(hackers)/_components/IndexHero/IndexHero';
 // import IndexHeroContentHacking from '@pages/(hackers)/_components/DOE/Hacking/IndexHeroContentHacking';
@@ -29,6 +30,7 @@ export default function Page() {
       </TableNumberContextProvider>
       <BeginnersSection />
       <Contact />
+      <Discord />
       <PrizeTracks />
       <Footer />
     </main>
