@@ -21,14 +21,12 @@ export default function PrizeCard({
   prizeNames,
   criteria,
 }: PrizeCardProps) {
-  const [rotateArrow, setRotateArrow] = useState<boolean>(false);
-
-  const handleCriteriaClick = () => {
-    setRotateArrow((prevState: boolean) => !prevState);
-  };
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   return (
     <Accordion
+      expanded={expanded}
+      onChange={(_, isExpanded) => setExpanded(isExpanded)}
       sx={{
         padding: '0px',
         boxShadow: '0px 8px 24px rgba(149,157,165,0.2)',
@@ -41,10 +39,7 @@ export default function PrizeCard({
       disableGutters={true}
     >
       <AccordionSummary sx={{ padding: '0px' }}>
-        <div
-          className="p-2 sm:p-4 md:p-4 xl:px-6 grow max-w-full rounded-xl"
-          onClick={handleCriteriaClick}
-        >
+        <div className="p-2 sm:p-4 md:p-4 xl:px-6 grow max-w-full rounded-xl">
           <div className="flex flex-col sm:flex-row h-fit gap-0 md:gap-0 xl:gap-0 w-full">
             <div className="flex flex-col justify-between items-center sm:items-start w-full">
               <div>
@@ -88,7 +83,7 @@ export default function PrizeCard({
               <div className="hidden sm:flex flex-row items-center gap-2 w-full mt-3 xl:mt-4">
                 <ChevronDown
                   className={`h-4 md:h-5 xl:h-6 w-auto transition-transform duration-300 ease-in-out ${
-                    rotateArrow ? '' : '-rotate-90'
+                    expanded ? '' : '-rotate-90'
                   }`}
                 />
                 <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] tracking-wider whitespace-nowrap">
@@ -117,7 +112,7 @@ export default function PrizeCard({
             <div className="sm:hidden flex flex-row items-center justify-center gap-2 w-full mt-3 xl:mt-4">
               <ChevronDown
                 className={`h-4 md:h-5 xl:h-6 w-auto transition-transform duration-300 ease-in-out ${
-                  rotateArrow ? '' : '-rotate-90'
+                  expanded ? '' : '-rotate-90'
                 }`}
               />
               <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] tracking-wider whitespace-nowrap">
