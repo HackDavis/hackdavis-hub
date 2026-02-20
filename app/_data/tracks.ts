@@ -427,7 +427,7 @@ const nonHDTracks: Tracks = {
     prizes: ['$750 in Claude API credits'],
     images: [claudeLogo],
     eligibility_criteria:
-      'Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms + ML libraries and or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. We encourage that models work accurately on unseen circumstances (displays versatility).',
+      'Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms + ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. We encourage that models work accurately on unseen circumstances (displays versatility).',
     domain: 'aiml',
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
