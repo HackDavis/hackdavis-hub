@@ -1,8 +1,7 @@
 'use client';
 import Image from 'next/image';
-import { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
 import styles from './PrizeCard.module.scss';
-import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronDown } from 'lucide-react';
 
 import Accordion from '@mui/material/Accordion';
@@ -23,58 +22,10 @@ export default function PrizeCard({
   prizeNames,
   criteria,
 }: PrizeCardProps) {
-  const [moveDot, setMoveDot] = useState<boolean>(false);
-
   const [rotateArrow, setRotateArrow] = useState<boolean>(false);
 
   const handleCriteriaClick = () => {
     setRotateArrow((prevState: boolean) => !prevState);
-  };
-
-  const [width, setWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
-  );
-
-  const updateDimensions = () => {
-    setWidth(window.innerWidth);
-  };
-  useEffect(() => {
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: false,
-      align: 'start',
-      dragFree: false,
-      skipSnaps: false,
-      containScroll: 'trimSnaps',
-      watchDrag: width > 760 ? false : true,
-    },
-    []
-  );
-
-  const changeDots = useCallback((emblaApi: any) => {
-    setMoveDot(emblaApi.selectedScrollSnap());
-  }, []);
-
-  useEffect(() => {
-    if (emblaApi) {
-      emblaApi.on('select', changeDots);
-    }
-  }, [changeDots, emblaApi]);
-
-  const handleMouseEnter = () => {
-    if (emblaApi && width > 760) {
-      emblaApi.scrollNext();
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (emblaApi && width > 760) {
-      emblaApi.scrollPrev();
-    }
   };
 
   return (
@@ -96,20 +47,29 @@ export default function PrizeCard({
               <div>
                 <h3 className={styles.header}>{name}</h3>
                 <div className={styles.prizes}>
-                  {prizeNames.map((name, index) => (
+                  {prizeNames.map((prizeName, index) => (
                     <div key={index} className={styles.place}>
                       {prizeNames.length > 1 && index == 0 && (
-                        <p
-                          className={styles.placeText}
-                        >{`1st place: ${name}`}</p>
+                        <div className="flex items-center gap-2">
+                          <FirstPlaceIcon />
+                          <p
+                            className={styles.placeText}
+                          >{`1st Place: ${prizeName}`}</p>
+                        </div>
                       )}
                       {prizeNames.length > 1 && index == 1 && (
-                        <p
-                          className={styles.placeText}
-                        >{`2nd place: ${name}`}</p>
+                        <div className="flex items-center gap-2">
+                          <SecondPlaceIcon />
+                          <p
+                            className={styles.placeText}
+                          >{`2nd Place: ${prizeName}`}</p>
+                        </div>
                       )}
                       {prizeNames.length == 1 && (
-                        <p className={styles.placeText}>{name}</p>
+                        <div className="flex items-center gap-2">
+                          <FirstPlaceIcon />
+                          <p className={styles.placeText}>{prizeName}</p>
+                        </div>
                       )}
                     </div>
                   ))}
@@ -122,27 +82,16 @@ export default function PrizeCard({
                 <p className={styles.eligibilityText}>ELIGIBILITY CRITERIA</p>
               </div>
             </div>
-            <div className={styles.imageBackground}>
-              <div className={styles.emblaWrapper} ref={emblaRef}>
-                <div
-                  className={styles.emblaContainer}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  {prizeImages.map((image, index) => (
-                    <Image
-                      key={index}
-                      src={image}
-                      alt={prizeNames[index]}
-                      className={styles.prizeImage}
-                    />
-                  ))}
+            <div className="flex gap-4">
+              {prizeImages.map((image, index) => (
+                <div key={index} className={styles.imageBackground}>
+                  <Image
+                    src={image}
+                    alt={prizeNames[index]}
+                    className={styles.prizeImage}
+                  />
                 </div>
-              </div>
-
-              {prizeImages.length > 1 && ( // adds dots only for multiple prizes
-                <CarouselDots moveDot={moveDot} />
-              )}
+              ))}
             </div>
           </div>
         </div>
@@ -156,42 +105,18 @@ export default function PrizeCard({
   );
 }
 
-interface CarouselDotsProps {
-  moveDot: boolean;
-}
-function CarouselDots({ moveDot }: CarouselDotsProps) {
+function FirstPlaceIcon() {
   return (
-    <div className="flex justify-between w-[10px] mt-[5%]">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="4"
-        height="4"
-        viewBox="0 0 4 4"
-        fill="none"
-      >
-        <circle
-          cx="2"
-          cy="2"
-          r="2"
-          fill="#123041"
-          fillOpacity={moveDot ? '0.5' : '1'}
-        />
-      </svg>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="4"
-        height="4"
-        viewBox="0 0 4 4"
-        fill="none"
-      >
-        <circle
-          cx="2"
-          cy="2"
-          r="2"
-          fill="#123041"
-          fillOpacity={moveDot ? '1' : '0.5'}
-        />
-      </svg>
-    </div>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 3H15L18 10L12 12M9 3L6 10L12 12M9 3L12 12M12 12L10.5 15L7.5 15.5L9.5 17.5L9 21L12 19.5L15 21L14.5 17.5L16.5 15.5L13.5 15L12 12ZM15 11L12 3" stroke="#5E5E65" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+function SecondPlaceIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 4V7M8 4V10M16 4V10M12 18.5L9 20L9.5 16.5L7.5 14.5L10.5 14L12 11L13.5 14L16.5 14.5L14.5 16.5L15 20L12 18.5Z" stroke="#5E5E65" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
   );
 }

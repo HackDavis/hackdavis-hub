@@ -37,17 +37,12 @@ export default function PrizeTracks() {
 function Header() {
   return (
     <div className="flex flex-col">
-      <h6>CHECK OUT OUR</h6>
-      <h3 className="font-bold text-3xl text-[#9EE7E5] font-metropolis">
+      <h6 className="tracking-widest text-sm text-gray-500">YOUR NEXT REWARD</h6>
+      <h3 className="font-bold text-3xl font-metropolis">
         Prize Tracks
       </h3>
     </div>
   );
-}
-
-interface FilterItem {
-  track: string;
-  color: string;
 }
 
 interface FilterRowProps {
@@ -56,39 +51,24 @@ interface FilterRowProps {
 }
 
 function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
-  const filters: FilterItem[] = [
-    { track: 'ALL', color: '#C3F0EF' },
-    { track: 'GENERAL', color: '#FFDBCA' },
-    { track: 'TECHNICAL', color: '#CDE396' },
-    { track: 'DESIGN', color: '#FFDC86' },
-    { track: 'BUSINESS', color: '#D5CBE9' },
-    { track: 'NONPROFIT', color: '#E7EAEE' },
-    { track: 'SPONSOR', color: '#E7EAEE' },
-    { track: 'MLH', color: '#E7EAEE' },
-  ];
+  const filters = ['ALL', 'GENERAL', 'TECHNICAL', 'DESIGN', 'BUSINESS', 'NON-PROFIT'];
 
   return (
     <div className="flex gap-4 overflow-x-scroll md:overflow-x-auto">
-      {filters.map((filter, index) => {
-        const track = filter.track;
-        const color = filter.color;
+      {filters.map((track) => {
+        const isActive = currentFilter.toLowerCase() === track.toLowerCase();
         return (
           <Button
-            key={index}
-            className="px-8 py-2 border-2 rounded-3xl border-dashed cursor-pointer relative group w-32"
-            style={{ borderColor: color }}
+            key={track}
+            className={`px-8 py-2 border-2 rounded-3xl cursor-pointer w-32 ${
+              isActive
+                ? 'bg-black text-white border-black'
+                : 'border-gray-300 hover:bg-gray-100'
+            }`}
             variant="ghost"
-            onClick={() => onFilterChange(filter.track)}
+            onClick={() => onFilterChange(track)}
           >
-            <div
-              className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer ${
-                currentFilter.toLowerCase() === track.toLowerCase()
-                  ? 'w-full'
-                  : 'w-0 group-hover:w-full'
-              } bg-opacity-20`}
-              style={{ backgroundColor: color }}
-            />
-            <p className="font-semibold relative z-10">{track}</p>
+            <p className="font-semibold">{track}</p>
           </Button>
         );
       })}

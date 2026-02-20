@@ -3,7 +3,7 @@ import PrizeCard from './PrizeCard';
 
 export default function PrizeGrid({ items }: { items: TrackData[] }) {
   return (
-    <main className="grid md:grid-cols-2 gap-8 lg:gap-12 w-full mx-[16px] xl:mx-[48px]">
+    <main className="grid grid-cols-1 gap-8 lg:gap-12 w-full mx-[16px] xl:mx-[48px]">
       {items.map((item) => {
         return (
           <PrizeCard
