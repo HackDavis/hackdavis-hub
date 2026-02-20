@@ -61,9 +61,7 @@ export default function JudgeBanners() {
   const teamNonHDCategories: string[] = team.tracks
     .filter((track: string) => track in nonHDTracks)
     .map((track: string) => nonHDTracks[track].filter);
-  const hasNonprofitTrack = teamNonHDCategories.includes('Nonprofit');
-  const hasSponsorTrack = teamNonHDCategories.includes('Sponsor');
-  const hasMLHTrack = teamNonHDCategories.includes('MLH');
+  const hasNonprofitTrack = teamNonHDCategories.includes('Non-Profit');
 
   return (
     <div className={styles.container_position}>
@@ -72,22 +70,6 @@ export default function JudgeBanners() {
           icon="/hackers/hero/PeekingCow.svg"
           name="NPO Judge"
           description="Since you submitted for an NPO track, you will also be visited by an NPO representative."
-          completed={false}
-        />
-      )}
-      {hasSponsorTrack && (
-        <JudgeBannerIndividual
-          icon="/hackers/hero/PeekingBunny.svg"
-          name="Sponsor Judge"
-          description="Since you submitted for a sponsor track, you will also be visited by a sponsor representative."
-          completed={false}
-        />
-      )}
-      {hasMLHTrack && (
-        <JudgeBannerIndividual
-          icon="/hackers/hero/PeekingDuck.svg"
-          name="MLH Judge"
-          description="Since you submitted for an MLH track, you will also be visited by an MLH representative."
           completed={false}
         />
       )}

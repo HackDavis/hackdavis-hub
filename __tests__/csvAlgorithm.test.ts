@@ -15,7 +15,7 @@ describe('csvAlgorithm track matching', () => {
 
   it('does not attempt to correct spelling', () => {
     expect(matchCanonicalTrack('Best Hardwre Hack')).toBeNull();
-    expect(matchCanonicalTrack('Best Assistive Technlogy')).toBeNull();
+    expect(matchCanonicalTrack('Best Entreprneurship Hack')).toBeNull();
   });
 
   it('ingests all opt-in tracks and does not cap length', () => {
@@ -23,15 +23,15 @@ describe('csvAlgorithm track matching', () => {
       'best hardware hack',
       '',
       '',
-      'Best Use of Gemini API; Best Use of MongoDB Atlas, Best Use of Vectara | Best Use of Auth0'
+      'Best UI/UX Design; Best Entrepreneurship Hack, Best Statistical Model | Best AI/ML Hack'
     );
 
     expect(tracks).toEqual([
       'Best Hardware Hack',
-      'Best Use of Gemini API',
-      'Best Use of MongoDB Atlas',
-      'Best Use of Vectara',
-      'Best Use of Auth0',
+      'Best UI/UX Design',
+      'Best Entrepreneurship Hack',
+      'Best Statistical Model',
+      'Best AI/ML Hack',
     ]);
   });
 

@@ -1,8 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { useEffect, useState, useCallback } from 'react';
-import styles from './PrizeCard.module.scss';
-import useEmblaCarousel from 'embla-carousel-react';
+import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 import Accordion from '@mui/material/Accordion';
@@ -23,62 +21,12 @@ export default function PrizeCard({
   prizeNames,
   criteria,
 }: PrizeCardProps) {
-  const [moveDot, setMoveDot] = useState<boolean>(false);
-
-  const [rotateArrow, setRotateArrow] = useState<boolean>(false);
-
-  const handleCriteriaClick = () => {
-    setRotateArrow((prevState: boolean) => !prevState);
-  };
-
-  const [width, setWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
-  );
-
-  const updateDimensions = () => {
-    setWidth(window.innerWidth);
-  };
-  useEffect(() => {
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: false,
-      align: 'start',
-      dragFree: false,
-      skipSnaps: false,
-      containScroll: 'trimSnaps',
-      watchDrag: width > 760 ? false : true,
-    },
-    []
-  );
-
-  const changeDots = useCallback((emblaApi: any) => {
-    setMoveDot(emblaApi.selectedScrollSnap());
-  }, []);
-
-  useEffect(() => {
-    if (emblaApi) {
-      emblaApi.on('select', changeDots);
-    }
-  }, [changeDots, emblaApi]);
-
-  const handleMouseEnter = () => {
-    if (emblaApi && width > 760) {
-      emblaApi.scrollNext();
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (emblaApi && width > 760) {
-      emblaApi.scrollPrev();
-    }
-  };
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   return (
     <Accordion
+      expanded={expanded}
+      onChange={(_, isExpanded) => setExpanded(isExpanded)}
       sx={{
         padding: '0px',
         boxShadow: '0px 8px 24px rgba(149,157,165,0.2)',
@@ -86,112 +34,143 @@ export default function PrizeCard({
         '&::before': {
           content: 'none',
         },
+        borderRadius: '24px !important',
       }}
       disableGutters={true}
     >
       <AccordionSummary sx={{ padding: '0px' }}>
-        <div className={styles.container} onClick={handleCriteriaClick}>
-          <div className={styles.content}>
-            <div className={styles.info}>
+        <div className="p-2 sm:p-4 md:p-4 xl:px-6 grow max-w-full rounded-xl">
+          <div className="flex flex-col sm:flex-row h-fit gap-0 md:gap-0 xl:gap-0 w-full">
+            <div className="flex flex-col justify-between items-center sm:items-start w-full">
               <div>
-                <h3 className={styles.header}>{name}</h3>
-                <div className={styles.prizes}>
-                  {prizeNames.map((name, index) => (
-                    <div key={index} className={styles.place}>
+                <h3 className="text-base md:text-xl xl:text-2xl font-bold leading-[125%] mb-3 xl:mb-4 justify-center sm:justify-start">
+                  {name}
+                </h3>
+                <div className="flex flex-col gap-2">
+                  {prizeNames.map((prizeName, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-row items-center gap-2 md:gap-3 justify-center sm:justify-start"
+                    >
                       {prizeNames.length > 1 && index == 0 && (
-                        <p
-                          className={styles.placeText}
-                        >{`1st place: ${name}`}</p>
+                        <div className="flex items-center gap-2">
+                          <FirstPlaceIcon />
+                          <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] justify-center sm:justify-start">
+                            {`1st Place: ${prizeName}`}
+                          </p>
+                        </div>
                       )}
                       {prizeNames.length > 1 && index == 1 && (
-                        <p
-                          className={styles.placeText}
-                        >{`2nd place: ${name}`}</p>
+                        <div className="flex items-center gap-2">
+                          <SecondPlaceIcon />
+                          <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] justify-center sm:justify-start">
+                            {`2nd Place: ${prizeName}`}
+                          </p>
+                        </div>
                       )}
                       {prizeNames.length == 1 && (
-                        <p className={styles.placeText}>{name}</p>
+                        <div className="flex items-center gap-2">
+                          <FirstPlaceIcon />
+                          <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] items-center sm:items-start">
+                            {prizeName}
+                          </p>
+                        </div>
                       )}
                     </div>
                   ))}
                 </div>
               </div>
-              <div className={styles.eligibility}>
+              <div className="hidden sm:flex flex-row items-center gap-2 w-full mt-3 xl:mt-4">
                 <ChevronDown
-                  className={rotateArrow ? styles.arrow : styles.arrowRotated}
+                  className={`h-4 md:h-5 xl:h-6 w-auto transition-transform duration-300 ease-in-out ${
+                    expanded ? '' : '-rotate-90'
+                  }`}
                 />
-                <p className={styles.eligibilityText}>ELIGIBILITY CRITERIA</p>
+                <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] tracking-wider whitespace-nowrap">
+                  ELIGIBILITY CRITERIA
+                </p>
               </div>
             </div>
-            <div className={styles.imageBackground}>
-              <div className={styles.emblaWrapper} ref={emblaRef}>
+            <div className="flex gap-4 mt-2 mb-2 flex-row items-center justify-center">
+              {prizeImages.map((image, index) => (
                 <div
-                  className={styles.emblaContainer}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
+                  key={index}
+                  className="h-[100px] sm:h-[120px] md:h-[150px] xl:h-[200px] 2xl:h-[250px] aspect-square rounded-xl flex justify-center items-center p-2.5 md:p-4"
+                  style={{
+                    background:
+                      'linear-gradient(284.39deg, rgba(213,252,209,0.4) 9.72%, rgba(178,231,221,0.4) 44.61%, rgba(118,214,230,0.4) 79.5%)',
+                  }}
                 >
-                  {prizeImages.map((image, index) => (
-                    <Image
-                      key={index}
-                      src={image}
-                      alt={prizeNames[index]}
-                      className={styles.prizeImage}
-                    />
-                  ))}
+                  <Image
+                    src={image}
+                    alt={prizeNames[index]}
+                    className="object-contain w-full block max-h-full"
+                  />
                 </div>
-              </div>
-
-              {prizeImages.length > 1 && ( // adds dots only for multiple prizes
-                <CarouselDots moveDot={moveDot} />
-              )}
+              ))}
+            </div>
+            <div className="sm:hidden flex flex-row items-center justify-center gap-2 w-full mt-3 xl:mt-4">
+              <ChevronDown
+                className={`h-4 md:h-5 xl:h-6 w-auto transition-transform duration-300 ease-in-out ${
+                  expanded ? '' : '-rotate-90'
+                }`}
+              />
+              <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] tracking-wider whitespace-nowrap">
+                ELIGIBILITY CRITERIA
+              </p>
             </div>
           </div>
         </div>
       </AccordionSummary>
       <AccordionDetails sx={{ padding: '0px' }}>
-        <div className={styles.criteriaContainer}>
-          <p className={styles.criteriaContent}>{criteria}</p>
+        <div className="flex items-center px-6 pb-4">
+          <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%]">
+            {criteria}
+          </p>
         </div>
       </AccordionDetails>
     </Accordion>
   );
 }
 
-interface CarouselDotsProps {
-  moveDot: boolean;
-}
-function CarouselDots({ moveDot }: CarouselDotsProps) {
+function FirstPlaceIcon() {
   return (
-    <div className="flex justify-between w-[10px] mt-[5%]">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="4"
-        height="4"
-        viewBox="0 0 4 4"
-        fill="none"
-      >
-        <circle
-          cx="2"
-          cy="2"
-          r="2"
-          fill="#123041"
-          fillOpacity={moveDot ? '0.5' : '1'}
-        />
-      </svg>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="4"
-        height="4"
-        viewBox="0 0 4 4"
-        fill="none"
-      >
-        <circle
-          cx="2"
-          cy="2"
-          r="2"
-          fill="#123041"
-          fillOpacity={moveDot ? '1' : '0.5'}
-        />
-      </svg>
-    </div>
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0"
+    >
+      <path
+        d="M9 3H15L18 10L12 12M9 3L6 10L12 12M9 3L12 12M12 12L10.5 15L7.5 15.5L9.5 17.5L9 21L12 19.5L15 21L14.5 17.5L16.5 15.5L13.5 15L12 12ZM15 11L12 3"
+        stroke="#5E5E65"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SecondPlaceIcon() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0"
+    >
+      <path
+        d="M12 4V7M8 4V10M16 4V10M12 18.5L9 20L9.5 16.5L7.5 14.5L10.5 14L12 11L13.5 14L16.5 14.5L14.5 16.5L15 20L12 18.5Z"
+        stroke="#5E5E65"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
