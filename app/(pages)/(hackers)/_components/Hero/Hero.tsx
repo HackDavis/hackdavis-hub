@@ -4,9 +4,9 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <div className="w-full flex justify-center py-12">
+    <div className="w-full h-screen p-4 md:p-10">
       <div
-        className="relative w-screen h-screen mx-[5%] mb-[5%] overflow-hidden flex items-center justify-center"
+        className="relative w-full h-full overflow-hidden flex items-center justify-center"
         style={{
           borderRadius: '38.812px',
           background:
@@ -60,7 +60,7 @@ export default function Hero() {
 
             <p className="mt-4 text-base md:text-lg text-[#222]/80 leading-relaxed">
               It seems like you’re here a little early…check back in the
-              hackerhub in March for more information!
+              hackerhub in late March for more information!
             </p>
           </div>
         </div>

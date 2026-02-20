@@ -80,13 +80,13 @@ export default function Navbar() {
     },
     // {
     //   ids: ['starter-kit'],
-    //   body: 'STARTER KIT',
+    //   body: 'Starter Kit',
     //   page: '/starter-kit',
     //   path: '/starter-kit',
     // },
     // {
     //   ids: ['project-info'],
-    //   body: 'PROJECT INFO',
+    //   body: 'Project Info',
     //   page: '/project-info',
     //   path: '/project-info',
     // },

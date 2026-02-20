@@ -20,17 +20,13 @@
     justify-content: space-between;
     pointer-events: none;
     gap: 43px;
-    width: calc(100% - 64px * 2);
+    width: 88%;
     height: 50px;
     backdrop-filter: blur(30px);
     border-radius: 1000px;
     margin-left: auto;
     margin-right: auto;
     padding: 0 24px;
-
-    @include desktop-m {
-        width: calc(100% - 32px * 2);
-    }
 
     @include tablet-l {
         flex-direction: column;

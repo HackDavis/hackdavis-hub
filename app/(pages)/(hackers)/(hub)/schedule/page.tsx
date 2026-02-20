@@ -2,7 +2,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
 import Loader from '@components/Loader/Loader';
-import Footer from '@pages/_components/2025Footer/Footer';
+import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
 import headerGrass from '@public/hackers/schedule/header_grass.svg';
 import Event, { EventType } from '@typeDefs/event';
