@@ -26,7 +26,7 @@ export default function PrizeTracks() {
   };
 
   return (
-    <main className="flex flex-col gap-4 p-[20px] xs:p-[48px] lg:p-[64px] xl:p-[120px] pt-0 xs:pt-0 lg:pt-0 xl:pt-0">
+    <main className="flex flex-col gap-4 px-[5%] py-[15%] md:py-[8%]">
       <Header />
       <DesktopFilterRow
         currentFilter={filter}
@@ -47,7 +47,7 @@ export default function PrizeTracks() {
 
 function Header() {
   return (
-    <div className="flex flex-col mt-16">
+    <div className="flex flex-col">
       <h6 className="tracking-widest text-sm text-gray-500">
         YOUR NEXT REWARD
       </h6>
@@ -75,22 +75,22 @@ const filters = [
 
 function DesktopFilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
   return (
-    <div className="hidden md:flex gap-4">
+    <div className="hidden md:flex gap-4 overflow-x-scroll no-scrollbar">
       {filters.map((track) => {
         const isActive = currentFilter.toLowerCase() === track.toLowerCase();
         return (
-          <Button
+          <button
             key={track}
-            className={`px-8 py-2 border-2 rounded-3xl cursor-pointer w-32 ${
+            type="button"
+            className={`flex w-[163px] h-[45px] px-[38px] py-[13px] justify-center items-center rounded-[22.5px] font-jakarta text-sm sm:text-[16px] font-semibold leading-[100%] tracking-[0.32px] transition-all duration-200 whitespace-nowrap ${
               isActive
-                ? 'bg-[#3F3F3F] text-white border-[#3F3F3F]'
-                : 'border-gray-300 hover:bg-gray-100'
+                ? 'bg-[#3F3F3F] text-[#FAFAFF]'
+                : 'bg-[#F3F3FC] text-[#3F3F3F] hover:bg-gray-100'
             }`}
-            variant="ghost"
             onClick={() => onFilterChange(track)}
           >
-            <p className="font-semibold">{track}</p>
-          </Button>
+            {track}
+          </button>
         );
       })}
     </div>
