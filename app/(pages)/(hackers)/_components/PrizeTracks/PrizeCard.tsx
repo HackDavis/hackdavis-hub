@@ -35,7 +35,7 @@ export default function PrizeCard({
         '&::before': {
           content: 'none',
         },
-        borderRadius: '20px',
+        borderRadius: '20px !important',
       }}
       disableGutters={true}
     >
