@@ -29,8 +29,9 @@ export default function PrizeCard({
       onChange={(_, isExpanded) => setExpanded(isExpanded)}
       sx={{
         padding: '0px',
-        boxShadow: '0px 8px 24px rgba(149,157,165,0.2)',
+        boxShadow: 'none',
         border: 'none',
+        backgroundColor: 'white',
         '&::before': {
           content: 'none',
         },
@@ -39,56 +40,45 @@ export default function PrizeCard({
       disableGutters={true}
     >
       <AccordionSummary sx={{ padding: '0px' }}>
-        <div className="p-2 sm:p-4 md:p-4 xl:px-6 grow max-w-full rounded-xl">
-          <div className="flex flex-col sm:flex-row h-fit gap-0 md:gap-0 xl:gap-0 w-full">
-            <div className="flex flex-col justify-between items-center sm:items-start w-full">
-              <div>
-                <h3 className="text-base md:text-xl xl:text-2xl font-bold leading-[125%] mb-3 xl:mb-4 justify-center sm:justify-start">
-                  {name}
-                </h3>
-                <div className="flex flex-col gap-2">
-                  {prizeNames.map((prizeName, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-row items-center gap-2 md:gap-3 justify-center sm:justify-start"
-                    >
-                      {prizeNames.length > 1 && index == 0 && (
-                        <div className="flex items-center gap-2">
-                          <FirstPlaceIcon />
-                          <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] justify-center sm:justify-start">
-                            {`1st Place: ${prizeName}`}
-                          </p>
-                        </div>
-                      )}
-                      {prizeNames.length > 1 && index == 1 && (
-                        <div className="flex items-center gap-2">
-                          <SecondPlaceIcon />
-                          <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] justify-center sm:justify-start">
-                            {`2nd Place: ${prizeName}`}
-                          </p>
-                        </div>
-                      )}
-                      {prizeNames.length == 1 && (
-                        <div className="flex items-center gap-2">
-                          <FirstPlaceIcon />
-                          <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] items-center sm:items-start">
-                            {prizeName}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="hidden sm:flex flex-row items-center gap-2 w-full mt-3 xl:mt-4">
-                <ChevronDown
-                  className={`h-4 md:h-5 xl:h-6 w-auto transition-transform duration-300 ease-in-out ${
-                    expanded ? '' : '-rotate-90'
-                  }`}
-                />
-                <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] tracking-wider whitespace-nowrap">
-                  ELIGIBILITY CRITERIA
-                </p>
+        <div className="px-[5%] md:px-[2.5%] py-[1.5%] grow max-w-full rounded-xl">
+          {/* Prize info and images group */}
+          <div className="flex flex-col sm:flex-row h-fit gap-4 w-full">
+            <div className="flex flex-col items-start w-full">
+              <h3 className="text-base md:text-xl xl:text-2xl font-bold leading-[125%] mb-3 xl:mb-4 justify-center sm:justify-start">
+                {name}
+              </h3>
+              <div className="flex flex-col gap-2">
+                {prizeNames.map((prizeName, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-row items-center gap-2 md:gap-3 justify-start"
+                  >
+                    {prizeNames.length > 1 && index == 0 && (
+                      <div className="flex items-center gap-2">
+                        <FirstPlaceIcon />
+                        <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] justify-center sm:justify-start">
+                          {`1st Place: ${prizeName}`}
+                        </p>
+                      </div>
+                    )}
+                    {prizeNames.length > 1 && index == 1 && (
+                      <div className="flex items-center gap-2">
+                        <SecondPlaceIcon />
+                        <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] justify-center sm:justify-start">
+                          {`2nd Place: ${prizeName}`}
+                        </p>
+                      </div>
+                    )}
+                    {prizeNames.length == 1 && (
+                      <div className="flex items-center gap-2">
+                        <FirstPlaceIcon />
+                        <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] items-center sm:items-start">
+                          {prizeName}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="flex gap-4 mt-2 mb-2 flex-row items-center justify-center">
@@ -109,21 +99,24 @@ export default function PrizeCard({
                 </div>
               ))}
             </div>
-            <div className="sm:hidden flex flex-row items-center justify-center gap-2 w-full mt-3 xl:mt-4">
-              <ChevronDown
-                className={`h-4 md:h-5 xl:h-6 w-auto transition-transform duration-300 ease-in-out ${
-                  expanded ? '' : '-rotate-90'
-                }`}
-              />
-              <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%] tracking-wider whitespace-nowrap">
-                ELIGIBILITY CRITERIA
-              </p>
-            </div>
+          </div>
+          {/* Border */}
+          <div className="w-full border-t border-[#E9E9E7] my-3 xl:my-4"></div>
+          {/* Eligibility criteria */}
+          <div className="flex flex-row items-center gap-2 justify-start">
+            <ChevronDown
+              className={`h-4 md:h-5 xl:h-6 w-auto transition-transform duration-300 ease-in-out text-[#878796] ${
+                expanded ? '' : '-rotate-90'
+              }`}
+            />
+            <p className="text-sm md:text-base xl:text-xl font-normal text-[#878796] leading-[125%] tracking-wider whitespace-nowrap">
+              ELIGIBILITY CRITERIA
+            </p>
           </div>
         </div>
       </AccordionSummary>
       <AccordionDetails sx={{ padding: '0px' }}>
-        <div className="flex items-center px-6 pb-4">
+        <div className="flex items-center px-[5%] md:px-[2.5%] pb-[5%] md:pb-[3%]">
           <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%]">
             {criteria}
           </p>

@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@globals/components/ui/button';
 import { allTracks, TrackData } from '@data/tracks';
 import PrizeGrid from './PrizeGrid';
 import { useState } from 'react';
@@ -26,7 +25,7 @@ export default function PrizeTracks() {
   };
 
   return (
-    <main className="flex flex-col gap-4 px-[5%] py-[15%] md:py-[8%]">
+    <main className="flex flex-col gap-4 px-[5%] py-[15%] md:py-[8%] bg-[#FAFAFF]">
       <Header />
       <DesktopFilterRow
         currentFilter={filter}
