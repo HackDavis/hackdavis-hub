@@ -7,23 +7,15 @@ interface PrizeTracksMobileControlsProps {
   setIsMobileFilterOpen: (
     value: boolean | ((prev: boolean) => boolean)
   ) => void;
+  filters: readonly string[];
 }
-
-const filters = [
-  'ALL',
-  'GENERAL',
-  'TECHNICAL',
-  'DESIGN',
-  'BUSINESS',
-  'SPONSOR',
-  'NON-PROFIT',
-];
 
 export default function PrizeTracksMobileControls({
   currentFilter,
   onFilterChange,
   isMobileFilterOpen,
   setIsMobileFilterOpen,
+  filters,
 }: PrizeTracksMobileControlsProps) {
   const hasSelectedFilter = currentFilter.toLowerCase() !== 'all';
 

@@ -6,6 +6,15 @@ import { useState } from 'react';
 import PrizeTracksMobileControls from './PrizeTracksMobileControls';
 
 const prizes = Object.values(allTracks);
+const PRIZE_TRACK_FILTERS = [
+  'ALL',
+  'GENERAL',
+  'TECHNICAL',
+  'DESIGN',
+  'BUSINESS',
+  'SPONSOR',
+  'NON-PROFIT',
+] as const;
 
 export default function PrizeTracks() {
   const [filter, setFilter] = useState<string>('all');
@@ -36,6 +45,7 @@ export default function PrizeTracks() {
         onFilterChange={handleFilterChange}
         isMobileFilterOpen={isMobileFilterOpen}
         setIsMobileFilterOpen={setIsMobileFilterOpen}
+        filters={PRIZE_TRACK_FILTERS}
       />
       <div className="flex items-center justify-center w-full mt-8">
         <PrizeGrid items={filteredPrizes} />
@@ -62,20 +72,10 @@ interface FilterRowProps {
   onFilterChange: (filter: string) => void;
 }
 
-const filters = [
-  'ALL',
-  'GENERAL',
-  'TECHNICAL',
-  'DESIGN',
-  'BUSINESS',
-  'SPONSOR',
-  'NON-PROFIT',
-];
-
 function DesktopFilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
   return (
     <div className="hidden md:flex gap-4 overflow-x-scroll no-scrollbar">
-      {filters.map((track) => {
+      {PRIZE_TRACK_FILTERS.map((track) => {
         const isActive = currentFilter.toLowerCase() === track.toLowerCase();
         return (
           <button
