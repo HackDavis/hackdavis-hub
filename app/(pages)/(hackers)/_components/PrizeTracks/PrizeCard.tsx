@@ -35,7 +35,7 @@ export default function PrizeCard({
         '&::before': {
           content: 'none',
         },
-        borderRadius: '24px !important',
+        borderRadius: '20px',
       }}
       disableGutters={true}
     >
@@ -44,10 +44,10 @@ export default function PrizeCard({
           {/* Prize info and images group */}
           <div className="flex flex-col sm:flex-row h-fit gap-4 w-full">
             <div className="flex flex-col items-start w-full">
-              <h3 className="text-base md:text-xl xl:text-2xl font-bold leading-[125%] mb-3 xl:mb-4 justify-center sm:justify-start">
+              <h3 className="text-base md:text-xl xl:text-2xl font-semibold leading-[125%] mb-3 xl:mb-4 justify-center sm:justify-start">
                 {name}
               </h3>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2  text-[#5E5E65]">
                 {prizeNames.map((prizeName, index) => (
                   <div
                     key={index}
@@ -81,11 +81,15 @@ export default function PrizeCard({
                 ))}
               </div>
             </div>
-            <div className="flex gap-4 mt-2 mb-2 flex-row items-center justify-center">
+            <div className="flex gap-4 mt-2 mb-2 w-full sm:w-auto flex-row items-center justify-center">
               {prizeImages.map((image, index) => (
                 <div
                   key={index}
-                  className="h-[100px] sm:h-[120px] md:h-[150px] xl:h-[200px] 2xl:h-[250px] aspect-square rounded-xl flex justify-center items-center p-2.5 md:p-4"
+                  className={`flex-1 sm:flex-none sm:h-[120px] md:h-[150px] xl:h-[200px] 2xl:h-[250px] rounded-xl flex justify-center items-center p-2.5 md:p-4 ${
+                    prizeImages.length === 1
+                      ? 'aspect-[3/2] sm:aspect-square'
+                      : 'aspect-square'
+                  }`}
                   style={{
                     background:
                       'linear-gradient(284.39deg, rgba(213,252,209,0.4) 9.72%, rgba(178,231,221,0.4) 44.61%, rgba(118,214,230,0.4) 79.5%)',
@@ -118,7 +122,7 @@ export default function PrizeCard({
       <AccordionDetails sx={{ padding: '0px' }}>
         <div className="flex items-center px-[5%] md:px-[2.5%] pb-[5%] md:pb-[3%]">
           <p className="text-sm md:text-base xl:text-xl font-normal leading-[125%]">
-            {criteria}
+            {criteria || 'Check back in May!'}
           </p>
         </div>
       </AccordionDetails>
