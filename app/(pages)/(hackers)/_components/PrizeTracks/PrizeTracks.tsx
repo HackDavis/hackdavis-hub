@@ -1,15 +1,25 @@
 'use client';
 
-import { Button } from '@globals/components/ui/button';
 import { allTracks, TrackData } from '@data/tracks';
 import PrizeGrid from './PrizeGrid';
 import { useState } from 'react';
+import PrizeTracksMobileControls from './PrizeTracksMobileControls';
 
 const prizes = Object.values(allTracks);
+const PRIZE_TRACK_FILTERS = [
+  'ALL',
+  'GENERAL',
+  'TECHNICAL',
+  'DESIGN',
+  'BUSINESS',
+  'SPONSOR',
+  'NON-PROFIT',
+] as const;
 
 export default function PrizeTracks() {
   const [filter, setFilter] = useState<string>('all');
   const [filteredPrizes, setFilteredPrizes] = useState<TrackData[]>(prizes);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const handleFilterChange = (selectedFilter: string) => {
     setFilter(selectedFilter.toLowerCase());
@@ -24,9 +34,19 @@ export default function PrizeTracks() {
   };
 
   return (
-    <main className="flex flex-col gap-4 p-[20px] xs:p-[48px] lg:p-[64px] xl:p-[120px] pt-0 xs:pt-0 lg:pt-0 xl:pt-0">
+    <main className="flex flex-col gap-4 px-[5%] py-[15%] md:py-[8%] bg-[#FAFAFF]">
       <Header />
-      <FilterRow currentFilter={filter} onFilterChange={handleFilterChange} />
+      <DesktopFilterRow
+        currentFilter={filter}
+        onFilterChange={handleFilterChange}
+      />
+      <PrizeTracksMobileControls
+        currentFilter={filter}
+        onFilterChange={handleFilterChange}
+        isMobileFilterOpen={isMobileFilterOpen}
+        setIsMobileFilterOpen={setIsMobileFilterOpen}
+        filters={PRIZE_TRACK_FILTERS}
+      />
       <div className="flex items-center justify-center w-full mt-8">
         <PrizeGrid items={filteredPrizes} />
       </div>
@@ -37,17 +57,14 @@ export default function PrizeTracks() {
 function Header() {
   return (
     <div className="flex flex-col">
-      <h6>CHECK OUT OUR</h6>
-      <h3 className="font-bold text-3xl text-[#9EE7E5] font-metropolis">
+      <h6 className="tracking-widest text-sm text-gray-500">
+        YOUR NEXT REWARD
+      </h6>
+      <h3 className="font-medium text-4xl font-metropolis mt-4">
         Prize Tracks
       </h3>
     </div>
   );
-}
-
-interface FilterItem {
-  track: string;
-  color: string;
 }
 
 interface FilterRowProps {
@@ -55,41 +72,24 @@ interface FilterRowProps {
   onFilterChange: (filter: string) => void;
 }
 
-function FilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
-  const filters: FilterItem[] = [
-    { track: 'ALL', color: '#C3F0EF' },
-    { track: 'GENERAL', color: '#FFDBCA' },
-    { track: 'TECHNICAL', color: '#CDE396' },
-    { track: 'DESIGN', color: '#FFDC86' },
-    { track: 'BUSINESS', color: '#D5CBE9' },
-    { track: 'NONPROFIT', color: '#E7EAEE' },
-    { track: 'SPONSOR', color: '#E7EAEE' },
-    { track: 'MLH', color: '#E7EAEE' },
-  ];
-
+function DesktopFilterRow({ currentFilter, onFilterChange }: FilterRowProps) {
   return (
-    <div className="flex gap-4 overflow-x-scroll md:overflow-x-auto">
-      {filters.map((filter, index) => {
-        const track = filter.track;
-        const color = filter.color;
+    <div className="hidden md:flex gap-4 overflow-x-scroll no-scrollbar">
+      {PRIZE_TRACK_FILTERS.map((track) => {
+        const isActive = currentFilter.toLowerCase() === track.toLowerCase();
         return (
-          <Button
-            key={index}
-            className="px-8 py-2 border-2 rounded-3xl border-dashed cursor-pointer relative group w-32"
-            style={{ borderColor: color }}
-            variant="ghost"
-            onClick={() => onFilterChange(filter.track)}
+          <button
+            key={track}
+            type="button"
+            className={`flex w-[163px] h-[45px] px-[38px] py-[13px] justify-center items-center rounded-[22.5px] font-jakarta text-sm sm:text-[16px] font-semibold leading-[100%] tracking-[0.32px] transition-all duration-200 whitespace-nowrap ${
+              isActive
+                ? 'bg-[#3F3F3F] text-[#FAFAFF]'
+                : 'bg-[#F3F3FC] text-[#3F3F3F] hover:bg-gray-100'
+            }`}
+            onClick={() => onFilterChange(track)}
           >
-            <div
-              className={`absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer ${
-                currentFilter.toLowerCase() === track.toLowerCase()
-                  ? 'w-full'
-                  : 'w-0 group-hover:w-full'
-              } bg-opacity-20`}
-              style={{ backgroundColor: color }}
-            />
-            <p className="font-semibold relative z-10">{track}</p>
-          </Button>
+            {track}
+          </button>
         );
       })}
     </div>

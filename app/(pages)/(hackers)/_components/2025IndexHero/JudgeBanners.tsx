@@ -61,7 +61,7 @@ export default function JudgeBanners() {
   const teamNonHDCategories: string[] = team.tracks
     .filter((track: string) => track in nonHDTracks)
     .map((track: string) => nonHDTracks[track].filter);
-  const hasNonprofitTrack = teamNonHDCategories.includes('Nonprofit');
+  const hasNonprofitTrack = teamNonHDCategories.includes('Non-Profit');
   const hasSponsorTrack = teamNonHDCategories.includes('Sponsor');
   const hasMLHTrack = teamNonHDCategories.includes('MLH');
 
