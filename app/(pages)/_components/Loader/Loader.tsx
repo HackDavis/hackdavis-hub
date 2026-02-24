@@ -9,7 +9,7 @@ export default function Loader({ modal = false, message = '' }: LoaderProps) {
       className={`w-full h-full flex flex-col items-center justify-center text-center ${
         modal
           ? ''
-          : 'absolute inset-0 min-w-screen min-h-screen bg-[var(--background-light)]'
+          : 'relative inset-0 min-w-screen min-h-screen bg-[var(--background-light)]'
       }`}
     >
       <h4>{message}</h4>
