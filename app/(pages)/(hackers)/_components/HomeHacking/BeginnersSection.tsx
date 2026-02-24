@@ -2,7 +2,7 @@ import Image from 'next/image';
 import grass_top from 'public/hackers/beginners/grass_top.svg';
 import mobile_grass_top from 'public/hackers/beginners/mobile_grass_top.svg';
 import mascots from 'public/hackers/beginners/mascots.svg';
-import TextCard from './TextCard';
+import TextCard from './_components/TextCard';
 
 export default function BeginnersSection() {
   return (
