@@ -1,4 +1,4 @@
-import { Card } from './MDHelpCards';
+import { Card } from './_components/MDHelpCards';
 
 // Items for Mapping
 const items = [
