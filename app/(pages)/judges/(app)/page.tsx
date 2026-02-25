@@ -4,7 +4,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import LogoutAction from '@actions/auth/logout';
-import JudgingHub from '../_components/JudgingHub/JudgingHub';
+import JudgingHub from './_components/JudgingHub/JudgingHub';
 
 export default function Judges() {
   const router = useRouter();
