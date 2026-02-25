@@ -1,1 +1,3 @@
-// placeholder.tsx
+export default function HackerChoiceAward() {
+  return <div>Hacker Choice Award</div>;
+}
