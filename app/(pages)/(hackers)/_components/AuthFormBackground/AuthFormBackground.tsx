@@ -54,18 +54,19 @@ export default function AuthFormBackground({
         <Image
           src={clouds_and_music}
           alt="background clouds and music notes"
-          style={{ position: 'absolute', top: 0, right: 0 }}
-          className="hidden md:block"
+          style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
+          className="hidden md:block w-full"
         />
         <Image
           src={grass_bottom}
           alt="grass asset"
-          className="hidden md:block"
+          style={{ position: 'relative', zIndex: 3 }}
+          className="hidden md:block w-full"
         />
         <Image
           src={mascots}
           alt="mascots peeping"
-          style={{ position: 'absolute', right: 0, bottom: 0 }}
+          style={{ position: 'absolute', right: 0, bottom: 0, zIndex: 5 }}
           className="hidden md:block"
         />
         {/* MOBILE ONLY */}
