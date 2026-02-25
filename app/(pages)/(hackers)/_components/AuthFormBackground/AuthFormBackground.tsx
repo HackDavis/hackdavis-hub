@@ -34,8 +34,11 @@ export default function AuthFormBackground({
       <div className="flex flex-1 flex-col justify-center items-center w-full">
         <div className="flex flex-col items-start w-full px-6 md:px-[82px]">
           <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
-          <h1 className="text-[22px] font-semibold">{title}</h1>
-          <p className="text-[16px]" style={{ whiteSpace: 'pre-line' }}>
+          <h1 className="text-[20px] md:text-[22px] font-semibold">{title}</h1>
+          <p
+            className="text-[14px] md:text-[16px]"
+            style={{ whiteSpace: 'pre-line' }}
+          >
             {subtitle}
           </p>
         </div>

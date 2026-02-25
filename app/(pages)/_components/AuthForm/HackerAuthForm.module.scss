@@ -16,7 +16,7 @@
 .fields {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 12px;
 
   div {
     display: flex;
@@ -52,12 +52,15 @@
 }
 
 .forgot {
-  font-size:  1.125rem;
+  font-size: 1rem; //16px
   font-style: normal;
   font-weight: 400;
   line-height: 145%;
   letter-spacing: 0.36px;
-  margin-top: 4px;
+
+  @include tablet-l { //tailwind md
+    font-size: 0.875rem; //14px
+  }
 }
 
 .submit_button {

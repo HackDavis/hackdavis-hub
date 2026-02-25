@@ -20,14 +20,14 @@ export default function LoginForm() {
     {
       name: 'email' as const,
       type: 'email',
-      label: 'EMAIL',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'Email',
       readOnly: false,
     },
     {
       name: 'password' as const,
       type: 'password',
-      label: 'PASSWORD',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'Password',
       readOnly: false,
     },

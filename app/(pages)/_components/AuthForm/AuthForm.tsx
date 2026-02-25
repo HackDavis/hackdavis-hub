@@ -91,13 +91,12 @@ export default function AuthForm({
                 </div>
               </div>
             ))}
+            {linkText && (
+              <Link href={linkHref ?? '/'} className={styles.forgot}>
+                {linkText}
+              </Link>
+            )}
           </div>
-
-          {linkText && (
-            <Link href={linkHref ?? '/'} className={styles.forgot}>
-              {linkText}
-            </Link>
-          )}
         </div>
 
         <div className={styles.bottom_container}>
