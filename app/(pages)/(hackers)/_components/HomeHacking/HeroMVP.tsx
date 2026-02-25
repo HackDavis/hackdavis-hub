@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-export default function Hero() {
+export default function HeroMVP() {
   return (
     <div className="w-full h-screen p-4 md:p-10">
       <div
