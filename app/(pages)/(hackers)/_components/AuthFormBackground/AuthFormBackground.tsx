@@ -30,9 +30,9 @@ export default function AuthFormBackground({
   }, [pathname]);
 
   return (
-    <div className="flex flex-row w-full h-screen">
-      <div className="flex flex-1 flex-col justify-center flex-start">
-        <div className="flex flex-col items-center text-left">
+    <div className="flex flex-col md:flex-row w-full h-screen">
+      <div className="flex flex-1 flex-col justify-center items-center w-full">
+        <div className="flex flex-col items-start w-full px-6 md:px-[82px]">
           <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
           <h1 className="text-[22px] font-semibold">{title}</h1>
           <p className="text-[16px]" style={{ whiteSpace: 'pre-line' }}>
@@ -40,21 +40,32 @@ export default function AuthFormBackground({
           </p>
         </div>
 
-        <div>{children}</div>
+        <div className="w-full px-6 md:px-[82px]">{children}</div>
       </div>
-      <div className="flex flex-1 flex-col justify-end bg-[linear-gradient(284deg,rgba(213,252,209,0.60)_9.72%,rgba(178,231,221,0.60)_44.61%,rgba(118,214,230,0.60)_79.5%)]">
+      <div className="flex flex-1 flex-col justify-end md:bg-[linear-gradient(284deg,rgba(213,252,209,0.60)_9.72%,rgba(178,231,221,0.60)_44.61%,rgba(118,214,230,0.60)_79.5%)]">
+        {/* DESKTOP ONLY */}
         {mascotsVisibility && (
           <Image
             src={mascots}
             alt="mascots peeping"
-            style={{ position: 'absolute' }}
+            style={{ position: 'absolute', right: 0 }}
+            className="hidden md:block"
           />
         )}
         <Image
           src={grassAsset}
           alt="grass asset"
           style={mascotsVisibility ? {} : { position: 'relative' }}
+          className="hidden md:block"
         />
+        {/* MOBILE ONLY */}
+        {mascotsVisibility && (
+          <Image
+            src={login_mascots_mobile}
+            alt="mobile mascots"
+            className="md:hidden w-full"
+          />
+        )}
       </div>
     </div>
   );
