@@ -12,8 +12,8 @@ export default async function LoginPage() {
 
   return (
     <AuthFormBackground
-      title="Hi Hacker!"
-      subtitle="Welcome to the HackerHub! The HackDavis team made this for all your hacking needs <3"
+      title="Welcome back to the HackerHub"
+      subtitle="We’ve missed you, log back in quickly to see what’s happening."
     >
       <LoginForm />
     </AuthFormBackground>

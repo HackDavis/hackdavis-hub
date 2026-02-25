@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
-import Logo from 'public/hackers/mvp/HDLogo.svg';
-import grassAsset from '@public/hackers/mvp/grass_asset.svg';
+import grass_bottom from '@public/hackers/login/grass_bottom.svg';
 import mascots from '@public/hackers/mvp/peeking_around_wall.svg';
 import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
-import styles from './AuthFormBackground.module.scss';
+import login_mascots_mobile from '@public/hackers/login/login_mascots_mobile.svg';
+import clouds_and_music from '@public/hackers/login/clouds_and_music.svg';
 
 export default function AuthFormBackground({
   title,
@@ -22,6 +22,7 @@ export default function AuthFormBackground({
   const [mascotsVisibility, setMascotsVisibility] = useState(true);
   const pathname = usePathname();
 
+  // Hide mascots on register details page - mobile ONLY
   useEffect(() => {
     if (pathname === '/register/details') {
       setMascotsVisibility(false);
@@ -31,37 +32,49 @@ export default function AuthFormBackground({
   }, [pathname]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.header_container}>
-          <Image src={Logo} alt="hackdavis logo" className={styles.logo} />
-          <div className={styles.header}>
-            <Image
-              src={VocalAngelCow}
-              alt="Angel Cow"
-              height={100}
-              width={100}
-            />
-            <div className={styles.header_text}>
-              <h1>{title}</h1>
-              <p style={{ whiteSpace: 'pre-line' }}>{subtitle}</p>
-            </div>
-          </div>
+    <div className="flex flex-col md:flex-row w-full h-screen">
+      <div className="flex flex-[1_0_auto] md:flex-1 flex-col justify-end md:justify-center items-center w-full">
+        <div className="flex flex-col items-start w-full px-6 md:px-[82px]">
+          <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
+          <h1 className="text-[20px] md:text-[22px] font-semibold text-[#3F3F3F]">
+            {title}
+          </h1>
+          <p
+            className="text-[14px] md:text-[16px] text-[#5E5E65]"
+            style={{ whiteSpace: 'pre-line' }}
+          >
+            {subtitle}
+          </p>
         </div>
 
-        <div className={styles.overlayContent}>{children}</div>
+        <div className="w-full px-6 md:px-[82px]">{children}</div>
       </div>
-
-      <div className={styles.grass_asset}>
+      <div className="flex flex-1 flex-col justify-end relative md:bg-[linear-gradient(284deg,rgba(213,252,209,0.60)_9.72%,rgba(178,231,221,0.60)_44.61%,rgba(118,214,230,0.60)_79.5%)]">
+        {/* DESKTOP ONLY */}
         <Image
-          src={grassAsset}
-          alt="grass asset"
-          className={styles.grass}
-          style={mascotsVisibility ? {} : { position: 'relative' }}
+          src={clouds_and_music}
+          alt="background clouds and music notes"
+          style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
+          className="hidden md:block w-full"
         />
-        {mascotsVisibility && (
-          <Image src={mascots} alt="mascots" className={styles.mascots} />
-        )}
+        <Image
+          src={grass_bottom}
+          alt="grass asset"
+          style={{ position: 'relative', zIndex: 3 }}
+          className="hidden md:block w-full"
+        />
+        <Image
+          src={mascots}
+          alt="mascots peeping"
+          style={{ position: 'absolute', right: 0, bottom: 0, zIndex: 5 }}
+          className="hidden md:block"
+        />
+        {/* MOBILE ONLY */}
+        <Image
+          src={login_mascots_mobile}
+          alt="mobile mascots"
+          className={`md:hidden w-full ${!mascotsVisibility ? 'hidden' : ''}`}
+        />
       </div>
     </div>
   );
