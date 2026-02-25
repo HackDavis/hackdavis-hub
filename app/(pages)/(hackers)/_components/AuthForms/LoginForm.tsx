@@ -37,7 +37,7 @@ export default function LoginForm() {
     <AuthForm
       role="hacker"
       fields={formFields}
-      buttonText="Log in →"
+      buttonText="Next →"
       linkText="Forgot Password?"
       linkHref="/login/forgot-password"
       initialValues={{

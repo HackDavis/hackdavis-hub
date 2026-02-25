@@ -39,9 +39,9 @@
       border: none;
       outline: none;
       padding: 12px;
-      font-size: 18px;
+      font-size: 1rem; //16px
       font-weight: 400;
-      color: #005271;
+      color: #3F3F3F;
     }
   }
 }
@@ -57,6 +57,7 @@
   font-weight: 400;
   line-height: 145%;
   letter-spacing: 0.36px;
+  color: #3F3F3F;
 
   @include tablet-l { //tailwind md
     font-size: 0.875rem; //14px
@@ -65,7 +66,7 @@
 
 .submit_button {
   padding: 12px 24px;
-  font-size: 1.125rem;
+  font-size: 1rem; //16px
   font-weight: 600;
   line-height: normal;
   font-style: normal;
@@ -78,6 +79,7 @@
   border-radius: 20px;
   opacity: 0.3;
   margin-top: 40px;
+  width: 100%;
 }
 
 .valid {
@@ -88,4 +90,6 @@
 .error_msg {
   color: var(--text-error);
   font-size: 0.75rem;
+  text-align: end;
+  margin-top: 4px;
 }
