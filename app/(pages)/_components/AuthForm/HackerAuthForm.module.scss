@@ -18,6 +18,10 @@
   flex-direction: column;
   gap: 12px;
 
+  @include tablet-l { //tailwind md
+    gap: 8px;
+  }
+
   div {
     display: flex;
     flex-direction: column;
