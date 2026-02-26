@@ -22,7 +22,7 @@ const action_links = [
     body: 'Create Panels',
   },
   {
-    href: '/admin/invite-link',
+    href: '/admin/invite-judges',
     body: 'Invite Judges',
   },
   {
