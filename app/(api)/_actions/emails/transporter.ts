@@ -3,11 +3,15 @@ import nodemailer from 'nodemailer';
 const SENDER_EMAIL = process.env.SENDER_EMAIL;
 const SENDER_PWD = process.env.SENDER_PWD;
 
-if (!SENDER_EMAIL || !SENDER_PWD) {
-  const missingVars: string[] = [];
-  if (!SENDER_EMAIL) missingVars.push('SENDER_EMAIL');
-  if (!SENDER_PWD) missingVars.push('SENDER_PWD');
-  console.error('Missing Environment Variable(s): ' + missingVars.join(', '));
+const missingVars: string[] = [];
+if (!SENDER_EMAIL) missingVars.push('SENDER_EMAIL');
+if (!SENDER_PWD) missingVars.push('SENDER_PWD');
+if (missingVars.length > 0) {
+  throw new Error(
+    `Email transporter: missing environment variable(s): ${missingVars.join(
+      ', '
+    )}`
+  );
 }
 
 export const transporter = nodemailer.createTransport({
