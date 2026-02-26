@@ -106,5 +106,5 @@
   line-height: 1.5;
   text-align: end;
   margin-top: 4px;
-  min-height: calc(0.75rem * 1.5 + 4px);
+  min-height: calc(0.75rem * 1.5 + 4px); // calcs space taken up by error message
 }
