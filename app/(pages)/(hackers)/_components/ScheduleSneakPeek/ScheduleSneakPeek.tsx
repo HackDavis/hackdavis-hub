@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
@@ -30,6 +31,43 @@ function SectionLabel({ label }: { label: string }) {
       {displayLabel}
     </div>
   );
+}
+
+function CountdownLabel({ targetTime }: { targetTime: number }) {
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const difference = targetTime - new Date().getTime();
+      if (difference <= 0) {
+        return { hours: 0, minutes: 0, seconds: 0 };
+      }
+      return {
+        hours: Math.floor(difference / (1000 * 60 * 60)),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    };
+
+    setTimeLeft(calculateTimeLeft());
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [targetTime]);
+
+  const label = `IN ${timeLeft.hours
+    .toString()
+    .padStart(2, '0')}:${timeLeft.minutes
+    .toString()
+    .padStart(2, '0')}:${timeLeft.seconds.toString().padStart(2, '0')}`;
+
+  return <SectionLabel label={label} />;
 }
 
 function Panel({
@@ -63,6 +101,20 @@ function Panel({
       />
     ));
 
+  const upcomingGroups = useMemo(() => {
+    const groups: { startTime: number; entries: EventEntry[] }[] = [];
+    for (const entry of upcomingEvents) {
+      const startTime = new Date(entry.event.start_time).getTime();
+      const existing = groups.find((g) => g.startTime === startTime);
+      if (existing) {
+        existing.entries.push(entry);
+      } else {
+        groups.push({ startTime, entries: [entry] });
+      }
+    }
+    return groups.sort((a, b) => a.startTime - b.startTime);
+  }, [upcomingEvents]);
+
   return (
     <div className="rounded-[16px] bg-[#FFFFFF] p-5 lg:p-6">
       <h2 className="font-jakarta text-[clamp(1.1rem,3vw,2.25rem)] font-semibold leading-tight tracking-[0.64px] text-[#3F3F3F] mb-4">
@@ -81,16 +133,14 @@ function Panel({
         )}
       </div>
 
-      <SectionLabel label="IN 0:30:00" />
-      <div className="space-y-3">
-        {upcomingEvents.length > 0 ? (
-          renderEventItems(upcomingEvents, 'upcoming')
-        ) : (
-          <p className="font-jakarta text-sm text-[#7C7C85] mt-3">
-            No events starting in the next 30 minutes.
-          </p>
-        )}
-      </div>
+      {upcomingGroups.map((group) => (
+        <div key={group.startTime}>
+          <CountdownLabel targetTime={group.startTime} />
+          <div className="space-y-3">
+            {renderEventItems(group.entries, `upcoming-${group.startTime}`)}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
