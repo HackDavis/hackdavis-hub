@@ -4,7 +4,11 @@ import { ChangeEvent, useState } from 'react';
 import sendBulkJudgeHubInvites from '@actions/emails/sendBulkJudgeHubInvites';
 import { BulkJudgeInviteResponse, JudgeInviteData } from '@typeDefs/emails';
 
-/** Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side. */
+/**
+ * Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side.
+ * Note: uses simple comma-split, so quoted fields containing commas are not supported.
+ * This is acceptable since judge names/emails rarely contain commas.
+ */
 function previewCSV(
   text: string
 ): { ok: true; rows: JudgeInviteData[] } | { ok: false; error: string } {
