@@ -25,3 +25,24 @@ export interface SingleJudgeInviteResponse {
   inviteUrl?: string;
   error: string | null;
 }
+
+// Mentor Hub invite types
+
+export interface MentorInviteData {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+export interface MentorInviteResult {
+  email: string;
+  success: boolean;
+  titoUrl?: string;
+  error?: string;
+}
+
+export interface SingleMentorInviteResponse {
+  ok: boolean;
+  titoUrl?: string;
+  error: string | null;
+}
