@@ -5,6 +5,7 @@ import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import Event from '@typeDefs/event';
 import useActiveUser from '@pages/_hooks/useActiveUser';
 import { useEvents } from '@hooks/useEvents';
+import { getScheduleEventEndTime } from '@pages/(hackers)/_components/Schedule/scheduleTime';
 
 export interface NextEventData {
   event: Event | null;
@@ -45,9 +46,9 @@ export function useNextSchedule() {
     ) {
       const now = new Date();
 
-      // Find the next upcoming event (the one with the closest start time in the future)
+      // Include events that haven't ended yet (covers both currently happening and future events)
       const upcomingEvents = personalEvents.filter(
-        (event) => new Date(event.start_time) > now
+        (event) => getScheduleEventEndTime(event).getTime() > now.getTime()
       );
 
       if (upcomingEvents.length > 0) {
