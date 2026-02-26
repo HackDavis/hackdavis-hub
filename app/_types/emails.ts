@@ -41,6 +41,14 @@ export interface MentorInviteResult {
   error?: string;
 }
 
+export interface BulkMentorInviteResponse {
+  ok: boolean;
+  results: MentorInviteResult[];
+  successCount: number;
+  failureCount: number;
+  error: string | null;
+}
+
 export interface SingleMentorInviteResponse {
   ok: boolean;
   titoUrl?: string;
