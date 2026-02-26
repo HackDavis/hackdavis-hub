@@ -8,6 +8,7 @@ import { useEvents } from '@hooks/useEvents';
 import CalendarItem from '../Schedule/CalendarItem';
 import Event from '@typeDefs/event';
 import TimeTracker from './TimeTracker';
+import { getScheduleEventEndTime } from '../Schedule/scheduleTime';
 import star_icon from '@public/hackers/hero/star.svg';
 
 import styles from './NextSchedule.module.scss';
@@ -47,8 +48,9 @@ export default function NextSchedule() {
       personalEvents.length > 0
     ) {
       const now = new Date();
+      // Include events that haven't ended yet (covers both currently happening and future events)
       const upcomingEvents = personalEvents.filter(
-        (event) => new Date(event.start_time) > now
+        (event) => getScheduleEventEndTime(event).getTime() > now.getTime()
       );
 
       if (upcomingEvents.length > 0) {
