@@ -62,7 +62,6 @@ export default function AuthForm({
           <div className={styles.fields}>
             {fields.map((field) => (
               <div key={field.name}>
-                <p className={styles.error_msg}>{errors[field.name]}</p>
                 <div className={styles.input_container}>
                   <label htmlFor={field.name}>{field.label}</label>
                   {field.type === 'checkbox' ? (
@@ -87,6 +86,7 @@ export default function AuthForm({
                     />
                   )}
                 </div>
+                <p className={styles.error_msg}>{errors[field.name]}</p>
               </div>
             ))}
             {linkText && (
