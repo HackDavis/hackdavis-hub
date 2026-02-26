@@ -5,10 +5,10 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 import grass_bottom from '@public/hackers/login/grass_bottom.svg';
-import mascots from '@public/hackers/mvp/peeking_around_wall.svg';
 import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import login_mascots_mobile from '@public/hackers/login/login_mascots_mobile.svg';
-import clouds_and_music from '@public/hackers/login/clouds_and_music.svg';
+import mascots_with_notes from '@public/hackers/login/mascots_with_notes.svg';
+import moving_clouds from '@public/hackers/login/moving_clouds.svg';
 
 export default function AuthFormBackground({
   title,
@@ -55,25 +55,26 @@ export default function AuthFormBackground({
 
         <div className="w-full">{children}</div>
       </div>
-      <div className="flex flex-1 flex-col justify-end relative md:bg-[linear-gradient(284deg,rgba(213,252,209,0.60)_9.72%,rgba(178,231,221,0.60)_44.61%,rgba(118,214,230,0.60)_79.5%)]">
+      <div className="flex flex-1 flex-col justify-end relative md:overflow-hidden md:bg-[linear-gradient(284deg,rgba(213,252,209,0.60)_9.72%,rgba(178,231,221,0.60)_44.61%,rgba(118,214,230,0.60)_79.5%)]">
         {/* DESKTOP ONLY */}
-        <Image
-          src={clouds_and_music}
-          alt="background clouds and music notes"
-          style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
-          className="hidden md:block w-full"
-        />
+        <div className="hidden md:block absolute top-0 left-0 w-[200%] z-[1] animate-moveClouds">
+          <Image
+            src={moving_clouds}
+            alt="background clouds and music notes"
+            width={2012}
+            height={783}
+            className="w-full"
+          />
+        </div>
         <Image
           src={grass_bottom}
           alt="grass asset"
-          style={{ position: 'relative', zIndex: 3 }}
-          className="hidden md:block w-full"
+          className="hidden md:block w-full relative z-[3]"
         />
         <Image
-          src={mascots}
+          src={mascots_with_notes}
           alt="mascots peeping"
-          style={{ position: 'absolute', right: 0, bottom: 0, zIndex: 5 }}
-          className="hidden md:block"
+          className="hidden md:block absolute right-0 bottom-0 z-[5]"
         />
         {/* MOBILE ONLY */}
         <Image

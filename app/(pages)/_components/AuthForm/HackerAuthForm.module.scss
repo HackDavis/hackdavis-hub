@@ -16,10 +16,10 @@
 .fields {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  // gap: 12px; //commented out bc error message takes up the space instead (can revert when updating erro message design)
 
   @include tablet-l { //tailwind md
-    gap: 8px;
+    // gap: 8px; //commented bc of same message above
   }
 
   div {
@@ -103,6 +103,8 @@
 .error_msg {
   color: var(--text-error);
   font-size: 0.75rem;
+  line-height: 1.5;
   text-align: end;
   margin-top: 4px;
+  min-height: calc(0.75rem * 1.5 + 4px); // calcs space taken up by error message
 }
