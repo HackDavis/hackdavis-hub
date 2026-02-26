@@ -33,21 +33,21 @@ export default function RegisterForm({ data }: any) {
     {
       name: 'email' as const,
       type: 'email',
-      label: 'EMAIL',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'Email',
       readOnly: data ? true : false,
     },
     {
       name: 'password' as const,
       type: 'password',
-      label: 'PASSWORD',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'Password',
       readOnly: false,
     },
     {
       name: 'passwordDupe' as const,
       type: 'password',
-      label: 'RETYPE PASSWORD',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'Retype Password',
       readOnly: false,
     },

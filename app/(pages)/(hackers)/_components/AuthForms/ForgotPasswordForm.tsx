@@ -22,7 +22,7 @@ export default function ForgotPasswordForm() {
     {
       name: 'email' as const,
       type: 'email',
-      label: 'EMAIL',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'Email',
       readOnly: false,
     },

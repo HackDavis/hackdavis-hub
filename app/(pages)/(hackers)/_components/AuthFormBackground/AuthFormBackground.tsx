@@ -33,9 +33,15 @@ export default function AuthFormBackground({
 
   return (
     <div className="flex flex-col md:flex-row w-full h-screen">
-      <div className="flex flex-[1_0_auto] md:flex-1 flex-col justify-end md:justify-center items-center w-full">
-        <div className="flex flex-col items-start w-full px-6 md:px-[82px]">
-          <Image src={VocalAngelCow} alt="Angel Cow" height={100} width={100} />
+      <div className="flex flex-[1_0_auto] md:flex-1 flex-col justify-end md:justify-center items-center w-full  px-6 md:px-[82px]">
+        <div className="flex flex-col items-start w-full">
+          <Image
+            src={VocalAngelCow}
+            alt="Angel Cow"
+            height={100}
+            width={100}
+            className="pb-[12px]"
+          />
           <h1 className="text-[20px] md:text-[22px] font-semibold text-[#3F3F3F]">
             {title}
           </h1>
@@ -47,7 +53,7 @@ export default function AuthFormBackground({
           </p>
         </div>
 
-        <div className="w-full px-6 md:px-[82px]">{children}</div>
+        <div className="w-full">{children}</div>
       </div>
       <div className="flex flex-1 flex-col justify-end relative md:bg-[linear-gradient(284deg,rgba(213,252,209,0.60)_9.72%,rgba(178,231,221,0.60)_44.61%,rgba(118,214,230,0.60)_79.5%)]">
         {/* DESKTOP ONLY */}
