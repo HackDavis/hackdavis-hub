@@ -38,17 +38,25 @@ export default async function sendBulkJudgeHubInvites(
   const allEmails = allJudges.map((j) => j.email);
   const existingUsers = await GetManyUsers({ email: { $in: allEmails } });
   const existingEmailSet = new Set<string>(
-    existingUsers.ok ? existingUsers.body.map((u: { email: string }) => u.email) : []
+    existingUsers.ok
+      ? existingUsers.body.map((u: { email: string }) => u.email)
+      : []
   );
   console.log(
-    `[Bulk Judge Invites] Duplicate check (${allEmails.length} emails): ${Date.now() - dupStart}ms — ${existingEmailSet.size} already registered`
+    `[Bulk Judge Invites] Duplicate check (${allEmails.length} emails): ${
+      Date.now() - dupStart
+    }ms — ${existingEmailSet.size} already registered`
   );
 
   // Partition judges into duplicates (immediate failure) and new (to send)
   const judges: JudgeInviteData[] = [];
   for (const judge of allJudges) {
     if (existingEmailSet.has(judge.email)) {
-      results.push({ email: judge.email, success: false, error: 'User already exists.' });
+      results.push({
+        email: judge.email,
+        success: false,
+        error: 'User already exists.',
+      });
       failureCount++;
     } else {
       judges.push(judge);
@@ -77,7 +85,11 @@ export default async function sendBulkJudgeHubInvites(
       const email = batch[j].email;
 
       if (result.status === 'fulfilled' && result.value.ok) {
-        results.push({ email, success: true, inviteUrl: result.value.inviteUrl });
+        results.push({
+          email,
+          success: true,
+          inviteUrl: result.value.inviteUrl,
+        });
         successCount++;
       } else {
         const errorMsg =
@@ -91,13 +103,17 @@ export default async function sendBulkJudgeHubInvites(
     }
 
     console.log(
-      `[Bulk Judge Invites] Batch ${batchNum}/${totalBatches} completed in ${Date.now() - batchStartTime}ms`
+      `[Bulk Judge Invites] Batch ${batchNum}/${totalBatches} completed in ${
+        Date.now() - batchStartTime
+      }ms`
     );
   }
 
   const totalTime = Date.now() - totalStartTime;
   console.log(
-    `[Bulk Judge Invites] Complete: ${successCount} success, ${failureCount} failed in ${(totalTime / 1000).toFixed(1)}s`
+    `[Bulk Judge Invites] Complete: ${successCount} success, ${failureCount} failed in ${(
+      totalTime / 1000
+    ).toFixed(1)}s`
   );
 
   return {
@@ -105,6 +121,7 @@ export default async function sendBulkJudgeHubInvites(
     results,
     successCount,
     failureCount,
-    error: failureCount > 0 ? `${failureCount} invite(s) failed to send.` : null,
+    error:
+      failureCount > 0 ? `${failureCount} invite(s) failed to send.` : null,
   };
 }

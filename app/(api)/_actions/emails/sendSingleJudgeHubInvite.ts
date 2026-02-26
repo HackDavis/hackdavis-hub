@@ -21,7 +21,9 @@ export default async function sendSingleJudgeHubInvite(
     if (!skipDuplicateCheck) {
       const dupStart = Date.now();
       const users = await GetManyUsers({ email });
-      console.log(`[Judge Hub Invite] Duplicate check: ${Date.now() - dupStart}ms`);
+      console.log(
+        `[Judge Hub Invite] Duplicate check: ${Date.now() - dupStart}ms`
+      );
       if (users.ok && users.body.length > 0) {
         throw new DuplicateError(`User with email ${email} already exists.`);
       }
@@ -33,7 +35,9 @@ export default async function sendSingleJudgeHubInvite(
       { email, name: `${firstName} ${lastName}`, role: 'judge' },
       'invite'
     );
-    console.log(`[Judge Hub Invite] Invite generation: ${Date.now() - genStart}ms`);
+    console.log(
+      `[Judge Hub Invite] Invite generation: ${Date.now() - genStart}ms`
+    );
     if (!invite.ok || !invite.body) {
       throw new HttpError(invite.error ?? 'Failed to generate invite link.');
     }
@@ -55,13 +59,17 @@ export default async function sendSingleJudgeHubInvite(
     console.log(`[Judge Hub Invite] sendMail: ${Date.now() - mailStart}ms`);
 
     console.log(
-      `[Judge Hub Invite] ✓ Done (${email}) — total: ${Date.now() - totalStart}ms`
+      `[Judge Hub Invite] ✓ Done (${email}) — total: ${
+        Date.now() - totalStart
+      }ms`
     );
     return { ok: true, inviteUrl: invite.body, error: null };
   } catch (e) {
     const error = e as HttpError;
     console.error(
-      `[Judge Hub Invite] ✗ Failed (${email}) after ${Date.now() - totalStart}ms:`,
+      `[Judge Hub Invite] ✗ Failed (${email}) after ${
+        Date.now() - totalStart
+      }ms:`,
       error.message
     );
     return { ok: false, error: error.message };

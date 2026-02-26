@@ -50,7 +50,9 @@ export default function parseInviteCSV(
       const rowNum = hasHeader ? i + 2 : i + 1;
 
       if (row.length < 3) {
-        errors.push(`Row ${rowNum}: expected 3 columns (First Name, Last Name, Email), got ${row.length}.`);
+        errors.push(
+          `Row ${rowNum}: expected 3 columns (First Name, Last Name, Email), got ${row.length}.`
+        );
         continue;
       }
 

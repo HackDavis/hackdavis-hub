@@ -19,7 +19,11 @@ export default function JudgeSingleInviteForm() {
     const lastName = formData.get('lastName') as string;
     const email = formData.get('email') as string;
 
-    const result = await sendSingleJudgeHubInvite({ firstName, lastName, email });
+    const result = await sendSingleJudgeHubInvite({
+      firstName,
+      lastName,
+      email,
+    });
 
     setLoading(false);
 
@@ -35,7 +39,9 @@ export default function JudgeSingleInviteForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-lg">
       <div className="flex gap-4">
         <div className="flex flex-col gap-1 flex-1">
-          <label className="text-sm font-medium text-gray-700">First Name</label>
+          <label className="text-sm font-medium text-gray-700">
+            First Name
+          </label>
           <input
             name="firstName"
             type="text"
@@ -79,7 +85,9 @@ export default function JudgeSingleInviteForm() {
       )}
       {inviteUrl && (
         <div className="bg-green-50 border border-green-200 rounded-md px-3 py-2">
-          <p className="text-sm font-medium text-green-700 mb-1">Invite sent!</p>
+          <p className="text-sm font-medium text-green-700 mb-1">
+            Invite sent!
+          </p>
           <p className="text-xs text-green-600 break-all">{inviteUrl}</p>
         </div>
       )}

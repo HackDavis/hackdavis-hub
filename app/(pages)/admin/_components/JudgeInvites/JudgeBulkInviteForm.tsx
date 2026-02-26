@@ -5,21 +5,32 @@ import sendBulkJudgeHubInvites from '@actions/emails/sendBulkJudgeHubInvites';
 import { BulkJudgeInviteResponse, JudgeInviteData } from '@typeDefs/emails';
 
 /** Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side. */
-function previewCSV(text: string): { ok: true; rows: JudgeInviteData[] } | { ok: false; error: string } {
-  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+function previewCSV(
+  text: string
+): { ok: true; rows: JudgeInviteData[] } | { ok: false; error: string } {
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
   if (lines.length === 0) return { ok: false, error: 'CSV is empty.' };
 
   const firstCells = lines[0].toLowerCase();
   const hasHeader =
     firstCells.includes('first') || firstCells.includes('email');
   const dataLines = hasHeader ? lines.slice(1) : lines;
-  if (dataLines.length === 0) return { ok: false, error: 'No data rows found.' };
+  if (dataLines.length === 0)
+    return { ok: false, error: 'No data rows found.' };
 
   const rows: JudgeInviteData[] = [];
   for (let i = 0; i < dataLines.length; i++) {
     const cols = dataLines[i].split(',').map((c) => c.trim());
     if (cols.length < 3) {
-      return { ok: false, error: `Row ${hasHeader ? i + 2 : i + 1}: expected 3 columns, got ${cols.length}.` };
+      return {
+        ok: false,
+        error: `Row ${hasHeader ? i + 2 : i + 1}: expected 3 columns, got ${
+          cols.length
+        }.`,
+      };
     }
     rows.push({ firstName: cols[0], lastName: cols[1], email: cols[2] });
   }
@@ -98,7 +109,9 @@ export default function JudgeBulkInviteForm() {
       {parseError && (
         <div className="bg-red-50 border border-red-200 rounded-md px-3 py-2">
           <p className="text-sm font-semibold text-red-700 mb-1">CSV errors:</p>
-          <pre className="text-xs text-red-600 whitespace-pre-wrap">{parseError}</pre>
+          <pre className="text-xs text-red-600 whitespace-pre-wrap">
+            {parseError}
+          </pre>
         </div>
       )}
 
@@ -131,8 +144,12 @@ export default function JudgeBulkInviteForm() {
                       key={i}
                       className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                     >
-                      <td className="px-4 py-2 text-gray-800">{judge.firstName}</td>
-                      <td className="px-4 py-2 text-gray-800">{judge.lastName}</td>
+                      <td className="px-4 py-2 text-gray-800">
+                        {judge.firstName}
+                      </td>
+                      <td className="px-4 py-2 text-gray-800">
+                        {judge.lastName}
+                      </td>
                       <td className="px-4 py-2 text-gray-600">{judge.email}</td>
                     </tr>
                   ))}
@@ -162,11 +179,15 @@ export default function JudgeBulkInviteForm() {
         <div className="flex flex-col gap-3">
           <div className="flex gap-3">
             <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 flex-1 text-center">
-              <p className="text-2xl font-bold text-green-700">{result.successCount}</p>
+              <p className="text-2xl font-bold text-green-700">
+                {result.successCount}
+              </p>
               <p className="text-sm text-green-600">Sent</p>
             </div>
             <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex-1 text-center">
-              <p className="text-2xl font-bold text-red-700">{result.failureCount}</p>
+              <p className="text-2xl font-bold text-red-700">
+                {result.failureCount}
+              </p>
               <p className="text-sm text-red-600">Failed</p>
             </div>
           </div>
@@ -184,7 +205,9 @@ export default function JudgeBulkInviteForm() {
                       key={i}
                       className="flex flex-col gap-0.5 px-4 py-2 border-b border-gray-100 last:border-0"
                     >
-                      <span className="text-sm font-medium text-gray-800">{r.email}</span>
+                      <span className="text-sm font-medium text-gray-800">
+                        {r.email}
+                      </span>
                       <span className="text-xs text-red-600">{r.error}</span>
                     </div>
                   ))}
