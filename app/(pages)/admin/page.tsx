@@ -26,6 +26,18 @@ const action_links = [
     body: 'Invite Judges',
   },
   {
+    href: '/admin/tito-rsvp',
+    body: 'Tito RSVP Management',
+  },
+  {
+    href: '/admin/mentor-invites',
+    body: 'Send Mentor Invites (CSV)',
+  },
+  {
+    href: '/admin/hacker-emails',
+    body: 'Send Hacker Emails',
+  },
+  {
     href: '/admin/randomize-projects',
     body: 'Randomize Projects',
   },
