@@ -65,13 +65,18 @@ export default async function sendSingleJudgeHubInvite(
     );
     return { ok: true, inviteUrl: invite.body, error: null };
   } catch (e) {
-    const error = e as HttpError;
+    const errorMessage =
+      e instanceof Error
+        ? e.message
+        : typeof e === 'string'
+        ? e
+        : 'Unknown error';
     console.error(
       `[Judge Hub Invite] ✗ Failed (${email}) after ${
         Date.now() - totalStart
       }ms:`,
-      error.message
+      errorMessage
     );
-    return { ok: false, error: error.message };
+    return { ok: false, error: errorMessage };
   }
 }

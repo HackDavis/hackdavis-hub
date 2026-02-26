@@ -32,7 +32,7 @@ export default function judgeHubInviteTemplate(
 </head>
 <body>
     <div class="container">
-        <img src="${process.env.BASE_URL}/public/email/2025_email_header.png" alt="HackDavis 2026" class="header-image">
+        <img src="${process.env.BASE_URL}/email/2025_email_header.png" alt="HackDavis 2026" class="header-image">
         <h1 class="title">Welcome to HackDavis 2026! 🎉</h1>
         <div class="content-box">
             <p>Hi ${fname},</p>
@@ -54,7 +54,7 @@ export default function judgeHubInviteTemplate(
             <p style="margin-bottom: 0;">The HackDavis Team</p>
         </div>
         <div class="divider"></div>
-        <img src="${process.env.BASE_URL}/public/email/2025_email_header.png" alt="HackDavis 2026" class="footer-image">
+        <img src="${process.env.BASE_URL}/email/2025_email_header.png" alt="HackDavis 2026" class="footer-image">
     </div>
 </body>
 </html>`;
