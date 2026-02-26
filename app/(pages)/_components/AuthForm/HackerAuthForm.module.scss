@@ -33,15 +33,24 @@
     }
 
     input {
-      border-radius: var(--b-radius-large);
+      border-radius: 16px;
       background: #FAFAFF;
       backdrop-filter: blur(30px);
-      border: none;
+      border: 1px solid transparent;
       outline: none;
-      padding: 12px;
+      padding: 16px;
       font-size: 1rem; //16px
       font-weight: 400;
       color: #3F3F3F;
+
+      &:hover {
+        background: linear-gradient(0deg, rgba(48, 48, 53, 0.03) 0%, rgba(48, 48, 53, 0.03) 100%);
+      }
+
+      &:focus {
+        border: 1px solid var(--Stroke-Blue-Stroke, #2DF0FB);
+        background: rgba(213, 253, 255, 0.50);
+      }
     }
   }
 }
@@ -65,7 +74,7 @@
 }
 
 .submit_button {
-  padding: 12px 24px;
+  padding: 16px 24px;
   font-size: 1rem; //16px
   font-weight: 600;
   line-height: normal;
@@ -76,7 +85,7 @@
   background: var(--background-secondary);
   border: none;
   cursor: not-allowed;
-  border-radius: 20px;
+  border-radius: 100px;
   opacity: 0.3;
   margin-top: 40px;
   width: 100%;
