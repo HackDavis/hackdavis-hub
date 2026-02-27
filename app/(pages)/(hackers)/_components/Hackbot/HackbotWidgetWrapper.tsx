@@ -11,5 +11,5 @@ export default function HackbotWidgetWrapper() {
   const role = (session.user as any)?.role;
   if (role !== 'hacker' && role !== 'admin') return null;
 
-  return <HackbotWidget />;
+  return <HackbotWidget userId={String((session.user as any)?.id ?? '')} />;
 }
