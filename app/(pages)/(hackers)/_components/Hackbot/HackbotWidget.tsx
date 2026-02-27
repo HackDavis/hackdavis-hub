@@ -268,11 +268,11 @@ export default function HackbotWidget({ userId }: { userId: string }) {
   const firstName = hackerProfile?.name?.split(' ')[0];
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-4 right-0 sm:right-4 z-50 flex flex-col items-end gap-2">
       {/* Chat panel */}
       {open && (
         <div
-          className="w-80 max-h-[540px] rounded-2xl border border-[#9EE7E5] bg-[#FAFAFF] shadow-xl shadow-[#005271]/10 flex flex-col overflow-hidden"
+          className="w-screen sm:w-[min(30vw,420px)] sm:min-w-[360px] max-h-[calc(100svh-5rem)] sm:max-h-[600px] rounded-none sm:rounded-2xl border-t sm:border border-[#9EE7E5] bg-[#FAFAFF] shadow-xl shadow-[#005271]/10 flex flex-col overflow-hidden"
           style={{ fontFamily: 'var(--font-plus-jakarta-sans, sans-serif)' }}
         >
           {/* Header */}
