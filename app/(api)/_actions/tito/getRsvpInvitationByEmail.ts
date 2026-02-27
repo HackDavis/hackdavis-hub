@@ -14,10 +14,13 @@ export default async function getRsvpInvitationByEmail(
 
     const pageSize = 1000;
     let page = 1;
+    let hasMorePages = true;
 
-    while (true) {
+    while (hasMorePages) {
       const url = `/rsvp_lists/${rsvpListSlug}/release_invitations?page[size]=${pageSize}&page[number]=${page}`;
-      const data = await TitoRequest<{ release_invitations: ReleaseInvitation[] }>(url);
+      const data = await TitoRequest<{
+        release_invitations: ReleaseInvitation[];
+      }>(url);
       const invitations = data.release_invitations ?? [];
 
       const match = invitations.find(
@@ -25,11 +28,18 @@ export default async function getRsvpInvitationByEmail(
       );
       if (match) return { ok: true, body: match, error: null };
 
-      if (invitations.length < pageSize) break;
-      page++;
+      if (invitations.length < pageSize) {
+        hasMorePages = false;
+      } else {
+        page++;
+      }
     }
 
-    return { ok: false, body: null, error: 'No existing invitation found for this email' };
+    return {
+      ok: false,
+      body: null,
+      error: 'No existing invitation found for this email',
+    };
   } catch (e) {
     const error = e instanceof Error ? e.message : 'Unknown error';
     console.error('[Tito] getRsvpInvitationByEmail failed:', error);

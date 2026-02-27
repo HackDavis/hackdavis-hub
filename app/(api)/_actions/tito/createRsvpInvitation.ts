@@ -1,6 +1,10 @@
 'use server';
 
-import { ReleaseInvitation, ReleaseInvitationRequest, TitoResponse } from '@typeDefs/tito';
+import {
+  ReleaseInvitation,
+  ReleaseInvitationRequest,
+  TitoResponse,
+} from '@typeDefs/tito';
 import { TitoRequest } from './titoClient';
 
 const MAX_RETRIES = 5;
@@ -24,7 +28,9 @@ export default async function createRsvpInvitation(
       .filter((id) => !isNaN(id));
 
     if (releaseIdsArray.length === 0) {
-      throw new Error('Invalid release IDs format. Use comma-separated numbers.');
+      throw new Error(
+        'Invalid release IDs format. Use comma-separated numbers.'
+      );
     }
 
     const requestBody: {
@@ -37,13 +43,16 @@ export default async function createRsvpInvitation(
 
     if (data.firstName?.trim()) requestBody.first_name = data.firstName.trim();
     if (data.lastName?.trim()) requestBody.last_name = data.lastName.trim();
-    if (data.discountCode?.trim()) requestBody.discount_code = data.discountCode.trim();
+    if (data.discountCode?.trim())
+      requestBody.discount_code = data.discountCode.trim();
 
     const url = `/rsvp_lists/${data.rsvpListSlug}/release_invitations`;
 
     for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
       try {
-        const response = await TitoRequest<{ release_invitation: ReleaseInvitation }>(url, {
+        const response = await TitoRequest<{
+          release_invitation: ReleaseInvitation;
+        }>(url, {
           method: 'POST',
           body: JSON.stringify({ release_invitation: requestBody }),
         });
@@ -53,9 +62,14 @@ export default async function createRsvpInvitation(
         if (err.message.includes('429') && attempt < MAX_RETRIES) {
           const waitMs = err.retryAfter
             ? parseFloat(err.retryAfter) * BASE_DELAY_MS
-            : Math.pow(2, attempt) * BASE_DELAY_MS + Math.random() * BASE_DELAY_MS;
+            : Math.pow(2, attempt) * BASE_DELAY_MS +
+              Math.random() * BASE_DELAY_MS;
           console.warn(
-            `[Tito] 429 rate-limited for ${data.email}, retrying in ${Math.round(waitMs)}ms (attempt ${attempt + 1}/${MAX_RETRIES})`
+            `[Tito] 429 rate-limited for ${
+              data.email
+            }, retrying in ${Math.round(waitMs)}ms (attempt ${
+              attempt + 1
+            }/${MAX_RETRIES})`
           );
           await delay(waitMs);
           continue;

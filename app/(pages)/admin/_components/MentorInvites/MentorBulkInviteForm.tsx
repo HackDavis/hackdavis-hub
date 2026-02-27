@@ -13,13 +13,18 @@ import { generateInviteResultsCSV } from '../../_utils/generateInviteResultsCSV'
 function previewCSV(
   text: string
 ): { ok: true; rows: MentorInviteData[] } | { ok: false; error: string } {
-  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
   if (lines.length === 0) return { ok: false, error: 'CSV is empty.' };
 
   const firstCells = lines[0].toLowerCase();
-  const hasHeader = firstCells.includes('first') || firstCells.includes('email');
+  const hasHeader =
+    firstCells.includes('first') || firstCells.includes('email');
   const dataLines = hasHeader ? lines.slice(1) : lines;
-  if (dataLines.length === 0) return { ok: false, error: 'No data rows found.' };
+  if (dataLines.length === 0)
+    return { ok: false, error: 'No data rows found.' };
 
   const rows: MentorInviteData[] = [];
   for (let i = 0; i < dataLines.length; i++) {
@@ -27,7 +32,9 @@ function previewCSV(
     if (cols.length < 3) {
       return {
         ok: false,
-        error: `Row ${hasHeader ? i + 2 : i + 1}: expected 3 columns, got ${cols.length}.`,
+        error: `Row ${hasHeader ? i + 2 : i + 1}: expected 3 columns, got ${
+          cols.length
+        }.`,
       };
     }
     rows.push({ firstName: cols[0], lastName: cols[1], email: cols[2] });
@@ -48,7 +55,9 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
   const [preview, setPreview] = useState<MentorInviteData[]>([]);
   const [parseError, setParseError] = useState('');
   const [result, setResult] = useState<BulkMentorInviteResponse | null>(null);
-  const [selectedListSlug, setSelectedListSlug] = useState(rsvpLists[0]?.slug ?? '');
+  const [selectedListSlug, setSelectedListSlug] = useState(
+    rsvpLists[0]?.slug ?? ''
+  );
   const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
   const [configError, setConfigError] = useState('');
 
@@ -122,7 +131,9 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `mentor-invites-${new Date().toISOString().split('T')[0]}.csv`;
+    link.download = `mentor-invites-${
+      new Date().toISOString().split('T')[0]
+    }.csv`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -160,7 +171,9 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
       {parseError && (
         <div className="bg-red-50 border border-red-200 rounded-md px-3 py-2">
           <p className="text-sm font-semibold text-red-700 mb-1">CSV errors:</p>
-          <pre className="text-xs text-red-600 whitespace-pre-wrap">{parseError}</pre>
+          <pre className="text-xs text-red-600 whitespace-pre-wrap">
+            {parseError}
+          </pre>
         </div>
       )}
 
@@ -191,10 +204,19 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
                 </thead>
                 <tbody>
                   {preview.map((mentor, i) => (
-                    <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                      <td className="px-4 py-2 text-gray-800">{mentor.firstName}</td>
-                      <td className="px-4 py-2 text-gray-800">{mentor.lastName}</td>
-                      <td className="px-4 py-2 text-gray-600">{mentor.email}</td>
+                    <tr
+                      key={i}
+                      className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
+                    >
+                      <td className="px-4 py-2 text-gray-800">
+                        {mentor.firstName}
+                      </td>
+                      <td className="px-4 py-2 text-gray-800">
+                        {mentor.lastName}
+                      </td>
+                      <td className="px-4 py-2 text-gray-600">
+                        {mentor.email}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -204,7 +226,9 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
 
           {/* RSVP List */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">RSVP List</label>
+            <label className="text-sm font-medium text-gray-700">
+              RSVP List
+            </label>
             <select
               value={selectedListSlug}
               onChange={(e) => setSelectedListSlug(e.target.value)}
@@ -235,7 +259,9 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
                 }
                 className="text-xs text-[#005271] underline"
               >
-                {selectedReleases.length === releases.length ? 'Deselect all' : 'Select all'}
+                {selectedReleases.length === releases.length
+                  ? 'Deselect all'
+                  : 'Select all'}
               </button>
             </div>
             <div className="flex flex-col gap-1">
@@ -250,8 +276,12 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
                     onChange={() => toggleRelease(release.id)}
                     className="w-4 h-4 accent-[#005271]"
                   />
-                  <span className="text-gray-800 font-medium">{release.title}</span>
-                  <span className="text-gray-400 text-xs ml-auto">{release.id}</span>
+                  <span className="text-gray-800 font-medium">
+                    {release.title}
+                  </span>
+                  <span className="text-gray-400 text-xs ml-auto">
+                    {release.id}
+                  </span>
                 </label>
               ))}
             </div>
@@ -285,11 +315,15 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
         <div className="flex flex-col gap-3">
           <div className="flex gap-3">
             <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 flex-1 text-center">
-              <p className="text-2xl font-bold text-green-700">{result.successCount}</p>
+              <p className="text-2xl font-bold text-green-700">
+                {result.successCount}
+              </p>
               <p className="text-sm text-green-600">Sent</p>
             </div>
             <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex-1 text-center">
-              <p className="text-2xl font-bold text-red-700">{result.failureCount}</p>
+              <p className="text-2xl font-bold text-red-700">
+                {result.failureCount}
+              </p>
               <p className="text-sm text-red-600">Failed</p>
             </div>
           </div>
@@ -307,7 +341,9 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
                       key={i}
                       className="flex flex-col gap-0.5 px-4 py-2 border-b border-gray-100 last:border-0"
                     >
-                      <span className="text-sm font-medium text-gray-800">{r.email}</span>
+                      <span className="text-sm font-medium text-gray-800">
+                        {r.email}
+                      </span>
                       <span className="text-xs text-red-600">{r.error}</span>
                     </div>
                   ))}

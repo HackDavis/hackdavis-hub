@@ -18,7 +18,10 @@ export default function MentorInvitesPanel() {
 
   useEffect(() => {
     (async () => {
-      const [rsvpRes, relRes] = await Promise.all([getRsvpLists(), getReleases()]);
+      const [rsvpRes, relRes] = await Promise.all([
+        getRsvpLists(),
+        getReleases(),
+      ]);
       if (!rsvpRes.ok || !rsvpRes.body) {
         setLoadError(rsvpRes.error ?? 'Failed to load RSVP lists.');
       } else if (!relRes.ok || !relRes.body) {
@@ -70,7 +73,8 @@ export default function MentorInvitesPanel() {
       {mode === 'single' ? (
         <div className="flex flex-col gap-3">
           <p className="text-sm text-gray-500">
-            Send a Tito invite to a single mentor by entering their details below.
+            Send a Tito invite to a single mentor by entering their details
+            below.
           </p>
           <MentorSingleInviteForm rsvpLists={rsvpLists} releases={releases} />
         </div>

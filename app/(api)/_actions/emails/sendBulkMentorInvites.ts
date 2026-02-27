@@ -43,7 +43,13 @@ export default async function sendBulkMentorInvites(
 ): Promise<BulkMentorInviteResponse> {
   const parsed = parseInviteCSV(csvText);
   if (!parsed.ok) {
-    return { ok: false, results: [], successCount: 0, failureCount: 0, error: parsed.error };
+    return {
+      ok: false,
+      results: [],
+      successCount: 0,
+      failureCount: 0,
+      error: parsed.error,
+    };
   }
 
   const mentors = parsed.body as MentorInviteData[];
@@ -82,10 +88,19 @@ export default async function sendBulkMentorInvites(
       );
 
       if (!titoResult.ok) {
-        console.error(`[Bulk Mentor Invites] ✗ Tito failed: ${mentor.email}`, titoResult.error);
-        results.push({ email: mentor.email, success: false, error: titoResult.error });
+        console.error(
+          `[Bulk Mentor Invites] ✗ Tito failed: ${mentor.email}`,
+          titoResult.error
+        );
+        results.push({
+          email: mentor.email,
+          success: false,
+          error: titoResult.error,
+        });
         failureCount++;
-        console.log(`[Bulk Mentor Invites] Progress: ${++completed}/${mentors.length}`);
+        console.log(
+          `[Bulk Mentor Invites] Progress: ${++completed}/${mentors.length}`
+        );
         return;
       }
 
@@ -102,11 +117,18 @@ export default async function sendBulkMentorInvites(
             html: mentorInviteTemplate(mentor.firstName, titoResult.titoUrl),
           })
         );
-        results.push({ email: mentor.email, success: true, titoUrl: titoResult.titoUrl });
+        results.push({
+          email: mentor.email,
+          success: true,
+          titoUrl: titoResult.titoUrl,
+        });
         successCount++;
       } catch (e) {
         const errorMsg = e instanceof Error ? e.message : 'Unknown error';
-        console.error(`[Bulk Mentor Invites] ✗ Email failed: ${mentor.email}`, errorMsg);
+        console.error(
+          `[Bulk Mentor Invites] ✗ Email failed: ${mentor.email}`,
+          errorMsg
+        );
         results.push({
           email: mentor.email,
           success: false,
@@ -115,13 +137,17 @@ export default async function sendBulkMentorInvites(
         failureCount++;
       }
 
-      console.log(`[Bulk Mentor Invites] Progress: ${++completed}/${mentors.length}`);
+      console.log(
+        `[Bulk Mentor Invites] Progress: ${++completed}/${mentors.length}`
+      );
     })
   );
 
   const totalTime = Date.now() - totalStart;
   console.log(
-    `[Bulk Mentor Invites] Complete: ${successCount} success, ${failureCount} failed in ${(totalTime / 1000).toFixed(1)}s`
+    `[Bulk Mentor Invites] Complete: ${successCount} success, ${failureCount} failed in ${(
+      totalTime / 1000
+    ).toFixed(1)}s`
   );
 
   return {
@@ -129,6 +155,7 @@ export default async function sendBulkMentorInvites(
     results,
     successCount,
     failureCount,
-    error: failureCount > 0 ? `${failureCount} invite(s) failed to send.` : null,
+    error:
+      failureCount > 0 ? `${failureCount} invite(s) failed to send.` : null,
   };
 }
