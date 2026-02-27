@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SubmissionInfo from '../SubmissionInfo/SubmissionInfo';
 import JudgingInfo from '../JudgingInfo/JudgingInfo';
 import styles from './WhatHappens.module.scss';
@@ -9,6 +9,16 @@ export default function WhatHappens() {
   const [activeTab, setActiveTab] = useState<'submission' | 'judging'>(
     'submission'
   );
+
+  // Auto-switch tab based on URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#judging') {
+      setActiveTab('judging');
+    } else if (hash === '#submission') {
+      setActiveTab('submission');
+    }
+  }, []);
 
   return (
     <div className={styles.container}>

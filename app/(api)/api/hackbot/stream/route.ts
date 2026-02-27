@@ -17,14 +17,36 @@ const PATH_CONTEXT_MAP: Record<string, string> = {
   '/project-info#submission':
     'the Submission Process tab of the Project Info page',
   '/project-info#judging': 'the Judging Process tab of the Project Info page',
-  '/starter-kit':
-    'the Starter Kit page (beginner resources, team formation, brainstorming)',
+  '/starter-kit': 'the Starter Kit page',
+  '/starter-kit#lets-begin':
+    'the "Let\'s Begin" section of the Starter Kit (Hacking 101 intro)',
+  '/starter-kit#find-a-team': 'the "Find a Team" section of the Starter Kit',
+  '/starter-kit#ideate':
+    'the "Ideate" section of the Starter Kit (brainstorming, previous hacks)',
+  '/starter-kit#resources':
+    'the "Resources" section of the Starter Kit (developer/designer/mentor resources)',
   '/schedule': 'the Schedule page',
 };
 
 function getPageContext(currentPath: string | undefined): string | null {
   if (!currentPath) return null;
   return PATH_CONTEXT_MAP[currentPath] ?? null;
+}
+
+type HackerProfile = {
+  name?: string;
+  position?: string;
+  is_beginner?: boolean;
+};
+
+function isEventRecommended(ev: any, profile: HackerProfile | null): boolean {
+  if (!profile) return false;
+  if (!ev.tags || !Array.isArray(ev.tags)) return false;
+  const tags = ev.tags.map((t: string) => t.toLowerCase());
+  if (profile.position && tags.includes(profile.position.toLowerCase()))
+    return true;
+  if (profile.is_beginner && tags.includes('beginner')) return true;
+  return false;
 }
 
 function formatEventDateTime(raw: unknown): string | null {
@@ -49,7 +71,7 @@ function formatEventDateTime(raw: unknown): string | null {
 
 export async function POST(request: Request) {
   try {
-    const { messages, currentPath } = await request.json();
+    const { messages, currentPath, hackerProfile } = await request.json();
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return Response.json({ error: 'Invalid request' }, { status: 400 });
@@ -98,29 +120,39 @@ export async function POST(request: Request) {
         : 'No additional knowledge context found.';
 
     const pageContext = getPageContext(currentPath);
+    const profile: HackerProfile | null = hackerProfile ?? null;
+    const profileContext = profile
+      ? `You are talking to ${profile.name ?? 'a hacker'}` +
+        (profile.position
+          ? `, a ${profile.is_beginner ? 'beginner ' : ''}${profile.position}`
+          : profile.is_beginner
+          ? ', a beginner'
+          : '') +
+        '. When they ask about events or workshops, call get_events and highlight ones where isRecommended=true as personalized picks. '
+      : '';
     const systemPrompt =
       'You are HackDavis Helper ("Hacky"), an AI assistant for the HackDavis hackathon. ' +
+      profileContext +
       (pageContext
         ? `The user is currently viewing: ${pageContext}. Use this to give more relevant answers. `
         : '') +
-      'CRITICAL: Your response MUST be under 200 tokens (~150 words). Be extremely concise. ' +
       'CRITICAL: Only answer questions about HackDavis. Refuse unrelated topics politely. ' +
       'CRITICAL: Only use facts from the provided context or tool results. Never invent times, dates, or locations. ' +
       'You are friendly, helpful, and conversational. Use contractions ("you\'re", "it\'s") and avoid robotic phrasing. ' +
       'For simple greetings ("hi", "hello"), respond warmly: "Hi, I\'m Hacky! I can help with questions about HackDavis." Keep it brief (1 sentence). ' +
       'For event/schedule questions (times, locations, when something starts/ends): ' +
       '  - ALWAYS call the get_events tool to get the latest schedule. Do not guess or use cached knowledge. ' +
+      '  - CRITICAL: After calling get_events, write ONE brief sentence only (e.g. "Here are the workshops:" or "I found X workshops for you!"). ' +
+      '  - Do NOT list event names, times, or locations in your text — the UI displays interactive event cards automatically. ' +
       'For questions about HackDavis rules, submission, judging, tracks, or general info: ' +
-      '  - Use the knowledge context below. ' +
-      'When answering: ' +
-      '1. Answer directly in 2-3 sentences using only facts from context or tool results. ' +
-      '2. For time/location questions: provide the full range if both start and end times exist. ' +
-      '3. For schedule questions: format as a bullet list, ordered chronologically. ' +
+      '  - Use the knowledge context below. Answer directly in 2-3 sentences. ' +
       'Do NOT: ' +
       '- Invent times, dates, locations, or URLs. ' +
       '- Include URLs in your answer text (UI shows a separate "More info" link). ' +
       '- Answer coding, homework, or general knowledge questions. ' +
       '- Say "based on the context" or "according to the documents" (just answer directly). ' +
+      '- List event details in text when get_events has been called (cards show everything). ' +
+      'Always complete your response — never end mid-sentence. ' +
       'If you cannot find an answer, say: "I don\'t have that information. Please ask an organizer or check the HackDavis website." ' +
       'For unrelated questions, say: "Sorry, I can only answer questions about HackDavis. Do you have any questions about the event?"';
 
@@ -139,8 +171,7 @@ export async function POST(request: Request) {
       },
       {
         role: 'assistant' as const,
-        content:
-          'We have several workshops including:\n• Hackathons 101 (Sat 11:40 AM)\n• Getting Started with Git & GitHub (Sat 1:10 PM)\n• Intro to UI/UX (Sat 4:10 PM)\n• Hacking with LLMs (Sat 2:10 PM)',
+        content: 'Here are all the workshops at HackDavis — check them out!',
       },
     ];
 
@@ -155,10 +186,10 @@ export async function POST(request: Request) {
     ];
 
     const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
-    const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '200', 10);
+    const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '400', 10);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = streamText({
+    const result: any = await streamText({
       model: openai(model) as any,
       messages: chatMessages.map((m: any) => ({
         role: m.role as 'system' | 'user' | 'assistant',
@@ -194,7 +225,9 @@ export async function POST(request: Request) {
                 return { events: [], message: 'No events found.' };
               }
 
+              // MongoDB already sorts by start_time ASC
               const formatted = events.map((ev: any) => ({
+                id: String(ev._id),
                 name: String(ev.name || 'Event'),
                 type: ev.type || null,
                 start: formatEventDateTime(ev.start_time),
@@ -202,17 +235,8 @@ export async function POST(request: Request) {
                 location: ev.location || null,
                 host: ev.host || null,
                 tags: Array.isArray(ev.tags) ? ev.tags : [],
+                isRecommended: isEventRecommended(ev, profile),
               }));
-
-              // Sort chronologically
-              formatted.sort((a: any, b: any) => {
-                const aMs = a.start ? Date.parse(a.start) : null;
-                const bMs = b.start ? Date.parse(b.start) : null;
-                if (aMs === null && bMs === null) return 0;
-                if (aMs === null) return 1;
-                if (bMs === null) return -1;
-                return aMs - bMs;
-              });
 
               console.log(
                 `[hackbot][stream][tool] get_events returned ${formatted.length} events`

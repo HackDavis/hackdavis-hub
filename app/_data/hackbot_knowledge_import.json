@@ -207,13 +207,13 @@
     "type": "general",
     "title": "For Beginners: Starter Kit",
     "content": "HackDavis has created a Starter Kit for all beginner hackers to help get their hack started. The Starter Kit includes resources, past winning hacks, and more. It is designed to help first-time hackathon participants navigate their first hackathon experience. You can access it through the Starter Kit link on the Hub.",
-    "url": "/starter-kit"
+    "url": "/starter-kit#lets-begin"
   },
   {
     "type": "general",
     "title": "Brainstorming Your Project Idea",
     "content": "When brainstorming your hackathon project, ask yourself these key questions: What problem are you solving for? Who are your users and what are their pain points? What makes your solution unique? These questions will help you define a focused, impactful project that stands out to judges.",
-    "url": "/starter-kit"
+    "url": "/starter-kit#ideate"
   },
   {
     "type": "general",
@@ -225,7 +225,7 @@
     "type": "general",
     "title": "Finding a Team on Discord",
     "content": "If you are looking to join a team or need additional members, use the #find-a-team channel on the HackDavis Discord server. Introduce yourself with your major, experience level, skills, and what kind of team or role you are looking for. The Discord server is at https://discord.gg/wc6QQEc. This is also a great way to meet other hackers and find people with complementary skills.",
-    "url": "/starter-kit"
+    "url": "/starter-kit#find-a-team"
   },
   {
     "type": "general",
@@ -297,13 +297,13 @@
     "type": "faq",
     "title": "FAQ: I'm a beginner \u2014 where do I start?",
     "content": "Welcome! HackDavis has a Starter Kit specifically for beginners. It includes resources, past winning hacks, and tips to get your project started. You can also attend the Hackathons 101 workshop, reach out to mentors on Discord (https://discord.gg/wc6QQEc), and join the #find-a-team channel if you need teammates. Start by brainstorming: what problem are you solving, who are your users, and what makes your solution unique?",
-    "url": "/starter-kit"
+    "url": "/starter-kit#lets-begin"
   },
   {
     "type": "faq",
     "title": "FAQ: How do I find a team?",
     "content": "If you are looking for a team or need additional teammates, use the #find-a-team channel on the HackDavis Discord server (https://discord.gg/wc6QQEc). Post an introduction with your name, major, year, skills, experience level, and what kind of project you want to work on. There is also a Team Mixer activity at the start of the event where you can meet other hackers in person.",
-    "url": "/starter-kit"
+    "url": "/starter-kit#find-a-team"
   },
   {
     "type": "faq",
