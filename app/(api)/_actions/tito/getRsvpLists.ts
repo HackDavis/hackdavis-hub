@@ -3,7 +3,9 @@
 import { RsvpList, TitoResponse } from '@typeDefs/tito';
 import { TitoRequest } from './titoClient';
 
-export default async function getRsvpLists(): Promise<TitoResponse<RsvpList[]>> {
+export default async function getRsvpLists(): Promise<
+  TitoResponse<RsvpList[]>
+> {
   try {
     const start = Date.now();
     const data = await TitoRequest<{ rsvp_lists: RsvpList[] }>('/rsvp_lists');

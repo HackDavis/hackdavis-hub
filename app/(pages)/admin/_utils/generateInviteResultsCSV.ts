@@ -39,7 +39,7 @@ export function generateInviteResultsCSV(
       row.titoUrl ?? '',
       ...(includeHub ? [row.hubUrl ?? ''] : []),
       row.success ? 'TRUE' : 'FALSE',
-      row.success ? '' : (row.error ?? 'Unknown error'),
+      row.success ? '' : row.error ?? 'Unknown error',
     ];
     return cells.map(escapeCell).join(',');
   });

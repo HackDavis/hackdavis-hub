@@ -54,7 +54,11 @@ export default async function sendSingleMentorInvite(
     return { ok: true, titoUrl: titoResult.titoUrl, error: null };
   } catch (e) {
     const errorMessage =
-      e instanceof Error ? e.message : typeof e === 'string' ? e : 'Unknown error';
+      e instanceof Error
+        ? e.message
+        : typeof e === 'string'
+        ? e
+        : 'Unknown error';
     console.error(
       `[Mentor Invite] ✗ Failed (${email}) after ${Date.now() - totalStart}ms:`,
       errorMessage

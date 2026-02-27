@@ -18,7 +18,9 @@ export default async function deleteRsvpInvitationByEmail(
 
     while (!foundSlug) {
       const url = `/rsvp_lists/${rsvpListSlug}/release_invitations?page[size]=${pageSize}&page[number]=${page}`;
-      const data = await TitoRequest<{ release_invitations: ReleaseInvitation[] }>(url);
+      const data = await TitoRequest<{
+        release_invitations: ReleaseInvitation[];
+      }>(url);
       const invitations = data.release_invitations ?? [];
 
       const match = invitations.find(
@@ -34,12 +36,18 @@ export default async function deleteRsvpInvitationByEmail(
     }
 
     if (!foundSlug) {
-      return { ok: false, error: 'No existing invitation found for this email' };
+      return {
+        ok: false,
+        error: 'No existing invitation found for this email',
+      };
     }
 
-    await TitoRequest(`/rsvp_lists/${rsvpListSlug}/release_invitations/${foundSlug}`, {
-      method: 'DELETE',
-    });
+    await TitoRequest(
+      `/rsvp_lists/${rsvpListSlug}/release_invitations/${foundSlug}`,
+      {
+        method: 'DELETE',
+      }
+    );
 
     console.log(`[Tito] Deleted invitation for ${email}`);
     return { ok: true, error: null };

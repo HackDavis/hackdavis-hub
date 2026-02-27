@@ -39,21 +39,32 @@ export default async function getOrCreateTitoInvitation(
       }
     }
 
-    console.warn(`[Tito] No usable URL found, deleting and recreating for ${email}`);
+    console.warn(
+      `[Tito] No usable URL found, deleting and recreating for ${email}`
+    );
     const deleteRes = await deleteRsvpInvitationByEmail(rsvpListSlug, email);
     if (!deleteRes.ok) {
-      return { ok: false, error: `Duplicate recovery failed (delete): ${deleteRes.error}` };
+      return {
+        ok: false,
+        error: `Duplicate recovery failed (delete): ${deleteRes.error}`,
+      };
     }
     titoResponse = await createRsvpInvitation(data);
   }
 
   if (!titoResponse.ok || !titoResponse.body) {
-    return { ok: false, error: titoResponse.error ?? 'Failed to create Tito invitation' };
+    return {
+      ok: false,
+      error: titoResponse.error ?? 'Failed to create Tito invitation',
+    };
   }
 
   const titoUrl = titoResponse.body.unique_url ?? titoResponse.body.url;
   if (!titoUrl) {
-    return { ok: false, error: 'Tito invitation created but no URL was returned' };
+    return {
+      ok: false,
+      error: 'Tito invitation created but no URL was returned',
+    };
   }
 
   return { ok: true, titoUrl };

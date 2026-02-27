@@ -13,7 +13,9 @@ export default function MentorSingleInviteForm({ rsvpLists, releases }: Props) {
   const [loading, setLoading] = useState(false);
   const [titoUrl, setTitoUrl] = useState('');
   const [error, setError] = useState('');
-  const [selectedListSlug, setSelectedListSlug] = useState(rsvpLists[0]?.slug ?? '');
+  const [selectedListSlug, setSelectedListSlug] = useState(
+    rsvpLists[0]?.slug ?? ''
+  );
   const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
 
   const toggleRelease = (id: string) =>
@@ -61,7 +63,9 @@ export default function MentorSingleInviteForm({ rsvpLists, releases }: Props) {
       {/* Name + Email */}
       <div className="flex gap-4">
         <div className="flex flex-col gap-1 flex-1">
-          <label className="text-sm font-medium text-gray-700">First Name</label>
+          <label className="text-sm font-medium text-gray-700">
+            First Name
+          </label>
           <input
             name="firstName"
             type="text"
@@ -122,7 +126,9 @@ export default function MentorSingleInviteForm({ rsvpLists, releases }: Props) {
             }
             className="text-xs text-[#005271] underline"
           >
-            {selectedReleases.length === releases.length ? 'Deselect all' : 'Select all'}
+            {selectedReleases.length === releases.length
+              ? 'Deselect all'
+              : 'Select all'}
           </button>
         </div>
         <div className="flex flex-col gap-1">
@@ -138,7 +144,9 @@ export default function MentorSingleInviteForm({ rsvpLists, releases }: Props) {
                 className="w-4 h-4 accent-[#005271]"
               />
               <span className="text-gray-800 font-medium">{release.title}</span>
-              <span className="text-gray-400 text-xs ml-auto">{release.id}</span>
+              <span className="text-gray-400 text-xs ml-auto">
+                {release.id}
+              </span>
             </label>
           ))}
         </div>
