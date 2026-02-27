@@ -84,20 +84,10 @@ const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 10;
 const MAX_ANSWER_WORDS = 180;
 
-function parseIsoToMs(value: unknown): number | null {
-  if (typeof value !== 'string') return null;
-  const ms = Date.parse(value);
-  return Number.isFinite(ms) ? ms : null;
-}
-
 function truncateToWords(text: string, maxWords: number): string {
   const words = text.trim().split(/\s+/);
   if (words.length <= maxWords) return text.trim();
   return words.slice(0, maxWords).join(' ') + '...';
-}
-
-function stripExternalDomains(text: string): string {
-  return text.replace(/https?:\/\/[^\s/)]+(\S*)/g, '$1');
 }
 
 function formatEventDateTimeForTool(raw: unknown): string | null {
@@ -307,10 +297,7 @@ export async function askHackbot(
       ms: Date.now() - startedAt,
     });
 
-    const answer = truncateToWords(
-      stripExternalDomains(text),
-      MAX_ANSWER_WORDS
-    );
+    const answer = truncateToWords(text, MAX_ANSWER_WORDS);
 
     return {
       ok: true,

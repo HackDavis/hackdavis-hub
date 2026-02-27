@@ -13,6 +13,9 @@ import importKnowledgeDocs, {
   ImportDocInput,
   ImportKnowledgeDocsResult,
 } from '@actions/hackbot/importKnowledgeDocs';
+import clearKnowledgeDocs, {
+  ClearKnowledgeDocsResult,
+} from '@actions/hackbot/clearKnowledgeDocs';
 import { HackDocType } from '@datalib/hackbot/hackbotTypes';
 
 const DOC_TYPES: HackDocType[] = [
@@ -83,6 +86,11 @@ export default function HackbotKnowledgePage() {
     null
   );
   const [importError, setImportError] = useState('');
+
+  // Clear all state
+  const [clearResult, setClearResult] =
+    useState<ClearKnowledgeDocsResult | null>(null);
+  const [isClearing, startClearing] = useTransition();
 
   async function loadDocs() {
     setLoading(true);
@@ -232,6 +240,33 @@ export default function HackbotKnowledgePage() {
     setImportError('');
   }
 
+  function handleClearAll() {
+    if (
+      !confirm(
+        'Delete ALL knowledge docs? This removes everything from hackbot_knowledge and hackbot_docs. This cannot be undone.'
+      )
+    )
+      return;
+    setClearResult(null);
+    setBanner(null);
+    startClearing(async () => {
+      const res = await clearKnowledgeDocs();
+      setClearResult(res);
+      if (res.ok) {
+        await loadDocs();
+        setBanner({
+          kind: 'success',
+          message: `Cleared ${res.deletedKnowledge} knowledge doc${
+            res.deletedKnowledge !== 1 ? 's' : ''
+          } and ${res.deletedEmbeddings} embedding${
+            res.deletedEmbeddings !== 1 ? 's' : ''
+          }.`,
+        });
+        setClearResult(null);
+      }
+    });
+  }
+
   if (loading) {
     return (
       <div className="p-8 flex items-center gap-2 text-sm text-gray-500">
@@ -279,6 +314,21 @@ export default function HackbotKnowledgePage() {
             className="border border-gray-300 text-gray-700 font-semibold px-4 py-2 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
           >
             Import JSON
+          </button>
+          {/* Clear All */}
+          <button
+            onClick={handleClearAll}
+            disabled={isClearing || docs.length === 0}
+            className="border border-red-300 text-red-600 font-semibold px-4 py-2 rounded-lg hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+          >
+            {isClearing ? (
+              <span className="flex items-center gap-2">
+                <span className="w-3.5 h-3.5 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+                Clearing…
+              </span>
+            ) : (
+              'Clear All'
+            )}
           </button>
           {/* Reseed */}
           <button
@@ -343,6 +393,19 @@ export default function HackbotKnowledgePage() {
           </span>
           <button
             onClick={() => setReseedResult(null)}
+            className="text-xs underline opacity-70 hover:opacity-100 ml-4"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
+      {/* Clear result (error only — success shown via banner) */}
+      {clearResult && !clearResult.ok && (
+        <div className="flex items-center justify-between bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700">
+          <span>Failed to clear: {clearResult.error}</span>
+          <button
+            onClick={() => setClearResult(null)}
             className="text-xs underline opacity-70 hover:opacity-100 ml-4"
           >
             Dismiss
