@@ -1,61 +1,11 @@
 import { getClient } from '../app/(api)/_utils/mongodb/mongoClient.mjs';
-import fs from 'fs';
-import path from 'path';
 
 const HACKBOT_COLLECTION = 'hackbot_docs';
-
-// Load from environment or use Google AI by default in CI
-const EMBEDDING_MODE = process.env.HACKBOT_MODE || 'google';
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
-const GOOGLE_EMBEDDING_MODEL =
-  process.env.GOOGLE_EMBEDDING_MODEL || 'text-embedding-004';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_EMBEDDING_MODEL =
   process.env.OPENAI_EMBEDDING_MODEL || 'text-embedding-3-small';
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 
-function loadEventsFallbackFromKnowledge() {
-  const knowledgePath = path.join(
-    path.dirname(new URL(import.meta.url).pathname),
-    '..',
-    'app',
-    '_data',
-    'hackbot_knowledge.json'
-  );
-
-  const raw = fs.readFileSync(knowledgePath, 'utf8');
-  const knowledge = JSON.parse(raw);
-  return Array.isArray(knowledge?.events?.raw) ? knowledge.events.raw : [];
-}
-
-async function embedTextGoogle(text) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GOOGLE_EMBEDDING_MODEL}:embedContent?key=${GOOGLE_API_KEY}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        content: {
-          parts: [{ text }],
-        },
-      }),
-    }
-  );
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(
-      `Google AI embeddings error: ${response.status} ${errorText}`
-    );
-  }
-
-  const data = await response.json();
-  return data.embedding.values;
-}
-
-async function embedTextOpenAI(text) {
+async function embedText(text) {
   const response = await fetch('https://api.openai.com/v1/embeddings', {
     method: 'POST',
     headers: {
@@ -75,38 +25,6 @@ async function embedTextOpenAI(text) {
 
   const data = await response.json();
   return data.data[0].embedding;
-}
-
-async function embedTextOllama(text) {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'llama3.2',
-      prompt: text,
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`Ollama embeddings error: ${res.status} ${res.statusText}`);
-  }
-
-  const data = await res.json();
-  if (!data || !Array.isArray(data.embedding)) {
-    throw new Error('Invalid embeddings response from Ollama');
-  }
-
-  return data.embedding;
-}
-
-async function embedText(text) {
-  if (EMBEDDING_MODE === 'google') {
-    return embedTextGoogle(text);
-  } else if (EMBEDDING_MODE === 'openai') {
-    return embedTextOpenAI(text);
-  } else {
-    return embedTextOllama(text);
-  }
 }
 
 function formatEventDateTime(raw) {
@@ -163,35 +81,14 @@ function buildDocsFromEvents(events) {
   });
 }
 
-function buildStaticDocs() {
-  const judging = {
-    _id: 'judging-overview',
-    type: 'judging',
-    title: 'Judging Process Overview',
-    text:
-      'Judging day timeline (Pacific Time):\n' +
-      '- 11:00 AM: submissions due on Devpost\n' +
-      '- 12:00–2:00 PM: demo time with judges\n' +
-      '- 2:00–3:00 PM: break\n' +
-      '- 3:00–4:00 PM: closing ceremony\n\n' +
-      'Rubric: 60% track-specific, 20% social good, 10% creativity, 10% presentation.',
-    url: '/hackers/hub/project-info#judging',
-  };
-
-  const submission = {
-    _id: 'submission-overview',
-    type: 'submission',
-    title: 'Submission Process Overview',
-    text: 'Submission steps: (1) Log in or sign up on Devpost and join the HackDavis hackathon. (2) Register for the event. (3) Create a project (only one teammate needs to create it). (4) Invite teammates. (5) Fill out project details. (6) Submit the project on Devpost before the deadline.',
-    url: '/hackers/hub/project-info#submission',
-  };
-
-  return [judging, submission];
-}
-
 async function seedHackbotDocs() {
+  if (!OPENAI_API_KEY) {
+    console.error('[hackbotSeedCI] OPENAI_API_KEY is not set');
+    process.exit(1);
+  }
+
   console.log('[hackbotSeedCI] Starting seeding process...');
-  console.log(`[hackbotSeedCI] Embedding mode: ${EMBEDDING_MODE}`);
+  console.log(`[hackbotSeedCI] Using OpenAI model: ${OPENAI_EMBEDDING_MODEL}`);
 
   const client = await getClient();
 
@@ -217,20 +114,44 @@ async function seedHackbotDocs() {
     console.log(`[hackbotSeedCI] Loaded ${events.length} events from database`);
   } catch (err) {
     console.warn(
-      '[hackbotSeedCI] Failed to load events, using fallback:',
+      '[hackbotSeedCI] Failed to load events:',
       err.message
     );
-    events = loadEventsFallbackFromKnowledge();
   }
 
-  if (!Array.isArray(events) || events.length === 0) {
-    events = loadEventsFallbackFromKnowledge();
+  // Load static knowledge docs from hackbot_knowledge collection
+  let knowledgeDocs = [];
+  try {
+    knowledgeDocs = await db.collection('hackbot_knowledge').find({}).toArray();
     console.log(
-      `[hackbotSeedCI] Using ${events.length} events from fallback`
+      `[hackbotSeedCI] Loaded ${knowledgeDocs.length} knowledge docs from database`
+    );
+  } catch (err) {
+    console.warn(
+      '[hackbotSeedCI] Failed to load knowledge docs:',
+      err.message
     );
   }
 
-  const docs = [...buildDocsFromEvents(events), ...buildStaticDocs()];
+  const eventDocs = buildDocsFromEvents(events);
+
+  // Convert knowledge docs to hackbot_docs format
+  const staticDocs = knowledgeDocs.map((doc) => ({
+    _id: `knowledge-${String(doc._id)}`,
+    type: doc.type,
+    title: doc.title,
+    text: doc.content,
+    url: doc.url || null,
+  }));
+
+  const docs = [...eventDocs, ...staticDocs];
+
+  if (docs.length === 0) {
+    console.warn('[hackbotSeedCI] No docs to seed. Exiting.');
+    await client.close();
+    return;
+  }
+
   console.log(
     `[hackbotSeedCI] Preparing to embed and upsert ${docs.length} docs`
   );
@@ -261,7 +182,6 @@ async function seedHackbotDocs() {
         `[hackbotSeedCI] Failed to upsert doc ${doc._id}:`,
         err.message
       );
-      // Don't exit on individual doc failure
     }
   }
 

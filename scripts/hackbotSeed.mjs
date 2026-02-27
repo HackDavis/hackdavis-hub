@@ -1,10 +1,10 @@
 import { getClient } from '../app/(api)/_utils/mongodb/mongoClient.mjs';
-import fs from 'fs';
-import path from 'path';
 import readline from 'readline';
 
-const HACKBOT_COLLECTION = 'hackbot';
-const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
+const HACKBOT_COLLECTION = 'hackbot_docs';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_EMBEDDING_MODEL =
+  process.env.OPENAI_EMBEDDING_MODEL || 'text-embedding-3-small';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -19,40 +19,26 @@ function askQuestion(question) {
   });
 }
 
-function loadEventsFallbackFromKnowledge() {
-  const knowledgePath = path.join(
-    path.dirname(new URL(import.meta.url).pathname),
-    '..',
-    'app',
-    '_data',
-    'hackbot_knowledge.json'
-  );
-
-  const raw = fs.readFileSync(knowledgePath, 'utf8');
-  const knowledge = JSON.parse(raw);
-  return Array.isArray(knowledge?.events?.raw) ? knowledge.events.raw : [];
-}
-
 async function embedText(text) {
-  const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
+  const response = await fetch('https://api.openai.com/v1/embeddings', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+    },
     body: JSON.stringify({
-      model: 'llama3.2',
-      prompt: text,
+      model: OPENAI_EMBEDDING_MODEL,
+      input: text,
     }),
   });
 
-  if (!res.ok) {
-    throw new Error(`Ollama embeddings error: ${res.status} ${res.statusText}`);
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenAI embeddings error: ${response.status} ${errorText}`);
   }
 
-  const data = await res.json();
-  if (!data || !Array.isArray(data.embedding)) {
-    throw new Error('Invalid embeddings response from Ollama');
-  }
-
-  return data.embedding;
+  const data = await response.json();
+  return data.data[0].embedding;
 }
 
 function formatEventDateTime(raw) {
@@ -109,40 +95,20 @@ function buildDocsFromEvents(events) {
   });
 }
 
-function buildStaticDocs() {
-  const judging = {
-    _id: 'judging-overview',
-    type: 'judging',
-    title: 'Judging Process Overview',
-    text:
-      'Judging day timeline (Pacific Time):\n' +
-      '- 11:00 AM: submissions due on Devpost\n' +
-      '- 12:00–2:00 PM: demo time with judges\n' +
-      '- 2:00–3:00 PM: break\n' +
-      '- 3:00–4:00 PM: closing ceremony\n\n' +
-      'Rubric: 60% track-specific, 20% social good, 10% creativity, 10% presentation.',
-    url: '/hackers/hub/project-info#judging',
-  };
-
-  const submission = {
-    _id: 'submission-overview',
-    type: 'submission',
-    title: 'Submission Process Overview',
-    text: 'Submission steps: (1) Log in or sign up on Devpost and join the HackDavis hackathon. (2) Register for the event. (3) Create a project (only one teammate needs to create it). (4) Invite teammates. (5) Fill out project details. (6) Submit the project on Devpost before the deadline.',
-    url: '/hackers/hub/project-info#submission',
-  };
-
-  return [judging, submission];
-}
-
 async function seedHackbotDocs({ wipe }) {
+  if (!OPENAI_API_KEY) {
+    console.error(
+      'OPENAI_API_KEY is not set. Run with: node --env-file=".env" scripts/hackbotSeed.mjs'
+    );
+    return;
+  }
+
   const client = await getClient();
   try {
     await client.connect();
   } catch (err) {
     console.error(
-      'MongoDB connection failed. Check MONGODB_URI and make sure your Mongo/Atlas Local deployment is running.\n' +
-        `Details: ${err.message}`
+      'MongoDB connection failed. Check MONGODB_URI.\n' + `Details: ${err.message}`
     );
     return;
   }
@@ -155,23 +121,43 @@ async function seedHackbotDocs({ wipe }) {
     console.log(`Wiped collection: ${HACKBOT_COLLECTION}`);
   }
 
+  // Load events
   let events = [];
   try {
     events = await db.collection('events').find({}).toArray();
+    console.log(`Loaded ${events.length} events from database`);
   } catch (err) {
-    console.warn(
-      'Failed to load events from MongoDB; falling back to hackbot_knowledge.json:',
-      err.message
-    );
+    console.warn('Failed to load events:', err.message);
   }
 
-  if (!Array.isArray(events) || events.length === 0) {
-    events = loadEventsFallbackFromKnowledge();
+  // Load knowledge docs
+  let knowledgeDocs = [];
+  try {
+    knowledgeDocs = await db.collection('hackbot_knowledge').find({}).toArray();
+    console.log(`Loaded ${knowledgeDocs.length} knowledge docs from database`);
+  } catch (err) {
+    console.warn('Failed to load knowledge docs:', err.message);
   }
 
-  const docs = [...buildDocsFromEvents(events), ...buildStaticDocs()];
+  const eventDocs = buildDocsFromEvents(events);
+  const staticDocs = knowledgeDocs.map((doc) => ({
+    _id: `knowledge-${String(doc._id)}`,
+    type: doc.type,
+    title: doc.title,
+    text: doc.content,
+    url: doc.url || null,
+  }));
+
+  const docs = [...eventDocs, ...staticDocs];
+
+  if (docs.length === 0) {
+    console.warn('No docs to seed. Add events or knowledge docs first.');
+    await client.close();
+    return;
+  }
 
   console.log(`Preparing to embed and upsert ${docs.length} hackbot docs...`);
+  console.log(`Using OpenAI model: ${OPENAI_EMBEDDING_MODEL}`);
 
   let successCount = 0;
   for (const doc of docs) {
@@ -213,7 +199,7 @@ async function gatherInputAndRun() {
       // eslint-disable-next-line no-await-in-loop
       wipe = (
         await askQuestion(
-          `Seed collection "${HACKBOT_COLLECTION}" from app/_data (events + judging/submission docs). Wipe existing docs first? (y/n): `
+          `Seed collection "${HACKBOT_COLLECTION}" from events + hackbot_knowledge collection. Wipe existing docs first? (y/n): `
         )
       ).toLowerCase();
       if (wipe !== 'y' && wipe !== 'n') {

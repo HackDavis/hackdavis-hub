@@ -1,6 +1,7 @@
 import { HackDoc, HackDocType } from './hackbotTypes';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { ObjectId } from 'mongodb';
+import { embedText } from '@utils/hackbot/embedText';
 
 export interface RetrievedContext {
   docs: HackDoc[];
@@ -44,11 +45,11 @@ async function retryWithBackoff<T>(
 
       const isRetryable =
         retryableErrors.some((code) => err.message?.includes(code)) ||
-        err.status === 429 || // Rate limit
-        err.status === 500 || // Server error
-        err.status === 502 || // Bad gateway
-        err.status === 503 || // Service unavailable
-        err.status === 504; // Gateway timeout
+        err.status === 429 ||
+        err.status === 500 ||
+        err.status === 502 ||
+        err.status === 503 ||
+        err.status === 504;
 
       if (!isRetryable || attempt === maxAttempts) {
         throw err;
@@ -143,7 +144,6 @@ function formatLiveEventDoc(event: any): {
   const parts = [
     `Event: ${title}`,
     type ? `Type: ${type}` : '',
-    // Machine-readable anchors to allow reliable chronological ordering.
     event?.start_time instanceof Date
       ? `StartISO: ${event.start_time.toISOString()}`
       : '',
@@ -172,164 +172,6 @@ function formatLiveEventDoc(event: any): {
   };
 }
 
-async function getGoogleEmbedding(query: string): Promise<{
-  embedding: number[];
-  usage?: {
-    promptTokens?: number;
-    totalTokens?: number;
-  };
-} | null> {
-  try {
-    const { embed } = await import('ai');
-    const { google } = await import('@ai-sdk/google');
-
-    const startedAt = Date.now();
-    const model = process.env.GOOGLE_EMBEDDING_MODEL || 'text-embedding-004';
-
-    const { embedding, usage } = await embed({
-      model: google.textEmbeddingModel(model),
-      value: query,
-    });
-
-    console.log('[hackbot][google][embeddings]', {
-      model,
-      tokens: usage.tokens,
-      ms: Date.now() - startedAt,
-    });
-
-    return {
-      embedding,
-      usage: {
-        promptTokens: usage.tokens,
-        totalTokens: usage.tokens,
-      },
-    };
-  } catch (err) {
-    console.error('[hackbot][embeddings][google] Failed', err);
-    return null;
-  }
-}
-
-async function getOpenAIEmbedding(query: string): Promise<{
-  embedding: number[];
-  usage?: {
-    promptTokens?: number;
-    totalTokens?: number;
-  };
-} | null> {
-  try {
-    const { embed } = await import('ai');
-    const { openai } = await import('@ai-sdk/openai');
-
-    const startedAt = Date.now();
-    const model =
-      process.env.OPENAI_EMBEDDING_MODEL || 'text-embedding-3-small';
-
-    const { embedding, usage } = await embed({
-      model: openai.embedding(model),
-      value: query,
-    });
-
-    console.log('[hackbot][openai][embeddings]', {
-      model,
-      tokens: usage.tokens,
-      ms: Date.now() - startedAt,
-    });
-
-    return {
-      embedding,
-      usage: {
-        promptTokens: usage.tokens,
-        totalTokens: usage.tokens,
-      },
-    };
-  } catch (err) {
-    console.error('[hackbot][embeddings][openai] Failed', err);
-    return null;
-  }
-}
-
-async function getOllamaEmbedding(query: string): Promise<{
-  embedding: number[];
-  usage?: {
-    promptTokens?: number;
-    totalTokens?: number;
-  };
-} | null> {
-  const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434';
-
-  try {
-    const startedAt = Date.now();
-    const res = await fetch(`${ollamaUrl}/api/embeddings`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'llama3.2', prompt: query }),
-    });
-
-    if (!res.ok) {
-      console.error(
-        '[hackbot][embeddings] Upstream error',
-        res.status,
-        res.statusText
-      );
-      return null;
-    }
-
-    const data = await res.json();
-    if (!data || !Array.isArray(data.embedding)) {
-      console.error('[hackbot][embeddings] Invalid response shape');
-      return null;
-    }
-
-    const promptTokens =
-      typeof data?.prompt_eval_count === 'number'
-        ? data.prompt_eval_count
-        : undefined;
-    const totalTokens =
-      typeof data?.eval_count === 'number'
-        ? data.eval_count
-        : typeof promptTokens === 'number'
-        ? promptTokens
-        : undefined;
-
-    console.log('[hackbot][ollama][embeddings]', {
-      model: data?.model ?? 'unknown',
-      promptTokens,
-      totalTokens,
-      ms: Date.now() - startedAt,
-    });
-
-    return {
-      embedding: data.embedding as number[],
-      usage: {
-        promptTokens,
-        totalTokens,
-      },
-    };
-  } catch (err) {
-    console.error('[hackbot][embeddings][ollama] Failed', err);
-    return null;
-  }
-}
-
-async function getQueryEmbedding(query: string): Promise<{
-  embedding: number[];
-  usage?: {
-    promptTokens?: number;
-    totalTokens?: number;
-  };
-} | null> {
-  const mode = process.env.HACKBOT_MODE || 'google';
-
-  if (mode === 'google') {
-    return getGoogleEmbedding(query);
-  } else if (mode === 'openai') {
-    return getOpenAIEmbedding(query);
-  } else {
-    return getOllamaEmbedding(query);
-  }
-}
-
 export async function retrieveContext(
   query: string,
   opts?: { limit?: number; preferredTypes?: HackDocType[] }
@@ -349,25 +191,12 @@ export async function retrieveContext(
     });
   }
 
-  // Vector-only search over hackbot_docs in MongoDB.
   try {
-    const embeddingResult = await retryWithBackoff(
-      () => getQueryEmbedding(trimmed),
-      {
-        maxAttempts: 3,
-        delayMs: 1000,
-        backoffMultiplier: 2,
-      }
-    );
-
-    if (!embeddingResult) {
-      console.error(
-        '[hackbot][retrieve] No embedding available for query; vector search required.'
-      );
-      throw new Error('Embedding unavailable after retries');
-    }
-
-    const embedding = embeddingResult.embedding;
+    const embedding = await retryWithBackoff(() => embedText(trimmed), {
+      maxAttempts: 3,
+      delayMs: 1000,
+      backoffMultiplier: 2,
+    });
 
     const db = await getDatabase();
     const collection = db.collection('hackbot_docs');
@@ -413,8 +242,7 @@ export async function retrieveContext(
     }));
 
     // Hydrate event docs from the live `events` collection so the answer
-    // always reflects the current schedule (times/locations), even if the
-    // vector index was seeded earlier.
+    // always reflects the current schedule (times/locations).
     const eventsCollection = db.collection('events');
     await Promise.all(
       docs.map(async (d) => {
@@ -440,7 +268,6 @@ export async function retrieveContext(
         d.text = live.text;
         d.url = live.url;
 
-        // Attach sortable timestamps for server-side ordering.
         (d as any).startISO = live.startISO;
         (d as any).endISO = live.endISO;
       })
@@ -452,7 +279,7 @@ export async function retrieveContext(
       titles: docs.map((d) => d.title),
     });
 
-    return { docs, usage: embeddingResult.usage };
+    return { docs };
   } catch (err) {
     console.error(
       '[hackbot][retrieve] Vector search failed (no fallback).',

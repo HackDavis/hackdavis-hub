@@ -119,7 +119,10 @@ export default function HackbotWidget() {
           for (const line of lines) {
             if (line.startsWith('0:')) {
               // Vercel AI SDK data stream format
-              const content = line.slice(2).trim().replace(/^"(.*)"$/, '$1');
+              const content = line
+                .slice(2)
+                .trim()
+                .replace(/^"(.*)"$/, '$1');
               if (content) {
                 accumulatedText += content;
 

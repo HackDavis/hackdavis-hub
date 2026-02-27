@@ -5,27 +5,7 @@ on:
     types: [published]
 
 jobs:
-  check_hackbot_knowledge:
-    name: Check if hackbot_knowledge.json changed
-    runs-on: ubuntu-latest
-    outputs:
-      changed: ${{ steps.filter.outputs.hackbot_knowledge }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Check file changes
-        uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            hackbot_knowledge:
-              - 'app/_data/hackbot_knowledge.json'
-
   deploy_production:
-    needs: check_hackbot_knowledge
     name: Deploy Production
     runs-on: ubuntu-latest
     environment:
@@ -51,13 +31,11 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       - name: Seed hackbot documentation
-        if: needs.check_hackbot_knowledge.outputs.changed == 'true'
         run: npm run hackbot:seed
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          GOOGLE_EMBEDDING_MODEL: ${{ vars.GOOGLE_EMBEDDING_MODEL }}
-          HACKBOT_MODE: google
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_EMBEDDING_MODEL: ${{ vars.OPENAI_EMBEDDING_MODEL }}
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -69,15 +47,14 @@ jobs:
           printf "${{ secrets.HMAC_INVITE_SECRET }}" | vercel env add HMAC_INVITE_SECRET production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ secrets.SENDER_PWD }}" | vercel env add SENDER_PWD production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ secrets.CHECK_IN_CODE }}" | vercel env add CHECK_IN_CODE production --force --token=${{ secrets.VERCEL_TOKEN }}
-          printf "${{ secrets.GOOGLE_API_KEY }}" | vercel env add GOOGLE_API_KEY production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ secrets.OPENAI_API_KEY }}" | vercel env add OPENAI_API_KEY production --force --token=${{ secrets.VERCEL_TOKEN }}
 
           printf "${{ vars.ENV_URL }}" | vercel env add BASE_URL production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ vars.INVITE_DEADLINE }}" | vercel env add INVITE_DEADLINE production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ vars.SENDER_EMAIL }}" | vercel env add SENDER_EMAIL production --force --token=${{ secrets.VERCEL_TOKEN }}
-          printf "${{ vars.GOOGLE_MODEL }}" | vercel env add GOOGLE_MODEL production --force --token=${{ secrets.VERCEL_TOKEN }}
-          printf "${{ vars.GOOGLE_EMBEDDING_MODEL }}" | vercel env add GOOGLE_EMBEDDING_MODEL production --force --token=${{ secrets.VERCEL_TOKEN }}
-          printf "${{ vars.GOOGLE_MAX_TOKENS }}" | vercel env add GOOGLE_MAX_TOKENS production --force --token=${{ secrets.VERCEL_TOKEN }}
-          printf "google" | vercel env add HACKBOT_MODE production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.OPENAI_MODEL }}" | vercel env add OPENAI_MODEL production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.OPENAI_EMBEDDING_MODEL }}" | vercel env add OPENAI_EMBEDDING_MODEL production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.OPENAI_MAX_TOKENS }}" | vercel env add OPENAI_MAX_TOKENS production --force --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

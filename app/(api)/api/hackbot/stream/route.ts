@@ -1,8 +1,6 @@
 import { streamText } from 'ai';
-import { google } from '@ai-sdk/google';
 import { openai } from '@ai-sdk/openai';
 import { retrieveContext } from '@datalib/hackbot/getHackbotContext';
-import { HackbotMessage } from '@actions/hackbot/askHackbot';
 
 const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 10;
@@ -11,10 +9,6 @@ function parseIsoToMs(value: unknown): number | null {
   if (typeof value !== 'string') return null;
   const ms = Date.parse(value);
   return Number.isFinite(ms) ? ms : null;
-}
-
-function stripExternalDomains(text: string): string {
-  return text.replace(/https?:\/\/[^\s)]+(\/[\w#/?=&.-]*)/g, '$1');
 }
 
 export async function POST(request: Request) {
@@ -43,7 +37,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Retrieve context using adaptive retrieval
     let docs;
     try {
       ({ docs } = await retrieveContext(lastMessage.content));
@@ -141,42 +134,23 @@ export async function POST(request: Request) {
       ...messages.slice(-MAX_HISTORY_MESSAGES),
     ];
 
-    // Stream response using Vercel AI SDK
-    const mode = process.env.HACKBOT_MODE || 'google';
-    let result;
+    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '200', 10);
 
-    if (mode === 'google') {
-      const model = process.env.GOOGLE_MODEL || 'gemini-1.5-flash';
-      const maxTokens = parseInt(process.env.GOOGLE_MAX_TOKENS || '200', 10);
-
-      result = streamText({
-        model: google(model),
-        messages: chatMessages.map((m: any) => ({
-          role: m.role as 'system' | 'user' | 'assistant',
-          content: m.content,
-        })),
-        maxTokens,
-      });
-    } else {
-      // OpenAI fallback
-      const model = process.env.OPENAI_MODEL || 'gpt-4o';
-      const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '200', 10);
-
-      result = streamText({
-        model: openai(model),
-        messages: chatMessages.map((m: any) => ({
-          role: m.role as 'system' | 'user' | 'assistant',
-          content: m.content,
-        })),
-        maxTokens,
-      });
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: any = streamText({
+      model: openai(model) as any,
+      messages: chatMessages.map((m: any) => ({
+        role: m.role as 'system' | 'user' | 'assistant',
+        content: m.content,
+      })),
+      maxTokens,
+    });
 
     return result.toDataStreamResponse();
   } catch (error: any) {
     console.error('[hackbot][stream] Error', error);
 
-    // Differentiate error types
     if (error.status === 429) {
       return Response.json(
         { error: 'Too many requests. Please wait a moment and try again.' },
@@ -186,7 +160,9 @@ export async function POST(request: Request) {
 
     if (error.status === 401 || error.message?.includes('API key')) {
       return Response.json(
-        { error: 'AI service configuration error. Please contact an organizer.' },
+        {
+          error: 'AI service configuration error. Please contact an organizer.',
+        },
         { status: 500 }
       );
     }

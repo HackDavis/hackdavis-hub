@@ -1,4 +1,6 @@
 import { retrieveContext } from '@datalib/hackbot/getHackbotContext';
+import { generateText } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
 export type HackbotMessageRole = 'user' | 'assistant' | 'system';
 
@@ -30,11 +32,11 @@ async function retryWithBackoff<T>(
 
       const isRetryable =
         retryableErrors.some((code) => err.message?.includes(code)) ||
-        err.status === 429 || // Rate limit
-        err.status === 500 || // Server error
-        err.status === 502 || // Bad gateway
-        err.status === 503 || // Service unavailable
-        err.status === 504; // Gateway timeout
+        err.status === 429 ||
+        err.status === 500 ||
+        err.status === 502 ||
+        err.status === 503 ||
+        err.status === 504;
 
       if (!isRetryable || attempt === maxAttempts) {
         throw err;
@@ -93,8 +95,7 @@ function truncateToWords(text: string, maxWords: number): string {
 }
 
 function stripExternalDomains(text: string): string {
-  // Replace absolute URLs like https://hackdavis.io/path with just /path.
-  return text.replace(/https?:\/\/[^\s)]+(\/[\w#/?=&.-]*)/g, '$1');
+  return text.replace(/https?:\/\/[^\s/)]+(\S*)/g, '$1');
 }
 
 export async function askHackbot(
@@ -121,15 +122,8 @@ export async function askHackbot(
   const trimmedHistory = messages.slice(-MAX_HISTORY_MESSAGES);
 
   let docs;
-  let embeddingsUsage:
-    | {
-        promptTokens?: number;
-        totalTokens?: number;
-      }
-    | undefined;
   try {
-    // Use adaptive context retrieval - limit determined by query complexity
-    ({ docs, usage: embeddingsUsage } = await retrieveContext(last.content));
+    ({ docs } = await retrieveContext(last.content));
   } catch (e) {
     console.error('Hackbot context retrieval error', e);
     return {
@@ -149,8 +143,6 @@ export async function askHackbot(
     };
   }
 
-  // Present event context in chronological order so the model doesn't
-  // “pick a few” out of order when asked for itinerary/timeline questions.
   const sortedDocs = (() => {
     const eventDocs = docs.filter((d: any) => d.type === 'event');
     const otherDocs = docs.filter((d: any) => d.type !== 'event');
@@ -183,34 +175,26 @@ export async function askHackbot(
 
   const systemPrompt =
     'You are HackDavis Helper ("Hacky"), an AI assistant for the HackDavis hackathon. ' +
-    // CRITICAL CONSTRAINTS
     'CRITICAL: Your response MUST be under 200 tokens (~150 words). Be extremely concise. ' +
     'CRITICAL: Only answer questions about HackDavis. Refuse unrelated topics politely. ' +
     'CRITICAL: Only use facts from the provided context. Never invent times, dates, or locations. ' +
-    // PERSONALITY
     'You are friendly, helpful, and conversational. Use contractions ("you\'re", "it\'s") and avoid robotic phrasing. ' +
-    // HANDLING GREETINGS
     'For simple greetings ("hi", "hello"), respond warmly: "Hi, I\'m Hacky! I can help with questions about HackDavis." Keep it brief (1 sentence). ' +
-    // HANDLING QUESTIONS
     'For questions about HackDavis: ' +
     '1. First, silently identify the most relevant context document by matching key terms to document titles. ' +
     '2. If multiple documents seem relevant (e.g., similar event names), ask ONE short clarifying question instead of guessing. ' +
     '3. Answer directly in 2-3 sentences using only context facts. ' +
     '4. For time/location questions: Use only explicit times and locations from context. If both start and end times exist, provide the full range ("3:00 PM to 4:00 PM"). ' +
     '5. For schedule/timeline questions: Format as a bullet list, ordered chronologically. Include only items from context. ' +
-    // WHAT NOT TO DO
     'Do NOT: ' +
     '- Invent times, dates, locations, or URLs not in context. ' +
     '- Include URLs in your answer text (UI shows separate "More info" link). ' +
     '- Use generic hackathon knowledge; only use provided context. ' +
     '- Answer coding, homework, or general knowledge questions. ' +
     '- Say "based on the context" or "according to the documents" (just answer directly). ' +
-    // HANDLING UNKNOWNS
     'If you cannot find an answer in context, say: "I don\'t have that information. Please ask an organizer or check the HackDavis website." ' +
-    // REFUSING UNRELATED QUESTIONS
     'For unrelated questions (not about HackDavis), say: "Sorry, I can only answer questions about HackDavis. Do you have any questions about the event?"';
 
-  // Few-shot examples to demonstrate desired format
   const fewShotExamples = [
     {
       role: 'user' as const,
@@ -231,7 +215,6 @@ export async function askHackbot(
     },
   ];
 
-  // Prepare messages for the chat model
   const chatMessages = [
     { role: 'system', content: systemPrompt },
     ...fewShotExamples,
@@ -245,265 +228,88 @@ export async function askHackbot(
     })),
   ];
 
-  const mode = process.env.HACKBOT_MODE || 'google';
+  try {
+    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '200', 10);
 
-  if (mode === 'google') {
-    // Google AI implementation with Vercel AI SDK
-    try {
-      const { generateText } = await import('ai');
-      const { google } = await import('@ai-sdk/google');
-
-      const startedAt = Date.now();
-      const model = process.env.GOOGLE_MODEL || 'gemini-1.5-flash';
-      const maxTokens = parseInt(process.env.GOOGLE_MAX_TOKENS || '200', 10);
-
-      const { text, usage } = await retryWithBackoff(
-        () =>
-          generateText({
-            model: google(model),
-            messages: chatMessages.map((m) => ({
-              role: m.role as 'system' | 'user' | 'assistant',
-              content: m.content,
-            })),
-            maxTokens,
-          }),
-        {
-          maxAttempts: 2,
-          delayMs: 2000,
-          backoffMultiplier: 2,
-        }
-      );
-
-      console.log('[hackbot][google][chat]', {
-        model,
-        promptTokens: usage.promptTokens,
-        completionTokens: usage.completionTokens,
-        totalTokens: usage.totalTokens,
-        ms: Date.now() - startedAt,
-      });
-
-      const answer = truncateToWords(
-        stripExternalDomains(text),
-        MAX_ANSWER_WORDS
-      );
-
-      return {
-        ok: true,
-        answer,
-        url: primaryUrl,
-        usage: {
-          chat: {
-            promptTokens: usage.promptTokens,
-            completionTokens: usage.completionTokens,
-            totalTokens: usage.totalTokens,
-          },
-          embeddings: embeddingsUsage,
-        },
-      };
-    } catch (e: any) {
-      console.error('[hackbot][google] Error', e);
-
-      // Differentiate error types for better UX
-      if (e.status === 429) {
-        return {
-          ok: false,
-          answer: '',
-          error: 'Too many requests. Please wait a moment and try again.',
-        };
-      }
-
-      if (
-        e.message?.includes('ECONNREFUSED') ||
-        e.message?.includes('ETIMEDOUT')
-      ) {
-        return {
-          ok: false,
-          answer: '',
-          error:
-            'Cannot reach AI service. Please check your connection or try again later.',
-        };
-      }
-
-      if (e.status === 401 || e.message?.includes('API key')) {
-        return {
-          ok: false,
-          answer: '',
-          error:
-            'AI service configuration error. Please contact an organizer.',
-        };
-      }
-
-      return {
-        ok: false,
-        answer: '',
-        error: 'Something went wrong. Please try again in a moment.',
-      };
-    }
-  } else if (mode === 'openai') {
-    // OpenAI implementation with Vercel AI SDK
-    try {
-      const { generateText } = await import('ai');
-      const { openai } = await import('@ai-sdk/openai');
-
-      const startedAt = Date.now();
-      const model = process.env.OPENAI_MODEL || 'gpt-4o';
-      const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '200', 10);
-
-      const { text, usage } = await retryWithBackoff(
-        () =>
-          generateText({
-            model: openai(model),
-            messages: chatMessages.map((m) => ({
-              role: m.role as 'system' | 'user' | 'assistant',
-              content: m.content,
-            })),
-            maxTokens,
-          }),
-        {
-          maxAttempts: 2,
-          delayMs: 2000,
-          backoffMultiplier: 2,
-        }
-      );
-
-      console.log('[hackbot][openai][chat]', {
-        model,
-        promptTokens: usage.promptTokens,
-        completionTokens: usage.completionTokens,
-        totalTokens: usage.totalTokens,
-        ms: Date.now() - startedAt,
-      });
-
-      const answer = truncateToWords(
-        stripExternalDomains(text),
-        MAX_ANSWER_WORDS
-      );
-
-      return {
-        ok: true,
-        answer,
-        url: primaryUrl,
-        usage: {
-          chat: {
-            promptTokens: usage.promptTokens,
-            completionTokens: usage.completionTokens,
-            totalTokens: usage.totalTokens,
-          },
-          embeddings: embeddingsUsage,
-        },
-      };
-    } catch (e: any) {
-      console.error('[hackbot][openai] Error', e);
-
-      // Differentiate error types for better UX
-      if (e.status === 429) {
-        return {
-          ok: false,
-          answer: '',
-          error: 'Too many requests. Please wait a moment and try again.',
-        };
-      }
-
-      if (
-        e.message?.includes('ECONNREFUSED') ||
-        e.message?.includes('ETIMEDOUT')
-      ) {
-        return {
-          ok: false,
-          answer: '',
-          error:
-            'Cannot reach AI service. Please check your connection or try again later.',
-        };
-      }
-
-      if (e.status === 401 || e.message?.includes('API key')) {
-        return {
-          ok: false,
-          answer: '',
-          error:
-            'AI service configuration error. Please contact an organizer.',
-        };
-      }
-
-      return {
-        ok: false,
-        answer: '',
-        error: 'Something went wrong. Please try again in a moment.',
-      };
-    }
-  } else {
-    // Ollama implementation (local dev fallback)
-    const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434';
-
-    try {
-      const startedAt = Date.now();
-      const response = await fetch(`${ollamaUrl}/api/chat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'llama3.2',
-          messages: chatMessages,
-          stream: false,
+    const startedAt = Date.now();
+    const { text, usage } = await retryWithBackoff(
+      () =>
+        generateText({
+          model: openai(model) as any,
+          messages: chatMessages.map((m) => ({
+            role: m.role as 'system' | 'user' | 'assistant',
+            content: m.content,
+          })),
+          maxTokens,
         }),
-      });
-
-      if (!response.ok) {
-        return {
-          ok: false,
-          answer: '',
-          error: 'Upstream model error. Please try again later.',
-        };
+      {
+        maxAttempts: 2,
+        delayMs: 2000,
+        backoffMultiplier: 2,
       }
+    );
 
-      const data = await response.json();
-      const rawAnswer: string = data?.message?.content?.toString() ?? '';
+    console.log('[hackbot][openai][chat]', {
+      model,
+      promptTokens: usage.promptTokens,
+      completionTokens: usage.completionTokens,
+      totalTokens: usage.totalTokens,
+      ms: Date.now() - startedAt,
+    });
 
-      const promptTokens =
-        typeof data?.prompt_eval_count === 'number'
-          ? data.prompt_eval_count
-          : undefined;
-      const completionTokens =
-        typeof data?.eval_count === 'number' ? data.eval_count : undefined;
-      const totalTokens =
-        typeof promptTokens === 'number' && typeof completionTokens === 'number'
-          ? promptTokens + completionTokens
-          : undefined;
+    const answer = truncateToWords(
+      stripExternalDomains(text),
+      MAX_ANSWER_WORDS
+    );
 
-      console.log('[hackbot][ollama][chat]', {
-        model: data?.model ?? 'unknown',
-        promptTokens,
-        completionTokens,
-        totalTokens,
-        ms: Date.now() - startedAt,
-      });
-
-      const answer = truncateToWords(
-        stripExternalDomains(rawAnswer),
-        MAX_ANSWER_WORDS
-      );
-
-      return {
-        ok: true,
-        answer,
-        url: primaryUrl,
-        usage: {
-          chat: {
-            promptTokens,
-            completionTokens,
-            totalTokens,
-          },
-          embeddings: embeddingsUsage,
+    return {
+      ok: true,
+      answer,
+      url: primaryUrl,
+      usage: {
+        chat: {
+          promptTokens: usage.promptTokens,
+          completionTokens: usage.completionTokens,
+          totalTokens: usage.totalTokens,
         },
-      };
-    } catch (e) {
-      console.error('[hackbot][ollama] Error', e);
+      },
+    };
+  } catch (e: any) {
+    console.error('[hackbot][openai] Error', e);
+
+    if (e.status === 429) {
       return {
         ok: false,
         answer: '',
-        error: 'Something went wrong. Please try again later.',
+        error: 'Too many requests. Please wait a moment and try again.',
       };
     }
+
+    if (
+      e.message?.includes('ECONNREFUSED') ||
+      e.message?.includes('ETIMEDOUT')
+    ) {
+      return {
+        ok: false,
+        answer: '',
+        error:
+          'Cannot reach AI service. Please check your connection or try again later.',
+      };
+    }
+
+    if (e.status === 401 || e.message?.includes('API key')) {
+      return {
+        ok: false,
+        answer: '',
+        error: 'AI service configuration error. Please contact an organizer.',
+      };
+    }
+
+    return {
+      ok: false,
+      answer: '',
+      error: 'Something went wrong. Please try again in a moment.',
+    };
   }
 }

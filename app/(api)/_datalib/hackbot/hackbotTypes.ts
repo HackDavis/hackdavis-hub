@@ -1,4 +1,10 @@
-export type HackDocType = 'event' | 'track' | 'judging' | 'submission';
+export type HackDocType =
+  | 'event'
+  | 'track'
+  | 'judging'
+  | 'submission'
+  | 'faq'
+  | 'general';
 
 export interface HackDoc {
   id: string;
