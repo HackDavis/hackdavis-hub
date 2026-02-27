@@ -54,9 +54,7 @@ export default function HackbotMessageList({
               idx === messages.length - 1)) && (
             <div
               className={`max-w-[88%] rounded-2xl px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap ${
-                m.role === 'user'
-                  ? 'rounded-br-sm'
-                  : 'rounded-bl-sm border'
+                m.role === 'user' ? 'rounded-br-sm' : 'rounded-bl-sm border'
               }`}
               style={
                 m.role === 'user'
@@ -101,11 +99,7 @@ export default function HackbotMessageList({
           {m.events && m.events.length > 0 && (
             <div className="w-full space-y-1.5">
               {m.events.map((ev) => (
-                <HackbotEventCard
-                  key={ev.id}
-                  event={ev}
-                  userId={userId}
-                />
+                <HackbotEventCard key={ev.id} event={ev} userId={userId} />
               ))}
             </div>
           )}

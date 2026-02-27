@@ -3,7 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { RxCross1 } from 'react-icons/rx';
-import type { HackerProfile, HackbotEvent, HackbotChatMessage } from '@typeDefs/hackbot';
+import type {
+  HackerProfile,
+  HackbotEvent,
+  HackbotChatMessage,
+} from '@typeDefs/hackbot';
 import HackbotHeader from './HackbotHeader';
 import HackbotMessageList from './HackbotMessageList';
 import HackbotInputForm from './HackbotInputForm';

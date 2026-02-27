@@ -53,11 +53,7 @@ export default function HackbotInputForm({
           {loading ? (
             <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
           ) : (
-            <svg
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4"
-            >
+            <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
               <path d="M1.5 1.5l13 6.5-13 6.5V9.5l9-3-9-3V1.5z" />
             </svg>
           )}

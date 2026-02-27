@@ -4,10 +4,7 @@ import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { retryWithBackoff } from '@utils/hackbot/retryWithBackoff';
-import {
-  parseRawDate,
-  formatEventDateTime,
-} from '@utils/hackbot/eventFormatting';
+import { formatEventDateTime } from '@utils/hackbot/eventFormatting';
 import type {
   HackbotMessage,
   HackbotMessageRole,
