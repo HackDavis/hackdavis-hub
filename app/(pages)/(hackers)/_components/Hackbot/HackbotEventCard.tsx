@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { HiLocationMarker } from 'react-icons/hi';
+import { PiStarFourFill } from 'react-icons/pi';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
 import type { HackbotEvent } from './HackbotWidget';
 
@@ -21,6 +23,9 @@ const TAG_LABEL: Record<string, string> = {
   other: 'Other',
 };
 
+// Only show Add button for event types that make sense to save
+const ADDABLE_TYPES = new Set(['WORKSHOPS', 'ACTIVITIES']);
+
 export default function HackbotEventCard({
   event,
   userId,
@@ -37,7 +42,8 @@ export default function HackbotEventCard({
     setAdding(true);
     setAddError(false);
     try {
-      await createUserToEvent(userId, event.id);
+      const result = await createUserToEvent(userId, event.id);
+      if (!result.ok) throw new Error(result.error ?? 'Failed');
       setAdded(true);
     } catch {
       setAddError(true);
@@ -46,6 +52,7 @@ export default function HackbotEventCard({
   };
 
   const style = TYPE_STYLE[event.type ?? ''];
+  const canAdd = userId && ADDABLE_TYPES.has(event.type ?? '');
 
   return (
     <div
@@ -77,13 +84,16 @@ export default function HackbotEventCard({
         style={{ color: style?.text ?? '#003D3D' }}
       >
         {event.start && (
-          <p className="text-[10px] opacity-80">
-            🕐 {event.start}
+          <p className="text-[10px] opacity-80 flex items-center gap-1">
+            {event.start}
             {event.end ? ` – ${event.end}` : ''}
           </p>
         )}
         {event.location && (
-          <p className="text-[10px] opacity-80 truncate">📍 {event.location}</p>
+          <p className="text-[10px] opacity-80 flex items-center gap-1 truncate">
+            <HiLocationMarker className="shrink-0 w-3 h-3" />
+            <span className="truncate">{event.location}</span>
+          </p>
         )}
         {event.host && (
           <p className="text-[10px] opacity-60 truncate">
@@ -112,8 +122,12 @@ export default function HackbotEventCard({
 
         {/* Recommended badge */}
         {event.isRecommended && (
-          <p className="text-[9px] font-semibold" style={{ color: '#A07000' }}>
-            ⭐ Recommended for you
+          <p
+            className="text-[9px] font-semibold flex items-center gap-1"
+            style={{ color: '#A07000' }}
+          >
+            <PiStarFourFill className="w-3 h-3" />
+            Recommended for you
           </p>
         )}
 
@@ -126,7 +140,7 @@ export default function HackbotEventCard({
           >
             View Schedule →
           </a>
-          {userId && (
+          {canAdd && (
             <button
               type="button"
               onClick={handleAdd}

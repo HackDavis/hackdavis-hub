@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { getUser } from '@actions/users/getUser';
+import { RxCross1 } from 'react-icons/rx';
+import { HackerProfile } from '@actions/hackbot/getHackerProfile';
 import HackbotEventCard from './HackbotEventCard';
 
 /** Renders a single line, converting **bold** and *italic* to JSX. */
@@ -59,15 +60,12 @@ export type HackbotChatMessage = {
   events?: HackbotEvent[];
 };
 
-type HackerProfile = {
-  name?: string;
-  position?: string;
-  is_beginner?: boolean;
-};
 
 const MAX_USER_MESSAGE_CHARS = 200;
 const STORAGE_KEY = 'hackbot_chat_history';
 const MAX_STORED_MESSAGES = 20;
+const MIN_WIDTH = 360;
+const MAX_WIDTH_FRACTION = 0.5;
 
 const SUGGESTION_CHIPS = [
   'What workshops are today?',
@@ -75,11 +73,22 @@ const SUGGESTION_CHIPS = [
   'What tracks can I enter?',
 ];
 
-export default function HackbotWidget({ userId }: { userId: string }) {
+export default function HackbotWidget({
+  userId,
+  initialProfile,
+}: {
+  userId: string;
+  initialProfile: HackerProfile | null;
+}) {
   const pathname = usePathname();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const isResizing = useRef(false);
+  const resizeStartX = useRef(0);
+  const resizeStartWidth = useRef(0);
 
   const [open, setOpen] = useState(false);
+  const [panelWidth, setPanelWidth] = useState<number | null>(null);
   const [messages, setMessages] = useState<HackbotChatMessage[]>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -97,25 +106,7 @@ export default function HackbotWidget({ userId }: { userId: string }) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [hackerProfile, setHackerProfile] = useState<HackerProfile | null>(
-    null
-  );
-
-  // Fetch hacker profile once on mount
-  useEffect(() => {
-    if (!userId) return;
-    getUser(userId)
-      .then((u) => {
-        if (u) {
-          setHackerProfile({
-            name: u.name,
-            position: u.position,
-            is_beginner: u.is_beginner,
-          });
-        }
-      })
-      .catch(() => {});
-  }, [userId]);
+  const [hackerProfile] = useState<HackerProfile | null>(initialProfile);
 
   // Persist messages to localStorage
   useEffect(() => {
@@ -138,15 +129,38 @@ export default function HackbotWidget({ userId }: { userId: string }) {
     }
   }, [messages, open]);
 
+  // Resize drag handlers
+  const onResizeMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    isResizing.current = true;
+    resizeStartX.current = e.clientX;
+    resizeStartWidth.current = panelRef.current?.offsetWidth ?? MIN_WIDTH;
+
+    const onMouseMove = (ev: MouseEvent) => {
+      if (!isResizing.current) return;
+      const delta = resizeStartX.current - ev.clientX;
+      const maxWidth = window.innerWidth * MAX_WIDTH_FRACTION;
+      const next = Math.min(
+        Math.max(resizeStartWidth.current + delta, MIN_WIDTH),
+        maxWidth
+      );
+      setPanelWidth(next);
+    };
+
+    const onMouseUp = () => {
+      isResizing.current = false;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }, []);
+
   const canSend =
     !loading &&
     input.trim().length > 0 &&
     input.trim().length <= MAX_USER_MESSAGE_CHARS;
-
-  const clearHistory = () => {
-    setMessages([]);
-    if (typeof window !== 'undefined') localStorage.removeItem(STORAGE_KEY);
-  };
 
   const toggleOpen = () => {
     setOpen((prev) => !prev);
@@ -181,7 +195,6 @@ export default function HackbotWidget({ userId }: { userId: string }) {
             { role: 'user', content: userMessage.content },
           ],
           currentPath: pathname + window.location.hash,
-          hackerProfile: hackerProfile ?? undefined,
         }),
       });
 
@@ -234,9 +247,19 @@ export default function HackbotWidget({ userId }: { userId: string }) {
                     if (r.result?.events?.length > 0) {
                       setMessages((prev) => {
                         const updated = [...prev];
+                        const last = updated[updated.length - 1];
+                        // Merge events across multiple tool calls (e.g. WORKSHOPS + ACTIVITIES)
+                        const existing = last.events ?? [];
+                        const incoming = r.result.events as HackbotEvent[];
+                        const merged = [
+                          ...existing,
+                          ...incoming.filter(
+                            (e) => !existing.some((x) => x.id === e.id)
+                          ),
+                        ];
                         updated[updated.length - 1] = {
-                          ...updated[updated.length - 1],
-                          events: r.result.events as HackbotEvent[],
+                          ...last,
+                          events: merged,
                         };
                         return updated;
                       });
@@ -267,14 +290,27 @@ export default function HackbotWidget({ userId }: { userId: string }) {
 
   const firstName = hackerProfile?.name?.split(' ')[0];
 
+  const panelStyle =
+    panelWidth !== null ? { width: `${panelWidth}px` } : undefined;
+
   return (
     <div className="fixed bottom-4 right-0 sm:right-4 z-50 flex flex-col items-end gap-2">
       {/* Chat panel */}
       {open && (
         <div
-          className="w-screen sm:w-[min(30vw,420px)] sm:min-w-[360px] max-h-[calc(100svh-5rem)] sm:max-h-[600px] rounded-none sm:rounded-2xl border-t sm:border border-[#9EE7E5] bg-[#FAFAFF] shadow-xl shadow-[#005271]/10 flex flex-col overflow-hidden"
-          style={{ fontFamily: 'var(--font-plus-jakarta-sans, sans-serif)' }}
+          ref={panelRef}
+          className="w-screen sm:w-[min(30vw,420px)] sm:min-w-[360px] max-h-[calc(100svh-5rem)] sm:max-h-[600px] rounded-none sm:rounded-2xl border-t sm:border border-[#9EE7E5] bg-[#FAFAFF] shadow-xl shadow-[#005271]/10 flex flex-col overflow-hidden relative"
+          style={{
+            fontFamily: 'var(--font-plus-jakarta-sans, sans-serif)',
+            ...panelStyle,
+          }}
         >
+          {/* Resize handle — left edge, desktop only */}
+          <div
+            className="absolute left-0 top-0 bottom-0 w-1.5 cursor-ew-resize hidden sm:block hover:bg-[#9EE7E5]/50 transition-colors z-10"
+            onMouseDown={onResizeMouseDown}
+          />
+
           {/* Header */}
           <header
             className="flex items-center justify-between px-4 py-3 shrink-0"
@@ -288,25 +324,14 @@ export default function HackbotWidget({ userId }: { userId: string }) {
                   : 'Ask me anything about HackDavis!'}
               </p>
             </div>
-            <div className="flex items-center gap-1.5">
-              {messages.length > 0 && (
-                <button
-                  type="button"
-                  onClick={clearHistory}
-                  title="Clear chat history"
-                  className="h-7 w-7 rounded-full flex items-center justify-center text-[11px] text-white hover:bg-white/10 transition-colors"
-                >
-                  🗑️
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={toggleOpen}
-                className="h-7 w-7 rounded-full flex items-center justify-center text-white text-sm font-bold hover:bg-white/10 transition-colors"
-              >
-                ✕
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={toggleOpen}
+              className="h-7 w-7 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+              aria-label="Close chat"
+            >
+              <RxCross1 className="w-3.5 h-3.5" />
+            </button>
           </header>
 
           {/* Messages */}
@@ -475,15 +500,7 @@ export default function HackbotWidget({ userId }: { userId: string }) {
         aria-label="Open HackDavis Helper chat"
       >
         {open ? (
-          <svg viewBox="0 0 16 16" fill="currentColor" className="w-5 h-5">
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              fill="none"
-            />
-          </svg>
+          <RxCross1 className="w-5 h-5" />
         ) : (
           <span className="text-xs font-extrabold tracking-tight">HD</span>
         )}
