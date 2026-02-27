@@ -7,6 +7,26 @@ import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 10;
 
+const PATH_CONTEXT_MAP: Record<string, string> = {
+  '/': 'the Hub homepage (announcements, prize tracks, mentor/director help, Discord)',
+  '/#prize-tracks': 'the Prize Tracks section of the Hub homepage',
+  '/#discord': 'the Discord / Stay Up To Date section of the Hub homepage',
+  '/#mentor-help': 'the Mentor & Director Help section of the Hub homepage',
+  '/project-info':
+    'the Project Info page (submission process and judging process)',
+  '/project-info#submission':
+    'the Submission Process tab of the Project Info page',
+  '/project-info#judging': 'the Judging Process tab of the Project Info page',
+  '/starter-kit':
+    'the Starter Kit page (beginner resources, team formation, brainstorming)',
+  '/schedule': 'the Schedule page',
+};
+
+function getPageContext(currentPath: string | undefined): string | null {
+  if (!currentPath) return null;
+  return PATH_CONTEXT_MAP[currentPath] ?? null;
+}
+
 function formatEventDateTime(raw: unknown): string | null {
   let date: Date | null = null;
   if (raw instanceof Date) {
@@ -27,15 +47,9 @@ function formatEventDateTime(raw: unknown): string | null {
   });
 }
 
-function parseIsoToMs(value: unknown): number | null {
-  if (typeof value !== 'string') return null;
-  const ms = Date.parse(value);
-  return Number.isFinite(ms) ? ms : null;
-}
-
 export async function POST(request: Request) {
   try {
-    const { messages } = await request.json();
+    const { messages, currentPath } = await request.json();
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return Response.json({ error: 'Invalid request' }, { status: 400 });
@@ -83,8 +97,12 @@ export async function POST(request: Request) {
             .join('\n\n')
         : 'No additional knowledge context found.';
 
+    const pageContext = getPageContext(currentPath);
     const systemPrompt =
       'You are HackDavis Helper ("Hacky"), an AI assistant for the HackDavis hackathon. ' +
+      (pageContext
+        ? `The user is currently viewing: ${pageContext}. Use this to give more relevant answers. `
+        : '') +
       'CRITICAL: Your response MUST be under 200 tokens (~150 words). Be extremely concise. ' +
       'CRITICAL: Only answer questions about HackDavis. Refuse unrelated topics politely. ' +
       'CRITICAL: Only use facts from the provided context or tool results. Never invent times, dates, or locations. ' +

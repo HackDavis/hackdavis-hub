@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Button } from '@pages/_globals/components/ui/button';
 
 export type HackbotChatMessage = {
@@ -14,6 +15,7 @@ const STORAGE_KEY = 'hackbot_chat_history';
 const MAX_STORED_MESSAGES = 20;
 
 export default function HackbotWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<HackbotChatMessage[]>(() => {
     // Load from localStorage on mount
@@ -96,6 +98,7 @@ export default function HackbotWidget() {
             ...messages.map((m) => ({ role: m.role, content: m.content })),
             { role: 'user', content: userMessage.content },
           ],
+          currentPath: pathname + window.location.hash,
         }),
       });
 
@@ -109,32 +112,36 @@ export default function HackbotWidget() {
       let accumulatedText = '';
 
       if (reader) {
-        while (true) {
+        let keepReading = true;
+        while (keepReading) {
+          // eslint-disable-next-line no-await-in-loop
           const { done, value } = await reader.read();
-          if (done) break;
+          if (done) {
+            keepReading = false;
+          } else {
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
 
-          const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split('\n');
+            for (const line of lines) {
+              if (line.startsWith('0:')) {
+                // Vercel AI SDK data stream format
+                const content = line
+                  .slice(2)
+                  .trim()
+                  .replace(/^"(.*)"$/, '$1');
+                if (content) {
+                  accumulatedText += content;
 
-          for (const line of lines) {
-            if (line.startsWith('0:')) {
-              // Vercel AI SDK data stream format
-              const content = line
-                .slice(2)
-                .trim()
-                .replace(/^"(.*)"$/, '$1');
-              if (content) {
-                accumulatedText += content;
-
-                // Update the last message with accumulated text
-                setMessages((prev) => {
-                  const updated = [...prev];
-                  updated[updated.length - 1] = {
-                    ...updated[updated.length - 1],
-                    content: accumulatedText,
-                  };
-                  return updated;
-                });
+                  // Update the last message with accumulated text
+                  setMessages((prev) => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = {
+                      ...updated[updated.length - 1],
+                      content: accumulatedText,
+                    };
+                    return updated;
+                  });
+                }
               }
             }
           }
