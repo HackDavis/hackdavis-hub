@@ -1,12 +1,9 @@
 'use server';
 
 import { auth } from '@/auth';
+import type { HackerProfile } from '@typeDefs/hackbot';
 
-export type HackerProfile = {
-  name?: string;
-  position?: string;
-  is_beginner?: boolean;
-};
+export type { HackerProfile };
 
 export async function getHackerProfile(): Promise<HackerProfile | null> {
   const session = await auth();

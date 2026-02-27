@@ -1,6 +1,6 @@
 import { auth } from '@/auth';
 import HackbotWidgetWrapper from './_components/Hackbot/HackbotWidgetWrapper';
-import { HackerProfile } from '@actions/hackbot/getHackerProfile';
+import type { HackerProfile } from '@typeDefs/hackbot';
 
 export default async function HackersLayout({
   children,

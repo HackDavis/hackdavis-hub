@@ -1,7 +1,7 @@
 'use server';
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { HackDocType } from '@datalib/hackbot/hackbotTypes';
+import { HackDocType } from '@typeDefs/hackbot';
 
 export interface KnowledgeDoc {
   id: string;

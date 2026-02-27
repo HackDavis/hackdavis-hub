@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { askHackbot, HackbotMessage } from '@actions/hackbot/askHackbot';
+import type { HackbotMessage } from '@typeDefs/hackbot';
 
 export async function POST(request: NextRequest) {
   try {

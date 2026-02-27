@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { HiLocationMarker } from 'react-icons/hi';
 import { PiStarFourFill } from 'react-icons/pi';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
-import type { HackbotEvent } from './HackbotWidget';
+import type { HackbotEvent } from '@typeDefs/hackbot';
 
 // Matches scheduleEventStyles.ts
 const TYPE_STYLE: Record<string, { bg: string; text: string; label: string }> =

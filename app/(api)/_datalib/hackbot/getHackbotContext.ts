@@ -1,4 +1,4 @@
-import { HackDoc, HackDocType } from './hackbotTypes';
+import { HackDoc, HackDocType } from '@typeDefs/hackbot';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { embedText } from '@utils/hackbot/embedText';
 

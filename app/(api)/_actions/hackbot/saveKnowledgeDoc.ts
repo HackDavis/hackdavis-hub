@@ -3,7 +3,7 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { ObjectId } from 'mongodb';
 import { embedText } from '@utils/hackbot/embedText';
-import { HackDocType } from '@datalib/hackbot/hackbotTypes';
+import { HackDocType } from '@typeDefs/hackbot';
 
 export interface SaveKnowledgeDocInput {
   id?: string; // If provided, update existing; otherwise create new

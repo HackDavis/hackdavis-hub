@@ -1,11 +1,8 @@
 'use client';
 
 import useHackbotKnowledge from '../../_hooks/useHackbotKnowledge';
-import {
-  TYPE_LABELS,
-  TYPE_COLORS,
-} from '../../_contexts/HackbotKnowledgeContext';
-import { HackDocType } from '@datalib/hackbot/hackbotTypes';
+import { TYPE_LABELS, TYPE_COLORS } from '../../_constants/hackbotKnowledge';
+import type { HackDocType } from '@typeDefs/hackbot';
 
 export default function KnowledgeImportPreview() {
   const { importPreview, isImporting, handleImport, cancelImport } =

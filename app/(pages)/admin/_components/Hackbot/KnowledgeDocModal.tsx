@@ -6,7 +6,7 @@ import {
   DOC_TYPES,
   TYPE_LABELS,
 } from '../../_contexts/HackbotKnowledgeContext';
-import { HackDocType } from '@datalib/hackbot/hackbotTypes';
+import type { HackDocType } from '@typeDefs/hackbot';
 
 export default function KnowledgeDocModal() {
   const {

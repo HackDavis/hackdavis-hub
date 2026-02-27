@@ -2,7 +2,7 @@
 
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { embedText } from '@utils/hackbot/embedText';
-import { HackDocType } from '@datalib/hackbot/hackbotTypes';
+import { HackDocType } from '@typeDefs/hackbot';
 
 export interface ImportDocInput {
   type: HackDocType;

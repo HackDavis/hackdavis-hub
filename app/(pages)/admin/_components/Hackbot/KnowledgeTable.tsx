@@ -1,10 +1,7 @@
 'use client';
 
 import useHackbotKnowledge from '../../_hooks/useHackbotKnowledge';
-import {
-  TYPE_LABELS,
-  TYPE_COLORS,
-} from '../../_contexts/HackbotKnowledgeContext';
+import { TYPE_LABELS, TYPE_COLORS } from '../../_constants/hackbotKnowledge';
 
 export default function KnowledgeTable() {
   const { docs, isDeleting, deletingId, openEdit, handleDelete } =

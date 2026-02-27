@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { retrieveContext } from '@datalib/hackbot/getHackbotContext';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 import { auth } from '@/auth';
+import type { HackerProfile } from '@typeDefs/hackbot';
 
 const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 10;

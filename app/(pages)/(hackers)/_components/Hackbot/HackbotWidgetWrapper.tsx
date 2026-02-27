@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import HackbotWidget from './HackbotWidget';
-import { HackerProfile } from '@actions/hackbot/getHackerProfile';
+import type { HackerProfile } from '@typeDefs/hackbot';
 
 export default function HackbotWidgetWrapper({
   initialProfile,
