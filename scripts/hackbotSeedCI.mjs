@@ -27,60 +27,6 @@ async function embedText(text) {
   return data.data[0].embedding;
 }
 
-function formatEventDateTime(raw) {
-  const iso =
-    typeof raw === 'string' ? raw : raw && raw.$date ? raw.$date : undefined;
-
-  if (!iso) return null;
-
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return null;
-
-  return date.toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
-}
-
-function buildDocsFromEvents(events) {
-  if (!Array.isArray(events)) return [];
-
-  return events.map((ev) => {
-    const id = String(ev._id?.$oid || ev._id || ev.name);
-    const title = String(ev.name || 'Event');
-
-    const start = formatEventDateTime(ev.start_time);
-    const end = formatEventDateTime(ev.end_time);
-    const location = ev.location || '';
-    const host = ev.host || '';
-    const type = ev.type || '';
-
-    const parts = [
-      `Event: ${title}`,
-      type ? `Type: ${type}` : '',
-      start ? `Starts (Pacific Time): ${start}` : '',
-      end ? `Ends (Pacific Time): ${end}` : '',
-      location ? `Location: ${location}` : '',
-      host ? `Host: ${host}` : '',
-      Array.isArray(ev.tags) && ev.tags.length
-        ? `Tags: ${ev.tags.join(', ')}`
-        : '',
-    ].filter(Boolean);
-
-    return {
-      _id: `event-${id}`,
-      type: 'event',
-      title,
-      text: parts.join('\n'),
-      url: '/hackers/hub/schedule',
-    };
-  });
-}
-
 async function seedHackbotDocs() {
   if (!OPENAI_API_KEY) {
     console.error('[hackbotSeedCI] OPENAI_API_KEY is not set');
@@ -103,23 +49,11 @@ async function seedHackbotDocs() {
   const db = client.db();
   const collection = db.collection(HACKBOT_COLLECTION);
 
-  // Always wipe in CI to ensure clean state
-  await collection.deleteMany({});
-  console.log(`[hackbotSeedCI] Wiped collection: ${HACKBOT_COLLECTION}`);
+  // Wipe only knowledge docs (not event docs — events are served live via tool calls)
+  await collection.deleteMany({ _id: { $regex: '^knowledge-' } });
+  console.log(`[hackbotSeedCI] Wiped knowledge docs from: ${HACKBOT_COLLECTION}`);
 
-  // Load events from live collection
-  let events = [];
-  try {
-    events = await db.collection('events').find({}).toArray();
-    console.log(`[hackbotSeedCI] Loaded ${events.length} events from database`);
-  } catch (err) {
-    console.warn(
-      '[hackbotSeedCI] Failed to load events:',
-      err.message
-    );
-  }
-
-  // Load static knowledge docs from hackbot_knowledge collection
+  // Load knowledge docs from hackbot_knowledge collection
   let knowledgeDocs = [];
   try {
     knowledgeDocs = await db.collection('hackbot_knowledge').find({}).toArray();
@@ -133,24 +67,21 @@ async function seedHackbotDocs() {
     );
   }
 
-  const eventDocs = buildDocsFromEvents(events);
+  if (knowledgeDocs.length === 0) {
+    console.warn(
+      '[hackbotSeedCI] No knowledge docs to seed. Add docs via the admin panel at /admin/hackbot.'
+    );
+    await client.close();
+    return;
+  }
 
-  // Convert knowledge docs to hackbot_docs format
-  const staticDocs = knowledgeDocs.map((doc) => ({
+  const docs = knowledgeDocs.map((doc) => ({
     _id: `knowledge-${String(doc._id)}`,
     type: doc.type,
     title: doc.title,
     text: doc.content,
     url: doc.url || null,
   }));
-
-  const docs = [...eventDocs, ...staticDocs];
-
-  if (docs.length === 0) {
-    console.warn('[hackbotSeedCI] No docs to seed. Exiting.');
-    await client.close();
-    return;
-  }
 
   console.log(
     `[hackbotSeedCI] Preparing to embed and upsert ${docs.length} docs`

@@ -1,6 +1,8 @@
 import { retrieveContext } from '@datalib/hackbot/getHackbotContext';
-import { generateText } from 'ai';
+import { generateText, tool } from 'ai';
 import { openai } from '@ai-sdk/openai';
+import { z } from 'zod';
+import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 
 export type HackbotMessageRole = 'user' | 'assistant' | 'system';
 
@@ -98,6 +100,75 @@ function stripExternalDomains(text: string): string {
   return text.replace(/https?:\/\/[^\s/)]+(\S*)/g, '$1');
 }
 
+function formatEventDateTimeForTool(raw: unknown): string | null {
+  let date: Date | null = null;
+  if (raw instanceof Date) {
+    date = raw;
+  } else if (typeof raw === 'string') {
+    date = new Date(raw);
+  } else if (raw && typeof raw === 'object' && '$date' in (raw as any)) {
+    date = new Date((raw as any).$date);
+  }
+  if (!date || Number.isNaN(date.getTime())) return null;
+  return date.toLocaleString('en-US', {
+    timeZone: 'America/Los_Angeles',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+const getEventsTool = tool({
+  description:
+    'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
+  parameters: z.object({
+    type: z
+      .string()
+      .optional()
+      .describe(
+        'Optional event type filter (e.g. "workshop", "meal", "ceremony")'
+      ),
+  }),
+  execute: async ({ type }) => {
+    try {
+      const db = await getDatabase();
+      const query = type ? { type: { $regex: type, $options: 'i' } } : {};
+      const events = await db
+        .collection('events')
+        .find(query)
+        .sort({ start_time: 1 })
+        .toArray();
+
+      if (!events.length) {
+        return { events: [], message: 'No events found.' };
+      }
+
+      const formatted = events.map((ev: any) => ({
+        name: String(ev.name || 'Event'),
+        type: ev.type || null,
+        start: formatEventDateTimeForTool(ev.start_time),
+        end: formatEventDateTimeForTool(ev.end_time),
+        location: ev.location || null,
+        host: ev.host || null,
+        tags: Array.isArray(ev.tags) ? ev.tags : [],
+      }));
+
+      console.log(
+        `[hackbot][askHackbot][tool] get_events returned ${formatted.length} events`
+      );
+      return { events: formatted };
+    } catch (e) {
+      console.error('[hackbot][askHackbot][tool] get_events error', e);
+      return {
+        events: [],
+        message: 'Could not fetch events. Please check the schedule page.',
+      };
+    }
+  },
+});
+
 export async function askHackbot(
   messages: HackbotMessage[]
 ): Promise<HackbotResponse> {
@@ -134,66 +205,42 @@ export async function askHackbot(
     };
   }
 
-  if (!docs || docs.length === 0) {
-    return {
-      ok: false,
-      answer: '',
-      error:
-        'HackDavis Helper could not find any context documents in its vector index. Please contact an organizer.',
-    };
-  }
+  const contextSummary =
+    docs && docs.length > 0
+      ? docs
+          .map((d, index) => {
+            const header = `${index + 1}) [type=${d.type}, title="${d.title}"${
+              d.url ? `, url="${d.url}"` : ''
+            }]`;
+            return `${header}\n${d.text}`;
+          })
+          .join('\n\n')
+      : 'No additional knowledge context found.';
 
-  const sortedDocs = (() => {
-    const eventDocs = docs.filter((d: any) => d.type === 'event');
-    const otherDocs = docs.filter((d: any) => d.type !== 'event');
-
-    eventDocs.sort((a: any, b: any) => {
-      const aMs = parseIsoToMs(a.startISO);
-      const bMs = parseIsoToMs(b.startISO);
-
-      if (aMs === null && bMs === null) return 0;
-      if (aMs === null) return 1;
-      if (bMs === null) return -1;
-      return aMs - bMs;
-    });
-
-    return [...eventDocs, ...otherDocs];
-  })();
-
-  const primaryUrl =
-    sortedDocs.find((d) => d.type === 'event' && d.url)?.url ??
-    sortedDocs.find((d) => d.url)?.url;
-
-  const contextSummary = sortedDocs
-    .map((d, index) => {
-      const header = `${index + 1}) [type=${d.type}, title="${d.title}"${
-        d.url ? `, url="${d.url}"` : ''
-      }]`;
-      return `${header}\n${d.text}`;
-    })
-    .join('\n\n');
+  const primaryUrl = docs?.find((d) => d.url)?.url;
 
   const systemPrompt =
     'You are HackDavis Helper ("Hacky"), an AI assistant for the HackDavis hackathon. ' +
     'CRITICAL: Your response MUST be under 200 tokens (~150 words). Be extremely concise. ' +
     'CRITICAL: Only answer questions about HackDavis. Refuse unrelated topics politely. ' +
-    'CRITICAL: Only use facts from the provided context. Never invent times, dates, or locations. ' +
+    'CRITICAL: Only use facts from the provided context or tool results. Never invent times, dates, or locations. ' +
     'You are friendly, helpful, and conversational. Use contractions ("you\'re", "it\'s") and avoid robotic phrasing. ' +
     'For simple greetings ("hi", "hello"), respond warmly: "Hi, I\'m Hacky! I can help with questions about HackDavis." Keep it brief (1 sentence). ' +
-    'For questions about HackDavis: ' +
-    '1. First, silently identify the most relevant context document by matching key terms to document titles. ' +
-    '2. If multiple documents seem relevant (e.g., similar event names), ask ONE short clarifying question instead of guessing. ' +
-    '3. Answer directly in 2-3 sentences using only context facts. ' +
-    '4. For time/location questions: Use only explicit times and locations from context. If both start and end times exist, provide the full range ("3:00 PM to 4:00 PM"). ' +
-    '5. For schedule/timeline questions: Format as a bullet list, ordered chronologically. Include only items from context. ' +
+    'For event/schedule questions (times, locations, when something starts/ends): ' +
+    '  - ALWAYS call the get_events tool to get the latest schedule. Do not guess or use cached knowledge. ' +
+    'For questions about HackDavis rules, submission, judging, tracks, or general info: ' +
+    '  - Use the knowledge context below. ' +
+    'When answering: ' +
+    '1. Answer directly in 2-3 sentences using only facts from context or tool results. ' +
+    '2. For time/location questions: provide the full range if both start and end times exist. ' +
+    '3. For schedule questions: format as a bullet list, ordered chronologically. ' +
     'Do NOT: ' +
-    '- Invent times, dates, locations, or URLs not in context. ' +
-    '- Include URLs in your answer text (UI shows separate "More info" link). ' +
-    '- Use generic hackathon knowledge; only use provided context. ' +
+    '- Invent times, dates, locations, or URLs. ' +
+    '- Include URLs in your answer text (UI shows a separate "More info" link). ' +
     '- Answer coding, homework, or general knowledge questions. ' +
     '- Say "based on the context" or "according to the documents" (just answer directly). ' +
-    'If you cannot find an answer in context, say: "I don\'t have that information. Please ask an organizer or check the HackDavis website." ' +
-    'For unrelated questions (not about HackDavis), say: "Sorry, I can only answer questions about HackDavis. Do you have any questions about the event?"';
+    'If you cannot find an answer, say: "I don\'t have that information. Please ask an organizer or check the HackDavis website." ' +
+    'For unrelated questions, say: "Sorry, I can only answer questions about HackDavis. Do you have any questions about the event?"';
 
   const fewShotExamples = [
     {
@@ -220,7 +267,7 @@ export async function askHackbot(
     ...fewShotExamples,
     {
       role: 'system',
-      content: `Context documents about HackDavis (use these to answer):\n\n${contextSummary}`,
+      content: `Knowledge context about HackDavis (rules, submission, judging, tracks, general info):\n\n${contextSummary}`,
     },
     ...trimmedHistory.map((m) => ({
       role: m.role,
@@ -242,6 +289,8 @@ export async function askHackbot(
             content: m.content,
           })),
           maxTokens,
+          maxSteps: 5,
+          tools: { get_events: getEventsTool },
         }),
       {
         maxAttempts: 2,

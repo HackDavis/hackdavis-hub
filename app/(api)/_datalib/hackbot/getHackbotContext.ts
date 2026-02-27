@@ -1,6 +1,5 @@
 import { HackDoc, HackDocType } from './hackbotTypes';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
-import { ObjectId } from 'mongodb';
 import { embedText } from '@utils/hackbot/embedText';
 
 export interface RetrievedContext {
@@ -102,76 +101,6 @@ function analyzeQueryComplexity(query: string): QueryComplexity {
   return { type: 'moderate', docLimit: 15, reason: 'specific detail query' };
 }
 
-function formatEventDateTime(raw: unknown): string | null {
-  let date: Date | null = null;
-
-  if (raw instanceof Date) {
-    date = raw;
-  } else if (typeof raw === 'string') {
-    date = new Date(raw);
-  } else if (raw && typeof raw === 'object' && '$date' in (raw as any)) {
-    date = new Date((raw as any).$date);
-  }
-
-  if (!date || Number.isNaN(date.getTime())) return null;
-
-  return date.toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
-}
-
-function formatLiveEventDoc(event: any): {
-  title: string;
-  text: string;
-  url: string;
-  startISO?: string;
-  endISO?: string;
-} {
-  const title = String(event?.name || 'Event');
-  const type = event?.type ? String(event.type) : '';
-  const start = formatEventDateTime(event?.start_time);
-  const end = formatEventDateTime(event?.end_time);
-  const location = event?.location ? String(event.location) : '';
-  const host = event?.host ? String(event.host) : '';
-  const tags = Array.isArray(event?.tags) ? event.tags.map(String) : [];
-
-  const parts = [
-    `Event: ${title}`,
-    type ? `Type: ${type}` : '',
-    event?.start_time instanceof Date
-      ? `StartISO: ${event.start_time.toISOString()}`
-      : '',
-    event?.end_time instanceof Date
-      ? `EndISO: ${event.end_time.toISOString()}`
-      : '',
-    start ? `Starts (Pacific Time): ${start}` : '',
-    end ? `Ends (Pacific Time): ${end}` : '',
-    location ? `Location: ${location}` : '',
-    host ? `Host: ${host}` : '',
-    tags.length ? `Tags: ${tags.join(', ')}` : '',
-  ].filter(Boolean);
-
-  return {
-    title,
-    text: parts.join('\n'),
-    url: '/hackers/hub/schedule',
-    startISO:
-      event?.start_time instanceof Date
-        ? event.start_time.toISOString()
-        : undefined,
-    endISO:
-      event?.end_time instanceof Date
-        ? event.end_time.toISOString()
-        : undefined,
-  };
-}
-
 export async function retrieveContext(
   query: string,
   opts?: { limit?: number; preferredTypes?: HackDocType[] }
@@ -240,38 +169,6 @@ export async function retrieveContext(
       text: doc.text,
       url: doc.url ?? undefined,
     }));
-
-    // Hydrate event docs from the live `events` collection so the answer
-    // always reflects the current schedule (times/locations).
-    const eventsCollection = db.collection('events');
-    await Promise.all(
-      docs.map(async (d) => {
-        if (d.type !== 'event') return;
-
-        const suffix = d.id.startsWith('event-')
-          ? d.id.slice('event-'.length)
-          : '';
-        let event: any | null = null;
-
-        if (suffix && ObjectId.isValid(suffix)) {
-          event = await eventsCollection.findOne({ _id: new ObjectId(suffix) });
-        }
-
-        if (!event && d.title) {
-          event = await eventsCollection.findOne({ name: d.title });
-        }
-
-        if (!event) return;
-
-        const live = formatLiveEventDoc(event);
-        d.title = live.title;
-        d.text = live.text;
-        d.url = live.url;
-
-        (d as any).startISO = live.startISO;
-        (d as any).endISO = live.endISO;
-      })
-    );
 
     console.log('[hackbot][retrieve][vector]', {
       query: trimmed,

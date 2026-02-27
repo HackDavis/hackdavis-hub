@@ -41,60 +41,6 @@ async function embedText(text) {
   return data.data[0].embedding;
 }
 
-function formatEventDateTime(raw) {
-  const iso =
-    typeof raw === 'string' ? raw : raw && raw.$date ? raw.$date : undefined;
-
-  if (!iso) return null;
-
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return null;
-
-  return date.toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
-}
-
-function buildDocsFromEvents(events) {
-  if (!Array.isArray(events)) return [];
-
-  return events.map((ev) => {
-    const id = String(ev._id?.$oid || ev._id || ev.name);
-    const title = String(ev.name || 'Event');
-
-    const start = formatEventDateTime(ev.start_time);
-    const end = formatEventDateTime(ev.end_time);
-    const location = ev.location || '';
-    const host = ev.host || '';
-    const type = ev.type || '';
-
-    const parts = [
-      `Event: ${title}`,
-      type ? `Type: ${type}` : '',
-      start ? `Starts (Pacific Time): ${start}` : '',
-      end ? `Ends (Pacific Time): ${end}` : '',
-      location ? `Location: ${location}` : '',
-      host ? `Host: ${host}` : '',
-      Array.isArray(ev.tags) && ev.tags.length
-        ? `Tags: ${ev.tags.join(', ')}`
-        : '',
-    ].filter(Boolean);
-
-    return {
-      _id: `event-${id}`,
-      type: 'event',
-      title,
-      text: parts.join('\n'),
-      url: '/hackers/hub/schedule',
-    };
-  });
-}
-
 async function seedHackbotDocs({ wipe }) {
   if (!OPENAI_API_KEY) {
     console.error(
@@ -117,20 +63,12 @@ async function seedHackbotDocs({ wipe }) {
   const collection = db.collection(HACKBOT_COLLECTION);
 
   if (wipe === 'y') {
-    await collection.deleteMany({});
-    console.log(`Wiped collection: ${HACKBOT_COLLECTION}`);
+    // Only wipe knowledge docs — event docs are served live via tool calls
+    await collection.deleteMany({ _id: { $regex: '^knowledge-' } });
+    console.log(`Wiped knowledge docs from: ${HACKBOT_COLLECTION}`);
   }
 
-  // Load events
-  let events = [];
-  try {
-    events = await db.collection('events').find({}).toArray();
-    console.log(`Loaded ${events.length} events from database`);
-  } catch (err) {
-    console.warn('Failed to load events:', err.message);
-  }
-
-  // Load knowledge docs
+  // Load knowledge docs from hackbot_knowledge collection
   let knowledgeDocs = [];
   try {
     knowledgeDocs = await db.collection('hackbot_knowledge').find({}).toArray();
@@ -139,8 +77,15 @@ async function seedHackbotDocs({ wipe }) {
     console.warn('Failed to load knowledge docs:', err.message);
   }
 
-  const eventDocs = buildDocsFromEvents(events);
-  const staticDocs = knowledgeDocs.map((doc) => ({
+  if (knowledgeDocs.length === 0) {
+    console.warn(
+      'No knowledge docs found. Add docs via the admin panel at /admin/hackbot first.'
+    );
+    await client.close();
+    return;
+  }
+
+  const docs = knowledgeDocs.map((doc) => ({
     _id: `knowledge-${String(doc._id)}`,
     type: doc.type,
     title: doc.title,
@@ -148,15 +93,7 @@ async function seedHackbotDocs({ wipe }) {
     url: doc.url || null,
   }));
 
-  const docs = [...eventDocs, ...staticDocs];
-
-  if (docs.length === 0) {
-    console.warn('No docs to seed. Add events or knowledge docs first.');
-    await client.close();
-    return;
-  }
-
-  console.log(`Preparing to embed and upsert ${docs.length} hackbot docs...`);
+  console.log(`Preparing to embed and upsert ${docs.length} knowledge docs...`);
   console.log(`Using OpenAI model: ${OPENAI_EMBEDDING_MODEL}`);
 
   let successCount = 0;
@@ -199,7 +136,7 @@ async function gatherInputAndRun() {
       // eslint-disable-next-line no-await-in-loop
       wipe = (
         await askQuestion(
-          `Seed collection "${HACKBOT_COLLECTION}" from events + hackbot_knowledge collection. Wipe existing docs first? (y/n): `
+          `Seed "${HACKBOT_COLLECTION}" from hackbot_knowledge collection. Wipe existing knowledge docs first? (y/n): `
         )
       ).toLowerCase();
       if (wipe !== 'y' && wipe !== 'n') {
