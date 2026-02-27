@@ -2,10 +2,7 @@
 
 import { RxCross1 } from 'react-icons/rx';
 import useHackbotKnowledge from '../../_hooks/useHackbotKnowledge';
-import {
-  DOC_TYPES,
-  TYPE_LABELS,
-} from '../../_contexts/HackbotKnowledgeContext';
+import { DOC_TYPES, TYPE_LABELS } from '../../_constants/hackbotKnowledge';
 import type { HackDocType } from '@typeDefs/hackbot';
 
 export default function KnowledgeDocModal() {

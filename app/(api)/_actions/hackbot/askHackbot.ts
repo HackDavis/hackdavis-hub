@@ -3,82 +3,18 @@ import { generateText, tool } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
+import { retryWithBackoff } from '@utils/hackbot/retryWithBackoff';
+import {
+  parseRawDate,
+  formatEventDateTime,
+} from '@utils/hackbot/eventFormatting';
+import type {
+  HackbotMessage,
+  HackbotMessageRole,
+  HackbotResponse,
+} from '@typeDefs/hackbot';
 
-export type HackbotMessageRole = 'user' | 'assistant' | 'system';
-
-interface RetryOptions {
-  maxAttempts: number;
-  delayMs: number;
-  backoffMultiplier: number;
-  retryableErrors?: string[];
-}
-
-async function retryWithBackoff<T>(
-  fn: () => Promise<T>,
-  options: RetryOptions
-): Promise<T> {
-  const {
-    maxAttempts,
-    delayMs,
-    backoffMultiplier,
-    retryableErrors = ['ECONNREFUSED', 'ETIMEDOUT', 'ENOTFOUND'],
-  } = options;
-
-  let lastError: Error | null = null;
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      return await fn();
-    } catch (err: any) {
-      lastError = err;
-
-      const isRetryable =
-        retryableErrors.some((code) => err.message?.includes(code)) ||
-        err.status === 429 ||
-        err.status === 500 ||
-        err.status === 502 ||
-        err.status === 503 ||
-        err.status === 504;
-
-      if (!isRetryable || attempt === maxAttempts) {
-        throw err;
-      }
-
-      const delay = delayMs * Math.pow(backoffMultiplier, attempt - 1);
-      console.log(
-        `[hackbot][retry] Attempt ${attempt}/${maxAttempts} failed. Retrying in ${delay}ms...`,
-        err.message
-      );
-
-      await new Promise((resolve) => setTimeout(resolve, delay));
-    }
-  }
-
-  throw lastError;
-}
-
-export interface HackbotMessage {
-  role: HackbotMessageRole;
-  content: string;
-}
-
-export interface HackbotResponse {
-  ok: boolean;
-  answer: string;
-  url?: string;
-  error?: string;
-  usage?: {
-    chat?: {
-      promptTokens?: number;
-      completionTokens?: number;
-      totalTokens?: number;
-    };
-    embeddings?: {
-      promptTokens?: number;
-      totalTokens?: number;
-    };
-  };
-}
+export type { HackbotMessage, HackbotMessageRole, HackbotResponse };
 
 const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 10;
@@ -88,26 +24,6 @@ function truncateToWords(text: string, maxWords: number): string {
   const words = text.trim().split(/\s+/);
   if (words.length <= maxWords) return text.trim();
   return words.slice(0, maxWords).join(' ') + '...';
-}
-
-function formatEventDateTimeForTool(raw: unknown): string | null {
-  let date: Date | null = null;
-  if (raw instanceof Date) {
-    date = raw;
-  } else if (typeof raw === 'string') {
-    date = new Date(raw);
-  } else if (raw && typeof raw === 'object' && '$date' in (raw as any)) {
-    date = new Date((raw as any).$date);
-  }
-  if (!date || Number.isNaN(date.getTime())) return null;
-  return date.toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
 }
 
 const getEventsTool = tool({
@@ -138,8 +54,8 @@ const getEventsTool = tool({
       const formatted = events.map((ev: any) => ({
         name: String(ev.name || 'Event'),
         type: ev.type || null,
-        start: formatEventDateTimeForTool(ev.start_time),
-        end: formatEventDateTimeForTool(ev.end_time),
+        start: formatEventDateTime(ev.start_time),
+        end: formatEventDateTime(ev.end_time),
         location: ev.location || null,
         host: ev.host || null,
         tags: Array.isArray(ev.tags) ? ev.tags : [],

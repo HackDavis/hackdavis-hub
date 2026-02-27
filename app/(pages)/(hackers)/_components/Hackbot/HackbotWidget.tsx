@@ -3,63 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { RxCross1 } from 'react-icons/rx';
-import { HackerProfile } from '@actions/hackbot/getHackerProfile';
-import HackbotEventCard from './HackbotEventCard';
-
-/** Renders a single line, converting **bold** and *italic* to JSX. */
-function renderInline(line: string, key: number) {
-  const parts: React.ReactNode[] = [];
-  const re = /(\*\*(.+?)\*\*|\*(.+?)\*)/g;
-  let last = 0;
-  let match: RegExpExecArray | null;
-  let i = 0;
-  while ((match = re.exec(line)) !== null) {
-    if (match.index > last) parts.push(line.slice(last, match.index));
-    if (match[2] !== undefined) {
-      parts.push(<strong key={i++}>{match[2]}</strong>);
-    } else if (match[3] !== undefined) {
-      parts.push(<em key={i++}>{match[3]}</em>);
-    }
-    last = match.index + match[0].length;
-  }
-  if (last < line.length) parts.push(line.slice(last));
-  return <span key={key}>{parts}</span>;
-}
-
-/** Renders markdown text with **bold**, *italic*, and line breaks. */
-function MarkdownText({ text }: { text: string }) {
-  const lines = text.split('\n');
-  return (
-    <>
-      {lines.map((line, i) => (
-        <span key={i}>
-          {renderInline(line, i)}
-          {i < lines.length - 1 && <br />}
-        </span>
-      ))}
-    </>
-  );
-}
-
-export type HackbotEvent = {
-  id: string;
-  name: string;
-  type: string | null;
-  start: string | null;
-  end: string | null;
-  location: string | null;
-  host: string | null;
-  tags: string[];
-  isRecommended?: boolean;
-};
-
-export type HackbotChatMessage = {
-  role: 'user' | 'assistant';
-  content: string;
-  url?: string;
-  events?: HackbotEvent[];
-};
-
+import type { HackerProfile, HackbotEvent, HackbotChatMessage } from '@typeDefs/hackbot';
+import HackbotHeader from './HackbotHeader';
+import HackbotMessageList from './HackbotMessageList';
+import HackbotInputForm from './HackbotInputForm';
 
 const MAX_USER_MESSAGE_CHARS = 200;
 const STORAGE_KEY = 'hackbot_chat_history';
@@ -68,8 +15,8 @@ const MIN_WIDTH = 360;
 const MAX_WIDTH_FRACTION = 0.5;
 
 const SUGGESTION_CHIPS = [
+  "What's happening right now?",
   'What workshops are today?',
-  'When does hacking end?',
   'What tracks can I enter?',
 ];
 
@@ -311,183 +258,28 @@ export default function HackbotWidget({
             onMouseDown={onResizeMouseDown}
           />
 
-          {/* Header */}
-          <header
-            className="flex items-center justify-between px-4 py-3 shrink-0"
-            style={{ backgroundColor: '#005271' }}
-          >
-            <div>
-              <p className="text-sm font-bold text-white">HackDavis Helper</p>
-              <p className="text-[11px] text-[#9EE7E5]">
-                {firstName
-                  ? `Hi ${firstName}! Ask me anything about HackDavis.`
-                  : 'Ask me anything about HackDavis!'}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={toggleOpen}
-              className="h-7 w-7 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors"
-              aria-label="Close chat"
-            >
-              <RxCross1 className="w-3.5 h-3.5" />
-            </button>
-          </header>
+          <HackbotHeader firstName={firstName} onClose={toggleOpen} />
 
-          {/* Messages */}
-          <section className="flex-1 overflow-y-auto px-3 py-3 space-y-3 min-h-0 bg-[#FAFAFF]">
-            {messages.length === 0 && (
-              <div className="space-y-2">
-                <p className="text-[11px] text-[#005271]/60 font-medium">
-                  Try asking:
-                </p>
-                {SUGGESTION_CHIPS.map((q) => (
-                  <button
-                    key={q}
-                    type="button"
-                    onClick={() => setInput(q)}
-                    className="block w-full text-left text-[11px] px-3 py-2 rounded-xl border border-[#9EE7E5] bg-white text-[#005271] hover:bg-[#CCFFFE] transition-colors font-medium"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
-            )}
+          <HackbotMessageList
+            messages={messages}
+            loading={loading}
+            suggestionChips={SUGGESTION_CHIPS}
+            userId={userId}
+            onChipClick={setInput}
+            messagesEndRef={messagesEndRef}
+          />
 
-            {messages.map((m, idx) => (
-              <div
-                key={idx}
-                className={`flex flex-col gap-1.5 ${
-                  m.role === 'user' ? 'items-end' : 'items-start'
-                }`}
-              >
-                {/* Text bubble */}
-                {(m.content ||
-                  (m.role === 'assistant' &&
-                    loading &&
-                    idx === messages.length - 1)) && (
-                  <div
-                    className={`max-w-[88%] rounded-2xl px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap ${
-                      m.role === 'user'
-                        ? 'rounded-br-sm'
-                        : 'rounded-bl-sm border'
-                    }`}
-                    style={
-                      m.role === 'user'
-                        ? { backgroundColor: '#005271', color: '#fff' }
-                        : {
-                            backgroundColor: '#fff',
-                            color: '#003D3D',
-                            borderColor: '#9EE7E5',
-                          }
-                    }
-                  >
-                    {/* Typing indicator */}
-                    {m.role === 'assistant' && !m.content && loading && (
-                      <span className="flex items-center gap-1">
-                        {[0, 150, 300].map((delay) => (
-                          <span
-                            key={delay}
-                            className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
-                            style={{ animationDelay: `${delay}ms` }}
-                          />
-                        ))}
-                      </span>
-                    )}
-                    {m.content && (
-                      <p>
-                        <MarkdownText text={m.content} />
-                      </p>
-                    )}
-                    {m.url && !m.events?.length && (
-                      <a
-                        href={m.url}
-                        className="mt-1.5 inline-flex items-center gap-0.5 text-[10px] font-semibold underline underline-offset-2"
-                        style={{ color: '#005271' }}
-                      >
-                        More info →
-                      </a>
-                    )}
-                  </div>
-                )}
-
-                {/* Event cards */}
-                {m.events && m.events.length > 0 && (
-                  <div className="w-full space-y-1.5">
-                    {m.events.map((ev) => (
-                      <HackbotEventCard
-                        key={ev.id}
-                        event={ev}
-                        userId={userId}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-
-            <div ref={messagesEndRef} />
-          </section>
-
-          {/* Input */}
-          <form
+          <HackbotInputForm
+            input={input}
+            setInput={setInput}
+            canSend={canSend}
+            loading={loading}
+            error={error}
+            maxChars={MAX_USER_MESSAGE_CHARS}
             onSubmit={handleSubmit}
-            className="border-t border-[#9EE7E5]/60 px-3 py-2.5 space-y-2 shrink-0 bg-white"
-          >
-            <div className="flex items-end gap-2">
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    void sendMessage();
-                  }
-                }}
-                rows={2}
-                maxLength={MAX_USER_MESSAGE_CHARS}
-                className="flex-1 resize-none rounded-xl border border-[#9EE7E5] bg-[#FAFAFF] px-3 py-2 text-xs text-[#003D3D] placeholder-[#005271]/40 outline-none focus:ring-2 focus:ring-[#005271]/30 focus:border-[#005271] transition-colors"
-                placeholder="Ask about HackDavis…"
-              />
-              <button
-                type="submit"
-                disabled={!canSend}
-                className="shrink-0 h-9 w-9 rounded-xl flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{
-                  backgroundColor: canSend ? '#005271' : '#9EE7E5',
-                  color: '#fff',
-                }}
-              >
-                {loading ? (
-                  <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <svg
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path d="M1.5 1.5l13 6.5-13 6.5V9.5l9-3-9-3V1.5z" />
-                  </svg>
-                )}
-              </button>
-            </div>
-            <p className="text-[9px] text-[#005271]/40 text-right">
-              {input.length}/{MAX_USER_MESSAGE_CHARS}
-            </p>
-
-            {error && (
-              <div className="text-[10px] bg-red-50 border border-red-200 rounded-lg px-2.5 py-1.5">
-                <p className="text-red-600">{error}</p>
-                <button
-                  type="button"
-                  onClick={() => setError(null)}
-                  className="text-red-400 underline text-[9px] mt-0.5"
-                >
-                  Dismiss
-                </button>
-              </div>
-            )}
-          </form>
+            onSend={sendMessage}
+            onDismissError={() => setError(null)}
+          />
         </div>
       )}
 
