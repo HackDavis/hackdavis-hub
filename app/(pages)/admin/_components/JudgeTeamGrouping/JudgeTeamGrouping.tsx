@@ -130,6 +130,9 @@ export default function JudgeTeamGrouping() {
       setShowSubmissions(true);
       setApplyAlphaSuccess(true);
       setError('');
+      if (res.message) {
+        alert(res.message);
+      }
     } else {
       setError(res.error!);
       setShowMatching(false);
@@ -326,14 +329,14 @@ export default function JudgeTeamGrouping() {
 
   return (
     <div className={styles.body}>
-      <div className="flex items-center gap-4">
-        <h4 style={{ cursor: 'pointer' }}>Error</h4>
-        {error && (
+      {error && (
+        <div className="flex items-center gap-4">
+          <h4 style={{ cursor: 'pointer' }}>Error</h4>
           <div>
             <pre style={{ color: 'red' }}>{error}</pre>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Diagnostics inputs */}
       <div className="mt-6">

@@ -14,6 +14,30 @@
     position: relative;
   }
 
+  .input_container:has(input[type='checkbox']) {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--small-spacer);
+
+    label {
+      position: static;
+      margin-top: 0;
+      font-size: 1rem;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    input[type='checkbox'] {
+      min-width: 30px;
+      min-height: 30px;
+      width: auto;
+      padding: 0;
+      cursor: pointer;
+    }
+  }
+
   input {
     padding-top: var(--small-medium-spacer);
     padding-left: var(--small-spacer);

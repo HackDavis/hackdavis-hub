@@ -114,13 +114,23 @@ const config: Config = {
             height: '0',
           },
         },
+        moveClouds: {
+          from: {
+            transform: 'translateX(-25%)',
+          },
+          to: {
+            transform: 'translateX(-75%)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        moveClouds: 'moveClouds 30s linear infinite',
       },
       fontFamily: {
         jakarta: ['var(--font-jakarta)'],
+        'dm-mono': ['var(--font-dm-mono)'],
         metropolis: ['Metropolis', 'sans-serif'],
       },
     },

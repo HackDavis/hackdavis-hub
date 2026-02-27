@@ -23,14 +23,14 @@ export default function ResetPasswordForm({ data }: any) {
     {
       name: 'password' as const,
       type: 'password',
-      label: 'NEW PASSWORD',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'New Password',
       readOnly: false,
     },
     {
       name: 'passwordDupe' as const,
       type: 'password',
-      label: 'RETYPE NEW PASSWORD',
+      label: '', //2026 design removed labels, so leaving blank
       placeholder: 'Retype New Password',
       readOnly: false,
     },

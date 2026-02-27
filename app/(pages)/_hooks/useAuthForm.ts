@@ -3,7 +3,7 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 
 interface FieldValues {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 interface FieldErrors {
@@ -77,8 +77,12 @@ export default function useAuthForm(
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFieldValue(name, value);
+    const { name, value, type, checked } = e.target as any;
+    if (type === 'checkbox') {
+      setFieldValue(name, checked);
+    } else {
+      setFieldValue(name, value);
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

@@ -4,17 +4,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import useAuthForm from '@hooks/useAuthForm';
-import Loader from '@components/Loader/Loader';
 import Froggy from 'public/login/LogIn_Froggy.svg';
 import Drumstick from 'public/login/LogIn_DrumStick.svg';
 import hackerStyles from './HackerAuthForm.module.scss';
 import judgeStyles from './JudgeAuthForm.module.scss';
 
 type Role = 'hacker' | 'judge';
-type FieldName = 'email' | 'password' | 'passwordDupe' | 'code';
 
 interface FormField {
-  name: FieldName;
+  name: string;
   type: string;
   label: string;
   placeholder?: string;
@@ -27,8 +25,8 @@ interface AuthFormProps {
   buttonText: string;
   linkText?: string;
   linkHref?: string;
-  initialValues: Record<string, string>;
-  onSubmit: (values: Record<string, string>) => Promise<any>;
+  initialValues: Record<string, any>;
+  onSubmit: (values: Record<string, any>) => Promise<any>;
   onSuccess: () => void;
 }
 
@@ -61,34 +59,42 @@ export default function AuthForm({
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.top_container}>
-          <p className={styles.error_msg}>{errors.submit}</p>
           <div className={styles.fields}>
             {fields.map((field) => (
               <div key={field.name}>
-                <p className={styles.error_msg}>{errors[field.name]}</p>
                 <div className={styles.input_container}>
                   <label htmlFor={field.name}>{field.label}</label>
-                  <input
-                    name={field.name}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    value={formValues[field.name] || ''}
-                    onInput={handleChange}
-                    readOnly={field.readOnly}
-                    style={{
-                      cursor: field.readOnly ? 'not-allowed' : 'auto',
-                    }}
-                  />
+                  {field.type === 'checkbox' ? (
+                    <input
+                      name={field.name}
+                      type="checkbox"
+                      checked={!!formValues[field.name]}
+                      onChange={handleChange}
+                      readOnly={field.readOnly}
+                    />
+                  ) : (
+                    <input
+                      name={field.name}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      value={formValues[field.name] || ''}
+                      onInput={handleChange}
+                      readOnly={field.readOnly}
+                      style={{
+                        cursor: field.readOnly ? 'not-allowed' : 'auto',
+                      }}
+                    />
+                  )}
                 </div>
+                <p className={styles.error_msg}>{errors[field.name]}</p>
               </div>
             ))}
+            {linkText && (
+              <Link href={linkHref ?? '/'} className={styles.forgot}>
+                {linkText}
+              </Link>
+            )}
           </div>
-
-          {linkText && (
-            <Link href={linkHref ?? '/'} className={styles.forgot}>
-              {linkText}
-            </Link>
-          )}
         </div>
 
         <div className={styles.bottom_container}>
@@ -120,13 +126,12 @@ export default function AuthForm({
                 valid ? styles.valid : null
               }`}
             >
-              {buttonText}
+              {loading ? 'Checking...' : buttonText}
             </button>
           </div>
+          <p className={styles.error_msg}>{errors.submit}</p>
         </div>
       </form>
-
-      {loading && <Loader />}
     </div>
   );
 }

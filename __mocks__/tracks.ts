@@ -1,4 +1,20 @@
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import vrHeadset from '@public/prizes/vr_headset.png';
+import electricScooter from '@public/prizes/electric_scooter.png';
+import monitor from '@public/prizes/monitor.png';
+import steamGiftcard from '@public/prizes/steam_giftcard.png';
+import hdSwag from '@public/prizes/hd_swag.png';
+import kindle from '@public/prizes/kindle.png';
+import projector from '@public/prizes/projector.png';
+import raspberryPi from '@public/prizes/raspberry_pi.png';
+import keyboard from '@public/prizes/keyboard.png';
+import figmaLogo from '@public/prizes/figma_logo.png';
+import chatgptLogo from '@public/prizes/chatgpt_logo.png';
+import backpack from '@public/prizes/backpack.png';
+import bluetoothSpeaker from '@public/prizes/bluetooth_speaker.png';
+import aromaDiffuser from '@public/prizes/aroma_diffuser.png';
+import pokemonPacks from '@public/prizes/pokemon_packs.png';
+import claudeLogo from '@public/prizes/claude_logo.png';
 
 interface TrackData {
   name: string;
@@ -22,96 +38,94 @@ interface Tracks {
   [track: string]: TrackData;
 }
 
-const uncategorizedTracks: Tracks = {
+const automaticTracks: Tracks = {
   'Best Hack for Social Good': {
     name: 'Best Hack for Social Good',
     filter: 'General',
-    prizes: ['IPad', 'JBL Charge 5'],
-    images: [],
+    prizes: ['VR Headset', 'Electric Scooter'],
+    images: [vrHeadset, electricScooter],
     eligibility_criteria:
-      'Encapsulate your authentic idea of "social good". All entries are automatically considered for this prize category.',
-  },
-  'Best Open Data Hack': {
-    name: 'Best Open Data Hack',
-    filter: 'Technical',
-    prizes: ['Luncheon and internship program invite', '2nd Place: Swag bags'],
-    images: [],
-    eligibility_criteria:
-      'Projects must use at least one publicly accessible dataset that relates to UC Davis to address questions of interest to our campus community. For consideration for this award, the team must produce a GitHub repository with a readME, annotated code, and a reproducible static data visualization. The visualization should have an accompanying 1-page narrative describing the goals, methods, and interpretation of the project.',
+      'Encapsulate your authentic idea of what "social good" can look like. All entries are automatically considered for this prize category.',
   },
   "Hacker's Choice Award": {
     name: "Hacker's Choice Award",
     filter: 'General',
     prizes: ['HackDavis Swag Bag'],
-    images: [],
+    images: [hdSwag],
     eligibility_criteria:
-      'Awarded to the project with the most votes from our 2025 hackers. Vote for any project but your own!',
-  },
-  'Best Hack for California GovOps Agency': {
-    name: 'Best Hack for California GovOps Agency',
-    filter: 'Nonprofit',
-    prizes: ['1 Plushie'],
-    images: [],
-    eligibility_criteria: 'TBA',
-  },
-  'Best Hack for NAMI Yolo': {
-    name: 'Best Hack for NAMI Yolo',
-    filter: 'Nonprofit',
-    prizes: ['1 Plushie'],
-    images: [],
-    eligibility_criteria:
-      'NAMI Yolo provides free mental health support and resources in Yolo County and heavily relies on trained volunteers. Implement a centralized volunteer management system that provides an intuitive interface for tracking volunteer activity, training history, and scheduling',
-  },
-  'Best Hack for Fourth and Hope': {
-    name: 'Best Hack for Fourth and Hope',
-    filter: 'Nonprofit',
-    prizes: ['1 Plushie'],
-    images: [],
-    eligibility_criteria:
-      'Fourth & Hope provides essential services to individuals experiencing homelessness and housing insecurity, including meals, showers, shelter beds, etc. Build a secure and user-friendly digital intake and service-tracking system to enhance service coordination and data management',
-  },
-  'Best Use of Cerebras API': {
-    name: 'Best Use of Cerebras API',
-    filter: 'Technical',
-    prizes: ['TBA'],
-    images: [],
-    eligibility_criteria: '',
+      'Awarded to the project with the most votes from our 2026 hackers. All entries are automatically considered for this prize category. Vote for any project but your own!',
   },
 };
 
-const categorizedTracks: Tracks = {
-  'Best Beginner Hack': {
-    name: 'Best Beginner Hack',
-    filter: 'General',
-    prizes: ['13-month Hugging Face Pro Subscription'],
-    images: [],
+const optedHDTracks: Tracks = {
+  'Most Technically Challenging Hack': {
+    name: 'Most Technically Challenging Hack',
+    filter: 'Technical',
+    prizes: ['Backlit Keyboard'],
+    images: [keyboard],
     eligibility_criteria:
-      'Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project. Foster creativity and collaboration within the team and display a committment to building skills.',
+      'Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced technical tools + algorithms/data structures, integration of multiple technologies, quality of implementation, displays technical depth, graded on performance/scalability.',
     domain: 'swe',
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
-        attribute: 'Learning and growth demonstrated',
+        attribute: 'Technical Complexity of the Problem',
         guidelines: {
-          1: 'Little to no evidence of personal or team growth.',
-          3: 'Moderate improvement with some evidence of learning.',
-          5: 'Exceptional personal/team growth, with clear evidence of learning new tools, technologies, and approaches to problem-solving.',
+          1: 'Basic or well-known problem with low complexity.',
+          3: 'Problem has multiple edge cases that require thoughtful design.',
+          5: 'Highly complex or novel problem requiring significant technical insight.',
         },
       },
       {
-        attribute: 'Effective teamwork and collaboration among beginners',
+        attribute: 'Quality of Engineering',
         guidelines: {
-          1: 'Limited teamwork with minimal collaboration.',
-          3: 'Some teamwork with occasional collaboration.',
-          5: 'Excellent teamwork with strong collaboration.',
+          1: 'Incomplete or poorly structured project; minimal components.',
+          3: 'Implements organized architecture with clear separation of concerns and good practices.',
+          5: 'Exceptionally well-engineered; modular, scalable, fault-tolerant and efficient.',
         },
       },
       {
-        attribute: 'Commitment to overcoming challenges and building skills',
+        attribute: 'Integration of Tools or Techniques',
         guidelines: {
-          1: 'Minimal effort to overcome challenges.',
-          3: 'Moderate effort with some success.',
-          5: 'Exceptional determination and skill-building.',
+          1: 'Utilizes minimal external tools, frameworks, or libraries.',
+          3: 'Uses advanced tools with purpose and understanding.',
+          5: 'Integrates multiple advanced technologies/techniques (like parallelism, optimization, etc.) skillfully.',
+        },
+      },
+    ],
+  },
+  'Best Beginner Hack': {
+    name: 'Best Beginner Hack',
+    filter: 'General',
+    prizes: ['24 Inch Monitor'],
+    images: [monitor],
+    eligibility_criteria:
+      'Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project. Foster creativity and collaboration within the team and display a commitment to building skills.',
+    domain: 'swe',
+    domainDisplayName: 'Software Engineering',
+    scoring_criteria: [
+      {
+        attribute: 'Evidence of Learning and Growth',
+        guidelines: {
+          1: 'Little learning shown; reused known skills.',
+          3: 'Used new tools or concepts with some success.',
+          5: 'Strong grasp of entirely new topics; applied effectively.',
+        },
+      },
+      {
+        attribute: 'Team Collaboration',
+        guidelines: {
+          1: 'Disjointed teamwork; unclear roles.',
+          3: 'Some coordination; shared effort.',
+          5: 'Strong team balance; active support across roles.',
+        },
+      },
+      {
+        attribute: 'Problem-Solving and Persistence',
+        guidelines: {
+          1: 'Gave up easily or avoided addressing problems.',
+          3: 'Worked through some challenges with effort.',
+          5: 'Tackled tough issues with creative persistence.',
         },
       },
     ],
@@ -119,35 +133,35 @@ const categorizedTracks: Tracks = {
   'Best Interdisciplinary Hack': {
     name: 'Best Interdisciplinary Hack',
     filter: 'General',
-    prizes: ['3D Printing Pen'],
-    images: [],
+    prizes: ['$75 STEAM Giftcard'],
+    images: [steamGiftcard],
     eligibility_criteria:
       'Leverage multiple perspectives across different disciplines to create a more well-rounded project. At least one member of the team needs to be a non-CS/CSE/otherwise CS-related major in order to qualify.',
     domain: 'swe',
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
       {
-        attribute: 'Integration of Multiple Disciplines',
+        attribute: 'Problem Selection',
         guidelines: {
-          1: 'Disciplines are loosely connected or added on without a clear synergy.',
-          3: 'Disciplines are integrated well, but the overlap could be more cohesive.',
-          5: 'Disciplines are seamlessly interwoven, creating a solution that could not exist without the collaboration of all involved fields.',
+          1: 'Problem could be solved within one discipline.',
+          3: 'Problem benefits from multiple perspectives but is not very original.',
+          5: "Highly original problem that requires all members' disciplines.",
         },
       },
       {
-        attribute: 'Innovation in Multidisciplinary Problem-Solving',
+        attribute: 'Disciplinary Balance',
         guidelines: {
-          1: 'The project uses familiar approaches without any real blending of disciplines.',
-          3: 'The project introduces some innovative combinations of disciplines but still relies on conventional methods.',
-          5: 'The project demonstrates novel approaches by combining disciplines in ways that create unique and effective solutions.',
+          1: 'All CS-related majors or one discipline heavily dominates the project.',
+          3: 'Multiple disciplines with clear contributions.',
+          5: 'Disciplines are deeply interwoven; equal importance given to insights from each field.',
         },
       },
       {
-        attribute: 'Knowledge Exchange and Domain Expertise',
+        attribute: 'Cross-Field Innovation',
         guidelines: {
-          1: 'Limited sharing of domain knowledge between team members.',
-          3: 'Good exchange of expertise with some cross-pollination of ideas.',
-          5: 'Exceptional integration of different domain expertise, leading to innovative solutions.',
+          1: 'Disciplines barely connected/combined with unclear purpose.',
+          3: 'Fields work together to enhance the solution.',
+          5: 'True blend creating something impossible within one field.',
         },
       },
     ],
@@ -156,70 +170,34 @@ const categorizedTracks: Tracks = {
     name: 'Most Creative Hack',
     filter: 'General',
     prizes: ['Mini Projector'],
-    images: [],
+    images: [projector],
     eligibility_criteria:
       'Projects should demonstrate originality, showcase out-of-the-box thinking, and captivate its audience.',
     domain: 'business',
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Originality and uniqueness of the concept',
+        attribute: 'Originality of Concept',
         guidelines: {
-          1: 'Common or derivative concept.',
-          3: 'Some originality with unique elements.',
-          5: 'Truly unique and original concept.',
+          1: 'Common idea; similar to known projects.',
+          3: 'Interesting twist or framing of a common idea.',
+          5: 'Fresh, unexpected concept.',
         },
       },
       {
-        attribute: 'Innovative problem-solving approach',
+        attribute: 'Creative Execution',
         guidelines: {
-          1: 'Minimal innovation in solving problems.',
-          3: 'Moderate innovation with creative solutions.',
-          5: 'Highly innovative and groundbreaking solutions.',
+          1: 'Conventional build; little imagination.',
+          3: 'Some creative choices in implementation.',
+          5: 'Inventive design; imaginative features.',
         },
       },
       {
-        attribute: 'Ability to surprise and engage the audience',
+        attribute: 'User Engagement',
         guidelines: {
-          1: 'Limited engagement or surprise.',
-          3: 'Moderate engagement with some surprise elements.',
-          5: 'Highly engaging and memorable experience.',
-        },
-      },
-    ],
-  },
-  'Best Hack for Social Justice': {
-    name: 'Best Hack for Social Justice',
-    filter: 'General',
-    prizes: ['Digital Camera'],
-    images: [],
-    eligibility_criteria:
-      'Hack must address a social justice issue such as racial inequality, economic injustice, environmental justice, etc. This project should develop tangible solutions and/or raise awareness on these topics.',
-    domain: 'swe',
-    domainDisplayName: 'Software Engineering',
-    scoring_criteria: [
-      {
-        attribute: 'Relevance and Clarity of Focus on Social Justice',
-        guidelines: {
-          1: 'Loosely connects to social justice themes, with unclear goals or outcomes.',
-          3: 'Directly addresses a relevant social justice issue, but lacks depth in implementation.',
-          5: 'Has a clear, focused approach to a significant social justice issue.',
-        },
-      },
-      {
-        attribute: 'Advocacy and Awareness Impact',
-        guidelines: {
-          1: 'Limited impact on raising awareness or advocacy.',
-          3: 'Creates moderate awareness with some advocacy elements.',
-          5: 'Effectively raises awareness and inspires action on social justice issues.',
-        },
-      },
-      {
-        attribute: 'Real-World Applicability and Impact',
-        guidelines: {
-          1: 'Solution is theoretical with minimal practical application.',
-          3: 'Solution has practical potential but needs refinement.',
-          5: 'Provides a realistic and actionable solution with clear potential for positive societal change.',
+          1: 'Uninspiring or hard to connect with.',
+          3: 'Moderately interesting or novel.',
+          5: 'Memorable and captivating experience.',
         },
       },
     ],
@@ -227,115 +205,71 @@ const categorizedTracks: Tracks = {
   'Best Hardware Hack': {
     name: 'Best Hardware Hack',
     filter: 'Technical',
-    prizes: ['TBA'],
-    images: [],
+    prizes: ['Raspberry Pi Kit'],
+    images: [raspberryPi],
     eligibility_criteria:
       'Effectively integrate a hardware component to your final project. The final project should be functional, user-friendly, and interactive.',
     domain: 'hardware',
     domainDisplayName: 'Hardware or Embedded Systems',
     scoring_criteria: [
       {
-        attribute: 'Hardware Integration and Functionality',
+        attribute: 'Hardware Integration',
         guidelines: {
-          1: 'Hardware is either non-functional or not integrated meaningfully into the project.',
-          3: 'Hardware works as intended but lacks refinement or advanced features.',
-          5: "Hardware is expertly integrated, fully functional, and essential to the project's success.",
+          1: 'Disconnected or non-functional hardware.',
+          3: 'Working hardware with basic integration.',
+          5: 'Seamless integration; essential to project.',
         },
       },
       {
-        attribute: 'Creativity and Innovation in Hardware Design',
+        attribute: 'Feasibility and Technical Soundness',
         guidelines: {
-          1: 'Standard hardware design with minimal innovation.',
-          3: 'Design incorporates some innovative features or a novel use of existing technology.',
-          5: 'Highly innovative design that pushes boundaries of hardware capabilities.',
+          1: 'Unrealistic approach; unlikely to work outside controlled conditions.',
+          3: 'Functional demo with some practical limitations or assumptions.',
+          5: 'Well-grounded and executable design; feasible to reproduce or extend.',
         },
       },
       {
-        attribute: 'Usability and Interaction',
+        attribute: 'User Interaction',
         guidelines: {
-          1: "Difficult to use or doesn't provide a clear user experience.",
-          3: 'Usable, but could benefit from design or interaction improvements.',
-          5: 'Intuitive, user-friendly, and offers an exceptional user experience.',
-        },
-      },
-    ],
-  },
-  'Most Technically Challenging Hack': {
-    name: 'Most Technically Challenging Hack',
-    filter: 'Technical',
-    prizes: ['Dell S2425HS Monitor'],
-    images: [],
-    eligibility_criteria:
-      'Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced techical tools + algorithms/data structures, integration of multiple technologies, quality of implementation, displays technical depth, graded on performance/scalability',
-    domain: 'swe',
-    domainDisplayName: 'Software Engineering',
-    scoring_criteria: [
-      {
-        attribute: 'Complexity of Problem Solved',
-        guidelines: {
-          1: 'Simple problem with straightforward implementation.',
-          3: 'Moderately complex problem requiring significant technical skill.',
-          5: 'Highly complex problem demanding advanced technical expertise.',
-        },
-      },
-      {
-        attribute: 'Technical Execution and Engineering',
-        guidelines: {
-          1: 'The technical implementation is incomplete or inefficient, with many flaws.',
-          3: 'The technical execution is solid but could be more optimized or refined.',
-          5: 'The project demonstrates flawless technical execution, with well-optimized, scalable solutions and robust engineering.',
-        },
-      },
-      {
-        attribute: 'Advanced Use of Technologies or Techniques',
-        guidelines: {
-          1: 'Uses basic or traditional technologies.',
-          3: 'Uses a combination of standard and some advanced technologies.',
-          5: 'Utilizes highly specialized or emerging technologies.',
-        },
-      },
-      {
-        attribute: 'Scalability and performance optimization',
-        guidelines: {
-          1: 'Minimal scalability with performance issues.',
-          3: 'Moderate scalability with acceptable performance.',
-          5: 'Highly scalable with optimized performance.',
+          1: 'Difficult to operate or requires technical knowledge to use.',
+          3: 'Straightforward interaction with clear feedback to user actions.',
+          5: 'Intuitive, responsive interaction that feels natural and engaging.',
         },
       },
     ],
   },
-  'Best AI/ML Hack': {
-    name: 'Best AI/ML Hack',
-    filter: 'Technical',
-    prizes: ['Claude API credits'],
-    images: [],
+  'Best Hack for Social Justice': {
+    name: 'Best Hack for Social Justice',
+    filter: 'General',
+    prizes: ['Kindle'],
+    images: [kindle],
     eligibility_criteria:
-      'Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms + ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. We encourage that models work accurately on unseen circumstances.',
-    domain: 'aiml',
-    domainDisplayName: 'Data Science or AI/ML',
+      'Hack must address a social justice issue such as racial inequality, economic injustice, environmental justice, etc. This project should develop tangible solutions and/or raise awareness on these topics.',
+    domain: 'business',
+    domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Innovative Use of AI/ML Techniques',
+        attribute: 'Issue Understanding & Community Consideration',
         guidelines: {
-          1: 'Employs basic techniques or is an LLM wrapper.',
-          3: 'Employs creative AI/ML techniques, but there is room for further exploration.',
-          5: 'Demonstrates advanced and innovative AI/ML implementation.',
+          1: 'Surface-level grasp of the social issue; minimal thought about affected communities.',
+          3: 'Good research and knowledge of the problem; considers needs of target communities.',
+          5: 'Deep insight into nuances of the issue; clearly centers the voices and needs of affected groups.',
         },
       },
       {
-        attribute: 'Model Performance and Accuracy',
+        attribute: 'Advocacy Effectiveness',
         guidelines: {
-          1: 'Poor model performance with significant accuracy issues.',
-          3: 'Good performance with room for optimization.',
-          5: 'Exceptional performance with robust accuracy across scenarios.',
+          1: 'Passive presentation; no community engagement strategy.',
+          3: 'Thoughtful awareness campaign with specific audience targeting.',
+          5: 'Compelling call to action with practical pathways for audience involvement.',
         },
       },
       {
-        attribute: 'Real-World Impact and Applicability',
+        attribute: 'Implementation Feasibility & Impact',
         guidelines: {
-          1: 'Limited practical application potential.',
-          3: 'Clear practical use cases with implementation challenges.',
-          5: 'Ready for real-world deployment with significant potential impact.',
+          1: 'Conceptual solution with significant barriers to deployment.',
+          3: 'Viable prototype that could be developed with additional resources.',
+          5: 'Ready-to-launch solution with demonstrated potential for measurable impact.',
         },
       },
     ],
@@ -343,35 +277,35 @@ const categorizedTracks: Tracks = {
   'Best UI/UX Design': {
     name: 'Best UI/UX Design',
     filter: 'Design',
-    prizes: ['Beats Studio Pro'],
-    images: [],
+    prizes: ['Figma Full Seat (4 month subscription)'],
+    images: [figmaLogo],
     eligibility_criteria:
-      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing, responsive design and promots intuitive user experiences',
+      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing, responsive design and promotes intuitive user experiences.',
     domain: 'design',
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
-        attribute: 'Aesthetic Appeal and Visual Consistency',
+        attribute: 'Visual Design',
         guidelines: {
-          1: 'Not attractive, inconsistent theme and style.',
-          3: 'Moderately attractive, generally consistent style and theme.',
-          5: 'Highly attractive and professional look, cohesive and consistent theme and style.',
+          1: 'Inconsistent style; cluttered or dull; poor accessibility.',
+          3: 'Mostly clean design with some inconsistencies; some inclusive features.',
+          5: 'Beautiful, cohesive, polished; thoughtful inclusivity.',
         },
       },
       {
-        attribute: 'Intuitive User Flow and Ease of Navigation',
+        attribute: 'Navigation Flow',
         guidelines: {
-          1: 'Difficult to navigate, confusing layout and poorly organized.',
-          3: 'Generally intuitive navigation and layout with some areas for improvement.',
-          5: 'Excellent, with superior navigation and highly intuitive layout.',
+          1: 'Confusing user journey; hard to find key actions.',
+          3: 'Clear pathways through the interface with minor issues.',
+          5: 'Effortless, intuitive navigation throughout.',
         },
       },
       {
-        attribute: 'Inclusivity, Responsiveness and Accessibility',
+        attribute: 'Design Process',
         guidelines: {
-          1: 'Not responsive or accessible, lacks consideration for varied users.',
-          3: 'Moderately responsive and accessible.',
-          5: 'Excellent responsiveness and accessibility, fully accommodates all users.',
+          1: 'Limited evidence of design planning.',
+          3: 'Some wireframes or design iterations shown.',
+          5: 'Comprehensive design process with wireframes to final product.',
         },
       },
     ],
@@ -379,35 +313,35 @@ const categorizedTracks: Tracks = {
   'Best User Research': {
     name: 'Best User Research',
     filter: 'Design',
-    prizes: ['6-month ChatGPT Pro subscription'],
-    images: [],
+    prizes: ['ChatGPT+ (4 month subscription)'],
+    images: [chatgptLogo],
     eligibility_criteria:
       'Awarded to a well-researched project that keeps its userbase in mind with an inclusive design aimed to maximize accessibility.',
     domain: 'design',
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
       {
-        attribute: 'Depth and quality of user research conducted',
+        attribute: 'User Understanding',
         guidelines: {
-          1: 'Minimal research with poor depth.',
-          3: 'Moderate research with acceptable depth.',
-          5: 'Thorough research with high depth and quality.',
+          1: 'Assumptions made with minimal research.',
+          3: 'Clear effort to understand target users.',
+          5: 'Comprehensive insights into user needs and behaviors.',
         },
       },
       {
-        attribute: 'Incorporation of User Feedback',
+        attribute: 'Depth of Research Methods',
         guidelines: {
-          1: 'Ineffective design that poorly supports functionality or user needs',
-          3: 'Adequately supports functionality and mostly aligns with user needs.',
-          5: 'Perfectly supports functionality, completely aligned with user needs and goals.',
+          1: 'Few or irrelevant data points.',
+          3: 'Basic research approach (like one survey).',
+          5: 'Thoughtful combination of multiple research methods.',
         },
       },
       {
-        attribute: 'Originality and Creativity in Meeting User Needs',
+        attribute: 'Design Application & Feedback Integration',
         guidelines: {
-          1: 'Lacks creativity, very conventional, similar to other products in the market.',
-          3: 'Moderately creative, noticeable innovative elements.',
-          5: 'Highly innovative and unique, pushes boundaries.',
+          1: 'Research/feedback ignored or misaligned.',
+          3: 'Limited connection between research and design; some user alignment.',
+          5: 'Each design element directly tied to research findings.',
         },
       },
     ],
@@ -415,120 +349,138 @@ const categorizedTracks: Tracks = {
   'Best Entrepreneurship Hack': {
     name: 'Best Entrepreneurship Hack',
     filter: 'Business',
-    prizes: ['TBA'],
-    images: [],
+    prizes: ['North Face Backpack'],
+    images: [backpack],
     eligibility_criteria:
       "No Code Required. A project that focuses on viability and persuasive power through presentation on the product/service you're trying to sell, relevant customer segments, distribution channels, and associated revenue/profit models.",
     domain: 'business',
     domainDisplayName: 'Business',
     scoring_criteria: [
       {
-        attribute: 'Viability and feasibility of the business model',
+        attribute: 'Target Customer Clarity',
         guidelines: {
-          1: 'Unviable or unrealistic model.',
-          3: 'Moderately viable with some feasibility.',
-          5: 'Highly viable and feasible business model.',
+          1: 'Vague idea of potential users.',
+          3: 'Defined customer segments with needs.',
+          5: 'Detailed customer profiles with validated pain points.',
         },
       },
       {
-        attribute: 'Clarity and persuasiveness of the pitch',
+        attribute: 'Business Model',
         guidelines: {
-          1: 'Unclear and unconvincing pitch.',
-          3: 'Moderately clear with some persuasion.',
-          5: 'Highly persuasive and clear pitch.',
+          1: 'Unclear how the project would make money.',
+          3: 'Reasonable revenue model identified.',
+          5: 'Well-thought-out pricing and monetization strategy.',
         },
       },
       {
-        attribute: 'Identification of target market and revenue streams',
+        attribute: 'Market Differentiation',
         guidelines: {
-          1: 'Minimal understanding of the market.',
-          3: 'Moderate understanding with some insights.',
-          5: 'Comprehensive market understanding with clear revenue streams.',
+          1: 'Little distinction from existing solutions.',
+          3: 'Some unique selling points identified.',
+          5: 'Clear competitive advantage with strong market positioning.',
         },
       },
     ],
   },
   'Best Statistical Model': {
     name: 'Best Statistical Model',
-    filter: 'Technical',
-    prizes: ['Power BI Pro'],
-    images: [],
+    filter: 'Business',
+    prizes: ['Bluetooth Speaker'],
+    images: [bluetoothSpeaker],
     eligibility_criteria:
-      'Projects must seamlessly incorporate significance tests that evaluate a hypothesis based on their primary question or project goal, with an emphasis on accuracy metrics such as MSE, R^2, adjusted R^2, precision and recall.',
+      "Projects must use exploratory data analysis (EDA) to guide their modeling decisions and hypotheses. Final models should include significance tests and be evaluated with metrics like MSE, R\u00B2, adjusted R\u00B2, precision, or recall, demonstrating clear statistical reasoning aligned with the project's core question or goal.",
     domain: 'aiml',
     domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        attribute: 'Accuracy and reliability of the statistical model',
+        attribute: 'Exploratory Data Analysis',
         guidelines: {
-          1: 'Low accuracy with unreliable results.',
-          3: 'Moderate accuracy with some reliable outcomes.',
-          5: 'High accuracy with consistently reliable results.',
+          1: 'Minimal data exploration with basic statistics only.',
+          3: 'Thoughtful exploration revealing patterns and relationships in the data.',
+          5: 'Comprehensive EDA; insightful visualizations; directly informs model design.',
         },
       },
       {
-        attribute: 'Appropriate use of significance tests and metrics',
+        attribute: 'Use of Statistical Tests',
         guidelines: {
-          1: 'Inappropriate or minimal use of metrics.',
-          3: 'Moderate use with partially relevant metrics.',
-          5: 'Excellent use with highly relevant metrics.',
+          1: 'Inappropriate or missing tests.',
+          3: 'Some relevant tests included.',
+          5: 'Proper tests applied correctly to the data and analysed.',
         },
       },
       {
-        attribute: "Interpretability and clarity of the model's output",
+        attribute: 'Results Interpretation',
         guidelines: {
-          1: 'Difficult to interpret or unclear.',
-          3: 'Moderately clear with some interpretability.',
-          5: 'Highly interpretable and clearly presented.',
+          1: 'Unclear; hard to read; numbers presented with little explanation.',
+          3: 'Some clarity in explanation; basic visualizations.',
+          5: 'Insightful interpretation connecting statistics to real world.',
         },
       },
     ],
   },
-  'Best Medtech Hack': {
-    name: 'Best MedTech Hack',
-    filter: 'Technical',
-    prizes: ['TBA'],
-    images: [],
-    eligibility_criteria: 'TBA',
-    domain: 'medtech',
-    domainDisplayName: 'MedTech/BioTech',
+};
+
+const nonHDTracks: Tracks = {
+  'Best AI/ML Hack': {
+    name: 'Best AI/ML Hack',
+    filter: 'Sponsor',
+    prizes: ['$750 in Claude API credits'],
+    images: [claudeLogo],
+    eligibility_criteria:
+      'Project must demonstrate unique or creative application of AI/ML, built on high-quality data, utilizing relevant algorithms and libraries and/or cloud platforms for development and evaluated with relevant performance metrics. Participants should show how their data was collected or sourced and clearly explain the reasoning or behavior of their AI. We encourage that models aim for generalization to unseen circumstances.',
+    domain: 'aiml',
+    domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        attribute: 'Relevance to health and well-being themes',
+        attribute: 'Necessity of AI/ML for Solving the Problem',
         guidelines: {
-          1: 'Minimal relevance to health topics.',
-          3: 'Moderate relevance with some impact.',
-          5: 'Highly relevant with significant health impact.',
+          1: 'Problem is obviously solvable with deterministic algorithms with more reliable output.',
+          3: 'Problem can be solved with complex deterministic algorithms, but AI/ML is a reasonable choice.',
+          5: 'Deterministic algorithms are unable to solve the problem. AI/ML is the only solution.',
         },
       },
       {
-        attribute:
-          'Effectiveness in addressing accessibility or service issues',
+        attribute: 'Model Performance and Evaluation',
         guidelines: {
-          1: 'Limited effectiveness with minimal impact.',
-          3: 'Moderate effectiveness with some impact.',
-          5: 'Highly effective with significant positive impact.',
+          1: 'Poor accuracy and generalization; minimal performance metrics.',
+          3: 'Decent metrics; moderate evaluation efforts.',
+          5: 'Strong results backed by solid metrics; tested on unseen data or edge cases.',
         },
       },
       {
-        attribute: 'Potential for real-world application',
+        attribute: 'Technical Execution and Use of Tools',
         guidelines: {
-          1: 'Minimal potential with unlikely application.',
-          3: 'Moderate potential with some applicability.',
-          5: 'High potential with clear real-world applicability.',
+          1: 'Surface-level use of tools; no customization or tuning.',
+          3: 'Proper use of libraries with some tuning or data pipeline effort.',
+          5: 'Deep technical execution with custom methods, advanced techniques, or strong tool mastery.',
         },
       },
     ],
+  },
+  "Best Hack for Women's Center": {
+    name: "Best Hack for Women's Center",
+    filter: 'Non-Profit',
+    prizes: ['Aroma Diffuser'],
+    images: [aromaDiffuser],
+    eligibility_criteria: '',
+  },
+  'Best Hack for ASUCD Pantry': {
+    name: 'Best Hack for ASUCD Pantry',
+    filter: 'Non-Profit',
+    prizes: ['Pokemon Packs'],
+    images: [pokemonPacks],
+    eligibility_criteria: '',
   },
 };
 
 const allTracks: Tracks = {
-  ...categorizedTracks,
-  ...uncategorizedTracks,
+  ...automaticTracks,
+  ...optedHDTracks,
+  ...nonHDTracks,
 };
 
 const displayNameToDomainMap: Map<string, string> = new Map(
-  Object.entries(categorizedTracks).map(([_, value]) => [
+  Object.entries(optedHDTracks).map(([_, value]) => [
     value.domainDisplayName ?? '',
     value.domain ?? '',
   ])
@@ -536,10 +488,13 @@ const displayNameToDomainMap: Map<string, string> = new Map(
 
 export {
   allTracks,
-  categorizedTracks,
-  uncategorizedTracks,
+  optedHDTracks,
+  automaticTracks,
+  nonHDTracks,
   displayNameToDomainMap,
 };
+
 export const bestHackForSocialGood =
-  uncategorizedTracks['Best Hack for Social Good'];
+  automaticTracks['Best Hack for Social Good'];
+
 export type { TrackData, Tracks };

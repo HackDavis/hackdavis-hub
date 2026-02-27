@@ -11,8 +11,8 @@ export default async function judgeToPanelAlgorithm(
 
     judges = judges.sort(
       (a, b) =>
-        (a.specialties?.indexOf(panel.domain) ?? 0) -
-        (b.specialties?.indexOf(panel.domain) ?? 0)
+        (a.specialties?.indexOf(panel.domain ?? '') ?? 0) -
+        (b.specialties?.indexOf(panel.domain ?? '') ?? 0)
     );
 
     panel.user_ids = judges

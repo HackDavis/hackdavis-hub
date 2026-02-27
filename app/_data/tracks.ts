@@ -1,29 +1,20 @@
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
-import ipad from '@public/prizes/ipad.png';
-import jblSpeaker from '@public/prizes/jbl_speaker.png';
-import threeDPen from '@public/prizes/3d_pen.png';
-import projector from '@public/prizes/projector.png';
-import camera from '@public/prizes/4k_camera.png';
-import headphones from '@public/prizes/beats_headphone.png';
-import catPlushie from '@public/prizes/cute_cat_plushies.png';
+import vrHeadset from '@public/prizes/vr_headset.png';
+import electricScooter from '@public/prizes/electric_scooter.png';
+import monitor from '@public/prizes/monitor.png';
+import steamGiftcard from '@public/prizes/steam_giftcard.png';
 import hdSwag from '@public/prizes/hd_swag.png';
-import awsLogo from '@public/prizes/aws_logo.png';
-import upscaleTickets from '@public/prizes/upscale_tickets.png';
+import kindle from '@public/prizes/kindle.png';
+import projector from '@public/prizes/projector.png';
 import raspberryPi from '@public/prizes/raspberry_pi.png';
-import claudeLogo from '@public/prizes/claude_logo.png';
-import chatgptLogo from '@public/prizes/chatgpt_logo.png';
-import wixLogo from '@public/prizes/wix_logo.png';
-import fitbit from '@public/prizes/fitbit.png';
-import logitechMouse from '@public/prizes/logitech_mouse.png';
-import datalabLogo from '@public/prizes/datalab_logo.png';
-import vectaraLogo from '@public/prizes/vectara_logo.png';
-import hackingKit from '@public/prizes/hacking_kit.png';
-import googleLogo from '@public/prizes/google_logo.png';
-import jblHeadphones from '@public/prizes/jbl_headphones.png';
-import iotKit from '@public/prizes/iot_kit.png';
-import microphone from '@public/prizes/microphone.png';
 import keyboard from '@public/prizes/keyboard.png';
-import arduino from '@public/prizes/arduino.png';
+import figmaLogo from '@public/prizes/figma_logo.png';
+import chatgptLogo from '@public/prizes/chatgpt_logo.png';
+import backpack from '@public/prizes/backpack.png';
+import bluetoothSpeaker from '@public/prizes/bluetooth_speaker.png';
+import aromaDiffuser from '@public/prizes/aroma_diffuser.png';
+import pokemonPacks from '@public/prizes/pokemon_packs.png';
+import claudeLogo from '@public/prizes/claude_logo.png';
 
 interface TrackData {
   name: string;
@@ -47,125 +38,33 @@ interface Tracks {
   [track: string]: TrackData;
 }
 
-const nonHDTracks: Tracks = {
-  'Best Hack for California GovOps Agency': {
-    name: 'Best Hack for California GovOps Agency',
-    filter: 'Nonprofit',
-    prizes: ['Plushie'],
-    images: [catPlushie],
-    eligibility_criteria:
-      'California has the largest and most diverse population in the country. Our diversity is our strength, and the Governor is committed to a California for All. How can the state create analytics opportunities and solutions to support data-driven, culturally and demographically sensitive fire recovery, response, and survivor support? The state is not interested in “chat bot” proposals for this challenge.',
-  },
-  'Best Hack for NAMI Yolo': {
-    name: 'Best Hack for NAMI Yolo',
-    filter: 'Nonprofit',
-    prizes: ['Plushie'],
-    images: [catPlushie],
-    eligibility_criteria:
-      "NAMI Yolo is an organization that provides free mental health support and resources in Yolo County. It is primarily led by families, friends and individuals whose lives have been affected by mental illness. The organization heavily relies on trained volunteers to deliver educational programs, lead support groups, assist with events, and give community presentations. However, there is no unified system to track the entire volunteer process—from recruitment and onboarding to training, scheduling, and tracking volunteer hours. Additionally, it is important to track which courses each volunteer is trained to teach to ensure proper program delivery.  Currently, NAMI Yolo uses Google Drive and spreadsheets, which makes managing volunteer engagement and program coordination inefficient and time-consuming. To enhance organization and communication, NAMI Yolo seeks to implement a centralized volunteer management system that provides an intuitive interface for tracking volunteer activity, training history, and scheduling. How can we upgrade NAMI Yolo's current system to create a streamlined and effective volunteer management system?",
-  },
-  'Best Hack for Fourth and Hope': {
-    name: 'Best Hack for Fourth and Hope',
-    filter: 'Nonprofit',
-    prizes: ['Plushie'],
-    images: [catPlushie],
-    eligibility_criteria:
-      "Fourth and Hope provides essential services to individuals experiencing homelessness and housing insecurity, including meals, showers, shelter beds, etc. These services support both daily visitors and long-term residents, helping them access basic necessities and work toward stability. However, the organization does not have a centralized and efficient digital tool to track these services for each client, alongside their demographic data (e.g., ethnicity, language, age, gender), and outcomes over time. To enhance service coordination and data management, Fourth & Hope seeks to implement a secure and user-friendly digital intake and service-tracking system. This system should log daily service usage, track client demographics and progress, generate custom reports (e.g., number of showers given by age group), and help identify areas where additional support is needed. How can we improve upon Fourth & Hope's current system to create a comprehensive and efficient client service tracking system?",
-  },
-  'Best Open Data Hack': {
-    name: 'Best Open Data Hack',
-    filter: 'Technical',
-    prizes: ['Luncheon and internship program invite', 'DataLab Swag bags'],
-    images: [datalabLogo],
-    eligibility_criteria:
-      'To qualify, projects must use at least one publicly accessible dataset that relates to UC Davis to address questions of interest to our campus community. For consideration for this award, the team must produce a GitHub repository with a readME, annotated code, and a reproducible static data visualization. The visualization should have an accompanying 1-page narrative describing the goals, methods, and interpretation of the project.',
-  },
-  'Best Use of Cerebras API': {
-    name: 'Best Use of Cerebras API',
-    filter: 'Sponsor',
-    prizes: ['Keychron Wireless Keyboard'],
-    images: [keyboard],
-    eligibility_criteria: 'Projects must use Cerebras API.',
-  },
-  'Best Use of Vectara': {
-    name: 'Best Use of Vectara',
-    filter: 'Sponsor',
-    prizes: ['Vectara credits'],
-    images: [vectaraLogo],
-    eligibility_criteria:
-      'Projects must use Vectara. Check out www.vectara.com/hacker-guide for their Hacker Guide!',
-  },
-  'Best Use of Gemini API': {
-    name: 'Best Use of Gemini API',
-    filter: 'MLH',
-    prizes: ['Google Branded Backpacks'],
-    images: [googleLogo],
-    eligibility_criteria:
-      "It's time to push the boundaries of what's possible with AI using Google Gemini. Check out the Gemini API to build AI-powered apps that make your friends say WHOA. So, what can Gemini do for your hackathon project? Understand language like a human and build a chatbot that gives personalized advice, analyze info like a supercomputer and create an app that summarizes complex research papers, generate creative content like code, scripts, music, and more! Think of the possibilities… what will you build with the Google Gemini API this weekend?",
-  },
-  'Best Use of MongoDB Atlas': {
-    name: 'Best Use of MongoDB Atlas',
-    filter: 'MLH',
-    prizes: ['M5GO IoT Kit'],
-    images: [iotKit],
-    eligibility_criteria:
-      "MongoDB Atlas takes the leading modern database and makes it accessible in the cloud! Get started with a $50 credit for students or sign up for the Atlas free forever tier (no credit card required). Along with a suite of services and functionalities, you'll have everything you need to manage all of your data, and you can get a headstart with free resources from MongoDB University! Build a hack using MongoDB Atlas for a chance to win a M5GO IoT Starter Kit for you and each member of your team.",
-  },
-  'Best .Tech Domain Name': {
-    name: 'Best .Tech Domain Name',
-    filter: 'MLH',
-    prizes: [
-      'Blue Snowball Microphone & a free .tech domain name for up to 10 years',
-    ],
-    images: [microphone],
-    eligibility_criteria:
-      "Make your Team's Achievements timeless: Win a .Tech Domain Name for up to 10 years to Showcase and Expand Your Project, Plus 4 Blue Snowball Mics for Effortless Collaboration on Zoom, empowering you to build even more cool things together!",
-  },
-  'Best Use of Auth0': {
-    name: 'Best Use of Auth0',
-    filter: 'MLH',
-    prizes: ['Wireless Headphones'],
-    images: [jblHeadphones],
-    eligibility_criteria:
-      "Auth0 wants your applications to be secure! Why spend hours building features like social sign-in, Multi-Factor Authentication, and passwordless log-in when you can enable them through Auth0 straight out of the box? Auth0 is free to try, doesn't require a credit card, and allows for up to 7,000 free active users and unlimited log-ins. Make your new account today and use any of the Auth0 APIs for a chance to win a pair of wireless headphones for you and each member of your team!",
-  },
-  'Best Use of Snowflake API': {
-    name: 'Best Use of Snowflake API',
-    filter: 'MLH',
-    prizes: ['Arduino Tiny ML Kit'],
-    images: [arduino],
-    eligibility_criteria:
-      "Play with industry-leading LLMs on a single account using the Snowflake APIs. Adding AI capabilities into your application can be as simple as a single CURL command to Snowflake's REST API. Build customized applications, RAG powered chat bots, or embed AI-powered features into your app in half the time with half the hassle. Get started for free with a special, student 120-day Snowflake trial and check out this repository for an example of the Snowflake REST API in action.",
-  },
-};
-
 const automaticTracks: Tracks = {
+  'Best Hack for Social Good': {
+    name: 'Best Hack for Social Good',
+    filter: 'General',
+    prizes: ['VR Headset', 'Electric Scooter'],
+    images: [vrHeadset, electricScooter],
+    eligibility_criteria:
+      'Encapsulate your authentic idea of what "social good" can look like. All entries are automatically considered for this prize category.',
+  },
   "Hacker's Choice Award": {
     name: "Hacker's Choice Award",
     filter: 'General',
     prizes: ['HackDavis Swag Bag'],
     images: [hdSwag],
     eligibility_criteria:
-      'Awarded to the project with the most votes from our 2025 hackers. All entries are automatically considered for this prize category. Vote for any project but your own!',
+      'Awarded to the project with the most votes from our 2026 hackers. All entries are automatically considered for this prize category. Vote for any project but your own!',
   },
 };
 
 const optedHDTracks: Tracks = {
-  'Best Hack for Social Good': {
-    name: 'Best Hack for Social Good',
-    filter: 'General',
-    prizes: ['IPad', 'JBL Speaker'],
-    images: [ipad, jblSpeaker],
-    eligibility_criteria:
-      'Encapsulate your authentic idea of "social good". All entries are automatically considered for this prize category.',
-  },
   'Most Technically Challenging Hack': {
     name: 'Most Technically Challenging Hack',
     filter: 'Technical',
-    prizes: ['AWS credits worth $250'],
-    images: [awsLogo],
+    prizes: ['Backlit Keyboard'],
+    images: [keyboard],
     eligibility_criteria:
-      'Projects must showcase breadth and application of technical knowledge, including the use of complex algorithms or data structures, integration of multiple tools or technologies, and well-engineered implementation. Evaluated based on technical depth, system quality and performance/scalability.',
+      'Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced technical tools + algorithms/data structures, integration of multiple technologies, quality of implementation, displays technical depth, graded on performance/scalability.',
     domain: 'swe',
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
@@ -198,10 +97,10 @@ const optedHDTracks: Tracks = {
   'Best Beginner Hack': {
     name: 'Best Beginner Hack',
     filter: 'General',
-    prizes: ["Tickets to Freepik's Upscale Conference"],
-    images: [upscaleTickets],
+    prizes: ['24 Inch Monitor'],
+    images: [monitor],
     eligibility_criteria:
-      'Every team member MUST be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project. Foster creativity and collaboration within the team and display a commitment to building skills.',
+      'Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project. Foster creativity and collaboration within the team and display a commitment to building skills.',
     domain: 'swe',
     domainDisplayName: 'Software Engineering',
     scoring_criteria: [
@@ -234,8 +133,8 @@ const optedHDTracks: Tracks = {
   'Best Interdisciplinary Hack': {
     name: 'Best Interdisciplinary Hack',
     filter: 'General',
-    prizes: ['3D Printing Pen'],
-    images: [threeDPen],
+    prizes: ['$75 STEAM Giftcard'],
+    images: [steamGiftcard],
     eligibility_criteria:
       'Leverage multiple perspectives across different disciplines to create a more well-rounded project. At least one member of the team needs to be a non-CS/CSE/otherwise CS-related major in order to qualify.',
     domain: 'swe',
@@ -339,47 +238,11 @@ const optedHDTracks: Tracks = {
       },
     ],
   },
-  'Best AI/ML Hack': {
-    name: 'Best AI/ML Hack',
-    filter: 'Technical',
-    prizes: ['Claude API credits worth $750'],
-    images: [claudeLogo],
-    eligibility_criteria:
-      'Project must demostrate unique or creative application of AI/ML, built on high-quality data, utilizing relevant algorithms and libraries and/or cloud platforms for development and evaluated with relevant performance metrics. Participants should show how their data was collected or sourced and clearly explain the reasoning or behavior of their AI. We encourage that models aim for generalization to unseen circumstances.',
-    domain: 'aiml',
-    domainDisplayName: 'Data Science or AI/ML',
-    scoring_criteria: [
-      {
-        attribute: 'Necessity of AI/ML for Solving the Problem',
-        guidelines: {
-          1: 'Problem is obviously solvable with deterministic algorithms with more reliable output.',
-          3: 'Problem can be solved with complex deterministic algorithms, but AI/ML is a reasonable choice.',
-          5: 'Deterministic algorithms are unable to solve the problem. AI/ML is the only solution.',
-        },
-      },
-      {
-        attribute: 'Model Performance and Evaluation',
-        guidelines: {
-          1: 'Poor accuracy and generalization; minimal performance metrics.',
-          3: 'Decent metrics; moderate evaluation efforts.',
-          5: 'Strong results backed by solid metrics; tested on unseen data or edge cases.',
-        },
-      },
-      {
-        attribute: 'Technical Execution and Use of Tools',
-        guidelines: {
-          1: 'Surface-level use of tools; no customization or tuning.',
-          3: 'Proper use of libraries with some tuning or data pipeline effort.',
-          5: 'Deep technical execution with custom methods, advanced techniques, or strong tool mastery.',
-        },
-      },
-    ],
-  },
   'Best Hack for Social Justice': {
     name: 'Best Hack for Social Justice',
     filter: 'General',
-    prizes: ['Digital Camera'],
-    images: [camera],
+    prizes: ['Kindle'],
+    images: [kindle],
     eligibility_criteria:
       'Hack must address a social justice issue such as racial inequality, economic injustice, environmental justice, etc. This project should develop tangible solutions and/or raise awareness on these topics.',
     domain: 'business',
@@ -414,10 +277,10 @@ const optedHDTracks: Tracks = {
   'Best UI/UX Design': {
     name: 'Best UI/UX Design',
     filter: 'Design',
-    prizes: ['Beats Studio Pro'],
-    images: [headphones],
+    prizes: ['Figma Full Seat (4 month subscription)'],
+    images: [figmaLogo],
     eligibility_criteria:
-      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing, responsive design and promotes intuitive user experiences.',
+      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing in Figma, responsive design and promotes intuitive user experiences.',
     domain: 'design',
     domainDisplayName: 'UI/UX Design',
     scoring_criteria: [
@@ -450,7 +313,7 @@ const optedHDTracks: Tracks = {
   'Best User Research': {
     name: 'Best User Research',
     filter: 'Design',
-    prizes: ['6-month ChatGPT Plus Subscription'],
+    prizes: ['ChatGPT+ (4 month subscription)'],
     images: [chatgptLogo],
     eligibility_criteria:
       'Awarded to a well-researched project that keeps its userbase in mind with an inclusive design aimed to maximize accessibility.',
@@ -486,8 +349,8 @@ const optedHDTracks: Tracks = {
   'Best Entrepreneurship Hack': {
     name: 'Best Entrepreneurship Hack',
     filter: 'Business',
-    prizes: ['2-month WiX Business Subscription'],
-    images: [wixLogo],
+    prizes: ['North Face Backpack'],
+    images: [backpack],
     eligibility_criteria:
       "No Code Required. A project that focuses on viability and persuasive power through presentation on the product/service you're trying to sell, relevant customer segments, distribution channels, and associated revenue/profit models.",
     domain: 'business',
@@ -522,8 +385,8 @@ const optedHDTracks: Tracks = {
   'Best Statistical Model': {
     name: 'Best Statistical Model',
     filter: 'Business',
-    prizes: ['Portable Hacking Kit'],
-    images: [hackingKit],
+    prizes: ['Bluetooth Speaker'],
+    images: [bluetoothSpeaker],
     eligibility_criteria:
       "Projects must use exploratory data analysis (EDA) to guide their modeling decisions and hypotheses. Final models should include significance tests and be evaluated with metrics like MSE, R², adjusted R², precision, or recall, demonstrating clear statistical reasoning aligned with the project's core question or goal.",
     domain: 'aiml',
@@ -555,78 +418,58 @@ const optedHDTracks: Tracks = {
       },
     ],
   },
-  'Best Medical Hack': {
-    name: 'Best Medical Hack',
-    filter: 'Technical',
-    prizes: ['Fitbit'],
-    images: [fitbit],
+};
+
+const nonHDTracks: Tracks = {
+  'Best AI/ML Hack': {
+    name: 'Best AI/ML Hack',
+    filter: 'Sponsor',
+    prizes: ['$750 in Claude API credits'],
+    images: [claudeLogo],
     eligibility_criteria:
-      'Revolutionize healthcare with technology! This category celebrates hacks that innovate in medical diagnostics, treatment, patient care, or healthcare accessibility.',
-    domain: 'medtech',
-    domainDisplayName: 'MedTech/BioTech',
+      'Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms + ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. We encourage that models work accurately on unseen circumstances (displays versatility).',
+    domain: 'aiml',
+    domainDisplayName: 'Data Science or AI/ML',
     scoring_criteria: [
       {
-        attribute: 'Relevance to a Real Medical Problem',
+        attribute: 'Necessity of AI/ML for Solving the Problem',
         guidelines: {
-          1: "Vague or unclear medical application; doesn't address a meaningful or specific issue.",
-          3: 'Addresses a relevant medical use case with some research and reasoning shown.',
-          5: 'Clearly identifies a pressing medical need with evidence of research, user need, or potential impact.',
+          1: 'Problem is obviously solvable with deterministic algorithms with more reliable output.',
+          3: 'Problem can be solved with complex deterministic algorithms, but AI/ML is a reasonable choice.',
+          5: 'Deterministic algorithms are unable to solve the problem. AI/ML is the only solution.',
         },
       },
       {
-        attribute: 'Feasibility of Implementation',
+        attribute: 'Model Performance and Evaluation',
         guidelines: {
-          1: 'Solution appears difficult to implement practically or lacks technical grounding.',
-          3: 'Somewhat feasible; working prototype shown, though parts may be underdeveloped or theoretical.',
-          5: 'Technically feasible with a working prototype that could realistically be deployed or scaled.',
+          1: 'Poor accuracy and generalization; minimal performance metrics.',
+          3: 'Decent metrics; moderate evaluation efforts.',
+          5: 'Strong results backed by solid metrics; tested on unseen data or edge cases.',
         },
       },
       {
-        attribute: 'Data Privacy, Security & Compliance',
+        attribute: 'Technical Execution and Use of Tools',
         guidelines: {
-          1: 'Lacks basic protections and ignores regulatory requirements.',
-          3: 'Implements safeguards and is aware of HIPAA/GDPR.',
-          5: 'Fully addresses privacy and security and demonstrates understanding of relevant regulations.',
+          1: 'Surface-level use of tools; no customization or tuning.',
+          3: 'Proper use of libraries with some tuning or data pipeline effort.',
+          5: 'Deep technical execution with custom methods, advanced techniques, or strong tool mastery.',
         },
       },
     ],
   },
-  // waiting on Med School groups for the next two tracks
-  'Best Assistive Technology': {
-    name: 'Best Assistive Technology',
-    filter: 'Technical',
-    prizes: ['Logitech Lift Mouse'],
-    images: [logitechMouse],
-    eligibility_criteria:
-      'Empower individuals with disabilities through innovative assistive technology! This category recognizes projects that enhance accessibility, independence, and quality of life for people with disabilities.',
-    domain: 'medtech',
-    domainDisplayName: 'MedTech/BioTech',
-    scoring_criteria: [
-      {
-        attribute: 'Accessibility Impact',
-        guidelines: {
-          1: "Minimal consideration for accessibility; doesn't address a specific disability or user group.",
-          3: 'Targets a specific disability or accessibility need; partially addresses barriers.',
-          5: 'Thoughtfully addresses a real accessibility challenge with a clear use case and significant potential to empower users.',
-        },
-      },
-      {
-        attribute: 'Customization & Personalization',
-        guidelines: {
-          1: 'One-size-fits-all interface with no user-adjustable settings; not adaptable to individual needs.',
-          3: 'Offers a handful of presets or adjustable parameters (e.g. text size, volume), but limited depth.',
-          5: 'Deep personalization: multiple adjustable modalities (voice, touch, gesture), fine-tunable settings, user profiles saved for repeat use.',
-        },
-      },
-      {
-        attribute: 'Inclusive Design',
-        guidelines: {
-          1: 'Minimal or no accessibility considerations; uses hard-to-read fonts, poor color contrast, or inaccessible controls.',
-          3: 'Addresses some accessibility needs (e.g., high contrast mode, keyboard navigation), but lacks full inclusivity or testing.',
-          5: 'Demonstrates comprehensive inclusive design—supports color blindness (e.g., non-color-based cues), screen reader compatibility, keyboard-only navigation, simple language, clear layout, cognitive-friendly design, etc.',
-        },
-      },
-    ],
+  "Best Hack for Women's Center": {
+    name: "Best Hack for Women's Center",
+    filter: 'Non-Profit',
+    prizes: ['Aroma Diffuser'],
+    images: [aromaDiffuser],
+    eligibility_criteria: '',
+  },
+  'Best Hack for ASUCD Pantry': {
+    name: 'Best Hack for ASUCD Pantry',
+    filter: 'Non-Profit',
+    prizes: ['Pokemon Packs'],
+    images: [pokemonPacks],
+    eligibility_criteria: '',
   },
 };
 
