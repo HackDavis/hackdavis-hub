@@ -17,7 +17,8 @@ export default function Page() {
     <main id="home">
       <TableNumberContextProvider>
         <ClientTimeProtectedDisplay featureId="hero-hacking">
-          <HeroMVP />
+          {/* <HeroMVP /> */}
+          <HeroJudging />
           <ScheduleSneakPeek />
           <BeginnersSection />
           <MDHelp />
