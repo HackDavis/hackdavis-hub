@@ -83,7 +83,7 @@ export default function HackbotMessageList({
                   <MarkdownText text={m.content} />
                 </p>
               )}
-              {m.url && !m.events?.length && (
+              {m.url && (
                 <a
                   href={m.url}
                   className="mt-1.5 inline-flex items-center gap-0.5 text-[10px] font-semibold underline underline-offset-2"

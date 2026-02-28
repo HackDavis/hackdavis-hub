@@ -63,6 +63,7 @@ export type HackbotEvent = {
   type: string | null;
   start: string | null;
   end: string | null;
+  startMs: number | null;
   location: string | null;
   host: string | null;
   tags: string[];

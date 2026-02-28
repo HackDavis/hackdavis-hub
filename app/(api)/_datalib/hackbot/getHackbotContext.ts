@@ -108,8 +108,55 @@ export async function retrieveContext(
       .toArray();
 
     if (!vectorResults.length) {
-      console.warn('[hackbot][retrieve] Vector search returned no results.');
-      return { docs: [] };
+      console.warn(
+        '[hackbot][retrieve] Vector search returned no results — falling back to keyword search on hackbot_knowledge.'
+      );
+
+      // Fallback: keyword search directly against the source-of-truth collection.
+      // This keeps the bot functional when hackbot_docs hasn't been seeded yet
+      // or the Atlas vector index is not active.
+      const keywords = trimmed
+        .split(/\s+/)
+        .filter((w) => w.length > 3)
+        .slice(0, 8);
+
+      const fallbackQuery =
+        keywords.length > 0
+          ? {
+              $or: [
+                { title: { $regex: keywords.join('|'), $options: 'i' } },
+                { content: { $regex: keywords.join('|'), $options: 'i' } },
+              ],
+            }
+          : {};
+
+      const fallbackRaw = await db
+        .collection('hackbot_knowledge')
+        .find(fallbackQuery)
+        .limit(limit)
+        .toArray();
+
+      if (!fallbackRaw.length) {
+        console.warn(
+          '[hackbot][retrieve] Keyword fallback also returned no results. hackbot_knowledge may be empty — import docs via /admin/hackbot.'
+        );
+        return { docs: [] };
+      }
+
+      const fallbackDocs: HackDoc[] = fallbackRaw.map((doc: any) => ({
+        id: String(doc._id),
+        type: doc.type,
+        title: doc.title,
+        text: doc.content,
+        url: doc.url ?? undefined,
+      }));
+
+      console.log('[hackbot][retrieve][keyword-fallback]', {
+        query: trimmed,
+        titles: fallbackDocs.map((d) => d.title),
+      });
+
+      return { docs: fallbackDocs };
     }
 
     const docs: HackDoc[] = vectorResults.map((doc: any) => ({

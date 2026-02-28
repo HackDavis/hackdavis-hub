@@ -1,4 +1,4 @@
-import { streamText, tool } from 'ai';
+import { streamText, tool, StreamData } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { retrieveContext } from '@datalib/hackbot/getHackbotContext';
@@ -116,6 +116,12 @@ export async function POST(request: Request) {
             .join('\n\n')
         : 'No additional knowledge context found.';
 
+    // First doc with a URL becomes the "More info" link surfaced in the widget.
+    // Fall back to Mentor/Director Help when no relevant docs were found.
+    const primaryUrl =
+      docs?.find((d) => d.url)?.url ??
+      (docs && docs.length === 0 ? '/#mentor-help' : null);
+
     const pageContext = getPageContext(currentPath);
     const systemPrompt = buildSystemPrompt({ profile, pageContext });
 
@@ -132,6 +138,12 @@ export async function POST(request: Request) {
     const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
     const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '600', 10);
 
+    // Attach URL annotation so the widget can render a "More info" link
+    const streamData = new StreamData();
+    if (primaryUrl) {
+      streamData.appendMessageAnnotation({ url: primaryUrl });
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: any = await streamText({
       model: openai(model) as any,
@@ -141,6 +153,9 @@ export async function POST(request: Request) {
       })),
       maxTokens,
       maxSteps: 5,
+      onFinish() {
+        streamData.close();
+      },
       tools: {
         get_events: tool({
           description:
@@ -222,6 +237,7 @@ export async function POST(request: Request) {
                   type: ev.type || null,
                   start: startDate ? formatEventDateTime(ev.start_time) : null,
                   end: endFormatted,
+                  startMs: startDate?.getTime() ?? null,
                   location: ev.location || null,
                   host: ev.host || null,
                   tags: Array.isArray(ev.tags) ? ev.tags : [],
@@ -246,7 +262,7 @@ export async function POST(request: Request) {
       },
     });
 
-    return result.toDataStreamResponse();
+    return result.toDataStreamResponse({ data: streamData });
   } catch (error: any) {
     console.error('[hackbot][stream] Error', error);
 

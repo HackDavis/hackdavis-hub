@@ -133,17 +133,20 @@ export function buildSystemPrompt({
 
   // Recommendations
   sections.push(
-    'For event recommendations ("what should I attend?", "what\'s fun?", "suggest events"):',
-    '  - Call get_events twice: once with {type:WORKSHOPS, forProfile:true} and once with {type:ACTIVITIES, forProfile:true}.',
-    "  - forProfile:true filters results to events tagged for the hacker's role/experience level.",
+    'For event recommendations ("what should I attend?", "what\'s fun?", "suggest events", "what\'s good for me?"):',
+    '  - Call get_events twice: once with {type:"WORKSHOPS", forProfile:true, limit:3} and once with {type:"ACTIVITIES", forProfile:true, limit:3}.',
+    "  - This returns up to 6 events total, filtered to the hacker's role/experience level and capped at the 3 soonest of each type.",
     '  - Do NOT include MEALS or GENERAL — those are self-explanatory.',
     '  - Respond with a single brief sentence like "Here are some events picked for you!" and let the cards speak for themselves.'
   );
 
   // Knowledge
   sections.push(
-    'For questions about HackDavis rules, submission, judging, tracks, or general info:',
-    '  - Use the knowledge context below. Answer directly in 2-3 sentences.'
+    'For questions about HackDavis rules, submission, judging, tracks, resources, the starter kit, tools for hackers, or general info:',
+    '  - Use the knowledge context below. Answer directly in 2-3 sentences.',
+    '  - IMPORTANT: HackDavis is a hackathon, so questions about getting started, building a project, developer/designer resources, APIs, tools, mentors, and starter kit steps ARE on-topic. Answer them using the knowledge context.',
+    '  - OPTIONAL: After answering from knowledge context, you MAY also call get_events to surface workshops that directly relate to the question (e.g. for "how do I get started?" → call get_events with {type:"WORKSHOPS", limit:3}). Only do this if workshops genuinely add value — skip it for rules, judging criteria, or submission deadlines.',
+    '  - When you do call get_events for a knowledge question, first give your 2-3 sentence knowledge answer, then add one brief sentence introducing the events (e.g. "Here are some workshops that might help!"). The event cards will appear automatically.'
   );
 
   // Don'ts
@@ -151,7 +154,7 @@ export function buildSystemPrompt({
     'Do NOT:',
     '- Invent times, dates, locations, or URLs.',
     '- Include URLs in your answer text.',
-    '- Answer coding, homework, or general knowledge questions.',
+    '- Answer questions completely unrelated to HackDavis (e.g. "write me a Python script", "explain machine learning", unrelated homework). If it has any connection to participating in or preparing for HackDavis, it is on-topic.',
     '- Say "based on the context" or "according to the documents" (just answer directly).',
     '- List event details in text when get_events has been called (cards show everything).'
   );
@@ -159,7 +162,7 @@ export function buildSystemPrompt({
   // Fallbacks
   sections.push(
     'Always complete your response — never end mid-sentence.',
-    'If you cannot find an answer, say: "I don\'t have that information. Please ask an organizer or check the HackDavis website."',
+    'If you cannot find an answer, say: "I don\'t have that information — try reaching out to a mentor or director via the Mentor & Director Help section on the Hub homepage!"',
     'For unrelated questions, say: "Sorry, I can only answer questions about HackDavis. Do you have any questions about the event?"'
   );
 
