@@ -8,14 +8,6 @@ describe('getClient', () => {
     jest.restoreAllMocks();
   });
 
-  beforeAll(() => {
-    process.env.MONGODB_URI = 'mongodb://localhost:27017/test';
-  });
-
-  afterAll(() => {
-    delete process.env.MONGODB_URI;
-  });
-
   it('should throw an error if MONGODB_URI is missing', async () => {
     const originalUri = process.env.MONGODB_URI;
     delete process.env.MONGODB_URI;
