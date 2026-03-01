@@ -14,18 +14,7 @@ export async function getClient() {
   }
 
   if (!cachedPromise) {
-    const client = new MongoClient(uri, {
-      // Connection pooling
-      maxPoolSize: 5,
-      minPoolSize: 1,
-      maxIdleTimeMS: 30000,
-      waitQueueTimeoutMS: 5000,
-
-      // Prevent connection overhead
-      retryWrites: true,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-    });
+    const client = new MongoClient(uri);
 
     cachedPromise = client
       .connect()
