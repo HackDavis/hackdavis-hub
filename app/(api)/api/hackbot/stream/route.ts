@@ -8,6 +8,7 @@ import {
   parseRawDate,
   formatEventDateTime,
   formatEventTime,
+  getLADateString,
 } from '@utils/hackbot/eventFormatting';
 import {
   isEventRecommended,
@@ -18,7 +19,7 @@ import type { HackerProfile } from '@typeDefs/hackbot';
 import { getPageContext, buildSystemPrompt } from '@utils/hackbot/systemPrompt';
 
 const MAX_USER_MESSAGE_CHARS = 200;
-const MAX_HISTORY_MESSAGES = 10;
+const MAX_HISTORY_MESSAGES = 6;
 
 const fewShotExamples = [
   {
@@ -82,10 +83,9 @@ export async function POST(request: Request) {
     }
 
     // Greetings don't need knowledge context — skip the embedding round-trip.
-    const isSimpleGreeting =
-      /^(hi|hello|hey|thanks|thank you|ok|okay)\b/i.test(
-        lastMessage.content.trim()
-      );
+    const isSimpleGreeting = /^(hi|hello|hey|thanks|thank you|ok|okay)\b/i.test(
+      lastMessage.content.trim()
+    );
 
     // Run auth and context retrieval in parallel to save ~400 ms.
     let session;
@@ -147,11 +147,23 @@ export async function POST(request: Request) {
       ...messages.slice(-MAX_HISTORY_MESSAGES),
     ];
 
-    const model = process.env.OPENAI_MODEL || 'gpt-5-mini';
-    const maxOutputTokens = parseInt(
+    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    const configuredMaxTokens = parseInt(
       process.env.OPENAI_MAX_TOKENS || '600',
       10
     );
+    // Reasoning models (o1, o3, o4-mini, gpt-5*) use max_completion_tokens which
+    // includes BOTH reasoning tokens and output tokens. If the budget is too low,
+    // reasoning consumes all tokens and no visible text is produced. Auto-scale to
+    // at least 4000 so reasoning has headroom alongside the actual response.
+    const isReasoningModel =
+      /^(o1|o3|o4-mini|gpt-5(?!-chat))/.test(model) ||
+      model.startsWith('codex-mini') ||
+      model.startsWith('computer-use-preview');
+    const maxOutputTokens = isReasoningModel
+      ? Math.max(configuredMaxTokens, 4000)
+      : configuredMaxTokens;
+    console.log(`[hackbot][stream] model=${model} isReasoning=${isReasoningModel} maxOutputTokens=${maxOutputTokens}`);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = streamText({
@@ -177,9 +189,6 @@ export async function POST(request: Request) {
         if (!onlyProvideLinks) return false;
         // Only short-circuit if the LLM has actually produced some answer text
         return steps.some((s: any) => (s.text ?? '').trim().length > 0);
-      },
-      providerOptions: {
-        openai: { reasoningEffort: 'low' },
       },
       tools: {
         get_events: tool({
@@ -208,19 +217,40 @@ export async function POST(request: Request) {
               .boolean()
               .nullable()
               .describe(
-                "When true, filters results to only events relevant to the hacker's role/experience (beginner, developer, designer, pm). Events with no role tags are always included. Use this for personalised recommendations. Pass null to skip."
+                "When true, filters results to only events relevant to the logged-in hacker's own role/experience. Use ONLY when the user is asking about their own events ('what should I attend?'). Do NOT use when asking about a different role (use the tags filter instead). Pass null to skip."
               ),
             timeFilter: z
-              .enum(['today', 'now', 'upcoming', 'past'])
+              .enum([
+                'today',
+                'now',
+                'upcoming',
+                'past',
+                'morning',
+                'afternoon',
+                'evening',
+                'night',
+              ])
               .nullable()
               .describe(
-                'Filter events by time: "today" = starts today, "now" = currently live, "upcoming" = starts within 3 hours, "past" = already ended. Pass null for no time filter.'
+                'Filter events by time: "today" = starts today, "now" = currently live, "upcoming" = starts within 3 hours, "past" = already ended. Time-of-day (LA timezone): "morning" = 6 AM–noon, "afternoon" = noon–5 PM, "evening" = 5–9 PM, "night" = 9 PM–6 AM. Pass null for no time filter.'
               ),
             include_activities: z
               .boolean()
               .nullable()
               .describe(
                 'Allow ACTIVITIES-type events in results. Set to true ONLY when the user is explicitly asking about social/fun activities to attend. NEVER set this for prize track questions, knowledge questions, or workshop queries. Pass null or false otherwise.'
+              ),
+            tags: z
+              .array(z.string())
+              .nullable()
+              .describe(
+                'Filter events that have ALL of the specified tags (e.g. ["designer"] to find designer-tagged workshops, ["beginner"] for beginner events). Use this when the user asks about role-specific workshops for a role that may differ from their own profile. Pass null for no tag filter.'
+              ),
+            date: z
+              .string()
+              .nullable()
+              .describe(
+                'Filter events starting on a specific date (YYYY-MM-DD in LA timezone). Use for date-specific queries ("second day", "Sunday", "May 10"). Compute the date from the current time context in the system prompt. Pass null for no date filter.'
               ),
           }),
           execute: async ({
@@ -230,12 +260,19 @@ export async function POST(request: Request) {
             forProfile,
             timeFilter,
             include_activities,
+            tags,
+            date,
           }) => {
+            console.log('[hackbot][stream][tool] get_events input', {
+              type, search, limit, forProfile, timeFilter, include_activities, tags, date,
+            });
             try {
               const db = await getDatabase();
               const query: Record<string, unknown> = {};
               if (type) query.type = { $regex: type, $options: 'i' };
               if (search) query.name = { $regex: search, $options: 'i' };
+              if (tags && tags.length > 0)
+                query.tags = { $all: tags.map((t) => t.toLowerCase()) };
 
               const events = await db
                 .collection('events')
@@ -243,17 +280,50 @@ export async function POST(request: Request) {
                 .sort({ start_time: 1 })
                 .toArray();
 
+              // Date filter (post-fetch, LA timezone)
+              const dateFiltered = date
+                ? events.filter((ev: any) => {
+                    const start = parseRawDate(ev.start_time);
+                    return start && getLADateString(start) === date;
+                  })
+                : events;
+
               // Block ACTIVITIES unless explicitly opted in
               const typeFiltered = include_activities
-                ? events
-                : events.filter(
+                ? dateFiltered
+                : dateFiltered.filter(
                     (ev: any) => (ev.type ?? '').toUpperCase() !== 'ACTIVITIES'
                   );
 
+              // When filtering by a specific exclusive role tag (designer/developer/pm),
+              // exclude events also tagged for other exclusive roles — those are general
+              // events for all roles, not role-specific workshops.
+              const EXCLUSIVE_ROLE_TAGS = new Set([
+                'developer',
+                'designer',
+                'pm',
+              ]);
+              const requestedExclusive = (tags ?? [])
+                .map((t) => t.toLowerCase())
+                .filter((t) => EXCLUSIVE_ROLE_TAGS.has(t));
+              const roleSpecificFiltered =
+                requestedExclusive.length > 0
+                  ? typeFiltered.filter((ev: any) => {
+                      const evTags = (ev.tags ?? []).map((t: string) =>
+                        t.toLowerCase()
+                      );
+                      return !evTags.some(
+                        (t: string) =>
+                          EXCLUSIVE_ROLE_TAGS.has(t) &&
+                          !requestedExclusive.includes(t)
+                      );
+                    })
+                  : typeFiltered;
+
               // Apply time filter first (before profile and limit)
               const timeFiltered = timeFilter
-                ? applyTimeFilter(typeFiltered, timeFilter)
-                : typeFiltered;
+                ? applyTimeFilter(roleSpecificFiltered, timeFilter)
+                : roleSpecificFiltered;
 
               const profileFiltered =
                 forProfile && profile
@@ -267,6 +337,12 @@ export async function POST(request: Request) {
                 ? profileFiltered.slice(0, limit)
                 : profileFiltered;
 
+              console.log('[hackbot][stream][tool] get_events counts', {
+                total: events.length, afterDate: dateFiltered.length,
+                afterType: typeFiltered.length, afterRole: roleSpecificFiltered.length,
+                afterTime: timeFiltered.length, afterProfile: profileFiltered.length,
+                afterLimit: limited.length,
+              });
               if (!limited.length) {
                 return { events: [], message: 'No events found.' };
               }
@@ -333,49 +409,62 @@ export async function POST(request: Request) {
       },
     });
 
-    // Build a custom stream using the old Data Stream Protocol format so the
-    // existing widget parser (0: text, 8: annotations, a: tool results) works
-    // without any client-side changes after the ai@5 upgrade.
+    // Build a custom stream using the Data Stream Protocol format so the
+    // existing widget parser (0: text, 8: annotations, a: tool results) works.
     //
-    // Read baseStream directly instead of fullStream to avoid the tee deadlock:
-    // fullStream calls teeStream() which creates an unread second stream that
-    // fills up and back-pressures the whole pipeline, stalling after ~2 events.
-    // baseStream emits { part, partialOutput } objects; we extract `part`.
-    //
-    // We use a TransformStream + background producer instead of a pull-based
-    // ReadableStream so that the HTTP response starts flowing immediately while
-    // the background task drives the LLM pipeline independently.
+    // We use a ReadableStream with an inline start() function that consumes
+    // fullStream directly. This avoids TransformStream backpressure issues that
+    // cause ResponseAborted when the HTTP layer and IIFE run out of sync.
     const enc = new TextEncoder();
-    const { readable, writable } = new TransformStream<
-      Uint8Array,
-      Uint8Array
-    >();
-    const writer = writable.getWriter();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const bs = (result as any).baseStream as ReadableStream<{
-      part: any;
-      partialOutput: any;
-    }>;
+    const stream = new ReadableStream({
+      async start(controller) {
+        // ai@6 usage format: { inputTokens, outputTokens, inputTokenDetails.cacheReadTokens }
+        let finishPromptTokens = 0;
+        let finishCompletionTokens = 0;
+        let finishCachedTokens = 0;
+        let streamError: string | null = null;
 
-    (async () => {
-      try {
-        // (Links are surfaced via the provide_links tool result in `a:` events)
+        const enq = (line: string) =>
+          controller.enqueue(enc.encode(line));
 
-        const reader = bs.getReader();
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-          // eslint-disable-next-line no-await-in-loop
-          const { done, value } = await reader.read();
-          if (done) break;
-          const part = value?.part;
-          if (part?.type === 'text-delta') {
-            // eslint-disable-next-line no-await-in-loop
-            await writer.write(enc.encode(`0:${JSON.stringify(part.text)}\n`));
-          } else if (part?.type === 'tool-result') {
-            // eslint-disable-next-line no-await-in-loop
-            await writer.write(
-              enc.encode(
+        // Suppress post-tool text only when the model has already output text
+        // in a prior step. This prevents the model from "narrating" its own
+        // tool results (e.g. summarising event cards that the UI already shows).
+        //
+        // IMPORTANT: if the model calls tools FIRST (no text in step 1) and
+        // generates its full response in step 2, we must NOT suppress that text.
+        // suppressText is therefore only armed after text has been emitted.
+        let textHasBeenOutput = false;
+        let suppressText = false;
+
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          for await (const part of (result as any).fullStream) {
+            if (part?.type === 'text-delta') {
+              // ai@6: text-delta part has `text` field
+              if (!suppressText) {
+                enq(`0:${JSON.stringify(part.text ?? '')}\n`);
+                if (part.text) textHasBeenOutput = true;
+              }
+            } else if (part?.type === 'tool-call') {
+              console.log(`[hackbot][stream][tool] calling: ${part.toolName}`);
+              // Notify client that a tool call is in flight (for loading indicator)
+              enq(
+                `9:${JSON.stringify([
+                  {
+                    toolCallId: part.toolCallId,
+                    toolName: part.toolName,
+                    state: 'call',
+                  },
+                ])}\n`
+              );
+            } else if (part?.type === 'tool-result') {
+              // Only arm suppressText once the model has already shown text.
+              // If no text yet, let step-2+ text through (tools-first pattern).
+              if (textHasBeenOutput) suppressText = true;
+              // ai@6: tool-result part has `output` field (not `result`)
+              enq(
                 `a:${JSON.stringify([
                   {
                     toolCallId: part.toolCallId,
@@ -384,22 +473,60 @@ export async function POST(request: Request) {
                     result: part.output,
                   },
                 ])}\n`
-              )
-            );
+              );
+            } else if (part?.type === 'error') {
+              console.error('[hackbot][stream] OpenAI error in stream:', part.error);
+              streamError = (part.error as any)?.message ?? 'OpenAI server error';
+              break;
+            } else if (part?.type === 'finish') {
+              // ai@6: finish part uses `totalUsage`
+              finishPromptTokens = part.totalUsage?.inputTokens ?? 0;
+              finishCompletionTokens = part.totalUsage?.outputTokens ?? 0;
+              finishCachedTokens =
+                part.totalUsage?.inputTokenDetails?.cacheReadTokens ?? 0;
+            } else if (part?.type === 'finish-step' && finishPromptTokens === 0) {
+              // Fallback: finish-step uses `usage` (not `totalUsage`)
+              finishPromptTokens = part.usage?.inputTokens ?? 0;
+              finishCompletionTokens = part.usage?.outputTokens ?? 0;
+              finishCachedTokens =
+                part.usage?.inputTokenDetails?.cacheReadTokens ?? 0;
+            }
           }
-        }
-        await writer.close();
-      } catch (e) {
-        console.error('[hackbot][stream] baseStream error', e);
-        try {
-          await writer.abort(e as Error);
-        } catch {
-          // ignore abort error
-        }
-      }
-    })();
 
-    const stream = readable;
+          // Emit error event to client before closing so the widget can retry
+          if (streamError) {
+            enq(`3:${JSON.stringify('Something went wrong. Please try again.')}\n`);
+          }
+          controller.close();
+        } catch (e) {
+          console.error('[hackbot][stream] fullStream error', e);
+          controller.error(e);
+          return;
+        }
+
+        // Log + persist usage metrics (fire-and-forget, never blocks response)
+        console.log('[hackbot][stream] usage', {
+          promptTokens: finishPromptTokens,
+          completionTokens: finishCompletionTokens,
+          cachedPromptTokens: finishCachedTokens,
+        });
+        if (finishPromptTokens > 0) {
+          getDatabase()
+            .then((db) =>
+              db.collection('hackbot_usage').insertOne({
+                timestamp: new Date(),
+                model,
+                promptTokens: finishPromptTokens,
+                completionTokens: finishCompletionTokens,
+                cachedPromptTokens: finishCachedTokens,
+              })
+            )
+            .catch((err) =>
+              console.error('[hackbot][stream] usage insert failed', err)
+            );
+        }
+      },
+    });
 
     return new Response(stream, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },

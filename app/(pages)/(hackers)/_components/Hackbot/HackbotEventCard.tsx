@@ -44,7 +44,10 @@ export default function HackbotEventCard({
     setAddError(false);
     try {
       if (added) {
-        const result = await deleteUserToEvent({ user_id: userId, event_id: event.id });
+        const result = await deleteUserToEvent({
+          user_id: userId,
+          event_id: event.id,
+        });
         if (!result.ok) throw new Error('Failed to remove');
         setAdded(false);
       } else {
@@ -207,7 +210,10 @@ export default function HackbotEventCard({
                   />
                   Added
                 </span>
-                <span className="hidden group-hover/addbtn:inline-flex items-center gap-1" style={{ color: '#fca5a5' }}>
+                <span
+                  className="hidden group-hover/addbtn:inline-flex items-center gap-1"
+                  style={{ color: '#fca5a5' }}
+                >
                   Remove
                 </span>
               </>

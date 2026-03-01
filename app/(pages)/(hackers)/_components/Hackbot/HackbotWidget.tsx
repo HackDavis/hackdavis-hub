@@ -18,15 +18,8 @@ const STORAGE_KEY = 'hackbot_chat_history';
 const MAX_STORED_MESSAGES = 20;
 const MIN_WIDTH = 360;
 const MAX_WIDTH_FRACTION = 0.5;
-const CASCADE_DELAY_MS = 350;
+const CASCADE_DELAY_MS = 150;
 
-const SUGGESTION_CHIPS = [
-  "I'm a beginner, where do I start?",
-  'How are projects judged?',
-  "What's my team number vs. table number?",
-  'What developer and designer resources are there?',
-  'When is the submission deadline?',
-];
 
 export default function HackbotWidget({
   userId,
@@ -70,8 +63,25 @@ export default function HackbotWidget({
   });
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [toolPending, setToolPending] = useState(false);
+  const [retrying, setRetrying] = useState(0);
+  const [cascading, setCascading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Set when a tool-result arrives mid-stream; next text chunk gets a separator
+  const addSeparatorRef = useRef(false);
   const [hackerProfile] = useState<HackerProfile | null>(initialProfile);
+
+  const suggestionChips = [
+    ...(hackerProfile?.is_beginner ? ["I'm a beginner, where do I start?"] : []),
+    hackerProfile?.position === 'developer'
+      ? 'What developer resources are there?'
+      : hackerProfile?.position === 'designer'
+        ? 'What designer resources are there?'
+        : 'What developer and designer resources are there?',
+    'When is the submission deadline?',
+    "What's my team number vs. table number?",
+    'How are projects judged?',
+  ];
 
   // Persist messages to localStorage
   useEffect(() => {
@@ -148,158 +158,232 @@ export default function HackbotWidget({
     cascadeTimersRef.current = [];
     pendingEventsRef.current = [];
     pendingLinksRef.current = [];
+    addSeparatorRef.current = false;
+    setCascading(false);
 
-    const userMessage: HackbotChatMessage = {
-      role: 'user',
-      content: text,
-    };
+    const userMessage: HackbotChatMessage = { role: 'user', content: text };
 
-    setMessages((prev) => [...prev, userMessage]);
+    // Capture conversation history before state updates so the same API messages
+    // are sent on every retry attempt.
+    const historyMessages = messages;
+
+    setMessages((prev) => [
+      ...prev,
+      userMessage,
+      { role: 'assistant', content: '' } as HackbotChatMessage,
+    ]);
     setInput('');
     setError(null);
     setLoading(true);
 
-    setMessages((prev) => [
-      ...prev,
-      { role: 'assistant', content: '' } as HackbotChatMessage,
-    ]);
+    const apiMessages = [
+      ...historyMessages.map((m) => ({ role: m.role, content: m.content })),
+      { role: 'user', content: userMessage.content },
+    ];
 
-    try {
-      const response = await fetch('/api/hackbot/stream', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [
-            ...messages.map((m) => ({ role: m.role, content: m.content })),
-            { role: 'user', content: userMessage.content },
-          ],
-          currentPath: pathname + window.location.hash,
-        }),
-      });
+    const MAX_ATTEMPTS = 3;
+    let succeeded = false;
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Stream failed');
-      }
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      let accumulatedText = '';
-
-      if (reader) {
-        let keepReading = true;
-        while (keepReading) {
-          // eslint-disable-next-line no-await-in-loop
-          const { done, value } = await reader.read();
-          if (done) {
-            keepReading = false;
-          } else {
-            const chunk = decoder.decode(value, { stream: true });
-            for (const line of chunk.split('\n')) {
-              if (line.startsWith('0:')) {
-                // Text delta
-                const content = line
-                  .slice(2)
-                  .trim()
-                  .replace(/^"([\s\S]*)"$/, '$1')
-                  .replace(/\\n/g, '\n')
-                  .replace(/\\"/g, '"');
-                if (content) {
-                  accumulatedText += content;
-                  setMessages((prev) => {
-                    const updated = [...prev];
-                    updated[updated.length - 1] = {
-                      ...updated[updated.length - 1],
-                      content: accumulatedText,
-                    };
-                    return updated;
-                  });
-                }
-              } else if (line.startsWith('8:')) {
-                // Message annotation — buffer links until streaming is done
-                try {
-                  const annotations = JSON.parse(line.slice(2).trim());
-                  const arr = Array.isArray(annotations)
-                    ? annotations
-                    : [annotations];
-                  for (const ann of arr) {
-                    if (Array.isArray(ann.links) && ann.links.length > 0) {
-                      pendingLinksRef.current = ann.links as HackbotLink[];
-                    }
-                  }
-                } catch {
-                  // Malformed annotation — ignore
-                }
-              } else if (line.startsWith('a:')) {
-                // Tool result — buffer events and links; apply after text is done
-                try {
-                  const toolResult = JSON.parse(line.slice(2).trim());
-                  const results = Array.isArray(toolResult)
-                    ? toolResult
-                    : [toolResult];
-                  for (const r of results) {
-                    if (r.result?.events?.length > 0) {
-                      const incoming = r.result.events as HackbotEvent[];
-                      const existing = pendingEventsRef.current;
-                      const merged = [
-                        ...existing,
-                        ...incoming.filter(
-                          (e) => !existing.some((x) => x.id === e.id)
-                        ),
-                      ].sort(
-                        (a, b) =>
-                          (a.startMs ?? Infinity) - (b.startMs ?? Infinity)
-                      );
-                      pendingEventsRef.current = merged;
-                    }
-                    // Links from provide_links tool (dedup by URL)
-                    if (
-                      Array.isArray(r.result?.links) &&
-                      r.result.links.length > 0
-                    ) {
-                      const seen = new Set<string>();
-                      pendingLinksRef.current = (
-                        r.result.links as HackbotLink[]
-                      ).filter((l) => {
-                        if (seen.has(l.url)) return false;
-                        seen.add(l.url);
-                        return true;
-                      });
-                    }
-                  }
-                } catch {
-                  // Malformed tool result — ignore
-                }
-              }
-            }
-          }
-        }
-      }
-
-      setLoading(false);
-
-      // Apply buffered links immediately (no cascade delay)
-      const linksToApply = pendingLinksRef.current;
-      pendingLinksRef.current = [];
-      if (linksToApply.length > 0) {
+    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      if (attempt > 0) {
+        // Show retrying indicator, wait briefly, then reset the assistant bubble
+        setRetrying(attempt);
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((r) => setTimeout(r, 800 * attempt));
+        pendingEventsRef.current = [];
+        pendingLinksRef.current = [];
+        addSeparatorRef.current = false;
         setMessages((prev) => {
           const updated = [...prev];
           for (let i = updated.length - 1; i >= 0; i--) {
             if (updated[i].role === 'assistant') {
-              updated[i] = { ...updated[i], links: linksToApply };
+              updated[i] = { role: 'assistant', content: '' };
               break;
             }
           }
           return updated;
         });
+        setRetrying(0);
       }
 
-      // Cascade buffered events in one by one with staggered delays
-      const eventsToShow = [...pendingEventsRef.current];
-      pendingEventsRef.current = [];
-      if (eventsToShow.length > 0) {
-        eventsToShow.forEach((event, idx) => {
-          const t = setTimeout(() => {
+      let accumulatedText = '';
+      let streamHadError = false;
+
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const response = await fetch('/api/hackbot/stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: apiMessages,
+            currentPath: pathname + window.location.hash,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Stream failed');
+        }
+
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+
+        if (reader) {
+          let keepReading = true;
+          while (keepReading) {
+            // eslint-disable-next-line no-await-in-loop
+            const { done, value } = await reader.read();
+            if (done) {
+              keepReading = false;
+            } else {
+              const chunk = decoder.decode(value, { stream: true });
+              for (const line of chunk.split('\n')) {
+                if (line.startsWith('9:')) {
+                  // Tool call in flight — show loading indicator
+                  setToolPending(true);
+                } else if (line.startsWith('0:')) {
+                  // Text delta
+                  const content = line
+                    .slice(2)
+                    .trim()
+                    .replace(/^"([\s\S]*)"$/, '$1')
+                    .replace(/\\n/g, '\n')
+                    .replace(/\\"/g, '"');
+                  if (content) {
+                    // Add a blank line between step-1 text and any step-2 text
+                    if (addSeparatorRef.current && accumulatedText.length > 0) {
+                      accumulatedText += '\n\n';
+                      addSeparatorRef.current = false;
+                    }
+                    accumulatedText += content;
+                    setMessages((prev) => {
+                      const updated = [...prev];
+                      updated[updated.length - 1] = {
+                        ...updated[updated.length - 1],
+                        content: accumulatedText,
+                      };
+                      return updated;
+                    });
+                  }
+                } else if (line.startsWith('3:')) {
+                  // Server-emitted error — mark for retry
+                  streamHadError = true;
+                  setToolPending(false);
+                  keepReading = false;
+                } else if (line.startsWith('8:')) {
+                  // Message annotation — buffer links until streaming is done
+                  try {
+                    const annotations = JSON.parse(line.slice(2).trim());
+                    const arr = Array.isArray(annotations)
+                      ? annotations
+                      : [annotations];
+                    for (const ann of arr) {
+                      if (Array.isArray(ann.links) && ann.links.length > 0) {
+                        pendingLinksRef.current = ann.links as HackbotLink[];
+                      }
+                    }
+                  } catch {
+                    // Malformed annotation — ignore
+                  }
+                } else if (line.startsWith('a:')) {
+                  // Tool result received — clear tool-pending indicator; mark that
+                  // any subsequent text should be separated from the prior step's text
+                  setToolPending(false);
+                  if (accumulatedText.length > 0)
+                    addSeparatorRef.current = true;
+                  // Buffer events and links; apply after text is done
+                  try {
+                    const toolResult = JSON.parse(line.slice(2).trim());
+                    const results = Array.isArray(toolResult)
+                      ? toolResult
+                      : [toolResult];
+                    for (const r of results) {
+                      if (r.result?.events?.length > 0) {
+                        const incoming = r.result.events as HackbotEvent[];
+                        const existing = pendingEventsRef.current;
+                        const merged = [
+                          ...existing,
+                          ...incoming.filter(
+                            (e) => !existing.some((x) => x.id === e.id)
+                          ),
+                        ].sort(
+                          (a, b) =>
+                            (a.startMs ?? Infinity) - (b.startMs ?? Infinity)
+                        );
+                        pendingEventsRef.current = merged;
+                      }
+                      // Links from provide_links tool (dedup by URL)
+                      if (
+                        Array.isArray(r.result?.links) &&
+                        r.result.links.length > 0
+                      ) {
+                        const seen = new Set<string>();
+                        pendingLinksRef.current = (
+                          r.result.links as HackbotLink[]
+                        ).filter((l) => {
+                          if (seen.has(l.url)) return false;
+                          seen.add(l.url);
+                          return true;
+                        });
+                      }
+                    }
+                  } catch {
+                    // Malformed tool result — ignore
+                  }
+                }
+              }
+            }
+          }
+        }
+      } catch (err: any) {
+        console.error(`[hackbot] Stream error attempt ${attempt + 1}`, err);
+        streamHadError = true;
+      }
+
+      setToolPending(false);
+
+      if (!streamHadError) {
+        succeeded = true;
+        break;
+      }
+
+      console.warn(`[hackbot] Attempt ${attempt + 1}/${MAX_ATTEMPTS} failed`);
+    }
+
+    setLoading(false);
+    setRetrying(0);
+
+    if (!succeeded) {
+      setError('Something went wrong. Please try again.');
+      setMessages((prev) => prev.slice(0, -2)); // remove both the user message and empty assistant bubble
+      return;
+    }
+
+    // Apply buffered links immediately (no cascade delay)
+    const linksToApply = pendingLinksRef.current;
+    pendingLinksRef.current = [];
+    if (linksToApply.length > 0) {
+      setMessages((prev) => {
+        const updated = [...prev];
+        for (let i = updated.length - 1; i >= 0; i--) {
+          if (updated[i].role === 'assistant') {
+            updated[i] = { ...updated[i], links: linksToApply };
+            break;
+          }
+        }
+        return updated;
+      });
+    }
+
+    // Cascade buffered events in one by one with staggered delays
+    const eventsToShow = [...pendingEventsRef.current];
+    pendingEventsRef.current = [];
+    if (eventsToShow.length > 0) {
+      setCascading(true);
+      eventsToShow.forEach((event, idx) => {
+        const isLast = idx === eventsToShow.length - 1;
+        const t = setTimeout(
+          () => {
             setMessages((prev) => {
               // Find the last assistant message and append this event
               for (let i = prev.length - 1; i >= 0; i--) {
@@ -316,15 +400,12 @@ export default function HackbotWidget({
               }
               return prev;
             });
-          }, (idx + 1) * CASCADE_DELAY_MS);
-          cascadeTimersRef.current.push(t);
-        });
-      }
-    } catch (err: any) {
-      console.error('[hackbot] Stream error', err);
-      setError(err.message || 'Network error. Please try again.');
-      setMessages((prev) => prev.slice(0, -1));
-      setLoading(false);
+            if (isLast) setCascading(false);
+          },
+          (idx + 1) * CASCADE_DELAY_MS
+        );
+        cascadeTimersRef.current.push(t);
+      });
     }
   };
 
@@ -361,7 +442,10 @@ export default function HackbotWidget({
           <HackbotMessageList
             messages={messages}
             loading={loading}
-            suggestionChips={SUGGESTION_CHIPS}
+            toolPending={toolPending}
+            retrying={retrying}
+            cascading={cascading}
+            suggestionChips={suggestionChips}
             userId={userId}
             onChipClick={(text) => void sendMessage(text)}
             messagesEndRef={messagesEndRef}
@@ -377,7 +461,7 @@ export default function HackbotWidget({
             onSubmit={handleSubmit}
             onSend={sendMessage}
             onDismissError={() => setError(null)}
-            suggestionChips={SUGGESTION_CHIPS}
+            suggestionChips={suggestionChips}
             onChipSend={(text) => void sendMessage(text)}
           />
         </div>

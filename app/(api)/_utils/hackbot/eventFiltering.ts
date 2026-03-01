@@ -52,10 +52,30 @@ export function isEventRelevantToProfile(
   return false;
 }
 
+/** Returns the hour (0–23) of a Date in LA timezone. */
+function getLAHour(date: Date): number {
+  return parseInt(
+    date.toLocaleString('en-US', {
+      timeZone: 'America/Los_Angeles',
+      hour: 'numeric',
+      hour12: false,
+    }),
+    10
+  );
+}
+
 /** Filters events by time relationship to "now" in LA timezone. */
 export function applyTimeFilter(
   events: any[],
-  filter: 'today' | 'now' | 'upcoming' | 'past'
+  filter:
+    | 'today'
+    | 'now'
+    | 'upcoming'
+    | 'past'
+    | 'morning'
+    | 'afternoon'
+    | 'evening'
+    | 'night'
 ): any[] {
   const now = new Date();
   const todayStr = getLADateString(now);
@@ -86,6 +106,43 @@ export function applyTimeFilter(
       return events.filter((ev) => {
         const end = getEventEndTime(ev);
         return end <= now;
+      });
+    }
+    // Time-of-day filters (match on start_time hour in LA timezone)
+    case 'morning': {
+      // 6 AM – 11:59 AM
+      return events.filter((ev) => {
+        const start = parseRawDate(ev.start_time);
+        if (!start) return false;
+        const h = getLAHour(start);
+        return h >= 6 && h < 12;
+      });
+    }
+    case 'afternoon': {
+      // 12 PM – 4:59 PM
+      return events.filter((ev) => {
+        const start = parseRawDate(ev.start_time);
+        if (!start) return false;
+        const h = getLAHour(start);
+        return h >= 12 && h < 17;
+      });
+    }
+    case 'evening': {
+      // 5 PM – 8:59 PM
+      return events.filter((ev) => {
+        const start = parseRawDate(ev.start_time);
+        if (!start) return false;
+        const h = getLAHour(start);
+        return h >= 17 && h < 21;
+      });
+    }
+    case 'night': {
+      // 9 PM – 5:59 AM (late night / overnight)
+      return events.filter((ev) => {
+        const start = parseRawDate(ev.start_time);
+        if (!start) return false;
+        const h = getLAHour(start);
+        return h >= 21 || h < 6;
       });
     }
     default:

@@ -14,7 +14,7 @@ import type {
 export type { HackbotMessage, HackbotMessageRole, HackbotResponse };
 
 const MAX_USER_MESSAGE_CHARS = 200;
-const MAX_HISTORY_MESSAGES = 10;
+const MAX_HISTORY_MESSAGES = 6;
 const MAX_ANSWER_WORDS = 180;
 
 function truncateToWords(text: string, maxWords: number): string {

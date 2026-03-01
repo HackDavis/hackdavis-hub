@@ -8,6 +8,9 @@ import HackbotEventCard from './HackbotEventCard';
 export default function HackbotMessageList({
   messages,
   loading,
+  toolPending,
+  retrying,
+  cascading,
   suggestionChips,
   userId,
   onChipClick,
@@ -15,6 +18,9 @@ export default function HackbotMessageList({
 }: {
   messages: HackbotChatMessage[];
   loading: boolean;
+  toolPending: boolean;
+  retrying: number;
+  cascading: boolean;
   suggestionChips: string[];
   userId: string;
   onChipClick: (text: string) => void;
@@ -64,23 +70,63 @@ export default function HackbotMessageList({
                     }
               }
             >
-              {/* Typing indicator */}
-              {m.role === 'assistant' && !m.content && loading && (
-                <span className="flex items-center gap-1">
-                  {[0, 150, 300].map((delay) => (
-                    <span
-                      key={delay}
-                      className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
-                      style={{ animationDelay: `${delay}ms` }}
-                    />
-                  ))}
-                </span>
-              )}
+              {/* Typing indicator — hidden while retrying to avoid conflict */}
+              {m.role === 'assistant' &&
+                !m.content &&
+                loading &&
+                retrying === 0 && (
+                  <span className="flex items-center gap-1">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </span>
+                )}
               {m.content && (
                 <p>
                   <MarkdownText text={m.content} />
                 </p>
               )}
+
+              {/* Retrying indicator */}
+              {m.role === 'assistant' &&
+                loading &&
+                retrying > 0 &&
+                idx === messages.length - 1 && (
+                  <span className="flex items-center gap-1.5 mt-1.5">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1 h-1 rounded-full bg-[#005271]/40 animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                    <span className="text-[10px] text-[#005271]/60">
+                      Retrying ({retrying}/2)…
+                    </span>
+                  </span>
+                )}
+
+              {/* Mid-stream indicator: text received but tool still running */}
+              {m.role === 'assistant' &&
+                m.content &&
+                loading &&
+                toolPending &&
+                retrying === 0 &&
+                idx === messages.length - 1 && (
+                  <span className="flex items-center gap-1 mt-1.5">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </span>
+                )}
 
               {/* Named links from provide_links tool */}
               {m.links && m.links.length > 0 && (
@@ -110,6 +156,26 @@ export default function HackbotMessageList({
               )}
             </div>
           )}
+
+          {/* Cards-loading indicator — shown while stream is finishing (tools done, text flowing)
+              OR while events are cascading in after stream ends.
+              Positioned where event cards will appear so the user knows more is coming. */}
+          {m.role === 'assistant' &&
+            m.content &&
+            retrying === 0 &&
+            idx === messages.length - 1 &&
+            (m.events?.length ?? 0) === 0 &&
+            ((loading && !toolPending) || cascading) && (
+              <span className="flex items-center gap-1 px-1">
+                {[0, 150, 300].map((delay) => (
+                  <span
+                    key={delay}
+                    className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
+                    style={{ animationDelay: `${delay}ms` }}
+                  />
+                ))}
+              </span>
+            )}
 
           {/* Event cards — max width matches bubble, cascade animation via HackbotEventCard */}
           {m.events && m.events.length > 0 && (
