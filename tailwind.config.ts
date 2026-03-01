@@ -122,11 +122,16 @@ const config: Config = {
             transform: 'translateX(-75%)',
           },
         },
+        'hackbot-slide-in': {
+          from: { opacity: '0', transform: 'translateY(8px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         moveClouds: 'moveClouds 30s linear infinite',
+        'hackbot-slide-in': 'hackbot-slide-in 0.28s ease-out both',
       },
       fontFamily: {
         jakarta: ['var(--font-jakarta)'],

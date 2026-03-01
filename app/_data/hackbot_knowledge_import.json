@@ -1,0 +1,356 @@
+[
+  {
+    "type": "submission",
+    "title": "Submission Process Overview",
+    "content": "The HackDavis project submission process has 6 steps and is done through Devpost. Step 1: Login to Devpost \u2014 when you click the Devpost link, click 'Join Hackathon' and log in or sign up for a Devpost account if you don't have one already. Step 2: Register for the Event \u2014 register for the HackDavis hackathon on Devpost. Step 3: Create a Project \u2014 click 'Create project'. Only one person per team needs to create a project and complete the remaining steps. Step 4: Invite Teammates \u2014 invite your teammates to join the Devpost project so everyone is correctly associated with the submission. Step 5: Fill Out Details \u2014 fill out required information such as project overview, description, technical details, and any other requested fields. Step 6: Submit Project \u2014 once all information is filled out and teammates are added, submit the project on Devpost before the deadline.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Step 1: Login to Devpost",
+    "content": "When you click on the Devpost link, you should see the HackDavis Devpost page. Click 'Join Hackathon'. Log in or sign up for a Devpost account if you don't have one already. You must join the hackathon on Devpost before you can create or submit a project.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Step 2: Register for the Event on Devpost",
+    "content": "After joining the hackathon on Devpost, register for the event. This links your Devpost account to the HackDavis 2026 hackathon and is required before you can create a project.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Step 3: Create a Project on Devpost",
+    "content": "Click 'Create project' on the HackDavis Devpost hackathon page. Only one person per team needs to create a project and complete the subsequent steps. All teammates will be added to this single project.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Step 4: Invite Teammates on Devpost",
+    "content": "After creating a project, invite your teammates to join the Devpost project. This ensures all team members are correctly associated with the submission. Each teammate should accept the invitation so they appear as collaborators on the project.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Step 5: Fill Out Project Details on Devpost",
+    "content": "Fill out all required information for your project on Devpost. This includes your project overview, description, technical details, and any other requested fields. Make sure every section is complete before submitting.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Step 6: Submit Your Project on Devpost",
+    "content": "Once all project information is filled out and all teammates have been invited, click 'Submit Project' on Devpost. Make sure to do this before the submission deadline. You cannot win prizes if your project is not submitted on Devpost.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Devpost Submission Tips and Checklist",
+    "content": "Before submitting on Devpost, make sure you have done the following: (1) Picked 4 relevant prize tracks \u2014 choose up to 4 prize tracks that best describe your project. (2) Added your GitHub and/or Figma links \u2014 include links to your code repository and any design files. (3) Inserted a demo video \u2014 upload or link a video demonstrating your project in action. The HackDavis 2026 Devpost page is at https://hackdavis-2026.devpost.com/",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "judging",
+    "title": "Judging Process Overview",
+    "content": "The HackDavis judging process takes place on the second day of the hackathon. The judging day timeline is: 11:00 AM \u2014 submissions due on Devpost; 11:30-12:00 PM \u2014 important announcements about team numbers and table assignments; 12:00-2:00 PM \u2014 demo time with judges visiting your table; 2:00-3:00 PM \u2014 break and Hacker's Choice voting; 3:00-4:00 PM \u2014 closing ceremony. Projects are judged using a rubric: 60% track-specific criteria, 20% social good, 10% creativity, 10% presentation.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Judging Rubric",
+    "content": "All projects at HackDavis are evaluated using the following rubric: 60% Track-Specific (criteria specific to the prize tracks you selected), 20% Social Good (how well the project benefits society or a community), 10% Creativity (originality and out-of-the-box thinking), 10% Presentation (how clearly and effectively you explain your project).",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Submission Deadline",
+    "content": "All projects must be submitted on Devpost by 11:00 AM on the second day of the hackathon. Make sure your submission is complete on Devpost before this deadline. Late submissions will not be considered for judging.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Important Announcement: Team Number vs. Table Number",
+    "content": "Before demo time there is an important announcement about two distinct numbers you need to know. Your team number will be available on Devpost after submission, every team member MUST input their team number on the Hub homepage. Your table number is separate and is provided by HackerHub. This is NOT the same as your team number. Use your table number (NOT your team number) to find your demo table. If you and your team members are not seeing the same table number, contact a HackDavis director immediately.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Demo Time Overview (12:00-2:00 PM)",
+    "content": "Demo time runs from 12:00 PM to 2:00 PM. During this 2-hour window, judges will visit your table to evaluate your project. Each of the first 3 judges gets 3 minutes of demo time and 3 minutes of Q&A with your team (6 minutes total per judge). Judge 4 and beyond (if applicable) are from MLH, partner NPOs, or sponsors selecting their own winners. Please be at your table during the entire demo period.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Demo Time: Judge Queue and Visit Estimates",
+    "content": "The HackerHub will show an estimate of when your team will be judged (your position in each judge's queue). Please note these are estimates only \u2014 unforeseen situations may delay or hasten a judge's arrival at your table. You will not be visited by a judge in every round. Some tracks are judged by MLH, partner NPOs, or sponsors selecting their own winners \u2014 if your team did not choose those tracks, you will be judged by the standard three judges. Extra judges from MLH/NPO/sponsor groups do not affect your chances in other tracks; having more than three judges does not give an advantage or disadvantage. MLH = Major League Hacking. NPO = Non-Profit Organizations.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Demo Time: Being Present at Your Table",
+    "content": "You must be at your table during demo time. If your team is not at your table when a judge arrives, they will mark you as missing and move on. Please track your queue position to avoid delays. If marked missing, an announcement will be made and a HackDavis director will look for you. Teams repeatedly missing or unreachable will be removed from the judging process. If you have an emergency during demo time, contact a HackDavis director immediately.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Demo Time: After Your Team is Judged (Post-Demo)",
+    "content": "Once your team has been judged by all assigned judges, you are welcome to explore other demo tables and see what other teams have built. Please be mindful not to interrupt judges or teams that are currently presenting. We kindly ask that you wait 1-2 minutes after the start of a new round before visiting tables that do not have a judge present. If your team experiences any disruptions during demos, please report them to the Director Table and they will be addressed promptly.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Break: Hacker's Choice Award Voting (2:00-3:00 PM)",
+    "content": "After demo time ends (2:00-3:00 PM), you will have about an hour to visit other teams and vote for the Hacker's Choice Award. You can also browse projects in the gallery on Devpost. Meanwhile, panels of judges will be reviewing the top 5 shortlisted projects for each track to select the final winners. Vote for any project but your own! The voting form link will be available on the Hub during this period.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "judging",
+    "title": "Closing Ceremony (3:00-4:00 PM)",
+    "content": "The closing ceremony runs from 3:00 PM to 4:00 PM. Winners for each prize track are announced during this event. If your team needs to leave before or during the closing ceremony, please inform someone at the Director Table. If your team wins a prize and is not at the venue, HackDavis will contact you via email after the event to arrange delivery of your prize.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Hack for Social Good",
+    "content": "Track: Best Hack for Social Good. Filter category: General. Prize: 1st Place \u2014 VR Headset, 2nd Place \u2014 Electric Scooter. Eligibility: Encapsulate your authentic idea of what 'social good' can look like. All entries are automatically considered for this prize category \u2014 no opt-in required.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Hacker's Choice Award",
+    "content": "Track: Hacker's Choice Award. Filter category: General. Prize: HackDavis Swag Bag. Eligibility: Awarded to the project with the most votes from 2026 hackers. All entries are automatically considered for this prize category. Vote for any project but your own! Voting happens during the break period after demos.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Most Technically Challenging Hack",
+    "content": "Track: Most Technically Challenging Hack. Filter category: Technical. Domain: Software Engineering. Prize: Backlit Keyboard. Eligibility: Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced technical tools and algorithms/data structures, integration of multiple technologies, quality of implementation, technical depth, and performance/scalability. Scoring criteria: (1) Technical Complexity of the Problem \u2014 from basic/well-known problems (score 1) to highly complex or novel problems requiring significant technical insight (score 5). (2) Quality of Engineering \u2014 from incomplete/poorly structured project (score 1) to exceptionally well-engineered, modular, scalable, fault-tolerant and efficient (score 5). (3) Integration of Tools or Techniques \u2014 from minimal external tools (score 1) to skillful integration of multiple advanced technologies like parallelism and optimization (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Beginner Hack",
+    "content": "Track: Best Beginner Hack. Filter category: General. Domain: Software Engineering. Prize: 24 Inch Monitor. Eligibility: Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project, foster creativity and collaboration within the team, and display a commitment to building skills. Scoring criteria: (1) Evidence of Learning and Growth \u2014 from little learning shown and reused known skills (score 1) to a strong grasp of entirely new topics applied effectively (score 5). (2) Team Collaboration \u2014 from disjointed teamwork with unclear roles (score 1) to strong team balance with active support across roles (score 5). (3) Problem-Solving and Persistence \u2014 from giving up easily (score 1) to tackling tough issues with creative persistence (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Interdisciplinary Hack",
+    "content": "Track: Best Interdisciplinary Hack. Filter category: General. Domain: Software Engineering. Prize: $75 STEAM Giftcard. Eligibility: Leverage multiple perspectives across different disciplines to create a more well-rounded project. At least one member of the team must be a non-CS/CSE/otherwise CS-related major in order to qualify. Scoring criteria: (1) Problem Selection \u2014 from a problem solvable within one discipline (score 1) to a highly original problem that requires all members' disciplines (score 5). (2) Disciplinary Balance \u2014 from all CS-related majors or one discipline dominating (score 1) to disciplines being deeply interwoven with equal importance (score 5). (3) Cross-Field Innovation \u2014 from disciplines barely connected (score 1) to a true blend creating something impossible within one field (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Most Creative Hack",
+    "content": "Track: Most Creative Hack. Filter category: General. Domain: Business. Prize: Mini Projector. Eligibility: Projects should demonstrate originality, showcase out-of-the-box thinking, and captivate their audience. Scoring criteria: (1) Originality of Concept \u2014 from a common idea similar to known projects (score 1) to a fresh, unexpected concept (score 5). (2) Creative Execution \u2014 from a conventional build with little imagination (score 1) to inventive design with imaginative features (score 5). (3) User Engagement \u2014 from uninspiring or hard to connect with (score 1) to a memorable and captivating experience (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Hardware Hack",
+    "content": "Track: Best Hardware Hack. Filter category: Technical. Domain: Hardware or Embedded Systems. Prize: Raspberry Pi Kit. Eligibility: Effectively integrate a hardware component into your final project. The final project should be functional, user-friendly, and interactive. Scoring criteria: (1) Hardware Integration \u2014 from disconnected or non-functional hardware (score 1) to seamless integration that is essential to the project (score 5). (2) Feasibility and Technical Soundness \u2014 from an unrealistic approach (score 1) to a well-grounded and executable design that is feasible to reproduce or extend (score 5). (3) User Interaction \u2014 from difficult to operate or requiring technical knowledge (score 1) to intuitive, responsive interaction that feels natural and engaging (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Hack for Social Justice",
+    "content": "Track: Best Hack for Social Justice. Filter category: General. Domain: Business. Prize: Kindle. Eligibility: Hack must address a social justice issue such as racial inequality, economic injustice, environmental justice, etc. The project should develop tangible solutions and/or raise awareness on these topics. Scoring criteria: (1) Issue Understanding and Community Consideration \u2014 from surface-level grasp with minimal community thought (score 1) to deep insight centered on the voices and needs of affected groups (score 5). (2) Advocacy Effectiveness \u2014 from a passive presentation with no engagement strategy (score 1) to a compelling call to action with practical pathways for audience involvement (score 5). (3) Implementation Feasibility and Impact \u2014 from a conceptual solution with significant barriers (score 1) to a ready-to-launch solution with demonstrated potential for measurable impact (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best UI/UX Design",
+    "content": "Track: Best UI/UX Design. Filter category: Design. Domain: UI/UX Design. Prize: Figma Full Seat (4-month subscription). Eligibility: Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful; demonstrates wireframing in Figma, responsive design, and promotes intuitive user experiences. Scoring criteria: (1) Visual Design \u2014 from inconsistent style with poor accessibility (score 1) to beautiful, cohesive, polished design with thoughtful inclusivity (score 5). (2) Navigation Flow \u2014 from confusing user journey with hard-to-find key actions (score 1) to effortless, intuitive navigation throughout (score 5). (3) Design Process \u2014 from limited evidence of planning (score 1) to a comprehensive process with wireframes through to a final product (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best User Research",
+    "content": "Track: Best User Research. Filter category: Design. Domain: UI/UX Design. Prize: ChatGPT+ (4-month subscription). Eligibility: Awarded to a well-researched project that keeps its userbase in mind with an inclusive design aimed to maximize accessibility. Scoring criteria: (1) User Understanding \u2014 from assumptions made with minimal research (score 1) to comprehensive insights into user needs and behaviors (score 5). (2) Depth of Research Methods \u2014 from few or irrelevant data points (score 1) to a thoughtful combination of multiple research methods (score 5). (3) Design Application and Feedback Integration \u2014 from research/feedback ignored or misaligned with design (score 1) to each design element directly tied to research findings (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Entrepreneurship Hack",
+    "content": "Track: Best Entrepreneurship Hack. Filter category: Business. Domain: Business. Prize: North Face Backpack. Eligibility: No code required. A project that focuses on viability and persuasive power through presentation on the product/service you are trying to sell, relevant customer segments, distribution channels, and associated revenue/profit models. Scoring criteria: (1) Target Customer Clarity \u2014 from vague ideas of potential users (score 1) to detailed customer profiles with validated pain points (score 5). (2) Business Model \u2014 from unclear how the project would make money (score 1) to a well-thought-out pricing and monetization strategy (score 5). (3) Market Differentiation \u2014 from little distinction from existing solutions (score 1) to a clear competitive advantage with strong market positioning (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Statistical Model",
+    "content": "Track: Best Statistical Model. Filter category: Business. Domain: Data Science or AI/ML. Prize: Bluetooth Speaker. Eligibility: Projects must use exploratory data analysis (EDA) to guide their modeling decisions and hypotheses. Final models should include significance tests and be evaluated with metrics like MSE, R\u00b2, adjusted R\u00b2, precision, or recall, demonstrating clear statistical reasoning aligned with the project's core question or goal. Scoring criteria: (1) Exploratory Data Analysis \u2014 from minimal data exploration (score 1) to comprehensive EDA with insightful visualizations that directly inform model design (score 5). (2) Use of Statistical Tests \u2014 from inappropriate or missing tests (score 1) to proper tests applied correctly to the data and analyzed thoroughly (score 5). (3) Results Interpretation \u2014 from unclear numbers with little explanation (score 1) to insightful interpretation connecting statistics to the real world (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best AI/ML Hack",
+    "content": "Track: Best AI/ML Hack. Filter category: Sponsor. Domain: Data Science or AI/ML. Prize: $750 in Claude API credits. Eligibility: Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms and ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. Models should work accurately on unseen circumstances (displays versatility). Scoring criteria: (1) Necessity of AI/ML for Solving the Problem \u2014 from a problem obviously solvable with deterministic algorithms (score 1) to one where deterministic algorithms are unable to solve the problem and AI/ML is the only solution (score 5). (2) Model Performance and Evaluation \u2014 from poor accuracy with minimal metrics (score 1) to strong results backed by solid metrics tested on unseen data or edge cases (score 5). (3) Technical Execution and Use of Tools \u2014 from surface-level tool use with no customization (score 1) to deep technical execution with custom methods and advanced techniques (score 5).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Hack for Women's Center",
+    "content": "Track: Best Hack for Women's Center. Filter category: Non-Profit. Prize: Aroma Diffuser. Eligibility criteria will be announced \u2014 check the prize tracks page or Devpost for the latest details.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Hack for ASUCD Pantry",
+    "content": "Track: Best Hack for ASUCD Pantry. Filter category: Non-Profit. Prize: Pokemon Packs. Eligibility criteria will be announced \u2014 check the prize tracks page or Devpost for the latest details.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track Categories Overview",
+    "content": "HackDavis 2026 prize tracks are organized into the following filter categories: General (Best Hack for Social Good, Hacker's Choice Award, Best Beginner Hack, Best Interdisciplinary Hack, Most Creative Hack, Best Hack for Social Justice), Technical (Most Technically Challenging Hack, Best Hardware Hack), Design (Best UI/UX Design, Best User Research), Business (Best Entrepreneurship Hack, Best Statistical Model), Sponsor (Best AI/ML Hack), Non-Profit (Best Hack for Women's Center, Best Hack for ASUCD Pantry). You can select up to 4 relevant prize tracks for your Devpost submission.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "general",
+    "title": "For Beginners: Starter Kit",
+    "content": "HackDavis has created a Starter Kit for all beginner hackers to help get their hack started. The Starter Kit includes resources, past winning hacks, and more. It is designed to help first-time hackathon participants navigate their first hackathon experience. You can access it through the Starter Kit link on the Hub.",
+    "url": "/starter-kit#lets-begin"
+  },
+  {
+    "type": "general",
+    "title": "Brainstorming Your Project Idea",
+    "content": "When brainstorming your hackathon project, ask yourself these key questions: What problem are you solving for? Who are your users and what are their pain points? What makes your solution unique? These questions will help you define a focused, impactful project that stands out to judges.",
+    "url": "/starter-kit#ideate"
+  },
+  {
+    "type": "general",
+    "title": "Mentor and Director Help via Discord",
+    "content": "HackDavis offers two types of support via Discord. Mentor Help: if you are stuck on a technical problem and need guidance, contact a HackDavis mentor through the Discord server at https://discord.gg/wc6QQEc. Director Help: if you have questions about the event, logistics, rules, or anything else, contact a HackDavis director through the same Discord server at https://discord.gg/wc6QQEc.",
+    "url": "/#mentor-help"
+  },
+  {
+    "type": "general",
+    "title": "Finding a Team on Discord",
+    "content": "If you are looking to join a team or need additional members, use the #find-a-team channel on the HackDavis Discord server. Introduce yourself with your major, experience level, skills, and what kind of team or role you are looking for. The Discord server is at https://discord.gg/wc6QQEc. This is also a great way to meet other hackers and find people with complementary skills.",
+    "url": "/starter-kit#find-a-team"
+  },
+  {
+    "type": "general",
+    "title": "HackDavis Hub Resources",
+    "content": "The HackerHub provides all the resources you need throughout the hackathon. Feel free to refer to the Hub anytime during the event. The Hub includes: the schedule, project submission information, judging process details, prize track information, a starter kit for beginners, and more. The HackDavis team is here to help you succeed.",
+    "url": "/"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: How do I submit my project?",
+    "content": "To submit your project, follow the 6-step Devpost process: (1) Login or sign up on Devpost and click 'Join Hackathon' on the HackDavis Devpost page. (2) Register for the event. (3) Click 'Create project' \u2014 only one team member needs to do this. (4) Invite your teammates to the project. (5) Fill out all project details including overview, description, and technical information. (6) Click 'Submit Project' before the 11:00 AM deadline on the second day. The Devpost link is https://hackdavis-2026.devpost.com/",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: Does every team member need to create a Devpost project?",
+    "content": "No. Only one person per team needs to create the Devpost project. That person then invites all teammates to the project. Make sure all team members accept the invitation so they are listed as collaborators on the submission.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: What should I include in my Devpost submission?",
+    "content": "Your Devpost submission should include: a project overview and detailed description, technical details, up to 4 relevant prize tracks you are entering, your GitHub repository link and/or Figma design file link, and a demo video showing your project in action. Be thorough \u2014 judges review your Devpost submission.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: When is the submission deadline?",
+    "content": "The Devpost submission deadline is 11:00 AM on the second day of the hackathon (Sunday). All project submissions must be completed on Devpost before this time. Late submissions will not be considered for judging.",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: How are projects judged?",
+    "content": "Projects are judged using a rubric with four components: 60% Track-Specific criteria (based on the prize tracks you chose), 20% Social Good (how well the project benefits society), 10% Creativity (originality), and 10% Presentation. During demo time (12:00-2:00 PM), judges visit your table \u2014 each of the first 3 judges gets 3 minutes of demo time and 3 minutes of Q&A. Panels of judges then select winners from the top 5 shortlisted projects per track during the break.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: Why might some teams get more judges than others?",
+    "content": "Some tracks are judged by MLH (Major League Hacking), partner NPOs (Non-Profit Organizations), or sponsors who select their own winners. If your team has selected those tracks, you may receive additional judges. If your team has not chosen those tracks, you will be judged by the standard three judges. Extra judges from MLH, NPO, or sponsor groups do not affect your chances in other tracks. Having more than three judges does not give an advantage or disadvantage.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: What happens if my team is not at the table when a judge arrives?",
+    "content": "If your team is not at your table when a judge arrives, they will mark you as missing and move on. Your team will be placed at the end of that judge's queue. An announcement will be made and a HackDavis director will look for you. Teams that are repeatedly missing or unreachable will be removed from the judging process. Please be at your table during the entire demo time (12:00-2:00 PM) to avoid this.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: What is the Hacker's Choice Award?",
+    "content": "The Hacker's Choice Award is voted on by fellow hackers \u2014 not judges. After demo time ends (during the 2:00-3:00 PM break), you can visit other teams and vote for the project you think deserves this award. All entries are automatically considered. You can vote for any project but your own. The winner receives a HackDavis Swag Bag. The voting form link will be available on the Hub when voting opens.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: What is my team number vs. table number?",
+    "content": "These are two different numbers. Your team number is assigned by Devpost and will be available on Devpost after your submission. Every team member must enter their team number on the HackerHub homepage. Your table number is assigned by HackerHub and tells you where to sit during demo time. Use your table number (NOT your team number) to find your demo table. If you and your teammates are seeing different table numbers, contact a HackDavis director.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: What if my team wins a prize but we're not at the closing ceremony?",
+    "content": "If your team wins a prize and is not at the venue during the closing ceremony, HackDavis will contact you via email after the event to arrange delivery of your prize. If your team needs to leave before or during the closing ceremony, please inform someone at the Director Table.",
+    "url": "/project-info#judging"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: I'm a beginner \u2014 where do I start?",
+    "content": "Welcome! HackDavis has a Starter Kit specifically for beginners. It includes resources, past winning hacks, and tips to get your project started. You can also attend the Hackathons 101 workshop, reach out to mentors on Discord (https://discord.gg/wc6QQEc), and join the #find-a-team channel if you need teammates. Start by brainstorming: what problem are you solving, who are your users, and what makes your solution unique?",
+    "url": "/starter-kit#lets-begin"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: How do I find a team?",
+    "content": "If you are looking for a team or need additional teammates, use the #find-a-team channel on the HackDavis Discord server (https://discord.gg/wc6QQEc). Post an introduction with your name, major, year, skills, experience level, and what kind of project you want to work on. There is also a Team Mixer activity at the start of the event where you can meet other hackers in person.",
+    "url": "/starter-kit#find-a-team"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: How do I contact a mentor or director?",
+    "content": "You can reach HackDavis mentors and directors through the Discord server at https://discord.gg/wc6QQEc. Use the Discord server to contact a mentor if you are stuck on a technical problem, or contact a director if you have event-related questions. During the event, you can also find directors at the Director Table on-site.",
+    "url": "/#mentor-help"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: How many prize tracks can I enter?",
+    "content": "You can select up to 4 relevant prize tracks on your Devpost submission. Choose the tracks that best match your project. Some tracks (Best Hack for Social Good and Hacker's Choice Award) automatically include all entries \u2014 no opt-in required.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "faq",
+    "title": "FAQ: Do I need to be a CS major to participate?",
+    "content": "No! HackDavis welcomes participants from all majors. In fact, there is a prize track specifically for teams with at least one non-CS member: Best Interdisciplinary Hack. There is also a Best Entrepreneurship Hack track that requires no code at all. You can contribute as a designer, researcher, business person, or domain expert.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "general",
+    "title": "What Happens During the Hackathon (Overview)",
+    "content": "HackDavis has two main phases: the Submission Process and the Judging Process. During hacking, teams build their projects and submit them to Devpost before the 11:00 AM deadline on day two. The judging process follows: judges visit tables from 12:00-2:00 PM for demos, teams vote for the Hacker's Choice Award from 2:00-3:00 PM, and the closing ceremony with prize announcements runs from 3:00-4:00 PM. Use the HackerHub to track the schedule, your judge queue position, and submission status.",
+    "url": "/project-info"
+  },
+  {
+    "type": "general",
+    "title": "Starter Kit: Let's Begin (Hacking 101)",
+    "content": "The 'Let's Begin' section of the Starter Kit covers the Hacking 101 Workshop. The workshop takes place on April 19th from 11:30 AM to 1:00 PM in ARC Ballroom A. A panel of experienced hackers will walk you through the hackathon process, how to get started with a project, and what to expect during the event. If you missed it, a recap of the workshop slides is also available in this section. This is the ideal first stop for anyone new to hackathons.",
+    "url": "/starter-kit#lets-begin"
+  },
+  {
+    "type": "general",
+    "title": "Starter Kit: Find a Team",
+    "content": "The 'Find a Team' section of the Starter Kit helps you connect with teammates. There is a Team Formation Mixer on April 19th from 8:30 AM to 10:00 AM in ARC Ballroom A — a great in-person opportunity to find your team before hacking begins. If you still need teammates, use the #find-a-team channel on the HackDavis Discord server (https://discord.gg/wc6QQEc). Post your major, skills, experience level, and what kind of project you want to build. This section also includes a 'Find the Right Fit' guide to help you figure out your role on a team (developer, designer, PM, etc.).",
+    "url": "/starter-kit#find-a-team"
+  },
+  {
+    "type": "general",
+    "title": "Starter Kit: Ideate (Brainstorming and Previous Hacks)",
+    "content": "The 'Ideate' section of the Starter Kit helps you come up with your project idea. It includes a Brainstorm guide with key questions to ask yourself: What problem are you solving? Who are your users and what are their pain points? What makes your solution unique? The section also showcases Previous Winning Hacks from past HackDavis events so you can see examples of successful projects for inspiration. Additionally, Mentor Resources are listed here — mentors can help you refine your idea and give technical guidance via Discord.",
+    "url": "/starter-kit#ideate"
+  },
+  {
+    "type": "general",
+    "title": "Starter Kit: Resources (Developer, Designer, and Mentor Resources)",
+    "content": "The 'Resources' section of the Starter Kit is your toolkit for building your project. It includes: Developer Resources — APIs, libraries, frameworks, and tools relevant to building at HackDavis. Designer Resources — Figma templates, UI kits, color palettes, and design references. Mentor Resources — how to reach HackDavis mentors for technical help via Discord (https://discord.gg/wc6QQEc). A general 'You're Ready!' overview is also included with tips on making the most of your hackathon experience. This section is useful throughout the entire event.",
+    "url": "/starter-kit#resources"
+  }
+]

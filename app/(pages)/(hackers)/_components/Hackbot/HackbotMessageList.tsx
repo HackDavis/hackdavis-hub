@@ -1,0 +1,194 @@
+'use client';
+
+import { RefObject } from 'react';
+import type { HackbotChatMessage } from '@typeDefs/hackbot';
+import MarkdownText from './MarkdownText';
+import HackbotEventCard from './HackbotEventCard';
+
+export default function HackbotMessageList({
+  messages,
+  loading,
+  toolPending,
+  retrying,
+  cascading,
+  suggestionChips,
+  userId,
+  onChipClick,
+  messagesEndRef,
+}: {
+  messages: HackbotChatMessage[];
+  loading: boolean;
+  toolPending: boolean;
+  retrying: number;
+  cascading: boolean;
+  suggestionChips: string[];
+  userId: string;
+  onChipClick: (text: string) => void;
+  messagesEndRef: RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <section className="flex-1 overflow-y-auto px-3 py-3 space-y-3 min-h-0 bg-[#FAFAFF]">
+      {messages.length === 0 && (
+        <div className="space-y-2">
+          <p className="text-xs text-[#005271]/60 font-medium">Try asking:</p>
+          {suggestionChips.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => onChipClick(q)}
+              className="block w-full text-left text-xs px-3 py-2 rounded-xl border border-[#9EE7E5] bg-white text-[#005271] hover:bg-[#CCFFFE] transition-colors font-medium"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {messages.map((m, idx) => (
+        <div
+          key={idx}
+          className={`flex flex-col gap-1.5 ${
+            m.role === 'user' ? 'items-end' : 'items-start'
+          }`}
+        >
+          {/* Text bubble */}
+          {(m.content ||
+            (m.role === 'assistant' &&
+              loading &&
+              idx === messages.length - 1)) && (
+            <div
+              className={`max-w-[88%] rounded-2xl px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap ${
+                m.role === 'user' ? 'rounded-br-sm' : 'rounded-bl-sm border'
+              }`}
+              style={
+                m.role === 'user'
+                  ? { backgroundColor: '#005271', color: '#fff' }
+                  : {
+                      backgroundColor: '#fff',
+                      color: '#003D3D',
+                      borderColor: '#9EE7E5',
+                    }
+              }
+            >
+              {/* Typing indicator — hidden while retrying to avoid conflict */}
+              {m.role === 'assistant' &&
+                !m.content &&
+                loading &&
+                retrying === 0 && (
+                  <span className="flex items-center gap-1">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </span>
+                )}
+              {m.content && (
+                <p>
+                  <MarkdownText text={m.content} />
+                </p>
+              )}
+
+              {/* Retrying indicator */}
+              {m.role === 'assistant' &&
+                loading &&
+                retrying > 0 &&
+                idx === messages.length - 1 && (
+                  <span className="flex items-center gap-1.5 mt-1.5">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1 h-1 rounded-full bg-[#005271]/40 animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                    <span className="text-[10px] text-[#005271]/60">
+                      Retrying ({retrying}/2)…
+                    </span>
+                  </span>
+                )}
+
+              {/* Mid-stream indicator: text received but tool still running */}
+              {m.role === 'assistant' &&
+                m.content &&
+                loading &&
+                toolPending &&
+                retrying === 0 &&
+                idx === messages.length - 1 && (
+                  <span className="flex items-center gap-1 mt-1.5">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </span>
+                )}
+
+              {/* Named links from provide_links tool */}
+              {m.links && m.links.length > 0 && (
+                <div className="mt-1.5 flex flex-col gap-1">
+                  {m.links.map((link, i) => (
+                    <a
+                      key={`${i}-${link.url}`}
+                      href={link.url}
+                      className="inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
+                      style={{ color: '#005271' }}
+                    >
+                      {link.label} →
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {/* Legacy single URL fallback (backwards compat with stored messages) */}
+              {!m.links?.length && m.url && (
+                <a
+                  href={m.url}
+                  className="mt-1.5 inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2"
+                  style={{ color: '#005271' }}
+                >
+                  More info →
+                </a>
+              )}
+            </div>
+          )}
+
+          {/* Cards-loading indicator — shown while stream is finishing (tools done, text flowing)
+              OR while events are cascading in after stream ends.
+              Positioned where event cards will appear so the user knows more is coming. */}
+          {m.role === 'assistant' &&
+            m.content &&
+            retrying === 0 &&
+            idx === messages.length - 1 &&
+            (m.events?.length ?? 0) === 0 &&
+            ((loading && !toolPending) || cascading) && (
+              <span className="flex items-center gap-1 px-1">
+                {[0, 150, 300].map((delay) => (
+                  <span
+                    key={delay}
+                    className="inline-block w-1.5 h-1.5 rounded-full bg-[#9EE7E5] animate-bounce"
+                    style={{ animationDelay: `${delay}ms` }}
+                  />
+                ))}
+              </span>
+            )}
+
+          {/* Event cards — max width matches bubble, cascade animation via HackbotEventCard */}
+          {m.events && m.events.length > 0 && (
+            <div className="w-full max-w-[88%] space-y-1.5">
+              {m.events.map((ev) => (
+                <HackbotEventCard key={ev.id} event={ev} userId={userId} />
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+
+      <div ref={messagesEndRef as React.RefObject<HTMLDivElement>} />
+    </section>
+  );
+}

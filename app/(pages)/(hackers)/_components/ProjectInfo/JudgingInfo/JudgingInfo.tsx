@@ -4,13 +4,13 @@ import ProjectInfoAccordion, {
   AccordionItemInt,
 } from '../ProjectInfoAccordion/ProjectInfoAccordion';
 import SubmissionDue from './JudgingSteps/SubmissionDue/SubmissionDue';
-import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 import DemoTime from './JudgingSteps/DemoTime/DemoTime';
 import Break from './JudgingSteps/Break/Break';
 import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
 import ResourceHelp from '../../StarterKit/Resources/ResourceHelp';
 import StarterKitSlide from '../../StarterKit/StarterKitSlide';
 import styles from './JudgingInfo.module.scss';
+import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/ImportantAnnouncement';
 
 const accordionItems: AccordionItemInt[] = [
   {
@@ -42,7 +42,7 @@ const accordionItems: AccordionItemInt[] = [
 
 export default function JudgingInfo() {
   return (
-    <div className={styles.container}>
+    <div id="judging" className={styles.container}>
       <div className={styles.judgingProcess}>
         <h6>THIS IS OUR</h6>
         <h4>Judging Process</h4>

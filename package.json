@@ -13,12 +13,14 @@
     "seed": "run-script-os",
     "seed:nix": "node --env-file='.env' \"scripts/dbSeed.mjs\"",
     "seed:windows": "node --env-file=\".\\.env\" \".\\scripts\\dbSeed.mjs\"",
+    "hackbot:seed": "node --env-file='.env' scripts/hackbotSeedCI.mjs",
     "test": "run-script-os",
     "test:nix": "echo 'module.exports = { presets: [[\"@babel/preset-env\"]] };' > babel.config.js && npx jest --detectOpenHandles && rm babel.config.js",
     "test:windows": "echo module.exports = { presets: [['@babel/preset-env']] }; > babel.config.js && npx jest --detectOpenHandles && rm babel.config.js",
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.37",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
@@ -32,6 +34,7 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "@szhsin/react-accordion": "^1.4.0",
     "@vercel/analytics": "^1.6.1",
+    "ai": "^6.0.105",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.9",
     "class-variance-authority": "^0.7.1",

@@ -205,19 +205,52 @@ function CarouselIndicators({
   );
 }
 
+const SLIDE_HASHES = [
+  '#lets-begin',
+  '#find-a-team',
+  '#ideate',
+  '#resources',
+] as const;
+
 export function ParentCarousel() {
-  // TODO: resume wherever user left off
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
 
   useEffect(() => {
-    if (!api) {
-      return;
+    if (!api) return;
+
+    // Jump to slide indicated by URL hash on first load
+    const hash = window.location.hash;
+    const initialIndex = SLIDE_HASHES.indexOf(
+      hash as (typeof SLIDE_HASHES)[number]
+    );
+    if (initialIndex > 0) {
+      api.scrollTo(initialIndex, true);
     }
 
     api.on('select', () => {
-      setActiveIndex(api.selectedScrollSnap());
+      const idx = api.selectedScrollSnap();
+      setActiveIndex(idx);
+      history.replaceState(
+        null,
+        '',
+        window.location.pathname + SLIDE_HASHES[idx]
+      );
     });
+  }, [api]);
+
+  // Handle hash changes from soft navigation (e.g. clicking a Hackbot link while already on this page)
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (!api) return;
+      const hash = window.location.hash;
+      const index = SLIDE_HASHES.indexOf(hash as (typeof SLIDE_HASHES)[number]);
+      if (index >= 0) {
+        api.scrollTo(index, false);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, [api]);
 
   useEffect(() => {

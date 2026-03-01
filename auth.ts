@@ -9,8 +9,11 @@ import { GetManyUsers } from '@datalib/users/getUser';
 declare module 'next-auth' {
   interface User {
     id?: string;
+    name?: string | null;
     email?: string | null;
     role: string;
+    position?: string;
+    is_beginner?: boolean;
   }
 
   interface Session extends DefaultSession {
@@ -18,6 +21,8 @@ declare module 'next-auth' {
       id: string;
       email: string;
       role: string;
+      position?: string;
+      is_beginner?: boolean;
     } & DefaultSession['user'];
   }
 }
@@ -27,6 +32,8 @@ declare module 'next-auth/jwt' {
     id: string;
     email: string;
     role: string;
+    position?: string;
+    is_beginner?: boolean;
   }
 }
 
@@ -67,8 +74,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
           return {
             id: user._id,
+            name: user.name,
             email: user.email,
             role: user.role,
+            position: user.position,
+            is_beginner: user.is_beginner,
           };
         } catch (error) {
           if (error instanceof z.ZodError) {
@@ -84,15 +94,21 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id ?? 'User ID not found';
+        token.name = user.name;
         token.email = user.email ?? 'User email not found';
         token.role = user.role;
+        token.position = user.position;
+        token.is_beginner = user.is_beginner;
       }
       return token;
     },
     async session({ session, token }) {
       session.user.id = token.id;
+      session.user.name = token.name;
       session.user.email = token.email;
       session.user.role = token.role;
+      session.user.position = token.position;
+      session.user.is_beginner = token.is_beginner;
       return session;
     },
   },
