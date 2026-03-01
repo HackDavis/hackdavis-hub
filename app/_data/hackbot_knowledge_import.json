@@ -68,7 +68,7 @@
   {
     "type": "judging",
     "title": "Important Announcement: Team Number vs. Table Number",
-    "content": "Before demo time there is an important announcement about two distinct numbers you need to know. Your team number will be available on Devpost after submission \u2014 every team member MUST input their team number on the Hub homepage. Your table number is separate and is provided by HackerHub \u2014 this is NOT the same as your team number. Use your table number (NOT your team number) to find your demo table. If you and your team members are not seeing the same table number, contact a HackDavis director immediately.",
+    "content": "Before demo time there is an important announcement about two distinct numbers you need to know. Your team number will be available on Devpost after submission, every team member MUST input their team number on the Hub homepage. Your table number is separate and is provided by HackerHub. This is NOT the same as your team number. Use your table number (NOT your team number) to find your demo table. If you and your team members are not seeing the same table number, contact a HackDavis director immediately.",
     "url": "/project-info#judging"
   },
   {
@@ -86,7 +86,7 @@
   {
     "type": "judging",
     "title": "Demo Time: Being Present at Your Table",
-    "content": "You must be at your table during demo time. If your team is not at your table when a judge arrives, they will mark you as missing and move on, placing your team at the end of their queue. Please track your queue position to avoid delays. If marked missing, an announcement will be made and a HackDavis director will look for you. Teams repeatedly missing or unreachable will be removed from all judge queues.",
+    "content": "You must be at your table during demo time. If your team is not at your table when a judge arrives, they will mark you as missing and move on. Please track your queue position to avoid delays. If marked missing, an announcement will be made and a HackDavis director will look for you. Teams repeatedly missing or unreachable will be removed from the judging process. If you have an emergency during demo time, contact a HackDavis director immediately.",
     "url": "/project-info#judging"
   },
   {
@@ -272,7 +272,7 @@
   {
     "type": "faq",
     "title": "FAQ: What happens if my team is not at the table when a judge arrives?",
-    "content": "If your team is not at your table when a judge arrives, they will mark you as missing and move on. Your team will be placed at the end of that judge's queue. An announcement will be made and a HackDavis director will look for you. Teams that are repeatedly missing or unreachable will be removed from all judge queues. Please be at your table during the entire demo time (12:00-2:00 PM) to avoid this.",
+    "content": "If your team is not at your table when a judge arrives, they will mark you as missing and move on. Your team will be placed at the end of that judge's queue. An announcement will be made and a HackDavis director will look for you. Teams that are repeatedly missing or unreachable will be removed from the judging process. Please be at your table during the entire demo time (12:00-2:00 PM) to avoid this.",
     "url": "/project-info#judging"
   },
   {
