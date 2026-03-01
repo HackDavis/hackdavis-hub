@@ -1,5 +1,5 @@
 import { retrieveContext } from '@datalib/hackbot/getHackbotContext';
-import { generateText, tool } from 'ai';
+import { generateText, tool, stepCountIs } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
@@ -26,12 +26,12 @@ function truncateToWords(text: string, maxWords: number): string {
 const getEventsTool = tool({
   description:
     'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
-  parameters: z.object({
+  inputSchema: z.object({
     type: z
       .string()
-      .optional()
+      .nullable()
       .describe(
-        'Optional event type filter (e.g. "workshop", "meal", "ceremony")'
+        'Optional event type filter (e.g. "workshop", "meal", "ceremony"). Pass null to include all types.'
       ),
   }),
   execute: async ({ type }) => {
@@ -179,8 +179,11 @@ export async function askHackbot(
   ];
 
   try {
-    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
-    const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '200', 10);
+    const model = process.env.OPENAI_MODEL || 'gpt-5-mini';
+    const maxOutputTokens = parseInt(
+      process.env.OPENAI_MAX_TOKENS || '600',
+      10
+    );
 
     const startedAt = Date.now();
     const { text, usage } = await retryWithBackoff(
@@ -191,9 +194,12 @@ export async function askHackbot(
             role: m.role as 'system' | 'user' | 'assistant',
             content: m.content,
           })),
-          maxTokens,
-          maxSteps: 5,
+          maxOutputTokens,
+          stopWhen: stepCountIs(5),
           tools: { get_events: getEventsTool },
+          providerOptions: {
+            openai: { reasoningEffort: 'low' },
+          },
         }),
       {
         maxAttempts: 2,
@@ -204,8 +210,8 @@ export async function askHackbot(
 
     console.log('[hackbot][openai][chat]', {
       model,
-      promptTokens: usage.promptTokens,
-      completionTokens: usage.completionTokens,
+      inputTokens: usage.inputTokens,
+      outputTokens: usage.outputTokens,
       totalTokens: usage.totalTokens,
       ms: Date.now() - startedAt,
     });
@@ -218,8 +224,8 @@ export async function askHackbot(
       url: primaryUrl,
       usage: {
         chat: {
-          promptTokens: usage.promptTokens,
-          completionTokens: usage.completionTokens,
+          inputTokens: usage.inputTokens,
+          outputTokens: usage.outputTokens,
           totalTokens: usage.totalTokens,
         },
       },

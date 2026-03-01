@@ -231,7 +231,7 @@ export default function HackbotWidget({
                   // Malformed annotation — ignore
                 }
               } else if (line.startsWith('a:')) {
-                // Tool result — buffer events; apply after text is done
+                // Tool result — buffer events and links; apply after text is done
                 try {
                   const toolResult = JSON.parse(line.slice(2).trim());
                   const results = Array.isArray(toolResult)
@@ -251,6 +251,20 @@ export default function HackbotWidget({
                           (a.startMs ?? Infinity) - (b.startMs ?? Infinity)
                       );
                       pendingEventsRef.current = merged;
+                    }
+                    // Links from provide_links tool (dedup by URL)
+                    if (
+                      Array.isArray(r.result?.links) &&
+                      r.result.links.length > 0
+                    ) {
+                      const seen = new Set<string>();
+                      pendingLinksRef.current = (
+                        r.result.links as HackbotLink[]
+                      ).filter((l) => {
+                        if (seen.has(l.url)) return false;
+                        seen.add(l.url);
+                        return true;
+                      });
                     }
                   }
                 } catch {

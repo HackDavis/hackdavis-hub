@@ -85,9 +85,9 @@ export default function HackbotMessageList({
               {/* Named links from provide_links tool */}
               {m.links && m.links.length > 0 && (
                 <div className="mt-1.5 flex flex-col gap-1">
-                  {m.links.map((link) => (
+                  {m.links.map((link, i) => (
                     <a
-                      key={link.url}
+                      key={`${i}-${link.url}`}
                       href={link.url}
                       className="inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
                       style={{ color: '#005271' }}

@@ -1,4 +1,4 @@
-import { streamText, tool, StreamData } from 'ai';
+import { streamText, tool, stepCountIs } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { retrieveContext } from '@datalib/hackbot/getHackbotContext';
@@ -65,24 +65,6 @@ export async function POST(request: Request) {
 
     const lastMessage = messages[messages.length - 1];
 
-    // Read profile directly from the JWT cookie — no client-side passing needed
-    const session = await auth();
-    const sessionUser = session?.user as any;
-    const profile: HackerProfile | null = sessionUser
-      ? {
-          name: sessionUser.name ?? undefined,
-          position: sessionUser.position ?? undefined,
-          is_beginner: sessionUser.is_beginner ?? undefined,
-        }
-      : null;
-    console.log(
-      `[hackbot][stream] message="${lastMessage.content?.slice(0, 80)}" name=${
-        profile?.name ?? 'n/a'
-      } position=${profile?.position ?? 'n/a'} beginner=${
-        profile?.is_beginner ?? 'n/a'
-      } path=${currentPath ?? '/'}`
-    );
-
     if (lastMessage.role !== 'user') {
       return Response.json(
         { error: 'Last message must be from user.' },
@@ -99,10 +81,22 @@ export async function POST(request: Request) {
       );
     }
 
-    // Retrieve knowledge context (non-event docs via vector search)
+    // Greetings don't need knowledge context — skip the embedding round-trip.
+    const isSimpleGreeting =
+      /^(hi|hello|hey|thanks|thank you|ok|okay)\b/i.test(
+        lastMessage.content.trim()
+      );
+
+    // Run auth and context retrieval in parallel to save ~400 ms.
+    let session;
     let docs;
     try {
-      ({ docs } = await retrieveContext(lastMessage.content));
+      [session, { docs }] = await Promise.all([
+        auth(),
+        isSimpleGreeting
+          ? Promise.resolve({ docs: [] })
+          : retrieveContext(lastMessage.content),
+      ]);
     } catch (e) {
       console.error('[hackbot][stream] Context retrieval error', e);
       return Response.json(
@@ -110,6 +104,23 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
+
+    // Build profile from session (after auth resolves)
+    const sessionUser = (session as any)?.user as any;
+    const profile: HackerProfile | null = sessionUser
+      ? {
+          name: sessionUser.name ?? undefined,
+          position: sessionUser.position ?? undefined,
+          is_beginner: sessionUser.is_beginner ?? undefined,
+        }
+      : null;
+    console.log(
+      `[hackbot][stream] message="${lastMessage.content?.slice(0, 80)}" name=${
+        profile?.name ?? 'n/a'
+      } position=${profile?.position ?? 'n/a'} beginner=${
+        profile?.is_beginner ?? 'n/a'
+      } path=${currentPath ?? '/'}`
+    );
 
     const contextSummary =
       docs && docs.length > 0
@@ -122,28 +133,6 @@ export async function POST(request: Request) {
             })
             .join('\n\n')
         : 'No additional knowledge context found.';
-
-    // Pre-compute relevant links from retrieved docs (up to 3, deduped by URL).
-    // Fall back to Mentor Help when no docs were found.
-    const rawLinks: { label: string; url: string }[] = [];
-    if (docs && docs.length > 0) {
-      const seenUrls = new Set<string>();
-      for (const d of docs) {
-        if (!d.url || seenUrls.has(d.url)) continue;
-        seenUrls.add(d.url);
-        const label = d.title
-          .replace(/^Prize Track:\s*/, '')
-          .replace(/^FAQ:\s*/, '')
-          .replace(/^Starter Kit:\s*/, '')
-          .replace(/\s+Overview$/, '')
-          .trim();
-        rawLinks.push({ label, url: d.url });
-        if (rawLinks.length >= 3) break;
-      }
-    }
-    if (rawLinks.length === 0) {
-      rawLinks.push({ label: 'Mentor & Director Help', url: '/#mentor-help' });
-    }
 
     const pageContext = getPageContext(currentPath);
     const systemPrompt = buildSystemPrompt({ profile, pageContext });
@@ -158,66 +147,80 @@ export async function POST(request: Request) {
       ...messages.slice(-MAX_HISTORY_MESSAGES),
     ];
 
-    const model = process.env.OPENAI_MODEL || 'gpt-4o';
-    const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '600', 10);
-
-    // Attach pre-computed links as a stream annotation so the widget can
-    // buffer them and render them after streaming completes.
-    const streamData = new StreamData();
-    streamData.appendMessageAnnotation({ links: rawLinks });
+    const model = process.env.OPENAI_MODEL || 'gpt-5-mini';
+    const maxOutputTokens = parseInt(
+      process.env.OPENAI_MAX_TOKENS || '600',
+      10
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = await streamText({
+    const result = streamText({
       model: openai(model) as any,
       messages: chatMessages.map((m: any) => ({
         role: m.role as 'system' | 'user' | 'assistant',
         content: m.content,
       })),
-      maxTokens,
-      maxSteps: 5,
-      onFinish() {
-        streamData.close();
+      maxOutputTokens,
+      // Custom stop condition: hard limit of 5 steps, but also stop immediately
+      // after any step where provide_links was the ONLY tool called AND text has
+      // already been generated in some step — preventing an extra LLM round-trip
+      // just to "acknowledge" the link annotation (saves ~2 s per response).
+      // We require prior text so we never stop before the LLM has responded.
+      stopWhen: (state: any) => {
+        const { steps } = state as { steps: any[] };
+        if (stepCountIs(5)({ steps })) return true;
+        if (!steps.length) return false;
+        const toolCalls: any[] = steps[steps.length - 1].toolCalls ?? [];
+        const onlyProvideLinks =
+          toolCalls.length > 0 &&
+          toolCalls.every((t: any) => t.toolName === 'provide_links');
+        if (!onlyProvideLinks) return false;
+        // Only short-circuit if the LLM has actually produced some answer text
+        return steps.some((s: any) => (s.text ?? '').trim().length > 0);
+      },
+      providerOptions: {
+        openai: { reasoningEffort: 'low' },
       },
       tools: {
         get_events: tool({
           description:
             'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
-          parameters: z.object({
+          inputSchema: z.object({
             type: z
               .string()
-              .optional()
+              .nullable()
               .describe(
-                'Filter by event type: WORKSHOPS, MEALS, ACTIVITIES, or GENERAL'
+                'Filter by event type: WORKSHOPS, MEALS, ACTIVITIES, or GENERAL. Pass null to include all types.'
               ),
             search: z
               .string()
-              .optional()
+              .nullable()
               .describe(
-                'Case-insensitive text search on event name (e.g. "dinner", "opening ceremony", "team")'
+                'Case-insensitive text search on event name (e.g. "dinner", "opening ceremony", "team"). Pass null for no search filter.'
               ),
             limit: z
               .number()
-              .optional()
+              .nullable()
               .describe(
-                'Max number of events to return — use when only 1-3 results are expected'
+                'Max number of events to return — use when only 1-3 results are expected. Pass null for no limit.'
               ),
             forProfile: z
               .boolean()
-              .optional()
+              .nullable()
               .describe(
-                "When true, filters results to only events relevant to the hacker's role/experience (beginner, developer, designer, pm). Events with no role tags are always included. Use this for personalised recommendations."
+                "When true, filters results to only events relevant to the hacker's role/experience (beginner, developer, designer, pm). Events with no role tags are always included. Use this for personalised recommendations. Pass null to skip."
               ),
             timeFilter: z
               .enum(['today', 'now', 'upcoming', 'past'])
-              .optional()
+              .nullable()
               .describe(
-                'Filter events by time: "today" = starts today, "now" = currently live, "upcoming" = starts within 3 hours, "past" = already ended. Use for time-aware queries like "what\'s happening right now?" or "what workshops are today?"'
+                'Filter events by time: "today" = starts today, "now" = currently live, "upcoming" = starts within 3 hours, "past" = already ended. Pass null for no time filter.'
               ),
             include_activities: z
               .boolean()
-              .optional()
+              .nullable()
               .describe(
-                'Allow ACTIVITIES-type events in results. Set to true ONLY when the user is explicitly asking about social/fun activities to attend. NEVER set this for prize track questions, knowledge questions, or workshop queries.'
+                'Allow ACTIVITIES-type events in results. Set to true ONLY when the user is explicitly asking about social/fun activities to attend. NEVER set this for prize track questions, knowledge questions, or workshop queries. Pass null or false otherwise.'
               ),
           }),
           execute: async ({
@@ -244,8 +247,7 @@ export async function POST(request: Request) {
               const typeFiltered = include_activities
                 ? events
                 : events.filter(
-                    (ev: any) =>
-                      (ev.type ?? '').toUpperCase() !== 'ACTIVITIES'
+                    (ev: any) => (ev.type ?? '').toUpperCase() !== 'ACTIVITIES'
                   );
 
               // Apply time filter first (before profile and limit)
@@ -302,10 +304,106 @@ export async function POST(request: Request) {
             }
           },
         }),
+        provide_links: tool({
+          description:
+            'Surface 1-3 relevant links from the knowledge context for the user. Call this AFTER generating your full text response — never before. Skip it entirely for greetings, off-topic refusals, and pure event-schedule answers (event cards already carry links).',
+          inputSchema: z.object({
+            links: z
+              .array(
+                z.object({
+                  label: z
+                    .string()
+                    .describe(
+                      'Short user-friendly label. Strip prefixes like "FAQ:", "Prize Track:", "Starter Kit:". Max 40 chars.'
+                    ),
+                  url: z
+                    .string()
+                    .describe(
+                      'URL exactly as it appears in the knowledge context.'
+                    ),
+                })
+              )
+              .max(3)
+              .describe(
+                '1-3 links most relevant to the response. Omit any that are only loosely related.'
+              ),
+          }),
+          execute: async ({ links }) => ({ links }),
+        }),
       },
     });
 
-    return result.toDataStreamResponse({ data: streamData });
+    // Build a custom stream using the old Data Stream Protocol format so the
+    // existing widget parser (0: text, 8: annotations, a: tool results) works
+    // without any client-side changes after the ai@5 upgrade.
+    //
+    // Read baseStream directly instead of fullStream to avoid the tee deadlock:
+    // fullStream calls teeStream() which creates an unread second stream that
+    // fills up and back-pressures the whole pipeline, stalling after ~2 events.
+    // baseStream emits { part, partialOutput } objects; we extract `part`.
+    //
+    // We use a TransformStream + background producer instead of a pull-based
+    // ReadableStream so that the HTTP response starts flowing immediately while
+    // the background task drives the LLM pipeline independently.
+    const enc = new TextEncoder();
+    const { readable, writable } = new TransformStream<
+      Uint8Array,
+      Uint8Array
+    >();
+    const writer = writable.getWriter();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const bs = (result as any).baseStream as ReadableStream<{
+      part: any;
+      partialOutput: any;
+    }>;
+
+    (async () => {
+      try {
+        // (Links are surfaced via the provide_links tool result in `a:` events)
+
+        const reader = bs.getReader();
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+          // eslint-disable-next-line no-await-in-loop
+          const { done, value } = await reader.read();
+          if (done) break;
+          const part = value?.part;
+          if (part?.type === 'text-delta') {
+            // eslint-disable-next-line no-await-in-loop
+            await writer.write(enc.encode(`0:${JSON.stringify(part.text)}\n`));
+          } else if (part?.type === 'tool-result') {
+            // eslint-disable-next-line no-await-in-loop
+            await writer.write(
+              enc.encode(
+                `a:${JSON.stringify([
+                  {
+                    toolCallId: part.toolCallId,
+                    toolName: part.toolName,
+                    state: 'result',
+                    result: part.output,
+                  },
+                ])}\n`
+              )
+            );
+          }
+        }
+        await writer.close();
+      } catch (e) {
+        console.error('[hackbot][stream] baseStream error', e);
+        try {
+          await writer.abort(e as Error);
+        } catch {
+          // ignore abort error
+        }
+      }
+    })();
+
+    const stream = readable;
+
+    return new Response(stream, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
   } catch (error: any) {
     console.error('[hackbot][stream] Error', error);
 

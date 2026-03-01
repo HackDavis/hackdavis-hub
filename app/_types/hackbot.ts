@@ -44,12 +44,12 @@ export interface HackbotResponse {
   error?: string;
   usage?: {
     chat?: {
-      promptTokens?: number;
-      completionTokens?: number;
+      inputTokens?: number;
+      outputTokens?: number;
       totalTokens?: number;
     };
     embeddings?: {
-      promptTokens?: number;
+      inputTokens?: number;
       totalTokens?: number;
     };
   };

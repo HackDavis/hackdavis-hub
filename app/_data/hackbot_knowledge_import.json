@@ -349,7 +349,7 @@
   },
   {
     "type": "general",
-    "title": "Starter Kit: Resources (Developer, Designer, and Mentor Tools)",
+    "title": "Starter Kit: Resources (Developer, Designer, and Mentor Resources)",
     "content": "The 'Resources' section of the Starter Kit is your toolkit for building your project. It includes: Developer Resources — APIs, libraries, frameworks, and tools relevant to building at HackDavis. Designer Resources — Figma templates, UI kits, color palettes, and design references. Mentor Resources — how to reach HackDavis mentors for technical help via Discord (https://discord.gg/wc6QQEc). A general 'You're Ready!' overview is also included with tips on making the most of your hackathon experience. This section is useful throughout the entire event.",
     "url": "/starter-kit#resources"
   }

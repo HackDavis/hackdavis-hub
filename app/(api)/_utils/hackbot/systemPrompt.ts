@@ -130,7 +130,7 @@ export function buildSystemPrompt({
     '  - For time-based queries: use timeFilter="today" for "what\'s happening today?", timeFilter="now" for "what\'s happening right now?", timeFilter="upcoming" for "what\'s coming up?", timeFilter="past" for "what already happened?".',
     '  - You can combine timeFilter with type and search (e.g. {type: "WORKSHOPS", timeFilter: "today"} for "what workshops are today?").',
     '  - Use "limit" to cap results when only one or a few events are expected (e.g. "when is dinner?" → limit:3).',
-    '  - CRITICAL: After calling get_events, write ONE brief sentence only (e.g. "Here are today\'s workshops!" or "Here\'s what\'s happening right now!").',
+    '  - CRITICAL: Write your brief text AND call get_events IN THE SAME STEP — never make a bare tool call with no text. Output exactly ONE brief sentence alongside the tool call (e.g. "Here are today\'s workshops!" or "Here\'s what\'s happening right now!").',
     '  - Do NOT list event names, times, or locations in your text — the UI displays interactive event cards automatically.'
   );
 
@@ -141,7 +141,7 @@ export function buildSystemPrompt({
     '  - Call get_events twice: once with {type:"WORKSHOPS", forProfile:true, limit:3} and once with {type:"ACTIVITIES", forProfile:true, limit:3, include_activities:true}.',
     "  - This returns up to 6 events total, filtered to the hacker's role/experience level and capped at the 3 soonest of each type.",
     '  - Do NOT include MEALS or GENERAL — those are self-explanatory.',
-    '  - Respond with 1-2 brief sentences. If results include Team Mixer, mention it is great for finding teammates (e.g., "Team Mixer is also a great way to find a team if you haven\'t already!").'
+    '  - CRITICAL: Include your 1-2 sentence intro text IN THE SAME STEP as the get_events calls — never make bare tool calls with no text. If results include Team Mixer, mention it is great for finding teammates (e.g., "Team Mixer is also a great way to find a team if you haven\'t already!").'
   );
 
   // Prize track recommendations — separate from event recommendations
@@ -183,7 +183,17 @@ export function buildSystemPrompt({
     '  - Use the knowledge context below. Answer directly in 2-3 sentences.',
     '  - IMPORTANT: HackDavis is a hackathon, so questions about getting started, building a project, developer/designer resources, APIs, tools, mentors, and starter kit steps ARE on-topic. Answer them using the knowledge context.',
     '  - OPTIONAL: After answering from knowledge context, you MAY call get_events with {type:"WORKSHOPS", limit:3} only when workshops directly help (e.g. beginner/getting-started questions). NEVER call get_events with type ACTIVITIES for knowledge questions.',
-    '  - When you do call get_events for a knowledge question, first give your 2-3 sentence answer, then add one brief sentence introducing the events (e.g. "Here are some workshops that might help!"). The event cards will appear automatically.'
+    '  - When you do call get_events for a knowledge question, write your 2-3 sentence answer AND the brief event intro sentence IN THE SAME STEP as the get_events call — never make a bare tool call with no text. (e.g. "Here are some workshops that might help!"). The event cards will appear automatically.'
+  );
+
+  // Links
+  sections.push(
+    'After any substantive response, you MAY call provide_links with 1-3 {label, url} pairs from the knowledge context that would genuinely help the user learn more or take action.',
+    'Guidelines for provide_links:',
+    '  - Pick links that are directly relevant to what you just answered — not just the top search results.',
+    '  - Use short, user-friendly labels: strip "FAQ:", "Prize Track:", "Starter Kit:" prefixes.',
+    '  - Skip the call entirely for: greetings/chitchat, off-topic refusals, and pure event-schedule responses (event cards already carry all the info).',
+    '  - 1-2 highly relevant links beats 3 loosely related ones.'
   );
 
   // Don'ts
