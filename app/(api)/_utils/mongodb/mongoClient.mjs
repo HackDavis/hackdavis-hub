@@ -15,7 +15,6 @@ export async function getClient() {
 
   if (!cachedPromise) {
     const client = new MongoClient(uri);
-
     cachedPromise = client
       .connect()
       .then((connectedClient) => {
