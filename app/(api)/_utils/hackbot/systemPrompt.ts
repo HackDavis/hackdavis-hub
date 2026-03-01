@@ -101,6 +101,9 @@ export function buildSystemPrompt({
   sections.push(
     'CRITICAL: Only use facts from the provided context or tool results. Never invent times, dates, or locations.'
   );
+  sections.push(
+    'CRITICAL DISTINCTION: "What prize tracks/prizes should I enter/win?" = PRIZE TRACK question (answer from knowledge, DO NOT call get_events with ACTIVITIES). "What events/workshops/activities should I attend?" = EVENT RECOMMENDATION question (call get_events for workshops + activities). These are entirely different intents — never confuse them.'
+  );
 
   // Tone
   sections.push(
@@ -131,22 +134,56 @@ export function buildSystemPrompt({
     '  - Do NOT list event names, times, or locations in your text — the UI displays interactive event cards automatically.'
   );
 
-  // Recommendations
+  // Event attendance recommendations (NOT prize tracks)
   sections.push(
-    'For event recommendations ("what should I attend?", "what\'s fun?", "suggest events", "what\'s good for me?"):',
-    '  - Call get_events twice: once with {type:"WORKSHOPS", forProfile:true, limit:3} and once with {type:"ACTIVITIES", forProfile:true, limit:3}.',
+    'For event attendance recommendations ("what events should I attend?", "what\'s fun?", "suggest things to do", "what activities are there?"):',
+    '  - These are questions about which EVENTS to attend — not about prize tracks.',
+    '  - Call get_events twice: once with {type:"WORKSHOPS", forProfile:true, limit:3} and once with {type:"ACTIVITIES", forProfile:true, limit:3, include_activities:true}.',
     "  - This returns up to 6 events total, filtered to the hacker's role/experience level and capped at the 3 soonest of each type.",
     '  - Do NOT include MEALS or GENERAL — those are self-explanatory.',
-    '  - Respond with a single brief sentence like "Here are some events picked for you!" and let the cards speak for themselves.'
+    '  - Respond with 1-2 brief sentences. If results include Team Mixer, mention it is great for finding teammates (e.g., "Team Mixer is also a great way to find a team if you haven\'t already!").'
   );
+
+  // Prize track recommendations — separate from event recommendations
+  const profileTrackGuidance: string[] = [
+    'For questions about which prize tracks to enter ("what tracks should I pick?", "which tracks are best for me?", "what can I win?", "what tracks can I enter?"):',
+    '  - This is a KNOWLEDGE question — NOT the same as "suggest events to attend". Do NOT call get_events with type ACTIVITIES for this.',
+    '  - Use the prize track knowledge context. Recommend 3–5 specific tracks with a brief reason for each.',
+    '  - Personalize based on the hacker\'s profile:',
+    '    - All hackers: "Best Hack for Social Good" and "Hacker\'s Choice Award" are AUTOMATIC — every submission is already entered, no opt-in needed. Mention this upfront.',
+  ];
+  if (profile?.is_beginner) {
+    profileTrackGuidance.push(
+      '    - This hacker IS a beginner: ALWAYS lead with "Best Beginner Hack" as the #1 recommendation (requires all team members to be first-time hackers).'
+    );
+  }
+  if (profile?.position === 'developer') {
+    profileTrackGuidance.push(
+      '    - This hacker is a developer: Strongly recommend "Most Technically Challenging Hack". Also suggest "Best AI/ML Hack" if they may use ML/AI, "Best Hardware Hack" if using physical hardware, or "Best Statistical Model" if doing data science.'
+    );
+  }
+  if (profile?.position === 'designer') {
+    profileTrackGuidance.push(
+      '    - This hacker is a designer: Lead with "Best UI/UX Design" and "Best User Research".'
+    );
+  }
+  if (profile?.position === 'pm') {
+    profileTrackGuidance.push(
+      '    - This hacker is a PM: Lead with "Best Entrepreneurship Hack".'
+    );
+  }
+  profileTrackGuidance.push(
+    '  - OPTIONAL: After your track answer, you MAY call get_events with {type:"WORKSHOPS", forProfile:true, limit:3} to surface relevant workshops. NEVER call with type ACTIVITIES for a track question.'
+  );
+  sections.push(...profileTrackGuidance);
 
   // Knowledge
   sections.push(
-    'For questions about HackDavis rules, submission, judging, tracks, resources, the starter kit, tools for hackers, or general info:',
+    'For questions about HackDavis rules, submission, judging, resources, the starter kit, tools for hackers, or general info (that are NOT prize track or event questions):',
     '  - Use the knowledge context below. Answer directly in 2-3 sentences.',
     '  - IMPORTANT: HackDavis is a hackathon, so questions about getting started, building a project, developer/designer resources, APIs, tools, mentors, and starter kit steps ARE on-topic. Answer them using the knowledge context.',
-    '  - OPTIONAL: After answering from knowledge context, you MAY also call get_events to surface workshops that directly relate to the question (e.g. for "how do I get started?" → call get_events with {type:"WORKSHOPS", limit:3}). Only do this if workshops genuinely add value — skip it for rules, judging criteria, or submission deadlines.',
-    '  - When you do call get_events for a knowledge question, first give your 2-3 sentence knowledge answer, then add one brief sentence introducing the events (e.g. "Here are some workshops that might help!"). The event cards will appear automatically.'
+    '  - OPTIONAL: After answering from knowledge context, you MAY call get_events with {type:"WORKSHOPS", limit:3} only when workshops directly help (e.g. beginner/getting-started questions). NEVER call get_events with type ACTIVITIES for knowledge questions.',
+    '  - When you do call get_events for a knowledge question, first give your 2-3 sentence answer, then add one brief sentence introducing the events (e.g. "Here are some workshops that might help!"). The event cards will appear automatically.'
   );
 
   // Don'ts
@@ -156,7 +193,8 @@ export function buildSystemPrompt({
     '- Include URLs in your answer text.',
     '- Answer questions completely unrelated to HackDavis (e.g. "write me a Python script", "explain machine learning", unrelated homework). If it has any connection to participating in or preparing for HackDavis, it is on-topic.',
     '- Say "based on the context" or "according to the documents" (just answer directly).',
-    '- List event details in text when get_events has been called (cards show everything).'
+    '- List event details in text when get_events has been called (cards show everything).',
+    '- Call get_events with type ACTIVITIES for prize track questions or general knowledge questions. ACTIVITIES are only for event attendance recommendations.'
   );
 
   // Fallbacks

@@ -70,9 +70,13 @@ export type HackbotEvent = {
   isRecommended?: boolean;
 };
 
+export type HackbotLink = { label: string; url: string };
+
 export type HackbotChatMessage = {
   role: 'user' | 'assistant';
   content: string;
+  /** @deprecated use links[] instead; kept for localStorage backwards-compat */
   url?: string;
+  links?: HackbotLink[];
   events?: HackbotEvent[];
 };

@@ -8,7 +8,6 @@ import {
   parseRawDate,
   formatEventDateTime,
   formatEventTime,
-  isSameCalendarDay,
 } from '@utils/hackbot/eventFormatting';
 import {
   isEventRecommended,
@@ -45,6 +44,14 @@ const fewShotExamples = [
   {
     role: 'assistant' as const,
     content: "Here's what's going on right now!",
+  },
+  {
+    role: 'user' as const,
+    content: 'What prize tracks should I enter?',
+  },
+  {
+    role: 'assistant' as const,
+    content: "Here are some prize tracks I'd recommend for you!",
   },
 ];
 
@@ -116,11 +123,27 @@ export async function POST(request: Request) {
             .join('\n\n')
         : 'No additional knowledge context found.';
 
-    // First doc with a URL becomes the "More info" link surfaced in the widget.
-    // Fall back to Mentor/Director Help when no relevant docs were found.
-    const primaryUrl =
-      docs?.find((d) => d.url)?.url ??
-      (docs && docs.length === 0 ? '/#mentor-help' : null);
+    // Pre-compute relevant links from retrieved docs (up to 3, deduped by URL).
+    // Fall back to Mentor Help when no docs were found.
+    const rawLinks: { label: string; url: string }[] = [];
+    if (docs && docs.length > 0) {
+      const seenUrls = new Set<string>();
+      for (const d of docs) {
+        if (!d.url || seenUrls.has(d.url)) continue;
+        seenUrls.add(d.url);
+        const label = d.title
+          .replace(/^Prize Track:\s*/, '')
+          .replace(/^FAQ:\s*/, '')
+          .replace(/^Starter Kit:\s*/, '')
+          .replace(/\s+Overview$/, '')
+          .trim();
+        rawLinks.push({ label, url: d.url });
+        if (rawLinks.length >= 3) break;
+      }
+    }
+    if (rawLinks.length === 0) {
+      rawLinks.push({ label: 'Mentor & Director Help', url: '/#mentor-help' });
+    }
 
     const pageContext = getPageContext(currentPath);
     const systemPrompt = buildSystemPrompt({ profile, pageContext });
@@ -135,14 +158,13 @@ export async function POST(request: Request) {
       ...messages.slice(-MAX_HISTORY_MESSAGES),
     ];
 
-    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    const model = process.env.OPENAI_MODEL || 'gpt-4o';
     const maxTokens = parseInt(process.env.OPENAI_MAX_TOKENS || '600', 10);
 
-    // Attach URL annotation so the widget can render a "More info" link
+    // Attach pre-computed links as a stream annotation so the widget can
+    // buffer them and render them after streaming completes.
     const streamData = new StreamData();
-    if (primaryUrl) {
-      streamData.appendMessageAnnotation({ url: primaryUrl });
-    }
+    streamData.appendMessageAnnotation({ links: rawLinks });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: any = await streamText({
@@ -191,8 +213,21 @@ export async function POST(request: Request) {
               .describe(
                 'Filter events by time: "today" = starts today, "now" = currently live, "upcoming" = starts within 3 hours, "past" = already ended. Use for time-aware queries like "what\'s happening right now?" or "what workshops are today?"'
               ),
+            include_activities: z
+              .boolean()
+              .optional()
+              .describe(
+                'Allow ACTIVITIES-type events in results. Set to true ONLY when the user is explicitly asking about social/fun activities to attend. NEVER set this for prize track questions, knowledge questions, or workshop queries.'
+              ),
           }),
-          execute: async ({ type, search, limit, forProfile, timeFilter }) => {
+          execute: async ({
+            type,
+            search,
+            limit,
+            forProfile,
+            timeFilter,
+            include_activities,
+          }) => {
             try {
               const db = await getDatabase();
               const query: Record<string, unknown> = {};
@@ -205,12 +240,20 @@ export async function POST(request: Request) {
                 .sort({ start_time: 1 })
                 .toArray();
 
+              // Block ACTIVITIES unless explicitly opted in
+              const typeFiltered = include_activities
+                ? events
+                : events.filter(
+                    (ev: any) =>
+                      (ev.type ?? '').toUpperCase() !== 'ACTIVITIES'
+                  );
+
               // Apply time filter first (before profile and limit)
               const timeFiltered = timeFilter
-                ? applyTimeFilter(events, timeFilter)
-                : events;
+                ? applyTimeFilter(typeFiltered, timeFilter)
+                : typeFiltered;
 
-              const filtered =
+              const profileFiltered =
                 forProfile && profile
                   ? timeFiltered.filter((ev: any) =>
                       isEventRelevantToProfile(ev, profile)
@@ -218,7 +261,9 @@ export async function POST(request: Request) {
                   : timeFiltered;
 
               // Apply limit after all filters
-              const limited = limit ? filtered.slice(0, limit) : filtered;
+              const limited = limit
+                ? profileFiltered.slice(0, limit)
+                : profileFiltered;
 
               if (!limited.length) {
                 return { events: [], message: 'No events found.' };
@@ -227,10 +272,8 @@ export async function POST(request: Request) {
               const formatted = limited.map((ev: any) => {
                 const startDate = parseRawDate(ev.start_time);
                 const endDate = parseRawDate(ev.end_time);
-                const endFormatted =
-                  endDate && startDate && isSameCalendarDay(startDate, endDate)
-                    ? formatEventTime(endDate)
-                    : formatEventDateTime(ev.end_time);
+                // Always show only the time for the end (start already shows the date)
+                const endFormatted = endDate ? formatEventTime(endDate) : null;
                 return {
                   id: String(ev._id),
                   name: String(ev.name || 'Event'),

@@ -15,8 +15,8 @@ export default function HackbotHeader({
       style={{ backgroundColor: '#005271' }}
     >
       <div>
-        <p className="text-sm font-bold text-white">HackDavis Helper</p>
-        <p className="text-[11px] text-[#9EE7E5]">
+        <p className="text-base font-bold text-white">HackDavis Helper</p>
+        <p className="text-xs text-[#9EE7E5]">
           {firstName
             ? `Hi ${firstName}! Ask me anything about HackDavis.`
             : 'Ask me anything about HackDavis!'}

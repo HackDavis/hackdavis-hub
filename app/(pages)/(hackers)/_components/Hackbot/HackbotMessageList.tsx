@@ -24,15 +24,13 @@ export default function HackbotMessageList({
     <section className="flex-1 overflow-y-auto px-3 py-3 space-y-3 min-h-0 bg-[#FAFAFF]">
       {messages.length === 0 && (
         <div className="space-y-2">
-          <p className="text-[11px] text-[#005271]/60 font-medium">
-            Try asking:
-          </p>
+          <p className="text-xs text-[#005271]/60 font-medium">Try asking:</p>
           {suggestionChips.map((q) => (
             <button
               key={q}
               type="button"
               onClick={() => onChipClick(q)}
-              className="block w-full text-left text-[11px] px-3 py-2 rounded-xl border border-[#9EE7E5] bg-white text-[#005271] hover:bg-[#CCFFFE] transition-colors font-medium"
+              className="block w-full text-left text-xs px-3 py-2 rounded-xl border border-[#9EE7E5] bg-white text-[#005271] hover:bg-[#CCFFFE] transition-colors font-medium"
             >
               {q}
             </button>
@@ -83,10 +81,28 @@ export default function HackbotMessageList({
                   <MarkdownText text={m.content} />
                 </p>
               )}
-              {m.url && (
+
+              {/* Named links from provide_links tool */}
+              {m.links && m.links.length > 0 && (
+                <div className="mt-1.5 flex flex-col gap-1">
+                  {m.links.map((link) => (
+                    <a
+                      key={link.url}
+                      href={link.url}
+                      className="inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
+                      style={{ color: '#005271' }}
+                    >
+                      {link.label} →
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {/* Legacy single URL fallback (backwards compat with stored messages) */}
+              {!m.links?.length && m.url && (
                 <a
                   href={m.url}
-                  className="mt-1.5 inline-flex items-center gap-0.5 text-[10px] font-semibold underline underline-offset-2"
+                  className="mt-1.5 inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2"
                   style={{ color: '#005271' }}
                 >
                   More info →
@@ -95,9 +111,9 @@ export default function HackbotMessageList({
             </div>
           )}
 
-          {/* Event cards */}
+          {/* Event cards — max width matches bubble, cascade animation via HackbotEventCard */}
           {m.events && m.events.length > 0 && (
-            <div className="w-full space-y-1.5">
+            <div className="w-full max-w-[88%] space-y-1.5">
               {m.events.map((ev) => (
                 <HackbotEventCard key={ev.id} event={ev} userId={userId} />
               ))}
