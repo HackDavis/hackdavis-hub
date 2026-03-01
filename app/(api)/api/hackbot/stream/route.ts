@@ -163,7 +163,9 @@ export async function POST(request: Request) {
     const maxOutputTokens = isReasoningModel
       ? Math.max(configuredMaxTokens, 4000)
       : configuredMaxTokens;
-    console.log(`[hackbot][stream] model=${model} isReasoning=${isReasoningModel} maxOutputTokens=${maxOutputTokens}`);
+    console.log(
+      `[hackbot][stream] model=${model} isReasoning=${isReasoningModel} maxOutputTokens=${maxOutputTokens}`
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = streamText({
@@ -264,7 +266,14 @@ export async function POST(request: Request) {
             date,
           }) => {
             console.log('[hackbot][stream][tool] get_events input', {
-              type, search, limit, forProfile, timeFilter, include_activities, tags, date,
+              type,
+              search,
+              limit,
+              forProfile,
+              timeFilter,
+              include_activities,
+              tags,
+              date,
             });
             try {
               const db = await getDatabase();
@@ -338,9 +347,12 @@ export async function POST(request: Request) {
                 : profileFiltered;
 
               console.log('[hackbot][stream][tool] get_events counts', {
-                total: events.length, afterDate: dateFiltered.length,
-                afterType: typeFiltered.length, afterRole: roleSpecificFiltered.length,
-                afterTime: timeFiltered.length, afterProfile: profileFiltered.length,
+                total: events.length,
+                afterDate: dateFiltered.length,
+                afterType: typeFiltered.length,
+                afterRole: roleSpecificFiltered.length,
+                afterTime: timeFiltered.length,
+                afterProfile: profileFiltered.length,
                 afterLimit: limited.length,
               });
               if (!limited.length) {
@@ -425,8 +437,7 @@ export async function POST(request: Request) {
         let finishCachedTokens = 0;
         let streamError: string | null = null;
 
-        const enq = (line: string) =>
-          controller.enqueue(enc.encode(line));
+        const enq = (line: string) => controller.enqueue(enc.encode(line));
 
         // Suppress post-tool text only when the model has already output text
         // in a prior step. This prevents the model from "narrating" its own
@@ -475,8 +486,12 @@ export async function POST(request: Request) {
                 ])}\n`
               );
             } else if (part?.type === 'error') {
-              console.error('[hackbot][stream] OpenAI error in stream:', part.error);
-              streamError = (part.error as any)?.message ?? 'OpenAI server error';
+              console.error(
+                '[hackbot][stream] OpenAI error in stream:',
+                part.error
+              );
+              streamError =
+                (part.error as any)?.message ?? 'OpenAI server error';
               break;
             } else if (part?.type === 'finish') {
               // ai@6: finish part uses `totalUsage`
@@ -484,7 +499,10 @@ export async function POST(request: Request) {
               finishCompletionTokens = part.totalUsage?.outputTokens ?? 0;
               finishCachedTokens =
                 part.totalUsage?.inputTokenDetails?.cacheReadTokens ?? 0;
-            } else if (part?.type === 'finish-step' && finishPromptTokens === 0) {
+            } else if (
+              part?.type === 'finish-step' &&
+              finishPromptTokens === 0
+            ) {
               // Fallback: finish-step uses `usage` (not `totalUsage`)
               finishPromptTokens = part.usage?.inputTokens ?? 0;
               finishCompletionTokens = part.usage?.outputTokens ?? 0;
@@ -495,7 +513,9 @@ export async function POST(request: Request) {
 
           // Emit error event to client before closing so the widget can retry
           if (streamError) {
-            enq(`3:${JSON.stringify('Something went wrong. Please try again.')}\n`);
+            enq(
+              `3:${JSON.stringify('Something went wrong. Please try again.')}\n`
+            );
           }
           controller.close();
         } catch (e) {

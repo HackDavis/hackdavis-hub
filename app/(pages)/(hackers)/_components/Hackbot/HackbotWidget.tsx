@@ -20,7 +20,6 @@ const MIN_WIDTH = 360;
 const MAX_WIDTH_FRACTION = 0.5;
 const CASCADE_DELAY_MS = 150;
 
-
 export default function HackbotWidget({
   userId,
   initialProfile,
@@ -72,12 +71,14 @@ export default function HackbotWidget({
   const [hackerProfile] = useState<HackerProfile | null>(initialProfile);
 
   const suggestionChips = [
-    ...(hackerProfile?.is_beginner ? ["I'm a beginner, where do I start?"] : []),
+    ...(hackerProfile?.is_beginner
+      ? ["I'm a beginner, where do I start?"]
+      : []),
     hackerProfile?.position === 'developer'
       ? 'What developer resources are there?'
       : hackerProfile?.position === 'designer'
-        ? 'What designer resources are there?'
-        : 'What developer and designer resources are there?',
+      ? 'What designer resources are there?'
+      : 'What developer and designer resources are there?',
     'When is the submission deadline?',
     "What's my team number vs. table number?",
     'How are projects judged?',
