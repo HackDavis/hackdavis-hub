@@ -22,8 +22,8 @@ const action_links = [
     body: 'Create Panels',
   },
   {
-    href: '/admin/invite-link',
-    body: 'Invite Judges',
+    href: '/admin/invites',
+    body: 'Invites',
   },
   {
     href: '/admin/randomize-projects',
