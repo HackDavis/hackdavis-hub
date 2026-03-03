@@ -1,24 +1,33 @@
 // Judge Hub invite types
-export interface JudgeInviteData {
+export interface InviteData {
   firstName: string;
   lastName: string;
   email: string;
 }
 
-export interface JudgeInviteResult {
+export interface InviteResult {
   email: string;
   success: boolean;
-  inviteUrl?: string;
   error?: string;
 }
 
-export interface BulkJudgeInviteResponse {
+export interface BulkInviteResponse<R extends InviteResult = InviteResult> {
   ok: boolean;
-  results: JudgeInviteResult[];
+  results: R[];
   successCount: number;
   failureCount: number;
   error: string | null;
 }
+
+// ── Judge types ─────────────────────────────────────────────────────────────
+
+export interface JudgeInviteData extends InviteData {}
+
+export interface JudgeInviteResult extends InviteResult {
+  inviteUrl?: string;
+}
+
+export type BulkJudgeInviteResponse = BulkInviteResponse<JudgeInviteResult>;
 
 export interface SingleJudgeInviteResponse {
   ok: boolean;
@@ -28,26 +37,13 @@ export interface SingleJudgeInviteResponse {
 
 // Mentor Hub invite types
 
-export interface MentorInviteData {
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+export interface MentorInviteData extends InviteData {}
 
-export interface MentorInviteResult {
-  email: string;
-  success: boolean;
+export interface MentorInviteResult extends InviteResult {
   titoUrl?: string;
-  error?: string;
 }
 
-export interface BulkMentorInviteResponse {
-  ok: boolean;
-  results: MentorInviteResult[];
-  successCount: number;
-  failureCount: number;
-  error: string | null;
-}
+export type BulkMentorInviteResponse = BulkInviteResponse<MentorInviteResult>;
 
 export interface SingleMentorInviteResponse {
   ok: boolean;
