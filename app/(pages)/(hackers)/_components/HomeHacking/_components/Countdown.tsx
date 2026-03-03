@@ -48,33 +48,33 @@ export default function Countdown({
     <div className="flex flex-col items-end text-white">
       {/* BIG TIMER */}
       <div className="flex items-end gap-3 md:gap-6">
-        <span className="text-[72px] sm:text-[96px] md:text-[120px] font-extrabold tracking-wide leading-none drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
+        <span className="text-[40px] sm:text-[96px] md:text-[120px] font-extrabold tracking-wide leading-none drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
           {timeLeft.hours.toString().padStart(2, '0')}
         </span>
 
-        <span className="text-[72px] sm:text-[96px] md:text-[120px] font-extrabold leading-none">
+        <span className="text-[40px] sm:text-[96px] md:text-[120px] font-extrabold leading-none">
           :
         </span>
 
-        <span className="text-[72px] sm:text-[96px] md:text-[120px] font-extrabold tracking-wide leading-none drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
+        <span className="text-[40px] sm:text-[96px] md:text-[120px] font-extrabold tracking-wide leading-none drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
           {timeLeft.minutes.toString().padStart(2, '0')}
         </span>
 
-        <span className="text-[72px] sm:text-[96px] md:text-[120px] font-extrabold leading-none">
+        <span className="text-[40px] sm:text-[96px] md:text-[120px] font-extrabold leading-none">
           :
         </span>
 
-        <span className="text-[72px] sm:text-[96px] md:text-[120px] font-extrabold tracking-wide leading-none drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
+        <span className="text-[40px] sm:text-[96px] md:text-[120px] font-extrabold tracking-wide leading-none drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
           {timeLeft.seconds.toString().padStart(2, '0')}
         </span>
       </div>
 
       {/* LABEL ROW */}
-      <div className="flex gap-8 md:gap-14 mt-3 text-xs md:text-sm font-semibold tracking-widest opacity-90">
+      {/* <div className="flex gap-8 md:gap-14 mt-3 text-xs md:text-sm font-semibold tracking-widest opacity-90">
         <span>HOURS</span>
         <span>MINUTES</span>
         <span>SECONDS</span>
-      </div>
+      </div> */}
     </div>
   );
 }

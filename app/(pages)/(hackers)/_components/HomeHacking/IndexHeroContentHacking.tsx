@@ -48,15 +48,15 @@ export default function IndexHeroContentHacking() {
                 background:
                   'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
               }}>
+              {/* background */}
+              <Image
+                src="/Hero/Clouds.svg"
+                alt="Background"
+                fill
+                className="object-cover pointer-events-none select-none -z-10"
+                priority
+              />
               <div className="flex items-start justify-between gap-6">
-                {/* background */}
-                <Image
-                  src="/Hero/Clouds.svg"
-                  alt="Background"
-                  fill
-                  className="object-cover pointer-events-none select-none -z-10"
-                  priority
-                />
                 {/* Right: countdown (big) */}
                 <div className="flex-1 flex justify-center">
                   <div className="text-white">
@@ -72,7 +72,6 @@ export default function IndexHeroContentHacking() {
                       )}
                     </ClientTimeProtectedDisplay>
 
-                    {/* If the hook is still loading, show a subtle hint (won't affect layout much) */}
                     {loading && (
                       <div className="mt-2 text-white/90 text-sm text-right">
                         loading…
@@ -139,7 +138,7 @@ export default function IndexHeroContentHacking() {
                 href="https://hackdavis-2026.devpost.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 group relative rounded-[999px] bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] min-h-[110px] flex items-center justify-center overflow-hidden"
+                className="mt-2 group relative rounded-xl bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] min-h-[110px] flex items-center justify-center overflow-hidden"
                 style={{
                 borderRadius: '38.812px',
                 background:
@@ -151,7 +150,7 @@ export default function IndexHeroContentHacking() {
                   src="/Hero/Clouds.svg"
                   alt="Background"
                   fill
-                  className="object-cover pointer-events-none select-none -z-10"
+                  className="object-cover pointer-events-none select-none -z-10 overflow-hidden"
                   priority
                 />
                 <div className="absolute inset-0 opacity-70 pointer-events-none bg-gradient-to-r from-white/0 via-white/10 to-white/0" />
