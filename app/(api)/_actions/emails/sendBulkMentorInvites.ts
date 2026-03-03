@@ -12,6 +12,7 @@ import {
 
 const TITO_CONCURRENCY = 20;
 const EMAIL_CONCURRENCY = 10;
+const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Mentor Invite';
 
 /**
  * Returns an async function that enforces at most `concurrency` simultaneous
@@ -113,7 +114,7 @@ export default async function sendBulkMentorInvites(
           transporter.sendMail({
             from: sender,
             to: mentor.email,
-            subject: "You're Invited to Mentor at HackDavis 2026",
+            subject: EMAIL_SUBJECT,
             html: mentorInviteTemplate(mentor.firstName, titoResult.titoUrl),
           })
         );
