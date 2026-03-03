@@ -31,21 +31,13 @@ export default async function sendBulkJudgeHubInvites(
   let successCount = 0;
   let failureCount = 0;
 
-  const totalStartTime = Date.now();
-
   // Single upfront duplicate check for all emails at once
-  const dupStart = Date.now();
   const allEmails = allJudges.map((j) => j.email);
   const existingUsers = await GetManyUsers({ email: { $in: allEmails } });
   const existingEmailSet = new Set<string>(
     existingUsers.ok
       ? existingUsers.body.map((u: { email: string }) => u.email)
       : []
-  );
-  console.log(
-    `[Bulk Judge Invites] Duplicate check (${allEmails.length} emails): ${
-      Date.now() - dupStart
-    }ms — ${existingEmailSet.size} already registered`
   );
 
   // Partition judges into duplicates (immediate failure) and new (to send)
@@ -63,18 +55,8 @@ export default async function sendBulkJudgeHubInvites(
     }
   }
 
-  const totalBatches = Math.ceil(judges.length / CONCURRENCY);
-  console.log(
-    `[Bulk Judge Invites] Sending to ${judges.length} new judges (concurrency: ${CONCURRENCY}, ${totalBatches} batches)`
-  );
-
   for (let i = 0; i < judges.length; i += CONCURRENCY) {
     const batch: JudgeInviteData[] = judges.slice(i, i + CONCURRENCY);
-    const batchNum = Math.floor(i / CONCURRENCY) + 1;
-    const batchStartTime = Date.now();
-    console.log(
-      `[Bulk Judge Invites] Processing batch ${batchNum}/${totalBatches} (${batch.length} judges)`
-    );
 
     const batchResults = await Promise.allSettled(
       batch.map((judge) => sendSingleJudgeHubInvite(judge, true))
@@ -101,20 +83,7 @@ export default async function sendBulkJudgeHubInvites(
         failureCount++;
       }
     }
-
-    console.log(
-      `[Bulk Judge Invites] Batch ${batchNum}/${totalBatches} completed in ${
-        Date.now() - batchStartTime
-      }ms`
-    );
   }
-
-  const totalTime = Date.now() - totalStartTime;
-  console.log(
-    `[Bulk Judge Invites] Complete: ${successCount} success, ${failureCount} failed in ${(
-      totalTime / 1000
-    ).toFixed(1)}s`
-  );
 
   return {
     ok: failureCount === 0,
