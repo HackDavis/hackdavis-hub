@@ -45,7 +45,7 @@ export default async function sendSingleMentorInvite(
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: email,
-      subject: "You're Invited to Mentor at HackDavis 2026",
+      subject: EMAIL_SUBJECT,
       html: mentorInviteTemplate(firstName, titoResult.titoUrl),
     });
     console.log(`[Mentor Invite] sendMail: ${Date.now() - mailStart}ms`);
