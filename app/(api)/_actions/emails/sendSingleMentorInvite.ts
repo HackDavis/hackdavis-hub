@@ -5,6 +5,8 @@ import mentorInviteTemplate from './emailTemplates/2026MentorInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import { MentorInviteData, SingleMentorInviteResponse } from '@typeDefs/emails';
 
+const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Mentor Invite';
+
 interface MentorInviteOptions extends MentorInviteData {
   rsvpListSlug: string;
   releaseIds: string;

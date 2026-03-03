@@ -7,7 +7,7 @@ import judgeHubInviteTemplate from './emailTemplates/2026JudgeHubInviteTemplate'
 import { DEFAULT_SENDER, transporter } from './transporter';
 import { JudgeInviteData, SingleJudgeInviteResponse } from '@typeDefs/emails';
 
-const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2025 Judging App Invite';
+const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Judging App Invite';
 
 export default async function sendSingleJudgeHubInvite(
   options: JudgeInviteData,

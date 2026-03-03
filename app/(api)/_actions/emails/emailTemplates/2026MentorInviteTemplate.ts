@@ -1,5 +1,5 @@
 export default function mentorInviteTemplate(fname: string, titoUrl: string) {
-  const EMAIL_SUBJECT = 'Mentor Invitation - HackDavis 2026';
+  const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Mentor Invite';
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_footer.png`;
   const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
