@@ -2,7 +2,7 @@
 
 import parseInviteCSV from './parseInviteCSV';
 import getOrCreateTitoInvitation from '@actions/tito/getOrCreateTitoInvitation';
-import mentorInviteTemplate from './emailFormats/2026MentorInviteTemplate';
+import mentorInviteTemplate from './emailTemplates/2026MentorInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import {
   BulkMentorInviteResponse,

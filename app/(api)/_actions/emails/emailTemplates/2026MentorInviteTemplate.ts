@@ -1,10 +1,15 @@
 export default function mentorInviteTemplate(fname: string, titoUrl: string) {
+  const EMAIL_SUBJECT = 'Mentor Invitation - HackDavis 2026';
+  const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_header.png`;
+  const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_footer.png`;
+  const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentor Invitation - HackDavis 2026</title>
+    <title>${EMAIL_SUBJECT}</title>
     <style>
         body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
@@ -29,7 +34,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
 </head>
 <body>
     <div class="container">
-        <img src="${process.env.BASE_URL}/email/2025_email_header.png" alt="HackDavis 2026" class="header-image">
+        <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2026 header" class="header-image">
         <h1 class="title">Congratulations from HackDavis! 🎉</h1>
         <div class="content-box">
             <p>Hi ${fname},</p>
@@ -41,7 +46,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
                     <ul><li><span class="highlight">You MUST claim a ticket to attend the event.</span></li></ul>
                 </li>
                 <li>
-                    <span class="highlight">Join our Discord</span> at <a href="https://discord.gg/wc6QQEc">https://discord.gg/wc6QQEc</a> to stay up to date with event details.
+                    <span class="highlight">Join our Discord</span> at <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a> to stay up to date with event details.
                     <ul><li>To gain access to mentor channels, please follow the instructions in <em>#❗️read-me-first❗️</em>.</li></ul>
                 </li>
             </ul>
@@ -53,7 +58,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
             <p style="margin-bottom: 0;">The HackDavis Team</p>
         </div>
         <div class="divider"></div>
-        <img src="${process.env.BASE_URL}/email/2025_email_header.png" alt="HackDavis 2026" class="footer-image">
+        <img src="${FOOTER_IMAGE_URL}" alt="HackDavis 2026 footer" class="footer-image">
     </div>
 </body>
 </html>`;
