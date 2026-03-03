@@ -1,8 +1,10 @@
+export const JUDGE_EMAIL_SUBJECT =
+  '[ACTION REQUIRED] HackDavis 2026 Judging App Invite';
+
 export default function judgeHubInviteTemplate(
   fname: string,
   inviteLink: string
 ) {
-  const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Judging App Invite';
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_footer.png`;
   const MEETING_RECORDING_URL =
@@ -18,7 +20,7 @@ export default function judgeHubInviteTemplate(
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${EMAIL_SUBJECT}</title>
+    <title>${JUDGE_EMAIL_SUBJECT}</title>
     <style>
         body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }

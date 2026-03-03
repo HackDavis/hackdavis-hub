@@ -2,7 +2,9 @@
 
 import parseInviteCSV from './parseInviteCSV';
 import getOrCreateTitoInvitation from '@actions/tito/getOrCreateTitoInvitation';
-import mentorInviteTemplate from './emailTemplates/2026MentorInviteTemplate';
+import mentorInviteTemplate, {
+  MENTOR_EMAIL_SUBJECT,
+} from './emailTemplates/2026MentorInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import {
   BulkMentorInviteResponse,
@@ -12,7 +14,6 @@ import {
 
 const TITO_CONCURRENCY = 20;
 const EMAIL_CONCURRENCY = 10;
-const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Mentor Invite';
 
 /**
  * Returns an async function that enforces at most `concurrency` simultaneous
@@ -114,7 +115,7 @@ export default async function sendBulkMentorInvites(
           transporter.sendMail({
             from: sender,
             to: mentor.email,
-            subject: EMAIL_SUBJECT,
+            subject: MENTOR_EMAIL_SUBJECT,
             html: mentorInviteTemplate(mentor.firstName, titoResult.titoUrl),
           })
         );

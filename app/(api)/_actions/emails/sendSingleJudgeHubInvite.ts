@@ -3,11 +3,11 @@
 import GenerateInvite from '@datalib/invite/generateInvite';
 import { GetManyUsers } from '@datalib/users/getUser';
 import { DuplicateError, HttpError } from '@utils/response/Errors';
-import judgeHubInviteTemplate from './emailTemplates/2026JudgeHubInviteTemplate';
+import judgeHubInviteTemplate, {
+  JUDGE_EMAIL_SUBJECT,
+} from './emailTemplates/2026JudgeHubInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import { JudgeInviteData, SingleJudgeInviteResponse } from '@typeDefs/emails';
-
-const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Judging App Invite';
 
 export default async function sendSingleJudgeHubInvite(
   options: JudgeInviteData,
@@ -44,7 +44,7 @@ export default async function sendSingleJudgeHubInvite(
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: email,
-      subject: EMAIL_SUBJECT,
+      subject: JUDGE_EMAIL_SUBJECT,
       html: htmlContent,
     });
     return { ok: true, inviteUrl: invite.body, error: null };

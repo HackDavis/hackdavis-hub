@@ -1,11 +1,11 @@
 'use server';
 
 import getOrCreateTitoInvitation from '@actions/tito/getOrCreateTitoInvitation';
-import mentorInviteTemplate from './emailTemplates/2026MentorInviteTemplate';
+import mentorInviteTemplate, {
+  MENTOR_EMAIL_SUBJECT,
+} from './emailTemplates/2026MentorInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import { MentorInviteData, SingleMentorInviteResponse } from '@typeDefs/emails';
-
-const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2026 Mentor Invite';
 
 interface MentorInviteOptions extends MentorInviteData {
   rsvpListSlug: string;
@@ -45,7 +45,7 @@ export default async function sendSingleMentorInvite(
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: email,
-      subject: EMAIL_SUBJECT,
+      subject: MENTOR_EMAIL_SUBJECT,
       html: mentorInviteTemplate(firstName, titoResult.titoUrl),
     });
     console.log(`[Mentor Invite] sendMail: ${Date.now() - mailStart}ms`);
