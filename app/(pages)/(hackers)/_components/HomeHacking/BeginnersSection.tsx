@@ -6,7 +6,7 @@ import TextCard from './_components/TextCard';
 
 export default function BeginnersSection() {
   return (
-    <div className="bg-[#F1FFCC]">
+    <div id="beginners-section" className="bg-[#F1FFCC]">
       <Image
         src={grass_top}
         alt="grass detail lining top of section"

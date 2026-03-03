@@ -22,7 +22,7 @@ const items = [
 
 export default function cardTest() {
   return (
-    <div className="flex bg-[#FAFAFF]">
+    <div id="mentor-help" className="flex bg-[#FAFAFF]">
       {/* Main Content */}
       <main className="flex px-[5%] py-[10%] w-full">
         {/* Items Grid */}

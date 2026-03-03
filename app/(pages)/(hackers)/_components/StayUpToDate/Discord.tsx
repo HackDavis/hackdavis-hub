@@ -4,7 +4,10 @@ import TextCard from '../HomeHacking/_components/TextCard';
 
 export default function Discord() {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between px-[5%] py-[10%] gap-12 md:gap-0 bg-[#0B2638]">
+    <div
+      id="discord"
+      className="flex flex-col md:flex-row items-center justify-between px-[5%] py-[10%] gap-12 md:gap-0 bg-[#0B2638]"
+    >
       <div className="flex-1 flex justify-start">
         <TextCard
           short_text="JOIN US"

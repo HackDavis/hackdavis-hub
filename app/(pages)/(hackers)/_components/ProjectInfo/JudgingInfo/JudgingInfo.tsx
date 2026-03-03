@@ -42,7 +42,7 @@ const accordionItems: AccordionItemInt[] = [
 
 export default function JudgingInfo() {
   return (
-    <div className={styles.container}>
+    <div id="judging" className={styles.container}>
       <div className={styles.judgingProcess}>
         <h6>THIS IS OUR</h6>
         <h4>Judging Process</h4>
