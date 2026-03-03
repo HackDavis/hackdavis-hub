@@ -25,7 +25,7 @@ export default function judgeHubInviteTemplate(
         .header-image { width: 100%; height: auto; display: block; }
         .title { text-align: center; font-size: 32px; font-weight: bold; margin: 30px 0; color: #000000; }
         .content-box { background-color: #EDEDED; padding: 40px; margin: 20px 0; }
-        .content-box p { font-size: 16px; line-height: 1.6; color: #222222; margin: 0 0 16px 0; }
+        .content-box p { font-size: 16px; line-height: 1.5; color: #222222; margin: 0 0 16px 0; }
         .content-box a { color: #0061FE; text-decoration: none; }
         .content-box a:hover { text-decoration: underline; }
         .content-box ul { margin: 16px 0; padding-left: 20px; }
@@ -47,29 +47,31 @@ export default function judgeHubInviteTemplate(
         <h1 class="title">Welcome to HackDavis 2026! 🎉</h1>
         <div class="content-box">
             <p>Hi ${fname},</p>
+            <br/>
             <p>Thank you again for joining us as a judge, we’re thrilled to have you on board! Here are some key resources from our virtual orientation:</p>
             <p>🔹 Meeting Recording: <a href="${MEETING_RECORDING_URL}">${MEETING_RECORDING_URL}</a></p>
             <p>🔹 Judging Guide: <a href="${JUDGING_GUIDE_URL}">${JUDGING_GUIDE_URL}</a></p>
             <p>You are requested to carefully review the judging guide and familiarize yourself with its content before the event for a smooth judging experience. Kindly do not share the Judging Guide with anyone outside the judging team.</p>
-            
+            <br/>
             <p class="bold">IMPORTANT NEXT STEP: Create an account on our Judging Application</p>
             <p>⚠️ The Judging Application is a key prerequisite for the day of the event! Please carefully review the <a href="${INVITATION_TO_REGISTER_GUIDE_URL}">Invitation to Register</a> section of the Judging Guide before proceeding to create your account.</p>
             <p>Please use the following unique invite link below to create your judge account. Do NOT share it with anyone else.</p>
-            <p>👉 Invite Link:</p>
-            <p><a href="${inviteLink}">${inviteLink}</a></p>
-
+            <p>👉 Invite Link: <a href="${inviteLink}">${inviteLink}</a></p>
+            <br/>
             <p class="bold">OPTIONAL: Join our Discord</p>
             <p>We’ll be using Discord server as our main space for announcements and support during the event. Joining is totally optional for judges, but it’s a great way to:</p>
             <p>🔹 Get quick answers from the team</p>
             <p>🔹 Stay in the loop on event updates</p>
             <p>🔹 Connect with other judges & participants</p>
             <p>👉 Discord Server: <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a></p>
-
+            <br/>
             <p>Lastly, we are grateful for your thoughtful feedback during the orientation. As suggested, we will be sharing more details soon about the prize tracks and their eligibility criteria and rubrics to help you get a sense of the tracks ahead of time.</p>
             <p>Please feel free to reach out if you have any questions or concerns. Looking forward to seeing you at the event!</p>
+            <br/>
             <p>Thank you,</p>
             <p style="margin-bottom: 0;">The HackDavis Team</p>
         </div>
+        <div class="divider"></div>
         <img src="${FOOTER_IMAGE_URL}" alt="HackDavis 2026 footer" class="footer-image">
     </div>
 </body>
