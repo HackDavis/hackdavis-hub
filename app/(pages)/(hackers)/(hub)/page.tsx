@@ -17,22 +17,22 @@ export default function Page() {
   return (
     <main id="home">
       {/* <TableNumberContextProvider> */}
-        {/* <ClientTimeProtectedDisplay featureId="hero-hacking"> */}
-          {/* <HeroMVP /> */}
-          <IndexHeroContentHacking />
-          <ScheduleSneakPeek />
-          <BeginnersSection />
-          <MDHelp />
-        {/* </ClientTimeProtectedDisplay> */}
-        {/* temporarilty set featureId below to "hero-hacking" to test */}
-        {/* <ClientTimeProtectedDisplay featureId="hero-hacking"> */}
-          <HeroWaiting />
-          <HeroJudging />
-          <HackerChoiceAward />
-        {/* </ClientTimeProtectedDisplay> */}
-        {/* <ClientTimeProtectedDisplay featureId="table-number-checkin"> */}
-          {/* <TableNumberCheckin /> */}
-        {/* </ClientTimeProtectedDisplay> */}
+      {/* <ClientTimeProtectedDisplay featureId="hero-hacking"> */}
+      {/* <HeroMVP /> */}
+      <IndexHeroContentHacking />
+      <ScheduleSneakPeek />
+      <BeginnersSection />
+      <MDHelp />
+      {/* </ClientTimeProtectedDisplay> */}
+      {/* temporarilty set featureId below to "hero-hacking" to test */}
+      {/* <ClientTimeProtectedDisplay featureId="hero-hacking"> */}
+      <HeroWaiting />
+      <HeroJudging />
+      <HackerChoiceAward />
+      {/* </ClientTimeProtectedDisplay> */}
+      {/* <ClientTimeProtectedDisplay featureId="table-number-checkin"> */}
+      {/* <TableNumberCheckin /> */}
+      {/* </ClientTimeProtectedDisplay> */}
       {/* </TableNumberContextProvider> */}
       <Discord />
       <PrizeTracks />
