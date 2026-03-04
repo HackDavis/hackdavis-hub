@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import CalendarItem from '../../_components/Schedule/CalendarItem';
 import Footer from '@components/Footer/Footer';
 import Image from 'next/image';
@@ -50,10 +50,16 @@ export default function Page() {
   const [activeFilters, setActiveFilters] = useState<ScheduleFilter[]>(['ALL']);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);
+  const ignoreScrollSyncUntilRef = useRef(0);
+  const pendingDayRef = useRef<'9' | '10' | null>(null);
 
   const changeActiveDay = (day: '9' | '10') => {
     setActiveDay(day);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    pendingDayRef.current = day;
+    ignoreScrollSyncUntilRef.current = Date.now() + 2000;
+    document
+      .getElementById(`day-${day}`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const {
@@ -212,13 +218,13 @@ export default function Page() {
   const dataToUse =
     activeTab === 'personal' ? personalScheduleData : scheduleData;
 
-  // Update the filtering logic to handle recommended events correctly
-  const sortedGroupedEntries = useMemo(() => {
-    if (!dataToUse) return [];
-
+  const getGroupedEntriesForDay = (
+    dayKey: '9' | '10',
+    dataToUse: ScheduleData | null,
+    activeFilters: ScheduleFilter[]
+  ): [string, EventDetails[]][] => {
     // Filter events for the active day
-    const eventsForDay = dataToUse[activeDay] || [];
-
+    const eventsForDay = dataToUse?.[dayKey] ?? [];
     // Apply filter logic
     let filteredEvents = eventsForDay;
 
@@ -241,6 +247,7 @@ export default function Page() {
     if (filteredEvents.length === 0) return [];
 
     // Sort the filtered events by start time.
+    // TODO: UPDATE THIS WITH MY CODE FROM MY OTHER TICKET
     const sortedEvents = [...filteredEvents].sort(
       (a, b) =>
         new Date(a.event.start_time).getTime() -
@@ -276,7 +283,62 @@ export default function Page() {
       const dateB = new Date(`${dummyDay} ${b[0]}`);
       return dateA.getTime() - dateB.getTime();
     });
-  }, [dataToUse, activeDay, activeFilters]);
+  };
+
+  // useMemo cache the result of an expensive calculation between re-renders,
+  // so it only runs when its dependencies change
+  const groupedEntriesByDay = useMemo(() => {
+    return {
+      '9': getGroupedEntriesForDay('9', dataToUse, activeFilters),
+      '10': getGroupedEntriesForDay('10', dataToUse, activeFilters),
+    };
+  }, [dataToUse, activeFilters]);
+
+  useEffect(() => {
+    const updateActiveDayFromScroll = () => {
+      if (Date.now() < ignoreScrollSyncUntilRef.current) {
+        if (pendingDayRef.current) {
+          setActiveDay(pendingDayRef.current);
+        }
+        return;
+      }
+
+      pendingDayRef.current = null;
+
+      const daySections = (['9', '10'] as const)
+        .map((day) => {
+          const section = document.getElementById(`day-${day}`);
+          return section
+            ? { day, rect: section.getBoundingClientRect() }
+            : null;
+        })
+        .filter(
+          (section): section is { day: '9' | '10'; rect: DOMRect } =>
+            section !== null
+        );
+
+      if (daySections.length === 0) return;
+
+      // Flip active day when a section title reaches ~45% down viewport.
+      const anchor = window.innerHeight * 0.45;
+      let nextActiveDay: '9' | '10' = daySections[0].day;
+      for (const section of daySections) {
+        if (section.rect.top <= anchor) {
+          nextActiveDay = section.day;
+        }
+      }
+
+      setActiveDay(nextActiveDay);
+    };
+
+    updateActiveDayFromScroll();
+    window.addEventListener('scroll', updateActiveDayFromScroll, {
+      passive: true,
+    });
+    return () => {
+      window.removeEventListener('scroll', updateActiveDayFromScroll);
+    };
+  }, [activeTab, activeFilters, groupedEntriesByDay]);
 
   const toggleFilter = (label: ScheduleFilter) => {
     if (label === 'ALL') {
@@ -311,15 +373,18 @@ export default function Page() {
     );
 
   return (
-    <main id="schedule" className="w-full">
-      <div className="absolute aspect-[380/75] lg:aspect-[1583/351] w-full top-[calc(-1*100vw*11/375)] lg:top-[calc(-1*100vw*10/1440)] z-0 overflow-x-clip pointer-events-none">
+    <main
+      id="schedule"
+      className="relative w-full bg-[#FAFAFF] pt-[calc(100vw*48/380)] lg:pt-[calc(100vw*220/1583)]"
+    >
+      <div className="absolute top-0 left-0 aspect-[380/75] lg:aspect-[1583/351] w-full z-30 overflow-x-clip pointer-events-none">
         <Image
           src={headerGrass}
           alt="header-grass"
           className="w-[calc(100vw*380/375)] lg:w-[calc(100vw*1583/1440)] margin-auto"
         />
       </div>
-      <div className="w-[90%] mx-auto pb-24 md:pb-44 mt-[100px] md:mt-[calc(100vw*150/1440)] flex flex-col gap-6 md:grid md:gap-0 md:grid-cols-[minmax(56px,1fr)_minmax(0,11fr)] md:grid-rows-[auto_auto_1fr] md:gap-x-8">
+      <div className="relative z-10 w-[90%] mx-auto pb-24 md:pb-44 mt-[0px] flex flex-col gap-6 md:grid md:gap-0 md:grid-cols-[minmax(56px,1fr)_minmax(0,11fr)] md:grid-rows-[auto_auto_1fr] md:gap-x-8">
         <div className="md:col-start-2 md:row-start-1">
           <div className="flex justify-evenly md:justify-start items-center relative border-b-[3px] border-[#E9E9E7]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
@@ -391,89 +456,120 @@ export default function Page() {
             <button
               onClick={() => changeActiveDay('9')}
               type="button"
-              className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
+              className={`w-fit bg-transparent border-none p-0 text-left !font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
                 activeDay === '9' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
               }`}
+              style={{ fontFamily: 'var(--font-dm-mono), monospace' }}
             >
               {activeDay === '9' && (
                 <span className="mr-2" aria-hidden>
                   {'\u2022'}
                 </span>
               )}
-              <span>MAY 9</span>
+              <span style={{ fontFamily: 'var(--font-dm-mono), monospace' }}>
+                MAY 9
+              </span>
             </button>
             <button
               onClick={() => changeActiveDay('10')}
               type="button"
-              className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
+              className={`w-fit bg-transparent border-none p-0 text-left !font-dm-mono text-base md:text-lg font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
                 activeDay === '10' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
               }`}
+              style={{ fontFamily: 'var(--font-dm-mono), monospace' }}
             >
               {activeDay === '10' && (
                 <span className="mr-2" aria-hidden>
                   {'\u2022'}
                 </span>
               )}
-              <span>MAY 10</span>
+              <span style={{ fontFamily: 'var(--font-dm-mono), monospace' }}>
+                MAY 10
+              </span>
             </button>
           </div>
         </div>
 
-        <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px]">
+        <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px] flex flex-col gap-6">
           {isInitialLoad ? (
             <div>
               <p>loading...</p>
             </div>
-          ) : sortedGroupedEntries.length > 0 ? (
-            sortedGroupedEntries.map(([timeKey, events]) => (
-              <div key={timeKey} className="relative mb-[24px]">
-                <div className="font-dm-mono text-sm md:text-lg font-normal leading-[145%] tracking-[0.36px] text-[#7C7C85] mt-[16px] mb-[6px]">
-                  {timeKey}
-                </div>
-                <div>
-                  {events.map((eventDetail) => (
-                    <CalendarItem
-                      key={eventDetail.event._id}
-                      event={eventDetail.event}
-                      attendeeCount={eventDetail.attendeeCount}
-                      inPersonalSchedule={eventDetail.inPersonalSchedule}
-                      tags={eventDetail.event.tags}
-                      host={eventDetail.event.host}
-                      onAddToSchedule={() =>
-                        handleAddToSchedule(eventDetail.event._id || '')
-                      }
-                      onRemoveFromSchedule={() =>
-                        handleRemoveFromSchedule(eventDetail.event._id || '')
-                      }
-                    />
-                  ))}
-                </div>
-              </div>
-            ))
           ) : (
-            isInitialLoad && (
-              <div className="text-center py-10">
-                {activeTab === 'personal' ? (
-                  <div>
-                    <p className="mb-4">
-                      No events in your personal schedule yet.
-                    </p>
-                    <Button
-                      onClick={() => setActiveTab('schedule')}
-                      className="w-full sm:w-fit px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group"
-                      variant="ghost"
-                    >
-                      <div className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full" />
-                      <p className="font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white">
-                        Browse the schedule to add events
-                      </p>
-                    </Button>
+            (['9', '10'] as const).map((dayKey) => {
+              const dayEntries = groupedEntriesByDay[dayKey];
+              const dayTitle = dayKey === '9' ? 'May 9' : 'May 10';
+
+              return (
+                <section
+                  key={dayKey}
+                  id={`day-${dayKey}`}
+                  className="scroll-mt-24 mb-8 last:mb-0 bg-white rounded-[16px] p-4 md:p-6"
+                >
+                  <div className="font-jakarta font-bold text-[clamp(2rem,5vw,2.75rem)] leading-normal tracking-[0.96px] text-[#3F3F3F]">
+                    {dayTitle}
                   </div>
-                ) : (
-                  'No events found for this day and filter(s).'
-                )}
-              </div>
-            )
+                  <div className="w-[90%] border-b border-[#E9E9E7] mt-3 mb-6" />
+
+                  {dayEntries.length > 0 ? (
+                    dayEntries.map(([timeKey, events]) => (
+                      <div
+                        key={`${dayKey}-${timeKey}`}
+                        className="relative mb-[24px] last:mb-0"
+                      >
+                        <div className="font-dm-mono text-sm md:text-lg font-normal leading-[145%] tracking-[0.36px] text-[#7C7C85] mt-[16px] mb-[6px]">
+                          {timeKey}
+                        </div>
+                        <div>
+                          {events.map((eventDetail) => (
+                            <CalendarItem
+                              key={eventDetail.event._id}
+                              event={eventDetail.event}
+                              attendeeCount={eventDetail.attendeeCount}
+                              inPersonalSchedule={
+                                eventDetail.inPersonalSchedule
+                              }
+                              tags={eventDetail.event.tags}
+                              host={eventDetail.event.host}
+                              onAddToSchedule={() =>
+                                handleAddToSchedule(eventDetail.event._id || '')
+                              }
+                              onRemoveFromSchedule={() =>
+                                handleRemoveFromSchedule(
+                                  eventDetail.event._id || ''
+                                )
+                              }
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-10">
+                      {activeTab === 'personal' ? (
+                        <div>
+                          <p className="mb-4">
+                            No events in your personal schedule yet.
+                          </p>
+                          <Button
+                            onClick={() => setActiveTab('schedule')}
+                            className="w-full sm:w-fit px-8 py-2 border-2 border-black rounded-3xl border-dashed hover:border-solid cursor-pointer relative group"
+                            variant="ghost"
+                          >
+                            <div className="absolute inset-0 rounded-3xl transition-all duration-300 ease-out cursor-pointer bg-black w-0 group-hover:w-full" />
+                            <p className="font-semibold relative z-10 transition-colors duration-300 text-black group-hover:text-white">
+                              Browse the schedule to add events
+                            </p>
+                          </Button>
+                        </div>
+                      ) : (
+                        'No events found for this day and filter(s).'
+                      )}
+                    </div>
+                  )}
+                </section>
+              );
+            })
           )}
         </div>
       </div>

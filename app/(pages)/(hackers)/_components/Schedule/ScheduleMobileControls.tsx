@@ -45,16 +45,19 @@ export default function ScheduleMobileControls({
     <button
       onClick={() => changeActiveDay(day)}
       type="button"
-      className={`w-fit bg-transparent border-none p-0 text-left font-dm-mono text-base font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
+      className={`w-fit bg-transparent border-none p-0 text-left !font-dm-mono text-base font-medium tracking-[0.36px] leading-[100%] inline-flex items-center ${
         activeDay === day ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
       }`}
+      style={{ fontFamily: 'var(--font-dm-mono), monospace' }}
     >
       {activeDay === day && (
         <span className="mr-2" aria-hidden>
           {'\u2022'}
         </span>
       )}
-      <span>{label}</span>
+      <span style={{ fontFamily: 'var(--font-dm-mono), monospace' }}>
+        {label}
+      </span>
     </button>
   );
 
@@ -113,8 +116,8 @@ export default function ScheduleMobileControls({
 
         {!isMobileFilterOpen && (
           <div className="shrink-0 h-[45px] flex flex-row gap-8 items-center">
-            {renderDayButton('9', 'MAY 9')}
-            {renderDayButton('10', 'MAY 10')}
+            {renderDayButton('9', 'May 9')}
+            {renderDayButton('10', 'May 10')}
           </div>
         )}
       </div>
