@@ -80,11 +80,11 @@ function Panel({
             <p className="font-semibold text-[#3F3F3F] text-[clamp(0.7rem,1.5vw,1.43rem)] tracking-[0.64px]"> {/** 1.1/22*14 = 7; 2.25/22*14 = 1.43 */}
               No live events
             </p>
-            <p className="text-center text-[#7C7C85] md:w-[70%] text-[clamp(0.7rem,1.3vw,1.25rem)] tracking-[0.64px]"> {/** 16->14 */}
+            <p className="text-center text-[#7C7C85] md:w-[70%] text-[clamp(0.7rem,1.1vw,1.25rem)] tracking-[0.64px]"> {/** 16->14 */}
               This is where you’ll see live events. Seems like there’s nothing going on at the moment!
             </p> {/**make button appear maybe*/}
             {title == "Your schedule" ? (
-              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[clamp(0.7rem,1.3vw,1.25rem)] tracking-[0.64px]">
+              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[clamp(0.7rem,1.1vw,1.25rem)] tracking-[0.64px]">
                 Add to your schedule
               </button>
             ) : null}
@@ -102,13 +102,13 @@ function Panel({
             <p className="font-semibold text-[#3F3F3F] text-[clamp(0.7rem,1.5vw,1.43rem)] tracking-[0.64px]"> {/** 1.1/22*14 = 7; 2.25/22*14 = 1.43 */}
               No upcoming events
             </p>
-            <p className="text-center text-[#7C7C85] md:w-[70%] text-[clamp(0.7rem,1.3vw,1.25rem)] tracking-[0.64px]"> {/** 16->14 */}
+            <p className="text-center text-[#7C7C85] md:w-[80%] text-[clamp(0.7rem,1.1vw,1.25rem)] tracking-[0.64px]"> {/** 16->14 */}
               {title === "Your schedule" ?
               "This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out."
               : "This is where you’ll  see upcoming events. Seems like there’s nothing coming up!"}
             </p> {/**make button appear maybe*/}
             {title == "Your schedule" ? (
-              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[clamp(0.7rem,1.3vw,1.25rem)] tracking-[0.64px]">
+              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[clamp(0.7rem,1.1vw,1.25rem)] tracking-[0.64px]">
                 Explore events
               </button>
             ) : null}
