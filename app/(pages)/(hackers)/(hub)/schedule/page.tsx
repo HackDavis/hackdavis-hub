@@ -247,12 +247,36 @@ export default function Page() {
     if (filteredEvents.length === 0) return [];
 
     // Sort the filtered events by start time.
-    // TODO: UPDATE THIS WITH MY CODE FROM MY OTHER TICKET
-    const sortedEvents = [...filteredEvents].sort(
-      (a, b) =>
-        new Date(a.event.start_time).getTime() -
-        new Date(b.event.start_time).getTime()
-    );
+    const sortedEvents = [...filteredEvents].sort((a, b) => {
+      const startA = new Date(a.event.start_time).getTime();
+      const startB = new Date(b.event.start_time).getTime();
+
+      // compare start times
+      if (startA != startB) {
+        return startA - startB;
+      }
+
+      // if events have same start time, get end times
+      const endA = a.event.end_time
+        ? new Date(a.event.end_time).getTime()
+        : null;
+      const endB = b.event.end_time
+        ? new Date(b.event.end_time).getTime()
+        : null;
+
+      // if one event doesn't have an end time, that one should go first
+      if (endA == null && endB != null) return -1;
+      if (endA != null && endB == null) return 1;
+
+      // both have end times, the event ending first goes first
+      if (endA != null && endB != null && endA != endB) {
+        return endA - endB;
+      }
+
+      // else if neither events have end times, or end times are equal,
+      // then those two events are equal and can be scheduled either way
+      return 0;
+    });
 
     // Group events by their start time (converted to PDT).
     const groups = sortedEvents.reduce(
