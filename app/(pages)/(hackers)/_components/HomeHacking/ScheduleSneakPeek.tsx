@@ -139,8 +139,8 @@ export default function ScheduleSneakPeek({
             <Image
               src="/icons/arrow-right.svg"
               alt=""
-              width={26}
-              height={26}
+              width={35}
+              height={35}
               className="-translate-x-3 group-hover:translate-x-0 transition-transform duration-300 ease-out"
             />
           </span>
