@@ -1,13 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import JudgeBanners from './_components/JudgeBanners';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { GoArrowRight } from 'react-icons/go';
-import { LuEye } from 'react-icons/lu';
+import { LuEye, LuEyeOff } from 'react-icons/lu';
 
 export default function HeroJudging() {
   const { storedValue: tableNumber } = useTableNumberContext();
+  const [showPreviousJudges, setShowPreviousJudges] = useState(false);
 
   return (
     <div className="w-full h-screen p-4 md:p-10">
@@ -38,24 +40,40 @@ export default function HeroJudging() {
           >
             TABLE {tableNumber ?? '---'}
           </div>
-          <JudgeBanners />
-          <div className="flex w-full justify-between text-white text-sm md:text-base font-semibold">
+          <div className="relative w-full mt-2">
+            <div
+              className={`transition duration-300 ${
+                !showPreviousJudges ? 'blur-[3px]' : ''
+              }`}
+            >
+              <JudgeBanners />
+            </div>
+          </div>
+          <div className="flex w-full justify-between text-white text-sm md:text-base font-semibold mt-4">
             <div className="flex items-center gap-2 max-w-[45%]">
               <GoArrowRight className="text-lg" />
               <p className="cursor-pointer">
                 Learn more about our judging process
               </p>
-              <p className="underline cursor-pointer">
-                here
-              </p>
+              <p className="underline cursor-pointer">here</p>
             </div>
 
-            <div className="flex items-center gap-2 max-w-[45%]">
-              <LuEye className="text-lg" />
-              <p className="underline underline-offset-4 cursor-pointer">
-                View previous judges
-              </p>
-            </div>
+            <button
+              type="button"
+              onClick={() => setShowPreviousJudges((prev) => !prev)}
+              className="flex items-center gap-2 max-w-[45%] justify-end underline underline-offset-4 cursor-pointer"
+            >
+              {showPreviousJudges ? (
+                <LuEyeOff className="text-lg" />
+              ) : (
+                <LuEye className="text-lg" />
+              )}
+              <span>
+                {showPreviousJudges
+                  ? 'Hide previous judges'
+                  : 'View previous judges'}
+              </span>
+            </button>
           </div>
         </div>
       </div>

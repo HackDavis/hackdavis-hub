@@ -16,19 +16,19 @@ export default function Page() {
   return (
     <main id="home">
       {/* <TableNumberContextProvider> */}
-        {/* <ClientTimeProtectedDisplay featureId="hero-hacking"> */}
-          <HeroMVP />
-          <ScheduleSneakPeek />
-          <BeginnersSection />
-          <MDHelp />
-        {/* </ClientTimeProtectedDisplay> */}
-        {/* Always show judging hero while developing */}
-        <HeroWaiting />
-        <HeroJudging />
-        <HackerChoiceAward />
-        {/* <ClientTimeProtectedDisplay featureId="table-number-checkin"> */}
-          {/* <TableNumberCheckin /> */}
-        {/* </ClientTimeProtectedDisplay> */}
+      {/* <ClientTimeProtectedDisplay featureId="hero-hacking"> */}
+      <HeroMVP />
+      <ScheduleSneakPeek />
+      <BeginnersSection />
+      <MDHelp />
+      {/* </ClientTimeProtectedDisplay> */}
+      {/* Always show judging hero while developing */}
+      <HeroWaiting />
+      <HeroJudging />
+      <HackerChoiceAward />
+      {/* <ClientTimeProtectedDisplay featureId="table-number-checkin"> */}
+      {/* <TableNumberCheckin /> */}
+      {/* </ClientTimeProtectedDisplay> */}
       {/* </TableNumberContextProvider> */}
       <Discord />
       <PrizeTracks />

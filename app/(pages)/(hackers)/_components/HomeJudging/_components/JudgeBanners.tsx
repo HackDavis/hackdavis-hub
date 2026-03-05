@@ -86,10 +86,12 @@ export default function JudgeBanners() {
   }
 
   const effectiveJudges: HydratedJudge[] =
-    usingMockData || judges.length === 0 ? mockJudges : (judges as HydratedJudge[]);
+    usingMockData || judges.length === 0
+      ? mockJudges
+      : (judges as HydratedJudge[]);
 
   const allScored = effectiveJudges.every(
-    (judge: HydratedJudge) => judge.isScored,
+    (judge: HydratedJudge) => judge.isScored
   );
   if (allScored) {
     return <DoneJudging />;

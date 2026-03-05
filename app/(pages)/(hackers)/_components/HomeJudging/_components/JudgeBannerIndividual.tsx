@@ -29,10 +29,16 @@ export default function JudgeBannerIndividual({
       />
       <div className={styles.info}>
         <h3>{name}</h3>
-        {teamsAhead && (
-          <p>There are {teamsAhead} teams ahead of you for this judge.</p>
+        {completed ? (
+          <p>This judge has already visited you.</p>
+        ) : (
+          <>
+            {typeof teamsAhead === 'number' && (
+              <p>There are {teamsAhead} teams ahead of you for this judge.</p>
+            )}
+            {description && <p>{description}</p>}
+          </>
         )}
-        {description && <p>{description}</p>}
       </div>
       <h1 className={`${completed ? styles.hidden : ''}`}>{teamsAhead}</h1>
     </div>
