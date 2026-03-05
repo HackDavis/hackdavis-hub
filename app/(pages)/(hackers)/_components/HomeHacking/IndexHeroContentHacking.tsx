@@ -32,7 +32,9 @@ export default function IndexHeroContentHacking() {
         {/* content wrapper */}
         <div className="relative z-10 w-full">
           {/* Main grid area */}
-          <div className="mx-auto h-[90vh] min-h-0 border-2 border-red-400 grid grid-rows-[auto_minmax(0,1fr)] gap-3 md:gap-5">            {/* Countdown bar */}
+          <div className="mx-auto h-[90vh] min-h-0 grid grid-rows-[auto_minmax(0,1fr)] gap-3 md:gap-5">
+            {' '}
+            {/* Countdown bar */}
             <div
               className="relative rounded-[28px] bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] px-6 md:px-10 py-8 md:py-10 overflow-hidden"
               style={{
@@ -75,9 +77,36 @@ export default function IndexHeroContentHacking() {
                 </div>
               </div>
             </div>
-
             {/* Everything below countdown must fit remaining height */}
-            <div className="min-h-0">
+            <div className="relative min-h-0">
+              {/* Decorative stars */}
+              <Image
+                src="/hackers/hero/StarLeft.svg"
+                alt=""
+                width={120}
+                height={120}
+                className="
+                    pointer-events-none select-none
+                    absolute z-20
+                    -left-2 top-[35%] md:top-[50%]
+                    w-[56px] sm:w-[70px] md:w-[84px] lg:w-[96px]
+                    rotate-[-8deg]
+                  "
+              />
+
+              <Image
+                src="/hackers/hero/StarRight.svg"
+                alt=""
+                width={120}
+                height={120}
+                className="
+                    pointer-events-none select-none
+                    absolute z-20
+                    -right-2 top-[10%]
+                    w-[56px] sm:w-[70px] md:w-[84px] lg:w-[96px]
+                    rotate-[10deg]
+                  "
+              />
               {/* ===================== MOBILE (2x2 animals) ===================== */}
               <div className="md:hidden">
                 {/* 2x2 animals */}
