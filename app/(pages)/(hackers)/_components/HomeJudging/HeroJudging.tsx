@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import JudgeBanners from './_components/JudgeBanners';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
+import { GoArrowRight } from 'react-icons/go';
+import { LuEye } from 'react-icons/lu';
 
 export default function HeroJudging() {
   const { storedValue: tableNumber } = useTableNumberContext();
@@ -24,16 +26,36 @@ export default function HeroJudging() {
           className="object-cover pointer-events-none select-none"
           priority
         />
-        <div className="relative w-[90%] max-w-[900px] flex flex-col items-center justify-center gap-6">
-          <div className="text-white text-4xl md:text-5xl font-semibold drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] text-center">
+        <div className="relative w-[90%] max-w-[900px] flex flex-col items-center justify-center">
+          <div
+            className="text-center font-medium tracking-[2.4px]"
+            style={{
+              color: 'rgba(255,255,255,0.9)',
+              fontFamily: '"Plus Jakarta Sans"',
+              fontSize: '120px',
+              textShadow: '0 0 31.729px rgba(255,255,255,0.40)',
+            }}
+          >
             TABLE {tableNumber ?? '---'}
           </div>
           <JudgeBanners />
-          <div className="flex w-full justify-between text-white text-sm md:text-base">
-            <p className="max-w-[45%] text-left">
-              Learn more about our judging process here
-            </p>
-            <p className="max-w-[45%] text-right">View previous judges</p>
+          <div className="flex w-full justify-between text-white text-sm md:text-base font-semibold">
+            <div className="flex items-center gap-2 max-w-[45%]">
+              <GoArrowRight className="text-lg" />
+              <p className="cursor-pointer">
+                Learn more about our judging process
+              </p>
+              <p className="underline cursor-pointer">
+                here
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 max-w-[45%]">
+              <LuEye className="text-lg" />
+              <p className="underline underline-offset-4 cursor-pointer">
+                View previous judges
+              </p>
+            </div>
           </div>
         </div>
       </div>
