@@ -157,7 +157,7 @@ export function CalendarItem({
                 onClick={
                   inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
                 }
-                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0"
+                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0 hover:brightness-[97%] hover:saturate-[140%]"
                 style={{
                   backgroundColor:
                     eventStyle.addButtonColor || 'rgba(0, 0, 0, 0)',
