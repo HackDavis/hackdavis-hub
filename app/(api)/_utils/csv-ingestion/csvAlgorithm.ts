@@ -329,6 +329,83 @@ export function sortTracks(
   return ordered;
 }
 
+// Table number assignment
+const ALL_ROWS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+// Max teams per row on Floor 1 (Prioritize hardware teams))
+const FLOOR1_MAX_PER_ROW = 5;
+
+// Max teams per row on Floor 2
+const FLOOR2_MAX_PER_ROW = 10;
+
+/**
+ * Spreads teams evenly across rows, filling earlier rows first when there is a remainder
+ *
+ * Each team's tableNumber is set to e.g. "A3", "B1"
+ */
+
+function distributeAcrossRows(teams: ParsedRecord[], rows: string[]): void {
+  if (teams.length === 0 || rows.length === 0) return;
+  const baseCount = Math.floor(teams.length / rows.length);
+  const remainder = teams.length % rows.length;
+
+  let i = 0;
+  for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
+    const letter = rows[rowIdx];
+    const rowSize = baseCount + (rowIdx < remainder ? 1 : 0);
+    for (let seat = 1; seat <= rowSize; seat++) {
+      teams[i].tableNumber = `${letter}${seat}` as any;
+      i++;
+    }
+  }
+}
+
+/**
+ * Assigns two-floor lettered table numbers:
+ *
+ * Floor 1 — Hardware Hack teams first, with leftover seats filled by other teams in .csv order.
+ *
+ * Floor 2 — remaining other teams after floor 1 spillover is accounted for.
+ * Rows start immediately after floor 1's last letter.
+ */
+function assignTableNumbers(
+  hardwareTeams: ParsedRecord[],
+  otherTeams: ParsedRecord[]
+): void {
+  // Total row count for floor 1 for hardware teams
+  const floor1RowCount = Math.max(
+    1,
+    Math.ceil(hardwareTeams.length / FLOOR1_MAX_PER_ROW)
+  );
+
+  // How many seats are available on floor 1 vs how many hardware teams fill them.
+  const floor1Capacity = floor1RowCount * FLOOR1_MAX_PER_ROW;
+  const floor1Spillover = floor1Capacity - hardwareTeams.length;
+
+  // Pull enough other teams to fill the leftover floor 1 seats.
+  const floor1OtherTeams = otherTeams.slice(0, floor1Spillover);
+  const floor2Teams = otherTeams.slice(floor1Spillover);
+
+  const floor1Teams = [...hardwareTeams, ...floor1OtherTeams];
+
+  // Total row count for floor 2
+  const floor2RowCount = Math.max(
+    1,
+    Math.ceil(floor2Teams.length / FLOOR2_MAX_PER_ROW)
+  );
+
+  // Deligate table letters based on row counts for each floor
+  const floor1Rows = ALL_ROWS.slice(0, floor1RowCount);
+  const floor2Rows = ALL_ROWS.slice(
+    floor1RowCount,
+    floor1RowCount + floor2RowCount
+  );
+
+  // Distribute teams across each floor's rows
+  distributeAcrossRows(floor1Teams, floor1Rows);
+  distributeAcrossRows(floor2Teams, floor2Rows);
+}
+
 export async function validateCsvBlob(blob: Blob): Promise<{
   ok: boolean;
   body: ParsedRecord[] | null;
@@ -473,13 +550,10 @@ export async function validateCsvBlob(blob: Blob): Promise<{
               (team) => !team.tracks.includes('Best Hardware Hack')
             );
 
-            const orderedTeams = [...bestHardwareTeams, ...otherTeams];
+            assignTableNumbers(bestHardwareTeams, otherTeams);
 
-            orderedTeams.forEach((team, index) => {
-              team.tableNumber = index + 1;
-            });
-
-            resolve(orderedTeams);
+            // Hardware teams first in the returned list for display ordering.
+            resolve([...bestHardwareTeams, ...otherTeams]);
           })
           .on('error', (error) => reject(error));
       };
