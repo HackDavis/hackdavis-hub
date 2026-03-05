@@ -24,8 +24,7 @@ interface HydratedJudge extends User {
   isScored: boolean;
 }
 
-// Temporary mock data so JudgeBanners shows something
-// even before the real judging backend / table number is wired up.
+// temp mock data so JudgeBanners shows something
 const mockTeam: any = {
   tracks: ['Non-Profit', 'Sponsor'],
 };

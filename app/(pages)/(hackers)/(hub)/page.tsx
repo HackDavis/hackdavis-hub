@@ -15,24 +15,21 @@ import HeroWaiting from '../_components/HomeJudging/HeroWaiting';
 export default function Page() {
   return (
     <main id="home">
-      <TableNumberContextProvider>
-        <ClientTimeProtectedDisplay featureId="hero-hacking">
-          {/* <HeroMVP /> */}
-          <HeroJudging />
+      {/* <TableNumberContextProvider> */}
+        {/* <ClientTimeProtectedDisplay featureId="hero-hacking"> */}
+          <HeroMVP />
           <ScheduleSneakPeek />
           <BeginnersSection />
           <MDHelp />
-        </ClientTimeProtectedDisplay>
-        {/* temporarilty set featureId below to "hero-hacking" to test */}
-        <ClientTimeProtectedDisplay featureId="hero-judging">
-          <HeroWaiting />
-          <HeroJudging />
-          <HackerChoiceAward />
-        </ClientTimeProtectedDisplay>
-        <ClientTimeProtectedDisplay featureId="table-number-checkin">
-          <TableNumberCheckin />
-        </ClientTimeProtectedDisplay>
-      </TableNumberContextProvider>
+        {/* </ClientTimeProtectedDisplay> */}
+        {/* Always show judging hero while developing */}
+        <HeroWaiting />
+        <HeroJudging />
+        <HackerChoiceAward />
+        {/* <ClientTimeProtectedDisplay featureId="table-number-checkin"> */}
+          {/* <TableNumberCheckin /> */}
+        {/* </ClientTimeProtectedDisplay> */}
+      {/* </TableNumberContextProvider> */}
       <Discord />
       <PrizeTracks />
       <Footer />
