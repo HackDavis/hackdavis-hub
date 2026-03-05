@@ -1,0 +1,20 @@
+export const prizeTracks = [
+  {
+    "id": "best-social-good",
+    "title": "Best Hack for Social Good",
+    "description": "Projects that have meaningful real-world impact.",
+    "prize": "1st: PS5, 2nd: iPad"
+  },
+  {
+    "id": "best-beginner",
+    "title": "Best Beginner Hack",
+    "description": "For teams with all members being first-time hackers.",
+    "prize": "Vizio 40\" Smart TV per member"
+  },
+  {
+    "id": "hackers-choice",
+    "title": "Hacker's Choice Award",
+    "description": "Awarded by participant voting.",
+    "prize": "Swag Pack"
+  }
+];
