@@ -8,6 +8,12 @@ import {
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
 
+import sleeping_cow from '@public/hackers/hero/scheduleSneakPeek/sleeping_cow.svg';
+import duckbunny from '@public/hackers/hero/scheduleSneakPeek/duck+bunny.svg';
+import duckfrog from '@public/hackers/hero/scheduleSneakPeek/duck+frog.svg';
+import cucumber_cow from '@public/hackers/hero/scheduleSneakPeek/cucumber_cow.svg';
+
+
 interface ScheduleSneakPeekProps {
   className?: string;
 }
@@ -76,7 +82,7 @@ function Panel({
           renderEventItems(liveEvents, 'live')
         ) : (
           <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
-            {/**<Image/>*/}
+            <Image src={title === "Happening now" ? cucumber_cow : duckbunny} alt={title === "Happening now" ? "Cow with cucumber over their eyes" : "Duck on top of bunny"} />
             <p className="font-semibold text-[#3F3F3F] text-[clamp(0.7rem,1.5vw,1.125rem)] tracking-[0.64px]"> {/** 1.1/22*14 = 7; 2.25/32*16 = 1.125 */}
               No live events
             </p>
@@ -98,8 +104,8 @@ function Panel({
           renderEventItems(upcomingEvents, 'upcoming')
         ) : (
           <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
-            {/**<Image/>*/}
-            <p className="font-semibold text-[#3F3F3F] text-[clamp(0.7rem,1.5vw,1.43rem)] tracking-[0.64px]"> {/** 1.1/22*14 = 7; 2.25/22*14 = 1.43 */}
+            <Image src={title === "Happening now" ? sleeping_cow : duckfrog} alt={title === "Happening now" ? "Sleeping cow" : "Duck on top of frog"} />
+            <p className="font-semibold text-[#3F3F3F] text-[clamp(0.7rem,1.5vw,1.125rem)] tracking-[0.64px]"> {/** 1.1/22*14 = 7; 2.25/22*14 = 1.43 */}
               No upcoming events
             </p>
             <p className="text-center text-[#7C7C85] md:w-[80%] text-[clamp(0.7rem,1.1vw,1.25rem)] tracking-[0.64px]"> {/** 16->14 */}
