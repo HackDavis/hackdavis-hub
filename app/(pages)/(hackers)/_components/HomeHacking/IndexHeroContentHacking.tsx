@@ -33,21 +33,20 @@ export default function IndexHeroContentHacking() {
 
   return (
     <div className="w-full min-h-screen p-4 md:p-10">
-      <div
-        className="relative w-full min-h-[86vh] overflow-hidden"
-      >
-
+      <div className="relative w-full min-h-[86vh] overflow-hidden">
         {/* content wrapper */}
-        <div className="relative z-10 w-full h-full px-4 md:px-10 py-[15%] md:py-10">
+        <div className="relative z-10 w-full h-full">
           {/* Main grid area */}
           <div className="mx-auto mt-6 md:mt-8 w-full max-w-[1200px]">
             {/* Countdown bar */}
-            <div className="rounded-[28px] bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] px-6 md:px-10 py-8 md:py-10"
+            <div
+              className="rounded-[28px] bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] px-6 md:px-10 py-8 md:py-10"
               style={{
                 borderRadius: '38.812px',
                 background:
                   'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
-              }}>
+              }}
+            >
               {/* background */}
               <Image
                 src="/Hero/Clouds.svg"
@@ -56,7 +55,7 @@ export default function IndexHeroContentHacking() {
                 className="object-cover pointer-events-none select-none -z-10"
                 priority
               />
-              <div className="flex items-start justify-between gap-6">
+              <div className="flex items-start justify-between gap-2">
                 {/* Right: countdown (big) */}
                 <div className="flex-1 flex justify-center">
                   <div className="text-white">
@@ -81,7 +80,7 @@ export default function IndexHeroContentHacking() {
                 </div>
               </div>
             </div>
-            
+
             {/* ===================== MOBILE (2x2 animals) ===================== */}
             <div className="mt-2 md:hidden">
               {/* 2x2 animals */}
@@ -140,10 +139,10 @@ export default function IndexHeroContentHacking() {
                 rel="noreferrer"
                 className="mt-2 group relative rounded-xl bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] min-h-[110px] flex items-center justify-center overflow-hidden"
                 style={{
-                borderRadius: '38.812px',
-                background:
-                  'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
-              }}
+                  borderRadius: '38.812px',
+                  background:
+                    'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
+                }}
               >
                 {/* background */}
                 <Image
@@ -237,7 +236,7 @@ export default function IndexHeroContentHacking() {
                     priority
                   />
                   <div className="absolute inset-0 opacity-70 pointer-events-none bg-gradient-to-r from-white/0 via-white/10 to-white/0" />
-                  <div className="relative flex items-center gap-6">
+                  <div className="relative flex items-center gap-2">
                     <span className="text-white text-5xl md:text-7xl font-extrabold tracking-wide drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
                       SUBMIT!
                     </span>
