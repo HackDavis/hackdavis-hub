@@ -3,9 +3,9 @@ import BeginnersSection from '@pages/(hackers)/_components/HomeHacking/Beginners
 import Discord from '@pages/(hackers)/_components/StayUpToDate/Discord';
 import Footer from '@components/Footer/Footer';
 import HeroMVP from '../_components/HomeHacking/HeroMVP';
-import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
-import TableNumberCheckin from '@pages/(hackers)/_components/TableNumberCheckin/TableNumberCheckin';
-import TableNumberContextProvider from '@pages/_contexts/TableNumberContext';
+// import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
+// import TableNumberCheckin from '@pages/(hackers)/_components/TableNumberCheckin/TableNumberCheckin';
+// import TableNumberContextProvider from '@pages/_contexts/TableNumberContext';
 import MDHelp from '@pages/(hackers)/_components/HomeHacking/MDHelp';
 import ScheduleSneakPeek from '@pages/(hackers)/_components/HomeHacking/ScheduleSneakPeek';
 import HeroJudging from '../_components/HomeJudging/HeroJudging';

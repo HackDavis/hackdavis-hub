@@ -30,11 +30,11 @@ export default function HeroJudging() {
         />
         <div className="relative w-[90%] max-w-[900px] flex flex-col items-center justify-center">
           <div
-            className="text-center font-medium tracking-[2.4px]"
+            className="text-center font-medium tracking-[2.4px] 
+                    text-[48px] sm:text-[64px] md:text-[90px] lg:text-[120px]"
             style={{
               color: 'rgba(255,255,255,0.9)',
               fontFamily: '"Plus Jakarta Sans"',
-              fontSize: '120px',
               textShadow: '0 0 31.729px rgba(255,255,255,0.40)',
             }}
           >
@@ -49,19 +49,12 @@ export default function HeroJudging() {
               <JudgeBanners />
             </div>
           </div>
-          <div className="flex w-full justify-between text-white text-sm md:text-base font-semibold mt-4">
-            <div className="flex items-center gap-2 max-w-[45%]">
-              <GoArrowRight className="text-lg" />
-              <p className="cursor-pointer">
-                Learn more about our judging process
-              </p>
-              <p className="underline cursor-pointer">here</p>
-            </div>
-
+          <div className="flex flex-col md:flex-row w-full text-white text-sm md:text-base font-semibold mt-4 gap-3 md:gap-0 md:justify-between">
+            {/* Previous Judges (top on mobile) */}
             <button
               type="button"
               onClick={() => setShowPreviousJudges((prev) => !prev)}
-              className="flex items-center gap-2 max-w-[45%] justify-end underline underline-offset-4 cursor-pointer"
+              className="flex items-center gap-2 md:max-w-[45%] underline underline-offset-4 cursor-pointer md:justify-end md:order-2"
             >
               {showPreviousJudges ? (
                 <LuEyeOff className="text-lg" />
@@ -74,6 +67,15 @@ export default function HeroJudging() {
                   : 'View previous judges'}
               </span>
             </button>
+
+            {/* Judging Process */}
+            <div className="flex items-center gap-2 md:max-w-[45%] md:order-1">
+              <GoArrowRight className="text-lg" />
+              <p className="cursor-pointer">
+                Learn more about our judging process{' '}
+                <span className="underline underline-offset-4">here</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
