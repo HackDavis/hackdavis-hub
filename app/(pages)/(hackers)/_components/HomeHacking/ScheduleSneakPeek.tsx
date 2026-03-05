@@ -108,7 +108,7 @@ export default function ScheduleSneakPeek({
   } = useScheduleSneakPeekData();
 
   return (
-    <div className="w-full bg-[#FAFAFF]">
+    <div id="schedule-sneak-peek" className="w-full bg-[#FAFAFF]">
       <section className={`w-[90%] mx-auto py-[5vw] ${className ?? ''}`}>
         <div className="inline-flex items-center group font-jakarta text-[clamp(1.25rem,4.2vw,3rem)] font-semibold leading-tight tracking-[0.72px] text-[#3F3F3F] whitespace-nowrap">
           <span className="w-0 group-hover:w-[26px] overflow-hidden transition-all duration-300 ease-out shrink-0">

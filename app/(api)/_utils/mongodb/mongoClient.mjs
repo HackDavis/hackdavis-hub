@@ -1,21 +1,41 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI;
 let cachedClient = null;
 let cachedPromise = null;
 
 export async function getClient() {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    throw new Error('Missing MONGODB_URI environment variable.');
+  }
+
   if (cachedClient) {
     return cachedClient;
   }
 
   if (!cachedPromise) {
     const client = new MongoClient(uri);
-    cachedPromise = client.connect();
+    cachedPromise = client
+      .connect()
+      .then((connectedClient) => {
+        cachedClient = connectedClient;
+        return connectedClient;
+      })
+      .catch((error) => {
+        client.close().catch(() => {});
+        cachedPromise = null;
+        cachedClient = null;
+        throw error;
+      });
   }
 
-  cachedClient = await cachedPromise;
-  return cachedClient;
+  return cachedPromise;
+}
+
+// Helper function for testing
+export async function resetClient() {
+  cachedClient = null;
+  cachedPromise = null;
 }
 
 export async function getDatabase() {

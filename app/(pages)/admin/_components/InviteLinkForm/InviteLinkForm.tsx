@@ -47,7 +47,7 @@ export default function InviteLinkForm() {
   return (
     <>
       <form onSubmit={handleInvite} className={styles.form}>
-        <h3>Invite a User</h3>
+        <h3>Invite a User [to be deprecated & replaced]</h3>
         <div className={styles.fields}>
           <p className={styles.error_msg}>{error}</p>
           <div>
