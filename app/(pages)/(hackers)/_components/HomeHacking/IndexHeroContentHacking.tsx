@@ -32,12 +32,12 @@ export default function IndexHeroContentHacking() {
   //   rolloutRes && !(rolloutRes as any).ok ? (rolloutRes as any).error : null;
 
   return (
-    <div className="w-full min-h-screen p-4 md:p-10">
+    <div className="w-full h-full p-4 md:p-10 mb-[5%]">
       <div className="relative w-full min-h-[86vh] overflow-hidden">
         {/* content wrapper */}
-        <div className="relative z-10 w-full h-full">
+        <div className="relative z-10 w-full">
           {/* Main grid area */}
-          <div className="mx-auto mt-6 md:mt-8 w-full max-w-[1200px]">
+          <div className="mx-auto h-[90vh] border-2 border-red-400">
             {/* Countdown bar */}
             <div
               className="rounded-[28px] bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] px-6 md:px-10 py-8 md:py-10"
