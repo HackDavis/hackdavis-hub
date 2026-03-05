@@ -1,4 +1,4 @@
-import styles from './DoneJudging.module.scss';
+import styles from '../../2025IndexHero/DoneJudging.module.scss';
 import bunny_phone from 'public/hackers/hero/bunny_phone.svg';
 import stars from 'public/hackers/hero/stars.svg';
 import ducky from 'public/hackers/hero/ducky.svg';

@@ -1,4 +1,4 @@
-import styles from './AssigningJudges.module.scss';
+import styles from '../../2025IndexHero/AssigningJudges.module.scss';
 import sleeping_cow from 'public/hackers/hero/sleeping_cow.svg';
 import radio from 'public/hackers/hero/radio.svg';
 import Image from 'next/image';

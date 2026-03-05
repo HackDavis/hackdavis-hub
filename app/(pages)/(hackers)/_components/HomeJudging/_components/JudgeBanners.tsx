@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
 import User from '@typeDefs/user';
-import styles from './JudgeBannerIndividual.module.scss';
+import styles from '../../2025IndexHero/JudgeBannerIndividual.module.scss';
 import DoneJudging from './DoneJudging';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';
@@ -24,6 +24,39 @@ interface HydratedJudge extends User {
   isScored: boolean;
 }
 
+// Temporary mock data so JudgeBanners shows something
+// even before the real judging backend / table number is wired up.
+const mockTeam: any = {
+  tracks: ['Non-Profit', 'Sponsor'],
+};
+
+const mockJudges = [
+  {
+    _id: 'mock-1',
+    name: 'Judge Alice',
+    queuePosition: 2,
+    isScored: false,
+  },
+  {
+    _id: 'mock-2',
+    name: 'Judge Bob',
+    queuePosition: 9,
+    isScored: false,
+  },
+  {
+    _id: 'mock-3',
+    name: 'Judge Alice',
+    queuePosition: 3,
+    isScored: false,
+  },
+  {
+    _id: 'mock-4',
+    name: 'Judge David',
+    queuePosition: 4,
+    isScored: true,
+  },
+] as HydratedJudge[];
+
 export default function JudgeBanners() {
   const { storedValue: tableNumber } = useTableNumberContext();
   const { team, judges, loading, error, fetchTeamJudges } =
@@ -43,22 +76,29 @@ export default function JudgeBanners() {
     return () => clearInterval(pollingInterval);
   }, [fetchTeamJudges, tableNumber]);
 
-  if (!tableNumber) {
-    return <AssigningJudges />;
+  const usingMockData = !tableNumber;
+
+  if (!usingMockData) {
+    if (loading || error !== null) return error;
+
+    if (judges.length === 0) {
+      return <AssigningJudges />;
+    }
   }
 
-  if (loading || error !== null) return error;
+  const effectiveJudges: HydratedJudge[] =
+    usingMockData || judges.length === 0 ? mockJudges : (judges as HydratedJudge[]);
 
-  if (judges.length === 0) {
-    return <AssigningJudges />;
-  }
-
-  const allScored = judges.every((judge: HydratedJudge) => judge.isScored);
+  const allScored = effectiveJudges.every(
+    (judge: HydratedJudge) => judge.isScored,
+  );
   if (allScored) {
     return <DoneJudging />;
   }
 
-  const teamNonHDCategories: string[] = team.tracks
+  const sourceTeam: any = usingMockData ? mockTeam : team;
+
+  const teamNonHDCategories: string[] = (sourceTeam?.tracks ?? [])
     .filter((track: string) => track in nonHDTracks)
     .map((track: string) => nonHDTracks[track].filter);
   const hasNonprofitTrack = teamNonHDCategories.includes('Non-Profit');
@@ -91,7 +131,7 @@ export default function JudgeBanners() {
           completed={false}
         />
       )}
-      {judges.map((judge: HydratedJudge, index: number) => (
+      {effectiveJudges.map((judge: HydratedJudge, index: number) => (
         <JudgeBannerIndividual
           key={judge._id}
           icon={icons[index]}
