@@ -98,7 +98,10 @@ function Panel({
               This is where you’ll see live events. Seems like there’s nothing
               going on at the moment!
             </p>
-            <Link href="/schedule" className="hover:brightness-[97%] hover:saturate-[140%]">
+            <Link
+              href="/schedule"
+              className="hover:brightness-[97%] hover:saturate-[140%]"
+            >
               {title == 'Your schedule' ? (
                 <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
                   Add to your schedule
@@ -133,7 +136,10 @@ function Panel({
                 ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
                 : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
             </p>
-            <Link href="/schedule" className="hover:brightness-[97%] hover:saturate-[140%]">
+            <Link
+              href="/schedule"
+              className="hover:brightness-[97%] hover:saturate-[140%]"
+            >
               {title == 'Your schedule' ? (
                 <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
                   Explore events
