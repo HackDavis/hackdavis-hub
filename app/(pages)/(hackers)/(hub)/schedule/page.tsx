@@ -13,7 +13,7 @@ import {
 import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
 import DaySection from '@pages/(hackers)/_components/Schedule/DaySection';
 import { DAY_KEYS } from '@pages/(hackers)/_components/Schedule/constants';
-import { useScheduleData } from '@pages/(hackers)/_components/Schedule/hooks/useScheduleData';
+import { useScheduleData } from '@pages/_hooks/useScheduleData';
 
 export default function Page() {
   const schedule = useScheduleData();

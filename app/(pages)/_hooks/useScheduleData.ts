@@ -6,9 +6,9 @@ import useActiveUser from '@pages/_hooks/useActiveUser';
 import { useEvents } from '@hooks/useEvents';
 import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import { ScheduleFilter } from '@typeDefs/filters';
-import { DAY_KEYS, DayKey } from '../constants';
-import { buildGroupedEntriesByDay } from '../groupedEntries';
-import { ScheduleData } from '../types';
+import { DAY_KEYS, DayKey } from '../(hackers)/_components/Schedule/constants';
+import { buildGroupedEntriesByDay } from '../(hackers)/_components/Schedule/groupedEntries';
+import { ScheduleData } from '../(hackers)/_components/Schedule/types';
 import { useActiveDaySync } from './useActiveDaySync';
 
 interface UseScheduleDataResult {

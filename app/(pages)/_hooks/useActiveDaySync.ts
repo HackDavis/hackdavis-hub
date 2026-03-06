@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { DAY_KEYS, DayKey } from '../constants';
+import { DAY_KEYS, DayKey } from '../(hackers)/_components/Schedule/constants';
 
 interface UseActiveDaySyncOptions {
   activeDay: DayKey;
