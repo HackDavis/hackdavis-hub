@@ -41,7 +41,7 @@ export default function ScheduleMobileControls({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // HERE TASK 
+  // HERE TASK
   const renderDayButton = (day: '9' | '10', label: string) => (
     <button
       onClick={() => changeActiveDay(day)}
