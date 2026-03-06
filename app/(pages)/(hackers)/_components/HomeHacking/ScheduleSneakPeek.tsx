@@ -8,7 +8,7 @@ import {
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
 
-import sleeping_cow from '@public/hackers/hero/scheduleSneakPeek/sleeping_cow.svg';
+import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
 import duckbunny from '@public/hackers/hero/scheduleSneakPeek/duck+bunny.svg';
 import duckfrog from '@public/hackers/hero/scheduleSneakPeek/duck+frog.svg';
 import cucumber_cow from '@public/hackers/hero/scheduleSneakPeek/cucumber_cow.svg';
@@ -89,23 +89,22 @@ function Panel({
                   : 'Duck on top of bunny'
               }
             />
-            <p className="font-semibold text-[#3F3F3F] text-[clamp(0.7rem,1.5vw,1.125rem)] tracking-[0.64px]">
-              {' '}
-              {/** 1.1/22*14 = 7; 2.25/32*16 = 1.125 */}
-              No live events
+            <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+              {title === 'Your schedule'
+                ? 'No live events on your schedule'
+                : 'No live events'}
             </p>
-            <p className="text-center text-[#7C7C85] md:w-[70%] text-[clamp(0.7rem,1.1vw,0.98rem)] tracking-[0.64px]">
-              {' '}
-              {/** 16->14 */}
+            <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
               This is where you’ll see live events. Seems like there’s nothing
               going on at the moment!
-            </p>{' '}
-            {/**make button appear maybe*/}
-            {title == 'Your schedule' ? (
-              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[clamp(0.7rem,1.1vw,0.98rem)] tracking-[0.64px]">
-                Add to your schedule
-              </button>
-            ) : null}
+            </p>
+            <Link href="/schedule" className="hover:brightness-[97%] hover:saturate-[140%]">
+              {title == 'Your schedule' ? (
+                <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                  Add to your schedule
+                </button>
+              ) : null}
+            </Link>
           </div>
         )}
       </div>
@@ -124,24 +123,23 @@ function Panel({
                   : 'Duck on top of frog'
               }
             />
-            <p className="font-semibold text-[#3F3F3F] text-[clamp(0.7rem,1.5vw,1.125rem)] tracking-[0.64px]">
-              {' '}
-              {/** 1.1/22*14 = 7; 2.25/22*14 = 1.43 */}
-              No upcoming events
+            <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+              {title === 'Your schedule'
+                ? 'No upcoming events on your schedule'
+                : 'No upcoming events'}
             </p>
-            <p className="text-center text-[#7C7C85] md:w-[80%] text-[clamp(0.7rem,1.1vw,1.25rem)] tracking-[0.64px]">
-              {' '}
-              {/** 16->14 */}
+            <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
               {title === 'Your schedule'
                 ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
                 : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
-            </p>{' '}
-            {/**make button appear maybe*/}
-            {title == 'Your schedule' ? (
-              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[clamp(0.7rem,1.1vw,1.25rem)] tracking-[0.64px]">
-                Explore events
-              </button>
-            ) : null}
+            </p>
+            <Link href="/schedule" className="hover:brightness-[97%] hover:saturate-[140%]">
+              {title == 'Your schedule' ? (
+                <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                  Explore events
+                </button>
+              ) : null}
+            </Link>
           </div>
         )}
       </div>
@@ -165,7 +163,7 @@ export default function ScheduleSneakPeek({
     <div id="schedule-sneak-peek" className="w-full bg-[#FAFAFF]">
       <section className={`w-[90%] mx-auto py-[5vw] ${className ?? ''}`}>
         <div className="inline-flex items-center group font-jakarta text-[clamp(1.25rem,4.2vw,3rem)] font-semibold leading-tight tracking-[0.72px] text-[#3F3F3F] whitespace-nowrap">
-          <span className="w-0 group-hover:w-[35px] overflow-hidden transition-all duration-300 ease-out shrink-0">
+          <span className="w-0 group-hover:w-[20px] md:group-hover:w-[35px]  overflow-hidden transition-all duration-300 ease-out shrink-0">
             <Image
               src="/icons/arrow-right.svg"
               alt=""
