@@ -395,11 +395,12 @@ export default function Page() {
                 activeDay === '9' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
               }`}
             >
-              {activeDay === '9' && (
-                <span className="mr-2" aria-hidden>
-                  {'\u2022'}
-                </span>
-              )}
+              <span
+                className={`mr-2 ${activeDay === '9' ? '' : 'invisible'}`}
+                aria-hidden
+              >
+                {'\u2022'}
+              </span>
               <span>MAY 9</span>
             </button>
             <button
@@ -409,11 +410,12 @@ export default function Page() {
                 activeDay === '10' ? 'text-[#3F3F3F]' : 'text-[#ACACB9]'
               }`}
             >
-              {activeDay === '10' && (
-                <span className="mr-2" aria-hidden>
-                  {'\u2022'}
-                </span>
-              )}
+              <span
+                className={`mr-2 ${activeDay === '10' ? '' : 'invisible'}`}
+                aria-hidden
+              >
+                {'\u2022'}
+              </span>
               <span>MAY 10</span>
             </button>
           </div>
