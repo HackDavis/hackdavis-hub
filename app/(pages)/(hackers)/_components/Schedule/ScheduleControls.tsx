@@ -99,7 +99,7 @@ export default function ScheduleControls({
             <DayNavButtons
               activeDay={activeDay}
               onSelectDay={changeActiveDay}
-              className="shrink-0 h-[45px] flex flex-row gap-8 items-center"
+              className="shrink-0 h-[45px] flex flex-row gap-8 items-center bg-[#FAFAFA]/80 rounded-[30px]"
               buttonClassName="text-base"
             />
           )}

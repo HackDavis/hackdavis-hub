@@ -46,7 +46,7 @@ export function CalendarItem({
 
   return (
     <div
-      className={`w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[24px] lg:px-[40px] lg:py-[32px] mb-[16px] flex ${
+      className={`w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[24px] lg:px-[40px] lg:py-[32px] mb-[8px] flex ${
         displayType === 'ACTIVITIES' ? 'flex-row' : 'flex-col justify-center'
       }`}
       style={{
@@ -157,7 +157,7 @@ export function CalendarItem({
                 onClick={
                   inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
                 }
-                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0"
+                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0 hover:brightness-[97%] hover:saturate-[140%]"
                 style={{
                   backgroundColor:
                     eventStyle.addButtonColor || 'rgba(0, 0, 0, 0)',
