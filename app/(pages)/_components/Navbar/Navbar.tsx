@@ -67,6 +67,11 @@ export default function Navbar() {
     const response = await LogoutAction();
 
     if (response.ok) {
+      try {
+        localStorage.removeItem('hackbot_chat_history');
+      } catch {
+        // ignore
+      }
       router.push('/login');
     }
   };
