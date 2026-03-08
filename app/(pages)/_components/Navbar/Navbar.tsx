@@ -17,8 +17,6 @@ interface NavLink {
   action?: () => void;
 }
 
-// todo: change hamburger menu color in mobile
-// todo: fix logout button around 400px
 const sections = [
   {
     id: 'home',
@@ -27,27 +25,6 @@ const sections = [
     activeColor: '#1A3819',
     background: 'rgba(255, 255, 255, 0.50)',
   },
-  // {
-  //   id: 'schedule',
-  //   page: '/schedule',
-  //   baseColor: '#1589BE',
-  //   activeColor: '#FFC53D',
-  //   background: 'rgba(255, 255, 255, 0.50)',
-  // },
-  // {
-  //   id: 'project-info',
-  //   page: '/project-info',
-  //   baseColor: '#1589BE',
-  //   activeColor: '#7FB732',
-  //   background: 'rgba(255, 255, 255, 0.50)',
-  // },
-  // {
-  //   id: 'starter-kit',
-  //   page: '/starter-kit',
-  //   baseColor: '#1589BE',
-  //   activeColor: '#AFD157',
-  //   background: 'rgba(255, 255, 255, 0.50)',
-  // },
 ];
 
 export default function Navbar() {
@@ -55,6 +32,7 @@ export default function Navbar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const section = searchParams.get('section');
+
   const [activeLink, setActiveLink] = useState(
     section || (pathname === '/' ? 'home' : 'about')
   );
@@ -67,6 +45,11 @@ export default function Navbar() {
     const response = await LogoutAction();
 
     if (response.ok) {
+      try {
+        localStorage.removeItem('hackbot_chat_history');
+      } catch {
+        // ignore
+      }
       router.push('/login');
     }
   };
@@ -78,18 +61,6 @@ export default function Navbar() {
       page: '/schedule',
       path: '/schedule',
     },
-    // {
-    //   ids: ['starter-kit'],
-    //   body: 'Starter Kit',
-    //   page: '/starter-kit',
-    //   path: '/starter-kit',
-    // },
-    // {
-    //   ids: ['project-info'],
-    //   body: 'Project Info',
-    //   page: '/project-info',
-    //   path: '/project-info',
-    // },
     {
       ids: [],
       body: 'Log Out',
@@ -102,6 +73,7 @@ export default function Navbar() {
   useEffect(() => {
     const updateActiveSection = () => {
       const currScroll = window.scrollY + window.innerHeight * 0.2;
+
       const pageSections = sections
         .filter((section) => section.page === pathname)
         .map((section) => {
@@ -122,44 +94,32 @@ export default function Navbar() {
           (section) => section.sectionStart !== 0 || section.sectionEnd !== 0
         );
 
-      // Add safety check for empty pageSections array
-      if (pageSections.length === 0) {
-        // No valid sections found, so don't update state
-        return;
-      }
+      if (pageSections.length === 0) return;
 
       let i = pageSections.length - 1;
       for (i; i >= 0; i--) {
-        if (currScroll >= pageSections[i].sectionStart) {
-          break;
-        }
+        if (currScroll >= pageSections[i].sectionStart) break;
       }
-
       i = i < 0 ? 0 : i;
 
       setActiveLink(
         currScroll > pageSections[i].sectionEnd ? '' : pageSections[i].id
       );
-
       setActiveSection(
         currScroll > pageSections[i].sectionEnd ? '' : pageSections[i].id
       );
     };
 
     const handleScroll = () => updateActiveSection();
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-
     updateActiveSection();
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
   useEffect(() => {
-    const currentSection = section;
-    const sectionContainer = document.getElementById(currentSection as string);
+    if (!section) return;
+    const sectionContainer = document.getElementById(section);
     if (sectionContainer) {
       sectionContainer.scrollIntoView({ behavior: 'smooth' });
     }
@@ -168,24 +128,13 @@ export default function Navbar() {
   const getClickHandler = (link: NavLink) => {
     return (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      if (link.action) {
-        link.action();
-      } else {
-        router.push(link.path, { scroll: false });
-      }
+      if (link.action) link.action();
+      else router.push(link.path, { scroll: false });
       setShowNavbar(false);
     };
   };
 
-  const getLogoColor = () => {
-    // const currentSection = sections.find(
-    //   (section) => activeSection === section.id
-    // );
-    // if (!currentSection) return '#005271';
-    return '#005271';
-
-    // return currentSection.activeColor;
-  };
+  const getLogoColor = () => '#005271';
 
   const getLinkColor = (link: NavLink) => {
     const currentSection = sections.find(
@@ -215,15 +164,14 @@ export default function Navbar() {
         >
           <Logo />
         </Link>
+
         <div className={styles.links}>
           {links.map((link) => (
             <Link
               className={`${styles.link} ${
-                link.ids.find((id) => activeLink === id) ? styles.active : null
+                link.ids.find((id) => activeLink === id) ? styles.active : ''
               }`}
-              style={{
-                color: getLinkColor(link),
-              }}
+              style={{ color: getLinkColor(link) }}
               key={link.path}
               href={link.path}
               onClick={getClickHandler(link)}
@@ -233,6 +181,7 @@ export default function Navbar() {
           ))}
         </div>
       </div>
+
       <div className={styles.items}>
         <div className={styles.menu} onClick={() => setShowNavbar(!showNavbar)}>
           <div
@@ -243,15 +192,15 @@ export default function Navbar() {
             <span
               className={styles.hamburger_line}
               style={{ backgroundColor: getLogoColor() }}
-            ></span>
+            />
             <span
               className={styles.hamburger_line}
               style={{ backgroundColor: getLogoColor() }}
-            ></span>
+            />
             <span
               className={styles.hamburger_line}
               style={{ backgroundColor: getLogoColor() }}
-            ></span>
+            />
           </div>
         </div>
       </div>
