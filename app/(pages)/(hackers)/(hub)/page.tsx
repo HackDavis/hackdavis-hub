@@ -1,3 +1,5 @@
+'use client';
+
 import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/HomeHacking/BeginnersSection';
 import Discord from '@pages/(hackers)/_components/StayUpToDate/Discord';
@@ -11,13 +13,19 @@ import HeroJudging from '../_components/HomeJudging/HeroJudging';
 import HackerChoiceAward from '../_components/HomeJudging/HackersChoiceAwards';
 import HeroWaiting from '../_components/HomeJudging/HeroWaiting';
 import HeroHacking from '../_components/HomeHacking/HeroHacking';
+import { useRollout } from '@pages/_hooks/useRollout';
 
 export default function Page() {
+  const { rolloutRes, loading } = useRollout('hacking-starts');
+  const rolloutTime = rolloutRes?.ok
+    ? rolloutRes.body?.rollout_time
+    : undefined;
+
   return (
     <main id="home">
       <TableNumberContextProvider>
         <ClientTimeProtectedDisplay featureId="hero-hacking">
-          <HeroHacking />
+          <HeroHacking rolloutTime={rolloutTime} loading={loading} />
           <ScheduleSneakPeek />
           <BeginnersSection />
           <MDHelp />

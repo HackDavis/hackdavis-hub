@@ -3,22 +3,19 @@
 import Image from 'next/image';
 import { GoArrowRight } from 'react-icons/go';
 
-import { useRollout } from '@pages/_hooks/useRollout';
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 import Countdown from './_components/Countdown';
 
-export default function HeroHacking() {
-  const { loading, rolloutRes, fetchRollout } = useRollout('hacking-starts');
+interface HeroHackingProps {
+  rolloutTime?: number;
+  loading?: boolean;
+}
 
-  // If rollout hasn't returned yet, render the hero shell + a fallback countdown
-  const hasRollout =
-    !!rolloutRes &&
-    (rolloutRes as any).ok &&
-    (rolloutRes as any).body?.rollout_time;
-
-  const countdownTarget = hasRollout
-    ? (rolloutRes as any).body.rollout_time + 24 * 60 * 60 * 1000
-    : undefined;
+export default function HeroHacking({
+  rolloutTime,
+  loading,
+}: HeroHackingProps) {
+  const countdownTarget = rolloutTime ? rolloutTime + 86400000 : undefined;
 
   return (
     <div className="w-full h-screen p-4 md:p-10">
@@ -51,13 +48,8 @@ export default function HeroHacking() {
                     <ClientTimeProtectedDisplay
                       featureId="hacking-starts"
                       fallback={<Countdown />}
-                      callback={() => fetchRollout('hacking-starts')}
                     >
-                      {hasRollout && countdownTarget ? (
-                        <Countdown countdownTarget={countdownTarget} />
-                      ) : (
-                        <Countdown />
-                      )}
+                      <Countdown countdownTarget={countdownTarget} />
                     </ClientTimeProtectedDisplay>
 
                     {loading && (
