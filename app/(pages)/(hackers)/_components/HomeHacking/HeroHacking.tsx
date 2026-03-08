@@ -11,11 +11,13 @@ interface HeroHackingProps {
   loading?: boolean;
 }
 
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
 export default function HeroHacking({
   rolloutTime,
   loading,
 }: HeroHackingProps) {
-  const countdownTarget = rolloutTime ? rolloutTime + 86400000 : undefined;
+  const countdownTarget = rolloutTime ? rolloutTime + ONE_DAY_MS : undefined;
 
   return (
     <div className="w-full h-screen p-4 md:p-10">
@@ -24,7 +26,6 @@ export default function HeroHacking({
         <div className="relative z-10 w-full">
           {/* Main grid area */}
           <div className="mx-auto h-[90vh] min-h-0 flex flex-col justify-center gap-3 md:grid md:grid-rows-[minmax(1,1fr)] md:gap-5">
-            {' '}
             {/* Countdown bar */}
             <div
               className="relative flex flex-col justify-center rounded-[20px] md:rounded-[32px] bg-white/25 backdrop-blur-xl px-6 md:px-10 py-8 md:py-10 overflow-hidden"
@@ -49,7 +50,9 @@ export default function HeroHacking({
                       featureId="hacking-starts"
                       fallback={<Countdown />}
                     >
-                      <Countdown countdownTarget={countdownTarget} />
+                      {countdownTarget !== undefined && (
+                        <Countdown countdownTarget={countdownTarget} />
+                      )}
                     </ClientTimeProtectedDisplay>
 
                     {loading && (
@@ -144,7 +147,7 @@ export default function HeroHacking({
                 <a
                   href="https://hackdavis-2026.devpost.com/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="mt-2 group relative rounded-[1000px] bg-white/25 backdrop-blur-xl min-h-[110px] flex items-center justify-center overflow-hidden"
                   style={{
                     background:
@@ -223,7 +226,7 @@ export default function HeroHacking({
                   <a
                     href="https://hackdavis-2026.devpost.com/"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="group relative rounded-full bg-white/25 backdrop-blur-xl flex items-center justify-center overflow-hidden"
                     style={{
                       background:

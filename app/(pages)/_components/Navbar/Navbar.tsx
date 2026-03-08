@@ -169,7 +169,7 @@ export default function Navbar() {
           {links.map((link) => (
             <Link
               className={`${styles.link} ${
-                link.ids.find((id) => activeLink === id) ? styles.active : null
+                link.ids.find((id) => activeLink === id) ? styles.active : ''
               }`}
               style={{ color: getLinkColor(link) }}
               key={link.path}
