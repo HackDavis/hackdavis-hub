@@ -6,10 +6,10 @@ interface CountdownProps {
   countdownTarget?: number;
 }
 
-const HACKING_ENDS_TIME = new Date('2026-05-10T11:00:00-07:00').getTime(); // May 10, 2026 at 11:00 AM PDT
+const FALLBACK_HACKING_ENDS = new Date('2026-05-10T11:00:00-07:00').getTime(); // May 10, 2026 at 11:00 AM PDT
 
 export default function Countdown({
-  countdownTarget = HACKING_ENDS_TIME,
+  countdownTarget = FALLBACK_HACKING_ENDS,
 }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState({
     hours: 24,

@@ -2,8 +2,6 @@
 
 import Image from 'next/image';
 import { GoArrowRight } from 'react-icons/go';
-
-import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 import Countdown from './_components/Countdown';
 
 interface HeroHackingProps {
@@ -17,6 +15,7 @@ export default function HeroHacking({
   rolloutTime,
   loading,
 }: HeroHackingProps) {
+  // Adds one day to rollout time 'hacking-starts' AKA hacking ending time
   const countdownTarget = rolloutTime ? rolloutTime + ONE_DAY_MS : undefined;
 
   return (
@@ -45,18 +44,10 @@ export default function HeroHacking({
               <div className="flex items-start justify-between gap-2">
                 {/* Right: countdown (big) */}
                 <div className="flex-1 flex justify-center">
-                  <div className="text-white">
-                    <ClientTimeProtectedDisplay
-                      featureId="hacking-starts"
-                      fallback={<Countdown />}
-                    >
-                      {countdownTarget !== undefined && (
-                        <Countdown countdownTarget={countdownTarget} />
-                      )}
-                    </ClientTimeProtectedDisplay>
-
+                  <div className="text-white relative">
+                    <Countdown countdownTarget={countdownTarget} />
                     {loading && (
-                      <div className="mt-2 text-white/90 text-sm text-right">
+                      <div className="absolute top-full mt-2 text-white/90 text-sm">
                         loading…
                       </div>
                     )}
