@@ -8,7 +8,6 @@ import DoneJudging from './DoneJudging';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';
 import { nonHDTracks } from '@data/tracks';
-import HeroWaiting from '../HeroWaiting';
 
 const icons = [
   '/hackers/hero/PeekingCow.svg',
@@ -43,12 +42,12 @@ export default function JudgeBanners() {
     return () => clearInterval(pollingInterval);
   }, [fetchTeamJudges, tableNumber]);
 
-  if (!tableNumber || judges.length === 0) {
-    return <HeroWaiting />;
-  }
-
   if (loading || error !== null) {
     return error;
+  }
+
+  if (!tableNumber || judges.length === 0) {
+    return null;
   }
 
   const effectiveJudges = judges as HydratedJudge[];

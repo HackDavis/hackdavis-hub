@@ -7,10 +7,15 @@ import JudgeBanners from './_components/JudgeBanners';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { GoArrowRight } from 'react-icons/go';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
+import HeroWaiting from './HeroWaiting';
 
 export default function HeroJudging() {
   const { storedValue: tableNumber } = useTableNumberContext();
   const [showPreviousJudges, setShowPreviousJudges] = useState(false);
+
+  if (!tableNumber) {
+    return <HeroWaiting />;
+  }
 
   return (
     <div className="w-full h-screen p-4 md:p-10">
