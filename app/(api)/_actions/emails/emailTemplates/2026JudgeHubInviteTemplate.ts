@@ -5,8 +5,8 @@ export default function judgeHubInviteTemplate(
   fname: string,
   inviteLink: string
 ) {
-  const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_header.png`;
-  const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2025_email_footer.png`;
+  const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_header.png`;
+  const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
   const MEETING_RECORDING_URL =
     'https://drive.google.com/file/d/1Lit5fvhev2q8mkv2QyDgTgeh3cfLeX9l/view?usp=sharing';
   const JUDGING_GUIDE_URL =
@@ -50,7 +50,7 @@ export default function judgeHubInviteTemplate(
         <div class="content-box">
             <p>Hi ${fname},</p>
             <br/>
-            <p>Thank you again for joining us as a judge, we’re thrilled to have you on board! Here are some key resources from our virtual orientation:</p>
+            <p>Thank you again for joining us as a <span class="bold">judge</span>, we’re thrilled to have you on board! Here are some key resources from our virtual orientation:</p>
             <p>🔹 Meeting Recording: <a href="${MEETING_RECORDING_URL}">${MEETING_RECORDING_URL}</a></p>
             <p>🔹 Judging Guide: <a href="${JUDGING_GUIDE_URL}">${JUDGING_GUIDE_URL}</a></p>
             <p>You are requested to carefully review the judging guide and familiarize yourself with its content before the event for a smooth judging experience. Kindly do not share the Judging Guide with anyone outside the judging team.</p>

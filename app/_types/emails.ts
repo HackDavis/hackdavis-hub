@@ -21,7 +21,7 @@ export interface BulkInviteResponse<R extends InviteResult = InviteResult> {
 
 // ── Judge types ─────────────────────────────────────────────────────────────
 
-export interface JudgeInviteData extends InviteData {}
+export type JudgeInviteData = InviteData;
 
 export interface JudgeInviteResult extends InviteResult {
   inviteUrl?: string;
@@ -37,7 +37,7 @@ export interface SingleJudgeInviteResponse {
 
 // Mentor Hub invite types
 
-export interface MentorInviteData extends InviteData {}
+export type MentorInviteData = InviteData;
 
 export interface MentorInviteResult extends InviteResult {
   titoUrl?: string;
