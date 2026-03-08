@@ -22,11 +22,11 @@ export default function HeroHacking() {
 
   return (
     <div className="w-full h-screen p-4 md:p-10">
-      <div className="relative w-full h-full overflow-hidden">
+      <div className="relative w-full min-h-[86vh] overflow-hidden">
         {/* content wrapper */}
         <div className="relative z-10 w-full">
           {/* Main grid area */}
-          <div className="mx-auto h-[90vh] min-h-0 flex flex-col justify-center gap-3 md:grid md:grid-rows-[auto_minmax(0,1fr)] md:gap-5">
+          <div className="mx-auto h-[90vh] min-h-0 flex flex-col justify-center gap-3 md:grid md:grid-rows-[minmax(1,1fr)] md:gap-5">
             {' '}
             {/* Countdown bar */}
             <div
