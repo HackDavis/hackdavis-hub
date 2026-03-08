@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import JudgeBanners from './_components/JudgeBanners';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { GoArrowRight } from 'react-icons/go';
@@ -69,13 +70,16 @@ export default function HeroJudging() {
             </button>
 
             {/* Judging Process */}
-            <div className="flex items-center gap-2 md:max-w-[45%] md:order-1">
+            <Link
+              href="/project-info#judging"
+              className="flex items-center gap-2 md:max-w-[45%] md:order-1"
+            >
               <GoArrowRight className="text-lg" />
-              <p className="cursor-pointer">
+              <span>
                 Learn more about our judging process{' '}
                 <span className="underline underline-offset-4">here</span>
-              </p>
-            </div>
+              </span>
+            </Link>
           </div>
         </div>
       </div>
