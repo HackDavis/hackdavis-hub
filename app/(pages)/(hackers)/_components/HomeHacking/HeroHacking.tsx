@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Image from 'next/image';
 import { GoArrowRight } from 'react-icons/go';
 
@@ -8,13 +7,8 @@ import { useRollout } from '@pages/_hooks/useRollout';
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 import Countdown from './_components/Countdown';
 
-export default function IndexHeroContentHacking() {
+export default function HeroHacking() {
   const { loading, rolloutRes, fetchRollout } = useRollout('hacking-starts');
-
-  // Ensure rollout data is fetched on mount (prevents "loading forever" -> blank render)
-  useEffect(() => {
-    fetchRollout('hacking-starts');
-  }, [fetchRollout]);
 
   // If rollout hasn't returned yet, render the hero shell + a fallback countdown
   const hasRollout =
@@ -27,8 +21,8 @@ export default function IndexHeroContentHacking() {
     : undefined;
 
   return (
-    <div className="w-full h-full p-4 md:p-10 mb-[5%]">
-      <div className="relative w-full min-h-[86vh] overflow-hidden">
+    <div className="w-full h-screen p-4 md:p-10 ">
+      <div className="relative w-full h-full overflow-hidden">
         {/* content wrapper */}
         <div className="relative z-10 w-full">
           {/* Main grid area */}

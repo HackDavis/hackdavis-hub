@@ -7,7 +7,7 @@ interface CountdownProps {
 }
 
 export default function Countdown({
-  countdownTarget = new Date('2026-04-20T07:00:00-07:00').getTime(),
+  countdownTarget = new Date('2026-03-09T07:00:00-00:00').getTime(), // END OF HACKING TIME
 }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState({
     hours: 24,

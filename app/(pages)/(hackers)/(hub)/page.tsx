@@ -2,7 +2,6 @@ import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
 import BeginnersSection from '@pages/(hackers)/_components/HomeHacking/BeginnersSection';
 import Discord from '@pages/(hackers)/_components/StayUpToDate/Discord';
 import Footer from '@components/Footer/Footer';
-import HeroMVP from '../_components/HomeHacking/HeroMVP';
 import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
 import TableNumberCheckin from '@pages/(hackers)/_components/TableNumberCheckin/TableNumberCheckin';
 import TableNumberContextProvider from '@pages/_contexts/TableNumberContext';
@@ -11,21 +10,20 @@ import ScheduleSneakPeek from '@pages/(hackers)/_components/HomeHacking/Schedule
 import HeroJudging from '../_components/HomeJudging/HeroJudging';
 import HackerChoiceAward from '../_components/HomeJudging/HackersChoiceAwards';
 import HeroWaiting from '../_components/HomeJudging/HeroWaiting';
-import IndexHeroContentHacking from '../_components/HomeHacking/IndexHeroContentHacking';
+import HeroHacking from '../_components/HomeHacking/HeroHacking';
 
 export default function Page() {
   return (
     <main id="home">
       <TableNumberContextProvider>
         <ClientTimeProtectedDisplay featureId="hero-hacking">
-          <HeroMVP />
-          <IndexHeroContentHacking />
+          <HeroHacking />
           <ScheduleSneakPeek />
           <BeginnersSection />
           <MDHelp />
         </ClientTimeProtectedDisplay>
         {/* temporarilty set featureId below to "hero-hacking" to test */}
-        <ClientTimeProtectedDisplay featureId="hero-hacking">
+        <ClientTimeProtectedDisplay featureId="hero-judging">
           <HeroWaiting />
           <HeroJudging />
           <HackerChoiceAward />
