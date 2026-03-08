@@ -4,7 +4,7 @@ import TextCard from '../HomeHacking/_components/TextCard';
 
 export default function HackerChoiceAward() {
   return (
-    <div className="bg-[#F1FFCC]">
+    <div className="bg-[#F1FFCC]" id="hackers-choice-awards">
       <div className="flex flex-col md:flex-row items-center justify-between px-[5%] p-[10%] gap-12 md:gap-0">
         <div className="flex-1 flex justify-center md:justify-start">
           <Image
