@@ -44,11 +44,7 @@ export default function HeroHacking({
                 {/* Right: countdown (big) */}
                 <div className="flex-1 flex justify-center">
                   <div className="text-white relative">
-                    {countdownTarget !== undefined ? (
-                      <Countdown countdownTarget={countdownTarget} />
-                    ) : (
-                      <Countdown />
-                    )}
+                    <Countdown countdownTarget={countdownTarget} />
                     {loading && (
                       <div className="absolute top-full mt-2 text-white/90 text-sm">
                         loading…
