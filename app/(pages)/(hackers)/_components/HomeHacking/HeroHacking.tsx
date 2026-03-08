@@ -15,6 +15,7 @@ export default function HeroHacking({
   rolloutTime,
   loading,
 }: HeroHackingProps) {
+  // Adds one day to rollout time 'hacking-starts' AKA hacking ending time
   const countdownTarget = rolloutTime ? rolloutTime + ONE_DAY_MS : undefined;
 
   return (
