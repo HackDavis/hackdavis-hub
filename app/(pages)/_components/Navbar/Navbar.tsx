@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { MouseEvent, useEffect, useState } from 'react';
 import LogoutAction from '@actions/auth/logout';
 
@@ -30,11 +30,8 @@ const sections = [
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-
-  const section =
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search).get('section')
-      : null;
+  const searchParams = useSearchParams();
+  const section = searchParams.get('section');
 
   const [activeLink, setActiveLink] = useState(
     section || (pathname === '/' ? 'home' : 'about')
