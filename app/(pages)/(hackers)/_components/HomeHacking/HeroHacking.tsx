@@ -21,18 +21,17 @@ export default function HeroHacking() {
     : undefined;
 
   return (
-    <div className="w-full h-screen p-4 md:p-10 ">
+    <div className="w-full h-screen p-4 md:p-10">
       <div className="relative w-full h-full overflow-hidden">
         {/* content wrapper */}
         <div className="relative z-10 w-full">
           {/* Main grid area */}
-          <div className="mx-auto h-[90vh] min-h-0 grid grid-rows-[auto_minmax(0,1fr)] gap-3 md:gap-5">
+          <div className="mx-auto h-[90vh] min-h-0 flex flex-col justify-center gap-3 md:grid md:grid-rows-[auto_minmax(0,1fr)] md:gap-5">
             {' '}
             {/* Countdown bar */}
             <div
-              className="relative rounded-[28px] bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] px-6 md:px-10 py-8 md:py-10 overflow-hidden"
+              className="relative flex flex-col justify-center rounded-[20px] md:rounded-[32px] bg-white/25 backdrop-blur-xl px-6 md:px-10 py-8 md:py-10 overflow-hidden"
               style={{
-                borderRadius: '38.812px',
                 background:
                   'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
               }}
@@ -102,11 +101,11 @@ export default function HeroHacking() {
                   "
               />
               {/* ===================== MOBILE (2x2 animals) ===================== */}
-              <div className="md:hidden">
+              <div className="md:hidden h-full flex flex-col justify-center">
                 {/* 2x2 animals */}
                 <div className="grid grid-cols-2 gap-2">
                   {/* Cow */}
-                  <div className="relative rounded-[28px] bg-[#93F5F3] border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="relative rounded-[20px] bg-[#93F5F3] overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingCow.svg"
                       alt="Peeking cow"
@@ -118,7 +117,7 @@ export default function HeroHacking() {
                   </div>
 
                   {/* Duck */}
-                  <div className="relative rounded-[28px] bg-[#FFF3B6] border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="relative rounded-[20px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingDuck.svg"
                       alt="Peeking duck"
@@ -130,7 +129,7 @@ export default function HeroHacking() {
                   </div>
 
                   {/* Frog */}
-                  <div className="relative rounded-[28px] bg-[#E9FBBA] border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="relative rounded-[20px] bg-[#E9FBBA] overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingFrog.svg"
                       alt="Peeking frog"
@@ -141,7 +140,7 @@ export default function HeroHacking() {
                   </div>
 
                   {/* Bunny */}
-                  <div className="relative rounded-[28px] bg-[#FFD2D2] border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="relative rounded-[20px] bg-[#FFD2D2] overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingBunny.svg"
                       alt="Peeking bunny"
@@ -157,9 +156,8 @@ export default function HeroHacking() {
                   href="https://hackdavis-2026.devpost.com/"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 group relative rounded-xl bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] min-h-[110px] flex items-center justify-center overflow-hidden"
+                  className="mt-2 group relative rounded-[1000px] bg-white/25 backdrop-blur-xl min-h-[110px] flex items-center justify-center overflow-hidden"
                   style={{
-                    borderRadius: '38.812px',
                     background:
                       'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
                   }}
@@ -187,7 +185,7 @@ export default function HeroHacking() {
                 {/* Row 1: 3 tiles */}
                 <div className="min-h-0 grid grid-cols-[50fr_30fr_20fr] gap-5">
                   {/* Cow */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#93F5F3] backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="min-h-0 relative rounded-[28px] bg-[#93F5F3] backdrop-blur-xl overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingCow.svg"
                       alt="Peeking cow"
@@ -199,7 +197,7 @@ export default function HeroHacking() {
                   </div>
 
                   {/* Duck */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#FFF3B6] border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="min-h-0 relative rounded-[28px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingDuck.svg"
                       alt="Peeking duck"
@@ -211,7 +209,7 @@ export default function HeroHacking() {
                   </div>
 
                   {/* Frog */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#E9FBBA] backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="min-h-0 relative rounded-[28px] bg-[#E9FBBA] backdrop-blur-xl overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingFrog.svg"
                       alt="Peeking frog"
@@ -225,7 +223,7 @@ export default function HeroHacking() {
                 {/* Row 2: bunny + submit pill */}
                 <div className="min-h-0 grid grid-cols-[1fr_2fr] gap-5 items-stretch">
                   {/* Bunny */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#FFD2D2] backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden flex items-end justify-center">
+                  <div className="min-h-0 relative rounded-[28px] bg-[#FFD2D2] backdrop-blur-xl overflow-hidden flex items-end justify-center">
                     <Image
                       src="/hackers/hero/PeepingBunny.svg"
                       alt="Peeking bunny"
@@ -240,7 +238,7 @@ export default function HeroHacking() {
                     href="https://hackdavis-2026.devpost.com/"
                     target="_blank"
                     rel="noreferrer"
-                    className="group relative rounded-full bg-white/25 backdrop-blur-xl border border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex items-center justify-center overflow-hidden"
+                    className="group relative rounded-full bg-white/25 backdrop-blur-xl flex items-center justify-center overflow-hidden"
                     style={{
                       background:
                         'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
@@ -261,7 +259,6 @@ export default function HeroHacking() {
                       <span
                         className="text-white font-medium tracking-[4.601px]"
                         style={{
-                          fontFamily: '"DM Mono", monospace',
                           fontSize: 'clamp(28px, 6vw, 90px)',
                           textShadow: '0 0 31.729px rgba(255, 255, 255, 0.30)',
                         }}

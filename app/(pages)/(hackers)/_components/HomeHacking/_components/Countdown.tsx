@@ -6,8 +6,10 @@ interface CountdownProps {
   countdownTarget?: number;
 }
 
+const HACKING_ENDS_TIME = new Date('2026-05-10T11:00:00-07:00').getTime(); // May 10, 2026 at 11:00 AM PDT
+
 export default function Countdown({
-  countdownTarget = new Date('2026-03-09T07:00:00-00:00').getTime(), // END OF HACKING TIME
+  countdownTarget = HACKING_ENDS_TIME,
 }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState({
     hours: 24,
@@ -46,7 +48,7 @@ export default function Countdown({
 
   const timerStyle = {
     color: '#FFF',
-    fontFamily: '"DM Mono", monospace',
+    fontFamily: 'DM Mono',
     fontSize: 'clamp(36px, 12vw, 230.034px)',
     fontStyle: 'normal',
     fontWeight: 500,
