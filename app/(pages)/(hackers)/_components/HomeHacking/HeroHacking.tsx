@@ -42,7 +42,6 @@ export default function HeroHacking() {
                 alt="Background"
                 fill
                 className="object-cover pointer-events-none select-none -z-10"
-                priority
               />
 
               <div className="flex items-start justify-between gap-2">
@@ -112,7 +111,6 @@ export default function HeroHacking() {
                       width={520}
                       height={320}
                       className="w-[85%] h-auto pointer-events-none select-none"
-                      priority
                     />
                   </div>
 
@@ -124,7 +122,6 @@ export default function HeroHacking() {
                       width={520}
                       height={320}
                       className="w-[100%] h-auto pointer-events-none select-none"
-                      priority
                     />
                   </div>
 
@@ -168,7 +165,6 @@ export default function HeroHacking() {
                     alt="Background"
                     fill
                     className="object-cover pointer-events-none select-none -z-10 overflow-hidden"
-                    priority
                   />
                   <div className="absolute inset-0 opacity-70 pointer-events-none bg-gradient-to-r from-white/0 via-white/10 to-white/0" />
                   <div className="relative flex items-center gap-2">
@@ -192,7 +188,6 @@ export default function HeroHacking() {
                       width={520}
                       height={320}
                       className="w-[55%] max-h-full h-auto pointer-events-none select-none"
-                      priority
                     />
                   </div>
 
@@ -204,7 +199,6 @@ export default function HeroHacking() {
                       width={520}
                       height={320}
                       className="w-[100%] max-h-full h-auto pointer-events-none select-none"
-                      priority
                     />
                   </div>
 
@@ -250,7 +244,6 @@ export default function HeroHacking() {
                       alt="Background"
                       fill
                       className="object-cover pointer-events-none select-none -z-10"
-                      priority
                     />
 
                     <div className="absolute inset-0 opacity-70 pointer-events-none bg-gradient-to-r from-white/0 via-white/10 to-white/0" />
