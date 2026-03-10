@@ -24,14 +24,14 @@ export default function Page() {
   return (
     <main id="home">
       <TableNumberContextProvider>
-        <ClientTimeProtectedDisplay featureId="hero-judging">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <HeroHacking rolloutTime={rolloutTime} loading={loading} />
           <ScheduleSneakPeek />
           <BeginnersSection />
           <MDHelp />
         </ClientTimeProtectedDisplay>
         {/* temporarilty set featureId below to "hero-hacking" to test */}
-        <ClientTimeProtectedDisplay featureId="hero-hacking">
+        <ClientTimeProtectedDisplay featureId="hero-judging">
           <HeroWaiting />
           <HeroJudging />
           <HackerChoiceAward />
