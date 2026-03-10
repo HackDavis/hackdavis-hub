@@ -1,10 +1,21 @@
 import Image from 'next/image';
 import mascots_celebrate from '@public/hackers/hero/hero-judging/mascots_celebrate.svg';
 
-export default function DoneJudging() {
+interface DoneJudgingProps {
+  onClose: () => void;
+}
+
+export default function DoneJudging({ onClose }: DoneJudgingProps) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50">
-      <div className="relative flex flex-col bg-white p-[40px] w-full w-[500px] rounded-[20px] gap-[12px]">
+    <div
+      className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="relative flex flex-col bg-white p-[40px] w-[500px] rounded-[20px] gap-[12px]">
         <Image
           src={mascots_celebrate}
           alt="hackdavis mascots celebrating"

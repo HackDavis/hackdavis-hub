@@ -8,10 +8,12 @@ import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { GoArrowRight } from 'react-icons/go';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 import HeroWaiting from './HeroWaiting';
+import DoneJudging from './_components/DoneJudging';
 
 export default function HeroJudging() {
   const { storedValue: tableNumber } = useTableNumberContext();
   const [showPreviousJudges, setShowPreviousJudges] = useState(false);
+  const [showDoneModal, setShowDoneModal] = useState(false);
 
   if (!tableNumber) {
     return <HeroWaiting />;
@@ -19,6 +21,7 @@ export default function HeroJudging() {
 
   return (
     <div className="w-full h-screen p-4 md:p-10">
+      {showDoneModal && <DoneJudging onClose={() => setShowDoneModal(false)} />}
       <div
         className="relative w-full h-full overflow-hidden flex items-center justify-center"
         style={{
@@ -52,7 +55,7 @@ export default function HeroJudging() {
                 !showPreviousJudges ? 'blur-[3px]' : ''
               }`}
             >
-              <JudgeBanners />
+              <JudgeBanners onAllScored={() => setShowDoneModal(true)} />
             </div>
           </div>
           <div className="flex flex-col md:flex-row w-full text-white text-sm md:text-base font-semibold mt-4 gap-3 md:gap-0 md:justify-between">

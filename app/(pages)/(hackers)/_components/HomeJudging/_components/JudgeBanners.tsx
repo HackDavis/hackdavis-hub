@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
 import User from '@typeDefs/user';
 import styles from './JudgeBannerIndividual.module.scss';
-import DoneJudging from './DoneJudging';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';
 import { nonHDTracks } from '@data/tracks';
@@ -23,10 +22,21 @@ interface HydratedJudge extends User {
   isScored: boolean;
 }
 
-export default function JudgeBanners() {
+export default function JudgeBanners({
+  onAllScored,
+}: {
+  onAllScored: () => void;
+}) {
   const { storedValue: tableNumber } = useTableNumberContext();
   const { team, judges, loading, error, fetchTeamJudges } =
     useTeamJudgesFromTableNumber(tableNumber ?? -1);
+  const allScored = judges?.every((judge: HydratedJudge) => judge.isScored);
+
+  useEffect(() => {
+    if (allScored) {
+      onAllScored();
+    }
+  }, [allScored, onAllScored]);
 
   useEffect(() => {
     if (tableNumber) {
@@ -51,13 +61,6 @@ export default function JudgeBanners() {
   }
 
   const effectiveJudges = judges as HydratedJudge[];
-
-  const allScored = effectiveJudges.every(
-    (judge: HydratedJudge) => judge.isScored
-  );
-  if (allScored) {
-    return <DoneJudging />;
-  }
 
   const teamNonHDCategories: string[] = ((team as any)?.tracks ?? [])
     .filter((track: string) => track in nonHDTracks)
