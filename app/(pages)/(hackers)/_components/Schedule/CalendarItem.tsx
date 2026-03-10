@@ -5,6 +5,9 @@ import { Button } from '@pages/_globals/components/ui/button';
 import { SCHEDULE_EVENT_STYLES } from './scheduleEventStyles';
 import { formatScheduleTimeRange } from './scheduleTime';
 
+import location_icon from 'public/hackers/schedule/location.svg';
+import attendee_icon from 'public/hackers/schedule/attendee.svg';
+
 interface CalendarItemProps {
   event: Event & { originalType?: string };
   attendeeCount?: number;
@@ -79,7 +82,7 @@ export function CalendarItem({
               {location && (
                 <div className="flex items-center">
                   <Image
-                    src="/index/schedule/location.svg"
+                    src={location_icon}
                     alt="location icon"
                     width={11}
                     height={13.44}
@@ -138,11 +141,7 @@ export function CalendarItem({
                   `}
               >
                 <div className="relative w-16 h-12">
-                  <Image
-                    src="/index/schedule/attendee.svg"
-                    alt="location icon"
-                    fill
-                  />
+                  <Image src={attendee_icon} alt="attendee icon" fill />
                 </div>
                 <span className="font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] text-balance">
                   {`${attendeeCount ?? ''} Hacker${
