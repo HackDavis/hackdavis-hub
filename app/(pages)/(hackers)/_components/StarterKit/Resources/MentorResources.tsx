@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import bunny_duck_mentor from '@public/starterKit/rabbit_duck_mentor.svg';
+import bunny_duck_mentor from '@public/hackers/starter-kit/resources/rabbit_duck_mentor.svg';
 import StarterKitSlide from '../StarterKitSlide';
 export default function MentorResources() {
   return (
