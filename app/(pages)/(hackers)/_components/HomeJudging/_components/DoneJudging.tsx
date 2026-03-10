@@ -1,46 +1,26 @@
-import styles from '../../2025IndexHero/DoneJudging.module.scss';
-import bunny_phone from 'public/hackers/hero/bunny_phone.svg';
-import stars from 'public/hackers/hero/stars.svg';
-import ducky from 'public/hackers/hero/ducky.svg';
 import Image from 'next/image';
+import mascots_celebrate from '@public/hackers/hero/hero-judging/mascots_celebrate.svg';
 
 export default function DoneJudging() {
   return (
-    <div>
-      <div className={styles.container}>
-        <div className={styles.text_container}>
-          <p>CONGRATS!</p>
-          <br />
-          <p>
-            You're all done, thank you so much for your participation at
-            HackDavis 2025. Please wait until <b>Closing Ceremony</b> for
-            judging results! In the meantime, put in your vote for{' '}
-            <a href="/" target="_blank">
-              Hacker's Choice Award
-            </a>{' '}
-            and check out our insta <b>@hackdavis!</b>
-          </p>
-        </div>
-        <Image src={stars} alt="stars" className={styles.stars_img} />
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50">
+      <div className="relative flex flex-col bg-white p-[40px] w-full w-[500px] rounded-[20px] gap-[12px]">
         <Image
-          src={bunny_phone}
-          alt="bunny phone"
-          className={styles.bunny_phone_img}
+          src={mascots_celebrate}
+          alt="hackdavis mascots celebrating"
+          width={420}
+          height={287}
         />
-      </div>
-      <div className={styles.grid_container}>
-        <div className={styles.left_container}>
-          <Image
-            src={bunny_phone}
-            alt="bunny phone"
-            className={styles.bunny_phone_img_mobile}
-          />
-          <p className={styles.hackdavis_text}>@hackdavis</p>
-          <p>Check out our instagram</p>
-        </div>
-        <div className={styles.right_container}>
-          <Image src={ducky} alt="ducky" className={styles.ducky_img} />
-        </div>
+        <h2 className="text-[32px]">Congratulations Hacker!</h2>
+        <p className="text-[16px] text-[#5E5E65]">
+          You’re all done, thank you so much for your participation at HackDavis
+          2026. Please wait until <b>Closing Ceremony</b> for judging results!
+          In the meantime, put in your vote for{' '}
+          <a href="google.com" target="_blank" className="underline font-bold">
+            Hacker’s Choice Award
+          </a>{' '}
+          and check out our insta <b>@hackdavis!</b>
+        </p>
       </div>
     </div>
   );
