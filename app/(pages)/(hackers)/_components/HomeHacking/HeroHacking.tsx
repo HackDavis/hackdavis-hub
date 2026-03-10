@@ -125,7 +125,7 @@ export default function HeroHacking({
                   {/* Bunny */}
                   <div className="relative rounded-[20px] bg-[#FFD2D2] overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingBunny.svg"
+                      src="/hackers/hero/PeepingBunny.gif"
                       alt="Peeking bunny"
                       width={520}
                       height={320}

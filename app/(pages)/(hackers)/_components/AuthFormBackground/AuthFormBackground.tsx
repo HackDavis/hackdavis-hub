@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import grass_bottom from '@public/hackers/login/grass_bottom.svg';
 import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
 import login_mascots_mobile from '@public/hackers/login/login_mascots_mobile.svg';
-import mascots_with_notes from '@public/hackers/login/mascots_with_notes.svg';
+import mascots_with_notes from '@public/hackers/login/mascots_with_notes.gif';
 import moving_clouds from '@public/hackers/login/moving_clouds.svg';
 
 export default function AuthFormBackground({
