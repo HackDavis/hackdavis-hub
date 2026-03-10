@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import styles from './AuthFormBackground.module.scss';
+import hd_logo from 'public/judges/login/hd_logo.svg';
 
 export default async function AuthFormBackground({
   title,
@@ -14,7 +15,7 @@ export default async function AuthFormBackground({
   return (
     <div className={styles.container}>
       <div className={styles.section}>
-        <Image src="/login/hd_logo.svg" alt="hd_logo" height={50} width={50} />
+        <Image src={hd_logo} alt="hd_logo" height={50} width={50} />
       </div>
 
       <div className={styles.section}>
