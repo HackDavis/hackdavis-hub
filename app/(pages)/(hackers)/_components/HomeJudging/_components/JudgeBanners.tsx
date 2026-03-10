@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
 import User from '@typeDefs/user';
-import styles from '../../2025IndexHero/JudgeBannerIndividual.module.scss';
+import styles from './JudgeBannerIndividual.module.scss';
 import DoneJudging from './DoneJudging';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';

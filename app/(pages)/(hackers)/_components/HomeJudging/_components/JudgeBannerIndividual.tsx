@@ -1,4 +1,4 @@
-import styles from '../../2025IndexHero/JudgeBannerIndividual.module.scss';
+import styles from './JudgeBannerIndividual.module.scss';
 import Image from 'next/image';
 
 type JudgeBannerIndividualProps = {

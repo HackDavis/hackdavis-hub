@@ -7,7 +7,7 @@ import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.sv
 import { LuArrowUpRight } from 'react-icons/lu';
 import star from 'public/index/hero/star.svg';
 import Link from 'next/link';
-import JudgeBanners from '../../2025IndexHero/JudgeBanners';
+import JudgeBanners from '../../HomeJudging/_components/JudgeBanners';
 import styles from './IndexHeroContentJudging.module.scss';
 
 export default function IndexHeroContentJudging() {
