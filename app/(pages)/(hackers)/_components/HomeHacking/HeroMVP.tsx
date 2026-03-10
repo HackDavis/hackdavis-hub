@@ -1,6 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import clouds from '@@public/hackers/hero/Clouds.svg';
+import stars from '@@public/hackers/hero/TwoStars.svg';
+import cow from '@public/hackers/hero/Cow.svg';
 
 export default function HeroMVP() {
   return (
@@ -15,7 +18,7 @@ export default function HeroMVP() {
       >
         {/* background */}
         <Image
-          src="/Hero/Clouds.svg"
+          src={clouds}
           alt="Background"
           fill
           className="object-cover pointer-events-none select-none"
@@ -26,7 +29,7 @@ export default function HeroMVP() {
         <div className="relative w-[90%] max-w-[900px] flex items-center justify-center">
           {/* stars */}
           <Image
-            src="/Hero/Stars.svg"
+            src={stars}
             alt="Stars"
             width={180}
             height={180}
@@ -36,7 +39,7 @@ export default function HeroMVP() {
 
           {/* cow */}
           <Image
-            src="/Hero/Cow.svg"
+            src={cow}
             alt="Cow"
             width={320}
             height={320}
