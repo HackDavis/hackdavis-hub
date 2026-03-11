@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
@@ -8,9 +9,9 @@ import {
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
 
-import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
+// import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
 import duckbunny from '@public/hackers/scheduleSneakPeek/duck+bunny.svg';
-import duckfrog from '@public/hackers/scheduleSneakPeek/duck+frog.svg';
+// import duckfrog from '@public/hackers/scheduleSneakPeek/duck+frog.svg';
 import cucumber_cow from '@public/hackers/scheduleSneakPeek/cucumber_cow.svg';
 
 interface ScheduleSneakPeekProps {
@@ -35,6 +36,43 @@ function SectionLabel({ label }: { label: string }) {
       {displayLabel}
     </div>
   );
+}
+
+function CountdownLabel({ targetTime }: { targetTime: number }) {
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const difference = targetTime - new Date().getTime();
+      if (difference <= 0) {
+        return { hours: 0, minutes: 0, seconds: 0 };
+      }
+      return {
+        hours: Math.floor(difference / (1000 * 60 * 60)),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    };
+
+    setTimeLeft(calculateTimeLeft());
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [targetTime]);
+
+  const label = `IN ${timeLeft.hours
+    .toString()
+    .padStart(2, '0')}:${timeLeft.minutes
+    .toString()
+    .padStart(2, '0')}:${timeLeft.seconds.toString().padStart(2, '0')}`;
+
+  return <SectionLabel label={label} />;
 }
 
 function Panel({
@@ -67,6 +105,20 @@ function Panel({
         }}
       />
     ));
+
+  const upcomingGroups = useMemo(() => {
+    const groups: { startTime: number; entries: EventEntry[] }[] = [];
+    for (const entry of upcomingEvents) {
+      const startTime = new Date(entry.event.start_time).getTime();
+      const existing = groups.find((g) => g.startTime === startTime);
+      if (existing) {
+        existing.entries.push(entry);
+      } else {
+        groups.push({ startTime, entries: [entry] });
+      }
+    }
+    return groups.sort((a, b) => a.startTime - b.startTime);
+  }, [upcomingEvents]);
 
   return (
     <div className="rounded-[16px] bg-[#FFFFFF] p-5 lg:p-6">
@@ -112,7 +164,7 @@ function Panel({
         )}
       </div>
 
-      <SectionLabel label="IN 0:30:00" />
+      {/* <SectionLabel label="IN 0:30:00" />
       <div className="space-y-3">
         {upcomingEvents.length > 0 ? (
           renderEventItems(upcomingEvents, 'upcoming')
@@ -148,7 +200,15 @@ function Panel({
             </Link>
           </div>
         )}
-      </div>
+      </div> */}
+      {upcomingGroups.map((group) => (
+        <div key={group.startTime}>
+          <CountdownLabel targetTime={group.startTime} />
+          <div className="space-y-3">
+            {renderEventItems(group.entries, `upcoming-${group.startTime}`)}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

@@ -5,10 +5,7 @@ import Event from '@typeDefs/event';
 import { useEvents } from '@hooks/useEvents';
 import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import useActiveUser from '@pages/_hooks/useActiveUser';
-import {
-  isScheduleEventLive,
-  startsScheduleEventInNextMs,
-} from '@pages/(hackers)/_components/Schedule/scheduleTime';
+import { isScheduleEventLive } from '@pages/(hackers)/_components/Schedule/scheduleTime';
 
 export interface EventEntry {
   event: Event;
@@ -16,14 +13,26 @@ export interface EventEntry {
   inPersonalSchedule: boolean;
 }
 
-const THIRTY_MIN_MS = 30 * 60 * 1000;
-
 const toSorted = (events: EventEntry[]): EventEntry[] =>
   [...events].sort(
     (a, b) =>
       new Date(a.event.start_time).getTime() -
       new Date(b.event.start_time).getTime()
   );
+
+/** Returns only the events starting at the single nearest future start time. */
+const getNextBatchEvents = (entries: EventEntry[], now: Date): EventEntry[] => {
+  const future = entries.filter(
+    (e) => new Date(e.event.start_time).getTime() > now.getTime()
+  );
+  if (future.length === 0) return [];
+  const earliest = Math.min(
+    ...future.map((e) => new Date(e.event.start_time).getTime())
+  );
+  return future.filter(
+    (e) => new Date(e.event.start_time).getTime() === earliest
+  );
+};
 
 export function useScheduleSneakPeekData() {
   const { user } = useActiveUser('/');
@@ -63,29 +72,38 @@ export function useScheduleSneakPeekData() {
     return () => clearInterval(interval);
   }, []);
 
-  const filteredLists = useMemo(
-    () => ({
+  const filteredLists = useMemo(() => {
+    // GENERAL (and MEALS) events have no add button and must never appear in
+    // Your Schedule. Filter them out so they always stay in Happening Now.
+    const schedulablePersonalEntries = personalEventEntries.filter(
+      (e) => e.event.type !== 'GENERAL' && e.event.type !== 'MEALS'
+    );
+
+    // Only exclude events that will actually appear in Your Schedule.
+    const scheduledIds = new Set(
+      schedulablePersonalEntries.map((e) => e.event._id)
+    );
+    const happeningNowEntries = allEventEntries.filter(
+      (e) => !scheduledIds.has(e.event._id)
+    );
+
+    return {
       liveAll: toSorted(
-        allEventEntries.filter((entry) => isScheduleEventLive(entry.event, now))
-      ),
-      upcomingAll: toSorted(
-        allEventEntries.filter((entry) =>
-          startsScheduleEventInNextMs(entry.event, THIRTY_MIN_MS, now)
+        happeningNowEntries.filter((entry) =>
+          isScheduleEventLive(entry.event, now)
         )
       ),
+      upcomingAll: toSorted(getNextBatchEvents(happeningNowEntries, now)),
       livePersonal: toSorted(
-        personalEventEntries.filter((entry) =>
+        schedulablePersonalEntries.filter((entry) =>
           isScheduleEventLive(entry.event, now)
         )
       ),
       upcomingPersonal: toSorted(
-        personalEventEntries.filter((entry) =>
-          startsScheduleEventInNextMs(entry.event, THIRTY_MIN_MS, now)
-        )
+        getNextBatchEvents(schedulablePersonalEntries, now)
       ),
-    }),
-    [allEventEntries, personalEventEntries, now]
-  );
+    };
+  }, [allEventEntries, personalEventEntries, now]);
 
   return {
     ...filteredLists,
