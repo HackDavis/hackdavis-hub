@@ -8,7 +8,9 @@ import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { GoArrowRight } from 'react-icons/go';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 import HeroWaiting from './HeroWaiting';
-import DoneJudging from './_components/DoneJudging';
+import DoneJudgingModal from './_components/DoneJudgingModal';
+
+import clouds from '@public/hackers/hero/clouds.svg';
 
 export default function HeroJudging() {
   const { storedValue: tableNumber } = useTableNumberContext();
@@ -21,7 +23,9 @@ export default function HeroJudging() {
 
   return (
     <div className="w-full h-screen p-4 md:p-10">
-      {showDoneModal && <DoneJudging onClose={() => setShowDoneModal(false)} />}
+      {showDoneModal && (
+        <DoneJudgingModal onClose={() => setShowDoneModal(false)} />
+      )}
       <div
         className="relative w-full h-full overflow-hidden flex items-center justify-center"
         style={{
@@ -31,7 +35,7 @@ export default function HeroJudging() {
         }}
       >
         <Image
-          src="/Hero/Clouds.svg"
+          src={clouds}
           alt="Background"
           fill
           className="object-cover pointer-events-none select-none"
@@ -39,24 +43,20 @@ export default function HeroJudging() {
         />
         <div className="relative w-[90%] max-w-[900px] flex flex-col items-center justify-center">
           <div
-            className="text-center font-medium tracking-[2.4px] 
+            className="text-center font-jakarta font-medium tracking-[2.4px] 
                     text-[48px] sm:text-[64px] md:text-[90px] lg:text-[120px]"
             style={{
               color: 'rgba(255,255,255,0.9)',
-              fontFamily: '"Plus Jakarta Sans"',
               textShadow: '0 0 31.729px rgba(255,255,255,0.40)',
             }}
           >
             TABLE {tableNumber ?? '---'}
           </div>
           <div className="relative w-full mt-2">
-            <div
-              className={`transition duration-300 ${
-                !showPreviousJudges ? 'blur-[3px]' : ''
-              }`}
-            >
-              <JudgeBanners onAllScored={() => setShowDoneModal(true)} />
-            </div>
+            <JudgeBanners
+              showPreviousJudges={showPreviousJudges}
+              onAllScored={() => setShowDoneModal(true)}
+            />
           </div>
           <div className="flex flex-col md:flex-row w-full text-white text-sm md:text-base font-semibold mt-4 gap-3 md:gap-0 md:justify-between">
             {/* Previous Judges (top on mobile) */}

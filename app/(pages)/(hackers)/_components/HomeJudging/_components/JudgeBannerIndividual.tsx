@@ -17,9 +17,7 @@ export default function JudgeBannerIndividual({
   completed,
 }: JudgeBannerIndividualProps) {
   return (
-    <div
-      className={`${styles.judgeBanner} ${completed ? styles.finishing : ''}`}
-    >
+    <div className={styles.judgeBanner}>
       <Image
         src={icon}
         alt={`${name} icon`}

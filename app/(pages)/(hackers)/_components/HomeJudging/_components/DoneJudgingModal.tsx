@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import mascots_celebrate from '@public/hackers/hero/hero-judging/mascots_celebrate.svg';
 
-interface DoneJudgingProps {
+interface DoneJudgingModalProps {
   onClose: () => void;
 }
 
-export default function DoneJudging({ onClose }: DoneJudgingProps) {
+export default function DoneJudgingModal({ onClose }: DoneJudgingModalProps) {
   return (
     <div
       className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50"
@@ -27,7 +27,12 @@ export default function DoneJudging({ onClose }: DoneJudgingProps) {
           You’re all done, thank you so much for your participation at HackDavis
           2026. Please wait until <b>Closing Ceremony</b> for judging results!
           In the meantime, put in your vote for{' '}
-          <a href="google.com" target="_blank" className="underline font-bold">
+          <a
+            href=""
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-bold"
+          >
             Hacker’s Choice Award
           </a>{' '}
           and check out our insta <b>@hackdavis!</b>

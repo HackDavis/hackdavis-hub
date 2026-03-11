@@ -22,11 +22,15 @@ interface HydratedJudge extends User {
   isScored: boolean;
 }
 
-export default function JudgeBanners({
-  onAllScored,
-}: {
+interface JudgeBannersProps {
+  showPreviousJudges: boolean;
   onAllScored: () => void;
-}) {
+}
+
+export default function JudgeBanners({
+  showPreviousJudges,
+  onAllScored,
+}: JudgeBannersProps) {
   const { storedValue: tableNumber } = useTableNumberContext();
   const { team, judges, loading, error, fetchTeamJudges } =
     useTeamJudgesFromTableNumber(tableNumber ?? -1);
@@ -95,15 +99,26 @@ export default function JudgeBanners({
           completed={false}
         />
       )}
-      {effectiveJudges.map((judge: HydratedJudge, index: number) => (
-        <JudgeBannerIndividual
-          key={judge._id}
-          icon={icons[index]}
-          name={judge.name}
-          teamsAhead={judge.queuePosition}
-          completed={judge.isScored}
-        />
-      ))}
+      {effectiveJudges.map((judge: HydratedJudge, index: number) => {
+        // Automatically blur judges that have already scored, unless showPreviousJudges toggle is true
+        const isBlurred = judge.isScored && !showPreviousJudges;
+
+        return (
+          <div
+            key={judge._id}
+            className={`transition-all duration-500 ${
+              isBlurred ? 'blur-[3px]' : 'blur-0'
+            }`}
+          >
+            <JudgeBannerIndividual
+              icon={icons[index % icons.length]}
+              name={judge.name}
+              teamsAhead={judge.queuePosition}
+              completed={judge.isScored}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
