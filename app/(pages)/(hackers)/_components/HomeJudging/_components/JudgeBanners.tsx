@@ -37,10 +37,10 @@ export default function JudgeBanners({
   const allScored = judges?.every((judge: HydratedJudge) => judge.isScored);
 
   useEffect(() => {
-    if (allScored) {
+    if (judges && judges.length > 0 && allScored) {
       onAllScored();
     }
-  }, [allScored, onAllScored]);
+  }, [allScored, onAllScored, judges]);
 
   useEffect(() => {
     if (tableNumber) {

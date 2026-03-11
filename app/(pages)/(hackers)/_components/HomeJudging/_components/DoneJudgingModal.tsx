@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { useEffect } from 'react';
 import mascots_celebrate from '@public/hackers/hero/hero-judging/mascots_celebrate.svg';
@@ -20,13 +22,14 @@ export default function DoneJudgingModal({ onClose }: DoneJudgingModalProps) {
     <div
       className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50"
       aria-modal="true"
+      role="dialog"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
         }
       }}
     >
-      <div className="relative flex flex-col bg-white p-[40px] w-[500px] rounded-[20px] gap-[12px]">
+      <div className="relative flex flex-col bg-white p-[40px] w-[calc(100%-1rem)] max-w-[500px] rounded-[20px] gap-[12px]">
         <Image
           src={mascots_celebrate}
           alt="hackdavis mascots celebrating"

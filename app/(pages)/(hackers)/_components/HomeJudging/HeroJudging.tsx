@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { GoArrowRight } from 'react-icons/go';
@@ -18,6 +18,12 @@ export default function HeroJudging() {
   const [showPreviousJudges, setShowPreviousJudges] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
   const [hasDismissedModal, setHasDismissedModal] = useState(false);
+
+  const handleAllScored = useCallback(() => {
+    if (!hasDismissedModal) {
+      setShowDoneModal(true);
+    }
+  }, [hasDismissedModal]);
 
   if (!tableNumber) {
     return <HeroWaiting />;
@@ -62,9 +68,7 @@ export default function HeroJudging() {
           <div className="relative w-full mt-2">
             <JudgeBanners
               showPreviousJudges={showPreviousJudges}
-              onAllScored={() => {
-                if (!hasDismissedModal) setShowDoneModal(true);
-              }}
+              onAllScored={handleAllScored}
             />
           </div>
           <div className="flex flex-col md:flex-row w-full text-white text-sm md:text-base font-semibold mt-4 gap-3 md:gap-0 md:justify-between">
