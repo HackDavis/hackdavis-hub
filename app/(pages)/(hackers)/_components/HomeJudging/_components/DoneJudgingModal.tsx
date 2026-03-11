@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useEffect } from 'react';
 import mascots_celebrate from '@public/hackers/hero/hero-judging/mascots_celebrate.svg';
 
 interface DoneJudgingModalProps {
@@ -6,9 +7,19 @@ interface DoneJudgingModalProps {
 }
 
 export default function DoneJudgingModal({ onClose }: DoneJudgingModalProps) {
+  // Close modal when user pressed Escape key or clicks outside
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50"
+      aria-modal="true"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
@@ -22,8 +33,8 @@ export default function DoneJudgingModal({ onClose }: DoneJudgingModalProps) {
           width={420}
           height={287}
         />
-        <h2 className="text-[32px]">Congratulations Hacker!</h2>
-        <p className="text-[16px] text-[#5E5E65]">
+        <h2 className="text-[32px] font-medium">Congratulations Hacker!</h2>
+        <p className="text-[16px] text-[#5E5E65] font-normal">
           You’re all done, thank you so much for your participation at HackDavis
           2026. Please wait until <b>Closing Ceremony</b> for judging results!
           In the meantime, put in your vote for{' '}
@@ -33,9 +44,8 @@ export default function DoneJudgingModal({ onClose }: DoneJudgingModalProps) {
             rel="noopener noreferrer"
             className="underline font-bold"
           >
-            Hacker’s Choice Award
-          </a>{' '}
-          and check out our insta <b>@hackdavis!</b>
+            Hacker’s Choice Award.
+          </a>
         </p>
       </div>
     </div>

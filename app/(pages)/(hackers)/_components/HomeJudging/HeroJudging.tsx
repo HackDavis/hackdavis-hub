@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import JudgeBanners from './_components/JudgeBanners';
-import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { GoArrowRight } from 'react-icons/go';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
+
+import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
+import JudgeBanners from './_components/JudgeBanners';
 import HeroWaiting from './HeroWaiting';
 import DoneJudgingModal from './_components/DoneJudgingModal';
 
@@ -16,6 +17,7 @@ export default function HeroJudging() {
   const { storedValue: tableNumber } = useTableNumberContext();
   const [showPreviousJudges, setShowPreviousJudges] = useState(false);
   const [showDoneModal, setShowDoneModal] = useState(false);
+  const [hasDismissedModal, setHasDismissedModal] = useState(false);
 
   if (!tableNumber) {
     return <HeroWaiting />;
@@ -24,7 +26,12 @@ export default function HeroJudging() {
   return (
     <div className="w-full h-screen p-4 md:p-10">
       {showDoneModal && (
-        <DoneJudgingModal onClose={() => setShowDoneModal(false)} />
+        <DoneJudgingModal
+          onClose={() => {
+            setShowDoneModal(false);
+            setHasDismissedModal(true);
+          }}
+        />
       )}
       <div
         className="relative w-full h-full overflow-hidden flex items-center justify-center"
@@ -55,7 +62,9 @@ export default function HeroJudging() {
           <div className="relative w-full mt-2">
             <JudgeBanners
               showPreviousJudges={showPreviousJudges}
-              onAllScored={() => setShowDoneModal(true)}
+              onAllScored={() => {
+                if (!hasDismissedModal) setShowDoneModal(true);
+              }}
             />
           </div>
           <div className="flex flex-col md:flex-row w-full text-white text-sm md:text-base font-semibold mt-4 gap-3 md:gap-0 md:justify-between">
