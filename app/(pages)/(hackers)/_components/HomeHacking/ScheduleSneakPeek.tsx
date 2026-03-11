@@ -10,9 +10,9 @@ import {
 } from '../../../_hooks/useScheduleSneakPeekData';
 
 // import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
-import duckbunny from '@public/hackers/hero/scheduleSneakPeek/duck+bunny.svg';
-// import duckfrog from '@public/hackers/hero/scheduleSneakPeek/duck+frog.svg';
-import cucumber_cow from '@public/hackers/hero/scheduleSneakPeek/cucumber_cow.svg';
+import duckbunny from '@public/hackers/scheduleSneakPeek/duck+bunny.svg';
+// import duckfrog from '@public/hackers/scheduleSneakPeek/duck+frog.svg';
+import cucumber_cow from '@public/hackers/scheduleSneakPeek/cucumber_cow.svg';
 
 interface ScheduleSneakPeekProps {
   className?: string;
