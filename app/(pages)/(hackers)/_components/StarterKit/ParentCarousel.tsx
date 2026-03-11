@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import good_froggie from '@public/hackers/good_froggie.svg';
-import judge_bunny from '@public/hackers/judge_bunny.svg';
+import good_froggie from '@public/hackers/starter-kit/good_froggie.svg';
+import judge_bunny from '@public/hackers/starter-kit/judge_bunny.svg';
 import { type CarouselApi } from '@globals/components/ui/carousel';
 
 import AutoHeight from 'embla-carousel-auto-height';

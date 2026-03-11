@@ -1,12 +1,10 @@
 import styles from './IndexHero.module.scss';
 import Image from 'next/image';
-import baseGrass from 'public/hackers/hero/GrassDivider.svg';
-// import baseGrass from 'public/index/hero/grass.svg';
-// import needHelpBunny from 'public/index/hero/need-help-bunny.svg';
-import bigLeftCloud from 'public/index/hero/big-left-cloud.svg';
-import smallLeftCloud from 'public/index/hero/small-left-cloud.svg';
-import bigRightCloud from 'public/index/hero/big-right-cloud.svg';
-import smallRightCloud from 'public/index/hero/small-right-cloud.svg';
+import baseGrass from '@public/hackers/hero/GrassDivider.svg';
+import bigLeftCloud from '@public/hackers/index-hero/big-left-cloud.svg';
+import smallLeftCloud from '@public/hackers/index-hero/small-left-cloud.svg';
+import bigRightCloud from '@public/hackers/index-hero/big-right-cloud.svg';
+import smallRightCloud from '@public/hackers/index-hero/small-right-cloud.svg';
 
 export default function IndexHero({ children }: { children: React.ReactNode }) {
   return (

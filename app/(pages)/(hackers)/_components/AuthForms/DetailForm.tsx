@@ -6,10 +6,10 @@ import Image from 'next/image';
 
 import { updateUser } from '@actions/users/updateUser';
 import Loader from '@components/Loader/Loader';
-import DeveloperCow from 'public/hackers/mvp/developer_cow.svg';
-import DesignerBunny from 'public/hackers/mvp/designer_bunny.svg';
-import PmFroggy from 'public/hackers/mvp/pm_froggy.svg';
-import OtherDucky from 'public/hackers/mvp/other_ducky.svg';
+import DeveloperCow from 'public/hackers/login/developer_cow.svg';
+import DesignerBunny from 'public/hackers/login/designer_bunny.svg';
+import PmFroggy from 'public/hackers/login/pm_froggy.svg';
+import OtherDucky from 'public/hackers/login/other_ducky.svg';
 import styles from './DetailForm.module.scss';
 
 const characters = [
