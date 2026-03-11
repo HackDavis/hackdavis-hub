@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import clouds from '@@public/hackers/hero/Clouds.svg';
-import stars from '@@public/hackers/hero/TwoStars.svg';
+import clouds from '@public/hackers/hero/Clouds.svg';
+import stars from '@public/hackers/hero/TwoStars.svg';
 import cow from '@public/hackers/hero/Cow.svg';
 
 export default function HeroMVP() {
