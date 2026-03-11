@@ -4,14 +4,20 @@ import getActiveUser from 'app/(pages)/_utils/getActiveUser';
 
 export default async function ProtectedDisplay({
   allowedRoles,
+  allowedUsers,
   failRedirectRoute,
   children,
 }: {
   allowedRoles: string[];
+  allowedUsers?: string[];
   failRedirectRoute: string;
   children: React.ReactNode;
 }) {
   const user = await getActiveUser(failRedirectRoute);
+
+  if (allowedUsers && !allowedUsers.includes(user.email)) {
+    redirect('/');
+  }
 
   const authorized = allowedRoles.includes(user.role);
 
