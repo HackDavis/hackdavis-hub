@@ -4,11 +4,9 @@ import { useEffect } from 'react';
 import JudgeBannerIndividual from './JudgeBannerIndividual';
 import User from '@typeDefs/user';
 import styles from './JudgeBannerIndividual.module.scss';
-import DoneJudging from './DoneJudging';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import { useTeamJudgesFromTableNumber } from '@pages/_hooks/useTeamJudgesFromTableNumber';
 import { nonHDTracks } from '@data/tracks';
-import AssigningJudges from './AssigningJudges';
 
 const icons = [
   '/hackers/hero/PeekingCow.svg',
@@ -24,10 +22,25 @@ interface HydratedJudge extends User {
   isScored: boolean;
 }
 
-export default function JudgeBanners() {
+interface JudgeBannersProps {
+  showPreviousJudges: boolean;
+  onAllScored: () => void;
+}
+
+export default function JudgeBanners({
+  showPreviousJudges,
+  onAllScored,
+}: JudgeBannersProps) {
   const { storedValue: tableNumber } = useTableNumberContext();
   const { team, judges, loading, error, fetchTeamJudges } =
     useTeamJudgesFromTableNumber(tableNumber ?? -1);
+  const allScored = judges?.every((judge: HydratedJudge) => judge.isScored);
+
+  useEffect(() => {
+    if (judges && judges.length > 0 && allScored) {
+      onAllScored();
+    }
+  }, [allScored, onAllScored, judges]);
 
   useEffect(() => {
     if (tableNumber) {
@@ -43,22 +56,17 @@ export default function JudgeBanners() {
     return () => clearInterval(pollingInterval);
   }, [fetchTeamJudges, tableNumber]);
 
-  if (!tableNumber) {
-    return <AssigningJudges />;
+  if (loading || error !== null) {
+    return error;
   }
 
-  if (loading || error !== null) return error;
-
-  if (judges.length === 0) {
-    return <AssigningJudges />;
+  if (!tableNumber || judges.length === 0) {
+    return null;
   }
 
-  const allScored = judges.every((judge: HydratedJudge) => judge.isScored);
-  if (allScored) {
-    return <DoneJudging />;
-  }
+  const effectiveJudges = judges as HydratedJudge[];
 
-  const teamNonHDCategories: string[] = team.tracks
+  const teamNonHDCategories: string[] = ((team as any)?.tracks ?? [])
     .filter((track: string) => track in nonHDTracks)
     .map((track: string) => nonHDTracks[track].filter);
   const hasNonprofitTrack = teamNonHDCategories.includes('Non-Profit');
@@ -91,15 +99,26 @@ export default function JudgeBanners() {
           completed={false}
         />
       )}
-      {judges.map((judge: HydratedJudge, index: number) => (
-        <JudgeBannerIndividual
-          key={judge._id}
-          icon={icons[index]}
-          name={judge.name}
-          teamsAhead={judge.queuePosition}
-          completed={judge.isScored}
-        />
-      ))}
+      {effectiveJudges.map((judge: HydratedJudge, index: number) => {
+        // Automatically blur judges that have already scored, unless showPreviousJudges toggle is true
+        const isBlurred = judge.isScored && !showPreviousJudges;
+
+        return (
+          <div
+            key={judge._id}
+            className={`transition-all duration-500 ${
+              isBlurred ? 'blur-[3px]' : 'blur-0'
+            }`}
+          >
+            <JudgeBannerIndividual
+              icon={icons[index % icons.length]}
+              name={judge.name}
+              teamsAhead={judge.queuePosition}
+              completed={judge.isScored}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
