@@ -12,7 +12,7 @@ import Announcements from '../../2025IndexHero/Announcements';
 import NextSchedule from '../../2025IndexHero/NextSchedule';
 import Countdown from '../../2025IndexHero/Countdown';
 
-import star from 'public/index/hero/star.svg';
+import star from 'public/hackers/index-hero/star.svg';
 
 export default function IndexHeroContentHacking() {
   const { loading, rolloutRes, fetchRollout } = useRollout('hacking-starts');
