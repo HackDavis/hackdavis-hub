@@ -11,7 +11,7 @@ import JudgeBanners from './_components/JudgeBanners';
 import HeroWaiting from './HeroWaiting';
 import DoneJudgingModal from './_components/DoneJudgingModal';
 
-import clouds from '@public/hackers/hero/clouds.svg';
+import clouds from '@public/hackers/hero/Clouds.svg';
 
 export default function HeroJudging() {
   const { storedValue: tableNumber } = useTableNumberContext();
