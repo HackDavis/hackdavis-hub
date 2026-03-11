@@ -43,27 +43,6 @@ export default function Page() {
       <Discord />
       <PrizeTracks />
       <Footer />
-
-      {/* this is last year's page structure for reference (temp) */}
-      {/* <TableNumberContextProvider>
-        <IndexHero>
-          <ClientTimeProtectedDisplay featureId="hero-hacking">
-            <IndexHeroContentHacking />
-          </ClientTimeProtectedDisplay>
-          <ClientTimeProtectedDisplay featureId="hero-judging">
-            <IndexHeroContentJudging />
-          </ClientTimeProtectedDisplay>
-        </IndexHero>
-        <ClientTimeProtectedDisplay featureId="table-number-checkin">
-          <TableNumberCheckin />
-        </ClientTimeProtectedDisplay>
-      </TableNumberContextProvider>
-      <BeginnersSection />
-      <Contact />
-      <PrizeTracks />
-      <BigVinyl />
-      <Waterfall />
-      <Footer /> */}
     </main>
   );
 }
