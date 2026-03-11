@@ -7,7 +7,7 @@ import judge_bunny_and_ducky from '@public/hackers/hero/judge_bunny_and_ducky.sv
 import Scroll from './Scroll';
 import { LuArrowUpRight } from 'react-icons/lu';
 // import Map from '@pages/judges/(app)/map/_components/Map/Map';
-import star from 'public/index/hero/star.svg';
+import star from 'public/hackers/index-hero/star.svg';
 import Link from 'next/link';
 // import TimeTracker from './TimeTracker';
 import Notifications from './Notifications';

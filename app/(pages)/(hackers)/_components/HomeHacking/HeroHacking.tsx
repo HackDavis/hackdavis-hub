@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { GoArrowRight } from 'react-icons/go';
 import Countdown from './_components/Countdown';
+import clouds from '@public/hackers/hero/Clouds.svg';
+import starLeft from '@public/hackers/hero/StarLeft.svg';
 
 interface HeroHackingProps {
   rolloutTime?: number;
@@ -35,7 +37,7 @@ export default function HeroHacking({
             >
               {/* background */}
               <Image
-                src="/Hero/Clouds.svg"
+                src={clouds}
                 alt="Background"
                 fill
                 className="object-cover pointer-events-none select-none -z-10"
@@ -59,7 +61,7 @@ export default function HeroHacking({
             <div className="relative min-h-0">
               {/* Decorative stars */}
               <Image
-                src="/hackers/hero/StarLeft.svg"
+                src={starLeft}
                 alt=""
                 width={120}
                 height={120}
@@ -147,7 +149,7 @@ export default function HeroHacking({
                 >
                   {/* background */}
                   <Image
-                    src="/Hero/Clouds.svg"
+                    src={clouds}
                     alt="Background"
                     fill
                     className="object-cover pointer-events-none select-none -z-10 overflow-hidden"
@@ -226,7 +228,7 @@ export default function HeroHacking({
                   >
                     {/* background */}
                     <Image
-                      src="/Hero/Clouds.svg"
+                      src={clouds}
                       alt="Background"
                       fill
                       className="object-cover pointer-events-none select-none -z-10"

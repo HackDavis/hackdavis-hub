@@ -3,7 +3,7 @@ import styles from './SubmissionTips.module.scss';
 import Animals from 'public/hackers/project-info/peepingAnimals.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import arrow from 'public/hackers/mvp/arrow.svg';
+import arrow from 'public/hackers/project-info/arrow.svg';
 
 const questions = [
   {

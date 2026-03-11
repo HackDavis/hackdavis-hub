@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import useAuthForm from '@hooks/useAuthForm';
-import Froggy from 'public/login/LogIn_Froggy.svg';
-import Drumstick from 'public/login/LogIn_DrumStick.svg';
+import Froggy from 'public/judges/login/LogIn_Froggy.svg';
+import Drumstick from 'public/judges/login/LogIn_DrumStick.svg';
 import hackerStyles from './HackerAuthForm.module.scss';
 import judgeStyles from './JudgeAuthForm.module.scss';
 
