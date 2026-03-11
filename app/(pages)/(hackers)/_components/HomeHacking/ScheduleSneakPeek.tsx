@@ -9,9 +9,9 @@ import {
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
 
-import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
+// import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
 import duckbunny from '@public/hackers/hero/scheduleSneakPeek/duck+bunny.svg';
-import duckfrog from '@public/hackers/hero/scheduleSneakPeek/duck+frog.svg';
+// import duckfrog from '@public/hackers/hero/scheduleSneakPeek/duck+frog.svg';
 import cucumber_cow from '@public/hackers/hero/scheduleSneakPeek/cucumber_cow.svg';
 
 interface ScheduleSneakPeekProps {
