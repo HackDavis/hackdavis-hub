@@ -4,8 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import useAuthForm from '@hooks/useAuthForm';
-import Froggy from 'public/judges/login/LogIn_Froggy.svg';
-import Drumstick from 'public/judges/login/LogIn_DrumStick.svg';
+import arrowRight from '@public/icons/arrow-right.svg';
 import hackerStyles from './HackerAuthForm.module.scss';
 import judgeStyles from './JudgeAuthForm.module.scss';
 
@@ -55,6 +54,14 @@ export default function AuthForm({
     onSuccess,
   });
 
+  const hasTypedInput = fields.some((field) => {
+    if (field.type === 'checkbox') {
+      return false;
+    }
+    const value = formValues[field.name];
+    return String(value ?? '').trim().length > 0;
+  });
+
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -98,35 +105,26 @@ export default function AuthForm({
         </div>
 
         <div className={styles.bottom_container}>
-          {role === 'judge' && (
-            <div className={styles.froggy_container}>
-              <Image
-                src={Drumstick}
-                alt="froggy_drumstick"
-                width={10}
-                height={10}
-                className={styles.drumstick}
-              />
-              <Image
-                src={Froggy}
-                alt="froggy"
-                width={50}
-                height={50}
-                className={styles.froggy}
-              />
-            </div>
-          )}
-
           <div className={styles.bottom}>
             <div />
             <button
               type="submit"
               disabled={loading || !valid}
               className={`${styles.submit_button} ${
-                valid ? styles.valid : null
-              }`}
+                role === 'judge' && hasTypedInput ? styles.filled : null
+              } ${valid ? styles.valid : null}`}
             >
-              {loading ? 'Checking...' : buttonText}
+              <span className={styles.submit_content}>
+                {loading ? 'Checking...' : buttonText}
+                {role === 'judge' ? (
+                  <Image
+                    src={arrowRight}
+                    alt=""
+                    aria-hidden="true"
+                    className={styles.submit_arrow}
+                  />
+                ) : null}
+              </span>
             </button>
           </div>
           <p className={styles.error_msg}>{errors.submit}</p>
