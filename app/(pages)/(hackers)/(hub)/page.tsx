@@ -31,7 +31,7 @@ export default function Page() {
           <MDHelp />
         </ClientTimeProtectedDisplay>
         {/* temporarilty set featureId below to "hero-hacking" to test */}
-        <ClientTimeProtectedDisplay featureId="hero-judging">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <HeroWaiting />
           <HeroJudging />
           <HackerChoiceAward />

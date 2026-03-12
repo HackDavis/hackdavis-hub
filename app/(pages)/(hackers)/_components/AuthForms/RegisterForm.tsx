@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import AuthForm from '@components/AuthForm/AuthForm';
 import RegisterAction from '@actions/auth/register';
 
-export default function RegisterForm({ data }: any) {
+export default function RegisterForm({ data, onSuccess: onSuccessProp }: { data: any; onSuccess?: () => void }) {
   const router = useRouter();
 
   const name = data?.name ?? 'HackDavis Admin';
@@ -24,6 +24,10 @@ export default function RegisterForm({ data }: any) {
   const onSuccess = () => {
     if (role === 'admin') {
       router.push('/');
+      return;
+    }
+    if (onSuccessProp) {
+      onSuccessProp();
     } else {
       router.push('/register/details');
     }
