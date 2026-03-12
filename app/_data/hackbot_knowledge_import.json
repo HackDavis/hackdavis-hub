@@ -219,7 +219,7 @@
     "type": "general",
     "title": "Mentor and Director Help via Discord",
     "content": "HackDavis offers two types of support via Discord. Mentor Help: if you are stuck on a technical problem and need guidance, contact a HackDavis mentor through the Discord server at https://discord.gg/wc6QQEc. Director Help: if you have questions about the event, logistics, rules, or anything else, contact a HackDavis director through the same Discord server at https://discord.gg/wc6QQEc.",
-    "url": "/#mentor-help"
+    "url": "/#mentor-director-help"
   },
   {
     "type": "general",
@@ -309,7 +309,7 @@
     "type": "faq",
     "title": "FAQ: How do I contact a mentor or director?",
     "content": "You can reach HackDavis mentors and directors through the Discord server at https://discord.gg/wc6QQEc. Use the Discord server to contact a mentor if you are stuck on a technical problem, or contact a director if you have event-related questions. During the event, you can also find directors at the Director Table on-site.",
-    "url": "/#mentor-help"
+    "url": "/#mentor-director-help"
   },
   {
     "type": "faq",

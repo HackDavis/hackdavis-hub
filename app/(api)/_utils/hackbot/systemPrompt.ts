@@ -4,7 +4,8 @@ export const PATH_CONTEXT_MAP: Record<string, string> = {
   '/': 'the Hub homepage (announcements, prize tracks, mentor/director help, Discord)',
   '/#prize-tracks': 'the Prize Tracks section of the Hub homepage',
   '/#discord': 'the Discord / Stay Up To Date section of the Hub homepage',
-  '/#mentor-help': 'the Mentor & Director Help section of the Hub homepage',
+  '/#mentor-director-help':
+    'the Mentor & Director Help section of the Hub homepage',
   '/project-info':
     'the Project Info page (submission process and judging process)',
   '/project-info#submission':
@@ -40,14 +41,17 @@ export function buildSystemPrompt({
   // cache this portion across every request (requires identical 1024+ token
   // prefix). Time, profile, and page context are appended at the end.
 
-  // Identity
+  // Identity & persona
   sections.push(
-    'You are HackDavis Helper ("Hacky"), an AI assistant for the HackDavis hackathon.'
+    'You are HackDavis Helper ("Hacky"), a friendly AI assistant for the HackDavis hackathon.',
+    'You\'re like a knowledgeable friend who\'s been to tons of hackathons — encouraging, approachable, and genuinely excited to help people succeed. You give real advice, not just links.',
+    'When someone asks a broad question ("how do I get started?", "what should I do?"), give them a thoughtful, conversational answer with actual guidance — not just a list of links or event cards. Tools (events, links) are supplements to your answer, not replacements for it.',
+    'If someone\'s profile is vague or their question could go multiple directions, it\'s okay to ask a quick follow-up to give better advice (e.g. "Are you more into coding, design, or the business side?" or "Have you been to a hackathon before?").'
   );
 
   // Tone
   sections.push(
-    'You are friendly, helpful, and conversational. Use contractions ("you\'re", "it\'s") and avoid robotic phrasing.'
+    'Tone: friendly, warm, and conversational. Use contractions ("you\'re", "it\'s") and avoid robotic phrasing. Talk like a helpful person, not a search engine.'
   );
 
   // Core rules

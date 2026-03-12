@@ -9,6 +9,7 @@ import {
   formatEventDateTime,
   formatEventTime,
   getLADateString,
+  getEventEndTime,
 } from '@utils/hackbot/eventFormatting';
 import {
   isEventRecommended,
@@ -281,13 +282,21 @@ export async function POST(request: Request) {
               if (type) query.type = { $regex: type, $options: 'i' };
               if (search) query.name = { $regex: search, $options: 'i' };
               if (tags && tags.length > 0)
-                query.tags = { $all: tags.map((t) => t.toLowerCase()) };
+                query.tags = { $in: tags.map((t) => t.toLowerCase()) };
 
               const events = await db
                 .collection('events')
                 .find(query)
                 .sort({ start_time: 1 })
                 .toArray();
+
+              // Validate date format before filtering
+              if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+                return {
+                  events: [],
+                  message: 'Invalid date format. Use YYYY-MM-DD.',
+                };
+              }
 
               // Date filter (post-fetch, LA timezone)
               const dateFiltered = date
@@ -334,12 +343,22 @@ export async function POST(request: Request) {
                 ? applyTimeFilter(roleSpecificFiltered, timeFilter)
                 : roleSpecificFiltered;
 
+              // Default: exclude past events unless explicitly requested
+              const now = new Date();
+              const futureFiltered =
+                timeFilter === 'past'
+                  ? timeFiltered
+                  : timeFiltered.filter((ev: any) => {
+                      const end = getEventEndTime(ev);
+                      return end > now;
+                    });
+
               const profileFiltered =
                 forProfile && profile
-                  ? timeFiltered.filter((ev: any) =>
+                  ? futureFiltered.filter((ev: any) =>
                       isEventRelevantToProfile(ev, profile)
                     )
-                  : timeFiltered;
+                  : futureFiltered;
 
               // Apply limit after all filters
               const limited = limit
@@ -352,6 +371,7 @@ export async function POST(request: Request) {
                 afterType: typeFiltered.length,
                 afterRole: roleSpecificFiltered.length,
                 afterTime: timeFiltered.length,
+                afterFuture: futureFiltered.length,
                 afterProfile: profileFiltered.length,
                 afterLimit: limited.length,
               });
