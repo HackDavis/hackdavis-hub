@@ -213,6 +213,7 @@ const SLIDE_HASHES = [
 ] as const;
 
 export function ParentCarousel() {
+  // TODO: resume wherever user left off
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
 
@@ -239,20 +240,6 @@ export function ParentCarousel() {
       api.scrollTo(initialIndex, true);
       setActiveIndex(initialIndex);
     }
-  }, [api]);
-
-  // Handle hash changes from soft navigation (e.g. clicking a Hackbot link while already on this page)
-  useEffect(() => {
-    const handleHashChange = () => {
-      if (!api) return;
-      const hash = window.location.hash;
-      const index = SLIDE_HASHES.indexOf(hash as (typeof SLIDE_HASHES)[number]);
-      if (index >= 0) {
-        api.scrollTo(index, false);
-      }
-    };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
   }, [api]);
 
   // Handle hash changes from soft navigation (e.g. clicking a Hackbot link while already on this page)
