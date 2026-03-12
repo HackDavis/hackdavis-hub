@@ -4,7 +4,6 @@ import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
 
 import RegisterFlow from '@pages/_components/RegisterFlow';
-import AuthFormBackground from '../_components/AuthFormBackground/AuthFormBackground';
 
 export default async function RegisterPage() {
   const session = await auth();
@@ -16,12 +15,5 @@ export default async function RegisterPage() {
     redirect('/judges/register');
   }
 
-  return (
-    <AuthFormBackground
-      title=""
-      subtitle=""
-    >
-      <RegisterFlow data={data} />
-    </AuthFormBackground>
-  );
+  return <RegisterFlow data={data} />;
 }

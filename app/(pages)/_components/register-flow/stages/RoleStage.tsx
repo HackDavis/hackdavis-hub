@@ -83,7 +83,11 @@ export default function ChooseRole({
                 className="pointer-events-none drop-shadow"
               />
 
-              <div className="absolute bottom-4 left-4 bg-[#ECECF1] px-3 py-1 text-xs font-semibold tracking-wide text-[#555] rounded">
+              <div
+                className={`absolute bottom-4 left-4 px-3 py-1 text-xs font-semibold tracking-wide text-[#555] rounded ${
+                  selected ? 'bg-[#DBFDFF]' : 'bg-[#F3F3FC]'
+                }`}
+              >
                 {role.label.toUpperCase()}
               </div>
             </button>
