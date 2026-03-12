@@ -7,7 +7,7 @@ import useTableNumberContext from "@pages/_hooks/useTableNumberContext";
 import InitStage from "./InitStage";
 import DevpostStage from "./DevpostStage";
 import LoadingStage from "./LoadingStage";
-// import ConfirmStage from "./ConfirmStage";
+import ConfirmStage from "./ConfirmStage";
 
 export default function TableNumberCheckin() {
   const {

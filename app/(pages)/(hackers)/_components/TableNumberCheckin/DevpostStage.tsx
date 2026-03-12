@@ -20,7 +20,7 @@ export default function DevpostStage({
   const hasTeamNumber = teamNumber.length == 5;
 
   return (
-    <div className="flex flex-col p-[20px] h-[556px] gap-4 rounded-[20px] bg-[#FAFAFF]">
+    <div className="flex flex-col p-[20px] mb-[5%] h-[556px] gap-4 rounded-[20px] bg-[#FAFAFF]">
       <div className="flex flex-col gap-1">
         {/* Image - top half */}
         <div className="relative w-full h-[171px]">
