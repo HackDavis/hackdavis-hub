@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 
 interface DevpostStageProps {
   teamNumber: string;
@@ -21,7 +21,7 @@ export default function DevpostStage({
 
   return (
     <div
-      className="flex flex-col p-[20px] mb-[5%] rounded-[20px] bg-[#FAFAFF]
+      className="flex flex-col p-[20px] h-[556px] mb-[5%] rounded-[20px] bg-[#FAFAFF]
                     md:flex-row md:h-[569px] md:items-stretch md:p-[60px] md:gap-8"
     >
       {/* RIGHT column — first in DOM so image appears at top on mobile, right on desktop */}
@@ -29,7 +29,7 @@ export default function DevpostStage({
         {/* Screenshot image */}
         <div className="relative w-full h-[171px] md:flex-1 md:rounded-[16px] md:overflow-hidden">
           <Image
-            src={"./hackers/table-number-checkin/Filler.svg"}
+            src={'./hackers/table-number-checkin/Filler.svg'}
             alt="mascots hanging out"
             fill
             className="object-cover"
@@ -49,7 +49,7 @@ export default function DevpostStage({
             pattern="[0-9]*"
             className="w-full border border-[#E0E0F0] rounded-[12px] px-4 py-3 text-base bg-white placeholder:text-[#ACACB9] focus:outline-none focus:ring-2 focus:ring-[#CCFFFE]"
             onChange={(e) => {
-              const val = e.target.value.replace(/\D/g, "").slice(0, 5);
+              const val = e.target.value.replace(/\D/g, '').slice(0, 5);
               onChange(val);
             }}
           />
@@ -61,14 +61,14 @@ export default function DevpostStage({
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-semibold md:text-[32px]">
             {error
-              ? "Oops! We did not find your Devpost number."
-              : "Find your Devpost number."}
+              ? 'Oops! We did not find your Devpost number.'
+              : 'Find your Devpost number.'}
           </h3>
 
           <p className="text-lg font-semibold text-[#878796] md:text-[32px] leading-normal">
             {error
-              ? "Please double check you have entered the same number on your devpost account."
-              : "This can be found by going to _____ and selecting____. Enter the number exactly as it is presented."}
+              ? 'Please double check you have entered the same number on your devpost account.'
+              : 'This can be found by going to _____ and selecting____. Enter the number exactly as it is presented.'}
           </p>
         </div>
 
@@ -84,16 +84,16 @@ export default function DevpostStage({
           <button
             className={`${
               hasTeamNumber
-                ? "bg-[#CCFFFE] text-[#1A3819]"
-                : "bg-[#F3F3FC] text-[#ACACB9]"
+                ? 'bg-[#CCFFFE] text-[#1A3819]'
+                : 'bg-[#F3F3FC] text-[#ACACB9]'
             } font-semibold text-base flex justify-center items-center px-8 py-3 rounded-[40px] cursor-pointer disabled:opacity-30 md:px-[44px] md:py-5`}
             disabled={!hasTeamNumber}
             onClick={onSubmit}
           >
-            {hasTeamNumber ? "Next" : "Got it"}
+            {hasTeamNumber ? 'Next' : 'Got it'}
             <div className="relative w-6 h-6 ml-2">
               <Image
-                src={"./hackers/table-number-checkin/arrow-right.svg"}
+                src={'./hackers/table-number-checkin/arrow-right.svg'}
                 alt="Right Arrow"
                 fill
                 className="object-cover"

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface ConfirmStageProps {
   tableNumber: number | null;
@@ -44,7 +44,7 @@ export default function ConfirmStage({
           <div className="flex gap-2 items-center mb-[10px]">
             <div className="relative w-4 h-4">
               <Image
-                src={"./hackers/table-number-checkin/map.svg"}
+                src={'./hackers/table-number-checkin/map.svg'}
                 alt="Map Icon"
                 fill
                 className="object-cover"
@@ -75,7 +75,7 @@ export default function ConfirmStage({
               Next
               <div className="relative w-6 h-6 ml-2">
                 <Image
-                  src={"./hackers/table-number-checkin/arrow-right.svg"}
+                  src={'./hackers/table-number-checkin/arrow-right.svg'}
                   alt="Right Arrow"
                   fill
                   className="object-cover"
