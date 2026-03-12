@@ -20,10 +20,14 @@ export default function DevpostStage({
   const hasTeamNumber = teamNumber.length == 5;
 
   return (
-    <div className="flex flex-col p-[20px] mb-[5%] h-[556px] gap-4 rounded-[20px] bg-[#FAFAFF]">
-      <div className="flex flex-col gap-1">
-        {/* Image - top half */}
-        <div className="relative w-full h-[171px]">
+    <div
+      className="flex flex-col p-[20px] mb-[5%] rounded-[20px] bg-[#FAFAFF]
+                    md:flex-row md:h-[569px] md:items-stretch md:p-[60px] md:gap-8"
+    >
+      {/* RIGHT column — first in DOM so image appears at top on mobile, right on desktop */}
+      <div className="flex flex-col gap-3 md:order-2 md:w-1/2">
+        {/* Screenshot image */}
+        <div className="relative w-full h-[171px] md:flex-1 md:rounded-[16px] md:overflow-hidden">
           <Image
             src={"./hackers/table-number-checkin/Filler.svg"}
             alt="mascots hanging out"
@@ -32,48 +36,47 @@ export default function DevpostStage({
           />
         </div>
 
-        {/* Devpost Number */}
+        {/* Devpost Number Input — below image */}
         <div className="flex flex-col gap-1">
-          <p className="mt-1 text-xs font-semibold text-[#878796]">
+          <p className="text-[14px] font-normal text-[#878796] tracking-wide">
             DEVPOST NUMBER
           </p>
-
-          {/* Input */}
-          <div className="flex flex-col">
-            <input
-              type="text"
-              placeholder="#####"
-              inputMode="numeric"
-              maxLength={5}
-              pattern="[0-9]*"
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, "").slice(0, 5);
-                onChange(val);
-              }}
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="#####"
+            inputMode="numeric"
+            maxLength={5}
+            pattern="[0-9]*"
+            className="w-full border border-[#E0E0F0] rounded-[12px] px-4 py-3 text-base bg-white placeholder:text-[#ACACB9] focus:outline-none focus:ring-2 focus:ring-[#CCFFFE]"
+            onChange={(e) => {
+              const val = e.target.value.replace(/\D/g, "").slice(0, 5);
+              onChange(val);
+            }}
+          />
         </div>
       </div>
 
-      <div className="flex flex-col justify-between w-full h-1/2">
-        <div className="">
-          <h3 className="text-lg font-semibold">
+      {/* LEFT column — second in DOM, reordered to first on desktop */}
+      <div className="flex flex-col justify-between md:order-1 md:w-1/2">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-lg font-semibold md:text-[32px]">
             {error
               ? "Oops! We did not find your Devpost number."
               : "Find your Devpost number."}
           </h3>
 
-          <p className="text-lg font-semibold text-[#878796]">
+          <p className="text-lg font-semibold text-[#878796] md:text-[32px] leading-normal">
             {error
-              ? "Please double check you have entered the same number on your devpost account. "
+              ? "Please double check you have entered the same number on your devpost account."
               : "This can be found by going to _____ and selecting____. Enter the number exactly as it is presented."}
           </p>
         </div>
-        {/* Buttons */}
-        <div className="flex justify-between">
+
+        {/* Buttons — bottom of left column on desktop, bottom of card on mobile */}
+        <div className="flex justify-between items-center mt-4 md:justify-normal md:gap-[56px] md:mt-auto">
           <button
             onClick={onBack}
-            className="text-[#5E5E65] text-base font-semibold border-none"
+            className="text-[#5E5E65] text-base font-semibold border-none bg-transparent"
           >
             Back
           </button>
@@ -83,7 +86,7 @@ export default function DevpostStage({
               hasTeamNumber
                 ? "bg-[#CCFFFE] text-[#1A3819]"
                 : "bg-[#F3F3FC] text-[#ACACB9]"
-            } font-semibold text-base flex justify-center items-center px-8 py-3 rounded-[40px] cursor-pointer disabled:opacity-30`}
+            } font-semibold text-base flex justify-center items-center px-8 py-3 rounded-[40px] cursor-pointer disabled:opacity-30 md:px-[44px] md:py-5`}
             disabled={!hasTeamNumber}
             onClick={onSubmit}
           >
