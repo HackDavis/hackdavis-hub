@@ -24,18 +24,12 @@ export default function RegisterFlow({ data }: RegisterFlowProps) {
   const [stage, setStage] = useState<0 | 1 | 2>(0);
   const [formData, setFormData] = useState<OnboardingFormData>({});
 
-  const goNext = () =>
-    setStage((s) => (s === 2 ? s : ((s + 1) as 0 | 1 | 2)));
+  const goNext = () => setStage((s) => (s === 2 ? s : ((s + 1) as 0 | 1 | 2)));
 
-  const goBack = () =>
-    setStage((s) => (s === 0 ? s : ((s - 1) as 0 | 1 | 2)));
+  const goBack = () => setStage((s) => (s === 0 ? s : ((s - 1) as 0 | 1 | 2)));
 
   return (
-    <AuthFormBackground
-      title=""
-      subtitle=""
-      showAngelCow={stage === 0}
-    >
+    <AuthFormBackground title="" subtitle="" showAngelCow={stage === 0}>
       <div className="w-full">
         <div className="relative overflow-hidden">
           <div

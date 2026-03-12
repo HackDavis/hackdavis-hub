@@ -41,4 +41,3 @@ export default function ChooseLevel({ value, onSelect }: ChooseLevelProps) {
     </div>
   );
 }
-

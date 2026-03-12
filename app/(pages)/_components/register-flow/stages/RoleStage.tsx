@@ -27,7 +27,7 @@ const roles = [
   },
   {
     id: 'explorer',
-    label: 'Explorer',
+    label: 'Other',
     image: '/hackers/register/explorer-duck.svg',
   },
 ];
@@ -51,7 +51,7 @@ export default function ChooseRole({
       </div>
 
       {/* cards */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-3 md:gap-6">
         {roles.map((role) => {
           const selected = value === role.id;
 
@@ -61,7 +61,7 @@ export default function ChooseRole({
               onClick={() => onSelect(role.id)}
               className={`
                 relative
-                h-[210px]
+                h-[190px] md:h-[210px]
                 rounded-2xl
                 border
                 transition
@@ -80,11 +80,11 @@ export default function ChooseRole({
                 alt={role.label}
                 width={120}
                 height={120}
-                className="pointer-events-none drop-shadow"
+                className="pointer-events-none drop-shadow-[0_8px_14px_rgba(0,0,0,0.15)]"
               />
 
               <div
-                className={`absolute bottom-4 left-4 px-3 py-1 text-xs font-semibold tracking-wide text-[#555] rounded ${
+                className={`absolute bottom-3 md:bottom-4 left-3 md:left-4 px-3 py-1 text-xs font-semibold tracking-wide text-[#555] rounded ${
                   selected ? 'bg-[#DBFDFF]' : 'bg-[#F3F3FC]'
                 }`}
               >
@@ -104,21 +104,16 @@ export default function ChooseRole({
         </div>
 
         {/* nav buttons */}
-        <div className="flex w-full items-center justify-between">
-          <button
-            type="button"
-            onClick={onBack}
-            className="text-[16px] font-medium text-[#5E5E65] hover:text-[#3F3F3F]"
-          >
-            Back
-          </button>
-
+        <div className="flex flex-col md:flex-row w-full gap-3 md:gap-0 md:justify-between">
+          {/* NEXT (top on mobile) */}
           <button
             type="button"
             disabled={!value}
             onClick={onNext}
             className="
-              flex items-center gap-2
+              order-1 md:order-2
+              w-full md:w-auto
+              flex items-center justify-center gap-2
               rounded-full
               bg-[#0F5C74]
               px-8 py-3
@@ -131,6 +126,20 @@ export default function ChooseRole({
             "
           >
             Next →
+          </button>
+
+          {/* BACK */}
+          <button
+            type="button"
+            onClick={onBack}
+            className="
+              order-2 md:order-1
+              w-full md:w-auto
+              text-[16px] font-medium text-[#5E5E65]
+              hover:text-[#3F3F3F]
+            "
+          >
+            Back
           </button>
         </div>
       </div>

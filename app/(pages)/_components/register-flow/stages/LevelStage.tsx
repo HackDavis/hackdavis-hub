@@ -46,8 +46,8 @@ export default function LevelStage({
         </p>
       </div>
 
-      {/* cards */}
-      <div className="grid grid-cols-2 gap-6">
+      {/* cards (ALWAYS SIDE BY SIDE) */}
+      <div className="grid grid-cols-2 gap-4 md:gap-6">
         {levels.map((level) => {
           const selected = value === level.id;
 
@@ -58,7 +58,7 @@ export default function LevelStage({
               className={`
                 flex flex-col items-start
                 rounded-2xl
-                p-8
+                p-6 md:p-8
                 text-left
                 border
                 transition
@@ -74,10 +74,10 @@ export default function LevelStage({
                 alt={level.title}
                 width={110}
                 height={110}
-                className="mb-6 self-center drop-shadow"
+                className="mb-6 self-center drop-shadow-[0_10px_18px_rgba(0,0,0,0.18)]"
               />
 
-              <h3 className="text-[22px] font-semibold text-[#3F3F3F] mb-2">
+              <h3 className="text-[20px] md:text-[22px] font-semibold text-[#3F3F3F] mb-2">
                 {level.title}
               </h3>
 
@@ -90,7 +90,7 @@ export default function LevelStage({
                 {level.tag}
               </div>
 
-              <p className="text-[14px] leading-relaxed text-[#6B6B76]">
+              <p className="text-[13px] md:text-[14px] leading-relaxed text-[#6B6B76]">
                 {level.description}
               </p>
             </button>
@@ -100,7 +100,6 @@ export default function LevelStage({
 
       {/* footer */}
       <div className="mt-10 flex flex-col items-center gap-6">
-        
         {/* indicators */}
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-[#D6D6DE]" />
@@ -108,21 +107,16 @@ export default function LevelStage({
         </div>
 
         {/* nav buttons */}
-        <div className="flex w-full items-center justify-between">
-          <button
-            type="button"
-            onClick={onBack}
-            className="text-[16px] font-medium text-[#5E5E65] hover:text-[#3F3F3F]"
-          >
-            Back
-          </button>
-
+        <div className="flex flex-col md:flex-row w-full gap-3 md:gap-0 md:justify-between">
+          {/* NEXT (top on mobile) */}
           <button
             type="button"
             disabled={!value}
             onClick={onNext}
             className="
-              flex items-center gap-2
+              order-1 md:order-2
+              w-full md:w-auto
+              flex items-center justify-center gap-2
               rounded-full
               bg-[#0F5C74]
               px-8 py-3
@@ -135,6 +129,20 @@ export default function LevelStage({
             "
           >
             Next →
+          </button>
+
+          {/* BACK */}
+          <button
+            type="button"
+            onClick={onBack}
+            className="
+              order-2 md:order-1
+              w-full md:w-auto
+              text-[16px] font-medium text-[#5E5E65]
+              hover:text-[#3F3F3F]
+            "
+          >
+            Back
           </button>
         </div>
       </div>

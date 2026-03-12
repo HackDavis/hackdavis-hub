@@ -5,7 +5,13 @@ import { useRouter } from 'next/navigation';
 import AuthForm from '@components/AuthForm/AuthForm';
 import RegisterAction from '@actions/auth/register';
 
-export default function RegisterForm({ data, onSuccess: onSuccessProp }: { data: any; onSuccess?: () => void }) {
+export default function RegisterForm({
+  data,
+  onSuccess: onSuccessProp,
+}: {
+  data: any;
+  onSuccess?: () => void;
+}) {
   const router = useRouter();
 
   const name = data?.name ?? 'HackDavis Admin';

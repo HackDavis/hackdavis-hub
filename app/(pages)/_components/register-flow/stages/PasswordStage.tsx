@@ -17,15 +17,22 @@ export default function PasswordStage({ data, onNext }: PasswordStageProps) {
           className="text-[14px] md:text-[16px] text-[#5E5E65]"
           style={{ whiteSpace: 'pre-line' }}
         >
-          Welcome to the HackerHub! The HackDavis team made this for all your hacking needs
+          Welcome to the HackerHub! The HackDavis team made this for all your
+          hacking needs
           {' <3'}
           {'\n'}Let&apos;s get you started.
         </p>
-        </div>
+      </div>
       <RegisterForm data={data} onSuccess={onNext} />
-
-      {/* DEV BUTTON */} <button type="button" onClick={onNext} className="mt-4 w-full rounded-lg border-2 border-red-500 bg-red-500 py-3 text-base font-bold text-white" > DEV → Skip Password </button>
+      {/* DEV BUTTON */}{' '}
+      <button
+        type="button"
+        onClick={onNext}
+        className="mt-4 w-full rounded-lg border-2 border-red-500 bg-red-500 py-3 text-base font-bold text-white"
+      >
+        {' '}
+        DEV → Skip Password{' '}
+      </button>
     </>
   );
 }
-
