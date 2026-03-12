@@ -1,6 +1,6 @@
 import StarterKitSlide from '../StarterKitSlide';
 import styles from './FindTheRightFit.module.scss';
-import Animals from 'public/hackers/mvp/PeepingAnimals.svg';
+import Animals from 'public/hackers/starter-kit/PeepingAnimals.svg';
 import Image from 'next/image';
 
 const questions = [

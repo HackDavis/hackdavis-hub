@@ -21,7 +21,7 @@ export default function WhatHappens() {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div id="what-happens" className={styles.container}>
       <div className={styles.containerContent}>
         <div className={styles.beginningText}>
           <div className={styles.commonHeader}>

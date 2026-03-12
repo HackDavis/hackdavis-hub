@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useTableNumber } from '@pages/_hooks/useTableNumber';
 
-import stars from '@public/hackers/stars.svg';
-import mascots from '@public/hackers/mascots-hanging-out.svg';
-import sleepyFrog from '@public/hackers/sleeping-frog.svg';
-import modalArrow from '@public/hackers/modal-arrow.svg';
-import diagArrow from '@public/hackers/diag-arrow.svg';
+import stars from '@public/hackers/table-number-checkin/stars.svg';
+import mascots from '@public/hackers/table-number-checkin/mascots-hanging-out.svg';
+import sleepyFrog from '@public/hackers/table-number-checkin/sleeping-frog.svg';
+import modalArrow from '@public/hackers/table-number-checkin/modal-arrow.svg';
+import diagArrow from '@public/hackers/table-number-checkin/diag-arrow.svg';
 
 import styles from './TableNumberCheckin.module.scss';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';

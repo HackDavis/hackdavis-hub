@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import good_froggie from '@public/hackers/good_froggie.svg';
-import judge_bunny from '@public/hackers/judge_bunny.svg';
+import good_froggie from '@public/hackers/starter-kit/good_froggie.svg';
+import judge_bunny from '@public/hackers/starter-kit/judge_bunny.svg';
 import { type CarouselApi } from '@globals/components/ui/carousel';
 
 import AutoHeight from 'embla-carousel-auto-height';
@@ -219,15 +219,7 @@ export function ParentCarousel() {
   useEffect(() => {
     if (!api) return;
 
-    // Jump to slide indicated by URL hash on first load
-    const hash = window.location.hash;
-    const initialIndex = SLIDE_HASHES.indexOf(
-      hash as (typeof SLIDE_HASHES)[number]
-    );
-    if (initialIndex > 0) {
-      api.scrollTo(initialIndex, true);
-    }
-
+    // Register listener BEFORE scrollTo so the initial jump triggers it
     api.on('select', () => {
       const idx = api.selectedScrollSnap();
       setActiveIndex(idx);
@@ -237,6 +229,30 @@ export function ParentCarousel() {
         window.location.pathname + SLIDE_HASHES[idx]
       );
     });
+
+    // Jump to slide indicated by URL hash on first load
+    const hash = window.location.hash;
+    const initialIndex = SLIDE_HASHES.indexOf(
+      hash as (typeof SLIDE_HASHES)[number]
+    );
+    if (initialIndex > 0) {
+      api.scrollTo(initialIndex, true);
+      setActiveIndex(initialIndex);
+    }
+  }, [api]);
+
+  // Handle hash changes from soft navigation (e.g. clicking a Hackbot link while already on this page)
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (!api) return;
+      const hash = window.location.hash;
+      const index = SLIDE_HASHES.indexOf(hash as (typeof SLIDE_HASHES)[number]);
+      if (index >= 0) {
+        api.scrollTo(index, false);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, [api]);
 
   // Handle hash changes from soft navigation (e.g. clicking a Hackbot link while already on this page)
