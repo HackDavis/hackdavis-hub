@@ -5,7 +5,7 @@
     padding: 40px 24px;
     display: flex;
     flex-direction: column;
-    background-color: #F2F2F7;
+    background-color: #FAFAFF;   // changed
     min-height: 100vh;
 }
 
@@ -16,17 +16,23 @@
 }
 
 .tab {
-    padding: 4px 24px;
+    padding: 6px 24px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
-    border: 1.5px solid var(--teal-1, #005271);
+
+    border-radius: 20px;              
+    border: 1px dashed #3F3F3F;     
+    background-color: transparent;      
+    color: #3F3F3F;
+
     height: auto;
-    background-color: white;
+    cursor: pointer;
 
     &.active {
-        background: var(--cow, linear-gradient(180deg, #9EE7E5 0%, #9EE7E5 100%));
+        background: #3F3F3F;               // changed
+        color: white;
+        border: none;
     }
 }
 
@@ -35,23 +41,30 @@
     font-size: 3rem;
     font-weight: 700;
     margin: 12px 0;
+    border-radius: 20px;                   // added
 }
 
 .back_button {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #005271;
     font-size: 1.125rem;
+    color: #121212;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 18px */
+    letter-spacing: 0.36px;
     padding: 12px 0;
     background: transparent;
     box-shadow: none;
+    border-radius: 20px;                   // added
 }
 
 .info_container {
     display: none;
     flex-direction: column;
     gap: 16px;
+    border-radius: 20px;
 
     &.show {
         display: flex;
@@ -60,8 +73,7 @@
 
 .category_card {
     padding: 16px 20px;
-    border-radius: 8px;
-    background: linear-gradient(180deg, #9EE7E5 0%, #9EE7E5 100%);
-    box-shadow: 0px 4px 8px 4px rgba(195, 194, 194, 0.08);
+    border-radius: 50px;                    
+    background: #9EE7E5;      
     width: fit-content;
 }
