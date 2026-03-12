@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Install node
         uses: actions/setup-node@v4
         with:
@@ -26,11 +26,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-      
+
       - name: Run migrations
         run: npx migrate-mongo up
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+      - name: Seed hackbot documentation
+        run: npm run hackbot:seed
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_EMBEDDING_MODEL: ${{ vars.OPENAI_EMBEDDING_MODEL }}
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -42,10 +49,14 @@ jobs:
           printf "${{ secrets.HMAC_INVITE_SECRET }}" | vercel env add HMAC_INVITE_SECRET production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ secrets.SENDER_PWD }}" | vercel env add SENDER_PWD production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ secrets.CHECK_IN_CODE }}" | vercel env add CHECK_IN_CODE production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ secrets.OPENAI_API_KEY }}" | vercel env add OPENAI_API_KEY production --force --token=${{ secrets.VERCEL_TOKEN }}
 
           printf "${{ vars.ENV_URL }}" | vercel env add BASE_URL production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ vars.INVITE_DEADLINE }}" | vercel env add INVITE_DEADLINE production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ vars.SENDER_EMAIL }}" | vercel env add SENDER_EMAIL production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.OPENAI_MODEL }}" | vercel env add OPENAI_MODEL production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.OPENAI_EMBEDDING_MODEL }}" | vercel env add OPENAI_EMBEDDING_MODEL production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ vars.OPENAI_MAX_TOKENS }}" | vercel env add OPENAI_MAX_TOKENS production --force --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
