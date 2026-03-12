@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import RegisterForm from '@pages/(hackers)/_components/AuthForms/RegisterForm';
-import ChooseRole from './slides/ChooseRole';
-import ChooseLevel from './slides/ChooseLevel';
+import PasswordStage from './register-flow/stages/PasswordStage';
+import RoleStage from './register-flow/stages/RoleStage';
+import LevelStage from './register-flow/stages/LevelStage';
 
 type RegisterFlowProps = {
   data?: any;
@@ -22,64 +22,39 @@ export default function RegisterFlow({ data }: RegisterFlowProps) {
   const [stage, setStage] = useState<0 | 1 | 2>(0);
   const [formData, setFormData] = useState<OnboardingFormData>({});
 
+  const goNext = () => setStage((s) => (s === 2 ? s : ((s + 1) as 0 | 1 | 2)));
+  const goBack = () => setStage((s) => (s === 0 ? s : ((s - 1) as 0 | 1 | 2)));
+
   return (
-    <div className="flex flex-col gap-4">
-      {stage === 0 && (
-        <>
-          <RegisterForm
-            data={data}
-            onSuccess={() => setStage(1)}
-          />
+    <div className="w-full">
+      <div className="relative overflow-hidden">
+        <div
+          className="flex w-full transition-transform duration-300 ease-in-out"
+          style={{ transform: `translateX(-${stage * 100}%)` }}
+        >
+          <div className="w-full shrink-0">
+            <PasswordStage data={data} onNext={() => setStage(1)} />
+          </div>
 
-          <button
-            type="button"
-            className="w-full rounded-lg border border-red-500 bg-red-500 py-3 text-sm font-semibold text-white"
-            onClick={() => setStage(1)}
-          >
-            DEV → Skip Password
-          </button>
-        </>
-      )}
+          <div className="w-full shrink-0">
+            <RoleStage
+              value={formData.role}
+              onSelect={(value) => setFormData((prev) => ({ ...prev, role: value }))}
+              onBack={goBack}
+              onNext={goNext}
+            />
+          </div>
 
-      {stage === 1 && (
-        <>
-          <ChooseRole
-            value={formData.role}
-            onSelect={(value) => {
-              setFormData((prev) => ({ ...prev, role: value }));
-              setStage(2);
-            }}
-          />
-
-          <button
-            type="button"
-            className="w-full rounded-lg border border-red-500 bg-red-500 py-3 text-sm font-semibold text-white"
-            onClick={() => setStage(2)}
-          >
-            DEV → Skip Role
-          </button>
-        </>
-      )}
-
-      {stage === 2 && (
-        <>
-          <ChooseLevel
-            value={formData.level}
-            onSelect={(value) => {
-              setFormData((prev) => ({ ...prev, level: value }));
-              router.push('/register/details');
-            }}
-          />
-
-          <button
-            type="button"
-            className="w-full rounded-lg border border-red-500 bg-red-500 py-3 text-sm font-semibold text-white"
-            onClick={() => router.push('/register/details')}
-          >
-            DEV → Finish Flow
-          </button>
-        </>
-      )}
+          <div className="w-full shrink-0">
+            <LevelStage
+              value={formData.level}
+              onSelect={(value) => setFormData((prev) => ({ ...prev, level: value }))}
+              onBack={goBack}
+              onNext={() => router.push('/register/details')}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

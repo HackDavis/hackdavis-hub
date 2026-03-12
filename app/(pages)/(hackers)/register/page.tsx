@@ -18,9 +18,8 @@ export default async function RegisterPage() {
 
   return (
     <AuthFormBackground
-      title={`Hi ${data?.name ?? 'HackDavis Admin'}!`}
-      subtitle={`Welcome to the HackerHub! The HackDavis team made this for all your hacking needs <3
-      Let's get you started by making a password with us.`}
+      title=""
+      subtitle=""
     >
       <RegisterFlow data={data} />
     </AuthFormBackground>
