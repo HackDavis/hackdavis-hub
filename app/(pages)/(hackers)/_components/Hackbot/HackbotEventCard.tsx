@@ -27,6 +27,20 @@ const TAG_LABEL: Record<string, string> = {
 // Only show Add button for event types that make sense to save
 const ADDABLE_TYPES = new Set(['WORKSHOPS', 'ACTIVITIES']);
 
+function maskIconStyle(src: string): React.CSSProperties {
+  return {
+    backgroundColor: 'currentColor',
+    WebkitMaskImage: `url('${src}')`,
+    WebkitMaskRepeat: 'no-repeat',
+    WebkitMaskPosition: 'center',
+    WebkitMaskSize: 'contain',
+    maskImage: `url('${src}')`,
+    maskRepeat: 'no-repeat',
+    maskPosition: 'center',
+    maskSize: 'contain',
+  };
+}
+
 export default function HackbotEventCard({
   event,
   userId,
@@ -181,17 +195,7 @@ export default function HackbotEventCard({
                   <span
                     aria-hidden
                     className="inline-block w-2.5 h-2.5"
-                    style={{
-                      backgroundColor: 'currentColor',
-                      WebkitMaskImage: "url('/icons/check.svg')",
-                      WebkitMaskRepeat: 'no-repeat',
-                      WebkitMaskPosition: 'center',
-                      WebkitMaskSize: 'contain',
-                      maskImage: "url('/icons/check.svg')",
-                      maskRepeat: 'no-repeat',
-                      maskPosition: 'center',
-                      maskSize: 'contain',
-                    }}
+                    style={maskIconStyle('/icons/check.svg')}
                   />
                   Added
                 </span>
@@ -207,17 +211,7 @@ export default function HackbotEventCard({
                 <span
                   aria-hidden
                   className="inline-block w-2.5 h-2.5"
-                  style={{
-                    backgroundColor: 'currentColor',
-                    WebkitMaskImage: "url('/icons/plus.svg')",
-                    WebkitMaskRepeat: 'no-repeat',
-                    WebkitMaskPosition: 'center',
-                    WebkitMaskSize: 'contain',
-                    maskImage: "url('/icons/plus.svg')",
-                    maskRepeat: 'no-repeat',
-                    maskPosition: 'center',
-                    maskSize: 'contain',
-                  }}
+                  style={maskIconStyle('/icons/plus.svg')}
                 />
                 Add
               </span>

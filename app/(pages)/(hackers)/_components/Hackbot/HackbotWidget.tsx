@@ -302,11 +302,10 @@ export default function HackbotWidget({
                       if (r.result?.events?.length > 0) {
                         const incoming = r.result.events as HackbotEvent[];
                         const existing = pendingEventsRef.current;
+                        const existingIds = new Set(existing.map((e) => e.id));
                         const merged = [
                           ...existing,
-                          ...incoming.filter(
-                            (e) => !existing.some((x) => x.id === e.id)
-                          ),
+                          ...incoming.filter((e) => !existingIds.has(e.id)),
                         ].sort(
                           (a, b) =>
                             (a.startMs ?? Infinity) - (b.startMs ?? Infinity)
@@ -389,12 +388,10 @@ export default function HackbotWidget({
               // Find the last assistant message and append this event
               for (let i = prev.length - 1; i >= 0; i--) {
                 if (prev[i].role === 'assistant') {
-                  const existing = prev[i].events ?? [];
-                  if (existing.some((e) => e.id === event.id)) return prev;
                   const updated = [...prev];
                   updated[i] = {
                     ...prev[i],
-                    events: [...existing, event],
+                    events: [...(prev[i].events ?? []), event],
                   };
                   return updated;
                 }

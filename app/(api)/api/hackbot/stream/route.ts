@@ -21,6 +21,7 @@ import { getPageContext, buildSystemPrompt } from '@utils/hackbot/systemPrompt';
 
 const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 6;
+const EXCLUSIVE_ROLE_TAGS = new Set(['developer', 'designer', 'pm']);
 
 const fewShotExamples = [
   {
@@ -324,11 +325,6 @@ export async function POST(request: Request) {
               // When filtering by a specific exclusive role tag (designer/developer/pm),
               // exclude events also tagged for other exclusive roles — those are general
               // events for all roles, not role-specific workshops.
-              const EXCLUSIVE_ROLE_TAGS = new Set([
-                'developer',
-                'designer',
-                'pm',
-              ]);
               const requestedExclusive = (tags ?? [])
                 .map((t) => t.toLowerCase())
                 .filter((t) => EXCLUSIVE_ROLE_TAGS.has(t));
