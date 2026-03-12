@@ -1,42 +1,90 @@
 'use client';
 
-import ChooseRole from '../../slides/ChooseRole';
+import Image from 'next/image';
 
-type RoleStageProps = {
+type ChooseRoleProps = {
   value?: string;
   onSelect: (value: string) => void;
-  onBack: () => void;
-  onNext: () => void;
 };
 
-export default function RoleStage({
-  value,
-  onSelect,
-  onBack,
-  onNext,
-}: RoleStageProps) {
-  return (
-    <div className="w-full">
-      <ChooseRole value={value} onSelect={onSelect} />
+const roles = [
+  {
+    id: 'developer',
+    label: 'Developer',
+    image: '/characters/developer.png',
+  },
+  {
+    id: 'designer',
+    label: 'Designer',
+    image: '/characters/designer.png',
+  },
+  {
+    id: 'product',
+    label: 'Product',
+    image: '/characters/product.png',
+  },
+  {
+    id: 'explorer',
+    label: 'Explorer',
+    image: '/characters/explorer.png',
+  },
+];
 
-      <div className="mt-6 flex w-full items-center gap-3">
-        <button
-          type="button"
-          className="w-full rounded-lg border border-[#E1E1E8] bg-white py-3 text-sm font-semibold text-[#3F3F3F]"
-          onClick={onBack}
-        >
-          ← Back
-        </button>
-        <button
-          type="button"
-          disabled={!value}
-          className="w-full rounded-lg border border-[#4C7CF6] bg-[#4C7CF6] py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
-          onClick={onNext}
-        >
-          Next →
-        </button>
+export default function ChooseRole({ value, onSelect }: ChooseRoleProps) {
+  return (
+    <>
+    {/* header */}
+    <div className="mb-8">
+        <h2 className="text-[20px] font-semibold text-[#3F3F3F]">
+          Choose what suits you the most:
+        </h2>
+        <p className="text-[14px] text-[#6B6B76]">
+          This will help us recommend workshops to you!
+        </p>
       </div>
+      
+    <div className="grid grid-cols-2 gap-6">
+      {roles.map((role) => {
+        const selected = value === role.id;
+
+        return (
+          <button
+            key={role.id}
+            onClick={() => onSelect(role.id)}
+            className={`
+              relative
+              h-[210px]
+              rounded-2xl
+              border
+              transition
+              flex
+              items-center
+              justify-center
+              
+              ${
+                selected
+                  ? 'bg-[#EAF1FF] border-[#4C7CF6]'
+                  : 'bg-[#F5F5F8] border-transparent hover:bg-[#E6E6EB]'
+              }
+            `}
+          >
+            {/* Character */}
+            <Image
+              src={role.image}
+              alt={role.label}
+              width={120}
+              height={120}
+              className="pointer-events-none"
+            />
+
+            {/* Role label */}
+            <div className="absolute bottom-4 left-4 bg-[#ECECF1] px-3 py-1 text-xs font-semibold tracking-wide text-[#555] rounded">
+              {role.label.toUpperCase()}
+            </div>
+          </button>
+        );
+      })}
     </div>
+    </>
   );
 }
-

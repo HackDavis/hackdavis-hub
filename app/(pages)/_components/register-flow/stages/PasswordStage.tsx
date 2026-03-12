@@ -1,5 +1,4 @@
 'use client';
-
 import RegisterForm from '@pages/(hackers)/_components/AuthForms/RegisterForm';
 
 type PasswordStageProps = {
@@ -24,6 +23,8 @@ export default function PasswordStage({ data, onNext }: PasswordStageProps) {
         </p>
         </div>
       <RegisterForm data={data} onSuccess={onNext} />
+
+      {/* DEV BUTTON */} <button type="button" onClick={onNext} className="mt-4 w-full rounded-lg border-2 border-red-500 bg-red-500 py-3 text-base font-bold text-white" > DEV → Skip Password </button>
     </>
   );
 }
