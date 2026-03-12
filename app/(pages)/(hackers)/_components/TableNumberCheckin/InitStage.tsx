@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 
 interface InitStageProps {
   onNext: () => void;
@@ -8,11 +8,11 @@ interface InitStageProps {
 
 export default function InitStage({ onNext }: InitStageProps) {
   return (
-    <div className="flex flex-col p-[20px] mb-[5%] h-[556px] gap-4 rounded-[20px] bg-[#FAFAFF]">
+    <div className="flex flex-col mb-[5%] p-[20px] h-[556px] gap-4 rounded-[20px] bg-[#FAFAFF]">
       {/* Image - top half */}
       <div className="relative w-full h-1/2">
         <Image
-          src={"./hackers/end_of_hackathon.svg"}
+          src={'./hackers/table-number-checkin/end-of-hackathon.svg'}
           alt="mascots hanging out"
           fill
           className="object-cover"
@@ -28,15 +28,17 @@ export default function InitStage({ onNext }: InitStageProps) {
             to find your assigned table number.
           </p>
         </div>
-        <div className="flex flex-row gap-11 w-full">
+        <div className="flex flex-row w-full">
           <button
             className="text-[#1A3819] font-semibold text-base flex justify-center items-center px-8 py-3 rounded-[40px] bg-[#CCFFFE] cursor-pointer shrink-0"
-            onClick={onNext}
+            onClick={() => {
+              onNext();
+            }}
           >
             Ready to find my table
             <div className="relative w-6 h-6 ml-2">
               <Image
-                src={"./hackers/arrow-right.svg"}
+                src={'./hackers/table-number-checkin/arrow-right.svg'}
                 alt="Right Arrow"
                 fill
                 className="object-cover"
