@@ -161,62 +161,62 @@ export default function HackbotEventCard({
           )}
           {canAdd && (
             <button
-            type="button"
-            onClick={handleAdd}
-            disabled={adding}
-            className="text-xs px-2.5 py-1 rounded-full font-semibold border transition-colors disabled:cursor-default group/addbtn"
-            style={
-              added
-                ? {
-                    backgroundColor: '#005271',
-                    color: '#fff',
-                    borderColor: '#005271',
-                  }
-                : addError
-                ? {
-                    backgroundColor: '#fee2e2',
-                    color: '#991b1b',
-                    borderColor: '#fca5a5',
-                  }
-                : {
-                    backgroundColor: 'white',
-                    color: '#005271',
-                    borderColor: '#9EE7E5',
-                  }
-            }
-          >
-            {adding ? (
-              '…'
-            ) : addError ? (
-              'Retry'
-            ) : added ? (
-              <>
-                <span className="inline-flex items-center gap-1 group-hover/addbtn:hidden">
+              type="button"
+              onClick={handleAdd}
+              disabled={adding}
+              className="text-xs px-2.5 py-1 rounded-full font-semibold border transition-colors disabled:cursor-default group/addbtn"
+              style={
+                added
+                  ? {
+                      backgroundColor: '#005271',
+                      color: '#fff',
+                      borderColor: '#005271',
+                    }
+                  : addError
+                  ? {
+                      backgroundColor: '#fee2e2',
+                      color: '#991b1b',
+                      borderColor: '#fca5a5',
+                    }
+                  : {
+                      backgroundColor: 'white',
+                      color: '#005271',
+                      borderColor: '#9EE7E5',
+                    }
+              }
+            >
+              {adding ? (
+                '…'
+              ) : addError ? (
+                'Retry'
+              ) : added ? (
+                <>
+                  <span className="inline-flex items-center gap-1 group-hover/addbtn:hidden">
+                    <span
+                      aria-hidden
+                      className="inline-block w-2.5 h-2.5"
+                      style={maskIconStyle('/icons/check.svg')}
+                    />
+                    Added
+                  </span>
+                  <span
+                    className="hidden group-hover/addbtn:inline-flex items-center gap-1"
+                    style={{ color: '#fca5a5' }}
+                  >
+                    Remove
+                  </span>
+                </>
+              ) : (
+                <span className="inline-flex items-center gap-1">
                   <span
                     aria-hidden
                     className="inline-block w-2.5 h-2.5"
-                    style={maskIconStyle('/icons/check.svg')}
+                    style={maskIconStyle('/icons/plus.svg')}
                   />
-                  Added
+                  Add
                 </span>
-                <span
-                  className="hidden group-hover/addbtn:inline-flex items-center gap-1"
-                  style={{ color: '#fca5a5' }}
-                >
-                  Remove
-                </span>
-              </>
-            ) : (
-              <span className="inline-flex items-center gap-1">
-                <span
-                  aria-hidden
-                  className="inline-block w-2.5 h-2.5"
-                  style={maskIconStyle('/icons/plus.svg')}
-                />
-                Add
-              </span>
-            )}
-          </button>
+              )}
+            </button>
           )}
         </div>
       </div>

@@ -210,11 +210,7 @@ export default function HackbotMessageList({
                   )}
                   {/* Full cards for WORKSHOPS/ACTIVITIES */}
                   {fullEvents.map((ev) => (
-                    <HackbotEventCard
-                      key={ev.id}
-                      event={ev}
-                      userId={userId}
-                    />
+                    <HackbotEventCard key={ev.id} event={ev} userId={userId} />
                   ))}
                   {/* Shared View Schedule link */}
                   <div className="px-1 pt-0.5">
