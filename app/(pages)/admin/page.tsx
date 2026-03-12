@@ -37,6 +37,10 @@ const action_links = [
     href: '/admin/announcements',
     body: 'Announcements',
   },
+  {
+    href: '/admin/hackbot',
+    body: 'HackBot Knowledge',
+  },
 ];
 
 const data_links = [
