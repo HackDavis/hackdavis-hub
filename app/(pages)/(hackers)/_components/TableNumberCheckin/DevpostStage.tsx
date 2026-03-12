@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 interface DevpostStageProps {
   teamNumber: string;
@@ -25,7 +25,7 @@ export default function DevpostStage({
         {/* Image - top half */}
         <div className="relative w-full h-[171px]">
           <Image
-            src={'./hackers/table-number-checkin/Filler.svg'}
+            src={"./hackers/table-number-checkin/Filler.svg"}
             alt="mascots hanging out"
             fill
             className="object-cover"
@@ -47,26 +47,26 @@ export default function DevpostStage({
               maxLength={5}
               pattern="[0-9]*"
               onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, '').slice(0, 5);
+                const val = e.target.value.replace(/\D/g, "").slice(0, 5);
                 onChange(val);
               }}
             />
-            {error && (
-              <p className="text-red-400 text-sm">
-                Team not found. Please double-check your Devpost number.
-              </p>
-            )}
           </div>
         </div>
       </div>
 
       <div className="flex flex-col justify-between w-full h-1/2">
         <div className="">
-          <h3 className="text-lg font-semibold">Find your Devpost number.</h3>
+          <h3 className="text-lg font-semibold">
+            {error
+              ? "Oops! We did not find your Devpost number."
+              : "Find your Devpost number."}
+          </h3>
 
           <p className="text-lg font-semibold text-[#878796]">
-            This can be found by going to _____ and selecting____. Enter the
-            number exactly as it is presented.
+            {error
+              ? "Please double check you have entered the same number on your devpost account. "
+              : "This can be found by going to _____ and selecting____. Enter the number exactly as it is presented."}
           </p>
         </div>
         {/* Buttons */}
@@ -81,16 +81,16 @@ export default function DevpostStage({
           <button
             className={`${
               hasTeamNumber
-                ? 'bg-[#CCFFFE] text-[#1A3819]'
-                : 'bg-[#F3F3FC] text-[#ACACB9]'
+                ? "bg-[#CCFFFE] text-[#1A3819]"
+                : "bg-[#F3F3FC] text-[#ACACB9]"
             } font-semibold text-base flex justify-center items-center px-8 py-3 rounded-[40px] cursor-pointer disabled:opacity-30`}
             disabled={!hasTeamNumber}
             onClick={onSubmit}
           >
-            {hasTeamNumber ? 'Found it!' : 'Got it'}
+            {hasTeamNumber ? "Next" : "Got it"}
             <div className="relative w-6 h-6 ml-2">
               <Image
-                src={'./hackers/table-number-checkin/arrow-right.svg'}
+                src={"./hackers/table-number-checkin/arrow-right.svg"}
                 alt="Right Arrow"
                 fill
                 className="object-cover"

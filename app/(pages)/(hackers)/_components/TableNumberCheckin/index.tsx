@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useTableNumber } from '@pages/_hooks/useTableNumber';
-import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
+import { useState } from "react";
+import { useTableNumber } from "@pages/_hooks/useTableNumber";
+import useTableNumberContext from "@pages/_hooks/useTableNumberContext";
 
-import InitStage from './InitStage';
-import DevpostStage from './DevpostStage';
-// import LoadingStage from "./LoadingStage";
+import InitStage from "./InitStage";
+import DevpostStage from "./DevpostStage";
+import LoadingStage from "./LoadingStage";
 // import ConfirmStage from "./ConfirmStage";
 
 export default function TableNumberCheckin() {
@@ -16,7 +16,7 @@ export default function TableNumberCheckin() {
     setValue,
   } = useTableNumberContext();
 
-  const [teamNumber, setTeamNumber] = useState('');
+  const [teamNumber, setTeamNumber] = useState("");
   const [hasClickedNext, setHasClickedNext] = useState(false);
   const { loading, tableNumber, fetchTableNumber, setTableNumber, error } =
     useTableNumber();
@@ -26,13 +26,13 @@ export default function TableNumberCheckin() {
   }
 
   // Stage resolution
-  let stage: 'init' | 'devpost' | 'loading' | 'confirm' = 'init';
+  let stage: "init" | "devpost" | "loading" | "confirm" = "init";
   if (loading) {
-    stage = 'loading';
+    stage = "loading";
   } else if (tableNumber) {
-    stage = 'confirm';
+    stage = "confirm";
   } else if (hasClickedNext) {
-    stage = 'devpost';
+    stage = "devpost";
   }
 
   const handleTeamNumberSubmit = () => {
@@ -41,7 +41,7 @@ export default function TableNumberCheckin() {
 
   const handleReset = () => {
     setTableNumber(null);
-    setTeamNumber('');
+    setTeamNumber("");
     setHasClickedNext(false);
   };
 
@@ -50,10 +50,10 @@ export default function TableNumberCheckin() {
   return (
     <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center px-[15px] z-[101]">
       <div className="w-full">
-        {stage === 'init' && (
+        {stage === "init" && (
           <InitStage onNext={() => setHasClickedNext(true)} />
         )}
-        {stage === 'devpost' && (
+        {stage === "devpost" && (
           <DevpostStage
             teamNumber={teamNumber}
             error={error}
@@ -62,8 +62,8 @@ export default function TableNumberCheckin() {
             onBack={() => setHasClickedNext(false)}
           />
         )}
-        {stage === 'loading' && <LoadingStage />}
-        {stage === 'confirm' && (
+        {stage === "loading" && <LoadingStage teamNumber={teamNumber} />}
+        {stage === "confirm" && (
           <ConfirmStage
             tableNumber={tableNumber}
             onConfirm={() => setValue(tableNumber)}
