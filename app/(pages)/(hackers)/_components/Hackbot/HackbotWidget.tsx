@@ -71,7 +71,7 @@ export default function HackbotWidget({
   const [hackerProfile] = useState<HackerProfile | null>(initialProfile);
 
   const suggestionChips = [
-    ...(hackerProfile?.is_beginner
+    ...(hackerProfile?.is_beginner !== false
       ? ["I'm a beginner, where do I start?"]
       : []),
     hackerProfile?.position === 'developer'

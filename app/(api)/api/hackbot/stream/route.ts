@@ -41,11 +41,12 @@ const fewShotExamples = [
   },
   {
     role: 'user' as const,
-    content: "What's happening right now?",
+    content: "I'm a beginner, where do I start?",
   },
   {
     role: 'assistant' as const,
-    content: "Here's what's going on right now!",
+    content:
+      "Don't stress — start by picking a problem you care about and keep it simple! Check out the Starter Kit for brainstorming guides and past winning hacks. If you need teammates, hop on the #find-a-team Discord channel. Here are some workshops to help you get going:",
   },
   {
     role: 'user' as const,
@@ -53,7 +54,8 @@ const fewShotExamples = [
   },
   {
     role: 'assistant' as const,
-    content: "Here are some prize tracks I'd recommend for you!",
+    content:
+      "Great question! Good news first — you're automatically entered in **Best Hack for Social Good** and **Hacker's Choice Award** just by submitting, so those are freebies.\n\nBeyond that, I'd pick tracks that match what your team is actually building. You can select up to 4 on Devpost.",
   },
 ];
 
@@ -208,7 +210,7 @@ export async function POST(request: Request) {
               .string()
               .nullable()
               .describe(
-                'Case-insensitive text search on event name (e.g. "dinner", "opening ceremony", "team"). Pass null for no search filter.'
+                'Case-insensitive text search on event name and description (e.g. "dinner", "opening ceremony", "team"). Pass null for no search filter. For broad queries (e.g. "workshops"), use the type filter instead — search is for specific keywords.'
               ),
             limit: z
               .number()
@@ -280,7 +282,13 @@ export async function POST(request: Request) {
               const db = await getDatabase();
               const query: Record<string, unknown> = {};
               if (type) query.type = { $regex: type, $options: 'i' };
-              if (search) query.name = { $regex: search, $options: 'i' };
+              if (search) {
+                const searchRegex = { $regex: search, $options: 'i' };
+                query.$or = [
+                  { name: searchRegex },
+                  { description: searchRegex },
+                ];
+              }
               if (tags && tags.length > 0)
                 query.tags = { $in: tags.map((t) => t.toLowerCase()) };
 
