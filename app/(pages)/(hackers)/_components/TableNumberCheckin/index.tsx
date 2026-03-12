@@ -26,7 +26,7 @@ export default function TableNumberCheckin() {
   }
 
   // Stage resolution
-  let stage: 'init' | 'devpost' | 'loading' | 'confirm' = 'loading';
+  let stage: 'init' | 'devpost' | 'loading' | 'confirm' = 'init';
   if (loading) {
     stage = 'loading';
   } else if (tableNumber) {
