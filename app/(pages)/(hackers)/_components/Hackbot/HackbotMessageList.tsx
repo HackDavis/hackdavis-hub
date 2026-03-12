@@ -177,14 +177,58 @@ export default function HackbotMessageList({
               </span>
             )}
 
-          {/* Event cards — max width matches bubble, cascade animation via HackbotEventCard */}
-          {m.events && m.events.length > 0 && (
-            <div className="w-full max-w-[88%] space-y-1.5">
-              {m.events.map((ev) => (
-                <HackbotEventCard key={ev.id} event={ev} userId={userId} />
-              ))}
-            </div>
-          )}
+          {/* Event cards + compact event rows */}
+          {m.events &&
+            m.events.length > 0 &&
+            (() => {
+              const compactEvents = m.events.filter((ev) => ev.compact);
+              const fullEvents = m.events.filter((ev) => !ev.compact);
+              return (
+                <div className="w-full max-w-[88%] space-y-1.5">
+                  {/* Compact rows for GENERAL/MEALS */}
+                  {compactEvents.length > 0 && (
+                    <div
+                      className="rounded-xl border border-[#9EE7E5]/60 overflow-hidden animate-hackbot-slide-in divide-y divide-[#9EE7E5]/30"
+                      style={{ backgroundColor: '#fff' }}
+                    >
+                      {compactEvents.map((ev) => (
+                        <div
+                          key={ev.id}
+                          className="flex items-center gap-2 px-3 py-1.5"
+                        >
+                          <span className="text-xs font-semibold text-[#003D3D] flex-1 min-w-0 truncate">
+                            {ev.name}
+                          </span>
+                          {ev.start && (
+                            <span className="text-[10px] text-[#003D3D]/60 shrink-0 whitespace-nowrap">
+                              {ev.start}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* Full cards for WORKSHOPS/ACTIVITIES */}
+                  {fullEvents.map((ev) => (
+                    <HackbotEventCard
+                      key={ev.id}
+                      event={ev}
+                      userId={userId}
+                    />
+                  ))}
+                  {/* Shared View Schedule link */}
+                  <div className="px-1 pt-0.5">
+                    <a
+                      href="/schedule"
+                      className="text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
+                      style={{ color: '#005271' }}
+                    >
+                      View full schedule →
+                    </a>
+                  </div>
+                </div>
+              );
+            })()}
         </div>
       ))}
 

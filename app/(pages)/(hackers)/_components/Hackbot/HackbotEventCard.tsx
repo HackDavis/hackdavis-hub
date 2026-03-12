@@ -145,27 +145,12 @@ export default function HackbotEventCard({
               Recommended
             </p>
           )}
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div
-        className="px-3 py-2 flex items-center gap-2 border-t"
-        style={{ borderColor: (style?.text ?? '#005271') + '18' }}
-      >
-        <a
-          href="/schedule"
-          className="text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
-          style={{ color: '#005271' }}
-        >
-          View Schedule
-        </a>
-        {canAdd && (
-          <button
+          {canAdd && (
+            <button
             type="button"
             onClick={handleAdd}
             disabled={adding}
-            className="ml-auto text-xs px-2.5 py-1 rounded-full font-semibold border transition-colors disabled:cursor-default group/addbtn"
+            className="text-xs px-2.5 py-1 rounded-full font-semibold border transition-colors disabled:cursor-default group/addbtn"
             style={
               added
                 ? {
@@ -238,7 +223,8 @@ export default function HackbotEventCard({
               </span>
             )}
           </button>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

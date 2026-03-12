@@ -68,6 +68,8 @@ export type HackbotEvent = {
   host: string | null;
   tags: string[];
   isRecommended?: boolean;
+  /** True for GENERAL/MEALS — rendered as a compact inline row */
+  compact?: boolean;
 };
 
 export type HackbotLink = { label: string; url: string };

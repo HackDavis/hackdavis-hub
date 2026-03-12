@@ -29,7 +29,7 @@ const fewShotExamples = [
   },
   {
     role: 'assistant' as const,
-    content: 'Hacking ends on Sunday, April 20 at 11:00 AM Pacific Time.',
+    content: 'Hacking ends on Sunday, May 10 at 11:00 AM Pacific Time.',
   },
   {
     role: 'user' as const,
@@ -403,6 +403,7 @@ export async function POST(request: Request) {
                   host: ev.host || null,
                   tags: Array.isArray(ev.tags) ? ev.tags : [],
                   isRecommended: isEventRecommended(ev, profile),
+                  compact: /^(GENERAL|MEALS)$/i.test(ev.type ?? ''),
                 };
               });
 
