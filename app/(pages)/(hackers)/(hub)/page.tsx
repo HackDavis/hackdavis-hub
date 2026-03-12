@@ -1,16 +1,16 @@
-import PrizeTracks from '@pages/(hackers)/_components/PrizeTracks/PrizeTracks';
-import BeginnersSection from '@pages/(hackers)/_components/HomeHacking/BeginnersSection';
-import Discord from '@pages/(hackers)/_components/StayUpToDate/Discord';
-import Footer from '@components/Footer/Footer';
-import HeroMVP from '../_components/HomeHacking/HeroMVP';
-import ClientTimeProtectedDisplay from '@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay';
-import TableNumberCheckin from '@pages/(hackers)/_components/TableNumberCheckin/TableNumberCheckin';
-import TableNumberContextProvider from '@pages/_contexts/TableNumberContext';
-import MDHelp from '@pages/(hackers)/_components/HomeHacking/MDHelp';
-import ScheduleSneakPeek from '@pages/(hackers)/_components/HomeHacking/ScheduleSneakPeek';
-import HeroJudging from '../_components/HomeJudging/HeroJudging';
-import HackerChoiceAward from '../_components/HomeJudging/HackersChoiceAwards';
-import HeroWaiting from '../_components/HomeJudging/HeroWaiting';
+import PrizeTracks from "@pages/(hackers)/_components/PrizeTracks/PrizeTracks";
+import BeginnersSection from "@pages/(hackers)/_components/HomeHacking/BeginnersSection";
+import Discord from "@pages/(hackers)/_components/StayUpToDate/Discord";
+import Footer from "@components/Footer/Footer";
+import HeroMVP from "../_components/HomeHacking/HeroMVP";
+import ClientTimeProtectedDisplay from "@pages/_components/TimeProtectedDisplay/ClientTimeProtectedDisplay";
+import TableNumberCheckin from "@pages/(hackers)/_components/TableNumberCheckin/index";
+import TableNumberContextProvider from "@pages/_contexts/TableNumberContext";
+import MDHelp from "@pages/(hackers)/_components/HomeHacking/MDHelp";
+import ScheduleSneakPeek from "@pages/(hackers)/_components/HomeHacking/ScheduleSneakPeek";
+import HeroJudging from "../_components/HomeJudging/HeroJudging";
+import HackerChoiceAward from "../_components/HomeJudging/HackersChoiceAwards";
+import HeroWaiting from "../_components/HomeJudging/HeroWaiting";
 
 export default function Page() {
   return (
