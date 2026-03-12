@@ -177,7 +177,7 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
         </div>
       ))}
       <button type="submit" className={styles.submit_button}>
-        {isEditMode ? 'Edit' : 'Submit'} Scores
+        {isEditMode ? 'Edit' : 'Submit'}
       </button>
     </form>
   );
