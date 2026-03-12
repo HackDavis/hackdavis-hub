@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './VinylPlayer.module.scss';
 import vinyl from 'public/judges/hub/vinyl.svg';
-import pauseIcon from 'public/index/hero/pause-icon.svg';
-import playIcon from 'public/index/hero/play-icon.svg';
+import pauseIcon from 'public/hackers/pause-icon.svg';
+import playIcon from 'public/hackers/play-icon.svg';
 
 export default function VinylPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);

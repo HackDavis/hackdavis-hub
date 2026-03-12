@@ -112,7 +112,7 @@ export default function ScheduleMobileControls({
         </div>
 
         {!isMobileFilterOpen && (
-          <div className="shrink-0 h-[45px] flex flex-row gap-8 items-center">
+          <div className="shrink-0 h-[45px] flex flex-row gap-8 items-center bg-white/80 rounded-[30px]">
             {renderDayButton('9', 'MAY 9')}
             {renderDayButton('10', 'MAY 10')}
           </div>

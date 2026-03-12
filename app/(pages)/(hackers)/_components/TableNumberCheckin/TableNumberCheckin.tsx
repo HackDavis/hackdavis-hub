@@ -1,15 +1,17 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useTableNumber } from "@pages/_hooks/useTableNumber";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useTableNumber } from '@pages/_hooks/useTableNumber';
 
-import sleepyFrog from "@public/hackers/sleeping-frog.svg";
-import modalArrow from "@public/hackers/modal-arrow.svg";
-import diagArrow from "@public/hackers/diag-arrow.svg";
+import stars from '@public/hackers/table-number-checkin/stars.svg';
+import mascots from '@public/hackers/table-number-checkin/mascots-hanging-out.svg';
+import sleepyFrog from '@public/hackers/table-number-checkin/sleeping-frog.svg';
+import modalArrow from '@public/hackers/table-number-checkin/modal-arrow.svg';
+import diagArrow from '@public/hackers/table-number-checkin/diag-arrow.svg';
 
-import useTableNumberContext from "@pages/_hooks/useTableNumberContext";
+import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 
 export default function TableNumberCheckin() {
   const {
@@ -18,7 +20,7 @@ export default function TableNumberCheckin() {
     setValue,
   } = useTableNumberContext();
 
-  const [teamNumber, setTeamNumber] = useState("");
+  const [teamNumber, setTeamNumber] = useState('');
   const { loading, tableNumber, fetchTableNumber, setTableNumber, error } =
     useTableNumber();
 
@@ -26,11 +28,11 @@ export default function TableNumberCheckin() {
     return null;
   }
 
-  let stage = "init";
+  let stage = 'init';
   if (loading) {
-    stage = "loading";
+    stage = 'loading';
   } else {
-    stage = tableNumber ? "confirm" : "init";
+    stage = tableNumber ? 'confirm' : 'init';
   }
 
   const handleTeamNumberSubmit = () => {
@@ -44,7 +46,7 @@ export default function TableNumberCheckin() {
       {/* Image - top half */}
       <div className="relative w-full h-1/2">
         <Image
-          src={"./hackers/end_of_hackathon.svg"}
+          src={'./hackers/end_of_hackathon.svg'}
           alt="mascots hanging out"
           fill
           className="object-cover"
@@ -78,7 +80,7 @@ export default function TableNumberCheckin() {
             Ready to find my table
             <div className="relative w-6 h-6">
               <Image
-                src={"./hackers/arrow-right.svg"}
+                src={'./hackers/arrow-right.svg'}
                 alt="Right Arrow"
                 fill
                 className="object-cover"
@@ -131,7 +133,7 @@ export default function TableNumberCheckin() {
               </Link>
               <p>
                 Check that you and your team members received the same table
-                number. It is extremely important to be{" "}
+                number. It is extremely important to be{' '}
                 <strong>present at your table</strong> when the judges arrive.
               </p>
             </div>
@@ -163,7 +165,7 @@ export default function TableNumberCheckin() {
         className="text-white text-center text-lg font-semibold rounded-full opacity-50 bg-[#005271] px-6 py-1.5"
         onClick={() => {
           setTableNumber(null);
-          setTeamNumber("");
+          setTeamNumber('');
         }}
       >
         Wait! This is not my team

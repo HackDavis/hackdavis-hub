@@ -5,6 +5,9 @@ import { Button } from '@pages/_globals/components/ui/button';
 import { SCHEDULE_EVENT_STYLES } from './scheduleEventStyles';
 import { formatScheduleTimeRange } from './scheduleTime';
 
+import location_icon from 'public/hackers/schedule/location.svg';
+import attendee_icon from 'public/hackers/schedule/attendee.svg';
+
 interface CalendarItemProps {
   event: Event & { originalType?: string };
   attendeeCount?: number;
@@ -46,7 +49,7 @@ export function CalendarItem({
 
   return (
     <div
-      className={`w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[24px] lg:px-[40px] lg:py-[32px] mb-[16px] flex ${
+      className={`w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[24px] lg:px-[40px] lg:py-[32px] mb-[8px] flex ${
         displayType === 'ACTIVITIES' ? 'flex-row' : 'flex-col justify-center'
       }`}
       style={{
@@ -79,7 +82,7 @@ export function CalendarItem({
               {location && (
                 <div className="flex items-center">
                   <Image
-                    src="/index/schedule/location.svg"
+                    src={location_icon}
                     alt="location icon"
                     width={11}
                     height={13.44}
@@ -138,11 +141,7 @@ export function CalendarItem({
                   `}
               >
                 <div className="relative w-16 h-12">
-                  <Image
-                    src="/index/schedule/attendee.svg"
-                    alt="location icon"
-                    fill
-                  />
+                  <Image src={attendee_icon} alt="attendee icon" fill />
                 </div>
                 <span className="font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] text-balance">
                   {`${attendeeCount ?? ''} Hacker${
@@ -157,7 +156,7 @@ export function CalendarItem({
                 onClick={
                   inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
                 }
-                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0"
+                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0 hover:brightness-[97%] hover:saturate-[140%]"
                 style={{
                   backgroundColor:
                     eventStyle.addButtonColor || 'rgba(0, 0, 0, 0)',
