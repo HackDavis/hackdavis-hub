@@ -20,7 +20,7 @@ export default function LoginForm() {
     {
       name: 'email' as const,
       type: 'email',
-      label: 'Email',
+      label: 'Username',
       placeholder: '',
       readOnly: false,
     },
@@ -37,7 +37,7 @@ export default function LoginForm() {
     <AuthForm
       role="judge"
       fields={formFields}
-      buttonText="Log in →"
+      buttonText="Log in"
       linkText="Forgot Password?"
       linkHref="/judges/login/forgot-password"
       initialValues={{
