@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import footer_logo from '@public/hackers/Footer/FooterLogo.svg';
+import footer_logo from '@public/hackers/footer/FooterLogo.svg';
 
 export default function Footer() {
   return (
