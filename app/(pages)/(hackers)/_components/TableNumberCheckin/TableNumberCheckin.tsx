@@ -48,7 +48,7 @@ export default function TableNumberCheckin() {
   console.log({ loading, tableNumber, hasClickedNext, stage });
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center px-[15px] z-[101]">
+    <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center px-[15px] z-[101] md:px-[90px]">
       <div className="w-full">
         {stage === 'init' && (
           <InitStage onNext={() => setHasClickedNext(true)} />

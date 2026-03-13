@@ -35,14 +35,14 @@ export default function ConfirmStage({
       {/* LEFT column — second in DOM, reordered to first on desktop */}
       <div className="flex flex-col justify-between flex-1 md:order-1 md:w-1/2 md:flex-none">
         <div className="flex flex-col gap-1">
-          <h3 className="text-lg font-semibold md:text-[32px]">
+          <h3 className="text-lg font-semibold md:text-[32px] leading-normal">
             Your Table Number
           </h3>
 
           <p className="text-lg font-semibold text-[#878796] md:text-[32px] leading-normal">
             Check that you and your team members received the same table number.
-            It is extremely important to be{' '}
-            <span className="text-[#5E5E65]">present at your table</span> when
+            It is extremely important to be
+            <span className="text-[#5E5E65]"> present at your table </span> when
             the judges arrive.
           </p>
 

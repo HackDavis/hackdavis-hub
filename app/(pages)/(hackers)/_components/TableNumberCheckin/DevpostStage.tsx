@@ -17,7 +17,7 @@ export default function DevpostStage({
   onSubmit,
   onBack,
 }: DevpostStageProps) {
-  const hasTeamNumber = teamNumber.length == 5;
+  const hasTeamNumber = teamNumber.length;
 
   return (
     <div
@@ -59,7 +59,7 @@ export default function DevpostStage({
       {/* LEFT column — second in DOM, reordered to first on desktop */}
       <div className="flex flex-col justify-between md:order-1 md:w-1/2">
         <div className="flex flex-col gap-1">
-          <h3 className="text-lg font-semibold md:text-[32px]">
+          <h3 className="text-lg font-semibold md:text-[32px] md:leading-normal">
             {error
               ? 'Oops! We did not find your Devpost number.'
               : 'Find your Devpost number.'}
