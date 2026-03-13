@@ -22,12 +22,12 @@ const roles = [
     image: '/hackers/register/designer-bunny.svg',
   },
   {
-    id: 'product',
+    id: 'pm',
     label: 'Product',
     image: '/hackers/register/product-frog.svg',
   },
   {
-    id: 'explorer',
+    id: 'other',
     label: 'Other',
     image: '/hackers/register/explorer-duck.svg',
   },
