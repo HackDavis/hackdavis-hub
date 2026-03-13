@@ -2,8 +2,9 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/auth';
 import { getInviteData } from '@actions/invite/getInviteData';
-
-import RegisterFlow from '@pages/_components/RegisterFlow';
+import InviteOnlyRoute from '@components/InviteOnlyRoute/InviteOnlyRoute';
+import AuthFormBackground from '@pages/(hackers)/_components/AuthFormBackground/AuthFormBackground';
+import RegisterForm from '../_components/AuthForms/register/RegisterForm';
 
 export default async function RegisterPage() {
   const session = await auth();
@@ -15,5 +16,14 @@ export default async function RegisterPage() {
     redirect('/judges/register');
   }
 
-  return <RegisterFlow data={data} />;
+  return (
+    <InviteOnlyRoute>
+      <AuthFormBackground
+        title="Welcome to the HackerHub"
+        subtitle="Let’s get you started by making an account with us."
+      >
+        <RegisterForm data={data} />
+      </AuthFormBackground>
+    </InviteOnlyRoute>
+  );
 }

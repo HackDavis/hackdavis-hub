@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import AuthFormBackground from '../../AuthFormBackground/AuthFormBackground';
 
 type ChooseRoleProps = {
   value?: string;
@@ -39,22 +40,15 @@ export default function ChooseRole({
   onNext,
 }: ChooseRoleProps) {
   return (
-    <>
-      {/* header */}
-      <div className="mb-8">
-        <h2 className="text-[20px] font-semibold text-[#3F3F3F]">
-          Choose what suits you the most:
-        </h2>
-        <p className="text-[14px] text-[#6B6B76]">
-          This will help us recommend workshops to you!
-        </p>
-      </div>
-
+    <AuthFormBackground
+      title="Choose what suits you the most:"
+      subtitle="This will help us recommend workshops to you!"
+      showAngelCow={false}
+    >
       {/* cards */}
-      <div className="grid grid-cols-2 gap-3 md:gap-6">
+      <div className="grid grid-cols-2 gap-3 md:gap-6 mt-[40px]">
         {roles.map((role) => {
           const selected = value === role.id;
-
           return (
             <button
               key={role.id}
@@ -84,9 +78,10 @@ export default function ChooseRole({
               />
 
               <div
-                className={`absolute bottom-3 md:bottom-4 left-3 md:left-4 px-3 py-1 text-xs font-semibold tracking-wide text-[#555] rounded ${
+                className={`absolute bottom-3 md:bottom-4 left-3 md:left-4 px-3 py-1 text-xs tracking-wide text-[#555] rounded ${
                   selected ? 'bg-[#DBFDFF]' : 'bg-[#F3F3FC]'
                 }`}
+                style={{ fontFamily: 'DM Mono' }}
               >
                 {role.label.toUpperCase()}
               </div>
@@ -96,7 +91,7 @@ export default function ChooseRole({
       </div>
 
       {/* Bottom navigation */}
-      <div className="mt-10 flex flex-col items-center gap-6">
+      <div className="mt-[16px] flex flex-col items-center gap-12 md:gap-6">
         {/* indicators */}
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-[#2F2F2F]" />
@@ -143,6 +138,6 @@ export default function ChooseRole({
           </button>
         </div>
       </div>
-    </>
+    </AuthFormBackground>
   );
 }
