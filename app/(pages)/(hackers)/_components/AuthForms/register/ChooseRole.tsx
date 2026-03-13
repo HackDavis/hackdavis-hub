@@ -54,6 +54,7 @@ export default function ChooseRole({
               type="button"
               key={role.id}
               onClick={() => onSelect(role.id)}
+              aria-pressed={selected}
               className={`
                 relative
                 h-[190px] md:h-[210px]

@@ -55,6 +55,7 @@ export default function ChooseLevel({
                 key={level.id}
                 type="button"
                 onClick={() => onSelect(level.id)}
+                aria-pressed={selected}
                 className={`
                 flex flex-col items-start
                 h-[392px] md:h-[444px]
