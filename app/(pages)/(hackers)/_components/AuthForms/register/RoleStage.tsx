@@ -78,10 +78,9 @@ export default function ChooseRole({
               />
 
               <div
-                className={`absolute bottom-3 md:bottom-4 left-3 md:left-4 px-3 py-1 text-xs tracking-wide text-[#555] rounded ${
+                className={`font-dm-mono absolute bottom-3 md:bottom-4 left-3 md:left-4 px-3 py-1 text-xs tracking-wide text-[#555] rounded ${
                   selected ? 'bg-[#DBFDFF]' : 'bg-[#F3F3FC]'
                 }`}
-                style={{ fontFamily: 'DM Mono' }}
               >
                 {role.label.toUpperCase()}
               </div>
