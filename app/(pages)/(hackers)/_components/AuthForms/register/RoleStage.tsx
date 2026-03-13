@@ -51,6 +51,7 @@ export default function ChooseRole({
           const selected = value === role.id;
           return (
             <button
+              type="button"
               key={role.id}
               onClick={() => onSelect(role.id)}
               className={`

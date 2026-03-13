@@ -53,6 +53,7 @@ export default function LevelStage({
             return (
               <button
                 key={level.id}
+                type="button"
                 onClick={() => onSelect(level.id)}
                 className={`
                 flex flex-col items-start
