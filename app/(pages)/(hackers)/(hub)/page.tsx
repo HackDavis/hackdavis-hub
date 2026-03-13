@@ -31,12 +31,12 @@ export default function Page() {
           <MDHelp />
         </ClientTimeProtectedDisplay>
         {/* temporarilty set featureId below to "hero-hacking" to test */}
-        <ClientTimeProtectedDisplay featureId="hero-judging">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <HeroWaiting />
           <HeroJudging />
           <HackerChoiceAward />
         </ClientTimeProtectedDisplay>
-        <ClientTimeProtectedDisplay featureId="table-number-checkin">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <TableNumberCheckin />
         </ClientTimeProtectedDisplay>
       </TableNumberContextProvider>
