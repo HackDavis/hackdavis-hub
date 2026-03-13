@@ -1,8 +1,10 @@
-import styles from './TableLocations.module.scss';
+//import styles from './TableLocations.module.scss';
 import Image from 'next/image';
-import vinyl from '/public/judges/hub/vinyl.svg';
-import bunnyHand from '/public/judges/hub/bunny-hand.svg';
-import vinylPlayer from '/public/judges/hub/vinyl-player.svg';
+//import vinyl from '/public/judges/hub/vinyl.svg';
+//import bunnyHand from '/public/judges/hub/bunny-hand.svg';
+//import vinylPlayer from '/public/judges/hub/vinyl-player.svg';
+import mascots_around_couch from '@public/judges/landing/mascots_around_couch.svg';
+
 export default function TableLocations() {
   /* const logOutStyle = {
     zIndex: 1,
@@ -26,20 +28,16 @@ export default function TableLocations() {
     'https://www.figma.com/proto/9frZI5Kc9f2c8o4ZIZG8fX/Judging-Table-Map?page-id=0:1&type=design&node-id=1-4&viewport=134,164,0.69&t=Jfp4HXeR7nRs3B6R-1&scaling=min-zoom&mode=design';
  */
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        If you have any questions, please ask a HackDavis director (bright white
-        shirt)!
-      </div>
-      <div className={styles.vinyl_container}>
-        <Image src={vinyl} alt="Vinyl" className={styles.vinyl} />
-        <Image src={bunnyHand} alt="Bunny hand" className={styles.bunny_hand} />
-        <Image
-          src={vinylPlayer}
-          alt="Vinyl Player"
-          className={styles.vinyl_player}
-        />
-      </div>
+    <div className="bg-white rounded-[32px] py-[34px] px-[30px] text-[#3F3F3F]">
+      <p className="font-semibold text-[22px]">Question?</p>
+      <p className="text-[18px]">
+        Please ask a HackDavis director (dark blue shirt)!
+      </p>
+      <Image
+        src={mascots_around_couch}
+        alt="mascots around couch"
+        className="w-full"
+      />
     </div>
   );
 }
