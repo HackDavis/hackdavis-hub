@@ -23,17 +23,17 @@ export default function Judges() {
   };
 
   return (
-    <>
+    <div className="flex flex-col justify-center items-center bg-[#FAFAFF] pb-[43px]">
       <JudgingHub />
-      <form onSubmit={handleLogout}>
+      <form onSubmit={handleLogout} className="flex flex-col justify-center">
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-text-error text-white text-[1.5rem] py-4 font-jakarta font-semibold"
+          className="mt-[20px] bg-[#FF8D8D] text-white rounded-[20px] py-[15px] w-[342px]"
         >
           Sign Out
         </button>
       </form>
-    </>
+    </div>
   );
 }
