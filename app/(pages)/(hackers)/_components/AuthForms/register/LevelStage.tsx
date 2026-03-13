@@ -83,10 +83,9 @@ export default function LevelStage({
 
                 <div
                   className={`
-                  mb-3 px-[8px] py-[4px] text-[11px] tracking-wide text-[#5A5A66]
+                  mb-3 px-[8px] py-[4px] text-[11px] tracking-wide text-[#5A5A66] font-dm-mono
                   ${selected ? 'bg-[#D5FDFF]' : 'bg-[#E9E9F2]'}
                 `}
-                  style={{ fontFamily: 'DM Mono' }}
                 >
                   {level.tag}
                 </div>
