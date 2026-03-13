@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import AuthFormBackground from '../../AuthFormBackground/AuthFormBackground';
 
-type LevelStageProps = {
+type ChooseLevelProps = {
   value?: string;
   onSelect: (value: string) => void;
   onBack: () => void;
@@ -31,14 +31,14 @@ const levels = [
   },
 ];
 
-export default function LevelStage({
+export default function ChooseLevel({
   value,
   onSelect,
   onBack,
   onNext,
   loading = false,
   error = '',
-}: LevelStageProps) {
+}: ChooseLevelProps) {
   return (
     <AuthFormBackground
       title="Tell us your skill level:"

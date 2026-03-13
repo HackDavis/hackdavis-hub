@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { updateUser } from '@actions/users/updateUser';
-import RoleStage from './RoleStage';
-import LevelStage from './LevelStage';
+import ChooseRole from './ChooseRole';
+import ChooseLevel from './ChooseLevel';
 
 type DetailFormProps = {
   id: string;
@@ -48,7 +48,7 @@ export default function DetailForm({ id }: DetailFormProps) {
   return (
     <div>
       {stage === 0 ? (
-        <RoleStage
+        <ChooseRole
           value={role}
           onSelect={setRole}
           onBack={() => router.push('/register')}
@@ -58,7 +58,7 @@ export default function DetailForm({ id }: DetailFormProps) {
           }}
         />
       ) : (
-        <LevelStage
+        <ChooseLevel
           value={level}
           onSelect={setLevel}
           onBack={() => setStage(0)}
