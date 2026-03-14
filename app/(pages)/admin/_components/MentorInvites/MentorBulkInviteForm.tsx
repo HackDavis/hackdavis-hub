@@ -328,6 +328,13 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
             </div>
           </div>
 
+          {result.error && (
+            <div className="border border-red-200 rounded-lg bg-red-50 px-4 py-3">
+              <p className="text-sm font-semibold text-red-700">Batch error</p>
+              <p className="text-sm text-red-700 mt-1">{result.error}</p>
+            </div>
+          )}
+
           {result.failureCount > 0 && (
             <div className="border border-red-200 rounded-lg overflow-hidden">
               <p className="text-sm font-semibold text-red-700 bg-red-50 px-4 py-2 border-b border-red-200">
