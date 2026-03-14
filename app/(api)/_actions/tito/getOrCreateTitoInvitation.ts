@@ -19,6 +19,11 @@ function isDuplicateTicketError(error: string | null | undefined): boolean {
   );
 }
 
+/**
+ * Wrapper function to create a Tito invitation with duplicate handling:
+ * If duplicate error detected, it will first try to reuse the existing invitation URL.
+ * If that fails, it will delete the existing invitation and attempt to create a new one.
+ */
 export default async function getOrCreateTitoInvitation(
   data: ReleaseInvitationRequest
 ): Promise<{ ok: true; titoUrl: string } | { ok: false; error: string }> {
