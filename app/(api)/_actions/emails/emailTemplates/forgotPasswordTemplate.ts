@@ -4,6 +4,9 @@ export default function forgotPasswordTemplate(link: string) {
 	<!DOCTYPE html>
 		<html lang="en">
 		<head>
+            <meta charset="UTF-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>Reset your HackDavis Hub Password</title>
             <style>
                 body { margin: 0; padding: 0; font-family: 'DM Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; }
@@ -30,7 +33,7 @@ export default function forgotPasswordTemplate(link: string) {
 		</head>
 		<body>
             <div class="container">
-                <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2026 header" class="header-image">
+                <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2025 header" class="header-image">
                 <h1 class="title">
                     <span style="color: #173a52;">Reset your HackDavis Hub Password</span>
                 </h1>

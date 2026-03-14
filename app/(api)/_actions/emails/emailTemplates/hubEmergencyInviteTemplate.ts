@@ -4,6 +4,8 @@ export default function hubEmergencyInviteTemplate(link: string) {
 	<!DOCTYPE html>
 		<html lang="en">
 		<head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		    <title>HackDavis Hub Invite Link</title>
 		    <style>
                 body { margin: 0; padding: 0; font-family: 'DM Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; }
@@ -30,7 +32,7 @@ export default function hubEmergencyInviteTemplate(link: string) {
 		</head>
 		<body>
             <div class="container">
-                <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2026 header" class="header-image">
+                <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2025 header" class="header-image">
                 <h1 class="title">
                     <span style="color: #173a52;">Invitation to the </span>
                     <span style="color: #57dade;">HackDavis Hub</span>
