@@ -60,7 +60,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
             <p>🔹 Meeting Recording: <a href="${MEETING_RECORDING_URL}">${MEETING_RECORDING_URL}</a></p>
             <p>🔹 Slides: <a href="${MENTOR_SLIDES_URL}">${MENTOR_SLIDES_URL}</a></p>
             <p class="special-note">If you were unable to attend the orientation, please ensure you watch the recording before the day of the event to familiarize yourself with the <u>expectations and responsibilities of a mentor</u> and with the <u>Discord bot</u> you will need to use during your shift.</p>
-            <p class="special-note"><span class="bold">Shift assignments have been emailed to you already, kindly mark your calendars!</span></p>
+            <p class="bold">Shift assignments have been emailed to you already, kindly mark your calendars!</p>
             <div class="bordered-section">
               <p class="bold">IMPORTANT NEXT STEPS:</p>
               <p class="bold">1️⃣ Claim your E-Ticket here by ${CLAIM_TITO_TICKET_DEADLINE}</p>

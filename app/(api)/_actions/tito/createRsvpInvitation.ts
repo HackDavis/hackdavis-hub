@@ -48,7 +48,7 @@ export default async function createRsvpInvitation(
 
     const url = `/rsvp_lists/${data.rsvpListSlug}/release_invitations`;
 
-    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
       try {
         const response = await TitoRequest<{
           release_invitation: ReleaseInvitation;

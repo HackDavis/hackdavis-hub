@@ -4,6 +4,9 @@
  * pool is always kept as full as possible — no batch-boundary idle time.
  */
 export default function createLimiter(concurrency: number) {
+  if (!Number.isInteger(concurrency) || concurrency <= 0) {
+    throw new Error('createLimiter: "concurrency" must be a positive integer.');
+  }
   let active = 0;
   const queue: (() => void)[] = [];
 
