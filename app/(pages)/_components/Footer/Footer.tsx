@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-// import Link from 'next/link';
+import footer_logo from '@public/hackers/footer/FooterLogo.svg';
 
 export default function Footer() {
   return (
@@ -17,7 +17,7 @@ export default function Footer() {
           {/* swap this src to whatever your mark is */}
           <div className="relative w-[200px] h-auto pb-5">
             <Image
-              src="/Footer/FooterLogo.svg"
+              src={footer_logo}
               alt="Footer Logo"
               width={500}
               height={200}

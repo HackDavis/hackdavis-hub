@@ -16,7 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@globals/components/ui/tooltip';
-import TooltipCow from '@public/index/schedule/vocal_angel_cow.svg';
+import TooltipCow from '@public/hackers/schedule/vocal_angel_cow.svg';
 import useActiveUser from '@pages/_hooks/useActiveUser';
 import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import { useEvents } from '@hooks/useEvents';
