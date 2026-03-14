@@ -26,8 +26,8 @@ const action_links = [
     body: 'Invites',
   },
   {
-    href: '/admin/invite-hackers',
-    body: 'Invite Hackers',
+    href: '/admin/emergency-invites',
+    body: 'Emergency Invites (hackers & judges)',
   },
   {
     href: '/admin/randomize-projects',
