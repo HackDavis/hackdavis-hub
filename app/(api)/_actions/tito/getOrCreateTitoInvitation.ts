@@ -50,7 +50,7 @@ export default async function getOrCreateTitoInvitation(
     if (!deleteRes.ok) {
       return {
         ok: false,
-        error: `Duplicate recovery failed (delete): ${deleteRes.error}`,
+        error: `Tito duplicate recovery failed (delete): ${deleteRes.error}`,
       };
     }
     titoResponse = await createRsvpInvitation(data);
