@@ -53,7 +53,7 @@ export default function judgeHubInviteTemplate(
           <span style="color: #173a52;">Welcome to </span>
           <span style="color: #57dade;">HackDavis 2026!</span>
         </h1>
-        <p style="color: #173a52; text-align: center; font-size: 14px; ">✦ ${DOE}    ✦ ${DOE_LOCATION}}</p>
+        <p style="color: #173a52; text-align: center; font-size: 14px; ">✦ ${DOE}    ✦ ${DOE_LOCATION}</p>
         <div class="divider"></div>
         <div class="content-box">
             <p>Hi ${fname},</p>
