@@ -12,6 +12,8 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
   const CLAIM_TITO_TICKET_DEADLINE = '11:59pm on May 4th';
   const DOE_DATE = 'May 9th, 2026';
   const TECH_LEAD_NAME = 'michelle';
+  const DOE = 'May 9 - 10, 2026';
+  const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -49,7 +51,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
           <span style="color: #173a52;">Welcome to </span>
           <span style="color: #57dade;">HackDavis 2026!</span>
         </h1>
-        <p style="color: #173a52; text-align: center; font-size: 14px; ">✦ May 9-10, 2026    ✦ University Credit Union Center, UC Davis</p>
+        <p style="color: #173a52; text-align: center; font-size: 14px; ">✦ ${DOE}    ✦ ${DOE_LOCATION}</p>
         <div class="divider"></div>
         <div class="content-box">
             <p>Hi ${fname},</p>

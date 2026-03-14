@@ -14,6 +14,8 @@ export default function judgeHubInviteTemplate(
   const INVITATION_TO_REGISTER_GUIDE_URL =
     'https://www.notion.so/hackdavis/HackDavis-2025-Judging-Guide-1c32d37fcae880b1ba3aeb0a9a7841b7?pvs=4#1cb2d37fcae880b6a5f4e3d793349bf6';
   const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
+  const DOE = 'May 9 - 10, 2026';
+  const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -51,7 +53,7 @@ export default function judgeHubInviteTemplate(
           <span style="color: #173a52;">Welcome to </span>
           <span style="color: #57dade;">HackDavis 2026!</span>
         </h1>
-        <p style="color: #173a52; text-align: center; font-size: 14px; ">✦ May 9-10, 2026    ✦ University Credit Union Center, UC Davis</p>
+        <p style="color: #173a52; text-align: center; font-size: 14px; ">✦ ${DOE}    ✦ ${DOE_LOCATION}}</p>
         <div class="divider"></div>
         <div class="content-box">
             <p>Hi ${fname},</p>
