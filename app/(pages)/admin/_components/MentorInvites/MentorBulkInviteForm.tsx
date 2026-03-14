@@ -1,17 +1,18 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
-import sendBulkJudgeHubInvites from '@actions/emails/sendBulkJudgeHubInvites';
-import { BulkJudgeInviteResponse, JudgeInviteData } from '@typeDefs/emails';
+import sendBulkMentorInvites from '@actions/emails/sendBulkMentorInvites';
+import { BulkMentorInviteResponse, MentorInviteData } from '@typeDefs/emails';
+import { Release, RsvpList } from '@typeDefs/tito';
+import { generateInviteResultsCSV } from '../../_utils/generateInviteResultsCSV';
 
 /**
  * Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side.
- * Note: uses simple comma-split, so quoted fields containing commas are not supported.
- * This is acceptable since judge names/emails rarely contain commas.
+ * Note: uses simple comma-split — quoted fields containing commas are not supported.
  */
 function previewCSV(
   text: string
-): { ok: true; rows: JudgeInviteData[] } | { ok: false; error: string } {
+): { ok: true; rows: MentorInviteData[] } | { ok: false; error: string } {
   const lines = text
     .split(/\r?\n/)
     .map((l) => l.trim())
@@ -25,7 +26,7 @@ function previewCSV(
   if (dataLines.length === 0)
     return { ok: false, error: 'No data rows found.' };
 
-  const rows: JudgeInviteData[] = [];
+  const rows: MentorInviteData[] = [];
   for (let i = 0; i < dataLines.length; i++) {
     const cols = dataLines[i].split(',').map((c) => c.trim());
     if (cols.length < 3) {
@@ -43,12 +44,27 @@ function previewCSV(
 
 type Status = 'idle' | 'previewing' | 'sending' | 'done';
 
-export default function JudgeBulkInviteForm() {
+interface Props {
+  rsvpLists: RsvpList[];
+  releases: Release[];
+}
+
+export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
   const [status, setStatus] = useState<Status>('idle');
   const [csvText, setCsvText] = useState('');
-  const [preview, setPreview] = useState<JudgeInviteData[]>([]);
+  const [preview, setPreview] = useState<MentorInviteData[]>([]);
   const [parseError, setParseError] = useState('');
-  const [result, setResult] = useState<BulkJudgeInviteResponse | null>(null);
+  const [result, setResult] = useState<BulkMentorInviteResponse | null>(null);
+  const [selectedListSlug, setSelectedListSlug] = useState(
+    rsvpLists[0]?.slug ?? ''
+  );
+  const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
+  const [configError, setConfigError] = useState('');
+
+  const toggleRelease = (id: string) =>
+    setSelectedReleases((prev) =>
+      prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]
+    );
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -58,7 +74,6 @@ export default function JudgeBulkInviteForm() {
     reader.onload = (ev) => {
       const text = ev.target?.result as string;
       setCsvText(text);
-
       const parsed = previewCSV(text);
       if (parsed.ok) {
         setPreview(parsed.rows);
@@ -74,12 +89,53 @@ export default function JudgeBulkInviteForm() {
   };
 
   const handleSend = async () => {
+    if (!selectedListSlug) {
+      setConfigError('Please select an RSVP list.');
+      return;
+    }
+    if (selectedReleases.length === 0) {
+      setConfigError('Please select at least one release.');
+      return;
+    }
+    setConfigError('');
     setStatus('sending');
     setResult(null);
 
-    const response = await sendBulkJudgeHubInvites(csvText);
+    const response = await sendBulkMentorInvites(
+      csvText,
+      selectedListSlug,
+      selectedReleases.join(',')
+    );
     setResult(response);
     setStatus('done');
+  };
+
+  const handleDownloadCSV = () => {
+    if (!result) return;
+    const resultMap = new Map(
+      result.results.map((r) => [r.email.toLowerCase(), r])
+    );
+    const rows = preview.map((mentor) => {
+      const res = resultMap.get(mentor.email.toLowerCase());
+      return {
+        firstName: mentor.firstName,
+        lastName: mentor.lastName,
+        email: mentor.email,
+        titoUrl: res?.titoUrl,
+        success: res?.success ?? false,
+        error: res?.error,
+      };
+    });
+    const csv = generateInviteResultsCSV(rows);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `mentor-invites-${
+      new Date().toISOString().split('T')[0]
+    }.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleReset = () => {
@@ -88,6 +144,8 @@ export default function JudgeBulkInviteForm() {
     setPreview([]);
     setParseError('');
     setResult(null);
+    setConfigError('');
+    setSelectedReleases([]);
   };
 
   return (
@@ -121,13 +179,15 @@ export default function JudgeBulkInviteForm() {
 
       {/* Preview table */}
       {status === 'previewing' && preview.length > 0 && (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           <p className="text-sm text-gray-600">
-            <span className="font-semibold">{preview.length}</span> judge
-            {preview.length !== 1 ? 's' : ''} found. Review before sending:
+            <span className="font-semibold">{preview.length}</span> mentor
+            {preview.length !== 1 ? 's' : ''} found. Configure Tito settings and
+            review before sending:
           </p>
+
           <div className="border border-gray-200 rounded-lg overflow-hidden">
-            <div className="max-h-64 overflow-y-auto">
+            <div className="max-h-52 overflow-y-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 sticky top-0">
                   <tr>
@@ -143,24 +203,96 @@ export default function JudgeBulkInviteForm() {
                   </tr>
                 </thead>
                 <tbody>
-                  {preview.map((judge, i) => (
+                  {preview.map((mentor, i) => (
                     <tr
                       key={i}
                       className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                     >
                       <td className="px-4 py-2 text-gray-800">
-                        {judge.firstName}
+                        {mentor.firstName}
                       </td>
                       <td className="px-4 py-2 text-gray-800">
-                        {judge.lastName}
+                        {mentor.lastName}
                       </td>
-                      <td className="px-4 py-2 text-gray-600">{judge.email}</td>
+                      <td className="px-4 py-2 text-gray-600">
+                        {mentor.email}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
+
+          {/* RSVP List */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              RSVP List
+            </label>
+            <select
+              value={selectedListSlug}
+              onChange={(e) => setSelectedListSlug(e.target.value)}
+              className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#005271]"
+            >
+              {rsvpLists.map((list) => (
+                <option key={list.id} value={list.slug}>
+                  {list.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Releases */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-gray-700">
+                Releases (ticket types)
+              </label>
+              <button
+                type="button"
+                onClick={() =>
+                  setSelectedReleases(
+                    selectedReleases.length === releases.length
+                      ? []
+                      : releases.map((r) => r.id)
+                  )
+                }
+                className="text-xs text-[#005271] underline"
+              >
+                {selectedReleases.length === releases.length
+                  ? 'Deselect all'
+                  : 'Select all'}
+              </button>
+            </div>
+            <div className="flex flex-col gap-1">
+              {releases.map((release) => (
+                <label
+                  key={release.id}
+                  className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedReleases.includes(release.id)}
+                    onChange={() => toggleRelease(release.id)}
+                    className="w-4 h-4 accent-[#005271]"
+                  />
+                  <span className="text-gray-800 font-medium">
+                    {release.title}
+                  </span>
+                  <span className="text-gray-400 text-xs ml-auto">
+                    {release.id}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {configError && (
+            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+              {configError}
+            </p>
+          )}
+
           <button
             onClick={handleSend}
             className="bg-[#005271] text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-[#003d54] transition-colors self-start"
@@ -226,12 +358,20 @@ export default function JudgeBulkInviteForm() {
             </div>
           )}
 
-          <button
-            onClick={handleReset}
-            className="text-sm text-[#005271] underline self-start"
-          >
-            Send another batch
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={handleDownloadCSV}
+              className="bg-[#005271] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#003d54] transition-colors"
+            >
+              Download Results CSV
+            </button>
+            <button
+              onClick={handleReset}
+              className="text-sm text-[#005271] underline"
+            >
+              Send another batch
+            </button>
+          </div>
         </div>
       )}
     </div>

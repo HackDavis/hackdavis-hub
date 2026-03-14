@@ -1,12 +1,12 @@
 import { parse } from 'csv-parse/sync';
 import { z } from 'zod';
-import { JudgeInviteData } from '@typeDefs/emails';
+import { InviteData } from '@typeDefs/emails';
 
 const emailSchema = z.string().email();
 
 interface ParseResult {
   ok: true;
-  body: JudgeInviteData[];
+  body: InviteData[];
 }
 
 interface ParseError {
@@ -42,7 +42,7 @@ export default function parseInviteCSV(
       return { ok: false, error: 'CSV has a header but no data rows.' };
     }
 
-    const results: JudgeInviteData[] = [];
+    const results: InviteData[] = [];
     const errors: string[] = [];
 
     for (let i = 0; i < dataRows.length; i++) {
