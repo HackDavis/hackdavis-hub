@@ -34,7 +34,6 @@ export default async function getOrCreateTitoInvitation(
     if (existingRes.ok && existingRes.body) {
       const existingUrl = existingRes.body.unique_url ?? existingRes.body.url;
       if (existingUrl) {
-        console.log(`[Tito] Reusing existing URL for ${email}`);
         return { ok: true, titoUrl: existingUrl };
       }
     }

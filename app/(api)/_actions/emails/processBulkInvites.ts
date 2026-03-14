@@ -37,7 +37,6 @@ export default async function processBulkInvites<
   }
 
   const allItems = parsed.body as TData[];
-  const totalStart = Date.now();
 
   // Optional preprocess (e.g. batch duplicate check)
   let remaining = allItems;
@@ -55,14 +54,6 @@ export default async function processBulkInvites<
     }
   }
 
-  console.log(
-    `[Bulk ${label} Invites] Starting ${remaining.length} of ${
-      allItems.length
-    } — ${concurrency ? `concurrency: ${concurrency}` : 'internal limiters'}`
-  );
-
-  let completed = 0;
-
   // Process all items concurrently (with optional outer limiter)
   const limiter = concurrency ? createLimiter(concurrency) : null;
 
@@ -78,7 +69,7 @@ export default async function processBulkInvites<
       } catch (e) {
         const errorMsg = e instanceof Error ? e.message : 'Unknown error';
         console.error(
-          `[Bulk ${label} Invites] ✗ Failed: ${item.email}`,
+          `[Bulk ${label} Invites] Failed: ${item.email}`,
           errorMsg
         );
         results.push({
@@ -88,18 +79,7 @@ export default async function processBulkInvites<
         } as TResult);
         failureCount++;
       }
-
-      console.log(
-        `[Bulk ${label} Invites] Progress: ${++completed}/${remaining.length}`
-      );
     })
-  );
-
-  const totalTime = Date.now() - totalStart;
-  console.log(
-    `[Bulk ${label} Invites] Complete: ${successCount} success, ${failureCount} failed in ${(
-      totalTime / 1000
-    ).toFixed(1)}s`
   );
 
   return {

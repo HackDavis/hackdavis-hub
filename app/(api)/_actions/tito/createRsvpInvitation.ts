@@ -56,7 +56,6 @@ export default async function createRsvpInvitation(
           method: 'POST',
           body: JSON.stringify({ release_invitation: requestBody }),
         });
-        console.log(`[Tito] ✓ Created invitation for ${data.email}`);
         return { ok: true, body: response.release_invitation, error: null };
       } catch (err: any) {
         if (err.message.includes('429') && attempt < MAX_RETRIES) {

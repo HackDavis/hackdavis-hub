@@ -13,7 +13,6 @@ export default async function sendSingleJudgeHubInvite(
   options: JudgeInviteData,
   skipDuplicateCheck = false
 ): Promise<SingleJudgeInviteResponse> {
-  const totalStart = Date.now();
   const { firstName, lastName, email } = options;
 
   try {
@@ -55,12 +54,7 @@ export default async function sendSingleJudgeHubInvite(
         : typeof e === 'string'
         ? e
         : 'Unknown error';
-    console.error(
-      `[Judge Hub Invite] ✗ Failed (${email}) after ${
-        Date.now() - totalStart
-      }ms:`,
-      errorMessage
-    );
+    console.error(`[Judge Hub Invite] Failed (${email}):`, errorMessage);
     return { ok: false, error: errorMessage };
   }
 }

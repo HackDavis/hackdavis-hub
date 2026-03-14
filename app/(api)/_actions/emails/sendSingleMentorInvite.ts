@@ -15,14 +15,10 @@ interface MentorInviteOptions extends MentorInviteData {
 export default async function sendSingleMentorInvite(
   options: MentorInviteOptions
 ): Promise<SingleMentorInviteResponse> {
-  const totalStart = Date.now();
   const { firstName, lastName, email, rsvpListSlug, releaseIds } = options;
 
   try {
-    console.log(`[Mentor Invite] Starting invite for ${email}`);
-
     // Step 1: Get or create Tito invitation (with duplicate recovery)
-    const titoStart = Date.now();
     const titoResult = await getOrCreateTitoInvitation({
       firstName,
       lastName,
@@ -30,7 +26,6 @@ export default async function sendSingleMentorInvite(
       rsvpListSlug,
       releaseIds,
     });
-    console.log(`[Mentor Invite] Tito: ${Date.now() - titoStart}ms`);
 
     if (!titoResult.ok) {
       throw new Error(titoResult.error);
@@ -41,18 +36,13 @@ export default async function sendSingleMentorInvite(
     }
 
     // Step 2: Send email with Tito URL
-    const mailStart = Date.now();
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: email,
       subject: MENTOR_EMAIL_SUBJECT,
       html: mentorInviteTemplate(firstName, titoResult.titoUrl),
     });
-    console.log(`[Mentor Invite] sendMail: ${Date.now() - mailStart}ms`);
 
-    console.log(
-      `[Mentor Invite] ✓ Done (${email}) — total: ${Date.now() - totalStart}ms`
-    );
     return { ok: true, titoUrl: titoResult.titoUrl, error: null };
   } catch (e) {
     const errorMessage =
@@ -61,10 +51,7 @@ export default async function sendSingleMentorInvite(
         : typeof e === 'string'
         ? e
         : 'Unknown error';
-    console.error(
-      `[Mentor Invite] ✗ Failed (${email}) after ${Date.now() - totalStart}ms:`,
-      errorMessage
-    );
+    console.error(`[Mentor Invite] Failed (${email}):`, errorMessage);
     return { ok: false, error: errorMessage };
   }
 }

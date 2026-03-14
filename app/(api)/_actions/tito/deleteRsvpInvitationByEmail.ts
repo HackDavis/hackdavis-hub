@@ -49,7 +49,6 @@ export default async function deleteRsvpInvitationByEmail(
       }
     );
 
-    console.log(`[Tito] Deleted invitation for ${email}`);
     return { ok: true, error: null };
   } catch (e) {
     const error = e instanceof Error ? e.message : 'Unknown error';
