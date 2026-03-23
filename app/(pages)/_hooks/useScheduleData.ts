@@ -188,13 +188,17 @@ export function useScheduleData(): UseScheduleDataResult {
     [dataToUse, activeFilters]
   );
 
-  const syncSignal = useMemo(
-    () =>
-      `${activeTab}:${activeFilters.join(',')}:${DAY_KEYS.map(
-        (dayKey) => groupedEntriesByDay[dayKey].length
-      ).join(',')}`,
-    [activeTab, activeFilters, groupedEntriesByDay]
-  );
+  const syncSignal = useMemo(() => {
+    const contentHash = DAY_KEYS.map((dayKey) => {
+      const dayGroups = groupedEntriesByDay[dayKey] || [];
+      const totalEvents = dayGroups.reduce(
+        (sum, group) => sum + group.entries.length,
+        0
+      );
+      return `${dayGroups.length}-${totalEvents}`;
+    }).join(',');
+    return `${activeTab}:${activeFilters.join(',')}:${contentHash}`;
+  }, [activeTab, activeFilters, groupedEntriesByDay]);
 
   const { changeActiveDay } = useActiveDaySync({
     activeDay,
@@ -220,7 +224,7 @@ export function useScheduleData(): UseScheduleDataResult {
     setActiveFilters([...withoutAll, label]);
   };
 
-  const isInitialLoad = userLoading;
+  const isInitialLoad = userLoading; // only show loading state for inital rendering bc eventsLoading/personalEventsLoading causes non ui-friendly refresh
   const isError = Boolean(personalEventsError || eventsError);
 
   return {

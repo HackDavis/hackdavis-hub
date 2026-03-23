@@ -9,9 +9,9 @@ import {
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
 
-// import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
+import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
 import duckbunny from '@public/hackers/scheduleSneakPeek/duck+bunny.svg';
-// import duckfrog from '@public/hackers/scheduleSneakPeek/duck+frog.svg';
+import duckfrog from '@public/hackers/scheduleSneakPeek/duck+frog.svg';
 import cucumber_cow from '@public/hackers/scheduleSneakPeek/cucumber_cow.svg';
 
 interface ScheduleSneakPeekProps {
@@ -163,52 +163,45 @@ function Panel({
           </div>
         )}
       </div>
-
-      {/* <SectionLabel label="IN 0:30:00" />
-      <div className="space-y-3">
-        {upcomingEvents.length > 0 ? (
-          renderEventItems(upcomingEvents, 'upcoming')
-        ) : (
-          <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
-            <Image
-              src={title === 'Happening now' ? sleeping_cow : duckfrog}
-              alt={
-                title === 'Happening now'
-                  ? 'Sleeping cow'
-                  : 'Duck on top of frog'
-              }
-            />
-            <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
-              {title === 'Your schedule'
-                ? 'No upcoming events on your schedule'
-                : 'No upcoming events'}
-            </p>
-            <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
-              {title === 'Your schedule'
-                ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
-                : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
-            </p>
-            <Link
-              href="/schedule"
-              className="hover:brightness-[97%] hover:saturate-[140%]"
-            >
-              {title == 'Your schedule' ? (
-                <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
-                  Explore events
-                </button>
-              ) : null}
-            </Link>
+      {upcomingGroups.length > 0 ? (
+        upcomingGroups.map((group) => (
+          <div key={group.startTime}>
+            <CountdownLabel targetTime={group.startTime} />
+            <div className="space-y-3">
+              {renderEventItems(group.entries, `upcoming-${group.startTime}`)}
+            </div>
           </div>
-        )}
-      </div> */}
-      {upcomingGroups.map((group) => (
-        <div key={group.startTime}>
-          <CountdownLabel targetTime={group.startTime} />
-          <div className="space-y-3">
-            {renderEventItems(group.entries, `upcoming-${group.startTime}`)}
-          </div>
+        ))
+      ) : (
+        <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+          <Image
+            src={title === 'Happening now' ? sleeping_cow : duckfrog}
+            alt={
+              title === 'Happening now' ? 'Sleeping cow' : 'Duck on top of frog'
+            }
+          />
+          <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+            {title === 'Your schedule'
+              ? 'No upcoming events on your schedule'
+              : 'No upcoming events'}
+          </p>
+          <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
+            {title === 'Your schedule'
+              ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
+              : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
+          </p>
+          <Link
+            href="/schedule"
+            className="hover:brightness-[97%] hover:saturate-[140%]"
+          >
+            {title == 'Your schedule' ? (
+              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                Explore events
+              </button>
+            ) : null}
+          </Link>
         </div>
-      ))}
+      )}
     </div>
   );
 }
