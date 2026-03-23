@@ -34,7 +34,7 @@ export default function DayNavButtons({
           } ${buttonClassName ?? ''}`}
         >
           <span
-            className={`absolute left-0 top-1/2 -translate-y-1/2 block origin-left transition-all duration-200 ease-out ${
+            className={`hidden md:block absolute left-0 top-1/2 -translate-y-1/2 origin-left transition-all duration-200 ease-out ${
               previewDay === dayKey
                 ? 'scale-x-100 opacity-100'
                 : 'scale-x-0 opacity-0'

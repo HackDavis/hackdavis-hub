@@ -41,7 +41,7 @@ export default function Page() {
         />
       </div>
 
-      <div className="relative z-10 w-[90%] mx-auto pb-24 md:pb-44 mt-0 flex flex-col gap-6 md:grid md:gap-0 md:grid-cols-[minmax(56px,1fr)_minmax(0,11fr)] md:grid-rows-[auto_auto_1fr] md:gap-x-8">
+      <div className="relative z-10 w-[90%] mx-auto mt-0 flex flex-col gap-6 md:grid md:gap-0 md:grid-cols-[minmax(56px,1fr)_minmax(0,11fr)] md:grid-rows-[auto_auto_1fr] md:gap-x-8">
         <div className="md:col-start-2 md:row-start-1">
           <div className="flex justify-evenly md:justify-start items-center relative border-b-[3px] border-[#E9E9E7]">
             <div className="flex lg:gap-4 items-baseline justify-center md:justify-start w-full">
@@ -101,7 +101,7 @@ export default function Page() {
           setIsMobileFilterOpen={schedule.setIsMobileFilterOpen}
         />
 
-        <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px] flex flex-col gap-6">
+        <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px] flex flex-col gap-[12px] md:gap-[20px]">
           {schedule.isInitialLoad ? (
             <div>
               <p>loading...</p>
@@ -121,8 +121,6 @@ export default function Page() {
           )}
         </div>
       </div>
-
-      <div className="h-[calc(100vw*60/375)] md:h-0"></div>
       <Footer />
     </main>
   );

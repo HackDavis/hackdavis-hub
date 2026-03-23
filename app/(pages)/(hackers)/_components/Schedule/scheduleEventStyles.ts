@@ -14,19 +14,19 @@ export const SCHEDULE_EVENT_STYLES: Record<EventType, ScheduleEventStyle> = {
   ACTIVITIES: {
     bgColor: '#FFE2D5',
     textColor: '#52230C',
-    addButtonColor: '#FFD5C2',
+    addButtonColor: '#FFD5C2', // integrated for calendar add buttons (not related to ACTIVITES)
   },
   WORKSHOPS: {
     bgColor: '#E9FBBA',
     textColor: '#1A3819',
-    addButtonColor: '#D1F76E',
+    addButtonColor: '#D1F76E', // integrated for calendar add buttons (not related to WORKSHOPS)
   },
   MEALS: {
     bgColor: '#FFE7B2',
     textColor: '#572700',
   },
   RECOMMENDED: {
-    bgColor: '#CCFFFE',
+    bgColor: '#C0AAE2',
     textColor: '#003D3D',
   },
 };
