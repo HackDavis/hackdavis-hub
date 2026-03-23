@@ -71,7 +71,7 @@ export function CalendarItem({
           }`}
         >
           <div className="w-full sm:w-auto">
-            <h2 className="font-metropolis text-[18px] md:text-[20px] font-semibold tracking-[0.72px] sm:mb-2 text-balance">
+            <h2 className="font-metropolis text-[18px] md:text-[20px] font-semibold tracking-[0.72px] mb-1 text-balance">
               {name}
             </h2>
             <div className="flex items-center flex-wrap gap-y-2">
