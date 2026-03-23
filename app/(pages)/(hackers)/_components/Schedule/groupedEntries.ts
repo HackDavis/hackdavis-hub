@@ -1,6 +1,10 @@
 import { ScheduleFilter } from '@typeDefs/filters';
 import { DAY_KEYS, DayKey } from './constants';
-import { EventDetails, GroupedDayEntries, ScheduleData } from './types';
+import {
+  EventDetails,
+  GroupedDayEntries,
+  ScheduleData,
+} from '@typeDefs/schedule';
 
 export const getGroupedEntriesForDay = (
   dayKey: DayKey,

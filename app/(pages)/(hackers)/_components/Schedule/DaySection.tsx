@@ -1,7 +1,7 @@
 import { Button } from '@pages/_globals/components/ui/button';
 import CalendarItem from './CalendarItem';
 import { DAY_LABELS, DayKey } from './constants';
-import { GroupedDayEntries } from './types';
+import { GroupedDayEntries } from '@typeDefs/schedule';
 
 interface DaySectionProps {
   dayKey: DayKey;

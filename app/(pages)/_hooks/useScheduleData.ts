@@ -8,7 +8,7 @@ import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import { ScheduleFilter } from '@typeDefs/filters';
 import { DAY_KEYS, DayKey } from '../(hackers)/_components/Schedule/constants';
 import { buildGroupedEntriesByDay } from '../(hackers)/_components/Schedule/groupedEntries';
-import { ScheduleData } from '../(hackers)/_components/Schedule/types';
+import { ScheduleData } from '@typeDefs/schedule';
 import { useActiveDaySync } from './useActiveDaySync';
 
 interface UseScheduleDataResult {
