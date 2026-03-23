@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import Event from '@typeDefs/event';
 import { useEvents } from '@hooks/useEvents';
 import { usePersonalEvents } from '@hooks/usePersonalEvents';
 import useActiveUser from '@pages/_hooks/useActiveUser';
 import { isScheduleEventLive } from '@pages/(hackers)/_components/Schedule/scheduleTime';
+import { useSharedNow } from './useScheduleSharedNow';
 
 export interface EventEntry {
   event: Event;
@@ -63,14 +64,9 @@ export function useScheduleSneakPeekData() {
     });
   }, [personalEvents, eventData]);
 
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setNow(new Date());
-    }, 60000); // Update every 60 seconds
-    return () => clearInterval(interval);
-  }, []);
+  // Update "now" every second
+  const nowMs = useSharedNow();
+  const now = useMemo(() => new Date(nowMs), [nowMs]);
 
   const filteredLists = useMemo(() => {
     // GENERAL (and MEALS) events have no add button and must never appear in

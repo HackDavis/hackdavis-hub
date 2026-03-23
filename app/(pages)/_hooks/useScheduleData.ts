@@ -89,7 +89,6 @@ export function useScheduleData(): UseScheduleDataResult {
     const success = await addToPersonalSchedule(eventId);
 
     if (success) {
-      await refreshPersonalEvents();
       await refreshEvents();
 
       if (activeTab === 'schedule') {
@@ -102,7 +101,6 @@ export function useScheduleData(): UseScheduleDataResult {
     const success = await removeFromPersonalSchedule(eventId);
 
     if (success) {
-      await refreshPersonalEvents();
       await refreshEvents();
 
       if (activeTab === 'schedule') {
