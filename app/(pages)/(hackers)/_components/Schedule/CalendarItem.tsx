@@ -99,7 +99,6 @@ export function CalendarItem({
                 {tags.map((tag) => (
                   <div
                     className="px-[8px] py-[4px] bg-[rgba(209,247,110,0.60)]"
-                    style={{ borderColor: eventStyle.textColor }}
                     key={tag}
                   >
                     <span

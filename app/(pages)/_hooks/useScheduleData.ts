@@ -224,7 +224,7 @@ export function useScheduleData(): UseScheduleDataResult {
     setActiveFilters([...withoutAll, label]);
   };
 
-  const isInitialLoad = userLoading; // only show loading state for inital rendering bc eventsLoading/personalEventsLoading causes non ui-friendly refresh
+  const isInitialLoad = userLoading; // only show loading state for initial rendering bc eventsLoading/personalEventsLoading causes non ui-friendly refresh
   const isError = Boolean(personalEventsError || eventsError);
 
   return {

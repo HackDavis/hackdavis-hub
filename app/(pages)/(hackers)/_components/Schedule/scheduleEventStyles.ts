@@ -14,7 +14,7 @@ export const SCHEDULE_EVENT_STYLES: Record<EventType, ScheduleEventStyle> = {
   ACTIVITIES: {
     bgColor: '#FFE2D5',
     textColor: '#52230C',
-    addButtonColor: '#FFD5C2', // integrated for calendar add buttons (not related to ACTIVITES)
+    addButtonColor: '#FFD5C2', // integrated for calendar add buttons (not related to ACTIVITIES)
   },
   WORKSHOPS: {
     bgColor: '#E9FBBA',
