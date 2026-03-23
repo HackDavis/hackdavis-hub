@@ -37,7 +37,8 @@ export default function ScheduleControls({
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 110);
     };
-    window.addEventListener('scroll', handleScroll);
+    const scrollOptions: AddEventListenerOptions = { passive: true };
+    window.addEventListener('scroll', handleScroll, scrollOptions);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

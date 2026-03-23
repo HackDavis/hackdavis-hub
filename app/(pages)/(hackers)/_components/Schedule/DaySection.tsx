@@ -49,11 +49,9 @@ export default function DaySection({
       <div className="font-jakarta font-bold text-[18px] md:text-[22px] text-[#3F3F3F] flex justify-between">
         <div>
           {dayTitle}{' '}
-          {dayTitle === 'May 9' ? (
-            <span className="text-[#ACACB9]">Saturday</span>
-          ) : (
-            <span className="text-[#ACACB9]">Sunday</span>
-          )}
+          <span className="text-[#ACACB9]">
+            {targetDate.toLocaleDateString('en-US', { weekday: 'long' })}
+          </span>
         </div>
         <div className="self-start inline-flex items-center px-[8px] py-[4px] bg-[#F3F3FC]">
           <span className="block font-dm-mono text-[14px] font-normal uppercase">

@@ -192,7 +192,7 @@ export function useScheduleData(): UseScheduleDataResult {
     const contentHash = DAY_KEYS.map((dayKey) => {
       const dayGroups = groupedEntriesByDay[dayKey] || [];
       const totalEvents = dayGroups.reduce(
-        (sum, group) => sum + group.entries.length,
+        (sum, group) => sum + (group[1]?.length || 0),
         0
       );
       return `${dayGroups.length}-${totalEvents}`;
@@ -224,7 +224,11 @@ export function useScheduleData(): UseScheduleDataResult {
     setActiveFilters([...withoutAll, label]);
   };
 
-  const isInitialLoad = userLoading; // only show loading state for initial rendering bc eventsLoading/personalEventsLoading causes non ui-friendly refresh
+  const isInitialLoad =
+    userLoading ||
+    (activeTab === 'schedule' &&
+      scheduleData === null &&
+      (eventsLoading || personalEventsLoading)); // only show loading state for initial rendering; avoid non ui-friendly refresh after data has loaded
   const isError = Boolean(personalEventsError || eventsError);
 
   return {

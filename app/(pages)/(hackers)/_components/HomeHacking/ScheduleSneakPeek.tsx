@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
@@ -8,6 +8,7 @@ import {
   EventEntry,
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
+import { useSharedNow } from '@pages/_hooks/useScheduleSharedNow';
 
 import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
 import duckbunny from '@public/hackers/scheduleSneakPeek/duck+bunny.svg';
@@ -39,38 +40,21 @@ function SectionLabel({ label }: { label: string }) {
 }
 
 function CountdownLabel({ targetTime }: { targetTime: number }) {
-  const [timeLeft, setTimeLeft] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
+  const now = useSharedNow();
 
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const difference = targetTime - new Date().getTime();
-      if (difference <= 0) {
-        return { hours: 0, minutes: 0, seconds: 0 };
-      }
-      return {
-        hours: Math.floor(difference / (1000 * 60 * 60)),
-        minutes: Math.floor((difference / (1000 * 60)) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
+  const timeLeft = useMemo(() => {
+    const diff = targetTime - now;
+    if (diff <= 0) return { h: 0, m: 0, s: 0 };
+    return {
+      h: Math.floor(diff / 3600000),
+      m: Math.floor((diff / 60000) % 60),
+      s: Math.floor((diff / 1000) % 60),
     };
+  }, [targetTime, now]);
 
-    setTimeLeft(calculateTimeLeft());
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [targetTime]);
-
-  const label = `IN ${timeLeft.hours
+  const label = `IN ${timeLeft.h.toString().padStart(2, '0')}:${timeLeft.m
     .toString()
-    .padStart(2, '0')}:${timeLeft.minutes
-    .toString()
-    .padStart(2, '0')}:${timeLeft.seconds.toString().padStart(2, '0')}`;
+    .padStart(2, '0')}:${timeLeft.s.toString().padStart(2, '0')}`;
 
   return <SectionLabel label={label} />;
 }
@@ -107,17 +91,22 @@ function Panel({
     ));
 
   const upcomingGroups = useMemo(() => {
-    const groups: { startTime: number; entries: EventEntry[] }[] = [];
+    const groupsMap = new Map<number, EventEntry[]>();
     for (const entry of upcomingEvents) {
       const startTime = new Date(entry.event.start_time).getTime();
-      const existing = groups.find((g) => g.startTime === startTime);
+      const existing = groupsMap.get(startTime);
       if (existing) {
-        existing.entries.push(entry);
+        existing.push(entry);
       } else {
-        groups.push({ startTime, entries: [entry] });
+        groupsMap.set(startTime, [entry]);
       }
     }
-    return groups.sort((a, b) => a.startTime - b.startTime);
+    return Array.from(groupsMap.entries())
+      .map(([startTime, entries]) => ({
+        startTime,
+        entries,
+      }))
+      .sort((a, b) => a.startTime - b.startTime);
   }, [upcomingEvents]);
 
   return (
