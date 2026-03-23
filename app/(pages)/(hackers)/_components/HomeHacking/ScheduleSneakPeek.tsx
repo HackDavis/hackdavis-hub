@@ -228,7 +228,7 @@ export default function ScheduleSneakPeek({
           </span>
         </div>
 
-        <div className="border-b border-[#E3E3E3] mt-4 mb-6" />
+        <div className="border-b border-[#E3E3E3] mt-4 mb-[2.5rem]" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5">
           <Panel
