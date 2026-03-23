@@ -21,15 +21,24 @@ export default function DaySection({
   onRemoveFromSchedule,
 }: DaySectionProps) {
   const dayTitle = DAY_LABELS[dayKey].replace(/^MAY/, 'May');
-  const now = new Date();
-  const currentYear = now.getFullYear();
+  const pacificNow = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
+  );
+  const today = new Date(
+    pacificNow.getFullYear(),
+    pacificNow.getMonth(),
+    pacificNow.getDate()
+  );
   const targetMonthIndex = 4; // May
-
-  const today = new Date(currentYear, now.getMonth(), now.getDate());
-  const targetDate = new Date(currentYear, targetMonthIndex, Number(dayKey));
+  const targetDate = new Date(
+    pacificNow.getFullYear(),
+    targetMonthIndex,
+    Number(dayKey)
+  );
 
   const msPerDay = 24 * 60 * 60 * 1000;
   const diff = Math.round((targetDate.getTime() - today.getTime()) / msPerDay);
+
   const dayTag =
     diff === 0
       ? 'Today'
