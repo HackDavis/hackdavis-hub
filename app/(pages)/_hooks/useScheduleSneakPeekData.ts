@@ -23,15 +23,17 @@ const toSorted = (events: EventEntry[]): EventEntry[] =>
 
 /** Returns only the events starting at the single nearest future start time. */
 const getNextBatchEvents = (entries: EventEntry[], now: Date): EventEntry[] => {
-  const future = entries.filter(
-    (e) => new Date(e.event.start_time).getTime() > now.getTime()
-  );
-  if (future.length === 0) return [];
-  const earliest = Math.min(
-    ...future.map((e) => new Date(e.event.start_time).getTime())
-  );
-  return future.filter(
-    (e) => new Date(e.event.start_time).getTime() === earliest
+  const nowMs = now.getTime();
+  let earliestMs = Number.MAX_SAFE_INTEGER;
+  for (const e of entries) {
+    const startMs = new Date(e.event.start_time).getTime();
+    if (startMs > nowMs && startMs < earliestMs) {
+      earliestMs = startMs;
+    }
+  }
+  if (earliestMs === Number.MAX_SAFE_INTEGER) return [];
+  return entries.filter(
+    (e) => new Date(e.event.start_time).getTime() === earliestMs
   );
 };
 

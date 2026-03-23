@@ -40,7 +40,8 @@ export const getGroupedEntriesForDay = (
     if (endA === null && endB !== null) return -1;
     if (endA !== null && endB === null) return 1;
 
-    if (endA !== null && endB !== null && endA !== endB) {
+    // Make sure events without end time populate first (ex: check in events)
+    if (endA !== null && endB !== null) {
       return endA - endB;
     }
 
