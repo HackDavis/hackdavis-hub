@@ -143,7 +143,7 @@ function Panel({
               href="/schedule"
               className="hover:brightness-[97%] hover:saturate-[140%]"
             >
-              {title == 'Your schedule' ? (
+              {title === 'Your schedule' ? (
                 <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
                   Add to your schedule
                 </button>
