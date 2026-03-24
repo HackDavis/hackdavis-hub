@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { Plus_Jakarta_Sans, DM_Mono } from 'next/font/google';
 
+import arrow from '@public/hackers/MDHelp/arrow.svg';
+
 // Fonts
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -68,8 +70,8 @@ export const Card: React.FC<CardProps> = ({
           >
             <span className="w-0 group-hover:w-6 h-6 flex items-center overflow-hidden transition-all duration-300 ease-out shrink-0">
               <Image
-                src="/components/MDHelp/arrow.svg"
-                alt=""
+                src={arrow}
+                alt="small arrow"
                 width={24}
                 height={24}
                 className="w-6 h-auto -translate-x-3 group-hover:translate-x-0 transition-transform duration-300 ease-out"
