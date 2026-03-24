@@ -29,8 +29,27 @@ const groupByJudge = (
   return acc;
 };
 
+// Helper to convert table letter-number format to a comparable numeric value (ex: A1 -> 1001, B3 -> 2003)
+function toComparableTableNumber(tableNumber: string): number | null {
+  const raw = tableNumber.trim();
+  if (!raw) return null;
+
+  // If table number is already numeric
+  const numeric = Number(raw);
+  if (Number.isFinite(numeric)) return numeric;
+
+  const match = raw.match(/^([A-Za-z]+)(\d+)$/);
+  if (!match) return null;
+
+  const row = match[1].toUpperCase();
+  const seat = Number(match[2]);
+  const rowValue = row.charCodeAt(0) - 64;
+  return rowValue * 1000 + seat;
+}
+
 export default async function randomizeProjects(
-  secondFloorStart: number = 100
+  // I1 is the first table on floor 2.
+  secondFloorStart: number = 9001
 ) {
   try {
     const subRes = await getManySubmissions();
@@ -54,7 +73,7 @@ export default async function randomizeProjects(
 
     const teams: Team[] = teamRes.body;
 
-    const tableNumbers = new Map<string, number>();
+    const tableNumbers = new Map<string, string>();
     for (const team of teams) {
       if (team._id) tableNumbers.set(team._id, team.tableNumber);
     }
@@ -66,7 +85,11 @@ export default async function randomizeProjects(
       const floor = Object.groupBy(submissions, ({ team_id }) => {
         const tableNumber = tableNumbers.get(team_id);
         if (!tableNumber) return 'missing';
-        return tableNumber < secondFloorStart ? 'first' : 'second';
+
+        const comparable = toComparableTableNumber(tableNumber);
+        if (comparable === null) return 'missing';
+
+        return comparable < secondFloorStart ? 'first' : 'second';
       });
 
       const missing = floor.missing;

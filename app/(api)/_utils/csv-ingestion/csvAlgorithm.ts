@@ -329,14 +329,13 @@ export function sortTracks(
   return ordered;
 }
 
-// Table number assignment
-const ALL_ROWS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
-// Max teams per row on Floor 1 (Prioritize hardware teams))
-const FLOOR1_MAX_PER_ROW = 5;
+// Max teams per row on Floor 1 (Prioritize hardware teams)
+const FLOOR1_ROWS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+const FLOOR1_TEAMS_PER_ROW = 13;
 
 // Max teams per row on Floor 2
-const FLOOR2_MAX_PER_ROW = 10;
+const FLOOR2_ROWS = ['I', 'J', 'K', 'L'];
+const FLOOR2_TEAMS_PER_ROW = 15;
 
 /**
  * Spreads teams evenly across rows, filling earlier rows first when there is a remainder
@@ -344,18 +343,19 @@ const FLOOR2_MAX_PER_ROW = 10;
  * Each team's tableNumber is set to e.g. "A3", "B1"
  */
 
-function distributeAcrossRows(teams: ParsedRecord[], rows: string[]): void {
+function distributeAcrossRows(
+  teams: ParsedRecord[],
+  rows: string[],
+  maxSeats: number
+) {
   if (teams.length === 0 || rows.length === 0) return;
-  const baseCount = Math.floor(teams.length / rows.length);
-  const remainder = teams.length % rows.length;
-
-  let i = 0;
-  for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
-    const letter = rows[rowIdx];
-    const rowSize = baseCount + (rowIdx < remainder ? 1 : 0);
-    for (let seat = 1; seat <= rowSize; seat++) {
-      teams[i].tableNumber = `${letter}${seat}` as any;
-      i++;
+  let teamIdx = 0;
+  for (const rowLabel of rows) {
+    for (let seat = 1; seat <= maxSeats; seat++) {
+      if (teamIdx >= teams.length) return;
+      // Assign the string label (e.g., "A13" or "I15")
+      teams[teamIdx].tableNumber = `${rowLabel}${seat}`;
+      teamIdx++;
     }
   }
 }
@@ -372,38 +372,20 @@ function assignTableNumbers(
   hardwareTeams: ParsedRecord[],
   otherTeams: ParsedRecord[]
 ): void {
-  // Total row count for floor 1 for hardware teams
-  const floor1RowCount = Math.max(
-    1,
-    Math.ceil(hardwareTeams.length / FLOOR1_MAX_PER_ROW)
-  );
-
+  const allTeams = [...hardwareTeams, ...otherTeams];
   // How many seats are available on floor 1 vs how many hardware teams fill them.
-  const floor1Capacity = floor1RowCount * FLOOR1_MAX_PER_ROW;
-  const floor1Spillover = floor1Capacity - hardwareTeams.length;
+  const floor1Capacity = FLOOR1_ROWS.length * FLOOR1_TEAMS_PER_ROW;
 
-  // Pull enough other teams to fill the leftover floor 1 seats.
-  const floor1OtherTeams = otherTeams.slice(0, floor1Spillover);
-  const floor2Teams = otherTeams.slice(floor1Spillover);
-
-  const floor1Teams = [...hardwareTeams, ...floor1OtherTeams];
-
-  // Total row count for floor 2
-  const floor2RowCount = Math.max(
-    1,
-    Math.ceil(floor2Teams.length / FLOOR2_MAX_PER_ROW)
-  );
-
-  // Deligate table letters based on row counts for each floor
-  const floor1Rows = ALL_ROWS.slice(0, floor1RowCount);
-  const floor2Rows = ALL_ROWS.slice(
-    floor1RowCount,
-    floor1RowCount + floor2RowCount
+  // Slice teams based on physical floor capacity
+  const floor1Teams = allTeams.slice(0, floor1Capacity);
+  const floor2Teams = allTeams.slice(
+    floor1Capacity,
+    floor1Capacity + FLOOR2_ROWS.length * FLOOR2_TEAMS_PER_ROW
   );
 
   // Distribute teams across each floor's rows
-  distributeAcrossRows(floor1Teams, floor1Rows);
-  distributeAcrossRows(floor2Teams, floor2Rows);
+  distributeAcrossRows(floor1Teams, FLOOR1_ROWS, FLOOR1_SEATS_PER_ROW);
+  distributeAcrossRows(floor2Teams, FLOOR2_ROWS, FLOOR2_SEATS_PER_ROW);
 }
 
 export async function validateCsvBlob(blob: Blob): Promise<{
