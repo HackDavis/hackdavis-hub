@@ -59,7 +59,7 @@ export function useScheduleData(): UseScheduleDataResult {
   const [activeTab, setActiveTab] = useState<'schedule' | 'personal'>(
     'schedule'
   );
-  const [activeDay, setActiveDay] = useState<DayKey>('9');
+  const [activeDay, setActiveDay] = useState<DayKey>(DAY_KEYS[0]);
   const [activeFilters, setActiveFilters] = useState<ScheduleFilter[]>(['ALL']);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null);

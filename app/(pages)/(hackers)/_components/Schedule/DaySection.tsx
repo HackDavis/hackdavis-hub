@@ -59,7 +59,10 @@ export default function DaySection({
         <div>
           {dayTitle}{' '}
           <span className="text-[#ACACB9]">
-            {targetDate.toLocaleDateString('en-US', { weekday: 'long' })}
+            {targetDate.toLocaleDateString('en-US', {
+              weekday: 'long',
+              timeZone: 'America/Los_Angeles',
+            })}
           </span>
         </div>
         <div className="self-start inline-flex items-center px-[8px] py-[4px] bg-[#F3F3FC]">
