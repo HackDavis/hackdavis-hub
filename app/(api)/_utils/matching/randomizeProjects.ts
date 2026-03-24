@@ -38,11 +38,13 @@ function toComparableTableNumber(tableNumber: string): number | null {
   const numeric = Number(raw);
   if (Number.isFinite(numeric)) return numeric;
 
-  const match = raw.match(/^([A-Za-z]+)(\d+)$/);
+  // Expect a single row letter (A–L) followed by a positive seat number
+  const match = raw.match(/^([A-L])(\d+)$/i);
   if (!match) return null;
 
   const row = match[1].toUpperCase();
   const seat = Number(match[2]);
+  if (!Number.isInteger(seat) || seat < 1) return null;
   const rowValue = row.charCodeAt(0) - 64;
   return rowValue * 1000 + seat;
 }

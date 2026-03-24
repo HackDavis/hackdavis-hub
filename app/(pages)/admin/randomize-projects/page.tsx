@@ -21,7 +21,9 @@ export default function Page() {
       const secondFloor = String(formData.get('secondFloor') ?? '')
         .trim()
         .toUpperCase();
-      if (!secondFloor) throw new Error('Enter a row letter, e.g. I.');
+      if (!/^[A-L]$/.test(secondFloor)) {
+        throw new Error('Enter a single row letter from A to L, e.g. I.');
+      }
 
       const submissionsWithoutTeams = await randomizeProjects(secondFloor);
       setMissingTeams(JSON.stringify(submissionsWithoutTeams.body, null, 2));

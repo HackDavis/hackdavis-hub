@@ -378,6 +378,12 @@ function assignTableNumbers(
   const floor2Capacity = FLOOR2_ROWS.length * FLOOR2_TEAMS_PER_ROW;
   const totalCapacity = floor1Capacity + floor2Capacity;
 
+  if (hardwareTeams.length > floor1Capacity) {
+    console.warn(
+      `[CSV ingestion]: More hardware teams (${hardwareTeams.length}) than floor 1 capacity (${floor1Capacity}).`
+    );
+  }
+
   // Slice teams based on physical floor capacity
   const floor1Teams = allTeams.slice(0, floor1Capacity);
   const floor2Teams = allTeams.slice(
@@ -398,9 +404,9 @@ function assignTableNumbers(
     console.error(
       `[CSV ingestion]: Total teams (${allTeams.length}) exceed capacity (${totalCapacity}).`
     );
-    throw new Error(
-      `Capacity Exceeded: CSV has ${allTeams.length} teams, but venue only has ${totalCapacity} seats.`
-    );
+    (
+      allTeams as any
+    ).capacityError = `Capacity Exceeded: CSV has ${allTeams.length} teams, but venue only has ${totalCapacity} seats.`;
   }
 }
 
@@ -549,6 +555,14 @@ export async function validateCsvBlob(blob: Blob): Promise<{
             );
 
             assignTableNumbers(bestHardwareTeams, otherTeams);
+            const finalResults = [...bestHardwareTeams, ...otherTeams];
+
+            // Check if assignTableNumbers flagged a capacity issue
+            if ((finalResults as any).capacityError) {
+              reject(new Error((finalResults as any).capacityError));
+            } else {
+              resolve(finalResults);
+            }
 
             // Hardware teams first in the returned list for display ordering.
             resolve([...bestHardwareTeams, ...otherTeams]);
