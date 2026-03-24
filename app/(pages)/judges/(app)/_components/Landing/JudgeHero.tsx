@@ -1,5 +1,6 @@
+'use client';
+
 import Image from 'next/image';
-//import judgeHeroes from '/public/judges/hub/judgingheroes.svg';
 
 import green from '@public/judges/landing/just_green.svg';
 import froggy from '@public/judges/landing/peeking_froggie.svg';
@@ -10,8 +11,12 @@ import pink_circle from '@public/judges/landing/pink_cirlces.svg';
 import blue_flower from '@public/judges/landing/blue_flower.svg';
 
 import { Button } from '@pages/_globals/components/ui/button';
+import useActiveUser from '@pages/_hooks/useActiveUser';
 
-export default function HubHero() {
+export default function JudgeHero() {
+  const { user } = useActiveUser('/judges/login');
+  const judgeName = user?.name?.split(' ')[0] ?? 'Judge';
+
   return (
     <div className="h-[100vh] w-full relative flex justify-center py-[15px]">
       <div className="absolute z-3 h-[95%] w-full bg-white overflow-hidden rounded-[32px]">
@@ -24,7 +29,7 @@ export default function HubHero() {
           />
         </div>
         <div className="m-[25px] ml-[65px] text-[#3F3F3F] gap-[4px]">
-          <p className="text-[22px] font-semibold">Welcome Michelley,</p>
+          <p className="text-[22px] font-semibold">Welcome {judgeName},</p>
           <p className="text-[18px]">
             We appreciate you for helping us judge one of California’s biggest
             hackathons!

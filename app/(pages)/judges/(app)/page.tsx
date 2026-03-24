@@ -4,7 +4,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 import LogoutAction from '@actions/auth/logout';
-import JudgingHub from './_components/JudgingHub/JudgingHub';
+import JudgingLanding from './_components/Landing/JudgingLanding';
 
 export default function Judges() {
   const router = useRouter();
@@ -23,13 +23,13 @@ export default function Judges() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center bg-[#FAFAFF] pb-[43px]">
-      <JudgingHub />
-      <form onSubmit={handleLogout} className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center items-center bg-[#FAFAFF]">
+      <JudgingLanding />
+      <form onSubmit={handleLogout} className="w-full">
         <button
           type="submit"
           disabled={loading}
-          className="mt-[20px] bg-[#FF8D8D] text-white rounded-[20px] py-[15px] w-[342px]"
+          className="bg-[#FF8D8D] text-white text-[18px] font-bold rounded-[20px] py-[15px] mb-[43px] mx-[22px] w-[calc(100%-44px)]"
         >
           Sign Out
         </button>

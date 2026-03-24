@@ -3,7 +3,6 @@ import say_hi from '@public/judges/landing/say_hi.svg';
 import snack from '@public/judges/landing/snack.svg';
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-//import { Button } from '@pages/_globals/components/ui/button';
 import arrow from '@public/judges/landing/arrow.svg';
 import type { StaticImageData } from 'next/image';
 
@@ -26,7 +25,7 @@ function Card({ card }: { card: Card }) {
         <p className="text-[#5E5E65] text-wrap text-[16px]">{card.desc}</p>
 
         {card.linkMap ? (
-          <div className="absolute bottom-[12px] left-[24px] z-10 flex flex-row items-center gap-[4px] pt-[60px]">
+          <div className="absolute bottom-[32px] left-[24px] z-10 flex flex-row items-center gap-[4px] pt-[60px]">
             <Image src={arrow} alt="arrow" className="" />
             <button className="text-[#3F3F3F] text-[16px] bg-transparent shadow-none underline">
               MAP
@@ -37,20 +36,6 @@ function Card({ card }: { card: Card }) {
     </div>
   );
 }
-
-/*const tips = [
-  '🔋 Charge your phone!',
-  '👋 Say hi to other judges!',
-  '🍿 Grab a snack and water!',
-];*/
-
-/*const TipCard = (tip: string) => {
-  return (
-    <div className="flex text-xl items-center justify-center bg-white rounded-[16px] py-[20px]">
-      {tip}
-    </div>
-  );
-};*/
 
 export default function Waiting() {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
@@ -112,7 +97,7 @@ export default function Waiting() {
 
   return (
     <div id="cards" className="display flex flex-col gap-[20px]">
-      <p className="text-[22px] text-[#3F3F3F] font-semibold">
+      <p className="text-[22px] text-[#3F3F3F] font-medium">
         While you are waiting...
       </p>
       <div
