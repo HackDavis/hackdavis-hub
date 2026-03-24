@@ -12,8 +12,8 @@ export default async function ForgotPasswordPage() {
 
   return (
     <AuthFormBackground
-      title="Hello!"
-      subtitle="Please enter your email below to receive a reset password email."
+      title="Hello Judge!"
+      subtitle="Please enter your email below."
     >
       <ForgotPasswordForm />
     </AuthFormBackground>
