@@ -139,11 +139,11 @@ export default function ScheduleControls({
       </div>
 
       <div className="hidden md:contents">
-        <div className="min-w-0 flex-1 md:col-start-2 md:row-start-2 md:mt-8">
+        <div className="min-w-0 flex-1 md:col-start-2 md:row-start-2 md:my-[1.25rem]">
           <Filters toggleFilter={toggleFilter} activeFilters={activeFilters} />
         </div>
 
-        <div className="shrink-0 md:col-start-1 md:row-start-2 md:mt-8 sticky top-20">
+        <div className="shrink-0 md:col-start-1 md:row-start-2 md:mt-0 sticky top-20">
           <DayNavButtons
             activeDay={activeDay}
             onSelectDay={changeActiveDay}

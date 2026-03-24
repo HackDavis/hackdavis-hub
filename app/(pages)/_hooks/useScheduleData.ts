@@ -222,7 +222,8 @@ export function useScheduleData(): UseScheduleDataResult {
     setActiveFilters([...withoutAll, label]);
   };
 
-  const isInitialLoad = userLoading; // only show loading state for initial rendering; avoid non ui-friendly refresh after data has loaded
+  const isInitialLoad =
+    userLoading || (activeTab === 'schedule' && scheduleData === null); // only show loading state for initial rendering; avoid non ui-friendly refresh after data has loaded
   const isError = Boolean(personalEventsError || eventsError);
 
   return {
