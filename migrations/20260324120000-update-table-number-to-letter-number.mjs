@@ -27,7 +27,9 @@ export const up = async (db) => {
           },
           tableNumber: {
             bsonType: 'string',
-            description: 'tableNumber must be a string',
+            pattern: '^[A-L]\\d+$',
+            description:
+              'tableNumber must be a string in the format Letter+Number (e.g., "A13")',
           },
           name: {
             bsonType: 'string',

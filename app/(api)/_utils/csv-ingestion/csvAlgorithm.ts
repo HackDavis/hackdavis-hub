@@ -338,7 +338,7 @@ const FLOOR2_ROWS = ['I', 'J', 'K', 'L'];
 const FLOOR2_TEAMS_PER_ROW = 15;
 
 /**
- * Spreads teams evenly across rows, filling earlier rows first when there is a remainder
+ * Assigns teams to seats row by row, filling earlier rows and lower seat numbers first
  *
  * Each team's tableNumber is set to e.g. "A3", "B1"
  */
@@ -375,6 +375,8 @@ function assignTableNumbers(
   const allTeams = [...hardwareTeams, ...otherTeams];
   // How many seats are available on floor 1 vs how many hardware teams fill them.
   const floor1Capacity = FLOOR1_ROWS.length * FLOOR1_TEAMS_PER_ROW;
+  const floor2Capacity = FLOOR2_ROWS.length * FLOOR2_TEAMS_PER_ROW;
+  const totalCapacity = floor1Capacity + floor2Capacity;
 
   // Slice teams based on physical floor capacity
   const floor1Teams = allTeams.slice(0, floor1Capacity);
@@ -386,6 +388,20 @@ function assignTableNumbers(
   // Distribute teams across each floor's rows
   distributeAcrossRows(floor1Teams, FLOOR1_ROWS, FLOOR1_TEAMS_PER_ROW);
   distributeAcrossRows(floor2Teams, FLOOR2_ROWS, FLOOR2_TEAMS_PER_ROW);
+
+  // If there are more teams than total capacity, assign "WAIT-{n}" table numbers to the overflow teams.
+  const overflowTeams = allTeams.slice(totalCapacity);
+  if (overflowTeams.length > 0) {
+    overflowTeams.forEach((team, index) => {
+      team.tableNumber = `WAIT-${index + 1}`;
+    });
+    console.error(
+      `[CSV ingestion]: Total teams (${allTeams.length}) exceed capacity (${totalCapacity}).`
+    );
+    throw new Error(
+      `Capacity Exceeded: CSV has ${allTeams.length} teams, but venue only has ${totalCapacity} seats.`
+    );
+  }
 }
 
 export async function validateCsvBlob(blob: Blob): Promise<{
@@ -517,7 +533,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
               output.push({
                 name: projectTitle,
                 teamNumber: parsedTeamNumber,
-                tableNumber: 0, // assigned after ordering
+                tableNumber: '0', // assigned after ordering
                 tracks: canonicalTracks,
                 active: true,
                 _rowIndex: rowIndex, // Store original CSV row index for error filtering

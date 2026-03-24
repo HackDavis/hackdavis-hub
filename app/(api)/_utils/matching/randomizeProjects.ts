@@ -49,7 +49,7 @@ function toComparableTableNumber(tableNumber: string): number | null {
 
 export default async function randomizeProjects(
   // I1 is the first table on floor 2.
-  secondFloorStart: number = 9001
+  secondFloorStartLabel: string = 'I'
 ) {
   try {
     const subRes = await getManySubmissions();
@@ -81,6 +81,8 @@ export default async function randomizeProjects(
     const updatedSubmissions: object[] = [];
     const submissionsWithoutTeams: Submission[] = [];
 
+    const rowLetter = secondFloorStartLabel.trim().toUpperCase().charAt(0);
+    const secondFloorStart = (rowLetter.charCodeAt(0) - 64) * 1000;
     for (const submissions of Object.values(submissionsByJudge)) {
       const floor = Object.groupBy(submissions, ({ team_id }) => {
         const tableNumber = tableNumbers.get(team_id);
