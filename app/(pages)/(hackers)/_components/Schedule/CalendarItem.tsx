@@ -58,7 +58,7 @@ export function CalendarItem({
       }}
     >
       <div
-        className={`flex items-start justify-between sm:items-center gap-4 relative ${
+        className={`flex items-start justify-between sm:items-center gap-[40px] md:gap-[60px] relative ${
           displayType === 'ACTIVITIES'
             ? 'w-full flex-col sm:flex-row'
             : 'flex-col'
@@ -71,11 +71,11 @@ export function CalendarItem({
           }`}
         >
           <div className="w-full sm:w-auto">
-            <h2 className="font-metropolis text-xl sm:text-2xl font-semibold tracking-[0.72px] sm:mb-2 text-balance">
+            <h2 className="font-metropolis text-[18px] md:text-[20px] font-semibold tracking-[0.72px] mb-1 text-balance">
               {name}
             </h2>
             <div className="flex items-center flex-wrap gap-y-2">
-              <span className="font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] mr-5">
+              <span className="font-plus-jakarta-sans text-[14px] font-normal leading-[145%] tracking-[0.36px] mr-5">
                 {timeDisplay}
                 {displayType === 'MEALS' && ' (Subject to change)'}
               </span>
@@ -88,23 +88,22 @@ export function CalendarItem({
                     height={13.44}
                     className="mr-1"
                   />
-                  <span className="font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px]">
+                  <span className="font-plus-jakarta-sans text-[14px] font-normal leading-[145%] tracking-[0.36px]">
                     {location}
                   </span>
                 </div>
               )}
             </div>
             {tags && tags.length > 0 && (
-              <div className="flex gap-2 items-center sm:py-2 flex-wrap mt-2">
+              <div className="flex gap-2 items-center flex-wrap mt-[12px]">
                 {tags.map((tag) => (
                   <div
-                    className="px-3 py-1.5 border rounded-md"
-                    style={{ borderColor: eventStyle.textColor }}
+                    className="px-[8px] py-[4px] bg-[rgba(209,247,110,0.60)]"
                     key={tag}
                   >
                     <span
                       key={tag}
-                      className="font-plus-jakarta-sans text-sm font-normal leading-[145%] tracking-[0.36px]"
+                      className="font-dm-mono text-sm font-normal leading-[145%] tracking-[0.36px]"
                     >
                       {tag.toUpperCase()}
                     </span>
@@ -116,8 +115,8 @@ export function CalendarItem({
           {displayType !== 'GENERAL' && displayType !== 'MEALS' && (
             <div className="flex flex-col gap-2 items-end text-right pt-1">
               {host && (
-                <span className="font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] text-balance">
-                  {host}
+                <span className="font-plus-jakarta-sans text-[14px] font-normal leading-[145%] tracking-[0.36px] text-balance">
+                  {host.toUpperCase()}
                 </span>
               )}
             </div>
@@ -140,13 +139,13 @@ export function CalendarItem({
               
                   `}
               >
-                <div className="relative w-16 h-12">
+                <div className="relative w-[44.4px] h-[30px]">
                   <Image src={attendee_icon} alt="attendee icon" fill />
                 </div>
-                <span className="font-plus-jakarta-sans text-xs xs:text-sm md:text-base lg:text-lg font-normal leading-[145%] tracking-[0.36px] text-balance">
+                <span className="font-plus-jakarta-sans text-[14px] font-normal leading-[145%] tracking-[0.36px] text-balance">
                   {`${attendeeCount ?? ''} Hacker${
                     attendeeCount && attendeeCount < 2 ? ' is' : 's are'
-                  } attending this event`}
+                  } attending`}
                 </span>
               </div>
             )}
