@@ -241,7 +241,7 @@ export default function HeroHacking({
                       <span
                         className="text-white font-medium tracking-[4.601px]"
                         style={{
-                          fontSize: 'clamp(28px, 6vw, 90px)',
+                          fontSize: 'clamp(30px, 10.2vw, 195px)', // a bit smaller than to countown timer font
                           textShadow: '0 0 31.729px rgba(255, 255, 255, 0.30)',
                         }}
                       >
