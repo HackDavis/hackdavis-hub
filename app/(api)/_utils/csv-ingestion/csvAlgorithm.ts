@@ -384,8 +384,8 @@ function assignTableNumbers(
   );
 
   // Distribute teams across each floor's rows
-  distributeAcrossRows(floor1Teams, FLOOR1_ROWS, FLOOR1_SEATS_PER_ROW);
-  distributeAcrossRows(floor2Teams, FLOOR2_ROWS, FLOOR2_SEATS_PER_ROW);
+  distributeAcrossRows(floor1Teams, FLOOR1_ROWS, FLOOR1_TEAMS_PER_ROW);
+  distributeAcrossRows(floor2Teams, FLOOR2_ROWS, FLOOR2_TEAMS_PER_ROW);
 }
 
 export async function validateCsvBlob(blob: Blob): Promise<{
