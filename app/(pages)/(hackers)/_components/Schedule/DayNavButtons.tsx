@@ -43,7 +43,9 @@ export default function DayNavButtons({
           >
             {'\u2022'}
           </span>
-          <span className="font-dm-mono pl-5">{DAY_LABELS[dayKey]}</span>
+          <span className="font-dm-mono text-[16px] pl-5">
+            {DAY_LABELS[dayKey]}
+          </span>
         </button>
       ))}
     </div>

@@ -163,7 +163,7 @@ export function CalendarItem({
                 }}
                 variant="ghost"
               >
-                <p className="font-semibold relative z-10 inline-flex items-center gap-2">
+                <p className="font-semibold relative text-[14px] z-10 inline-flex items-center gap-2">
                   <span
                     aria-hidden
                     className="inline-block w-4 h-4"

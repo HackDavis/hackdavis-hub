@@ -101,7 +101,7 @@ export default function Page() {
           setIsMobileFilterOpen={schedule.setIsMobileFilterOpen}
         />
 
-        <div className="w-full md:col-start-2 md:row-start-3 mb-[100px] mt-2 md:mt-[24px] lg:mt-[48px] flex flex-col gap-[12px] md:gap-[20px]">
+        <div className="w-full md:col-start-2 md:row-start-3 mb-[60px] flex flex-col gap-[12px] md:gap-[20px]">
           {schedule.isInitialLoad ? (
             <div>
               <p>loading...</p>
