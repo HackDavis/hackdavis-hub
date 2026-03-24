@@ -44,21 +44,20 @@
   }
 
   input {
-    height: 76px;
+    height: 64px;
     border: 1.5px solid #5e5e65;
-    border-radius: 16px;
+    border-radius: 8px;
     background: #fff;
-    padding: 30px 16px 10px 16px;
+    padding: 30px 12px 10px 12px;
     width: 100%;
-    font-size: 1.75rem;
     color: #000;
   }
 
   label {
     position: absolute;
-    top: 10px;
-    left: 16px;
-    font-size: 0.95rem;
+    top: 7px;
+    left: 12px;
+    font-size: 14px;
     color: #8b8b8b;
     pointer-events: none;
   }
@@ -66,15 +65,16 @@
 
 .error_msg {
   color: var(--text-error);
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: end;
+  margin-top: 4px;
+  min-height: calc(0.75rem * 1.5 + 4px); // calcs space taken up by error message
 }
 
 .fields {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .top_container {
@@ -101,12 +101,11 @@
 }
 
 .submit_button {
-  padding: 12px 24px;
-  font-size: 1.5rem;
+  padding: 15px 32px;
+  font-size: 18px;
   font-weight: 700;
   line-height: normal;
   color: #000;
-  border: 1px solid #e6e6ef;
   border-radius: 9999px;
   background-color: #fff;
   cursor: not-allowed;
@@ -149,14 +148,10 @@
   }
 }
 
-.froggy_container {
-  display: none;
-}
-
 .forgot {
   color: #000;
   text-align: center;
   text-decoration: none;
   font-size: 1rem;
-  margin-top: 8px;
+  font-size: 14px;
 }

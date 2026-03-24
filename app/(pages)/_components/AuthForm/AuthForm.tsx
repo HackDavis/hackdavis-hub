@@ -54,14 +54,6 @@ export default function AuthForm({
     onSuccess,
   });
 
-  const hasTypedInput = fields.some((field) => {
-    if (field.type === 'checkbox') {
-      return false;
-    }
-    const value = formValues[field.name];
-    return String(value ?? '').trim().length > 0;
-  });
-
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -111,8 +103,8 @@ export default function AuthForm({
               type="submit"
               disabled={loading || !valid}
               className={`${styles.submit_button} ${
-                role === 'judge' && hasTypedInput ? styles.filled : null
-              } ${valid ? styles.valid : null}`}
+                valid ? styles.valid : null
+              }`}
             >
               <span className={styles.submit_content}>
                 {loading ? 'Checking...' : buttonText}
