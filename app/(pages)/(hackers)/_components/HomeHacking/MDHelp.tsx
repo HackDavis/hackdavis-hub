@@ -1,4 +1,6 @@
 import { Card } from './_components/MDHelpCards';
+import duck from '@public/hackers/MDHelp/duck.svg';
+import cow from '@public/hackers/MDHelp/cow.svg';
 
 // Items for Mapping
 const items = [
@@ -6,7 +8,7 @@ const items = [
     title: 'Mentor Help',
     description:
       'Stuck on a problem and need guidance? Contact a HackDavis mentor through our discord.',
-    image: '/components/MDHelp/cow.svg',
+    image: cow,
     link: 'https://discord.gg/wc6QQEc',
     linkName: 'CONTACT A MENTOR',
   },
@@ -14,7 +16,7 @@ const items = [
     title: 'Director Help',
     description:
       'Got questions about this event? Contact a HackDavis director through our discord.',
-    image: '/components/MDHelp/duck.svg',
+    image: duck,
     link: 'https://discord.gg/wc6QQEc',
     linkName: 'CONTACT A DIRECTOR',
   },
@@ -22,7 +24,7 @@ const items = [
 
 export default function cardTest() {
   return (
-    <div className="flex bg-[#FAFAFF]">
+    <div id="mentor-director-help" className="flex bg-[#FAFAFF]">
       {/* Main Content */}
       <main className="flex px-[5%] py-[10%] w-full">
         {/* Items Grid */}

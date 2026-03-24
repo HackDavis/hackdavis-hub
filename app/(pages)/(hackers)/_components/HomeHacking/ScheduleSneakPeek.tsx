@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
@@ -7,6 +8,12 @@ import {
   EventEntry,
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
+import { useSharedNow } from '@pages/_hooks/useScheduleSharedNow';
+
+import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
+import duckbunny from '@public/hackers/scheduleSneakPeek/duck+bunny.svg';
+import duckfrog from '@public/hackers/scheduleSneakPeek/duck+frog.svg';
+import cucumber_cow from '@public/hackers/scheduleSneakPeek/cucumber_cow.svg';
 
 interface ScheduleSneakPeekProps {
   className?: string;
@@ -30,6 +37,26 @@ function SectionLabel({ label }: { label: string }) {
       {displayLabel}
     </div>
   );
+}
+
+function CountdownLabel({ targetTime }: { targetTime: number }) {
+  const now = useSharedNow();
+
+  const timeLeft = useMemo(() => {
+    const diff = targetTime - now;
+    if (diff <= 0) return { h: 0, m: 0, s: 0 };
+    return {
+      h: Math.floor(diff / 3600000),
+      m: Math.floor((diff / 60000) % 60),
+      s: Math.floor((diff / 1000) % 60),
+    };
+  }, [targetTime, now]);
+
+  const label = `IN ${timeLeft.h.toString().padStart(2, '0')}:${timeLeft.m
+    .toString()
+    .padStart(2, '0')}:${timeLeft.s.toString().padStart(2, '0')}`;
+
+  return <SectionLabel label={label} />;
 }
 
 function Panel({
@@ -63,6 +90,25 @@ function Panel({
       />
     ));
 
+  const upcomingGroups = useMemo(() => {
+    const groupsMap = new Map<number, EventEntry[]>();
+    for (const entry of upcomingEvents) {
+      const startTime = new Date(entry.event.start_time).getTime();
+      const existing = groupsMap.get(startTime);
+      if (existing) {
+        existing.push(entry);
+      } else {
+        groupsMap.set(startTime, [entry]);
+      }
+    }
+    return Array.from(groupsMap.entries())
+      .map(([startTime, entries]) => ({
+        startTime,
+        entries,
+      }))
+      .sort((a, b) => a.startTime - b.startTime);
+  }, [upcomingEvents]);
+
   return (
     <div className="rounded-[16px] bg-[#FFFFFF] p-5 lg:p-6">
       <h2 className="font-jakarta text-[clamp(1.1rem,3vw,2.25rem)] font-semibold leading-tight tracking-[0.64px] text-[#3F3F3F] mb-4">
@@ -75,22 +121,76 @@ function Panel({
         {liveEvents.length > 0 ? (
           renderEventItems(liveEvents, 'live')
         ) : (
-          <p className="font-jakarta text-sm text-[#7C7C85] mt-[1vw]">
-            No events happening right now.
-          </p>
+          <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+            <Image
+              src={title === 'Happening now' ? cucumber_cow : duckbunny}
+              alt={
+                title === 'Happening now'
+                  ? 'Cow with cucumber over their eyes'
+                  : 'Duck on top of bunny'
+              }
+            />
+            <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+              {title === 'Your schedule'
+                ? 'No live events on your schedule'
+                : 'No live events'}
+            </p>
+            <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
+              This is where you’ll see live events. Seems like there’s nothing
+              going on at the moment!
+            </p>
+            <Link
+              href="/schedule"
+              className="hover:brightness-[97%] hover:saturate-[140%]"
+            >
+              {title === 'Your schedule' ? (
+                <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                  Add to your schedule
+                </button>
+              ) : null}
+            </Link>
+          </div>
         )}
       </div>
-
-      <SectionLabel label="IN 0:30:00" />
-      <div className="space-y-3">
-        {upcomingEvents.length > 0 ? (
-          renderEventItems(upcomingEvents, 'upcoming')
-        ) : (
-          <p className="font-jakarta text-sm text-[#7C7C85] mt-3">
-            No events starting in the next 30 minutes.
+      {upcomingGroups.length > 0 ? (
+        upcomingGroups.map((group) => (
+          <div key={group.startTime}>
+            <CountdownLabel targetTime={group.startTime} />
+            <div className="space-y-3">
+              {renderEventItems(group.entries, `upcoming-${group.startTime}`)}
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+          <Image
+            src={title === 'Happening now' ? sleeping_cow : duckfrog}
+            alt={
+              title === 'Happening now' ? 'Sleeping cow' : 'Duck on top of frog'
+            }
+          />
+          <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+            {title === 'Your schedule'
+              ? 'No upcoming events on your schedule'
+              : 'No upcoming events'}
           </p>
-        )}
-      </div>
+          <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
+            {title === 'Your schedule'
+              ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
+              : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
+          </p>
+          <Link
+            href="/schedule"
+            className="hover:brightness-[97%] hover:saturate-[140%]"
+          >
+            {title === 'Your schedule' ? (
+              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                Explore events
+              </button>
+            ) : null}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
@@ -108,15 +208,15 @@ export default function ScheduleSneakPeek({
   } = useScheduleSneakPeekData();
 
   return (
-    <div className="w-full bg-[#FAFAFF]">
+    <div id="schedule-sneak-peek" className="w-full bg-[#FAFAFF]">
       <section className={`w-[90%] mx-auto py-[5vw] ${className ?? ''}`}>
         <div className="inline-flex items-center group font-jakarta text-[clamp(1.25rem,4.2vw,3rem)] font-semibold leading-tight tracking-[0.72px] text-[#3F3F3F] whitespace-nowrap">
-          <span className="w-0 group-hover:w-[26px] overflow-hidden transition-all duration-300 ease-out shrink-0">
+          <span className="w-0 group-hover:w-[20px] md:group-hover:w-[35px]  overflow-hidden transition-all duration-300 ease-out shrink-0">
             <Image
               src="/icons/arrow-right.svg"
               alt=""
-              width={26}
-              height={26}
+              width={35}
+              height={35}
               className="-translate-x-3 group-hover:translate-x-0 transition-transform duration-300 ease-out"
             />
           </span>
@@ -128,7 +228,7 @@ export default function ScheduleSneakPeek({
           </span>
         </div>
 
-        <div className="border-b border-[#E3E3E3] mt-4 mb-6" />
+        <div className="border-b border-[#E3E3E3] mt-4 mb-[2.5rem]" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5">
           <Panel

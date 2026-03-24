@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import good_froggie from '@public/hackers/good_froggie.svg';
-import judge_bunny from '@public/hackers/judge_bunny.svg';
+import good_froggie from '@public/hackers/starter-kit/good_froggie.svg';
+import judge_bunny from '@public/hackers/starter-kit/judge_bunny.svg';
 import { type CarouselApi } from '@globals/components/ui/carousel';
 
 import AutoHeight from 'embla-carousel-auto-height';
@@ -205,19 +205,55 @@ function CarouselIndicators({
   );
 }
 
+const SLIDE_HASHES = [
+  '#lets-begin',
+  '#find-a-team',
+  '#ideate',
+  '#resources',
+] as const;
+
 export function ParentCarousel() {
   // TODO: resume wherever user left off
   const [activeIndex, setActiveIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
 
   useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
 
+    // Register listener BEFORE scrollTo so the initial jump triggers it
     api.on('select', () => {
-      setActiveIndex(api.selectedScrollSnap());
+      const idx = api.selectedScrollSnap();
+      setActiveIndex(idx);
+      history.replaceState(
+        null,
+        '',
+        window.location.pathname + SLIDE_HASHES[idx]
+      );
     });
+
+    // Jump to slide indicated by URL hash on first load
+    const hash = window.location.hash;
+    const initialIndex = SLIDE_HASHES.indexOf(
+      hash as (typeof SLIDE_HASHES)[number]
+    );
+    if (initialIndex > 0) {
+      api.scrollTo(initialIndex, true);
+      setActiveIndex(initialIndex);
+    }
+  }, [api]);
+
+  // Handle hash changes from soft navigation (e.g. clicking a Hackbot link while already on this page)
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (!api) return;
+      const hash = window.location.hash;
+      const index = SLIDE_HASHES.indexOf(hash as (typeof SLIDE_HASHES)[number]);
+      if (index >= 0) {
+        api.scrollTo(index, false);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, [api]);
 
   useEffect(() => {
