@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
@@ -7,6 +8,7 @@ import {
   EventEntry,
   useScheduleSneakPeekData,
 } from '../../../_hooks/useScheduleSneakPeekData';
+import { useSharedNow } from '@pages/_hooks/useScheduleSharedNow';
 
 import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
 import duckbunny from '@public/hackers/scheduleSneakPeek/duck+bunny.svg';
@@ -35,6 +37,26 @@ function SectionLabel({ label }: { label: string }) {
       {displayLabel}
     </div>
   );
+}
+
+function CountdownLabel({ targetTime }: { targetTime: number }) {
+  const now = useSharedNow();
+
+  const timeLeft = useMemo(() => {
+    const diff = targetTime - now;
+    if (diff <= 0) return { h: 0, m: 0, s: 0 };
+    return {
+      h: Math.floor(diff / 3600000),
+      m: Math.floor((diff / 60000) % 60),
+      s: Math.floor((diff / 1000) % 60),
+    };
+  }, [targetTime, now]);
+
+  const label = `IN ${timeLeft.h.toString().padStart(2, '0')}:${timeLeft.m
+    .toString()
+    .padStart(2, '0')}:${timeLeft.s.toString().padStart(2, '0')}`;
+
+  return <SectionLabel label={label} />;
 }
 
 function Panel({
@@ -67,6 +89,25 @@ function Panel({
         }}
       />
     ));
+
+  const upcomingGroups = useMemo(() => {
+    const groupsMap = new Map<number, EventEntry[]>();
+    for (const entry of upcomingEvents) {
+      const startTime = new Date(entry.event.start_time).getTime();
+      const existing = groupsMap.get(startTime);
+      if (existing) {
+        existing.push(entry);
+      } else {
+        groupsMap.set(startTime, [entry]);
+      }
+    }
+    return Array.from(groupsMap.entries())
+      .map(([startTime, entries]) => ({
+        startTime,
+        entries,
+      }))
+      .sort((a, b) => a.startTime - b.startTime);
+  }, [upcomingEvents]);
 
   return (
     <div className="rounded-[16px] bg-[#FFFFFF] p-5 lg:p-6">
@@ -102,7 +143,7 @@ function Panel({
               href="/schedule"
               className="hover:brightness-[97%] hover:saturate-[140%]"
             >
-              {title == 'Your schedule' ? (
+              {title === 'Your schedule' ? (
                 <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
                   Add to your schedule
                 </button>
@@ -111,44 +152,45 @@ function Panel({
           </div>
         )}
       </div>
-
-      <SectionLabel label="IN 0:30:00" />
-      <div className="space-y-3">
-        {upcomingEvents.length > 0 ? (
-          renderEventItems(upcomingEvents, 'upcoming')
-        ) : (
-          <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
-            <Image
-              src={title === 'Happening now' ? sleeping_cow : duckfrog}
-              alt={
-                title === 'Happening now'
-                  ? 'Sleeping cow'
-                  : 'Duck on top of frog'
-              }
-            />
-            <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
-              {title === 'Your schedule'
-                ? 'No upcoming events on your schedule'
-                : 'No upcoming events'}
-            </p>
-            <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
-              {title === 'Your schedule'
-                ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
-                : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
-            </p>
-            <Link
-              href="/schedule"
-              className="hover:brightness-[97%] hover:saturate-[140%]"
-            >
-              {title == 'Your schedule' ? (
-                <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
-                  Explore events
-                </button>
-              ) : null}
-            </Link>
+      {upcomingGroups.length > 0 ? (
+        upcomingGroups.map((group) => (
+          <div key={group.startTime}>
+            <CountdownLabel targetTime={group.startTime} />
+            <div className="space-y-3">
+              {renderEventItems(group.entries, `upcoming-${group.startTime}`)}
+            </div>
           </div>
-        )}
-      </div>
+        ))
+      ) : (
+        <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+          <Image
+            src={title === 'Happening now' ? sleeping_cow : duckfrog}
+            alt={
+              title === 'Happening now' ? 'Sleeping cow' : 'Duck on top of frog'
+            }
+          />
+          <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+            {title === 'Your schedule'
+              ? 'No upcoming events on your schedule'
+              : 'No upcoming events'}
+          </p>
+          <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
+            {title === 'Your schedule'
+              ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
+              : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
+          </p>
+          <Link
+            href="/schedule"
+            className="hover:brightness-[97%] hover:saturate-[140%]"
+          >
+            {title === 'Your schedule' ? (
+              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                Explore events
+              </button>
+            ) : null}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
@@ -186,7 +228,7 @@ export default function ScheduleSneakPeek({
           </span>
         </div>
 
-        <div className="border-b border-[#E3E3E3] mt-4 mb-6" />
+        <div className="border-b border-[#E3E3E3] mt-4 mb-[2.5rem]" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5">
           <Panel

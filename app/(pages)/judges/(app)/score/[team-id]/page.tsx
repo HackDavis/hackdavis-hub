@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styles from './page.module.scss';
-import ScoringForm from '@components/ScoringForm/ScoringForm';
+import ScoringForm from '@pages/judges/(app)/_components/ScoringForm/ScoringForm';
 import Loader from '@components/Loader/Loader';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -67,7 +67,7 @@ export default function ScoreTeam({ params }: ScoringFormProps) {
       <div
         className={`${styles.info_container} ${showInfo ? styles.show : null}`}
       >
-        <p>Judging categories Table {team.body.tableNumber} signed up for:</p>
+        <p>Judging categories Table {team.body.tableNumber} signed up for</p>
         {team.body.tracks.map((category: string) => (
           <p key={category} className={styles.category_card}>
             {category}
