@@ -32,7 +32,7 @@ export default function ForgotPasswordForm() {
     <AuthForm
       role="judge"
       fields={formFields}
-      buttonText="Send Email"
+      buttonText="Reset Password"
       initialValues={{
         email: '',
       }}
