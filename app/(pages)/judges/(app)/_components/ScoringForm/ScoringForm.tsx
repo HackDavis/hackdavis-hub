@@ -1,6 +1,6 @@
 'use client';
 import styles from './ScoringForm.module.scss';
-import RadioSelect from '@components/RadioSelect/RadioSelect';
+import RadioSelect from '@pages/judges/(app)/_components/RadioSelect/RadioSelect';
 import { optedHDTracks } from '@data/tracks';
 import Submission from '@typeDefs/submission';
 import Team from '@typeDefs/team';
@@ -128,7 +128,7 @@ export default function ScoringForm({ team, submission }: ScoringFormProps) {
     <form onSubmit={onSubmit} className={styles.form}>
       <div className={styles.comments_container}>
         <h2 className={styles.category_header}>Comments</h2>
-        <p>Write down some thoughts here!</p>
+        <p style={{ color: '#5E5E65' }}>Write down some thoughts here!</p>
         <textarea
           className={styles.comment_box}
           name="comments"
