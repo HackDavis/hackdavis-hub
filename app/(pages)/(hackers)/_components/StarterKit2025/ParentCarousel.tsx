@@ -8,10 +8,10 @@ import { type CarouselApi } from '@globals/components/ui/carousel';
 import AutoHeight from 'embla-carousel-auto-height';
 import { Button } from '@globals/components/ui/button';
 
-import LetsBegin from '../../_components/StarterKitStages/LetsBegin';
-import FindATeam from '../../_components/StarterKitStages/FindATeam';
-import Ideate from '../../_components/StarterKitStages/Ideate';
-import Resources from '../../_components/StarterKitStages/Resources';
+import LetsBegin from './StarterKitStages/LetsBegin';
+import FindATeam from './StarterKitStages/FindATeam';
+import Ideate from './StarterKitStages/Ideate';
+import Resources from './StarterKitStages/Resources';
 
 import {
   Carousel,
