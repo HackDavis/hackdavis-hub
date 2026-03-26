@@ -1,7 +1,7 @@
-import StarterKitSlide from '../StarterKit/StarterKitSlide';
-import EventPosting from '../StarterKit/EventPosting/EventPosting';
-import FindTheRightFit from '../StarterKit/FindTheRightFit/FindTheRightFit';
-import UseOurDiscordComponent from '../StarterKit/UseOurDiscord/UseOurDiscord';
+import StarterKitSlide from '../StarterKitSlide';
+import EventPosting from '../EventPosting/EventPosting';
+import FindTheRightFit from '../FindTheRightFit/FindTheRightFit';
+import UseOurDiscordComponent from '../UseOurDiscord/UseOurDiscord';
 
 export default function FindATeam() {
   return (

@@ -1,6 +1,6 @@
-import StarterKitSlide from '../StarterKit/StarterKitSlide';
-import EventPosting from '../StarterKit/EventPosting/EventPosting';
-import WorkshopSlides from '../StarterKit/WorkshopSlides/WorkshopSlides';
+import StarterKitSlide from '../StarterKitSlide';
+import EventPosting from '../EventPosting/EventPosting';
+import WorkshopSlides from '../WorkshopSlides/WorkshopSlides';
 
 export default function LetsBegin() {
   return (
