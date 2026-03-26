@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import { GoArrowRight } from 'react-icons/go';
 import Countdown from './_components/Countdown';
+import clouds from '@public/hackers/hero/Clouds.svg';
+import starLeft from '@public/hackers/hero/StarLeft.svg';
+import startRight from '@public/hackers/hero/StarRight.svg';
 
 interface HeroHackingProps {
   rolloutTime?: number;
@@ -35,7 +38,7 @@ export default function HeroHacking({
             >
               {/* background */}
               <Image
-                src="/Hero/Clouds.svg"
+                src={clouds}
                 alt="Background"
                 fill
                 className="object-cover pointer-events-none select-none -z-10"
@@ -59,8 +62,8 @@ export default function HeroHacking({
             <div className="relative min-h-0">
               {/* Decorative stars */}
               <Image
-                src="/hackers/hero/StarLeft.svg"
-                alt=""
+                src={starLeft}
+                alt="sparkling star"
                 width={120}
                 height={120}
                 className="
@@ -73,14 +76,14 @@ export default function HeroHacking({
               />
 
               <Image
-                src="/hackers/hero/StarRight.svg"
-                alt=""
+                src={startRight}
+                alt="sparkling star"
                 width={120}
                 height={120}
                 className="
                     pointer-events-none select-none
                     absolute z-20
-                    -right-2 top-[10%]
+                    -right-2 top-[0%]
                     w-[56px] sm:w-[70px] md:w-[84px] lg:w-[96px]
                     rotate-[10deg]
                   "
@@ -147,7 +150,7 @@ export default function HeroHacking({
                 >
                   {/* background */}
                   <Image
-                    src="/Hero/Clouds.svg"
+                    src={clouds}
                     alt="Background"
                     fill
                     className="object-cover pointer-events-none select-none -z-10 overflow-hidden"
@@ -226,7 +229,7 @@ export default function HeroHacking({
                   >
                     {/* background */}
                     <Image
-                      src="/Hero/Clouds.svg"
+                      src={clouds}
                       alt="Background"
                       fill
                       className="object-cover pointer-events-none select-none -z-10"
@@ -238,7 +241,7 @@ export default function HeroHacking({
                       <span
                         className="text-white font-medium tracking-[4.601px]"
                         style={{
-                          fontSize: 'clamp(28px, 6vw, 90px)',
+                          fontSize: 'clamp(30px, 10.2vw, 195px)', // a bit smaller than to countown timer font
                           textShadow: '0 0 31.729px rgba(255, 255, 255, 0.30)',
                         }}
                       >

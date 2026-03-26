@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 import grass_bottom from '@public/hackers/login/grass_bottom.svg';
-import VocalAngelCow from 'public/hackers/mvp/vocal_angel_cow.svg';
+import VocalAngelCow from 'public/hackers/login/vocal_angel_cow.svg';
 import login_mascots_mobile from '@public/hackers/login/login_mascots_mobile.svg';
 import mascots_with_notes from '@public/hackers/login/mascots_with_notes.gif';
 import moving_clouds from '@public/hackers/login/moving_clouds.svg';
@@ -14,10 +14,12 @@ export default function AuthFormBackground({
   title,
   subtitle,
   children,
+  showAngelCow = true,
 }: {
   title: string;
   subtitle: string;
   children: React.ReactNode;
+  showAngelCow?: boolean;
 }) {
   const [mascotsVisibility, setMascotsVisibility] = useState(true);
   const pathname = usePathname();
@@ -35,13 +37,15 @@ export default function AuthFormBackground({
     <div className="flex flex-col md:flex-row w-full h-screen">
       <div className="flex flex-[1_0_auto] md:flex-1 flex-col justify-end md:justify-center items-center w-full  px-6 md:px-[82px]">
         <div className="flex flex-col items-start w-full">
-          <Image
-            src={VocalAngelCow}
-            alt="Angel Cow"
-            height={100}
-            width={100}
-            className="pb-[12px]"
-          />
+          {showAngelCow && (
+            <Image
+              src={VocalAngelCow}
+              alt="Angel Cow"
+              height={100}
+              width={100}
+              className="pb-[12px]"
+            />
+          )}
           <h1 className="text-[20px] md:text-[22px] font-semibold text-[#3F3F3F]">
             {title}
           </h1>
