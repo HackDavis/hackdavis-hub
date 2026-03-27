@@ -8,7 +8,7 @@ import { LuEye, LuEyeOff } from 'react-icons/lu';
 
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 import JudgeBanners from './_components/JudgeBanners';
-import HeroWaiting from './HeroWaiting';
+// import HeroWaiting from './HeroWaiting';
 import DoneJudgingModal from './_components/DoneJudgingModal';
 
 import clouds from '@public/hackers/hero/Clouds.svg';
@@ -25,9 +25,9 @@ export default function HeroJudging() {
     }
   }, [hasDismissedModal]);
 
-  if (!tableNumber) {
-    return <HeroWaiting />;
-  }
+  // if (!tableNumber) {
+  //   return <HeroWaiting />;
+  // }
 
   return (
     <div className="w-full h-screen p-4 md:p-10">

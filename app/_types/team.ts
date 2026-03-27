@@ -1,7 +1,7 @@
 interface Team {
   _id?: string;
   teamNumber: number;
-  tableNumber: number;
+  tableNumber: string;
   name: string;
   tracks: string[];
   reports: {

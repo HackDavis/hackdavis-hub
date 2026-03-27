@@ -25,7 +25,7 @@ export default function TableNumberCheckin() {
   const { loading, tableNumber, fetchTableNumber, setTableNumber, error } =
     useTableNumber();
 
-  if (localStorageLoading || storedValue) {
+  if (localStorageLoading || storedValue !== null) {
     return null;
   }
 
@@ -133,7 +133,11 @@ export default function TableNumberCheckin() {
         <button
           className={styles.yes_button}
           disabled={!hasTeamNumber}
-          onClick={() => setValue(tableNumber)}
+          onClick={() => {
+            if (tableNumber) {
+              setValue(tableNumber);
+            }
+          }}
         >
           Yes! <Image src={modalArrow} alt="" />
         </button>
