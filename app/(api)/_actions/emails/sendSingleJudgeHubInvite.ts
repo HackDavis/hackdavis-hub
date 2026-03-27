@@ -3,17 +3,16 @@
 import GenerateInvite from '@datalib/invite/generateInvite';
 import { GetManyUsers } from '@datalib/users/getUser';
 import { DuplicateError, HttpError } from '@utils/response/Errors';
-import judgeHubInviteTemplate from './emailTemplates/2026JudgeHubInviteTemplate';
+import judgeHubInviteTemplate, {
+  JUDGE_EMAIL_SUBJECT,
+} from './emailTemplates/2026JudgeHubInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import { JudgeInviteData, SingleJudgeInviteResponse } from '@typeDefs/emails';
-
-const EMAIL_SUBJECT = '[ACTION REQUIRED] HackDavis 2025 Judging App Invite';
 
 export default async function sendSingleJudgeHubInvite(
   options: JudgeInviteData,
   skipDuplicateCheck = false
 ): Promise<SingleJudgeInviteResponse> {
-  const totalStart = Date.now();
   const { firstName, lastName, email } = options;
 
   try {
@@ -44,7 +43,7 @@ export default async function sendSingleJudgeHubInvite(
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: email,
-      subject: EMAIL_SUBJECT,
+      subject: JUDGE_EMAIL_SUBJECT,
       html: htmlContent,
     });
     return { ok: true, inviteUrl: invite.body, error: null };
@@ -55,12 +54,7 @@ export default async function sendSingleJudgeHubInvite(
         : typeof e === 'string'
         ? e
         : 'Unknown error';
-    console.error(
-      `[Judge Hub Invite] ✗ Failed (${email}) after ${
-        Date.now() - totalStart
-      }ms:`,
-      errorMessage
-    );
+    console.error(`[Judge Hub Invite] Failed (${email}):`, errorMessage);
     return { ok: false, error: errorMessage };
   }
 }
