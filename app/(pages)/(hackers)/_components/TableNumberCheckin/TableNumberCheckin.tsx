@@ -133,7 +133,11 @@ export default function TableNumberCheckin() {
         <button
           className={styles.yes_button}
           disabled={!hasTeamNumber}
-          onClick={() => setValue(tableNumber)}
+          onClick={() => {
+            if (tableNumber !== null) {
+              setValue(String(tableNumber));
+            }
+          }}
         >
           Yes! <Image src={modalArrow} alt="" />
         </button>

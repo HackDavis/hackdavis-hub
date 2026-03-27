@@ -36,8 +36,7 @@ describe('parseInviteCSV', () => {
   });
 
   it('detects header with "first" keyword', () => {
-    const csv =
-      'First,Last,Contact\nAlice,Smith,alice@example.com\n';
+    const csv = 'First,Last,Contact\nAlice,Smith,alice@example.com\n';
 
     const result = parseInviteCSV(csv);
     expect(result.ok).toBe(true);
@@ -165,8 +164,7 @@ describe('parseInviteCSV', () => {
 
   it('handles quoted fields with commas', () => {
     const csv =
-      'First Name,Last Name,Email\n' +
-      '"Alice, Jr.",Smith,alice@example.com\n';
+      'First Name,Last Name,Email\n' + '"Alice, Jr.",Smith,alice@example.com\n';
 
     const result = parseInviteCSV(csv);
     expect(result.ok).toBe(true);

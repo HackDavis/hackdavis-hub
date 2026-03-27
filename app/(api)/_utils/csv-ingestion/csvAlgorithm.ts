@@ -40,6 +40,7 @@ export type CsvValidationReport = {
   warningRows: number;
   unknownTracks: string[];
   issues: CsvRowIssue[];
+  globalWarnings?: string[];
 };
 
 type TrackMatchCandidate = {
@@ -329,6 +330,84 @@ export function sortTracks(
   return ordered;
 }
 
+// Max teams per row on Floor 1 (Prioritize hardware teams)
+const FLOOR1_ROWS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+const FLOOR1_TEAMS_PER_ROW = 13;
+
+// Max teams per row on Floor 2
+const FLOOR2_ROWS = ['I', 'J', 'K', 'L'];
+const FLOOR2_TEAMS_PER_ROW = 15;
+
+/**
+ * Assigns teams to seats row by row, filling earlier rows and lower seat numbers first
+ *
+ * Each team's tableNumber is set to e.g. "A3", "B1"
+ */
+
+function distributeAcrossRows(
+  teams: ParsedRecord[],
+  rows: string[],
+  maxSeats: number
+) {
+  if (teams.length === 0 || rows.length === 0) return;
+  let teamIdx = 0;
+  for (const rowLabel of rows) {
+    for (let seat = 1; seat <= maxSeats; seat++) {
+      if (teamIdx >= teams.length) return;
+      // Assign the string label (e.g., "A13" or "I15")
+      teams[teamIdx].tableNumber = `${rowLabel}${seat}`;
+      teamIdx++;
+    }
+  }
+}
+
+/**
+ * Assigns two-floor lettered table numbers:
+ *
+ * Floor 1 — Hardware Hack teams first, with leftover seats filled by other teams in .csv order.
+ *
+ * Floor 2 — remaining other teams after floor 1 spillover is accounted for.
+ * Rows start immediately after floor 1's last letter.
+ */
+function assignTableNumbers(
+  hardwareTeams: ParsedRecord[],
+  otherTeams: ParsedRecord[]
+): void {
+  const allTeams = [...hardwareTeams, ...otherTeams];
+  // How many seats are available on floor 1 vs how many hardware teams fill them.
+  const floor1Capacity = FLOOR1_ROWS.length * FLOOR1_TEAMS_PER_ROW;
+  const floor2Capacity = FLOOR2_ROWS.length * FLOOR2_TEAMS_PER_ROW;
+  const totalCapacity = floor1Capacity + floor2Capacity;
+
+  if (hardwareTeams.length > floor1Capacity) {
+    console.warn(
+      `[CSV ingestion]: More hardware teams (${hardwareTeams.length}) than floor 1 capacity (${floor1Capacity}).`
+    );
+  }
+
+  // Slice teams based on physical floor capacity
+  const floor1Teams = allTeams.slice(0, floor1Capacity);
+  const floor2Teams = allTeams.slice(
+    floor1Capacity,
+    floor1Capacity + FLOOR2_ROWS.length * FLOOR2_TEAMS_PER_ROW
+  );
+
+  // Distribute teams across each floor's rows
+  distributeAcrossRows(floor1Teams, FLOOR1_ROWS, FLOOR1_TEAMS_PER_ROW);
+  distributeAcrossRows(floor2Teams, FLOOR2_ROWS, FLOOR2_TEAMS_PER_ROW);
+
+  // If there are more teams than total capacity, assign "WAIT-{n}" table numbers to the overflow teams.
+  const overflowTeams = allTeams.slice(totalCapacity);
+  if (overflowTeams.length > 0) {
+    overflowTeams.forEach((team, index) => {
+      team.tableNumber = `WAIT-${index + 1}`;
+    });
+    console.warn(
+      `[CSV ingestion]: Total teams (${allTeams.length}) exceed capacity (${totalCapacity}).`
+    );
+  }
+}
+
 export async function validateCsvBlob(blob: Blob): Promise<{
   ok: boolean;
   body: ParsedRecord[] | null;
@@ -458,7 +537,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
               output.push({
                 name: projectTitle,
                 teamNumber: parsedTeamNumber,
-                tableNumber: 0, // assigned after ordering
+                tableNumber: '0', // assigned after ordering
                 tracks: canonicalTracks,
                 active: true,
                 _rowIndex: rowIndex, // Store original CSV row index for error filtering
@@ -473,13 +552,10 @@ export async function validateCsvBlob(blob: Blob): Promise<{
               (team) => !team.tracks.includes('Best Hardware Hack')
             );
 
-            const orderedTeams = [...bestHardwareTeams, ...otherTeams];
-
-            orderedTeams.forEach((team, index) => {
-              team.tableNumber = index + 1;
-            });
-
-            resolve(orderedTeams);
+            assignTableNumbers(bestHardwareTeams, otherTeams);
+            const finalResults = [...bestHardwareTeams, ...otherTeams];
+            // Hardware teams first in the returned list for display ordering.
+            resolve(finalResults);
           })
           .on('error', (error) => reject(error));
       };
@@ -487,6 +563,19 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       parseBlob().catch(reject);
     });
 
+    const overflowCount = results.filter((t) =>
+      String(t.tableNumber).startsWith('WAIT-')
+    ).length; //count how many teams have no table seating
+    const globalWarnings =
+      overflowCount > 0
+        ? [
+            `Capacity Exceeded: CSV has ${
+              results.length
+            } teams, but venue only has ${
+              results.length - overflowCount
+            } seats. Overflow teams were labeled WAIT-*.`,
+          ]
+        : [];
     const errorRows = issues.filter((i) => i.severity === 'error').length;
     const warningRows = issues.filter((i) => i.severity === 'warning').length;
 
@@ -519,6 +608,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       warningRows,
       unknownTracks: Array.from(unknownTrackSet).sort(),
       issues,
+      globalWarnings,
     };
 
     const ok = report.errorRows === 0;
@@ -538,6 +628,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       warningRows: 0,
       unknownTracks: [],
       issues: [],
+      globalWarnings: [],
     };
     return {
       ok: false,
