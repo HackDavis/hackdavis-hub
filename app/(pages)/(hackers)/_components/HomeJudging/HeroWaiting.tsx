@@ -2,13 +2,13 @@
 
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { type MouseEvent, useEffect, useRef, useState } from 'react';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 
 import arrowRight from '@public/icons/arrow-right.svg';
-import hackersChoiceAsset from '@public/waiting-hero/hackers-choice-asset.svg';
-import judgingAsset from '@public/waiting-hero/judging-asset.svg';
-import pitchAsset from '@public/waiting-hero/pitch-asset.svg';
+import hackersChoiceAsset from '@public/hackers/hero/waiting-hero/hackers-choice-asset.svg';
+import judgingAsset from '@public/hackers/hero/waiting-hero/judging-asset.svg';
+import pitchAsset from '@public/hackers/hero/waiting-hero/pitch-asset.svg';
 
 type WaitingCardProps = {
   imageSrc: StaticImageData | string;
@@ -27,22 +27,38 @@ function WaitingCard({
   linkLabel,
   href,
 }: WaitingCardProps) {
+  const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!href?.startsWith('#')) {
+      return;
+    }
+
+    const target = document.getElementById(href.slice(1));
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.history.replaceState(null, '', href);
+  };
+
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-[16px] bg-white">
       <div className="relative w-full aspect-[16/9]">
         <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
       </div>
       <div className="flex min-h-[210px] flex-1 flex-col p-5 md:min-h-[190px]">
-        <h3 className="font-jakarta text-[1.4rem] font-bold leading-[100%] tracking-[0.8px] text-[#3F3F3F] sm:text-[2.125rem] md:text-[1.75rem] lg:text-[1.75rem]">
+        <h3 className="font-jakarta text-[1.375rem] font-semibold text-[#3F3F3F] sm:text-[1.3rem] lg:text-[2rem]">
           {title}
         </h3>
-        <p className="mt-2 mb-3 font-jakarta text-[0.85rem] leading-[145%] tracking-[0.32px] text-[#5E5E65] md:mt-[1vw] md:mb-[2vw] md:text-[0.9rem]">
+        <p className="mt-2 mb-3 font-jakarta text-[1rem] text-[#5E5E65] md:mt-[1vw] md:mb-[2vw]">
           {description}
         </p>
         {linkLabel && href ? (
           <Link
             href={href}
-            className="mt-auto mb-[1vw] inline-flex items-center gap-2 pt-7 font-dm-mono text-[0.9rem] leading-[100%] tracking-[0.4px] text-[#3F3F3F] underline decoration-[1px] underline-offset-4 md:text-[1.1rem]"
+            onClick={handleLinkClick}
+            className="mt-auto mb-[1vw] inline-flex items-center gap-2 pt-7 font-dm-mono text-[1rem] text-[#3F3F3F] underline decoration-[1px] underline-offset-4 md:text-[1.125rem]"
           >
             <Image
               src={arrowRight}
@@ -169,10 +185,10 @@ export default function HeroWaiting() {
   };
 
   return (
-    <section className="min-h-screen w-full p-4 md:p-10">
-      <div className="mx-auto min-h-[calc(100vh-2rem)] w-[90vw] max-w-[1440px] rounded-[32px] bg-[#FAFAFF] px-6 py-12 md:min-h-[calc(100vh-5rem)] md:px-10 md:py-24">
+    <section className="h-screen w-full box-border p-4 md:p-10">
+      <div className="flex flex-col mx-auto h-full w-[90vw] max-w-[1440px] rounded-[32px] bg-[#FAFAFF] justify-center">
         <div className="mx-auto flex w-[92%] max-w-[1120px] flex-col py-8 font-jakarta text-[#3F3F3F] md:py-16">
-          <h2 className="text-[1.2rem] leading-[100%] tracking-[0.88px] sm:text-[3.5rem] md:text-[2.5rem] lg:text-[2.5rem]">
+          <h2 className="text-[1.375rem] md:text-[2.5rem]">
             While you wait at{' '}
             <span className="underline decoration-[1.25px]">
               Table {tableNumber ?? '---'}
@@ -209,13 +225,13 @@ export default function HeroWaiting() {
             ))}
           </div>
 
-          <div className="mt-10 hidden grid-cols-1 gap-4 md:grid lg:grid-cols-3">
+          <div className="mt-10 hidden gap-4 md:grid md:grid-cols-3">
             {waitingCards.map((card) => (
               <WaitingCard key={card.title} {...card} />
             ))}
           </div>
 
-          <p className="mt-8 font-jakarta text-[0.8rem] font-bold leading-[120%] tracking-[0.56px] text-[#5E5E65] sm:text-[2rem] md:mt-10 md:text-[1.25rem]">
+          <p className="mt-8 font-jakarta text-[0.875rem] font-semibold text-[#5E5E65] md:mt-10 md:text-[1.25rem]">
             Give us a moment while we assign your team judges.
           </p>
         </div>
@@ -223,8 +239,3 @@ export default function HeroWaiting() {
     </section>
   );
 }
-
-/*
-For second ticket, most editing will be here:
-- app/(pages)/_components/AuthForm/JudgeAuthForm.module.scss
-*/
