@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import grass_bottom from '@public/hackers/login/grass_bottom.svg';
 import VocalAngelCow from 'public/hackers/login/vocal_angel_cow.svg';
 import login_mascots_mobile from '@public/hackers/login/login_mascots_mobile.svg';
-import mascots_with_notes from '@public/hackers/login/mascots_with_notes.svg';
+import mascots_waving from '@public/hackers/login/mascots_waving.gif';
 import moving_clouds from '@public/hackers/login/moving_clouds.svg';
 
 export default function AuthFormBackground({
@@ -76,7 +76,7 @@ export default function AuthFormBackground({
           className="hidden md:block w-full relative z-[3]"
         />
         <Image
-          src={mascots_with_notes}
+          src={mascots_waving}
           alt="mascots peeping"
           className="hidden md:block absolute right-0 bottom-0 z-[5]"
         />

@@ -7,7 +7,7 @@ import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
 import {
   EventEntry,
   useScheduleSneakPeekData,
-} from '../../../_hooks/useScheduleSneakPeekData';
+} from '@hooks/useScheduleSneakPeekData';
 import { useSharedNow } from '@pages/_hooks/useScheduleSharedNow';
 
 import sleeping_cow from '@public/hackers/hero/sleeping_cow.svg';
