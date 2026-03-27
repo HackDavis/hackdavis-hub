@@ -27,11 +27,8 @@ export default function TableNumberContextProvider({
   const { storedValue, setValue, fetchValue, loading } =
     useLocalStorage('tableNumber');
 
-  const parsedStoredValue = (() => {
-    if (storedValue === null) {
-      return null;
-    }
-
+  const normalizedStoredValue = (() => {
+    if (storedValue === null) return null;
     const normalized = String(storedValue).trim();
     if (
       normalized.length === 0 ||
@@ -40,12 +37,11 @@ export default function TableNumberContextProvider({
     ) {
       return null;
     }
-
     return normalized;
   })();
 
   const value = {
-    storedValue: parsedStoredValue,
+    storedValue: normalizedStoredValue,
     setValue,
     fetchValue,
     loading,

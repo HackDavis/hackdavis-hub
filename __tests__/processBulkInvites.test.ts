@@ -107,10 +107,12 @@ describe('processBulkInvites', () => {
   it('uses preprocess to filter items and include early results', async () => {
     mockParseCSV.mockReturnValue({ ok: true, body: [ALICE, BOB, CHARLIE] });
 
-    const processOne = jest.fn(async (item: InviteData): Promise<InviteResult> => ({
-      email: item.email,
-      success: true,
-    }));
+    const processOne = jest.fn(
+      async (item: InviteData): Promise<InviteResult> => ({
+        email: item.email,
+        success: true,
+      })
+    );
 
     const result = await processBulkInvites('csv', {
       label: 'Test',
