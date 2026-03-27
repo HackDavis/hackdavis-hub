@@ -40,6 +40,7 @@ export type CsvValidationReport = {
   warningRows: number;
   unknownTracks: string[];
   issues: CsvRowIssue[];
+  globalWarnings?: string[];
 };
 
 type TrackMatchCandidate = {
@@ -565,10 +566,18 @@ export async function validateCsvBlob(blob: Blob): Promise<{
     const overflowCount = results.filter((t) =>
       String(t.tableNumber).startsWith('WAIT-')
     ).length; //count how many teams have no table seating
+    const globalWarnings =
+      overflowCount > 0
+        ? [
+            `Capacity Exceeded: CSV has ${
+              results.length
+            } teams, but venue only has ${
+              results.length - overflowCount
+            } seats. Overflow teams were labeled WAIT-*.`,
+          ]
+        : [];
     const errorRows = issues.filter((i) => i.severity === 'error').length;
-    const warningRows =
-      issues.filter((i) => i.severity === 'warning').length +
-      (overflowCount > 0 ? 1 : 0); // count overflow as 1 warning
+    const warningRows = issues.filter((i) => i.severity === 'warning').length;
     const finalErrorCount = errorRows;
 
     // Use rowIndex-based filtering to avoid NaN equality issues with Set.has()
@@ -600,6 +609,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       warningRows,
       unknownTracks: Array.from(unknownTrackSet).sort(),
       issues,
+      globalWarnings,
     };
 
     const ok = report.errorRows === 0;
@@ -619,6 +629,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       warningRows: 0,
       unknownTracks: [],
       issues: [],
+      globalWarnings: [],
     };
     return {
       ok: false,
