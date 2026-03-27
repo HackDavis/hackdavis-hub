@@ -566,15 +566,10 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       String(t.tableNumber).startsWith('WAIT-')
     ).length; //count how many teams have no table seating
     const errorRows = issues.filter((i) => i.severity === 'error').length;
-    const warningRows = issues.filter((i) => i.severity === 'warning').length;
-    const finalErrorCount = errorRows + (overflowCount > 0 ? 1 : 0); //count overflow teams as 1 error
-
-    const capacityErrorMessage =
-      overflowCount > 0
-        ? `Capacity Exceeded: CSV has ${
-            results.length
-          } teams, but venue only has ${results.length - overflowCount} seats.`
-        : null;
+    const warningRows =
+      issues.filter((i) => i.severity === 'warning').length +
+      (overflowCount > 0 ? 1 : 0); // count overflow as 1 warning
+    const finalErrorCount = errorRows;
 
     // Use rowIndex-based filtering to avoid NaN equality issues with Set.has()
     const errorRowIndexes = new Set(
@@ -613,10 +608,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       body: cleanResults,
       validBody: cleanValidBody,
       report,
-      error: ok
-        ? null
-        : capacityErrorMessage ||
-          (ok ? null : 'CSV validation failed. Fix errors and re-validate.'),
+      error: ok ? null : 'CSV validation failed. Fix errors and re-validate.',
     };
   } catch (e) {
     const error = e as Error;

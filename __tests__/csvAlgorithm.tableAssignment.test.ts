@@ -83,7 +83,7 @@ describe('csvAlgorithm table assignment', () => {
     expect(res.body?.[104].tableNumber).toBe('I1');
   });
 
-  it('returns a validation error when team count exceeds venue capacity', async () => {
+  it('returns a validation warning when team count exceeds venue capacity', async () => {
     // Total capacity: 104 (F1) + 60 (F2) = 164
     // We provide 167 teams to trigger the "WAIT-n" logic and the error message
     const rows: TeamRow[] = Array.from({ length: 167 }, (_, i) => ({
@@ -96,13 +96,11 @@ describe('csvAlgorithm table assignment', () => {
     const csv = buildCsv(rows);
     const res = await validateCsvBlob(new Blob([csv], { type: 'text/csv' }));
 
-    // The Promise should now resolve (ok: false) instead of timing out
-    expect(res.ok).toBe(false);
-
-    // Verify the error message is passed to the Admin UI
-    expect(res.error).toContain('Capacity Exceeded');
-    expect(res.error).toContain('167 teams');
-    expect(res.error).toContain('164 seats');
+    // Capacity overflow is non-blocking and counted as a warning.
+    expect(res.ok).toBe(true);
+    expect(res.error).toBeNull();
+    expect(res.report.errorRows).toBe(0);
+    expect(res.report.warningRows).toBe(1);
 
     // Verify that even with an error, the data was processed (no silent drops)
     expect(res.body).toHaveLength(167);
