@@ -401,12 +401,9 @@ function assignTableNumbers(
     overflowTeams.forEach((team, index) => {
       team.tableNumber = `WAIT-${index + 1}`;
     });
-    console.error(
+    console.warn(
       `[CSV ingestion]: Total teams (${allTeams.length}) exceed capacity (${totalCapacity}).`
     );
-    (
-      allTeams as any
-    ).capacityError = `Capacity Exceeded: CSV has ${allTeams.length} teams, but venue only has ${totalCapacity} seats.`;
   }
 }
 
@@ -556,16 +553,8 @@ export async function validateCsvBlob(blob: Blob): Promise<{
 
             assignTableNumbers(bestHardwareTeams, otherTeams);
             const finalResults = [...bestHardwareTeams, ...otherTeams];
-
-            // Check if assignTableNumbers flagged a capacity issue
-            if ((finalResults as any).capacityError) {
-              reject(new Error((finalResults as any).capacityError));
-            } else {
-              resolve(finalResults);
-            }
-
             // Hardware teams first in the returned list for display ordering.
-            resolve([...bestHardwareTeams, ...otherTeams]);
+            resolve(finalResults);
           })
           .on('error', (error) => reject(error));
       };
@@ -573,8 +562,19 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       parseBlob().catch(reject);
     });
 
+    const overflowCount = results.filter((t) =>
+      String(t.tableNumber).startsWith('WAIT-')
+    ).length; //count how many teams have no table seating
     const errorRows = issues.filter((i) => i.severity === 'error').length;
     const warningRows = issues.filter((i) => i.severity === 'warning').length;
+    const finalErrorCount = errorRows + (overflowCount > 0 ? 1 : 0); //count overflow teams as 1 error
+
+    const capacityErrorMessage =
+      overflowCount > 0
+        ? `Capacity Exceeded: CSV has ${
+            results.length
+          } teams, but venue only has ${results.length - overflowCount} seats.`
+        : null;
 
     // Use rowIndex-based filtering to avoid NaN equality issues with Set.has()
     const errorRowIndexes = new Set(
@@ -601,7 +601,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
     const report: CsvValidationReport = {
       totalTeamsParsed: cleanResults.length,
       validTeams: cleanValidBody.length,
-      errorRows,
+      errorRows: finalErrorCount,
       warningRows,
       unknownTracks: Array.from(unknownTrackSet).sort(),
       issues,
@@ -613,7 +613,10 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       body: cleanResults,
       validBody: cleanValidBody,
       report,
-      error: ok ? null : 'CSV validation failed. Fix errors and re-validate.',
+      error: ok
+        ? null
+        : capacityErrorMessage ||
+          (ok ? null : 'CSV validation failed. Fix errors and re-validate.'),
     };
   } catch (e) {
     const error = e as Error;
