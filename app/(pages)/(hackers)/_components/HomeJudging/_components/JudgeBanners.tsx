@@ -56,11 +56,21 @@ export default function JudgeBanners({
     return () => clearInterval(pollingInterval);
   }, [fetchTeamJudges, tableNumber]);
 
-  if (loading || error !== null) {
-    return error;
+  if (loading) {
+    return (
+      <p className="text-center font-jakarta text-sm text-white">
+        Loading judges...
+      </p>
+    );
   }
 
-  if (!tableNumber || judges.length === 0) {
+  if (error !== null) {
+    return (
+      <p className="text-center font-jakarta text-sm text-white">{error}</p>
+    );
+  }
+
+  if (!tableNumber || !judges || judges.length === 0) {
     return null;
   }
 
