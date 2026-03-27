@@ -578,7 +578,6 @@ export async function validateCsvBlob(blob: Blob): Promise<{
         : [];
     const errorRows = issues.filter((i) => i.severity === 'error').length;
     const warningRows = issues.filter((i) => i.severity === 'warning').length;
-    const finalErrorCount = errorRows;
 
     // Use rowIndex-based filtering to avoid NaN equality issues with Set.has()
     const errorRowIndexes = new Set(
@@ -605,7 +604,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
     const report: CsvValidationReport = {
       totalTeamsParsed: cleanResults.length,
       validTeams: cleanValidBody.length,
-      errorRows: finalErrorCount,
+      errorRows,
       warningRows,
       unknownTracks: Array.from(unknownTrackSet).sort(),
       issues,
