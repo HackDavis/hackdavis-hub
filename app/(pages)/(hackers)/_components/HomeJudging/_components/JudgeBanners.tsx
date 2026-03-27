@@ -33,7 +33,7 @@ export default function JudgeBanners({
 }: JudgeBannersProps) {
   const { storedValue: tableNumber } = useTableNumberContext();
   const { team, judges, loading, error, fetchTeamJudges } =
-    useTeamJudgesFromTableNumber(tableNumber);
+    useTeamJudgesFromTableNumber(tableNumber ?? '');
   const allScored = judges?.every((judge: HydratedJudge) => judge.isScored);
 
   useEffect(() => {
