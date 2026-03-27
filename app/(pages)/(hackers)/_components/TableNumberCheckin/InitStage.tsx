@@ -10,7 +10,7 @@ export default function InitStage({ onNext }: InitStageProps) {
   return (
     <div
       className="flex flex-col mb-[5%] p-[20px] h-[556px] gap-4 rounded-[20px] bg-[#FAFAFF]
-                    md:flex-row md:h-[569] md:items-center md:p-[60px]"
+                    md:flex-row md:h-[569px] md:items-center md:p-[60px]"
     >
       {/* Image - top half on mobile, right side on desktop */}
       <div className="relative w-full h-1/2 md:order-2 md:h-full md:w-1/2 md:rounded-[16px] md:overflow-hidden">

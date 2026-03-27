@@ -45,8 +45,6 @@ export default function TableNumberCheckin() {
     setHasClickedNext(false);
   };
 
-  console.log({ loading, tableNumber, hasClickedNext, stage });
-
   return (
     <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center px-[15px] z-[101] md:px-[90px]">
       <div className="w-full">
