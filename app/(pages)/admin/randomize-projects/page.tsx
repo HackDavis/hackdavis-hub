@@ -45,7 +45,7 @@ export default function Page() {
         <label htmlFor="secondFloor">
           Input the first row letter on the second floor (e.g. I):
         </label>
-        <input name="secondFloor" type="text" />
+        <input id="secondFloor" name="secondFloor" type="text" />
         <button type="submit">Randomize Projects</button>
       </form>
       <p>The following submissions don't have a team associated with them:</p>

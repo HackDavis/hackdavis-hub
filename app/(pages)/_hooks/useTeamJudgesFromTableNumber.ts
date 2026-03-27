@@ -22,6 +22,8 @@ export function useTeamJudgesFromTableNumber(tableNumber: string): any {
 
   const fetchTeamJudges = useCallback(async () => {
     if (!tableNumber) {
+      setTeam(null);
+      setJudges(null);
       setLoading(false);
       setError(null);
       return;
