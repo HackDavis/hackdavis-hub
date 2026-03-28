@@ -4,18 +4,17 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import ProjectTab from './ProjectTab';
 import Team from '@typeDefs/team';
-
 import { reportMissingProject } from '@actions/teams/reportMissingTeam';
-import styles from './UnscoredPage.module.scss';
 import ReportModal from './ReportModal';
 import EmptyState from './EmptyState';
+import { FaChevronRight } from 'react-icons/fa6';
 
-import firstFloorMap from '@public/judges/projects/lower-tabling.svg';
+import firstFloorMap from '@public/judges/projects/venueMap2026.svg';
 import secondFloorMap from '@public/judges/projects/upper-tabling.svg';
 
 interface UnscoredPageProps {
   teams: Team[];
-  revalidateData: () => void; // Callback to refresh parent data
+  revalidateData: () => void;
 }
 
 export default function UnscoredPage({
@@ -26,6 +25,7 @@ export default function UnscoredPage({
   const user = session?.user;
   const judgeId = user?.id ?? '';
   const [expandReportButton, setExpandReportButton] = useState(false);
+  const [mapExpanded, setMapExpanded] = useState(false);
   const [modalStage, setModalStage] = useState<
     'hidden' | 'loading' | 'success' | 'error'
   >('hidden');
@@ -58,94 +58,140 @@ export default function UnscoredPage({
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#F2F2F7]">
-      <span className="text-[32px] font-semibold text-[#000000] mb-[12px]">
-        Current Project:
-      </span>
-      <span className={styles.instructions}>
-        <p className={styles.dark}>
+    <div className="flex flex-col bg-white rounded-[32px]">
+      {/* Current Project header */}
+      <div className="flex flex-col mt-[34px] mx-[30px] gap-[7px]">
+        <p className="text-[24px] font-bold text-[#3F3F3F] mb-[6px]">
+          Current Project
+        </p>
+        <p className="text-[16px] text-[#65E5E65] leading-snug">
           Projects must be judged in order one by one order.
         </p>
-        <p className={styles.grey}>
-          If the team you are judging is not present, tap the{' '}
-          <span className={styles.red}>red button</span> below.
-        </p>
-      </span>
-      <Link
-        href={`/judges/score/${currentTeam._id}`}
-        className="flex items-center justify-center w-full py-[20px] bg-white rounded-[16px] gap-[16px] mb-[20px]"
-      >
-        <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
-          {currentTeam.tableNumber || currentTeam._id}
-        </span>
-        <span className="text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
-          {currentTeam.name || `Team ${currentTeam._id}`}
-        </span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          viewBox="0 0 40 40"
-          fill="none"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M15.4882 11.3215C14.8373 11.9724 14.8373 13.0276 15.4882 13.6785L21.8096 19.9999L15.4882 26.3215C14.8373 26.9724 14.8373 28.0276 15.4882 28.6785C16.139 29.3294 17.1943 29.3294 17.8452 28.6785L25.3452 21.1784C25.6577 20.8659 25.8333 20.442 25.8333 19.9999C25.8333 19.5579 25.6577 19.134 25.3452 18.8214L17.8452 11.3215C17.1943 10.6706 16.139 10.6706 15.4882 11.3215Z"
-            fill="#333333"
-          />
-        </svg>
-      </Link>
-      <div className="flex bg-[#D9D9D9] rounded-[24px] mb-[20px]">
-        <div className="relative">
-          <Image src={firstFloorMap} alt="first floor map" />
-        </div>
-        <div className="relative">
-          <Image src={secondFloorMap} alt="second floor map" />
-        </div>
       </div>
 
-      <div className={styles.report_container}>
+      {/* CTA Button */}
+      <Link
+        href={`/judges/score/${currentTeam._id}`}
+        className="h-[60px] bg-black rounded-full flex items-center justify-between px-[28px] mt-[16px] mx-[25px]"
+      >
+        <div className="flex items-centergap-[14px]">
+          <span className="text-white font-bold text-[26px] leading-none">
+            {currentTeam.tableNumber || currentTeam._id}
+          </span>
+          <span className="text-white font-semibold text-[18px]">
+            {currentTeam.name || `Team ${currentTeam._id}`}
+          </span>
+        </div>
+        <FaChevronRight className="text-white" size={18} />
+      </Link>
+
+      {/* Map card */}
+      <div className="relative w-full mt-[36px] rounded-[20px] border-[1.5px] border-[#E0E0E0] overflow-visible mb-[4px]">
+        <div className="flex p-[12px] rounded-[20px] overflow-hidden">
+          <Image src={firstFloorMap} alt="first floor map" />
+        </div>
+        <button
+          onClick={() => setMapExpanded(true)}
+          className="absolute bottom-[-26px] left-1/2 -translate-x-1/2 bg-black text-white rounded-full w-[52px] h-[52px] flex items-center justify-center z-10"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M3 8V3H8M12 3H17V8M17 12V17H12M8 17H3V12"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Flag section */}
+      <div className="flex flex-col items-center gap-[16px] mt-[44px] mb-[32px]">
+        <p className="text-[16px] text-[#6B6B6B] text-center leading-snug">
+          If the team you are judging is not present, tap the{' '}
+          <span className="text-[#F4847A] font-semibold">red button</span>{' '}
+          below.
+        </p>
+
         {expandReportButton ? (
-          <>
-            <div className={`${styles.buttons} ${styles.are_you_sure}`}>
-              Are you sure
+          <div className="flex w-full gap-[10px]">
+            <div className="flex-1 h-[56px] bg-[#F4847A] rounded-full flex items-center justify-center text-white font-semibold text-[15px]">
+              Are you sure?
             </div>
-            <div
-              className={`${styles.buttons} ${styles.yes}`}
+            <button
               onClick={() => handleTeamReport(currentTeam)}
+              className="flex-1 h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[16px]"
             >
               Yes
-            </div>
-            <div
-              className={`${styles.buttons} ${styles.cancel}`}
+            </button>
+            <button
               onClick={() => setExpandReportButton(false)}
+              className="flex-1 h-[56px] border-[1.5px] border-[#AAAAAA] rounded-full text-[#3D3D3D] font-semibold text-[16px]"
             >
               Cancel
-            </div>
-          </>
+            </button>
+          </div>
         ) : (
-          <div
-            className={`${styles.flag_starter} ${styles.buttons}`}
+          <button
             onClick={() => setExpandReportButton(true)}
+            className="w-full h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[18px]"
           >
             Flag team as missing
-          </div>
+          </button>
         )}
       </div>
 
+      {/* Next up */}
       {upcomingTeams.length > 0 && (
-        <>
-          <span className="text-[32px] font-[600] tracking-[0.64px] text-[#000000] mb-[24px]">
-            Next up:
+        <div className="flex flex-col mb-[58px]">
+          <span className="text-[28px] font-bold text-black mb-[16px]">
+            Next up
           </span>
-          <div className="flex flex-col gap-[16px] mb-[58px] opacity-50">
+          <div className="flex flex-col gap-[12px] opacity-50">
             {upcomingTeams.map((team) => (
               <ProjectTab key={team._id} team={team} disabled />
             ))}
           </div>
-        </>
+        </div>
       )}
+
+      {/* Expanded Map Modal */}
+      {mapExpanded && (
+        <div
+          className="bg-white rounded-[24px] overflow-y-auto relative"
+          style={{ width: '349px', height: '831px' }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div
+            className="bg-white rounded-[24px] overflow-y-auto w-full max-w-[420px] max-h-[90vh] relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-[16px] pt-[16px] pb-[8px]">
+              <button
+                onClick={() => setMapExpanded(false)}
+                className="bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center text-lg font-bold"
+              >
+                <Image
+                  src="@public/judges/projects/x.svg"
+                  alt="Close"
+                  width={15}
+                  height={15}
+                />
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-[12px] px-[16px] pb-[20px]">
+              <Image
+                src={firstFloorMap}
+                alt="first floor map"
+                className="w-full"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       <ReportModal
         modalStage={modalStage}
         setModalStage={setModalStage}
