@@ -1,7 +1,7 @@
 interface ParsedRecord {
   name: string;
   teamNumber: number;
-  tableNumber: number;
+  tableNumber: string;
   tracks: string[];
   active: boolean;
 }
