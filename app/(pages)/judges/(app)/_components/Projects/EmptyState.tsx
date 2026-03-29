@@ -9,13 +9,11 @@ export default function ProjectsEmptyState({
   subtitle: string;
 }) {
   return (
-    <div className="flex mt-[65px] flex-col items-center h-[calc(100vh-100px)] bg-[#F2F2F7] text-center">
+    <div className="flex flex-col items-center text-center">
       <span className="text-[32px] font-[700] text-[#000000] mb-[12px]">
         {title}
       </span>
-      <span className="text-[16px] font-[500] text-[#000000] whitespace-pre-line mb-[32px]">
-        {subtitle}
-      </span>
+      <span className="text-[16px] font-[500] text-[#000000]">{subtitle}</span>
       <Image src={projectCow} alt="Project Cow" />
     </div>
   );
