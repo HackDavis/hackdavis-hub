@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import projectCow from '/public/judges/projects/project-cow.svg';
+import twoStars from '/public/judges/projects/two_stars.svg';
 
 export default function ProjectsEmptyState({
   title,
@@ -10,6 +11,9 @@ export default function ProjectsEmptyState({
 }) {
   return (
     <div className="flex flex-col items-center text-center">
+      <div className="flex w-full justify-end pr-[25%]">
+        <Image src={twoStars} alt="Two Stars" />
+      </div>
       <span className="text-[32px] font-[700] text-[#000000] mb-[12px]">
         {title}
       </span>

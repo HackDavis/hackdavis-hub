@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { useJudgeSubmissions } from '@pages/_hooks/useJudgeSubmissions';
@@ -7,6 +7,8 @@ import UnscoredPage from './UnscoredPage';
 import ScoredPage from './ScoredPage';
 import Link from 'next/link';
 import Loader from '@pages/_components/Loader/Loader';
+import ProjectTab from './ProjectTab';
+import Team from '@typeDefs/team';
 
 interface ButtonProps {
   text: string;
@@ -41,15 +43,29 @@ const Button: React.FC<ButtonProps> = ({
 );
 
 const ProjectPage = () => {
-  const [selectedButton, setSelectedButton] = useState<'Unjudged' | 'Scored'>(
-    'Unjudged'
-  );
+  const [selectedButton, setSelectedButton] = useState<
+    'Unjudged' | 'Scored' | 'Missing Team'
+  >('Unjudged');
   const { data: session } = useSession();
   const user = session?.user;
   const userId = user?.id;
 
   const { scoredTeams, unscoredTeams, loading, error, fetchSubmissions } =
     useJudgeSubmissions(userId);
+
+  const allUnscoredTeams = (unscoredTeams ?? []) as Team[];
+  const missingTeams = allUnscoredTeams.filter((team) =>
+    (team.reports ?? []).some((report) => report.judge_id === userId)
+  );
+  const visibleUnscoredTeams = allUnscoredTeams.filter(
+    (team) => !(team.reports ?? []).some((report) => report.judge_id === userId)
+  );
+
+  useEffect(() => {
+    if (selectedButton === 'Missing Team' && missingTeams.length === 0) {
+      setSelectedButton('Unjudged');
+    }
+  }, [missingTeams.length, selectedButton]);
 
   if (loading) {
     return <Loader />;
@@ -76,7 +92,7 @@ const ProjectPage = () => {
         <Button
           text="Unjudged"
           isSelected={selectedButton === 'Unjudged'}
-          badgeCount={unscoredTeams?.length}
+          badgeCount={visibleUnscoredTeams.length}
           onClick={() => setSelectedButton('Unjudged')}
         />
         <Button
@@ -84,6 +100,13 @@ const ProjectPage = () => {
           isSelected={selectedButton === 'Scored'}
           onClick={() => setSelectedButton('Scored')}
         />
+        {missingTeams.length > 0 && (
+          <Button
+            text="Missing Team"
+            isSelected={selectedButton === 'Missing Team'}
+            onClick={() => setSelectedButton('Missing Team')}
+          />
+        )}
       </div>
 
       <div>
@@ -95,9 +118,15 @@ const ProjectPage = () => {
           </div>
         ) : selectedButton === 'Unjudged' ? (
           <UnscoredPage
-            teams={unscoredTeams}
+            teams={visibleUnscoredTeams}
             revalidateData={() => fetchSubmissions()}
           />
+        ) : selectedButton === 'Missing Team' ? (
+          <div className="flex flex-col gap-[24px]">
+            {missingTeams.map((team) => (
+              <ProjectTab key={team._id} team={team} disabled />
+            ))}
+          </div>
         ) : (
           <ScoredPage teams={scoredTeams} />
         )}
