@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTableNumber } from '@pages/_hooks/useTableNumber';
 import useTableNumberContext from '@pages/_hooks/useTableNumberContext';
 
@@ -18,8 +18,20 @@ export default function TableNumberCheckin() {
 
   const [teamNumber, setTeamNumber] = useState('');
   const [hasClickedNext, setHasClickedNext] = useState(false);
+  const [isDelayingLookup, setIsDelayingLookup] = useState(false);
+  const lookupDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const { loading, tableNumber, fetchTableNumber, setTableNumber, error } =
     useTableNumber();
+
+  useEffect(() => {
+    return () => {
+      if (lookupDelayTimeoutRef.current) {
+        clearTimeout(lookupDelayTimeoutRef.current);
+      }
+    };
+  }, []);
 
   if (localStorageLoading || storedValue !== null) {
     return null;
@@ -27,7 +39,7 @@ export default function TableNumberCheckin() {
 
   // Stage resolution
   let stage: 'init' | 'devpost' | 'loading' | 'confirm' = 'init';
-  if (loading) {
+  if (isDelayingLookup || loading) {
     stage = 'loading';
   } else if (tableNumber) {
     stage = 'confirm';
@@ -36,17 +48,35 @@ export default function TableNumberCheckin() {
   }
 
   const handleTeamNumberSubmit = () => {
-    fetchTableNumber(teamNumber);
+    if (isDelayingLookup || loading) return;
+
+    setIsDelayingLookup(true);
+    if (lookupDelayTimeoutRef.current) {
+      clearTimeout(lookupDelayTimeoutRef.current);
+    }
+
+    lookupDelayTimeoutRef.current = setTimeout(() => {
+      void (async () => {
+        await fetchTableNumber(Number(teamNumber));
+        setIsDelayingLookup(false);
+        lookupDelayTimeoutRef.current = null;
+      })();
+    }, 1000);
   };
 
   const handleReset = () => {
+    if (lookupDelayTimeoutRef.current) {
+      clearTimeout(lookupDelayTimeoutRef.current);
+      lookupDelayTimeoutRef.current = null;
+    }
+    setIsDelayingLookup(false);
     setTableNumber(null);
     setTeamNumber('');
     setHasClickedNext(false);
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center px-[15px] z-[101] md:px-[90px]">
+    <div className="fixed inset-0 bg-black/50 flex flex-col items-center justify-center px-[15px] z-[101] md:px-[6%]">
       <div className="w-full">
         {stage === 'init' && (
           <InitStage onNext={() => setHasClickedNext(true)} />

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import rightArrow from '@public/hackers/table-number-checkin/arrow-right.svg';
-import devpostNumber from './hackers/table-number-checkin/Filler.svg'
+import devpostNumber from '@public/hackers/table-number-checkin/Filler.svg';
 
 interface DevpostStageProps {
   teamNumber: string;
@@ -23,18 +23,17 @@ export default function DevpostStage({
 
   return (
     <div
-      className="flex flex-col p-[20px] h-[556px] mb-[5%] rounded-[20px] bg-[#FAFAFF]
-                    md:flex-row md:h-[569px] md:items-stretch md:p-[60px] md:gap-8"
+      className="flex flex-col p-[20px] gap-4 rounded-[20px] bg-[#FAFAFF]
+                    md:flex-row md:items-center md:justify-between md:p-[60px]"
     >
       {/* RIGHT column — first in DOM so image appears at top on mobile, right on desktop */}
-      <div className="flex flex-col gap-3 md:order-2 md:w-1/2">
+      <div className="flex flex-col flex-1 w-full gap-3 md:order-2">
         {/* Screenshot image */}
-        <div className="relative w-full h-[171px] md:flex-1 md:rounded-[16px] md:overflow-hidden">
+        <div className="w-full rounded-[16px] overflow-hidden md:flex-1">
           <Image
             src={devpostNumber}
             alt="devpost number screenshot"
-            fill
-            className="object-cover"
+            className="w-full h-auto object-contain"
           />
         </div>
 
@@ -46,6 +45,7 @@ export default function DevpostStage({
           <input
             type="text"
             placeholder="#####"
+            value={teamNumber}
             inputMode="numeric"
             maxLength={5}
             pattern="[0-9]*"
@@ -59,15 +59,15 @@ export default function DevpostStage({
       </div>
 
       {/* LEFT column — second in DOM, reordered to first on desktop */}
-      <div className="flex flex-col justify-between md:order-1 md:w-1/2">
+      <div className="flex flex-col flex-1 md:self-stretch justify-between gap-8 md:order-1">
         <div className="flex flex-col gap-1">
-          <h3 className="text-lg font-semibold md:text-[32px] md:leading-normal">
+          <h3 className="text-[18px] font-semibold sm:text-[22px] md:text-[26px] lg:text-[32px] md:leading-normal">
             {error
               ? 'Oops! We did not find your Devpost number.'
               : 'Find your Devpost number.'}
           </h3>
 
-          <p className="text-lg font-semibold text-[#878796] md:text-[32px] leading-normal">
+          <p className="text-[18px] font-semibold text-[#878796] sm:text-[22px] md:text-[26px] lg:text-[32px] leading-normal">
             {error
               ? 'Please double check you have entered the same number listed on Devpost.'
               : 'This can be found by going to https://hackdavis-2025.devpost.com/tables and finding your project submission name. Enter the number exactly as it is presented.'}
@@ -75,7 +75,7 @@ export default function DevpostStage({
         </div>
 
         {/* Buttons — bottom of left column on desktop, bottom of card on mobile */}
-        <div className="flex justify-between items-center mt-4 md:justify-normal md:gap-[56px] md:mt-auto">
+        <div className="flex justify-between items-center md:justify-normal md:gap-[56px]">
           <button
             onClick={onBack}
             className="text-[#5E5E65] text-base font-semibold border-none bg-transparent"

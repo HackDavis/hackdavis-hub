@@ -8,7 +8,7 @@ export function useTableNumber() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTableNumber = async (teamNumber: string | null) => {
+  const fetchTableNumber = async (teamNumber: number | null) => {
     if (!teamNumber) return;
     setLoading(true);
     const teamsRes = await getManyTeams({ teamNumber });
