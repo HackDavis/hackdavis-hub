@@ -19,7 +19,7 @@ export default function DevpostStage({
   onSubmit,
   onBack,
 }: DevpostStageProps) {
-  const hasTeamNumber = teamNumber.length;
+  const hasTeamNumber = teamNumber.length && Number(teamNumber) > 0;
 
   return (
     <div
@@ -83,8 +83,8 @@ export default function DevpostStage({
               >
                 hackdavis-2026.devpost.com/tables
               </a>{' '}
-              and finding your project submission name. Enter the number
-              exactly as it is presented.
+              and finding your project submission name. Enter the number exactly
+              as it is presented.
             </p>
           )}
         </div>

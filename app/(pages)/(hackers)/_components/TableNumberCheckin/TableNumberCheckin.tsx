@@ -57,9 +57,14 @@ export default function TableNumberCheckin() {
 
     lookupDelayTimeoutRef.current = setTimeout(() => {
       void (async () => {
-        await fetchTableNumber(Number(teamNumber));
-        setIsDelayingLookup(false);
-        lookupDelayTimeoutRef.current = null;
+        try {
+          await fetchTableNumber(Number(teamNumber));
+        } catch {
+          // avoid unhandled rejections
+        } finally {
+          setIsDelayingLookup(false);
+          lookupDelayTimeoutRef.current = null;
+        }
       })();
     }, 1000);
   };
