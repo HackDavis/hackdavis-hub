@@ -7,7 +7,7 @@ interface ScoredPageProps {
 
 const ScoredPage = ({ teams }: ScoredPageProps) => {
   return (
-    <div className="flex flex-col mt-[4px] gap-[16px] mb-[120px]">
+    <div className="flex flex-col">
       {teams.length === 0 ? (
         <ProjectsEmptyState
           title="Let's begin!"

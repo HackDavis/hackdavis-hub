@@ -9,15 +9,15 @@ const ProjectTab: React.FC<ProjectTabProps> = ({ team, disabled }) => {
   return (
     <Link
       href={`/judges/score/${team._id}`}
-      className="flex items-center justify-center bg-white rounded-[16px] gap-[24px] py-[20px]"
+      className="flex items-center justify-center bg-[#F3F3FC] rounded-[24px] gap-[14px] py-[12px] px-[24px]"
       style={{
         pointerEvents: disabled ? 'none' : 'auto',
       }}
     >
-      <span className="text-[48px] text-[#000000] leading-[60px] font-[600]">
+      <span className="text-[32px] text-[#707070] font-semibold">
         {team.tableNumber}
       </span>
-      <span className="max-w-[137px] break-words text-[24px] text-[#000000] tracking-[0.48px] leading-[30px] font-[500]">
+      <span className="text-[18px] text-[#707070] font-semibold">
         {team.name}
       </span>
     </Link>
