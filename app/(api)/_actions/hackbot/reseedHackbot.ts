@@ -57,17 +57,12 @@ export default async function reseedHackbot(): Promise<ReseedResult> {
         );
 
         successCount++;
-        console.log(`[reseedHackbot] ✓ knowledge-${id}`);
       } catch (e) {
         const msg = e instanceof Error ? e.message : 'Unknown error';
         console.error(`[reseedHackbot] ✗ knowledge-${id}:`, msg);
         failures.push(`${doc.title}: ${msg}`);
       }
     }
-
-    console.log(
-      `[reseedHackbot] Done: ${successCount}/${knowledgeDocs.length} re-seeded`
-    );
 
     return {
       ok: failures.length === 0,

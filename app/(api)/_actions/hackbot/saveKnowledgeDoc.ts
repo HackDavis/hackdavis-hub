@@ -61,7 +61,6 @@ export default async function saveKnowledgeDoc(
         { upsert: true }
       );
 
-      console.log(`[saveKnowledgeDoc] Updated ${id}`);
       return { ok: true, id };
     } else {
       // Create new
@@ -92,7 +91,6 @@ export default async function saveKnowledgeDoc(
         { upsert: true }
       );
 
-      console.log(`[saveKnowledgeDoc] Created ${newId}`);
       return { ok: true, id: newId };
     }
   } catch (e) {

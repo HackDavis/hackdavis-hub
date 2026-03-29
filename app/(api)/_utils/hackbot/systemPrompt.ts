@@ -1,5 +1,6 @@
 import type { HackerProfile } from '@typeDefs/hackbot';
 
+// TODO: StarterKit id's need to be updated
 export const PATH_CONTEXT_MAP: Record<string, string> = {
   '/': 'the Hub homepage (announcements, prize tracks, mentor/director help, Discord)',
   '/#prize-tracks': 'the Prize Tracks section of the Hub homepage',

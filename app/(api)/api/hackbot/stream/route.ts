@@ -60,6 +60,7 @@ const fewShotExamples = [
   },
 ];
 
+// TODO: Split file up for readability
 export async function POST(request: Request) {
   try {
     const { messages, currentPath } = await request.json();
