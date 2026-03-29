@@ -9,8 +9,7 @@ import ReportModal from './ReportModal';
 import EmptyState from './EmptyState';
 import { FaChevronRight } from 'react-icons/fa6';
 
-import firstFloorMap from '@public/judges/projects/venueMap2026.svg';
-import secondFloorMap from '@public/judges/projects/upper-tabling.svg';
+import venueMap from '@public/judges/projects/venueMap2026.svg';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -88,7 +87,7 @@ export default function UnscoredPage({
       {/* Map card */}
       <div className="relative w-full mt-[36px] rounded-[20px] border-[1.5px] border-[#E0E0E0] overflow-visible mb-[4px]">
         <div className="flex p-[12px] rounded-[20px] overflow-hidden">
-          <Image src={firstFloorMap} alt="first floor map" />
+          <Image src={venueMap} alt="first floor map" />
         </div>
         <button
           onClick={() => setMapExpanded(true)}
@@ -182,11 +181,7 @@ export default function UnscoredPage({
             </div>
 
             <div className="flex flex-col gap-[12px] px-[16px] pb-[20px]">
-              <Image
-                src={firstFloorMap}
-                alt="first floor map"
-                className="w-full"
-              />
+              <Image src={venueMap} alt="first floor map" className="w-full" />
             </div>
           </div>
         </div>
