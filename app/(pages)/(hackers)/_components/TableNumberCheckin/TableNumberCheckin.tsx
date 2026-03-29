@@ -21,7 +21,7 @@ export default function TableNumberCheckin() {
   const { loading, tableNumber, fetchTableNumber, setTableNumber, error } =
     useTableNumber();
 
-  if (localStorageLoading || storedValue) {
+  if (localStorageLoading || storedValue !== null) {
     return null;
   }
 

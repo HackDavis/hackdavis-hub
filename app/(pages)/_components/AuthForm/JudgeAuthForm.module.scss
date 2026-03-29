@@ -1,14 +1,19 @@
 .container {
   width: 100%;
-  height: 60vh;
-  border-radius: var(--b-radius);
+  display: flex;
+  height: 100%;
+  min-height: 100%;
+  border-radius: 28px;
+  color: #000;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  align-items: space-between;
+  justify-content: flex-start;
   height: 100%;
+  width: 100%;
+  color: #000;
 
   .input_container {
     position: relative;
@@ -39,31 +44,44 @@
   }
 
   input {
-    padding-top: var(--small-medium-spacer);
-    padding-left: var(--small-spacer);
+    height: 64px;
+    border: 1.5px solid #5e5e65;
+    border-radius: 8px;
+    background: #fff;
+    padding: 30px 12px 10px 12px;
     width: 100%;
+    color: #000;
   }
 
   label {
     position: absolute;
-    margin-top: var(--tiny-spacer);
-    left: var(--small-spacer);
-    font-size: 0.9rem;
+    top: 7px;
+    left: 12px;
+    font-size: 14px;
+    color: #8b8b8b;
     pointer-events: none;
   }
 }
 
 .error_msg {
   color: var(--text-error);
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: end;
+  margin-top: 4px;
+  min-height: calc(0.75rem * 1.5 + 4px); // calcs space taken up by error message
 }
 
 .fields {
   display: flex;
   flex-direction: column;
-  gap: var(--small-spacer);
+}
+
+.top_container {
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .error {
@@ -72,49 +90,68 @@
 
 .bottom_container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   margin-top: auto;
   flex-direction: column;
+  padding-top: 24px;
+}
+
+.bottom {
+  width: 100%;
 }
 
 .submit_button {
-  padding: 15px 18px;
-  font-size: 1.125rem;
+  padding: 15px 32px;
+  font-size: 18px;
   font-weight: 700;
   line-height: normal;
-  color: var(--text-light);
-  border: none;
-  border-radius: var(--b-radius);
-  background-color: var(--background-secondary-light);
+  color: #000;
+  border-radius: 9999px;
+  background-color: #fff;
   cursor: not-allowed;
   width: 100%;
-  opacity: 0.7;
+  opacity: 1;
+}
+
+.submit_content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.submit_arrow {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0);
+}
+
+.filled {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+
+  .submit_arrow {
+    filter: brightness(0) invert(1);
+  }
 }
 
 .valid {
-  background-color: var(--background-secondary);
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
   opacity: 1;
   cursor: pointer;
+
+  .submit_arrow {
+    filter: brightness(0) invert(1);
+  }
 }
 
-.froggy_container {
-  // display: flex;
-  justify-content: flex-end;
-  position: relative;
-
-  img {
-    position: absolute;
-  }
-
-  .froggy {
-    z-index: 1;
-    left: 280px;
-    top: -59px;
-  }
-
-  .drumstick {
-    z-index: 2;
-    left: 277px;
-    top: -47px;
-  }
+.forgot {
+  color: #000;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  font-size: 14px;
 }

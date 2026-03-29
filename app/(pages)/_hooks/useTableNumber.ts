@@ -4,7 +4,7 @@ import { getManyTeams } from '@actions/teams/getTeams';
 import { useState } from 'react';
 
 export function useTableNumber() {
-  const [tableNumber, setTableNumber] = useState<null | number>(null);
+  const [tableNumber, setTableNumber] = useState<null | string>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,9 +16,13 @@ export function useTableNumber() {
       setError(teamsRes.error);
     } else {
       // grab first team that matches teamNumber, get tableNumber back
-      const tableNumber = teamsRes.body?.[0]?.tableNumber ?? null;
-      setTableNumber(tableNumber);
-      if (!tableNumber) {
+      const tableNumber = teamsRes.body?.[0]?.tableNumber;
+      const normalizedTableNumber =
+        tableNumber === null || tableNumber === undefined
+          ? null
+          : String(tableNumber);
+      setTableNumber(normalizedTableNumber);
+      if (!normalizedTableNumber) {
         setError('No team with given teamNumber');
       } else {
         setError(null);

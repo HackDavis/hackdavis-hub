@@ -122,11 +122,21 @@ const config: Config = {
             transform: 'translateX(-75%)',
           },
         },
+        'spin': {
+          from: {
+            transform: 'rotate(0deg)',
+          },          
+          to: {
+            transform: 'rotate(360deg)',
+          }
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         moveClouds: 'moveClouds 30s linear infinite',
+        'spinning-clockwise': 'spin 10s linear infinite',
+        'spinning-counterclockwise': 'spin 10s linear infinite reverse',
       },
       fontFamily: {
         jakarta: ['var(--font-jakarta)'],
