@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 interface ConfirmStageProps {
-  tableNumber: number | null;
+  tableNumber: string | null;
   onConfirm: () => void;
   onReset: () => void;
 }

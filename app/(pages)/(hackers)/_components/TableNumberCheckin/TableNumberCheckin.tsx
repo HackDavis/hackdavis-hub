@@ -36,7 +36,7 @@ export default function TableNumberCheckin() {
   }
 
   const handleTeamNumberSubmit = () => {
-    fetchTableNumber(Number(teamNumber));
+    fetchTableNumber(teamNumber);
   };
 
   const handleReset = () => {
@@ -61,7 +61,7 @@ export default function TableNumberCheckin() {
           />
         )}
         {stage === 'loading' && <LoadingStage teamNumber={teamNumber} />}
-        {stage === 'confirm' && (
+        {stage === 'confirm' && tableNumber && (
           <ConfirmStage
             tableNumber={tableNumber}
             onConfirm={() => setValue(tableNumber)}
