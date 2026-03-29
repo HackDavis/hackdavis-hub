@@ -24,10 +24,10 @@ const Button: React.FC<ButtonProps> = ({
   <div className="relative">
     <button
       onClick={onClick}
-      className={`h-[48px] px-[28px] rounded-full text-[18px] font-semibold transition-colors ${
+      className={`px-[24px] py-[12px] rounded-full text-[18px] font-semibold transition-colors ${
         isSelected
-          ? 'bg-[#3D3D3D] text-white'
-          : 'bg-transparent text-[#3D3D3D] border-[2.5px] border-dashed border-[#AAAAAA]'
+          ? 'bg-[#3D3D3D] text-white border-[1px] border-[#3D3D3D]'
+          : 'bg-transparent text-[#3D3D3D] border-[1px] border-dashed border-[#AAAAAA]'
       }`}
     >
       {text}
@@ -60,24 +60,19 @@ const ProjectPage = () => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#FAFAFF]">
-      <Link
-        href="/judges"
-        className="flex items-center ml-[20px] gap-[12px] mt-[59px]"
-      >
-        <FaChevronLeft fill="#121212" height={8.48} width={4.24} />
-        <span className="font-semibold text-[18px] tracking-[0.36px] text-[#121212] leading-[100%]">
+    <div className="flex flex-col h-full my-[40px] mx-[24px]">
+      <Link href="/judges" className="flex items-center my-[12px] gap-[12px]">
+        <FaChevronLeft fill="#005271" height={8.48} width={4.24} />
+        <span className="font-semibold text-[18px] text-[#121212]">
           Back to home
         </span>
       </Link>
 
-      <div className="px-[20px] mt-[44px] mb-[20px]">
-        <span className="font-bold text-[48px] leading-none text-black block">
-          Projects
-        </span>
+      <div className="my-[12px]">
+        <span className="font-bold text-[48px] text-black block">Projects</span>
       </div>
 
-      <div className="flex px-[20px] gap-[10px] mb-[32px]">
+      <div className="flex gap-[8px] mb-[32px]">
         <Button
           text="Unjudged"
           isSelected={selectedButton === 'Unjudged'}
@@ -91,7 +86,7 @@ const ProjectPage = () => {
         />
       </div>
 
-      <div className="px-[20px]">
+      <div>
         {loading ? (
           <Loader />
         ) : error ? (
