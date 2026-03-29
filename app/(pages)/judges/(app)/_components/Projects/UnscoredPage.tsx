@@ -8,8 +8,10 @@ import { reportMissingProject } from '@actions/teams/reportMissingTeam';
 import ReportModal from './ReportModal';
 import EmptyState from './EmptyState';
 import { FaChevronRight } from 'react-icons/fa6';
+import { IoExpandOutline } from 'react-icons/io5';
 
 import venueMap from '@public/judges/projects/venueMap2026.svg';
+import closeIcon from '@public/judges/projects/x.svg';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -92,18 +94,12 @@ export default function UnscoredPage({
               <Image src={venueMap} alt="first floor map" />
             </div>
             <button
-              onClick={() => setMapExpanded(true)}
+              onClick={() => {
+                setMapExpanded(true);
+              }}
               className="absolute bottom-[-26px] left-1/2 -translate-x-1/2 bg-black text-white rounded-full w-[52px] h-[52px] flex items-center justify-center z-10"
             >
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M3 8V3H8M12 3H17V8M17 12V17H12M8 17H3V12"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <IoExpandOutline size={24} />
             </button>
           </div>
 
@@ -161,38 +157,32 @@ export default function UnscoredPage({
           </div>
         )}
 
-        {/* TODO: FIX MAP POPUP */}
         {/* Expanded Map Modal */}
         {mapExpanded && (
           <div
-            className="bg-white rounded-[24px] overflow-y-auto relative"
-            style={{ width: '349px', height: '831px' }}
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-[22px] py-[48px]"
+            onClick={() => setMapExpanded(false)}
           >
             <div
-              className="bg-white rounded-[24px] overflow-y-auto w-full max-w-[420px] max-h-[90vh] relative"
+              className="bg-white rounded-[24px] overflow-hidden w-full max-w-[430px] h-[calc(100dvh-96px)] relative flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between px-[16px] pt-[16px] pb-[8px]">
-                <button
-                  onClick={() => setMapExpanded(false)}
-                  className="bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center text-lg font-bold"
-                >
-                  <Image
-                    src="@public/judges/projects/x.svg"
-                    alt="Close"
-                    width={15}
-                    height={15}
-                  />
-                </button>
-              </div>
+              <button
+                onClick={() => setMapExpanded(false)}
+                className="absolute top-[16px] right-[16px] z-10 bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center text-lg font-bold"
+                aria-label="Close map"
+              >
+                <Image src={closeIcon} alt="Close" width={15} height={15} />
+              </button>
 
-              <div className="flex flex-col gap-[12px] px-[16px] pb-[20px]">
-                <Image
-                  src={venueMap}
-                  alt="first floor map"
-                  className="w-full"
-                />
+              <div className="h-full w-full overflow-auto px-[16px] py-[16px]">
+                <div className="flex h-full min-w-full items-center justify-center rotate-90 m-[150px]">
+                  <Image
+                    src={venueMap}
+                    alt="first floor map"
+                    className="h-full w-auto max-w-none select-none"
+                  />
+                </div>
               </div>
             </div>
           </div>

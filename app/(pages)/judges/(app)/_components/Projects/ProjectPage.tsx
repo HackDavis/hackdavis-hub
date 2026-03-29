@@ -88,25 +88,27 @@ const ProjectPage = () => {
         <span className="font-bold text-[48px] text-black block">Projects</span>
       </div>
 
-      <div className="flex gap-[8px] mb-[32px]">
-        <Button
-          text="Unjudged"
-          isSelected={selectedButton === 'Unjudged'}
-          badgeCount={visibleUnscoredTeams.length}
-          onClick={() => setSelectedButton('Unjudged')}
-        />
-        <Button
-          text="Scored"
-          isSelected={selectedButton === 'Scored'}
-          onClick={() => setSelectedButton('Scored')}
-        />
-        {missingTeams.length > 0 && (
+      <div className="flex gap-[8px] mb-[32px] overflow-x-auto pt-[12px] pb-2 no-scrollbar">
+        <div className="flex gap-[8px] flex-nowrap min-w-max">
           <Button
-            text="Missing Team"
-            isSelected={selectedButton === 'Missing Team'}
-            onClick={() => setSelectedButton('Missing Team')}
+            text="Unjudged"
+            isSelected={selectedButton === 'Unjudged'}
+            badgeCount={visibleUnscoredTeams.length}
+            onClick={() => setSelectedButton('Unjudged')}
           />
-        )}
+          <Button
+            text="Scored"
+            isSelected={selectedButton === 'Scored'}
+            onClick={() => setSelectedButton('Scored')}
+          />
+          {missingTeams.length > 0 && (
+            <Button
+              text="Missing Team"
+              isSelected={selectedButton === 'Missing Team'}
+              onClick={() => setSelectedButton('Missing Team')}
+            />
+          )}
+        </div>
       </div>
 
       <div>
