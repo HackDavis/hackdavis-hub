@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import mascotsCelebrate from '@public/hackers/table-number-checkin/end-of-hackathon.svg'
+import rightArrow from '@public/hackers/table-number-checkin/arrow-right.svg'
 
 interface InitStageProps {
   onNext: () => void;
@@ -15,7 +17,7 @@ export default function InitStage({ onNext }: InitStageProps) {
       {/* Image - top half on mobile, right side on desktop */}
       <div className="relative w-full h-1/2 md:order-2 md:h-full md:w-1/2 md:rounded-[16px] md:overflow-hidden">
         <Image
-          src={'./hackers/table-number-checkin/end-of-hackathon.svg'}
+          src={mascotsCelebrate}
           alt="mascots hanging out"
           fill
           className="object-cover"
@@ -44,7 +46,7 @@ export default function InitStage({ onNext }: InitStageProps) {
             Ready to find my table
             <div className="relative w-6 h-6 ml-2">
               <Image
-                src={'./hackers/table-number-checkin/arrow-right.svg'}
+                src={rightArrow}
                 alt="Right Arrow"
                 fill
                 className="object-cover"

@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import rightArrow from '@public/hackers/table-number-checkin/arrow-right.svg';
+import devpostNumber from './hackers/table-number-checkin/Filler.svg'
 
 interface DevpostStageProps {
   teamNumber: string;
@@ -29,8 +31,8 @@ export default function DevpostStage({
         {/* Screenshot image */}
         <div className="relative w-full h-[171px] md:flex-1 md:rounded-[16px] md:overflow-hidden">
           <Image
-            src={'./hackers/table-number-checkin/Filler.svg'}
-            alt="mascots hanging out"
+            src={devpostNumber}
+            alt="devpost number screenshot"
             fill
             className="object-cover"
           />
@@ -67,8 +69,8 @@ export default function DevpostStage({
 
           <p className="text-lg font-semibold text-[#878796] md:text-[32px] leading-normal">
             {error
-              ? 'Please double check you have entered the same number on your devpost account.'
-              : 'This can be found by going to _____ and selecting____. Enter the number exactly as it is presented.'}
+              ? 'Please double check you have entered the same number listed on Devpost.'
+              : 'This can be found by going to https://hackdavis-2025.devpost.com/tables and finding your project submission name. Enter the number exactly as it is presented.'}
           </p>
         </div>
 
@@ -93,7 +95,7 @@ export default function DevpostStage({
             {hasTeamNumber ? 'Next' : 'Got it'}
             <div className="relative w-6 h-6 ml-2">
               <Image
-                src={'./hackers/table-number-checkin/arrow-right.svg'}
+                src={rightArrow}
                 alt="Right Arrow"
                 fill
                 className="object-cover"

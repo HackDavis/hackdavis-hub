@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import mapIcon from '@public/hackers/table-number-checkin/map.svg'
+import checkmarkIcon from '@public/hackers/table-number-checkin/check.svg'
 
 interface ConfirmStageProps {
   tableNumber: string | null;
@@ -27,7 +29,7 @@ export default function ConfirmStage({
             TABLE
           </h1>
           <h1 className="text-6xl text-[#FAFAFF] text-center font-medium tracking-[1.2px] md:text-[120px]">
-            {tableNumber ?? 'A1'}
+            {tableNumber ?? '---'}
           </h1>
         </div>
       </div>
@@ -49,7 +51,7 @@ export default function ConfirmStage({
           <div className="flex gap-2 items-center mt-2">
             <div className="relative w-4 h-4 md:w-6 md:h-6">
               <Image
-                src={'./hackers/table-number-checkin/map.svg'}
+                src={mapIcon}
                 alt="Map Icon"
                 fill
                 className="object-cover"
@@ -81,7 +83,7 @@ export default function ConfirmStage({
             Got it
             <div className="relative hidden md:block w-4 h-4">
               <Image
-                src={'./hackers/table-number-checkin/check.svg'}
+                src={checkmarkIcon}
                 alt="Checkmark"
                 fill
                 className="object-cover"

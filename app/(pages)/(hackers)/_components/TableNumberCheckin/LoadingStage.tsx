@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import loadingBus from '@public/hackers/table-number-checkin/loading.svg'
+import rightArrow from '@public/hackers/table-number-checkin/arrow-right.svg'
 
 interface LoadingStageProps {
   teamNumber: string;
@@ -17,7 +19,7 @@ export default function LoadingStage({ teamNumber }: LoadingStageProps) {
         {/* Image */}
         <div className="relative w-full h-[171px] rounded-[20px] md:flex-1 md:rounded-[16px] md:overflow-hidden">
           <Image
-            src={'./hackers/table-number-checkin/loading.svg'}
+            src={loadingBus}
             alt="mascots hanging out"
             fill
             className="object-cover rounded-[20px]"
@@ -71,7 +73,7 @@ export default function LoadingStage({ teamNumber }: LoadingStageProps) {
             Next
             <div className="relative w-6 h-6 ml-2">
               <Image
-                src={'./hackers/table-number-checkin/arrow-right.svg'}
+                src={rightArrow}
                 alt="Right Arrow"
                 fill
                 className="object-cover"
