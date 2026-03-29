@@ -67,11 +67,26 @@ export default function DevpostStage({
               : 'Find your Devpost number.'}
           </h3>
 
-          <p className="text-[18px] font-semibold text-[#878796] sm:text-[22px] md:text-[26px] lg:text-[32px] leading-normal">
-            {error
-              ? 'Please double check you have entered the same number listed on Devpost.'
-              : 'This can be found by going to https://hackdavis-2025.devpost.com/tables and finding your project submission name. Enter the number exactly as it is presented.'}
-          </p>
+          {error ? (
+            <p className="text-[18px] font-semibold text-[#878796] sm:text-[22px] md:text-[26px] lg:text-[32px] leading-normal">
+              Please double check you have entered the same number listed on
+              Devpost.
+            </p>
+          ) : (
+            <p className="text-[18px] font-semibold text-[#878796] sm:text-[22px] md:text-[26px] lg:text-[32px] leading-normal">
+              This can be found by going to{' '}
+              <a
+                href="https://hackdavis-2026.devpost.com/tables"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#5E5E65] underline decoration-[#5E5E65] underline-offset-4 break-all"
+              >
+                hackdavis-2026.devpost.com/tables
+              </a>{' '}
+              and finding your project submission name. Enter the number
+              exactly as it is presented.
+            </p>
+          )}
         </div>
 
         {/* Buttons — bottom of left column on desktop, bottom of card on mobile */}
