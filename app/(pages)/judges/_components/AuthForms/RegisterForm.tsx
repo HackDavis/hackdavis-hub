@@ -57,7 +57,7 @@ export default function RegisterForm({ data }: any) {
     <AuthForm
       role="judge"
       fields={formFields}
-      buttonText="Next →"
+      buttonText="Next"
       initialValues={{
         email: data?.email ?? '',
         password: '',
