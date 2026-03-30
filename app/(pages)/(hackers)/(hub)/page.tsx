@@ -24,7 +24,7 @@ export default function Page() {
   return (
     <main id="home">
       <TableNumberContextProvider>
-        <ClientTimeProtectedDisplay featureId="hero-judging">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <HeroHacking rolloutTime={rolloutTime} loading={loading} />
           <ScheduleSneakPeek />
           <BeginnersSection />
