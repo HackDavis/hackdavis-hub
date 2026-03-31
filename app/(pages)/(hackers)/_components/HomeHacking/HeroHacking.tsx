@@ -97,46 +97,46 @@ export default function HeroHacking({
                 {/* 2x2 animals */}
                 <div className="grid grid-cols-2 gap-2">
                   {/* Cow */}
-                  <div className="relative rounded-[20px] bg-[#93F5F3] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#CCFFFE] overflow-hidden flex items-end justify-center">
                     <Image
                       src={peepingCow}
                       alt="Peeking cow"
                       width={520}
                       height={320}
-                      className="w-[100%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Duck */}
-                  <div className="relative rounded-[20px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
                     <Image
                       src={peepingDuck}
                       alt="Peeking duck"
                       width={520}
                       height={320}
-                      className="w-[100%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Frog */}
-                  <div className="relative rounded-[20px] bg-[#E9FBBA] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#E9FBBA] overflow-hidden flex items-end justify-center">
                     <Image
                       src={peepingFrog}
                       alt="Peeking frog"
                       width={520}
                       height={320}
-                      className="w-[100%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Bunny */}
-                  <div className="relative rounded-[20px] bg-[#FFD2D2] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#FFD2D2] overflow-hidden flex items-end justify-center">
                     <Image
                       src={peepingBunny}
                       alt="Peeking bunny"
                       width={520}
                       height={320}
-                      className="w-[100%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
                 </div>
@@ -174,13 +174,13 @@ export default function HeroHacking({
                 {/* Row 1: 3 tiles */}
                 <div className="min-h-0 grid grid-cols-[50fr_30fr_20fr] gap-5">
                   {/* Cow */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#93F5F3] backdrop-blur-xl overflow-hidden flex items-end justify-center">
+                  <div className="min-h-0 relative rounded-[28px] bg-[#CCFFFE] backdrop-blur-xl overflow-hidden flex items-end justify-center">
                     <Image
                       src={peepingCow}
                       alt="Peeking cow"
                       width={520}
                       height={320}
-                      className="w-[100%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
@@ -191,7 +191,7 @@ export default function HeroHacking({
                       alt="Peeking duck"
                       width={520}
                       height={320}
-                      className="w-[100%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
@@ -202,7 +202,7 @@ export default function HeroHacking({
                       alt="Peeking frog"
                       width={520}
                       height={320}
-                      className="w-[100%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
                 </div>
@@ -216,7 +216,7 @@ export default function HeroHacking({
                       alt="Peeking bunny"
                       width={520}
                       height={320}
-                      className="w-[100%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 

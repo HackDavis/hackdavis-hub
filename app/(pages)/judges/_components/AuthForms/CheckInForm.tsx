@@ -36,7 +36,7 @@ export default function CheckInForm({ id }: any) {
     <AuthForm
       role="judge"
       fields={formFields}
-      buttonText="Check in →"
+      buttonText="Check in"
       initialValues={{
         code: '',
         opted_into_panels: false,

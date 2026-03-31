@@ -25,7 +25,6 @@ function weightedShuffleSpecialties(specialties) {
     aiml: 0.1,
     hardware: 0.039,
     design: 0.158,
-    medtech: 0.015,
   };
   const availableWeighted = specialties.filter(
     (s) => weightMap[s.toLowerCase()] !== undefined
