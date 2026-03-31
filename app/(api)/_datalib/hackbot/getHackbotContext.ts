@@ -104,6 +104,15 @@ export async function retrieveContext(
               : {}),
           },
         },
+        {
+          $project: {
+            _id: 1,
+            type: 1,
+            title: 1,
+            text: 1,
+            url: 1,
+          },
+        },
       ])
       .toArray();
 
