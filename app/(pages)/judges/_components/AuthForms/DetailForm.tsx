@@ -18,23 +18,11 @@ interface OptionItem {
   rank: number;
 }
 
-// Medtech was not appearing as an option, causing failed document validation
-const extraDomainOptions: Array<{ text: string; domain: string }> = [
-  { text: 'MedTech', domain: 'medtech' },
-];
-
 const initialOptions = [
-  ...new Set([
-    ...Object.values(optedHDTracks).map(
-      (track) => track.domainDisplayName ?? ''
-    ),
-    ...extraDomainOptions.map((option) => option.text),
-  ]),
+  ...new Set(
+    Object.values(optedHDTracks).map((track) => track.domainDisplayName ?? '')
+  ),
 ].filter((option) => option !== '');
-
-const extraDisplayNameToDomainMap: Map<string, string> = new Map(
-  extraDomainOptions.map((option) => [option.text, option.domain])
-);
 
 export default function DetailForm({ id }: any) {
   const router = useRouter();
@@ -114,13 +102,9 @@ export default function DetailForm({ id }: any) {
     setLoading(true);
     setError('');
 
-    const specialties: string[] = options.map((option) => {
-      return (
-        displayNameToDomainMap.get(option.text) ??
-        extraDisplayNameToDomainMap.get(option.text) ??
-        ''
-      );
-    });
+    const specialties: string[] = options.map(
+      (option) => displayNameToDomainMap.get(option.text) ?? ''
+    );
 
     const userRes = await updateUser(id, {
       $set: {
