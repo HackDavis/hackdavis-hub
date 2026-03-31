@@ -90,7 +90,8 @@ export async function POST(request: Request) {
           description:
             'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
           inputSchema: GET_EVENTS_INPUT_SCHEMA,
-          execute: (input) => executeGetEvents(input, profile),
+          execute: (input) =>
+            executeGetEvents(input, profile, lastMessage.content),
         }),
         provide_links: tool({
           description: PROVIDE_LINKS_DESCRIPTION,

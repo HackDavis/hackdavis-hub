@@ -16,6 +16,28 @@ import type { HackerProfile } from '@typeDefs/hackbot';
 
 const EXCLUSIVE_ROLE_TAGS = new Set(['developer', 'designer', 'pm']);
 
+function inferRoleFromQuery(query: string | null | undefined): string | null {
+  if (!query) return null;
+  const q = query.toLowerCase();
+  if (/\bdesigner(s)?\b|\bdesign\b/.test(q)) return 'designer';
+  if (/\bdeveloper(s)?\b|\bdev(s)?\b/.test(q)) return 'developer';
+  if (/\bpm(s)?\b|\bproduct manager(s)?\b/.test(q)) return 'pm';
+  return null;
+}
+
+function buildSearchPattern(search: string): string {
+  const q = search.trim();
+  if (!q) return q;
+
+  // Day 2 meal phrasing is often "lunch" in user language, but schedule uses
+  // "brunch". Include both so meal queries still resolve correctly.
+  if (/\blunch\b/i.test(q)) {
+    return q.replace(/\blunch\b/gi, '(lunch|brunch)');
+  }
+
+  return q;
+}
+
 export const GET_EVENTS_INPUT_SCHEMA = z.object({
   type: z
     .string()
@@ -80,7 +102,8 @@ export type GetEventsInput = z.infer<typeof GET_EVENTS_INPUT_SCHEMA>;
 
 export async function executeGetEvents(
   input: GetEventsInput,
-  profile: HackerProfile | null
+  profile: HackerProfile | null,
+  userQuery?: string
 ) {
   const {
     type,
@@ -107,14 +130,30 @@ export async function executeGetEvents(
   try {
     const db = await getDatabase();
     const query: Record<string, unknown> = {};
+    const normalizedTags = (tags ?? []).map((t) => t.toLowerCase());
+    const inferredRole = inferRoleFromQuery(userQuery);
+    const effectiveTags =
+      inferredRole && !normalizedTags.some((t) => EXCLUSIVE_ROLE_TAGS.has(t))
+        ? [...normalizedTags, inferredRole]
+        : normalizedTags;
+    const requestedExclusive = effectiveTags.filter((t) =>
+      EXCLUSIVE_ROLE_TAGS.has(t)
+    );
 
     if (type) query.type = { $regex: type, $options: 'i' };
     if (search) {
-      const searchRegex = { $regex: search, $options: 'i' };
+      const searchRegex = { $regex: buildSearchPattern(search), $options: 'i' };
       query.$or = [{ name: searchRegex }, { description: searchRegex }];
     }
-    if (tags && tags.length > 0)
-      query.tags = { $all: tags.map((t) => t.toLowerCase()) };
+    if (effectiveTags.length > 0) {
+      // Role + beginner prompts are common; hard-requiring both drops valid
+      // role-specific events that don't carry the beginner tag.
+      const requiredTags =
+        requestedExclusive.length > 0
+          ? effectiveTags.filter((t) => t !== 'beginner')
+          : effectiveTags;
+      if (requiredTags.length > 0) query.tags = { $all: requiredTags };
+    }
 
     const events = await db
       .collection('events')
@@ -142,17 +181,13 @@ export async function executeGetEvents(
           (ev: any) => (ev.type ?? '').toUpperCase() !== 'ACTIVITIES'
         );
 
-    const requestedExclusive = (tags ?? [])
-      .map((t) => t.toLowerCase())
-      .filter((t) => EXCLUSIVE_ROLE_TAGS.has(t));
     const roleSpecificFiltered =
       requestedExclusive.length > 0
         ? typeFiltered.filter((ev: any) => {
             const evTags = (ev.tags ?? []).map((t: string) => t.toLowerCase());
-            return !evTags.some(
-              (t: string) =>
-                EXCLUSIVE_ROLE_TAGS.has(t) && !requestedExclusive.includes(t)
-            );
+            // Keep events that include the requested role tag, even when they
+            // also include other role tags (e.g. designer + developer).
+            return evTags.some((t: string) => requestedExclusive.includes(t));
           })
         : typeFiltered;
 
@@ -169,10 +204,20 @@ export async function executeGetEvents(
             return end > now;
           });
 
-    const profileFiltered =
-      forProfile && profile
-        ? futureFiltered.filter((ev: any) => isEventRelevantToProfile(ev, profile))
-        : futureFiltered;
+    // If explicit tags or a specific search intent were requested, honor that
+    // explicit intent and skip profile-based narrowing to avoid contradictory
+    // filters.
+    const shouldApplyProfileFilter =
+      Boolean(forProfile && profile) &&
+      effectiveTags.length === 0 &&
+      !search &&
+      !inferredRole;
+
+    const profileFiltered = shouldApplyProfileFilter
+      ? futureFiltered.filter((ev: any) =>
+          isEventRelevantToProfile(ev, profile)
+        )
+      : futureFiltered;
 
     const limited = limit ? profileFiltered.slice(0, limit) : profileFiltered;
 
