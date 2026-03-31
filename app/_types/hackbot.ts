@@ -70,3 +70,19 @@ export type HackbotChatMessage = {
   links?: HackbotLink[];
   events?: HackbotEvent[];
 };
+
+export interface HackbotClientMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+export interface HackbotValidatedRequest {
+  currentPath?: string;
+  sanitizedMessages: HackbotClientMessage[];
+  lastMessage: HackbotClientMessage;
+}
+
+export interface HackbotSessionDocsResult {
+  session: unknown;
+  docs: HackDoc[];
+}
