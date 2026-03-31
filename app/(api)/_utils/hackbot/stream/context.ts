@@ -25,7 +25,10 @@ export async function fetchSessionAndDocs(
   }
 
   if (docsResult.status === 'rejected') {
-    console.error('[hackbot][stream] Context retrieval error', docsResult.reason);
+    console.error(
+      '[hackbot][stream] Context retrieval error',
+      docsResult.reason
+    );
     return Response.json(
       { error: 'Search backend unavailable. Please contact an organizer.' },
       { status: 500 }
@@ -38,7 +41,9 @@ export async function fetchSessionAndDocs(
   };
 }
 
-export function buildProfileFromSession(session: unknown): HackerProfile | null {
+export function buildProfileFromSession(
+  session: unknown
+): HackerProfile | null {
   const sessionUser = (session as any)?.user as any;
   if (!sessionUser) return null;
 
@@ -49,7 +54,9 @@ export function buildProfileFromSession(session: unknown): HackerProfile | null 
   };
 }
 
-export function buildContextSummary(docs: HackbotSessionDocsResult['docs']): string {
+export function buildContextSummary(
+  docs: HackbotSessionDocsResult['docs']
+): string {
   if (!docs.length) return 'No additional knowledge context found.';
 
   return docs

@@ -1,6 +1,9 @@
 import { getDatabase } from '@utils/mongodb/mongoClient.mjs';
 
-export function createResponseStream(result: any, model: string): ReadableStream {
+export function createResponseStream(
+  result: any,
+  model: string
+): ReadableStream {
   const enc = new TextEncoder();
 
   return new ReadableStream({
@@ -46,7 +49,10 @@ export function createResponseStream(result: any, model: string): ReadableStream
               ])}\n`
             );
           } else if (part?.type === 'error') {
-            console.error('[hackbot][stream] OpenAI error in stream:', part.error);
+            console.error(
+              '[hackbot][stream] OpenAI error in stream:',
+              part.error
+            );
             streamError = (part.error as any)?.message ?? 'OpenAI server error';
             break;
           } else if (part?.type === 'finish') {
@@ -63,7 +69,9 @@ export function createResponseStream(result: any, model: string): ReadableStream
         }
 
         if (streamError) {
-          enq(`3:${JSON.stringify('Something went wrong. Please try again.')}\n`);
+          enq(
+            `3:${JSON.stringify('Something went wrong. Please try again.')}\n`
+          );
         }
         controller.close();
       } catch (e) {
