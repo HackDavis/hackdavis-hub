@@ -116,17 +116,6 @@ export async function executeGetEvents(
     date,
   } = input;
 
-  console.log('[hackbot][stream][tool] get_events input', {
-    type,
-    search,
-    limit,
-    forProfile,
-    timeFilter,
-    include_activities,
-    tags,
-    date,
-  });
-
   try {
     const db = await getDatabase();
     const query: Record<string, unknown> = {};
@@ -221,17 +210,6 @@ export async function executeGetEvents(
 
     const limited = limit ? profileFiltered.slice(0, limit) : profileFiltered;
 
-    console.log('[hackbot][stream][tool] get_events counts', {
-      total: events.length,
-      afterDate: dateFiltered.length,
-      afterType: typeFiltered.length,
-      afterRole: roleSpecificFiltered.length,
-      afterTime: timeFiltered.length,
-      afterFuture: futureFiltered.length,
-      afterProfile: profileFiltered.length,
-      afterLimit: limited.length,
-    });
-
     if (!limited.length) {
       return { events: [], message: 'No events found.' };
     }
@@ -255,9 +233,6 @@ export async function executeGetEvents(
       };
     });
 
-    console.log(
-      `[hackbot][stream][tool] get_events returned ${formatted.length} events`
-    );
     return { events: formatted };
   } catch (e) {
     console.error('[hackbot][stream][tool] get_events error', e);

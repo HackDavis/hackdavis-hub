@@ -48,14 +48,6 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    console.log(
-      `[hackbot][stream] message="${lastMessage.content?.slice(0, 80)}" name=${
-        profile?.name ?? 'n/a'
-      } position=${profile?.position ?? 'n/a'} beginner=${
-        profile?.is_beginner ?? 'n/a'
-      } path=${currentPath ?? '/'}`
-    );
-
     const contextSummary = buildContextSummary(docs);
 
     const pageContext = getPageContext(currentPath);
@@ -71,10 +63,7 @@ export async function POST(request: Request) {
       ...sanitizedMessages.slice(-MAX_HISTORY_MESSAGES),
     ];
 
-    const { model, isReasoningModel, maxOutputTokens } = getModelConfig();
-    console.log(
-      `[hackbot][stream] model=${model} isReasoning=${isReasoningModel} maxOutputTokens=${maxOutputTokens}`
-    );
+    const { model, maxOutputTokens } = getModelConfig();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = streamText({

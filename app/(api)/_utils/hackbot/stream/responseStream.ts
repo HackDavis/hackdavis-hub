@@ -26,7 +26,6 @@ export function createResponseStream(
               if (part.text) textHasBeenOutput = true;
             }
           } else if (part?.type === 'tool-call') {
-            console.log(`[hackbot][stream][tool] calling: ${part.toolName}`);
             enq(
               `9:${JSON.stringify([
                 {
@@ -79,12 +78,6 @@ export function createResponseStream(
         controller.error(e);
         return;
       }
-
-      console.log('[hackbot][stream] usage', {
-        promptTokens: finishPromptTokens,
-        completionTokens: finishCompletionTokens,
-        cachedPromptTokens: finishCachedTokens,
-      });
 
       if (finishPromptTokens > 0) {
         getDatabase()

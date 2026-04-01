@@ -47,17 +47,16 @@ async function seedHackbotDocs() {
 
   // Wipe only knowledge docs (not event docs — events are served live via tool calls)
   await collection.deleteMany({ _id: { $regex: '^knowledge-' } });
-  console.log(`[hackbotSeedCI] Wiped knowledge docs from: ${HACKBOT_COLLECTION}`);
+  console.log(
+    `[hackbotSeedCI] Wiped knowledge docs from: ${HACKBOT_COLLECTION}`
+  );
 
   // Load knowledge docs from hackbot_knowledge collection
   let knowledgeDocs = [];
   try {
     knowledgeDocs = await db.collection('hackbot_knowledge').find({}).toArray();
   } catch (err) {
-    console.warn(
-      '[hackbotSeedCI] Failed to load knowledge docs:',
-      err.message
-    );
+    console.warn('[hackbotSeedCI] Failed to load knowledge docs:', err.message);
   }
 
   if (knowledgeDocs.length === 0) {

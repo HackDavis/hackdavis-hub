@@ -54,7 +54,8 @@ async function seedHackbotDocs({ wipe }) {
     await client.connect();
   } catch (err) {
     console.error(
-      'MongoDB connection failed. Check MONGODB_URI.\n' + `Details: ${err.message}`
+      'MongoDB connection failed. Check MONGODB_URI.\n' +
+        `Details: ${err.message}`
     );
     return;
   }
@@ -117,9 +118,7 @@ async function seedHackbotDocs({ wipe }) {
     }
   }
 
-  console.log(
-    `Successfully upserted ${successCount}/${docs.length} docs.`
-  );
+  console.log(`Successfully upserted ${successCount}/${docs.length} docs.`);
 
   await client.close();
 }
