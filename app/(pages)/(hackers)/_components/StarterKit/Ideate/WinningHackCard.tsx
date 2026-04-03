@@ -26,7 +26,7 @@ export default function WinningHackCard({
       rel="noopener noreferrer"
       className="group block"
     >
-      <article className="flex flex-col gap-4 rounded-[20px] bg-white px-4 py-4 shadow-[0_12px_35px_rgba(134,137,116,0.08)] transition-transform duration-200 hover:-translate-y-1 md:flex-row md:items-center md:gap-6 md:px-4 md:py-3">
+      <article className="flex flex-col gap-4 rounded-[20px] bg-white px-4 py-4 shadow-[0_12px_35px_rgba(134,137,116,0.08)] md:flex-row md:items-center md:gap-6 md:px-4 md:py-3">
         <div className="relative flex aspect-[1.5] w-full items-center justify-center overflow-hidden rounded-[14px] bg-[#f8f8fb] ring-1 ring-[#efefef] md:w-[240px] md:flex-shrink-0">
           {image ? (
             <Image
