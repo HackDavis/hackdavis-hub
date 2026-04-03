@@ -10,15 +10,15 @@ export default function IdeateInfoCard({
   description,
 }: IdeateInfoCardProps) {
   return (
-    <article className="flex h-full flex-col gap-3 rounded-[24px] bg-[#f8ffd5] p-3 text-text-dark shadow-[0_10px_35px_rgba(123,173,52,0.10)] ring-1 ring-[#dcecad] md:p-4">
-      <div className="relative flex aspect-[1.05] items-center justify-center overflow-hidden rounded-[20px] bg-[linear-gradient(180deg,#d8f6ff_0%,#bbf1e3_100%)]">
+    <article className="flex h-full flex-col gap-5 text-text-dark">
+      <div className="relative flex aspect-[1.22] items-center justify-center overflow-hidden rounded-[22px] bg-[#cfeff3]">
         {visual}
       </div>
-      <div className="space-y-2">
-        <h3 className="font-metropolis text-lg font-semibold leading-tight md:text-xl">
+      <div className="space-y-3">
+        <h3 className="font-metropolis text-[1.35rem] font-semibold leading-tight md:text-[1.6rem]">
           {title}
         </h3>
-        <p className="text-sm leading-6 text-[#58635b] md:text-[0.95rem]">
+        <p className="max-w-[20rem] text-[1rem] leading-[1.15] text-[#58635b] md:text-[1.05rem]">
           {description}
         </p>
       </div>
