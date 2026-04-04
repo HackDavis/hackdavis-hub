@@ -25,17 +25,23 @@ function inferRoleFromQuery(query: string | null | undefined): string | null {
   return null;
 }
 
+function escapeRegex(input: string): string {
+  // Treat user input as literal text before using it in a regex query.
+  return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function buildSearchPattern(search: string): string {
-  const q = search.trim();
-  if (!q) return q;
+  const trimmed = search.trim();
+  if (!trimmed) return trimmed;
+  const escaped = escapeRegex(trimmed);
 
   // Day 2 meal phrasing is often "lunch" in user language, but schedule uses
   // "brunch". Include both so meal queries still resolve correctly.
-  if (/\blunch\b/i.test(q)) {
-    return q.replace(/\blunch\b/gi, '(lunch|brunch)');
+  if (/\blunch\b/i.test(escaped)) {
+    return escaped.replace(/\blunch\b/gi, '(lunch|brunch)');
   }
 
-  return q;
+  return escaped;
 }
 
 export const GET_EVENTS_INPUT_SCHEMA = z.object({
@@ -164,11 +170,13 @@ export async function executeGetEvents(
         })
       : events;
 
-    const typeFiltered = include_activities
-      ? dateFiltered
-      : dateFiltered.filter(
-          (ev: any) => (ev.type ?? '').toUpperCase() !== 'ACTIVITIES'
-        );
+    const activitiesRequested = (type ?? '').toUpperCase() === 'ACTIVITIES';
+    const typeFiltered =
+      include_activities || activitiesRequested
+        ? dateFiltered
+        : dateFiltered.filter(
+            (ev: any) => (ev.type ?? '').toUpperCase() !== 'ACTIVITIES'
+          );
 
     const roleSpecificFiltered =
       requestedExclusive.length > 0

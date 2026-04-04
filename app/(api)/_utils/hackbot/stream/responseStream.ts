@@ -15,7 +15,6 @@ export function createResponseStream(
 
       const enq = (line: string) => controller.enqueue(enc.encode(line));
 
-      let textHasBeenOutput = false;
       let suppressText = false;
 
       try {
@@ -23,7 +22,6 @@ export function createResponseStream(
           if (part?.type === 'text-delta') {
             if (!suppressText) {
               enq(`0:${JSON.stringify(part.text ?? '')}\n`);
-              if (part.text) textHasBeenOutput = true;
             }
           } else if (part?.type === 'tool-call') {
             enq(
@@ -36,7 +34,7 @@ export function createResponseStream(
               ])}\n`
             );
           } else if (part?.type === 'tool-result') {
-            if (textHasBeenOutput) suppressText = true;
+            suppressText = true;
             enq(
               `a:${JSON.stringify([
                 {

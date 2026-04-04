@@ -4,6 +4,9 @@ import type {
 } from '@typeDefs/hackbot';
 
 const MAX_USER_MESSAGE_CHARS = 200;
+const MAX_HISTORY_MESSAGES = 30;
+const MAX_MESSAGE_CHARS = 2000;
+const MAX_TOTAL_MESSAGE_CHARS = 12000;
 const ALLOWED_MESSAGE_ROLES = new Set(['user', 'assistant']);
 
 export function validateRequestBody(
@@ -15,7 +18,17 @@ export function validateRequestBody(
     return Response.json({ error: 'Invalid request' }, { status: 400 });
   }
 
+  if (messages.length > MAX_HISTORY_MESSAGES) {
+    return Response.json(
+      {
+        error: `Too many messages. Please keep history under ${MAX_HISTORY_MESSAGES} messages.`,
+      },
+      { status: 400 }
+    );
+  }
+
   const sanitizedMessages: HackbotClientMessage[] = [];
+  let totalChars = 0;
   for (const message of messages) {
     const role = message?.role;
     const content = message?.content;
@@ -29,6 +42,26 @@ export function validateRequestBody(
         { status: 400 }
       );
     }
+
+    if (content.length > MAX_MESSAGE_CHARS) {
+      return Response.json(
+        {
+          error: `Message too long. Keep each message under ${MAX_MESSAGE_CHARS} characters.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    totalChars += content.length;
+    if (totalChars > MAX_TOTAL_MESSAGE_CHARS) {
+      return Response.json(
+        {
+          error: `Message history too large. Keep total content under ${MAX_TOTAL_MESSAGE_CHARS} characters.`,
+        },
+        { status: 400 }
+      );
+    }
+
     sanitizedMessages.push({
       role: role as 'user' | 'assistant',
       content,
@@ -57,5 +90,9 @@ export function validateRequestBody(
 }
 
 export function isSimpleGreetingMessage(content: string): boolean {
-  return /^(hi|hello|hey|thanks|thank you|ok|okay)\b/i.test(content.trim());
+  const normalized = content
+    .trim()
+    .replace(/[.!?]+$/, '')
+    .trim();
+  return /^(hi|hello|hey|thanks|thank you|ok|okay)$/i.test(normalized);
 }
