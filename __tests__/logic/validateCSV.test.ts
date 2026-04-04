@@ -40,7 +40,7 @@ describe('validateCSV', () => {
       {
         name: 'Test Project',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A'],
         active: true,
       },
@@ -134,7 +134,7 @@ describe('validateCSV', () => {
       {
         name: 'Test',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A'],
         active: true,
       },
@@ -178,7 +178,7 @@ describe('validateCSV', () => {
       {
         name: 'Test',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A'],
         active: true,
       },
@@ -218,14 +218,14 @@ describe('validateCSV', () => {
       {
         name: 'Valid Team',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A'],
         active: true,
       },
       {
         name: 'Invalid Team',
         teamNumber: NaN,
-        tableNumber: 2,
+        tableNumber: 'A2',
         tracks: ['Track B'],
         active: true,
       },
@@ -235,7 +235,7 @@ describe('validateCSV', () => {
       {
         name: 'Valid Team',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A'],
         active: true,
       },

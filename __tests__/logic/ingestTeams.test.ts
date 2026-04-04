@@ -23,14 +23,14 @@ describe('ingestTeams', () => {
       {
         name: 'Team 1',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A'],
         active: true,
       },
       {
         name: 'Team 2',
         teamNumber: 2,
-        tableNumber: 2,
+        tableNumber: 'A2',
         tracks: ['Track B'],
         active: true,
       },
@@ -74,7 +74,7 @@ describe('ingestTeams', () => {
       {
         name: 'Invalid Team',
         teamNumber: 999,
-        tableNumber: 999,
+        tableNumber: '999',
         tracks: ['Invalid Track'],
         active: true,
       },
@@ -99,14 +99,14 @@ describe('ingestTeams', () => {
       {
         name: 'Team 1',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A'],
         active: true,
       },
       {
         name: 'Team 1 Duplicate',
         teamNumber: 1,
-        tableNumber: 2,
+        tableNumber: 'A2',
         tracks: ['Track B'],
         active: true,
       },
@@ -131,7 +131,7 @@ describe('ingestTeams', () => {
       {
         name: 'Solo Team',
         teamNumber: 1,
-        tableNumber: 1,
+        tableNumber: 'A1',
         tracks: ['Track A', 'Track B'],
         active: true,
       },
@@ -157,7 +157,7 @@ describe('ingestTeams', () => {
       {
         name: 'Complete Team',
         teamNumber: 42,
-        tableNumber: 10,
+        tableNumber: 'A10',
         tracks: ['Track A', 'Track B', 'Track C'],
         active: false,
       },

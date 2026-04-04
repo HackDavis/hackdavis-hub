@@ -1,9 +1,3 @@
-// ── Shared Hackbot types ────────────────────────────────────────────────────
-// Pure type file — no 'use server'/'use client' directive.
-// Safe to import from server actions, API routes, client components, and utils.
-
-// ── Knowledge doc types ─────────────────────────────────────────────────────
-
 export type HackDocType =
   | 'event'
   | 'track'
@@ -20,15 +14,11 @@ export interface HackDoc {
   url?: string;
 }
 
-// ── Hacker profile ──────────────────────────────────────────────────────────
-
 export type HackerProfile = {
   name?: string;
   position?: string;
   is_beginner?: boolean;
 };
-
-// ── Chat message types ──────────────────────────────────────────────────────
 
 export type HackbotMessageRole = 'user' | 'assistant' | 'system';
 
@@ -55,8 +45,6 @@ export interface HackbotResponse {
   };
 }
 
-// ── Widget types ────────────────────────────────────────────────────────────
-
 export type HackbotEvent = {
   id: string;
   name: string;
@@ -82,3 +70,19 @@ export type HackbotChatMessage = {
   links?: HackbotLink[];
   events?: HackbotEvent[];
 };
+
+export interface HackbotClientMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+export interface HackbotValidatedRequest {
+  currentPath?: string;
+  sanitizedMessages: HackbotClientMessage[];
+  lastMessage: HackbotClientMessage;
+}
+
+export interface HackbotSessionDocsResult {
+  session: unknown;
+  docs: HackDoc[];
+}

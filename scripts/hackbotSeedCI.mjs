@@ -33,14 +33,10 @@ async function seedHackbotDocs() {
     process.exit(1);
   }
 
-  console.log('[hackbotSeedCI] Starting seeding process...');
-  console.log(`[hackbotSeedCI] Using OpenAI model: ${OPENAI_EMBEDDING_MODEL}`);
-
   const client = await getClient();
 
   try {
     await client.connect();
-    console.log('[hackbotSeedCI] Connected to MongoDB');
   } catch (err) {
     console.error('[hackbotSeedCI] MongoDB connection failed:', err.message);
     process.exit(1);
@@ -51,20 +47,16 @@ async function seedHackbotDocs() {
 
   // Wipe only knowledge docs (not event docs — events are served live via tool calls)
   await collection.deleteMany({ _id: { $regex: '^knowledge-' } });
-  console.log(`[hackbotSeedCI] Wiped knowledge docs from: ${HACKBOT_COLLECTION}`);
+  console.log(
+    `[hackbotSeedCI] Wiped knowledge docs from: ${HACKBOT_COLLECTION}`
+  );
 
   // Load knowledge docs from hackbot_knowledge collection
   let knowledgeDocs = [];
   try {
     knowledgeDocs = await db.collection('hackbot_knowledge').find({}).toArray();
-    console.log(
-      `[hackbotSeedCI] Loaded ${knowledgeDocs.length} knowledge docs from database`
-    );
   } catch (err) {
-    console.warn(
-      '[hackbotSeedCI] Failed to load knowledge docs:',
-      err.message
-    );
+    console.warn('[hackbotSeedCI] Failed to load knowledge docs:', err.message);
   }
 
   if (knowledgeDocs.length === 0) {
@@ -82,10 +74,6 @@ async function seedHackbotDocs() {
     text: doc.content,
     url: doc.url || null,
   }));
-
-  console.log(
-    `[hackbotSeedCI] Preparing to embed and upsert ${docs.length} docs`
-  );
 
   let successCount = 0;
   for (const doc of docs) {
@@ -107,7 +95,6 @@ async function seedHackbotDocs() {
       );
 
       successCount += 1;
-      console.log(`[hackbotSeedCI] Upserted doc ${doc._id}`);
     } catch (err) {
       console.error(
         `[hackbotSeedCI] Failed to upsert doc ${doc._id}:`,
@@ -117,7 +104,7 @@ async function seedHackbotDocs() {
   }
 
   console.log(
-    `[hackbotSeedCI] Done. Successfully upserted ${successCount}/${docs.length} docs.`
+    `[hackbotSeedCI] Successfully upserted ${successCount}/${docs.length} docs.`
   );
 
   await client.close();

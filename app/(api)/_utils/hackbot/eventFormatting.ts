@@ -42,8 +42,12 @@ export function isSameCalendarDay(a: Date, b: Date): boolean {
 /** Returns the event end time, falling back to start_time + 60 min. */
 export function getEventEndTime(ev: any): Date {
   const end = parseRawDate(ev.end_time);
-  if (end) return end;
   const start = parseRawDate(ev.start_time);
+
+  // Some seed records have a bad end_time year (e.g. end before start).
+  // Treat those as malformed and fall back to start + 60 min.
+  if (end && start && end >= start) return end;
+  if (end) return end;
   if (!start) return new Date();
   const fallback = new Date(start.getTime());
   fallback.setMinutes(fallback.getMinutes() + 60);

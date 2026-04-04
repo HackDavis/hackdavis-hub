@@ -11,9 +11,9 @@ import MDHelp from '@pages/(hackers)/_components/HomeHacking/MDHelp';
 import ScheduleSneakPeek from '@pages/(hackers)/_components/HomeHacking/ScheduleSneakPeek';
 import HeroJudging from '../_components/HomeJudging/HeroJudging';
 import HackerChoiceAward from '../_components/HomeJudging/HackersChoiceAwards';
-import HeroWaiting from '../_components/HomeJudging/HeroWaiting';
 import HeroHacking from '../_components/HomeHacking/HeroHacking';
 import { useRollout } from '@pages/_hooks/useRollout';
+import HeroWaiting from '../_components/HomeJudging/HeroWaiting';
 
 export default function Page() {
   const { rolloutRes, loading } = useRollout('hacking-starts');
@@ -31,12 +31,12 @@ export default function Page() {
           <MDHelp />
         </ClientTimeProtectedDisplay>
         {/* temporarilty set featureId below to "hero-hacking" to test */}
-        <ClientTimeProtectedDisplay featureId="hero-judging">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <HeroWaiting />
           <HeroJudging />
           <HackerChoiceAward />
         </ClientTimeProtectedDisplay>
-        <ClientTimeProtectedDisplay featureId="table-number-checkin">
+        <ClientTimeProtectedDisplay featureId="hero-hacking">
           <TableNumberCheckin />
         </ClientTimeProtectedDisplay>
       </TableNumberContextProvider>

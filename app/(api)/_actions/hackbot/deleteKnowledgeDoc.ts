@@ -18,7 +18,6 @@ export default async function deleteKnowledgeDoc(
     await db.collection('hackbot_knowledge').deleteOne({ _id: objectId });
     await db.collection('hackbot_docs').deleteOne({ _id: `knowledge-${id}` });
 
-    console.log(`[deleteKnowledgeDoc] Deleted ${id}`);
     return { ok: true };
   } catch (e) {
     console.error('[deleteKnowledgeDoc] Error', e);

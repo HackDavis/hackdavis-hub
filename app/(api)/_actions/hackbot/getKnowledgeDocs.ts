@@ -9,8 +9,8 @@ export interface KnowledgeDoc {
   title: string;
   content: string;
   url: string | null;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 export interface GetKnowledgeDocsResult {
@@ -34,8 +34,8 @@ export default async function getKnowledgeDocs(): Promise<GetKnowledgeDocsResult
       title: d.title,
       content: d.content,
       url: d.url ?? null,
-      createdAt: d.createdAt?.toISOString?.() ?? new Date().toISOString(),
-      updatedAt: d.updatedAt?.toISOString?.() ?? new Date().toISOString(),
+      createdAt: d.createdAt?.toISOString?.() ?? null,
+      updatedAt: d.updatedAt?.toISOString?.() ?? null,
     }));
 
     return { ok: true, docs };

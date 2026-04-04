@@ -62,12 +62,6 @@ export async function retrieveContext(
   if (!limit) {
     const complexity = analyzeQueryComplexity(trimmed);
     limit = complexity.docLimit;
-    console.log('[hackbot][retrieve][adaptive]', {
-      query: trimmed,
-      complexity: complexity.type,
-      docLimit: limit,
-      reason: complexity.reason,
-    });
   }
 
   try {
@@ -104,6 +98,15 @@ export async function retrieveContext(
               : {}),
           },
         },
+        {
+          $project: {
+            _id: 1,
+            type: 1,
+            title: 1,
+            text: 1,
+            url: 1,
+          },
+        },
       ])
       .toArray();
 
@@ -122,12 +125,6 @@ export async function retrieveContext(
       text: doc.text,
       url: doc.url ?? undefined,
     }));
-
-    console.log('[hackbot][retrieve][vector]', {
-      query: trimmed,
-      docIds: docs.map((d) => d.id),
-      titles: docs.map((d) => d.title),
-    });
 
     return { docs };
   } catch (err) {

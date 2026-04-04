@@ -14,13 +14,21 @@ interface HydratedJudge extends User {
   isScored: boolean;
 }
 
-export function useTeamJudgesFromTableNumber(tableNumber: number): any {
+export function useTeamJudgesFromTableNumber(tableNumber: string): any {
   const [team, setTeam] = useState<Team | null>(null);
   const [judges, setJudges] = useState<User[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchTeamJudges = useCallback(async () => {
+    if (!tableNumber) {
+      setTeam(null);
+      setJudges(null);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     try {
       const teamRes = await getManyTeams({ tableNumber });
 
