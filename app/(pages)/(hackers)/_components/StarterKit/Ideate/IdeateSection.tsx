@@ -11,19 +11,30 @@ export default function IdeateSection({
   children,
   action,
 }: IdeateSectionProps) {
+  const normalizedEyebrow = eyebrow.trim();
+  const normalizedTitle = title.trim();
+  const hasHeaderContent =
+    Boolean(normalizedEyebrow) || Boolean(normalizedTitle) || Boolean(action);
+
   return (
     <section className="flex flex-col gap-4 md:gap-6">
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-2xl">
-          <p className="text-[1rem] font-dm-mono uppercase text-[#00000066]">
-            {eyebrow}
-          </p>
-          <h2 className="mt-1 font-jakarta text-[28px] md:text-[32px] font-semibold text-[#3F3F3F]">
-            {title}
-          </h2>
+      {hasHeaderContent ? (
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            {normalizedEyebrow ? (
+              <p className="text-[1rem] font-dm-mono uppercase text-[#00000066]">
+                {normalizedEyebrow}
+              </p>
+            ) : null}
+            {normalizedTitle ? (
+              <h2 className="mt-1 font-jakarta text-[28px] font-semibold text-[#3F3F3F] md:text-[32px]">
+                {normalizedTitle}
+              </h2>
+            ) : null}
+          </div>
+          {action}
         </div>
-        {action}
-      </div>
+      ) : null}
       {children}
     </section>
   );
