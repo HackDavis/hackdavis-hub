@@ -4,6 +4,7 @@ import mentorGraphic from '@public/hackers/starter-kit/ideate/TalkMentor.svg';
 import IdeateSection from './IdeateSection';
 
 export default function IdeateMentorCallout() {
+  const mentorDiscordLink = 'https://discord.gg/wc6QQEc';
   return (
     <IdeateSection eyebrow=" " title="">
       <div className="grid items-start gap-8 md:grid-cols-[minmax(320px,0.95fr)_minmax(0,1fr)] md:gap-10 lg:gap-14">
@@ -39,7 +40,7 @@ export default function IdeateMentorCallout() {
           </div>
           <div className="pt-1">
             <a
-              href="https://discord.gg/Ba5xAtf8"
+              href={mentorDiscordLink}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 font-dm-mono text-[1.125rem] uppercase text-[#3F3F3F] underline underline-offset-4 transition hover:opacity-75"

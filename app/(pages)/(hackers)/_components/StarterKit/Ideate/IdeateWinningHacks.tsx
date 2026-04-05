@@ -6,8 +6,7 @@ import { Button } from '@globals/components/ui/button';
 import IdeateSection from './IdeateSection';
 import WinningHackCard from './WinningHackCard';
 
-const devPostLink =
-  'https://hackdavis-2024.devpost.com/project-gallery?_gl=1%2A50gpw%2A_gcl_au%2AMTc2MTUwMzcxOS4xNzQwODA4MTQ4%2A_ga%2AMjEwNzI2OTk2My4xNzQwODA4MTQ4%2A_ga_0YHJK3Y10M%2AMTc0MDgwODE0Ny4xLjEuMTc0MDgwODE3OS4wLjAuMA';
+const devPostLink = 'https://hackdavis-2024.devpost.com/project-gallery';
 
 const winningHacks = [
   {
