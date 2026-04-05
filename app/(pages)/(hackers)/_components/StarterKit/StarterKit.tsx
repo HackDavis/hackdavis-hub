@@ -2,7 +2,7 @@
 
 import DesignResources from './DesignResources';
 import DevResources from './DevResources';
-import Ideate from './Ideate';
+import Ideate from './Ideate/Ideate';
 import Introduction from './Introduction';
 import MoreTips from './MoreTips';
 import TeamBuilding from './TeamBuilding';
