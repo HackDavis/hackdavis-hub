@@ -5,7 +5,7 @@ import IdeateWinningHacks from './IdeateWinningHacks';
 
 export default function Ideate() {
   return (
-    <div className="my-[100px] ml-[24px] mr-0 flex flex-col gap-[112px] bg-[#F1FFCC] p-[7%] pr-[7%] md:ml-[60px] md:mr-0 md:gap-[144px]">
+    <div className="flex flex-col gap-[112px] bg-[#F1FFCC] py-[7%] px-[4%] md:gap-[144px]">
       <IdeateHero />
       <IdeatePrinciples />
       <IdeateWinningHacks />

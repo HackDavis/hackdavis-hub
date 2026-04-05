@@ -41,13 +41,13 @@ export default function WinningHackCard({
           )}
         </div>
         <div className="flex flex-1 flex-col gap-2 md:gap-3">
-          <p className="font-dm-mono text-[0.72rem] uppercase tracking-[0.16em] text-[#aaaaaa] md:text-[0.82rem]">
+          <p className="font-dm-mono text-[1rem] uppercase text-[#00000066]">
             {award} {year}
           </p>
-          <h3 className="font-metropolis text-[1.15rem] font-semibold leading-none text-text-dark md:text-[1.6rem]">
+          <h3 className="font-metropolis text-[1.25rem] font-semibold text-[#1F1F1F]">
             {title}
           </h3>
-          <p className="max-w-[42rem] text-[0.98rem] leading-[1.1] text-[#6b6b6b] md:text-[1.05rem]">
+          <p className="max-w-[42rem] text-[1rem] text-[#000000a6]">
             {description}
           </p>
         </div>

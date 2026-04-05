@@ -15,10 +15,10 @@ export default function IdeateSection({
     <section className="flex flex-col gap-4 md:gap-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
-          <p className="text-[0.6rem] font-jakarta uppercase tracking-[0.2em] text-text-gray md:text-xs">
+          <p className="text-[1rem] font-dm-mono uppercase text-[#00000066]">
             {eyebrow}
           </p>
-          <h2 className="mt-1 font-metropolis text-2xl font-bold tracking-[0.02em] text-text-dark md:text-[2rem]">
+          <h2 className="mt-1 font-jakarta text-[28px] md:text-[32px] font-semibold text-[#3F3F3F]">
             {title}
           </h2>
         </div>

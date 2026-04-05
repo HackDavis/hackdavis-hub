@@ -15,15 +15,15 @@ export default function IdeateMentorCallout() {
           />
         </div>
         <div className="order-2 flex flex-col gap-6 md:order-2">
-          <p className="text-[0.6rem] font-jakarta uppercase tracking-[0.2em] text-text-gray md:text-xs">
+          <p className="text-[1rem] font-dm-mono uppercase text-[#00000066]">
             Still Feel Stuck?
           </p>
-          <p className="max-w-[38rem] text-[0.92rem] leading-[1.35] text-[#5e6457] md:text-[1rem] lg:text-[1.08rem]">
+          <p className="max-w-[38rem] text-[#656565] text-[1rem]">
             No worries, we have a panel of industry mentors who are ready to
             lend you help at any part of your development process.
           </p>
-          <div className="hidden rounded-[24px] bg-[#eef8bf] px-6 py-5 text-[#5e6457] md:block md:px-8 md:py-6">
-            <p className="text-[1rem] leading-[1.3] md:text-[1.18rem]">
+          <div className="hidden rounded-[20px] bg-[#E9FBBA] px-6 py-5 text-[#000000a6] md:block md:px-8 md:py-6">
+            <p className="text-[1rem]">
               <span className="italic">Note:</span> If you have any questions
               regarding hackathon events, please contact a{' '}
               <a
@@ -42,7 +42,7 @@ export default function IdeateMentorCallout() {
               href="https://discord.gg/Ba5xAtf8"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 font-dm-mono text-[1.05rem] uppercase tracking-[0.12em] text-text-dark underline underline-offset-4 transition hover:opacity-75 md:text-[1.18rem]"
+              className="inline-flex items-center gap-3 font-dm-mono text-[1.125rem] uppercase text-[#3F3F3F] underline underline-offset-4 transition hover:opacity-75"
             >
               <ArrowRight className="h-5 w-5" />
               Contact a mentor
