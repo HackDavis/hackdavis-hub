@@ -97,7 +97,7 @@ export default function HackbotEventCard({
         style={{ color: style?.text ?? '#003D3D' }}
       >
         {/* Left: datetime, location, tags */}
-        <div className="flex-1 min-w-0 space-y-1 space-between">
+        <div className="flex-1 min-w-0 space-y-1">
           {event.start && (
             <p className="text-xs opacity-80">
               {event.start}
@@ -130,7 +130,7 @@ export default function HackbotEventCard({
         </div>
 
         {/* Right: type badge, hosted by, recommended */}
-        <div className="shrink-0 flex flex-col items-end gap-1.5 pt-0.5 space-between">
+        <div className="shrink-0 flex flex-col items-end gap-1.5 pt-0.5">
           {style && (
             <span
               className="text-xs px-1.5 py-0.5 rounded-full font-semibold uppercase tracking-wide border whitespace-nowrap"
