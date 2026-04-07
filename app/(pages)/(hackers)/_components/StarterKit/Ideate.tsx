@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import type { StaticImageData } from "next/image"; // why statuc image data?
+import { useState, useRef, useEffect } from 'react';
+
 // Icons
 import writing_sign from "@public/hackers/starter-kit/ideate/tabler_writing-sign.svg";
 import presentation_analytics from "@public/hackers/starter-kit/ideate/tabler_presentation-analytics.svg";
