@@ -1,18 +1,20 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useSession } from 'next-auth/react';
-import ProjectTab from './ProjectTab';
-import Team from '@typeDefs/team';
-import { reportMissingProject } from '@actions/teams/reportMissingTeam';
-import ReportModal from './ReportModal';
-import EmptyState from './EmptyState';
-import { FaChevronRight } from 'react-icons/fa6';
-import { IoExpandOutline } from 'react-icons/io5';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import ProjectTab from "./ProjectTab";
+import Team from "@typeDefs/team";
+import { reportMissingProject } from "@actions/teams/reportMissingTeam";
+import ReportModal from "./ReportModal";
+import EmptyState from "./EmptyState";
+import { FaChevronRight } from "react-icons/fa6";
+import { IoExpandOutline } from "react-icons/io5";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import venueMap from '@public/judges/projects/venueMap2026.svg';
-import closeIcon from '@public/judges/projects/x.svg';
+import venueMap from "@public/judges/projects/venueMap2026.svg";
+import closeIcon from "@public/judges/projects/x.svg";
+import missingTeams from "@public/judges/projects/missingTeams.svg";
+import whiteArrow from "@public/judges/projects/whiteArrow.svg";
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -25,12 +27,12 @@ export default function UnscoredPage({
 }: UnscoredPageProps) {
   const { data: session } = useSession();
   const user = session?.user;
-  const judgeId = user?.id ?? '';
+  const judgeId = user?.id ?? "";
   const [expandReportButton, setExpandReportButton] = useState(false);
   const [mapExpanded, setMapExpanded] = useState(false);
   const [modalStage, setModalStage] = useState<
-    'hidden' | 'loading' | 'success' | 'error'
-  >('hidden');
+    "hidden" | "loading" | "success" | "error"
+  >("hidden");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   if (teams.length === 0) {
@@ -46,14 +48,14 @@ export default function UnscoredPage({
   const upcomingTeams = teams.slice(1);
 
   const handleTeamReport = async (team: Team) => {
-    setModalStage('loading');
-    const reportRes = await reportMissingProject(judgeId, team._id ?? '');
+    setModalStage("loading");
+    const reportRes = await reportMissingProject(judgeId, team._id ?? "");
     if (!reportRes.ok) {
-      setErrorMsg((reportRes.error ?? '').slice(0, 100));
-      setModalStage('error');
+      setErrorMsg((reportRes.error ?? "").slice(0, 100));
+      setModalStage("error");
     } else {
       setErrorMsg(null);
-      setModalStage('success');
+      setModalStage("success");
       revalidateData();
     }
     setExpandReportButton(false);
@@ -68,15 +70,14 @@ export default function UnscoredPage({
             <p className="text-[22px] font-semibold text-[#3F3F3F]">
               Current Project
             </p>
-            <p className="text-[16px] text-[#5E5E65]">
+            <p className="text-4 text-[#5E5E65]">
               Projects must be judged in order one by one order.
             </p>
           </div>
-
           {/* To-score Project Button */}
           <Link
             href={`/judges/score/${currentTeam._id}`}
-            className="bg-black rounded-[24px] flex items-center justify-between px-[24px] py-[12px] my-[16px]"
+            className="bg-black rounded-6 flex items-center justify-between px-6 py-[12px] my-4"
           >
             <div className="flex items-center gap-[14px]">
               <span className="text-white font-semibold text-[32px]">
@@ -88,7 +89,6 @@ export default function UnscoredPage({
             </div>
             <FaChevronRight className="text-white" size={18} />
           </Link>
-
           {/* Map card */}
           <div className="relative w-full mt-[36px] rounded-[20px] border-[1.5px] border-[#E0E0E0] overflow-visible mb-[4px]">
             <div
@@ -104,53 +104,88 @@ export default function UnscoredPage({
               <IoExpandOutline size={24} />
             </button>
           </div>
-
           {/* Flag section */}
           <div className="flex flex-col items-center gap-[14px] mt-[44px]">
             <p className="text-[16px] text-[#6B6B6B] text-center leading-snug">
-              If the team you are judging is not present, tap the{' '}
-              <span className="text-[#F4847A] font-semibold">red button</span>{' '}
+              If the team you are judging is not present, tap the{" "}
+              <span className="text-[#F4847A] font-semibold">red button</span>{" "}
               below.
             </p>
+            <button
+              onClick={() => setExpandReportButton(true)}
+              className="w-full h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[18px]"
+            >
+              Flag team as missing
+            </button>
+          </div>
+          {/* Missing Team Modal Overlay */}
+          {expandReportButton && (
+            <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 pt-28 pb-8">
+              <div className="flex flex-col items-center relative bg-[#FAFAFF] rounded-[32px] w-[calc(100vw-40px)] overflow-hidden">
+                {/* X button */}
+                <button
+                  onClick={() => setExpandReportButton(false)}
+                  className="absolute top-[14px] right-4 z-10 bg-black text-white rounded-full w-[40px] h-[40px] flex items-center justify-center"
+                  aria-label="Close"
+                >
+                  <Image src={closeIcon} alt="Close" width={14} height={14} />
+                </button>
 
-            {/* TODO: TURN INTO POPUP */}
-            {expandReportButton ? (
-              <>
-                <div className="text-[#3F3F3F] font-semibold text-[22px] text-left">
-                  Are you sure?
+                {/* Image */}
+                <div className="w-[320px] h-[250px] bg-[#E8F0F8] border-2 border-black">
+                  <Image src={missingTeams} alt="Missing Teams" />
                 </div>
-                <div className="flex w-full gap-[10px]">
+
+                {/* Content */}
+                <div className="mt-4 px-6 pt-4 pb-[32px] flex flex-col gap-4">
+                  {/* Team pill */}
+                  <div className="bg-[#F3F3FC] rounded-full px-6 py-[8px] flex items-center justify-center gap-[8px]">
+                    <span className="text-[32px] font-semibold text-black">
+                      {currentTeam.tableNumber || currentTeam._id}
+                    </span>
+                    <span className="text-[18px] font-semibold text-black">
+                      {currentTeam.name || `Team ${currentTeam._id}`}
+                    </span>
+                  </div>
+
+                  {/* Confirmation text */}
+                  <div>
+                    <p className="text-[18px] font-semibold text-[#3F3F3F]">
+                      Are you sure this team is
+                      <span className="text-[#FF8D8D]"> missing</span>?
+                    </p>
+                    <p className="text-[18px] text-[#878796] mt-[4px]">
+                      By flagging this team as missing, it will be placed in the
+                      Missing Teams section of your dashboard.
+                    </p>
+                  </div>
+
+                  {/* Confirm button */}
                   <button
                     onClick={() => handleTeamReport(currentTeam)}
-                    className="flex-1 h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[16px]"
+                    className="w-full h-[56px] bg-[#FF8D8D] rounded-full text-white font-semibold text-[17px] flex items-center justify-center gap-[8px]"
                   >
-                    Yes
-                  </button>
-                  <button
-                    onClick={() => setExpandReportButton(false)}
-                    className="flex-1 h-[56px] border-[1.5px] border-[#AAAAAA] rounded-full text-[#3D3D3D] font-semibold text-[16px]"
-                  >
-                    Cancel
+                    Confirm missing team{" "}
+                    <Image
+                      src={whiteArrow}
+                      alt="White Arrow"
+                      width={24}
+                      height={24}
+                    />
                   </button>
                 </div>
-              </>
-            ) : (
-              <button
-                onClick={() => setExpandReportButton(true)}
-                className="w-full h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[18px]"
-              >
-                Flag team as missing
-              </button>
-            )}
-          </div>
+              </div>
+            </div>
+          )}
         </div>
+
         {/* Next up */}
         {upcomingTeams.length > 0 && (
-          <div className="flex flex-col mt-[32px] gap-[24px]">
+          <div className="flex flex-col mt-[32px] gap-6">
             <span className="text-[22px] font-semibold text-black">
               Next up
             </span>
-            <div className="flex flex-col gap-[24px]">
+            <div className="flex flex-col gap-6">
               {upcomingTeams.map((team) => (
                 <ProjectTab key={team._id} team={team} disabled />
               ))}
@@ -164,16 +199,16 @@ export default function UnscoredPage({
             <div
               className="relative overflow-hidden"
               style={{
-                width: 'calc(100vw - 40px)',
-                height: 'calc(100dvh - 44px)',
-                marginTop: '44px',
-                borderRadius: '20px',
+                width: "calc(100vw - 40px)",
+                height: "calc(100dvh - 44px)",
+                marginTop: "44px",
+                borderRadius: "20px",
               }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setMapExpanded(false)}
-                className="absolute top-[16px] right-[16px] z-20 bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center"
+                className="absolute top-4 right-4 z-20 bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center"
                 aria-label="Close map"
               >
                 <Image src={closeIcon} alt="Close" width={15} height={15} />
@@ -189,40 +224,40 @@ export default function UnscoredPage({
               >
                 {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                   <TransformComponent
-                    wrapperStyle={{ width: '100%', height: '100%' }}
+                    wrapperStyle={{ width: "100%", height: "100%" }}
                     contentStyle={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      justifyContent: 'center',
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "flex-start",
+                      justifyContent: "center",
                     }}
                   >
                     <div
                       className="flex items-center justify-center"
                       style={{
-                        width: '100%',
-                        height: '100%',
+                        width: "100%",
+                        height: "100%",
                       }}
                     >
                       <div
                         style={{
-                          transform: 'rotate(90deg)',
-                          transformOrigin: 'center',
-                          width: '100vh',
-                          height: '100vw',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
+                          transform: "rotate(90deg)",
+                          transformOrigin: "center",
+                          width: "100vh",
+                          height: "100vw",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
                       >
                         <Image
                           src={venueMap}
                           alt="first floor map"
                           style={{
-                            maxWidth: '100%',
-                            maxHeight: '100%',
-                            objectFit: 'contain',
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            objectFit: "contain",
                           }}
                           draggable={false}
                         />
