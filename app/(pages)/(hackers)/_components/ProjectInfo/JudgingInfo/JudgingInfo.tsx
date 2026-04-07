@@ -20,7 +20,7 @@ const accordionItems: AccordionItemInt[] = [
   },
   {
     subtitle: '11:30 - 12:00 AM',
-    title: 'Team Number vs Table Number',
+    title: 'Team vs Table Number',
     content: <ImportantAnnouncement />,
   },
   {
