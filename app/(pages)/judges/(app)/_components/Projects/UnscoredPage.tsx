@@ -9,6 +9,7 @@ import ReportModal from './ReportModal';
 import EmptyState from './EmptyState';
 import { FaChevronRight } from 'react-icons/fa6';
 import { IoExpandOutline } from 'react-icons/io5';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 import venueMap from '@public/judges/projects/venueMap2026.svg';
 import closeIcon from '@public/judges/projects/x.svg';
@@ -90,13 +91,14 @@ export default function UnscoredPage({
 
           {/* Map card */}
           <div className="relative w-full mt-[36px] rounded-[20px] border-[1.5px] border-[#E0E0E0] overflow-visible mb-[4px]">
-            <div className="flex p-[12px] rounded-[20px] overflow-hidden">
+            <div
+              className="flex p-[12px] rounded-[20px] overflow-hidden cursor-pointer"
+              onClick={() => setMapExpanded(true)}
+            >
               <Image src={venueMap} alt="first floor map" />
             </div>
             <button
-              onClick={() => {
-                setMapExpanded(true);
-              }}
+              onClick={() => setMapExpanded(true)}
               className="absolute bottom-[-26px] left-1/2 -translate-x-1/2 bg-black text-white rounded-full w-[52px] h-[52px] flex items-center justify-center z-10"
             >
               <IoExpandOutline size={24} />
@@ -142,7 +144,6 @@ export default function UnscoredPage({
             )}
           </div>
         </div>
-
         {/* Next up */}
         {upcomingTeams.length > 0 && (
           <div className="flex flex-col mt-[32px] gap-[24px]">
@@ -159,35 +160,80 @@ export default function UnscoredPage({
 
         {/* Expanded Map Modal */}
         {mapExpanded && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-[22px] py-[48px]"
-            onClick={() => setMapExpanded(false)}
-          >
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
             <div
-              className="bg-white rounded-[24px] overflow-hidden w-full max-w-[430px] h-[calc(100dvh-96px)] relative flex flex-col"
+              className="relative overflow-hidden"
+              style={{
+                width: 'calc(100vw - 40px)',
+                height: 'calc(100dvh - 44px)',
+                marginTop: '44px',
+                borderRadius: '20px',
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setMapExpanded(false)}
-                className="absolute top-[16px] right-[16px] z-10 bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center text-lg font-bold"
+                className="absolute top-[16px] right-[16px] z-20 bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center"
                 aria-label="Close map"
               >
                 <Image src={closeIcon} alt="Close" width={15} height={15} />
               </button>
 
-              <div className="h-full w-full overflow-auto px-[16px] py-[16px]">
-                <div className="flex h-full min-w-full items-center justify-center rotate-90 m-[150px]">
-                  <Image
-                    src={venueMap}
-                    alt="first floor map"
-                    className="h-full w-auto max-w-none select-none"
-                  />
-                </div>
-              </div>
+              <TransformWrapper
+                initialScale={1.5}
+                minScale={1.5}
+                maxScale={6}
+                centerOnInit
+                limitToBounds={true}
+                panning={{ disabled: false }}
+              >
+                {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                  <TransformComponent
+                    wrapperStyle={{ width: '100%', height: '100%' }}
+                    contentStyle={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div
+                      className="flex items-center justify-center"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                      }}
+                    >
+                      <div
+                        style={{
+                          transform: 'rotate(90deg)',
+                          transformOrigin: 'center',
+                          width: '100vh',
+                          height: '100vw',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Image
+                          src={venueMap}
+                          alt="first floor map"
+                          style={{
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            objectFit: 'contain',
+                          }}
+                          draggable={false}
+                        />
+                      </div>
+                    </div>
+                  </TransformComponent>
+                )}
+              </TransformWrapper>
             </div>
           </div>
         )}
-
         <ReportModal
           modalStage={modalStage}
           setModalStage={setModalStage}
