@@ -44,8 +44,9 @@ export function isEventRelevantToProfile(
   const roleTags = tags.filter((t) => ROLE_TAGS.has(t));
   // No role tags → relevant to everyone
   if (roleTags.length === 0) return true;
-  // No profile or profile has no useful fields → show everything
+  // No profile → cannot match role tags, so hide role-specific events
   if (!profile) return false;
+  // Profile has no useful fields → fall back to showing tagged events
   if (!profile.position && profile.is_beginner === undefined) return true;
   if (profile.position && roleTags.includes(profile.position.toLowerCase()))
     return true;

@@ -54,7 +54,8 @@ async function seedHackbotDocs({ wipe }) {
     await client.connect();
   } catch (err) {
     console.error(
-      'MongoDB connection failed. Check MONGODB_URI.\n' + `Details: ${err.message}`
+      'MongoDB connection failed. Check MONGODB_URI.\n' +
+        `Details: ${err.message}`
     );
     return;
   }
@@ -72,7 +73,6 @@ async function seedHackbotDocs({ wipe }) {
   let knowledgeDocs = [];
   try {
     knowledgeDocs = await db.collection('hackbot_knowledge').find({}).toArray();
-    console.log(`Loaded ${knowledgeDocs.length} knowledge docs from database`);
   } catch (err) {
     console.warn('Failed to load knowledge docs:', err.message);
   }
@@ -92,9 +92,6 @@ async function seedHackbotDocs({ wipe }) {
     text: doc.content,
     url: doc.url || null,
   }));
-
-  console.log(`Preparing to embed and upsert ${docs.length} knowledge docs...`);
-  console.log(`Using OpenAI model: ${OPENAI_EMBEDDING_MODEL}`);
 
   let successCount = 0;
   for (const doc of docs) {
@@ -116,15 +113,12 @@ async function seedHackbotDocs({ wipe }) {
       );
 
       successCount += 1;
-      console.log(`Upserted doc ${doc._id}`);
     } catch (err) {
       console.error(`Failed to upsert doc ${doc._id}:`, err.message);
     }
   }
 
-  console.log(
-    `Done. Successfully upserted ${successCount}/${docs.length} docs.`
-  );
+  console.log(`Successfully upserted ${successCount}/${docs.length} docs.`);
 
   await client.close();
 }

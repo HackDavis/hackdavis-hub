@@ -22,12 +22,12 @@ const action_links = [
     body: 'Create Panels',
   },
   {
-    href: '/admin/invite-judges',
-    body: 'Invite Judges',
+    href: '/admin/invites',
+    body: 'Invites',
   },
   {
-    href: '/admin/invite-hackers',
-    body: 'Invite Hackers',
+    href: '/admin/emergency-invites',
+    body: 'Emergency Invites (hackers & judges)',
   },
   {
     href: '/admin/randomize-projects',

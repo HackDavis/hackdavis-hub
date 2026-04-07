@@ -90,10 +90,9 @@ export default async function importKnowledgeDocs(
       );
 
       successCount++;
-      console.log(`[importKnowledgeDocs] ✓ ${label}`);
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Unknown error';
-      console.error(`[importKnowledgeDocs] ✗ ${label}:`, msg);
+      console.error(`[importKnowledgeDocs] Error ${label}:`, msg);
       failures.push(`${label}: ${msg}`);
     }
   }
