@@ -3,7 +3,7 @@ import mascots from '@public/hackers/starter-kit/introduction/startkit_mascots.s
 
 export default function Introduction() {
   return (
-    <div className="my-[100px] mx-[60px] gap-[32px] md:gap-[8%] flex flex-col md:flex-row items-center">
+    <div className="py-[7%] px-[4%] gap-[32px] md:gap-[8%] flex flex-col md:flex-row items-center">
       <div className="flex-1">
         <Image src={mascots} alt="hackdavis mascots looking at computer" />
       </div>
