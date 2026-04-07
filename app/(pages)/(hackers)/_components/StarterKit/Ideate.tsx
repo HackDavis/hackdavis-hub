@@ -61,6 +61,15 @@ function Link({link} : {link: Link}) {
     </div>
   );
 }
+function Resources({title, link1, link2} : {title: string, link1: Link, link2: Link}) {
+  return (
+    <div className="flex flex-col gap-[16px]">
+      <p className="text-[20px] text-[#1F1F1F] font-semibold pb-[16px]">{title}</p>
+      <Link link={link1} />
+      <Link link={link2} />
+    </div>
+  );
+}
 export default function Ideate() {
   return <div>Ideate</div>;
 }
