@@ -14,6 +14,7 @@ import {
   getModelConfig,
   shouldStopStreaming,
 } from '@utils/hackbot/stream/model';
+import { shouldDisableEventsToolForQuery } from '@utils/hackbot/stream/intent';
 import {
   GET_EVENTS_INPUT_SCHEMA,
   executeGetEvents,
@@ -64,6 +65,28 @@ export async function POST(request: Request) {
     ];
 
     const { model, maxOutputTokens } = getModelConfig();
+    const disableEventsTool = shouldDisableEventsToolForQuery(
+      lastMessage.content
+    );
+
+    const tools = {
+      provide_links: tool({
+        description: PROVIDE_LINKS_DESCRIPTION,
+        inputSchema: PROVIDE_LINKS_INPUT_SCHEMA,
+        execute: executeProvideLinks,
+      }),
+      ...(disableEventsTool
+        ? {}
+        : {
+            get_events: tool({
+              description:
+                'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
+              inputSchema: GET_EVENTS_INPUT_SCHEMA,
+              execute: (input) =>
+                executeGetEvents(input, profile, lastMessage.content),
+            }),
+          }),
+    };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = streamText({
@@ -74,20 +97,7 @@ export async function POST(request: Request) {
       })),
       maxOutputTokens,
       stopWhen: shouldStopStreaming,
-      tools: {
-        get_events: tool({
-          description:
-            'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
-          inputSchema: GET_EVENTS_INPUT_SCHEMA,
-          execute: (input) =>
-            executeGetEvents(input, profile, lastMessage.content),
-        }),
-        provide_links: tool({
-          description: PROVIDE_LINKS_DESCRIPTION,
-          inputSchema: PROVIDE_LINKS_INPUT_SCHEMA,
-          execute: executeProvideLinks,
-        }),
-      },
+      tools,
     });
 
     const stream = createResponseStream(result, model);

@@ -16,12 +16,14 @@ export function createResponseStream(
       const enq = (line: string) => controller.enqueue(enc.encode(line));
 
       let suppressText = false;
+      let hasEmittedText = false;
 
       try {
         for await (const part of result.fullStream) {
           if (part?.type === 'text-delta') {
             if (!suppressText) {
               enq(`0:${JSON.stringify(part.text ?? '')}\n`);
+              if (part.text) hasEmittedText = true;
             }
           } else if (part?.type === 'tool-call') {
             enq(
@@ -34,7 +36,9 @@ export function createResponseStream(
               ])}\n`
             );
           } else if (part?.type === 'tool-result') {
-            suppressText = true;
+            // Keep allowing text if no assistant text has been emitted yet.
+            // This preserves a tool-first "intro sentence + cards" UX.
+            if (hasEmittedText) suppressText = true;
             enq(
               `a:${JSON.stringify([
                 {

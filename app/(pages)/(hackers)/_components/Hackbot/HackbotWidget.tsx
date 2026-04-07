@@ -180,7 +180,7 @@ export default function HackbotWidget({
     const apiMessages = [
       ...historyMessages.map((m) => ({ role: m.role, content: m.content })),
       { role: 'user', content: userMessage.content },
-    ];
+    ].filter((m) => m.content.trim().length > 0);
 
     const MAX_ATTEMPTS = 3;
     let succeeded = false;
