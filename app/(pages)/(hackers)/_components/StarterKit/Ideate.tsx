@@ -244,4 +244,46 @@ export default function Ideate() {
     alt: "Auth0 logo",
 
   }
+
+  return (
+  <div className="flex flex-col bg-[#D5FDFF] py-[80px] md:py-[120px] px-[16px] md:px-[120px] gap-[160px] items-center">
+    {/** Section 1 */}
+    <div>
+      <Responsibilities image={designer_responsibilities_image} title="Designer Responsibilities" responsibilities={designer_responsibilities} reverse={false}/>
+    </div>
+
+    {/** Section 2 */}
+    <div className="">
+      <p className="text-[20px] text-[#1F1F1F] font-semibold pb-[32px]">Design Tips</p>
+      <Tips image={designer_tips1_image} subtitle="SPEED UP YOUR DESIGNING x100000" title="Add pre-made, customizable design templates" description="Using UI kits can accelerate your process and give you more time to focus on problem solving and development!" tips={design_tips1} reverse={false}/>
+    </div>
+
+    {/** Section 3 */}
+    <div>
+      <Tips image={designer_tips2_image} subtitle="EXPLORE PLUGINS" title="Work Smarter with Plugins" description='Don’t build from scratch when there’s a plugin for it. Plugins are "mini-apps" inside Figma that do the tedious work for you! To find them, just press Ctrl + / (Windows) or Cmd + / (Mac) and type the name, or find it in the bottom toolbar.' tips={design_tips2} reverse={true}/>
+    </div>
+
+    {/** Section 4 */}
+    <div>
+      <Resources title="Resources" link1={designer_link1} link2={designer_link2} />
+    </div>
+
+    {/** Section 5 */}
+    <div>
+      <Responsibilities image={developer_responsibilities_image} title="Developer Responsibilities" responsibilities={developer_responsibilities} reverse={true}/>
+    </div>
+
+    {/** Section 6 */}
+    <div>
+      <Resources title="Resources" link1={developer_link1} link2={developer_link2} />
+    </div>
+
+    {/** Section 7 */}
+    <div>
+      <p className="opacity-[0.40] text-[16px] font-mono pb-[12px]">OUR RECOMMENDED BREAKDOWN TO</p>
+      <p className="text-[32px] text-[#1F1F1F] font-semibold">Keep track of time</p>
+      <Image src={timeline} alt="timeline" className="scale-[110%] md:scale-[100%]" />
+    </div>
+  </div>
+  );
 }
