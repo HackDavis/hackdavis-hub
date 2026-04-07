@@ -5,6 +5,12 @@ import type { HackbotChatMessage } from '@typeDefs/hackbot';
 import MarkdownText from './MarkdownText';
 import HackbotEventCard from './HackbotEventCard';
 
+function isSafeRelativeHref(href: string): boolean {
+  const trimmed = href.trim();
+  if (!trimmed) return false;
+  return trimmed.startsWith('/') && !trimmed.startsWith('//');
+}
+
 export default function HackbotMessageList({
   messages,
   loading,
@@ -131,21 +137,23 @@ export default function HackbotMessageList({
               {/* Named links from provide_links tool */}
               {m.links && m.links.length > 0 && (
                 <div className="mt-1.5 flex flex-col gap-1">
-                  {m.links.map((link, i) => (
-                    <a
-                      key={`${i}-${link.url}`}
-                      href={link.url}
-                      className="inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
-                      style={{ color: '#005271' }}
-                    >
-                      {link.label} →
-                    </a>
-                  ))}
+                  {m.links
+                    .filter((link) => isSafeRelativeHref(link.url))
+                    .map((link, i) => (
+                      <a
+                        key={`${i}-${link.url}`}
+                        href={link.url}
+                        className="inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
+                        style={{ color: '#005271' }}
+                      >
+                        {link.label} →
+                      </a>
+                    ))}
                 </div>
               )}
 
               {/* Legacy single URL fallback (backwards compat with stored messages) */}
-              {!m.links?.length && m.url && (
+              {!m.links?.length && m.url && isSafeRelativeHref(m.url) && (
                 <a
                   href={m.url}
                   className="mt-1.5 inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2"
