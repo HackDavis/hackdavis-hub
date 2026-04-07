@@ -176,5 +176,72 @@ function Tips({image, subtitle, title, description, tips, reverse} : {image: Sta
 
 
 export default function Ideate() {
-  return <div>Ideate</div>;
+  // Data
+  const designer_responsibilities = [
+    {icon: writing_sign, title: "Research problem statement", description: "A problem statement should include: background, people affected, and the impact of the problem."},
+    {icon: figma, title: "Craft UI/UX visuals", description: "Create wireframes, mockups, and prototypes that bring the product vision to life."},
+    {icon: sparkles, title: "Iterate on feedback & refine", description: "Collaborate with your team, gather insights, and polish the design through multiple iterations."},
+    {icon: presentation_analytics, title: "Create presentation & pitch", description: "Be prepared to present design decisions, rationale, and final deliverables to the judges!"},
+  ]
+
+  const developer_responsibilities = [
+    {icon: writing_sign, title: "Plan out system design", description: "Figure out what tech stack and technologies you want to use for your product."},
+    {icon: github, title: "Set up codebase scaffolding", description: "Create a GitHub repo and initialize the project so your team can collaborate."},
+    {icon: message_chatbot, title: "Divide and conquer", description: "Split the product into features and assign tasks so teammates can build in parallel."},
+    {icon: desktop_code, title: "Build a functioning demo", description: "Implement core features and ensure you have a working product ready for presentations."},
+  ]
+
+  const design_tips1 = [
+    {tip: "Go in the left panel and navigate to Assets"},
+    {tip: "Press Add more libraries"},
+    {tip: "Click UI Kits on the left panel in the Libraries Module"},
+    {tip: "Add your preferred library to your design file!"},
+  ]
+
+  const design_tips2 = [
+    {icon: shape, title: "Iconify", tip: "A library of  100,000+ icons."},
+    {icon: image_in_picture, title: "Remove BG", tip: "Removes the background of any photo instantly."},
+    {icon: text_size, title: "Stark", tip: "Checks if your text is readable for accessibility."},
+  ]
+
+  const designer_link1 = {
+    type: "FIGMA COURSE",
+    title: "Figma for Beginners",
+    description: "New to Figma? This hands-on course offers a quick tour of key features, while guiding you through designing a portfolio website from scratch.",
+    image: figma_beginners_image,
+    buttonName: "Start Course", 
+    link: "https://help.figma.com/hc/en-us/sections/30880632542743-Figma-Design-for-beginners",
+    alt: "Figma Design For Beginners course preview image",
+  }
+
+  const designer_link2 = {
+    type: "FIGMA BLOG",
+    title: "What is Product Design?",
+    description: "How can you create the best product or service for your users? This article by Figma explains how Product Design is the process of developing experiences to meet user needs and align with business goals + strategies.",
+    image: figma_shapes,
+    buttonName: "Read", 
+    link: "https://www.figma.com/resource-library/what-is-product-design/",
+    alt: "What is product design blog post preview image",
+  }
+
+  const developer_link1 = {
+    type: "MLH STARTER KIT",
+    title: "Get Started with MongoDB",
+    description: "Whether you are new to MongoDB or looking for a little inspiration to get your hackathon project started, the MongoDB Developer Center has all the latest MongoDB tutorials, videos and code examples featuring over a dozen programming languages, and even more technology integrations!",
+    image: mongodb,
+    buttonName: "Read", 
+    link: "https://news.mlh.io/read-and-write-to-a-mongodb-atlas-database-in-minutes-04-19-2023?utm_source=mlh&utm_medium=referral&utm_content=MongoDB+Starter+Kit",
+    alt: "MongoDB logo",
+  }
+
+  const developer_link2 = {
+    type: "MLH STARTER KIT",
+    title: "Get Started with Authentication",
+    description: "Auth0 is an easy to use authentication and authorization platform! If your hackathon project requires a log in and sign up workflow, Auth0 supports this functionality straight out of the box. Best of all, it’s simple and free to get started.",
+    image: auth0,
+    buttonName: "Read", 
+    link: "https://news.mlh.io/enable-user-authentication-for-your-hackathon-project-in-as-little-as-ten-minutes-05-12-2023?utm_source=mlh&utm_medium=referral&utm_content=Auth0+Starter+Kit",
+    alt: "Auth0 logo",
+
+  }
 }
