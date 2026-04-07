@@ -26,3 +26,28 @@ export function shouldDisableEventsToolForQuery(query: string): boolean {
 
   return factualIntent && !eventIntent;
 }
+
+export function isResourcesQuery(query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return false;
+
+  const asksForResources =
+    /\b(resource|resources|tools?|apis?|libraries|frameworks?|starter kit)\b/.test(
+      q
+    ) || /\b(figma|ui\s*kit|design\s*kit|palette|templates?)\b/.test(q);
+
+  const asksForRoleScopedResources =
+    /\b(developer|developers|dev)\b/.test(q) ||
+    /\b(designer|designers|design|ui\/?ux)\b/.test(q);
+
+  return asksForResources || asksForRoleScopedResources;
+}
+
+export function isExplicitEventQuery(query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return false;
+
+  return /\b(schedule|event|events|workshop|workshops|activit(?:y|ies)|meal|meals|breakfast|brunch|lunch|dinner|happening|attend|go to)\b/.test(
+    q
+  );
+}

@@ -18,8 +18,14 @@ export function getModelConfig() {
   return { model, maxOutputTokens, isReasoningModel };
 }
 
-export function shouldStopStreaming(state: any): boolean {
+export function shouldStopStreaming(
+  state: any,
+  opts?: { allowProvideLinksShortCircuit?: boolean }
+): boolean {
   const { steps } = state as { steps: any[] };
+  const allowProvideLinksShortCircuit =
+    opts?.allowProvideLinksShortCircuit ?? true;
+
   if (stepCountIs(5)({ steps })) return true;
   if (!steps.length) return false;
 
@@ -28,6 +34,7 @@ export function shouldStopStreaming(state: any): boolean {
     toolCalls.length > 0 &&
     toolCalls.every((t: any) => t.toolName === 'provide_links');
 
+  if (!allowProvideLinksShortCircuit) return false;
   if (!onlyProvideLinks) return false;
   return steps.some((s: any) => (s.text ?? '').trim().length > 0);
 }
