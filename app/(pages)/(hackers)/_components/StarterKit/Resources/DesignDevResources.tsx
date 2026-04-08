@@ -38,7 +38,7 @@ import timeline from '@public/hackers/starter-kit/designResources/timeline.svg';
 //import scroll_bar1 from '@public/hackers/starter-kit/designResources/scroll_bar1.svg';
 //import divider from '@public/hackers/starter-kit/designResources/divider.svg';
 
-export default function DesignResources() {
+export default function DesignDevResources() {
   // Data
   const designer_responsibilities = [
     {
@@ -162,7 +162,7 @@ export default function DesignResources() {
   return (
     <div className="flex flex-col bg-[#D5FDFF] py-[7%] px-[4%] gap-[112px] md:gap-[144px] items-center">
       {/** Section 1 */}
-      <div>
+      <div id="design-resources">
         <Responsibilities
           image={designer_responsibilities_image}
           title="Designer Responsibilities"
@@ -208,7 +208,7 @@ export default function DesignResources() {
       </div>
 
       {/** Section 5 */}
-      <div>
+      <div id="dev-resources">
         <Responsibilities
           image={developer_responsibilities_image}
           title="Developer Responsibilities"

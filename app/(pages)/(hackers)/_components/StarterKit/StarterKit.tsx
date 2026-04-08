@@ -1,7 +1,6 @@
 'use client';
 
-import DesignResources from './DesignResources/DesignResources';
-import DevResources from './DevResources';
+import DesignDevResources from './Resources/DesignDevResources';
 import Ideate from './Ideate/Ideate';
 import Introduction from './Introduction';
 import MoreTips from './MoreTips';
@@ -10,32 +9,32 @@ import TeamBuilding from './TeamBuilding';
 const sections = [
   {
     title: 'Introduction',
-    id: 'starter-kit-introduction',
+    id: 'introduction',
     Component: Introduction,
   },
   {
     title: 'Team Building',
-    id: 'starter-kit-team-building',
+    id: 'team-building',
     Component: TeamBuilding,
   },
   {
     title: 'Ideate',
-    id: 'starter-kit-ideate',
+    id: 'ideate',
     Component: Ideate,
   },
   {
     title: 'Design Resources',
-    id: 'starter-kit-design-resources',
-    Component: DesignResources,
+    id: 'design-resources',
+    Component: DesignDevResources,
   },
   {
     title: 'Dev Resources',
-    id: 'starter-kit-dev-resources',
-    Component: DevResources,
+    id: 'dev-resources',
+    Component: DesignDevResources,
   },
   {
     title: 'More Tips',
-    id: 'starter-kit-more-tips',
+    id: 'more-tips',
     Component: MoreTips,
   },
 ];
@@ -49,7 +48,7 @@ function scrollToSection(id: string) {
 export default function StarterKit() {
   return (
     <div className="flex flex-row">
-      <div className="hidden md:flex px-[20px] mt-[100px] gap-[30px] flex-col">
+      <div className="hidden md:flex px-[20px] mt-[100px] gap-[30px] flex-col sticky top-[100px] self-start">
         {sections.map((section) => (
           <button
             key={section.id}
