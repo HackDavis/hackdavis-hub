@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Team from '@typeDefs/team';
+import ProjectTab from './ProjectTab';
 
 import closeIcon from '@public/judges/projects/x.svg';
 import missingTeams from '@public/judges/projects/missingTeams.svg';
@@ -15,8 +16,8 @@ export default function ReportTeamModal({
   handleTeamReport: (team: Team) => void | Promise<void>;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 pt-28 pb-8">
-      <div className="flex flex-col items-center relative bg-[#FAFAFF] rounded-[32px] w-[calc(100vw-40px)] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+      <div className="relative flex w-full min-w-[370px] max-w-[500px] flex-col items-center overflow-hidden rounded-[20px] bg-[#FAFAFF] px-[15px]">
         {/* X button */}
         <button
           onClick={() => setExpandReportButton(false)}
@@ -27,21 +28,14 @@ export default function ReportTeamModal({
         </button>
 
         {/* Image */}
-        <div className="w-[320px] h-[250px] bg-[#E8F0F8] border-2 border-black">
+        <div className="w-[320px] h-[250px]">
           <Image src={missingTeams} alt="Missing Teams" />
         </div>
 
         {/* Content */}
-        <div className="mt-4 px-6 pt-4 pb-[32px] flex flex-col gap-4">
+        <div className="mt-4 px-6 pb-[32px] flex flex-col gap-4">
           {/* Team pill */}
-          <div className="bg-[#F3F3FC] rounded-full px-6 py-[8px] flex items-center justify-center gap-[8px]">
-            <span className="text-[32px] font-semibold text-black">
-              {currentTeam.tableNumber || currentTeam._id}
-            </span>
-            <span className="text-[18px] font-semibold text-black">
-              {currentTeam.name || `Team ${currentTeam._id}`}
-            </span>
-          </div>
+          <ProjectTab key={currentTeam._id} team={currentTeam} disabled />
 
           {/* Confirmation text */}
           <div>
@@ -58,7 +52,7 @@ export default function ReportTeamModal({
           {/* Confirm button */}
           <button
             onClick={() => handleTeamReport(currentTeam)}
-            className="w-full h-[56px] bg-[#FF8D8D] rounded-full text-white font-semibold text-[17px] flex items-center justify-center gap-[8px]"
+            className="w-full h-[56px] bg-[#FF8D8D] rounded-full text-white font-semibold text-[16px] flex items-center justify-center gap-[8px]"
           >
             Confirm missing team{' '}
             <Image src={whiteArrow} alt="White Arrow" width={24} height={24} />
