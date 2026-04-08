@@ -1,20 +1,20 @@
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useSession } from "next-auth/react";
-import ProjectTab from "./ProjectTab";
-import Team from "@typeDefs/team";
-import { reportMissingProject } from "@actions/teams/reportMissingTeam";
-import ReportModal from "./ReportModal";
-import EmptyState from "./EmptyState";
-import { FaChevronRight } from "react-icons/fa6";
-import { IoExpandOutline } from "react-icons/io5";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import ProjectTab from './ProjectTab';
+import Team from '@typeDefs/team';
+import { reportMissingProject } from '@actions/teams/reportMissingTeam';
+import ReportModal from './ReportModal';
+import EmptyState from './EmptyState';
+import { FaChevronRight } from 'react-icons/fa6';
+import { IoExpandOutline } from 'react-icons/io5';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
-import venueMap from "@public/judges/projects/venueMap2026.svg";
-import closeIcon from "@public/judges/projects/x.svg";
-import missingTeams from "@public/judges/projects/missingTeams.svg";
-import whiteArrow from "@public/judges/projects/whiteArrow.svg";
+import venueMap from '@public/judges/projects/venueMap2026.svg';
+import closeIcon from '@public/judges/projects/x.svg';
+import missingTeams from '@public/judges/projects/missingTeams.svg';
+import whiteArrow from '@public/judges/projects/whiteArrow.svg';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -27,12 +27,12 @@ export default function UnscoredPage({
 }: UnscoredPageProps) {
   const { data: session } = useSession();
   const user = session?.user;
-  const judgeId = user?.id ?? "";
+  const judgeId = user?.id ?? '';
   const [expandReportButton, setExpandReportButton] = useState(false);
   const [mapExpanded, setMapExpanded] = useState(false);
   const [modalStage, setModalStage] = useState<
-    "hidden" | "loading" | "success" | "error"
-  >("hidden");
+    'hidden' | 'loading' | 'success' | 'error'
+  >('hidden');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   if (teams.length === 0) {
@@ -48,14 +48,14 @@ export default function UnscoredPage({
   const upcomingTeams = teams.slice(1);
 
   const handleTeamReport = async (team: Team) => {
-    setModalStage("loading");
-    const reportRes = await reportMissingProject(judgeId, team._id ?? "");
+    setModalStage('loading');
+    const reportRes = await reportMissingProject(judgeId, team._id ?? '');
     if (!reportRes.ok) {
-      setErrorMsg((reportRes.error ?? "").slice(0, 100));
-      setModalStage("error");
+      setErrorMsg((reportRes.error ?? '').slice(0, 100));
+      setModalStage('error');
     } else {
       setErrorMsg(null);
-      setModalStage("success");
+      setModalStage('success');
       revalidateData();
     }
     setExpandReportButton(false);
@@ -70,14 +70,14 @@ export default function UnscoredPage({
             <p className="text-[22px] font-semibold text-[#3F3F3F]">
               Current Project
             </p>
-            <p className="text-4 text-[#5E5E65]">
+            <p className="text-[16px] text-[#5E5E65]">
               Projects must be judged in order one by one order.
             </p>
           </div>
           {/* To-score Project Button */}
           <Link
             href={`/judges/score/${currentTeam._id}`}
-            className="bg-black rounded-6 flex items-center justify-between px-6 py-[12px] my-4"
+            className="bg-black rounded-[24px] flex items-center justify-between px-[24px] py-[12px] my-[16px]"
           >
             <div className="flex items-center gap-[14px]">
               <span className="text-white font-semibold text-[32px]">
@@ -107,8 +107,8 @@ export default function UnscoredPage({
           {/* Flag section */}
           <div className="flex flex-col items-center gap-[14px] mt-[44px]">
             <p className="text-[16px] text-[#6B6B6B] text-center leading-snug">
-              If the team you are judging is not present, tap the{" "}
-              <span className="text-[#F4847A] font-semibold">red button</span>{" "}
+              If the team you are judging is not present, tap the{' '}
+              <span className="text-[#F4847A] font-semibold">red button</span>{' '}
               below.
             </p>
             <button
@@ -165,7 +165,7 @@ export default function UnscoredPage({
                     onClick={() => handleTeamReport(currentTeam)}
                     className="w-full h-[56px] bg-[#FF8D8D] rounded-full text-white font-semibold text-[17px] flex items-center justify-center gap-[8px]"
                   >
-                    Confirm missing team{" "}
+                    Confirm missing team{' '}
                     <Image
                       src={whiteArrow}
                       alt="White Arrow"
@@ -199,10 +199,9 @@ export default function UnscoredPage({
             <div
               className="relative overflow-hidden"
               style={{
-                width: "calc(100vw - 40px)",
-                height: "calc(100dvh - 44px)",
-                marginTop: "44px",
-                borderRadius: "20px",
+                width: '370px', // Matches JA min width
+                height: 'calc(100vh - 44px)',
+                borderRadius: '32px',
               }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -215,49 +214,49 @@ export default function UnscoredPage({
               </button>
 
               <TransformWrapper
-                initialScale={1.5}
+                initialScale={2.25}
                 minScale={1.5}
                 maxScale={6}
                 centerOnInit
                 limitToBounds={true}
                 panning={{ disabled: false }}
               >
-                {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                {() => (
                   <TransformComponent
-                    wrapperStyle={{ width: "100%", height: "100%" }}
+                    wrapperStyle={{ width: '100%', height: '100%' }}
                     contentStyle={{
-                      width: "100%",
-                      height: "100%",
-                      display: "flex",
-                      alignItems: "flex-start",
-                      justifyContent: "center",
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      justifyContent: 'center',
                     }}
                   >
                     <div
                       className="flex items-center justify-center"
                       style={{
-                        width: "100%",
-                        height: "100%",
+                        width: '100%',
+                        height: '100%',
                       }}
                     >
                       <div
                         style={{
-                          transform: "rotate(90deg)",
-                          transformOrigin: "center",
-                          width: "100vh",
-                          height: "100vw",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          transform: 'rotate(90deg)',
+                          transformOrigin: 'center',
+                          width: '100vh',
+                          height: '100vw',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         <Image
                           src={venueMap}
                           alt="first floor map"
                           style={{
-                            maxWidth: "100%",
-                            maxHeight: "100%",
-                            objectFit: "contain",
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            objectFit: 'contain',
                           }}
                           draggable={false}
                         />
