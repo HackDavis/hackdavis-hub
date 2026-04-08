@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { RefObject } from 'react';
 import type { HackbotChatMessage } from '@typeDefs/hackbot';
 import MarkdownText from './MarkdownText';
@@ -140,14 +141,14 @@ export default function HackbotMessageList({
                   {m.links
                     .filter((link) => isSafeRelativeHref(link.url))
                     .map((link, i) => (
-                      <a
+                      <Link
                         key={`${i}-${link.url}`}
                         href={link.url}
                         className="inline-flex items-center gap-0.5 text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
                         style={{ color: '#005271' }}
                       >
                         {link.label} →
-                      </a>
+                      </Link>
                     ))}
                 </div>
               )}
@@ -222,13 +223,13 @@ export default function HackbotMessageList({
                   ))}
                   {/* Shared View Schedule link */}
                   <div className="px-1 pt-0.5">
-                    <a
+                    <Link
                       href="/schedule"
                       className="text-xs font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
                       style={{ color: '#005271' }}
                     >
                       View full schedule →
-                    </a>
+                    </Link>
                   </div>
                 </div>
               );
