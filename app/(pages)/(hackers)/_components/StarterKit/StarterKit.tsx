@@ -1,6 +1,6 @@
 'use client';
 
-import DesignResources from './DesignResources';
+import DesignResources from './DesignResources/DesignResources';
 import DevResources from './DevResources';
 import Ideate from './Ideate/Ideate';
 import Introduction from './Introduction';
