@@ -59,8 +59,11 @@ export default function JudgeCard({
           ))}
         </div>
         <div className={styles.teams_container}>
-          {judge.teams.map((team: Team) => (
-            <div key={team._id} className={styles.team}>
+          {judge.teams.map((team: Team, index: number) => (
+            <div
+              key={`${team._id ?? team.name ?? 'team'}-${index}`}
+              className={styles.team}
+            >
               {team.name}
             </div>
           ))}
