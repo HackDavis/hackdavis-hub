@@ -11,12 +11,7 @@ export default function ExpandedMapModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div
-        className="relative overflow-hidden"
-        style={{
-          width: '370px', // Matches JA min width
-          height: 'calc(100vh - 44px)',
-          borderRadius: '32px',
-        }}
+        className="relative mx-4 h-[calc(100dvh-44px)] w-full max-w-[370px] overflow-hidden rounded-[32px]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
