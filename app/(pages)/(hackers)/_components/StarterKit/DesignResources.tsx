@@ -396,7 +396,7 @@ export default function DesignResources() {
   };
 
   return (
-    <div className="flex flex-col bg-[#D5FDFF] py-[80px] md:py-[120px] px-[16px] md:px-[120px] gap-[160px] items-center">
+    <div className="flex flex-col bg-[#D5FDFF] py-[7%] px-[4%] gap-[112px] md:gap-[144px] items-center">
       {/** Section 1 */}
       <div>
         <Responsibilities
@@ -463,7 +463,7 @@ export default function DesignResources() {
       </div>
 
       {/** Section 7 */}
-      <div>
+      <div className="w-full">
         <p className="opacity-[0.40] text-[16px] font-mono pb-[12px]">
           OUR RECOMMENDED BREAKDOWN TO
         </p>
