@@ -1,10 +1,10 @@
-import Image from "next/image";
-import teamMixer from "@public/hackers/starter-kit/teamMixer.svg";
-import mascots from "@public/hackers/starter-kit/mascotSquad.svg";
-import cow from "@public/hackers/starter-kit/cowIcon.svg";
-import locationIcon from "@public/hackers/starter-kit/locationIcon.svg";
-import add from "@public/hackers/starter-kit/add.svg";
-import arrow from "@public/hackers/starter-kit/blackArrow.svg";
+import Image from 'next/image';
+import teamMixer from '@public/hackers/starter-kit/teamMixer.svg';
+import mascots from '@public/hackers/starter-kit/mascotSquad.svg';
+import cow from '@public/hackers/starter-kit/cowIcon.svg';
+import locationIcon from '@public/hackers/starter-kit/locationIcon.svg';
+import add from '@public/hackers/starter-kit/add.svg';
+import arrow from '@public/hackers/starter-kit/blackArrow.svg';
 
 export default function TeamBuilding() {
   return (
@@ -77,7 +77,7 @@ export default function TeamBuilding() {
           </p>
 
           <p className="mt-3 text-[#000000A6]">
-            No worries! Jump into our Discord and head to the{" "}
+            No worries! Jump into our Discord and head to the{' '}
             <span className="text-base font-medium text-[#3a3a3a]">
               #team-formation
             </span>
@@ -113,9 +113,9 @@ export default function TeamBuilding() {
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           {[
-            { n: "01.", q: "Is this person passionate about the same tracks?" },
-            { n: "02.", q: "Does this person's skills compliment mine?" },
-            { n: "03.", q: "Can I see myself working with them for 24 hours?" },
+            { n: '01.', q: 'Is this person passionate about the same tracks?' },
+            { n: '02.', q: "Does this person's skills compliment mine?" },
+            { n: '03.', q: 'Can I see myself working with them for 24 hours?' },
           ].map(({ n, q }) => (
             <div
               key={n}
