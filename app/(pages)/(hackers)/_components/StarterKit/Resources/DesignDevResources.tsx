@@ -237,7 +237,7 @@ export default function DesignDevResources() {
         <Image
           src={timeline}
           alt="timeline"
-          className="scale-[110%] md:scale-[100%]"
+          className="block mx-auto scale-[110%] md:scale-[100%]"
         />
       </div>
     </div>
