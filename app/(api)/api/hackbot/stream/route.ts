@@ -4,6 +4,7 @@ import { FEW_SHOT_EXAMPLES } from '@utils/hackbot/stream/fewShots';
 import {
   validateRequestBody,
   isSimpleGreetingMessage,
+  MAX_CONTEXT_HISTORY_MESSAGES,
 } from '@utils/hackbot/stream/request';
 import {
   fetchSessionAndDocs,
@@ -14,6 +15,11 @@ import {
   getModelConfig,
   shouldStopStreaming,
 } from '@utils/hackbot/stream/model';
+import {
+  shouldDisableEventsToolForQuery,
+  isResourcesQuery,
+  isExplicitEventQuery,
+} from '@utils/hackbot/stream/intent';
 import {
   GET_EVENTS_INPUT_SCHEMA,
   executeGetEvents,
@@ -26,7 +32,20 @@ import {
 import { createResponseStream } from '@utils/hackbot/stream/responseStream';
 import { getPageContext, buildSystemPrompt } from '@utils/hackbot/systemPrompt';
 
-const MAX_HISTORY_MESSAGES = 6;
+function normalizeGetEventsInputForQuery(input: any, query: string): any {
+  const q = query.trim().toLowerCase();
+  if (!q) return input;
+
+  const asksForWorkshops = /\bworkshops?\b/.test(q);
+  if (!asksForWorkshops) return input;
+
+  // If the user explicitly asks for workshops, enforce WORKSHOPS so
+  // generic schedule items (e.g. "Hacking Ends") are not returned.
+  return {
+    ...input,
+    type: 'WORKSHOPS',
+  };
+}
 
 export async function POST(request: Request) {
   try {
@@ -60,34 +79,59 @@ export async function POST(request: Request) {
         role: 'system',
         content: `Knowledge context about HackDavis (rules, submission, judging, tracks, general info):\n\n${contextSummary}`,
       },
-      ...sanitizedMessages.slice(-MAX_HISTORY_MESSAGES),
+      ...sanitizedMessages.slice(-MAX_CONTEXT_HISTORY_MESSAGES),
     ];
 
     const { model, maxOutputTokens } = getModelConfig();
+    const disableEventsTool = shouldDisableEventsToolForQuery(
+      lastMessage.content
+    );
+    const resourcesQuery = isResourcesQuery(lastMessage.content);
+    const explicitEventQuery = isExplicitEventQuery(lastMessage.content);
+    const requireEventsTool = explicitEventQuery && !disableEventsTool;
+
+    const tools = {
+      ...(requireEventsTool
+        ? {}
+        : {
+            provide_links: tool({
+              description: PROVIDE_LINKS_DESCRIPTION,
+              inputSchema: PROVIDE_LINKS_INPUT_SCHEMA,
+              execute: executeProvideLinks,
+            }),
+          }),
+      ...(disableEventsTool
+        ? {}
+        : {
+            get_events: tool({
+              description:
+                'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
+              inputSchema: GET_EVENTS_INPUT_SCHEMA,
+              execute: (input) =>
+                executeGetEvents(
+                  normalizeGetEventsInputForQuery(input, lastMessage.content),
+                  profile,
+                  lastMessage.content
+                ),
+            }),
+          }),
+    };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = streamText({
       model: openai(model) as any,
+      temperature: 0,
       messages: chatMessages.map((m: any) => ({
         role: m.role as 'system' | 'user' | 'assistant',
         content: m.content,
       })),
       maxOutputTokens,
-      stopWhen: shouldStopStreaming,
-      tools: {
-        get_events: tool({
-          description:
-            'Fetch the live HackDavis event schedule from the database. Use this for ANY question about event times, locations, schedule, or what is happening when.',
-          inputSchema: GET_EVENTS_INPUT_SCHEMA,
-          execute: (input) =>
-            executeGetEvents(input, profile, lastMessage.content),
+      ...(requireEventsTool ? { toolChoice: 'required' as const } : {}),
+      stopWhen: (state) =>
+        shouldStopStreaming(state, {
+          allowProvideLinksShortCircuit: !resourcesQuery,
         }),
-        provide_links: tool({
-          description: PROVIDE_LINKS_DESCRIPTION,
-          inputSchema: PROVIDE_LINKS_INPUT_SCHEMA,
-          execute: executeProvideLinks,
-        }),
-      },
+      tools,
     });
 
     const stream = createResponseStream(result, model);
