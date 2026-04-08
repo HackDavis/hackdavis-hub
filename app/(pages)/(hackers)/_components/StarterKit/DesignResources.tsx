@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { StaticImageData } from 'next/image'; // why statuc image data?
+import type { StaticImageData } from 'next/image'; 
 import { useState, useRef } from 'react';
 
 // Icons
