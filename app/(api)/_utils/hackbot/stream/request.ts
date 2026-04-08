@@ -6,7 +6,9 @@ import type {
 const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 30;
 const MAX_MESSAGE_CHARS = 2000;
-const MAX_TOTAL_MESSAGE_CHARS = 12000;
+export const MAX_CONTEXT_HISTORY_MESSAGES = 6;
+const MAX_TOTAL_MESSAGE_CHARS =
+  MAX_CONTEXT_HISTORY_MESSAGES * MAX_MESSAGE_CHARS;
 const ALLOWED_MESSAGE_ROLES = new Set(['user', 'assistant']);
 
 export function validateRequestBody(
@@ -32,11 +34,19 @@ export function validateRequestBody(
   for (const message of messages) {
     const role = message?.role;
     const content = message?.content;
-    if (
-      !ALLOWED_MESSAGE_ROLES.has(role) ||
-      typeof content !== 'string' ||
-      !content.trim()
-    ) {
+    if (!ALLOWED_MESSAGE_ROLES.has(role) || typeof content !== 'string') {
+      return Response.json(
+        { error: 'Invalid message history format.' },
+        { status: 400 }
+      );
+    }
+
+    const trimmedContent = content.trim();
+    if (!trimmedContent) {
+      // Tool-only replies can persist as empty assistant text in localStorage.
+      // Drop them from request history instead of failing the whole request.
+      if (role === 'assistant') continue;
+
       return Response.json(
         { error: 'Invalid message history format.' },
         { status: 400 }
@@ -66,6 +76,10 @@ export function validateRequestBody(
       role: role as 'user' | 'assistant',
       content,
     });
+  }
+
+  if (sanitizedMessages.length === 0) {
+    return Response.json({ error: 'Invalid request' }, { status: 400 });
   }
 
   const lastMessage = sanitizedMessages[sanitizedMessages.length - 1];
