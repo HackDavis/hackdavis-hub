@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 import ProjectTab from './ProjectTab';
 import Team from '@typeDefs/team';
 import { reportMissingProject } from '@actions/teams/reportMissingTeam';
-import ReportModal from './ReportModal';
 import EmptyState from './EmptyState';
 import { FaChevronRight } from 'react-icons/fa6';
 import { IoExpandOutline } from 'react-icons/io5';
@@ -55,8 +54,9 @@ export default function UnscoredPage({
       setErrorMsg(null);
       setModalStage('success');
       revalidateData();
+      setExpandReportButton(false);
+      setModalStage('hidden');
     }
-    setExpandReportButton(false);
   };
 
   return (
@@ -110,7 +110,11 @@ export default function UnscoredPage({
               below.
             </p>
             <button
-              onClick={() => setExpandReportButton(true)}
+              onClick={() => {
+                setModalStage('hidden');
+                setErrorMsg(null);
+                setExpandReportButton(true);
+              }}
               className="w-full h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[18px]"
             >
               Flag team as missing
@@ -122,6 +126,9 @@ export default function UnscoredPage({
               currentTeam={currentTeam}
               setExpandReportButton={setExpandReportButton}
               handleTeamReport={handleTeamReport}
+              modalStage={modalStage}
+              setModalStage={setModalStage}
+              errorMsg={errorMsg}
             />
           )}
         </div>
@@ -142,11 +149,6 @@ export default function UnscoredPage({
 
         {/* Expanded Map Modal */}
         {mapExpanded && <ExpandedMapModal setMapExpanded={setMapExpanded} />}
-        <ReportModal
-          modalStage={modalStage}
-          setModalStage={setModalStage}
-          errorMsg={errorMsg}
-        />
       </div>
     </>
   );
