@@ -46,8 +46,12 @@ function normalizeToRelativeHubPath(url: string): string | null {
   const raw = url.trim();
   if (!raw) return null;
 
+  if (raw.startsWith('//')) {
+    return null;
+  }
+
   if (raw.startsWith('/')) {
-    return raw;
+    return raw.replace(/^\/+/, '/');
   }
 
   if (raw.startsWith('#')) {

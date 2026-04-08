@@ -6,7 +6,9 @@ import type {
 const MAX_USER_MESSAGE_CHARS = 200;
 const MAX_HISTORY_MESSAGES = 30;
 const MAX_MESSAGE_CHARS = 2000;
-const MAX_TOTAL_MESSAGE_CHARS = 60000;
+export const MAX_CONTEXT_HISTORY_MESSAGES = 6;
+const MAX_TOTAL_MESSAGE_CHARS =
+  MAX_CONTEXT_HISTORY_MESSAGES * MAX_MESSAGE_CHARS;
 const ALLOWED_MESSAGE_ROLES = new Set(['user', 'assistant']);
 
 export function validateRequestBody(

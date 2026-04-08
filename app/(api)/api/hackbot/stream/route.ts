@@ -4,6 +4,7 @@ import { FEW_SHOT_EXAMPLES } from '@utils/hackbot/stream/fewShots';
 import {
   validateRequestBody,
   isSimpleGreetingMessage,
+  MAX_CONTEXT_HISTORY_MESSAGES,
 } from '@utils/hackbot/stream/request';
 import {
   fetchSessionAndDocs,
@@ -30,8 +31,6 @@ import {
 } from '@utils/hackbot/stream/linksTool';
 import { createResponseStream } from '@utils/hackbot/stream/responseStream';
 import { getPageContext, buildSystemPrompt } from '@utils/hackbot/systemPrompt';
-
-const MAX_HISTORY_MESSAGES = 6;
 
 function normalizeGetEventsInputForQuery(input: any, query: string): any {
   const q = query.trim().toLowerCase();
@@ -80,7 +79,7 @@ export async function POST(request: Request) {
         role: 'system',
         content: `Knowledge context about HackDavis (rules, submission, judging, tracks, general info):\n\n${contextSummary}`,
       },
-      ...sanitizedMessages.slice(-MAX_HISTORY_MESSAGES),
+      ...sanitizedMessages.slice(-MAX_CONTEXT_HISTORY_MESSAGES),
     ];
 
     const { model, maxOutputTokens } = getModelConfig();
