@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import type { Dispatch, SetStateAction } from 'react';
 import Team from '@typeDefs/team';
 import ProjectTab from './ProjectTab';
 
@@ -20,7 +21,7 @@ export default function ReportTeamModal({
   setExpandReportButton: (expand: boolean) => void;
   handleTeamReport: (team: Team) => void | Promise<void>;
   modalStage: ModalStage;
-  setModalStage: React.Dispatch<React.SetStateAction<ModalStage>>;
+  setModalStage: Dispatch<SetStateAction<ModalStage>>;
   errorMsg: string | null;
 }) {
   const isLoading = modalStage === 'loading';

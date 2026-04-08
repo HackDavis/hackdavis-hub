@@ -52,7 +52,6 @@ export default function UnscoredPage({
       setModalStage('error');
     } else {
       setErrorMsg(null);
-      setModalStage('success');
       revalidateData();
       setExpandReportButton(false);
       setModalStage('hidden');

@@ -9,7 +9,10 @@ export default function ExpandedMapModal({
   setMapExpanded: (expanded: boolean) => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      onClick={() => setMapExpanded(false)}
+    >
       <div
         className="relative mx-4 h-[calc(100dvh-44px)] w-full max-w-[370px] overflow-hidden rounded-[32px]"
         onClick={(e) => e.stopPropagation()}
