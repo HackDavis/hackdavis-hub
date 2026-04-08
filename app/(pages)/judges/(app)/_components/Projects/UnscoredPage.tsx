@@ -5,13 +5,13 @@ import { useSession } from 'next-auth/react';
 import ProjectTab from './ProjectTab';
 import Team from '@typeDefs/team';
 import { reportMissingProject } from '@actions/teams/reportMissingTeam';
-import ReportModal from './ReportModal';
 import EmptyState from './EmptyState';
 import { FaChevronRight } from 'react-icons/fa6';
 import { IoExpandOutline } from 'react-icons/io5';
 
 import venueMap from '@public/judges/projects/venueMap2026.svg';
-import closeIcon from '@public/judges/projects/x.svg';
+import ExpandedMapModal from './ExpandedMapModal';
+import ReportTeamModal from './ReportTeamModal';
 
 interface UnscoredPageProps {
   teams: Team[];
@@ -52,10 +52,10 @@ export default function UnscoredPage({
       setModalStage('error');
     } else {
       setErrorMsg(null);
-      setModalStage('success');
       revalidateData();
+      setExpandReportButton(false);
+      setModalStage('hidden');
     }
-    setExpandReportButton(false);
   };
 
   return (
@@ -71,7 +71,6 @@ export default function UnscoredPage({
               Projects must be judged in order one by one order.
             </p>
           </div>
-
           {/* To-score Project Button */}
           <Link
             href={`/judges/score/${currentTeam._id}`}
@@ -87,22 +86,21 @@ export default function UnscoredPage({
             </div>
             <FaChevronRight className="text-white" size={18} />
           </Link>
-
           {/* Map card */}
           <div className="relative w-full mt-[36px] rounded-[20px] border-[1.5px] border-[#E0E0E0] overflow-visible mb-[4px]">
-            <div className="flex p-[12px] rounded-[20px] overflow-hidden">
+            <div
+              className="flex p-[12px] rounded-[20px] overflow-hidden cursor-pointer"
+              onClick={() => setMapExpanded(true)}
+            >
               <Image src={venueMap} alt="first floor map" />
             </div>
             <button
-              onClick={() => {
-                setMapExpanded(true);
-              }}
+              onClick={() => setMapExpanded(true)}
               className="absolute bottom-[-26px] left-1/2 -translate-x-1/2 bg-black text-white rounded-full w-[52px] h-[52px] flex items-center justify-center z-10"
             >
               <IoExpandOutline size={24} />
             </button>
           </div>
-
           {/* Flag section */}
           <div className="flex flex-col items-center gap-[14px] mt-[44px]">
             <p className="text-[16px] text-[#6B6B6B] text-center leading-snug">
@@ -110,37 +108,28 @@ export default function UnscoredPage({
               <span className="text-[#F4847A] font-semibold">red button</span>{' '}
               below.
             </p>
-
-            {/* TODO: TURN INTO POPUP */}
-            {expandReportButton ? (
-              <>
-                <div className="text-[#3F3F3F] font-semibold text-[22px] text-left">
-                  Are you sure?
-                </div>
-                <div className="flex w-full gap-[10px]">
-                  <button
-                    onClick={() => handleTeamReport(currentTeam)}
-                    className="flex-1 h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[16px]"
-                  >
-                    Yes
-                  </button>
-                  <button
-                    onClick={() => setExpandReportButton(false)}
-                    className="flex-1 h-[56px] border-[1.5px] border-[#AAAAAA] rounded-full text-[#3D3D3D] font-semibold text-[16px]"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </>
-            ) : (
-              <button
-                onClick={() => setExpandReportButton(true)}
-                className="w-full h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[18px]"
-              >
-                Flag team as missing
-              </button>
-            )}
+            <button
+              onClick={() => {
+                setModalStage('hidden');
+                setErrorMsg(null);
+                setExpandReportButton(true);
+              }}
+              className="w-full h-[56px] bg-[#F4847A] rounded-full text-white font-semibold text-[18px]"
+            >
+              Flag team as missing
+            </button>
           </div>
+          {/* Missing Team Modal Overlay */}
+          {expandReportButton && (
+            <ReportTeamModal
+              currentTeam={currentTeam}
+              setExpandReportButton={setExpandReportButton}
+              handleTeamReport={handleTeamReport}
+              modalStage={modalStage}
+              setModalStage={setModalStage}
+              errorMsg={errorMsg}
+            />
+          )}
         </div>
 
         {/* Next up */}
@@ -158,41 +147,7 @@ export default function UnscoredPage({
         )}
 
         {/* Expanded Map Modal */}
-        {mapExpanded && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-[22px] py-[48px]"
-            onClick={() => setMapExpanded(false)}
-          >
-            <div
-              className="bg-white rounded-[24px] overflow-hidden w-full max-w-[430px] h-[calc(100dvh-96px)] relative flex flex-col"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setMapExpanded(false)}
-                className="absolute top-[16px] right-[16px] z-10 bg-black text-white rounded-full w-[36px] h-[36px] flex items-center justify-center text-lg font-bold"
-                aria-label="Close map"
-              >
-                <Image src={closeIcon} alt="Close" width={15} height={15} />
-              </button>
-
-              <div className="h-full w-full overflow-auto px-[16px] py-[16px]">
-                <div className="flex h-full min-w-full items-center justify-center rotate-90 m-[150px]">
-                  <Image
-                    src={venueMap}
-                    alt="first floor map"
-                    className="h-full w-auto max-w-none select-none"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <ReportModal
-          modalStage={modalStage}
-          setModalStage={setModalStage}
-          errorMsg={errorMsg}
-        />
+        {mapExpanded && <ExpandedMapModal setMapExpanded={setMapExpanded} />}
       </div>
     </>
   );
