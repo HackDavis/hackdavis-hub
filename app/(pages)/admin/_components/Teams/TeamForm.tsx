@@ -69,7 +69,8 @@ export default function TeamForm({
         },
         {
           field: 'tableNumber',
-          validation: Number.isFinite,
+          validation: (tableNumber: any) =>
+            typeof tableNumber === 'string' && tableNumber.trim().length > 0,
         },
         {
           field: 'name',
@@ -147,9 +148,9 @@ export default function TeamForm({
         required
       />
       <ShortInput
-        type="number"
+        type="text"
         label="table number"
-        value={!isNaN(data.tableNumber) ? data.tableNumber : null}
+        value={data.tableNumber ?? ''}
         updateValue={(newTableNumber) =>
           updateField('tableNumber', newTableNumber)
         }
