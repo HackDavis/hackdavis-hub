@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import JudgeSingleInviteForm from '../_components/JudgeInvites/JudgeSingleInviteForm';
 import JudgeBulkInviteForm from '../_components/JudgeInvites/JudgeBulkInviteForm';
 import MentorInvitesPanel from '../_components/MentorInvites/MentorInvitesPanel';
@@ -40,6 +41,13 @@ export default function InvitesPage() {
               Send a HackDavis Hub invite to a single judge by entering their
               details below.
             </p>
+            <p className="text-sm text-red-500">
+              Note: This template includes Judge Orientation materials. Navigate{' '}
+              <Link href="/admin/emergency-invites" className="underline">
+                here
+              </Link>{' '}
+              for one-time invites.
+            </p>
             <JudgeSingleInviteForm />
           </section>
 
@@ -53,6 +61,13 @@ export default function InvitesPage() {
                 First Name, Last Name, Email
               </span>{' '}
               to send Hub invites to multiple judges at once.
+            </p>
+            <p className="text-sm text-red-500">
+              Note: This template includes Judge Orientation materials. Navigate{' '}
+              <Link href="/admin/emergency-invites" className="underline">
+                here
+              </Link>{' '}
+              for one-time invites.
             </p>
             <JudgeBulkInviteForm />
           </section>
