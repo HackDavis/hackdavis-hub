@@ -161,7 +161,7 @@ export async function updateTeamWithJudges(
     }
 
     const deleteSubmissionResList = await Promise.all(
-      deleteList.map((judge_id) => removeJudgeFromTeam(judge_id, team_id))
+      deleteList.map((judge_id) => removeJudgeFromTeam(team_id, judge_id))
     );
     if (!deleteSubmissionResList.every((res: any) => res.ok)) {
       throw new Error(

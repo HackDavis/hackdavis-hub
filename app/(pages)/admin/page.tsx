@@ -15,7 +15,7 @@ const action_links = [
   },
   {
     href: '/admin/score',
-    body: 'Score and Shortlist',
+    body: 'Shortlisted Teams',
   },
   {
     href: '/admin/panels',
@@ -27,20 +27,20 @@ const action_links = [
   },
   {
     href: '/admin/emergency-invites',
-    body: 'Emergency Invites (hackers & judges)',
+    body: 'One-Time Invites',
   },
   {
     href: '/admin/randomize-projects',
     body: 'Randomize Projects',
   },
   {
-    href: '/admin/announcements',
-    body: 'Announcements',
-  },
-  {
     href: '/admin/hackbot',
     body: 'HackBot Knowledge',
   },
+  // {
+  //   href: '/admin/announcements',
+  //   body: 'Announcements',
+  // },
 ];
 
 const data_links = [

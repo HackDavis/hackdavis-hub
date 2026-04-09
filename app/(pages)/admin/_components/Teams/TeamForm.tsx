@@ -42,14 +42,24 @@ export default function TeamForm({
     judges.body.map((judge: any) => [judge._id, judge])
   );
 
-  if (data?._id) {
-    data.judges = data.judges.map((judge: any) => {
-      return judgeMap[judge._id];
-    });
-  }
+  const normalizeJudges = (incomingJudges: any[] = []) =>
+    incomingJudges
+      .map((judge: any) => {
+        const judgeId = typeof judge === 'string' ? judge : judge?._id;
+        if (!judgeId) return null;
+        return judgeMap[judgeId] ?? null;
+      })
+      .filter((judge): judge is User => Boolean(judge));
+
+  const normalizedJudges = normalizeJudges(data?.judges ?? []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formData: any = {
+      ...data,
+      judges: normalizeJudges(data?.judges ?? []),
+    };
 
     try {
       const verificationList = [
@@ -59,7 +69,8 @@ export default function TeamForm({
         },
         {
           field: 'tableNumber',
-          validation: Number.isFinite,
+          validation: (tableNumber: any) =>
+            typeof tableNumber === 'string' && tableNumber.trim().length > 0,
         },
         {
           field: 'name',
@@ -85,7 +96,7 @@ export default function TeamForm({
       ];
 
       verificationList.forEach(({ field, validation }) => {
-        if (!validation(data?.[field])) {
+        if (!validation(formData?.[field])) {
           throw new Error(`Form field ${field} failed validation.`);
         }
       });
@@ -95,7 +106,7 @@ export default function TeamForm({
       return;
     }
 
-    const { _id, submissions: _, judges, ...body } = data;
+    const { _id, submissions: _, judges, ...body } = formData;
 
     let team_id = _id;
     if (!team_id) {
@@ -137,9 +148,9 @@ export default function TeamForm({
         required
       />
       <ShortInput
-        type="number"
+        type="text"
         label="table number"
-        value={!isNaN(data.tableNumber) ? data.tableNumber : null}
+        value={data.tableNumber ?? ''}
         updateValue={(newTableNumber) =>
           updateField('tableNumber', newTableNumber)
         }
@@ -176,7 +187,7 @@ export default function TeamForm({
       />
       <ListInput
         label="judges"
-        value={data.judges}
+        value={normalizedJudges}
         direction="column"
         updateValue={(value: any) => updateField('judges', value)}
         itemRenderer={({ key, item, deleteItem, shiftUp, shiftDown }) => {
