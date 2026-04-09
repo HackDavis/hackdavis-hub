@@ -76,6 +76,9 @@ export default function MentorInvitesPanel() {
             Send a Tito invite to a single mentor by entering their details
             below.
           </p>
+          <p className="text-sm text-red-500">
+            Note: This template includes Mentor Orientation materials.
+          </p>
           <MentorSingleInviteForm rsvpLists={rsvpLists} releases={releases} />
         </div>
       ) : (
@@ -86,6 +89,9 @@ export default function MentorInvitesPanel() {
               First Name, Last Name, Email
             </span>{' '}
             to send Tito invites to multiple mentors at once.
+          </p>
+          <p className="text-sm text-red-500">
+            Note: This template includes Mentor Orientation materials.
           </p>
           <MentorBulkInviteForm rsvpLists={rsvpLists} releases={releases} />
         </div>
