@@ -1,7 +1,7 @@
 import { stepCountIs } from 'ai';
 
 export function getModelConfig() {
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  const model = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
   const configuredMaxTokens = parseInt(
     process.env.OPENAI_MAX_TOKENS || '600',
     10
