@@ -8,10 +8,10 @@ import arrow from '@public/hackers/starter-kit/blackArrow.svg';
 
 export default function TeamBuilding() {
   return (
-    <section className="px-[120px] py-[120px] bg-[#FAFAFF]">
+    <section className="px-4 md:px-[120px] py-20 md:py-[120px] bg-[#FAFAFF]">
       {/* Header */}
       <div className="flex flex-col gap-2">
-        <p className="text-xs tracking-[0.15em] uppercase text-[#00000066] font-normal">
+        <p className="text-[1rem] tracking-[0.15em] uppercase text-[#969699] font-normal">
           Team Building
         </p>
 
@@ -27,7 +27,7 @@ export default function TeamBuilding() {
       </div>
 
       {/* Event Card */}
-      <div className="mt-[60px] px-8 py-6 rounded-[12px] bg-[#FFE2D5] flex items-center justify-between">
+      <div className="mt-[40px] md:mt-[60px] px-8 py-6 rounded-[12px] bg-[#FFE2D5] flex items-center justify-between">
         <div className="flex flex-col gap-[40px] w-full">
           <div>
             <p className="font-normal text-[1.25rem] text-[#52230C]">
@@ -62,7 +62,7 @@ export default function TeamBuilding() {
       </div>
 
       {/* Illustration + Discord CTA */}
-      <div className="my-[200px] flex justify-between gap-[100px]">
+      <div className="mt-[127px] mb-[160px] md:mt-0 md:mb-0 md:my-[200px] flex flex-col md:flex-row justify-between md:gap-[100px]">
         <div className="relative mx-auto flex min-w-[420px] max-w-[520px] items-center justify-center overflow-hidden rounded-[26px] bg-transparent aspect-[1.1]">
           <Image
             src={teamMixer}
@@ -72,12 +72,12 @@ export default function TeamBuilding() {
         </div>
 
         <div className="text-[1rem]">
-          <p className="text-[1rem] tracking-[0.15em] uppercase text-[#00000066] font-medium">
+          <p className="text-[1rem] tracking-[0.15em] uppercase text-[#969699] font-medium">
             Missed the event?
           </p>
 
           <p className="mt-3 text-[#000000A6]">
-            No worries! Jump into our Discord and head to the{' '}
+            No worries! Jump into our Discord and head to the
             <span className="text-base font-medium text-[#3a3a3a]">
               #team-formation
             </span>
@@ -85,7 +85,7 @@ export default function TeamBuilding() {
             looking for a teammate.
           </p>
 
-          <div className="mt-5 rounded-[12px] bg-[#EDEDF5] px-[28px] py-[18px] text-[1rem]">
+          <div className="mt-3 md:mt-5 rounded-[12px] bg-[#EDEDF5] px-[28px] py-[18px] text-[1rem]">
             <em>Pro-tip</em>: You can switch teams anytime before the final
             submission deadline.
           </div>
@@ -100,9 +100,9 @@ export default function TeamBuilding() {
       </div>
 
       {/* Guiding Questions */}
-      <div className="flex flex-col gap-[60px]">
+      <div className="flex flex-col gap-[40px] md:gap-[60px]">
         <div className="flex flex-col gap-3">
-          <p className="text-[1rem] uppercase text-[#00000066] font-normal">
+          <p className="text-[1rem] uppercase text-[#969699] font-normal">
             Guiding questions to find the right team
           </p>
 
@@ -119,11 +119,11 @@ export default function TeamBuilding() {
           ].map(({ n, q }) => (
             <div
               key={n}
-              className="flex flex-col gap-3 border-l-2 border-[#0000001a] pl-3"
+              className="flex flex-col gap-3 border-l-2 border-[#E1E1E5] pl-3"
             >
-              <span className="text-[1rem] text-[#00000066]">{n}</span>
+              <span className="text-[1rem] text-[#585859]">{n}</span>
 
-              <p className="text-[1rem] text-[#00000066]">{q}</p>
+              <p className="text-[1rem] text-[#585859]">{q}</p>
             </div>
           ))}
         </div>
