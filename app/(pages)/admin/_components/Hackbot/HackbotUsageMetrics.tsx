@@ -11,6 +11,7 @@ const PERIODS: { value: UsagePeriod; label: string }[] = [
   { value: '24h', label: 'Last 24 h' },
   { value: '7d', label: 'Last 7 days' },
   { value: '30d', label: 'Last 30 days' },
+  { value: 'all', label: 'All time' },
 ];
 
 function fmt(n: number): string {
@@ -21,13 +22,14 @@ function fmt(n: number): string {
 
 export default function HackbotUsageMetrics() {
   const [period, setPeriod] = useState<UsagePeriod>('24h');
+  const [modelFilter, setModelFilter] = useState<string>('all');
   const [metrics, setMetrics] = useState<UsageMetrics | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const load = useCallback(async (p: UsagePeriod) => {
+  const load = useCallback(async (p: UsagePeriod, m: string) => {
     setLoading(true);
     try {
-      setMetrics(await getUsageMetrics(p));
+      setMetrics(await getUsageMetrics(p, m));
     } catch (err) {
       console.error('Failed to load metrics:', err);
       setMetrics(null);
@@ -37,8 +39,8 @@ export default function HackbotUsageMetrics() {
   }, []);
 
   useEffect(() => {
-    void load(period);
-  }, [period, load]);
+    void load(period, modelFilter);
+  }, [period, modelFilter, load]);
 
   const uncachedTokens = metrics
     ? metrics.totalPromptTokens - metrics.totalCachedTokens
@@ -48,9 +50,26 @@ export default function HackbotUsageMetrics() {
   return (
     <section className="border border-gray-200 rounded-lg overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3 bg-gray-50 border-b border-gray-200">
-        <h2 className="text-sm font-semibold text-gray-700">Usage Metrics</h2>
-        <div className="flex gap-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-5 py-3 bg-gray-50 border-b border-gray-200">
+        <div className="flex items-center gap-4">
+          <h2 className="text-sm font-semibold text-gray-700">Usage Metrics</h2>
+          {metrics && metrics.modelsCount.length > 0 && (
+            <select
+              value={modelFilter}
+              onChange={(e) => setModelFilter(e.target.value)}
+              className="text-xs border text-gray-600 border-gray-300 rounded-md px-2 py-1 pr-6 bg-white focus:outline-none focus:ring-1 focus:ring-[#005271] disabled:opacity-50"
+              disabled={loading}
+            >
+              <option value="all">All Models</option>
+              {metrics.modelsCount.map((mc) => (
+                <option key={mc.model} value={mc.model}>
+                  {mc.model} ({fmt(mc.count)})
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+        <div className="flex gap-1 shrink-0">
           {PERIODS.map(({ value, label }) => (
             <button
               key={value}
