@@ -1,4 +1,4 @@
-import StarterKitSlide from '@pages/(hackers)/_components/StarterKit2025/StarterKitSlide';
+import StarterKitSlide from '../../StarterKitSlide';
 import styles from './Clarifications.module.scss';
 
 export default function Clarifications() {

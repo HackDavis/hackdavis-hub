@@ -4,8 +4,8 @@ import Image from 'next/image';
 import ProjectInfoAccordion, {
   AccordionItemInt,
 } from '../ProjectInfoAccordion/ProjectInfoAccordion';
-import ResourceHelp from '../../StarterKit2025/Resources/ResourceHelp';
-import StarterKitSlide from '../../StarterKit2025/StarterKitSlide';
+import ResourceHelp from './SubmissionSteps/ResourceHelp';
+import StarterKitSlide from './StarterKitSlide';
 import SubmissionTips from './SubmissionSteps/DevpostSubmission/SubmissionTips';
 import Clarifications from './SubmissionSteps/SubmissionClarification/Clarifications';
 

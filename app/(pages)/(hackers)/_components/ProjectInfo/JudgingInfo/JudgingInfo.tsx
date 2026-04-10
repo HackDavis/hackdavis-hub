@@ -8,8 +8,8 @@ import ImportantAnnouncement from './JudgingSteps/ImportantAnnouncement/Importan
 import DemoTime from './JudgingSteps/DemoTime/DemoTime';
 import Break from './JudgingSteps/Break/Break';
 import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
-import ResourceHelp from '../../StarterKit2025/Resources/ResourceHelp';
-import StarterKitSlide from '../../StarterKit2025/StarterKitSlide';
+import ResourceHelp from '../SubmissionInfo/SubmissionSteps/ResourceHelp';
+import StarterKitSlide from '../SubmissionInfo/StarterKitSlide';
 import styles from './JudgingInfo.module.scss';
 
 const accordionItems: AccordionItemInt[] = [
