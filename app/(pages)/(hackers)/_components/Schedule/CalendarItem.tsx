@@ -12,6 +12,8 @@ interface CalendarItemProps {
   event: Event & { originalType?: string };
   attendeeCount?: number;
   inPersonalSchedule?: boolean;
+  hideAddButton?: boolean;
+  disableAddButton?: boolean;
   onAddToSchedule?: () => void;
   onRemoveFromSchedule?: () => void;
   isRecommended?: boolean;
@@ -27,6 +29,8 @@ export function CalendarItem({
   event,
   attendeeCount,
   inPersonalSchedule = false,
+  hideAddButton = false,
+  disableAddButton = false,
   tags,
   host,
   onAddToSchedule,
@@ -40,6 +44,9 @@ export function CalendarItem({
     ? normalizedType
     : 'GENERAL';
   const eventStyle = SCHEDULE_EVENT_STYLES[displayType];
+  const actionIconPath = inPersonalSchedule
+    ? '/icons/check.svg'
+    : '/icons/plus.svg';
 
   // Handle different time display scenarios
   const timeDisplay = formatScheduleTimeRange(
@@ -132,47 +139,46 @@ export function CalendarItem({
               </div>
             )}
 
-            <div className="flex flex-col gap-2 items-end sm:w-auto ml-auto">
-              <Button
-                onClick={
-                  inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
-                }
-                className="w-auto h-auto px-9 py-4 rounded-3xl cursor-pointer relative shrink-0 hover:brightness-[97%] hover:saturate-[140%]"
-                style={{
-                  backgroundColor:
-                    eventStyle.addButtonColor || 'rgba(0, 0, 0, 0)',
-                  color: eventStyle.textColor,
-                }}
-                variant="ghost"
-              >
-                <p className="font-semibold relative text-[14px] z-10 inline-flex items-center gap-2">
-                  <span
-                    aria-hidden
-                    className="inline-block w-4 h-4"
-                    style={{
-                      backgroundColor: 'currentColor',
-                      WebkitMaskImage: `url(${
-                        inPersonalSchedule
-                          ? '/icons/check.svg'
-                          : '/icons/plus.svg'
-                      })`,
-                      WebkitMaskRepeat: 'no-repeat',
-                      WebkitMaskPosition: 'center',
-                      WebkitMaskSize: 'contain',
-                      maskImage: `url(${
-                        inPersonalSchedule
-                          ? '/icons/check.svg'
-                          : '/icons/plus.svg'
-                      })`,
-                      maskRepeat: 'no-repeat',
-                      maskPosition: 'center',
-                      maskSize: 'contain',
-                    }}
-                  />
-                  {inPersonalSchedule ? 'Added' : 'Add'}
-                </p>
-              </Button>
-            </div>
+            {!hideAddButton && (
+              <div className="flex flex-col gap-2 items-end sm:w-auto ml-auto">
+                <Button
+                  onClick={
+                    inPersonalSchedule ? onRemoveFromSchedule : onAddToSchedule
+                  }
+                  disabled={disableAddButton}
+                  className={`w-auto h-auto px-9 py-4 rounded-3xl relative shrink-0 ${
+                    disableAddButton
+                      ? 'cursor-not-allowed opacity-60'
+                      : 'cursor-pointer hover:brightness-[97%] hover:saturate-[140%]'
+                  }`}
+                  style={{
+                    backgroundColor:
+                      eventStyle.addButtonColor || 'rgba(0, 0, 0, 0)',
+                    color: eventStyle.textColor,
+                  }}
+                  variant="ghost"
+                >
+                  <p className="font-semibold relative text-[14px] z-10 inline-flex items-center gap-2">
+                    <span
+                      aria-hidden
+                      className="inline-block w-4 h-4"
+                      style={{
+                        backgroundColor: 'currentColor',
+                        WebkitMaskImage: `url(${actionIconPath})`,
+                        WebkitMaskRepeat: 'no-repeat',
+                        WebkitMaskPosition: 'center',
+                        WebkitMaskSize: 'contain',
+                        maskImage: `url(${actionIconPath})`,
+                        maskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        maskSize: 'contain',
+                      }}
+                    />
+                    {inPersonalSchedule ? 'Added' : 'Add'}
+                  </p>
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -1,10 +1,17 @@
 import Image from 'next/image';
+import type Event from '@typeDefs/event';
 import teamMixer from '@public/hackers/starter-kit/teamBuilding/teamMixer.svg';
 import mascots from '@public/hackers/starter-kit/teamBuilding/mascotSquad.svg';
-import cow from '@public/hackers/starter-kit/teamBuilding/cowIcon.svg';
-import locationIcon from '@public/hackers/starter-kit/teamBuilding/locationIcon.svg';
-import add from '@public/hackers/starter-kit/teamBuilding/add.svg';
 import arrow from '@public/hackers/starter-kit/teamBuilding/blackArrow.svg';
+import { CalendarItem } from '@pages/(hackers)/_components/Schedule/CalendarItem';
+
+const TEAM_MIXER_EVENT: Event = {
+  name: 'Team Mixer',
+  type: 'ACTIVITIES',
+  location: 'ARC Ballroom B',
+  start_time: new Date('2026-04-10T11:00:00'),
+  end_time: new Date('2026-04-10T12:00:00'),
+};
 
 export default function TeamBuilding() {
   return (
@@ -28,38 +35,12 @@ export default function TeamBuilding() {
         </div>
 
         {/* Event Card */}
-        <div className="mt-[40px] md:mt-[60px] px-8 py-6 rounded-[12px] bg-[#FFE2D5] flex items-center justify-between">
-          <div className="flex flex-col gap-[40px] w-full">
-            <div>
-              <p className="font-normal text-[1.25rem] text-[#52230C]">
-                Team Mixer
-              </p>
-
-              <div className="flex items-center gap-4 text-[0.875rem] text-[#52230C] mt-1">
-                <span>11:00 – 12:00 PM</span>
-
-                <span className="flex items-center gap-1 text-[#52230C]">
-                  <Image src={locationIcon} alt="Location Icon" />
-                  ARC Ballroom B
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-[8px] w-full">
-              <div className="flex -space-x-2">
-                <Image src={cow} alt="Cow" />
-              </div>
-
-              <span className="text-[0.875rem] text-[#52230C]">
-                15 Hackers are attending
-              </span>
-
-              <button className="flex ml-auto gap-1 bg-[#FFD5C2] text-[#52230C] text-[0.875rem] font-semibold px-6 py-3 rounded-full">
-                <Image src={add} alt="Add Sign" />
-                Add
-              </button>
-            </div>
-          </div>
+        <div className="mt-[40px] md:mt-[60px]">
+          <CalendarItem
+            event={TEAM_MIXER_EVENT}
+            attendeeCount={15}
+            hideAddButton
+          />
         </div>
       </div>
 
