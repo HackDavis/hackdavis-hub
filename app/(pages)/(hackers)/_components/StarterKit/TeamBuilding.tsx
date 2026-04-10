@@ -2,8 +2,8 @@ import Image from 'next/image';
 import type Event from '@typeDefs/event';
 import teamMixer from '@public/hackers/starter-kit/teamBuilding/teamMixer.svg';
 import mascots from '@public/hackers/starter-kit/teamBuilding/mascotSquad.svg';
-import arrow from '@public/hackers/starter-kit/teamBuilding/blackArrow.svg';
 import { CalendarItem } from '@pages/(hackers)/_components/Schedule/CalendarItem';
+import { MentorCalloutCard } from '@pages/(hackers)/_components/StarterKit/Ideate/IdeateMentorCallout';
 
 const TEAM_MIXER_EVENT: Event = {
   name: 'Team Mixer',
@@ -45,51 +45,39 @@ export default function TeamBuilding() {
       </div>
 
       {/* Illustration + Discord CTA */}
-      <div className="flex flex-col md:flex-row justify-between gap-[7%]">
-        <div className="relative mx-auto flex min-w-[420px] max-w-[520px] items-center justify-center overflow-hidden rounded-[26px] bg-transparent aspect-[1.1]">
-          <Image
-            src={teamMixer}
-            alt="Team building illustration"
-            className="h-auto w-full object-contain"
-          />
-        </div>
-
-        <div className="text-[1rem]">
-          <p className="text-[1rem] tracking-[0.15em] uppercase text-[#969699] font-medium">
-            Missed the event?
-          </p>
-
-          <p className="mt-3 text-[#000000A6]">
-            No worries! Jump into our Discord and head to the
+      <MentorCalloutCard
+        imageSrc={teamMixer}
+        imageAlt="Team building illustration"
+        eyebrow="Missed the event?"
+        description={
+          <>
+            No worries! Jump into our Discord and head to the{' '}
             <span className="text-base font-medium text-[#3a3a3a]">
               #team-formation
-            </span>
+            </span>{' '}
             channel. Introduce yourself, share your skills, and see who&apos;s
             looking for a teammate.
-          </p>
-
-          <div className="mt-3 md:mt-5 rounded-[12px] bg-[#EDEDF5] px-[28px] py-[18px] text-[1rem]">
-            <em>Pro-tip</em>: You can switch teams anytime before the final
-            submission deadline.
-          </div>
-
-          <a
-            href="#"
-            className="mt-8 flex items-center gap-1 text-lg uppercase font-semibold text-[#1F1F1F] underline underline-offset-4 w-fit"
-          >
-            <Image src={arrow} alt="Arrow Icon" /> GO TO DISCORD
-          </a>
-        </div>
-      </div>
+          </>
+        }
+        note={
+          <>
+            <span className="italic">Pro-tip</span>: You can switch teams
+            anytime before the final submission deadline.
+          </>
+        }
+        noteBgClassName="bg-[#F3F3FC]"
+        ctaHref="https://discord.gg/wc6QQEc"
+        ctaLabel="Go to Discord"
+      />
 
       {/* Guiding Questions */}
       <div className="flex flex-col gap-[40px] md:gap-[60px]">
         <div className="flex flex-col gap-3">
-          <p className="text-[1rem] uppercase text-[#969699] font-normal">
+          <p className="text-[1rem] uppercase text-[#00000066] font-normal font-dm-mono">
             Guiding questions to find the right team
           </p>
 
-          <h2 className="text-[1.6rem] font-semibold text-[#3a3a3a]">
+          <h2 className="text-[1.25rem] font-semibold text-[#3a3a3a]">
             Ask yourself questions like…
           </h2>
         </div>
@@ -104,9 +92,11 @@ export default function TeamBuilding() {
               key={n}
               className="flex flex-col gap-3 border-l-2 border-[#E1E1E5] pl-3"
             >
-              <span className="text-[1rem] text-[#585859]">{n}</span>
+              <span className="text-[1rem] text-[#000000a6] font-dm-mono">
+                {n}
+              </span>
 
-              <p className="text-[1rem] text-[#585859]">{q}</p>
+              <p className="text-[1rem] text-[#000000a6] font-dm-mono">{q}</p>
             </div>
           ))}
         </div>
