@@ -7,7 +7,7 @@ import { MentorCalloutCard } from '@pages/(hackers)/_components/StarterKit/Ideat
 
 const TEAM_MIXER_EVENT: Event = {
   name: 'Team Mixer',
-  type: 'WORKSHOPS',
+  type: 'ACTIVITIES',
   location: 'ARC Ballroom B',
   start_time: new Date('2026-04-10T11:00:00'),
   end_time: new Date('2026-04-10T12:00:00'),
