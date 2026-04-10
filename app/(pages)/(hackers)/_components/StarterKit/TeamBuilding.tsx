@@ -5,12 +5,13 @@ import mascots from '@public/hackers/starter-kit/teamBuilding/mascotSquad.svg';
 import { CalendarItem } from '@pages/(hackers)/_components/Schedule/CalendarItem';
 import { MentorCalloutCard } from '@pages/(hackers)/_components/StarterKit/Ideate/IdeateMentorCallout';
 
+// TODO: Update with actual Team Mixer details
 const TEAM_MIXER_EVENT: Event = {
   name: 'Team Mixer',
   type: 'ACTIVITIES',
   location: 'ARC Ballroom B',
-  start_time: new Date('2026-04-10T11:00:00'),
-  end_time: new Date('2026-04-10T12:00:00'),
+  start_time: new Date('2026-05-09T11:00:00'),
+  end_time: new Date('2026-05-09T12:00:00'),
 };
 
 export default function TeamBuilding() {
