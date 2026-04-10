@@ -7,7 +7,7 @@ import { MentorCalloutCard } from '@pages/(hackers)/_components/StarterKit/Ideat
 
 const TEAM_MIXER_EVENT: Event = {
   name: 'Team Mixer',
-  type: 'ACTIVITIES',
+  type: 'WORKSHOPS',
   location: 'ARC Ballroom B',
   start_time: new Date('2026-04-10T11:00:00'),
   end_time: new Date('2026-04-10T12:00:00'),
@@ -23,9 +23,9 @@ export default function TeamBuilding() {
             Team Building
           </p>
 
-          <h1 className="text-[1.75rem] md:text-[2rem] font-semibold text-[#1F1F1F] leading-normal">
+          <h2 className="text-[1.75rem] md:text-[2rem] font-semibold text-[#1F1F1F] leading-normal">
             Find your squad.
-          </h1>
+          </h2>
 
           <p className="text-[1rem] text-[#000000a6] font-normal">
             Building with friends (new or old) is what makes hackathons
@@ -85,7 +85,7 @@ export default function TeamBuilding() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           {[
             { n: '01.', q: 'Is this person passionate about the same tracks?' },
-            { n: '02.', q: "Does this person's skills compliment mine?" },
+            { n: '02.', q: "Does this person's skills complement mine?" },
             { n: '03.', q: 'Can I see myself working with them for 24 hours?' },
           ].map(({ n, q }) => (
             <div

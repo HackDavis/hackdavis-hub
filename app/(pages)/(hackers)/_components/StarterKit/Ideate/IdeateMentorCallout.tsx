@@ -14,7 +14,6 @@ interface MentorCalloutCardProps {
   noteBgClassName?: string;
   ctaHref: string;
   ctaLabel: string;
-  contentClassName?: string;
 }
 
 export function MentorCalloutCard({
@@ -26,7 +25,6 @@ export function MentorCalloutCard({
   noteBgClassName,
   ctaHref,
   ctaLabel,
-  contentClassName,
 }: MentorCalloutCardProps) {
   return (
     <IdeateSection eyebrow=" " title="">
@@ -38,11 +36,7 @@ export function MentorCalloutCard({
             className="w-full h-auto object-contain"
           />
         </div>
-        <div
-          className={`order-2 flex flex-col gap-6 md:order-2 ${
-            contentClassName || ''
-          }`}
-        >
+        <div className="order-2 flex flex-col gap-6 md:order-2">
           <p className="text-[1rem] font-dm-mono uppercase text-[#00000066]">
             {eyebrow}
           </p>
