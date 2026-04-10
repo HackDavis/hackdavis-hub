@@ -55,6 +55,16 @@ export default function Teams() {
     (team) => team.reports?.length > 0 && team.active
   );
 
+  const handleEditTeam = (team: TeamWithJudges) => {
+    setData(team);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const listContainer = document.querySelector(
+      `.${styles.teams_list}`
+    ) as HTMLElement | null;
+    listContainer?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.page_title}>Team Manager</h1>
@@ -127,7 +137,10 @@ export default function Teams() {
                 className={styles.team_card_wrapper}
                 key={team._id}
               >
-                <TeamCard team={team} onEditClick={() => setData(team)} />
+                <TeamCard
+                  team={team}
+                  onEditClick={() => handleEditTeam(team)}
+                />
               </div>
             ))}
         </div>
