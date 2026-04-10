@@ -8,35 +8,35 @@ import { Responsibilities } from './Responsibilities';
 import { Tips } from './Tips';
 
 // Icons
-import writing_sign from '@public/hackers/starter-kit/designResources/tabler_writing-sign.svg';
-import presentation_analytics from '@public/hackers/starter-kit/designResources/tabler_presentation-analytics.svg';
-import sparkles from '@public/hackers/starter-kit/designResources/tabler_sparkles-2.svg';
-import figma from '@public/hackers/starter-kit/designResources/tabler_brand-figma.svg';
+import writing_sign from '@public/hackers/starter-kit/resources/tabler_writing-sign.svg';
+import presentation_analytics from '@public/hackers/starter-kit/resources/tabler_presentation-analytics.svg';
+import sparkles from '@public/hackers/starter-kit/resources/tabler_sparkles-2.svg';
+import figma from '@public/hackers/starter-kit/resources/tabler_brand-figma.svg';
 
-import github from '@public/hackers/starter-kit/designResources/tabler_brand-github.svg';
-import desktop_code from '@public/hackers/starter-kit/designResources/tabler_device-desktop-code.svg';
-import message_chatbot from '@public/hackers/starter-kit/designResources/tabler_message-chatbot.svg';
+import github from '@public/hackers/starter-kit/resources/tabler_brand-github.svg';
+import desktop_code from '@public/hackers/starter-kit/resources/tabler_device-desktop-code.svg';
+import message_chatbot from '@public/hackers/starter-kit/resources/tabler_message-chatbot.svg';
 
-import text_size from '@public/hackers/starter-kit/designResources/tabler_text-size.svg';
-import image_in_picture from '@public/hackers/starter-kit/designResources/tabler_image-in-picture.svg';
-import shape from '@public/hackers/starter-kit/designResources/tabler_shape.svg';
+import text_size from '@public/hackers/starter-kit/resources/tabler_text-size.svg';
+import image_in_picture from '@public/hackers/starter-kit/resources/tabler_image-in-picture.svg';
+import shape from '@public/hackers/starter-kit/resources/tabler_shape.svg';
 
 // Big Images
-import designer_responsibilities_image from '@public/hackers/starter-kit/designResources/designer_responsibilities.svg';
-import developer_responsibilities_image from '@public/hackers/starter-kit/designResources/developer_responsibilities.svg';
-import designer_tips1_image from '@public/hackers/starter-kit/designResources/designer_tips1.svg';
-import designer_tips2_image from '@public/hackers/starter-kit/designResources/designer_tips2.svg';
+import designer_responsibilities_image from '@public/hackers/starter-kit/resources/designer_responsibilities.svg';
+import developer_responsibilities_image from '@public/hackers/starter-kit/resources/developer_responsibilities.svg';
+import designer_tips1_image from '@public/hackers/starter-kit/resources/designer_tips1.svg';
+import designer_tips2_image from '@public/hackers/starter-kit/resources/designer_tips2.svg';
 
-import figma_beginners_image from '@public/hackers/starter-kit/designResources/figma_beginners.svg';
-import figma_shapes from '@public/hackers/starter-kit/designResources/figma_shapes.svg';
-import mongodb from '@public/hackers/starter-kit/designResources/mongodb.svg';
-import auth0 from '@public/hackers/starter-kit/designResources/auth0.svg';
+import figma_beginners_image from '@public/hackers/starter-kit/resources/figma_beginners.svg';
+import figma_shapes from '@public/hackers/starter-kit/resources/figma_shapes.svg';
+import mongodb from '@public/hackers/starter-kit/resources/mongodb.svg';
+import auth0 from '@public/hackers/starter-kit/resources/auth0.svg';
 
-import timeline from '@public/hackers/starter-kit/designResources/timeline.svg';
+import timeline from '@public/hackers/starter-kit/resources/timeline.svg';
 
 // Extra
-//import scroll_bar1 from '@public/hackers/starter-kit/designResources/scroll_bar1.svg';
-//import divider from '@public/hackers/starter-kit/designResources/divider.svg';
+//import scroll_bar1 from '@public/hackers/starter-kit/resources/scroll_bar1.svg';
+//import divider from '@public/hackers/starter-kit/resources/divider.svg';
 
 export default function DesignDevResources() {
   // Data

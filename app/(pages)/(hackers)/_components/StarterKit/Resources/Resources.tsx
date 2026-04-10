@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
 
-import arrow from '@public/hackers/starter-kit/designResources/arrow_icon.svg';
+import arrow from '@public/hackers/starter-kit/resources/arrow_icon.svg';
 
 interface Link {
   type: string;
