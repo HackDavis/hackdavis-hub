@@ -201,7 +201,10 @@ export default function HackbotKnowledgeProvider({
         await loadDocs();
         setBanner({ kind: 'success', message: 'Document deleted.' });
       } else {
-        setBanner({ kind: 'error', message: res.error ?? 'Failed to delete document.' });
+        setBanner({
+          kind: 'error',
+          message: res.error ?? 'Failed to delete document.',
+        });
       }
     });
   }

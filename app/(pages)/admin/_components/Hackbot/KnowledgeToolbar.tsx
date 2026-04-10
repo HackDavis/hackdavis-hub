@@ -38,14 +38,23 @@ export default function KnowledgeToolbar() {
         }
         for (let i = 0; i < parsed.length; i++) {
           const d = parsed[i];
-          if (!d.title || !d.content || typeof d.title !== 'string' || typeof d.content !== 'string') {
+          if (
+            !d.title ||
+            !d.content ||
+            typeof d.title !== 'string' ||
+            typeof d.content !== 'string'
+          ) {
             setImportError(
-              `Item ${i + 1} has missing or invalid (non-string) fields "title" or "content".`
+              `Item ${
+                i + 1
+              } has missing or invalid (non-string) fields "title" or "content".`
             );
             return;
           }
           if (!d.type || typeof d.type !== 'string') {
-            setImportError(`Item ${i + 1} is missing or has invalid "type" field.`);
+            setImportError(
+              `Item ${i + 1} is missing or has invalid "type" field.`
+            );
             return;
           }
         }
