@@ -130,6 +130,7 @@ export default function HackbotKnowledgeProvider({
 
   async function loadDocs() {
     setLoading(true);
+    setLoadError('');
     const res = await getKnowledgeDocs();
     if (res.ok) {
       setDocs(res.docs);
@@ -194,10 +195,14 @@ export default function HackbotKnowledgeProvider({
     if (!confirm('Delete this document? This cannot be undone.')) return;
     setDeletingId(id);
     startDeleting(async () => {
-      await deleteKnowledgeDoc(id);
+      const res = await deleteKnowledgeDoc(id);
       setDeletingId(null);
-      await loadDocs();
-      setBanner({ kind: 'success', message: 'Document deleted.' });
+      if (res.ok) {
+        await loadDocs();
+        setBanner({ kind: 'success', message: 'Document deleted.' });
+      } else {
+        setBanner({ kind: 'error', message: res.error ?? 'Failed to delete document.' });
+      }
     });
   }
 

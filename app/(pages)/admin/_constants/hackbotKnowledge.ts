@@ -7,6 +7,7 @@ export const DOC_TYPES: HackDocType[] = [
   'faq',
   'general',
   'track',
+  'event',
 ];
 
 export const TYPE_LABELS: Record<HackDocType, string> = {

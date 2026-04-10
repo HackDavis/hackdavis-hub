@@ -28,6 +28,9 @@ export default function HackbotUsageMetrics() {
     setLoading(true);
     try {
       setMetrics(await getUsageMetrics(p));
+    } catch (err) {
+      console.error('Failed to load metrics:', err);
+      setMetrics(null);
     } finally {
       setLoading(false);
     }
