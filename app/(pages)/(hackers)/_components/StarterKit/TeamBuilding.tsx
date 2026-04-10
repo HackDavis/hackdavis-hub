@@ -1,68 +1,70 @@
 import Image from 'next/image';
-import teamMixer from '@public/hackers/starter-kit/teamMixer.svg';
-import mascots from '@public/hackers/starter-kit/mascotSquad.svg';
-import cow from '@public/hackers/starter-kit/cowIcon.svg';
-import locationIcon from '@public/hackers/starter-kit/locationIcon.svg';
-import add from '@public/hackers/starter-kit/add.svg';
-import arrow from '@public/hackers/starter-kit/blackArrow.svg';
+import teamMixer from '@public/hackers/starter-kit/teamBuilding/teamMixer.svg';
+import mascots from '@public/hackers/starter-kit/teamBuilding/mascotSquad.svg';
+import cow from '@public/hackers/starter-kit/teamBuilding/cowIcon.svg';
+import locationIcon from '@public/hackers/starter-kit/teamBuilding/locationIcon.svg';
+import add from '@public/hackers/starter-kit/teamBuilding/add.svg';
+import arrow from '@public/hackers/starter-kit/teamBuilding/blackArrow.svg';
 
 export default function TeamBuilding() {
   return (
-    <section className="px-4 md:px-[120px] py-20 md:py-[120px] bg-[#FAFAFF]">
+    <section className="flex flex-col py-[7%] px-[4%] bg-[#FAFAFF] gap-[112px] md:gap-[144px]">
       {/* Header */}
-      <div className="flex flex-col gap-2">
-        <p className="text-[1rem] tracking-[0.15em] uppercase text-[#969699] font-normal">
-          Team Building
-        </p>
+      <div>
+        <div className="flex flex-col gap-2">
+          <p className="text-[1rem] uppercase text-[#00000066] font-normal font-dm-mono">
+            Team Building
+          </p>
 
-        <h1 className="text-[2rem] font-semibold text-[#1F1F1F] leading-normal">
-          Find your squad.
-        </h1>
+          <h1 className="text-[1.75rem] md:text-[2rem] font-semibold text-[#1F1F1F] leading-normal">
+            Find your squad.
+          </h1>
 
-        <p className="text-[1rem] text-[rgba(0, 0, 0, 0.65)] font-normal">
-          Building with friends (new or old) is what makes hackathons memorable.
-          Looking for a crew? Join us for our in-person Mixer to meet potential
-          teammates and brainstorm ideas.
-        </p>
-      </div>
+          <p className="text-[1rem] text-[#000000a6] font-normal">
+            Building with friends (new or old) is what makes hackathons
+            memorable. Looking for a crew? Join us for our in-person Mixer to
+            meet potential teammates and brainstorm ideas.
+          </p>
+        </div>
 
-      {/* Event Card */}
-      <div className="mt-[40px] md:mt-[60px] px-8 py-6 rounded-[12px] bg-[#FFE2D5] flex items-center justify-between">
-        <div className="flex flex-col gap-[40px] w-full">
-          <div>
-            <p className="font-normal text-[1.25rem] text-[#52230C]">
-              Team Mixer
-            </p>
+        {/* Event Card */}
+        <div className="mt-[40px] md:mt-[60px] px-8 py-6 rounded-[12px] bg-[#FFE2D5] flex items-center justify-between">
+          <div className="flex flex-col gap-[40px] w-full">
+            <div>
+              <p className="font-normal text-[1.25rem] text-[#52230C]">
+                Team Mixer
+              </p>
 
-            <div className="flex items-center gap-4 text-[0.875rem] text-[#52230C] mt-1">
-              <span>11:00 – 12:00 PM</span>
+              <div className="flex items-center gap-4 text-[0.875rem] text-[#52230C] mt-1">
+                <span>11:00 – 12:00 PM</span>
 
-              <span className="flex items-center gap-1 text-[#52230C]">
-                <Image src={locationIcon} alt="Location Icon" />
-                ARC Ballroom B
+                <span className="flex items-center gap-1 text-[#52230C]">
+                  <Image src={locationIcon} alt="Location Icon" />
+                  ARC Ballroom B
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-[8px] w-full">
+              <div className="flex -space-x-2">
+                <Image src={cow} alt="Cow" />
+              </div>
+
+              <span className="text-[0.875rem] text-[#52230C]">
+                15 Hackers are attending
               </span>
+
+              <button className="flex ml-auto gap-1 bg-[#FFD5C2] text-[#52230C] text-[0.875rem] font-semibold px-6 py-3 rounded-full">
+                <Image src={add} alt="Add Sign" />
+                Add
+              </button>
             </div>
-          </div>
-
-          <div className="flex items-center gap-[8px] w-full">
-            <div className="flex -space-x-2">
-              <Image src={cow} alt="Cow" />
-            </div>
-
-            <span className="text-[0.875rem] text-[#52230C]">
-              15 Hackers are attending
-            </span>
-
-            <button className="flex ml-auto gap-1 bg-[#FFD5C2] text-[#52230C] text-[0.875rem] font-semibold px-6 py-3 rounded-full">
-              <Image src={add} alt="Add Sign" />
-              Add
-            </button>
           </div>
         </div>
       </div>
 
       {/* Illustration + Discord CTA */}
-      <div className="mt-[127px] mb-[160px] md:mt-0 md:mb-0 md:my-[200px] flex flex-col md:flex-row justify-between md:gap-[100px]">
+      <div className="flex flex-col md:flex-row justify-between gap-[7%]">
         <div className="relative mx-auto flex min-w-[420px] max-w-[520px] items-center justify-center overflow-hidden rounded-[26px] bg-transparent aspect-[1.1]">
           <Image
             src={teamMixer}

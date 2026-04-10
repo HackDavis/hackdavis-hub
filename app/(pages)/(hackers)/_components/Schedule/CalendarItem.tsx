@@ -49,27 +49,14 @@ export function CalendarItem({
 
   return (
     <div
-      className={`w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[24px] lg:px-[40px] lg:py-[32px] mb-[8px] flex ${
-        displayType === 'ACTIVITIES' ? 'flex-row' : 'flex-col justify-center'
-      }`}
+      className="w-full py-[24px] flex-shrink-0 rounded-[16px] px-[20px] 2xs:px-[38px] 2xs:py-[24px] lg:px-[40px] lg:py-[32px] mb-[8px] flex flex-col justify-center"
       style={{
         backgroundColor: eventStyle.bgColor,
         color: eventStyle.textColor,
       }}
     >
-      <div
-        className={`flex items-start justify-between sm:items-center gap-[40px] md:gap-[60px] relative ${
-          displayType === 'ACTIVITIES'
-            ? 'w-full flex-col sm:flex-row'
-            : 'flex-col'
-        }`}
-      >
-        <div
-          className={`flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6 ${
-            // top
-            displayType !== 'ACTIVITIES' ? 'w-full' : ''
-          }`}
-        >
+      <div className="flex items-start justify-between sm:items-center gap-[40px] relative flex-col">
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6 w-full">
           <div className="w-full sm:w-auto">
             <h2 className="font-metropolis text-[18px] md:text-[20px] font-semibold tracking-[0.72px] mb-1 text-balance">
               {name}
@@ -123,13 +110,8 @@ export function CalendarItem({
           )}
         </div>
         {displayType !== 'GENERAL' && displayType !== 'MEALS' && (
-          <div
-            className={`flex flex-row justify-between items-center gap-2 sm:gap-6 w-full ${
-              //bottom
-              displayType !== 'ACTIVITIES' ? '' : 'sm:w-auto'
-            }`}
-          >
-            {displayType === 'WORKSHOPS' && (
+          <div className="flex flex-row justify-between items-center gap-2 sm:gap-6 w-full">
+            {(displayType === 'WORKSHOPS' || displayType === 'ACTIVITIES') && (
               <div
                 className={`flex gap-2 items-center w-full sm:w-auto ${
                   attendeeCount && attendeeCount > 0
