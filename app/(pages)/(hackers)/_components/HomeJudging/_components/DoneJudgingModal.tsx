@@ -42,7 +42,7 @@ export default function DoneJudgingModal({ onClose }: DoneJudgingModalProps) {
           2026. Please wait until <b>Closing Ceremony</b> for judging results!
           In the meantime, put in your vote for{' '}
           <a
-            href=""
+            href="https://forms.gle/ubHnU9hv69GDZQfd8"
             target="_blank"
             rel="noopener noreferrer"
             className="underline font-bold"
