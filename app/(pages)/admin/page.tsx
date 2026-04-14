@@ -33,6 +33,10 @@ const action_links = [
     href: '/admin/randomize-projects',
     body: 'Randomize Projects',
   },
+  {
+    href: '/admin/hackbot',
+    body: 'HackBot Knowledge',
+  },
   // {
   //   href: '/admin/announcements',
   //   body: 'Announcements',
