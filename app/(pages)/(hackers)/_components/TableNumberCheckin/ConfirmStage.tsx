@@ -60,6 +60,8 @@ export default function ConfirmStage({
 
             <Link
               href="https://drive.google.com/file/d/1yODQ-CS-GdypBDxIT_OgOO4XMHqwalq9/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[14px] font-normal text-[#5E5E65] border-b border-[#5E5E65] leading-none tracking-wide md:text-[18px]"
             >
               MAP LINK
