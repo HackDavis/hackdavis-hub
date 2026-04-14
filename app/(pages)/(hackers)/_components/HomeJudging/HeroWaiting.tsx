@@ -84,7 +84,7 @@ const waitingCards: WaitingCardProps[] = [
     imageAlt: 'Practice your pitch',
     title: 'Practice your pitch',
     description:
-      'Your pitch is more important than you think! These 5 minutes determine how much your work in the last 24 hours are worth.',
+      'Your pitch is more important than you think! These 6 minutes determine how much your work in the last 24 hours are worth.',
   },
   {
     imageSrc: hackersChoiceAsset,
