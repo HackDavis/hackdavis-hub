@@ -27,6 +27,8 @@ function WaitingCard({
   linkLabel,
   href,
 }: WaitingCardProps) {
+  const isExternalLink = Boolean(href && /^(https?:)?\/\//.test(href));
+
   const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (!href?.startsWith('#')) {
       return;
@@ -57,12 +59,14 @@ function WaitingCard({
         {linkLabel && href ? (
           <Link
             href={href}
+            target={isExternalLink ? '_blank' : undefined}
+            rel={isExternalLink ? 'noopener noreferrer' : undefined}
             onClick={handleLinkClick}
             className="mt-auto mb-[1vw] inline-flex items-center gap-2 pt-7 font-dm-mono text-[1rem] text-[#3F3F3F] underline decoration-[1px] underline-offset-4 md:text-[1.125rem]"
           >
             <Image
               src={arrowRight}
-              alt=""
+              alt="right arrow icon"
               aria-hidden="true"
               className="h-4 w-4"
             />
@@ -89,7 +93,7 @@ const waitingCards: WaitingCardProps[] = [
     description:
       'While you wait, put in your choice for your favorite hack!  You are allowed 1 vote, and you cannot vote for your own team. ',
     linkLabel: 'HACKERS CHOICE AWARD',
-    href: '#hackers-choice-awards',
+    href: 'https://forms.gle/ubHnU9hv69GDZQfd8',
   },
   {
     imageSrc: judgingAsset,

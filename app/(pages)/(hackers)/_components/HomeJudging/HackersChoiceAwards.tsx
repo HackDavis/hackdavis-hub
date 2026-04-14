@@ -21,7 +21,8 @@ export default function HackerChoiceAward() {
             title="Hackers Choice Awards"
             long_text="While you wait, put in your choice for your favorite hack! You are allowed 1 vote, and you cannot vote for your own team. "
             button_text="VIEW PROJECTS"
-            button_link=""
+            button_link="https://hackdavis-2026.devpost.com/project-gallery"
+            is_external={true}
             button_color="D1F76E"
             text_color="1A3819"
           />
