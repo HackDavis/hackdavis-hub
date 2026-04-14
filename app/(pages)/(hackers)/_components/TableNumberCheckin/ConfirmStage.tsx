@@ -59,7 +59,7 @@ export default function ConfirmStage({
             </div>
 
             <Link
-              href="#"
+              href="https://drive.google.com/file/d/1yODQ-CS-GdypBDxIT_OgOO4XMHqwalq9/view?usp=sharing"
               className="text-[14px] font-normal text-[#5E5E65] border-b border-[#5E5E65] leading-none tracking-wide md:text-[18px]"
             >
               MAP LINK
