@@ -65,7 +65,7 @@ export default function HeroJudging() {
           >
             TABLE {tableNumber ?? '---'}
           </div>
-          <div className="relative w-full mt-2">
+          <div className="relative w-full mt-2 max-h-[46vh] overflow-y-auto pr-1">
             <JudgeBanners
               showPreviousJudges={showPreviousJudges}
               onAllScored={handleAllScored}
