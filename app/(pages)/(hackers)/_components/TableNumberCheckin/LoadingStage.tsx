@@ -11,7 +11,7 @@ interface LoadingStageProps {
 export default function LoadingStage({ teamNumber }: LoadingStageProps) {
   return (
     <div
-      className="flex flex-col p-[20px] gap-4 rounded-[20px] bg-[#FAFAFF]
+      className="flex flex-col p-[20px] h-[569px] gap-10 rounded-[20px] bg-[#FAFAFF]
                     md:flex-row md:items-center md:justify-between md:p-[60px]"
     >
       {/* RIGHT column — first in DOM so image appears at top on mobile, right on desktop */}
