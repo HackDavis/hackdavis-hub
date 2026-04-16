@@ -83,6 +83,9 @@ MONGO_DB_HOST=127.0.0.1:27017/<DBNAME>
 Replace `<USERNAME>, <PASSWORD>, <DBNAME>` with the actual username, password, and database names. (Don't include the angle brackets).
 
 ### 4.4 Seeding your Database
+Run `npx migrate-mongo up` to apply migrations (updates Validation).
+
+### 4.5 Seeding your Database
 Please refer to the Hackdavis Notion.
 
 # Getting Started
