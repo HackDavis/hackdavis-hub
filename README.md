@@ -1,11 +1,12 @@
-# Some Notes Before You Begin
+# HackDavis Hub
+HackDavis Hub is a web application that centralizes resources for hackers and judges for HackDavis's annual collegiate hackathon.
+
+## Some Notes Before You Begin
 Make sure you follow all of the steps in "Setting Up Your Development Environment" before attempting to even look at the code. 
 
 Also, read through the docs linked under the "Contributing to the Codebase" section so you can get a feel for the tools and syntax we will be going through.
 
-# Setting Up Your Development Environment
-
-Before you begin, create a folder for this team wherever you want to store any GitHub repos that you will be cloning on your device in this cohort. You can name it include, platform_team, or literally anything you want to. If you choose to name it "include", **do not use a '#' in your folder name**, it'll cause a bunch of problems later.
+# ⚙️ Setting Up Your Development Environment
 
 ## 1. NODE.JS
 
@@ -13,7 +14,7 @@ Node.js is a runtime environment that is used to run Javascript code. It comes w
 
 1. Download the Node.js installer for your OS from https://nodejs.org/en/download/current
 2. Run the installer and follow the installation wizard.
-3. Once the installation finishes, open a terminal on VSCode and type _node --version_ to verify your node installation. Type _npm --v_ to verify your npm installation.
+3. Once the installation finishes, open a terminal on VSCode and type ```node --version``` to verify your node installation. Type ```npm --v``` to verify your npm installation.
 
    a. If you get an error saying that node or npm is not recognized as a command, try restarting VSCode to see if the issue fixes itself. (If you had VSCode opened while installing Node, this should fix it.)
    b. If the problem persists, search for _Environment variables_ in your Start menu. Click on _Edit your Environment variables_. Click on _Environment Variables_ in the new window that opens up.
@@ -48,11 +49,11 @@ ESLint is an extension that ensures that your code adheres to certain code style
 
 ## 4. MongoDB
 ### 4.1 Installation
-To get MongoDB set up locally, you'll need to install MongoDB on your machine along with mongosh (the command line tool for MongoDB). Then, you'll also need MongoDBCompass to view your database with a new interface. **The goal is to have mongosh working, once that works, other parts of the tutorial are optional.**
+To get MongoDB set up locally, you'll need to install MongoDB on your machine along with mongosh (the command line tool for MongoDB). Then, you'll also need MongoDB Compass to view your database with a new interface. **The goal is to have mongosh working, once that works, other parts of the tutorial are optional.**
 - Install MongoDB on Mac: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
 - Install MongoDB on Windows: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/
 - https://www.mongodb.com/products/tools/compass
-- 
+
 ### 4.2 Database and User setup
 Inside MongoDB Compass, connect to the client and create a new database using the plus sign near the Database part of the sidebar menu. For collections, just name it anything since it will be deleted later.
 
@@ -81,17 +82,15 @@ MONGO_DB_HOST=127.0.0.1:27017/<DBNAME>
 ```
 Replace `<USERNAME>, <PASSWORD>, <DBNAME>` with the actual username, password, and database names. (Don't include the angle brackets).
 
-### 4.4 Testing & Initialization
-Do this after the getting started portion (right after this section)
+# Getting Started
 
-Assuming you have already run `npm install` and `npm run dev` is producing a web page for you to view, you can continue with this part. You will be running the `npm run init` command which will **wipe your database** and initialize it with a `pokemon` and `trainers` collection. In the future, you can edit this initialization in the `_data/collections.json` file. If this works, then your MongoDB Compass (after a refresh) should display that your database has these two collections. This means everything is working!
+Install all packages in package.json file:
 
-## Getting Started
-Set up:
+```bash
+npm install
+```
 
-`npm install` for package installations. This will install all packages specified in the package.json file.
-
-Run the development server:
+Run the development server on http://localhost:3000/
 
 ```bash
 npm run dev
@@ -180,5 +179,32 @@ You'll see that there are folders defined with square brackets around the name s
 - https://restfulapi.net/http-methods/
 - https://medium.com/@nadinCodeHat/rest-api-naming-conventions-and-best-practices-1c4e781eb6a5
 
-**Note**
-If your app only has a frontend, feel free to delete the `(api)` folder. 
+## Contributors
+### ⭐ 2026 Team
+- Michelle Yeoh
+- Sandeep Reehal
+- Haylie Tan
+- Afifah Hadi
+- Alex Marasigan
+- Jack Zheng
+
+### ⭐ 2025 Team
+- Jay Jain
+- Win Cheng
+- Austin Shih
+- Brandon Wong
+- Daniel Kim
+- Haylie Tan
+- Michelle Yeoh
+- Sandeep Reehal
+
+### ⭐ 2024 Team
+- Trishna Sharma
+- Sauvikesh Lal
+- Win Cheng
+- Brandon Wong
+- Austin Shih
+- Jay Jain
+
+# Documentation
+Please refer to the HackDavis Notion.
