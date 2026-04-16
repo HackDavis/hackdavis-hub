@@ -17,6 +17,9 @@ interface Card {
 }
 
 function Card({ card }: { card: Card }) {
+  const mapLink =
+    'https://drive.google.com/file/d/1yODQ-CS-GdypBDxIT_OgOO4XMHqwalq9/view?usp=sharing';
+
   return (
     <div className="relative min-w-full h-[420px] bg-white rounded-[20px] overflow-hidden snap-start">
       <Image src={card.src} alt={card.title} className="w-full" />
@@ -26,10 +29,15 @@ function Card({ card }: { card: Card }) {
 
         {card.linkMap ? (
           <div className="absolute bottom-[32px] left-[24px] z-10 flex flex-row items-center gap-[4px] pt-[60px]">
-            <Image src={arrow} alt="arrow" className="" />
-            <button className="text-[#3F3F3F] text-[16px] bg-transparent shadow-none underline">
+            <Image src={arrow} alt="arrow" />
+            <a
+              href={mapLink}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#3F3F3F] text-[16px] bg-transparent shadow-none underline"
+            >
               MAP
-            </button>
+            </a>
           </div>
         ) : null}
       </div>
