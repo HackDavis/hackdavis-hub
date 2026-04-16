@@ -11,7 +11,7 @@ import User from '@typeDefs/user';
 import BarChart from '../_components/BarChart/BarChart';
 import TeamForm from '../_components/Teams/TeamForm';
 import useFormContext from '../_hooks/useFormContext';
-import { restoreMissingTeamForAllJudges } from '@actions/teams/reportMissingTeam';
+import { restoreMissingTeam } from '@actions/teams/reportMissingTeam';
 import styles from './page.module.scss';
 
 interface TeamWithJudges extends Team {
@@ -77,7 +77,7 @@ export default function Teams() {
 
     try {
       setRestoringTeamId(team_id);
-      const restoreRes = await restoreMissingTeamForAllJudges(team_id);
+      const restoreRes = await restoreMissingTeam(team_id);
       if (!restoreRes.ok) {
         throw new Error(restoreRes.error ?? 'Failed to restore missing team.');
       }

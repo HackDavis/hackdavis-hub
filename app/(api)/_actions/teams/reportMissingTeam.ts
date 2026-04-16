@@ -94,13 +94,15 @@ export async function reportMissingProject(judge_id: string, team_id: string) {
   }
 }
 
-export async function restoreMissingTeamForAllJudges(team_id: string) {
+export async function restoreMissingTeam(team_id: string) {
   try {
+    // This action mutates queue order for multiple judges, so keep it admin-only.
     const session = await auth();
     if (!session || session.user.role !== 'admin') {
       throw new NotAuthenticatedError('Access Denied.');
     }
 
+    // Pull current team state so we can restore based on authoritative reports.
     const teamRes = JSON.parse(JSON.stringify(await GetTeam(team_id)));
     if (!teamRes.ok || !teamRes.body) {
       throw new Error(teamRes.error ?? `Team with id: ${team_id} not found.`);
@@ -108,6 +110,7 @@ export async function restoreMissingTeamForAllJudges(team_id: string) {
 
     const team = teamRes.body as Team;
     const reports = team.reports ?? [];
+    // Reports can contain duplicates; restore logic should touch each judge once.
     const reporterJudgeIds = [
       ...new Set(
         reports
@@ -118,6 +121,7 @@ export async function restoreMissingTeamForAllJudges(team_id: string) {
     const requeueResults: { judge_id: string; reorderResCount: number }[] = [];
 
     for (const judge_id of reporterJudgeIds) {
+      // Rebuild this judge's queue from submissions so we can safely reindex.
       const submissionsRes = JSON.parse(
         JSON.stringify(
           await GetManySubmissions({
@@ -134,6 +138,7 @@ export async function restoreMissingTeamForAllJudges(team_id: string) {
         throw new Error(submissionsRes.error ?? '');
       }
 
+      // Convert ids to strings for reliable equality checks and update calls.
       const submissions: Submission[] = (submissionsRes.body ?? []).map(
         (sub: Submission) => ({
           ...sub,
@@ -146,12 +151,14 @@ export async function restoreMissingTeamForAllJudges(team_id: string) {
         (sub: Submission) => sub.team_id === team_id
       );
 
-      // Only restore queue for judges where this team is effectively "missing":
-      // reported + has an existing submission + unscored.
+      // Only move queue position if this judge actually has an unscored target
+      // submission. This preserves existing judged work and avoids requeueing
+      // judges where the team is not actionable anymore.
       if (!targetSubmission || targetSubmission.is_scored) {
         continue;
       }
 
+      // "Restore" policy: put team at end, then normalize all queue positions.
       targetSubmission.queuePosition =
         Math.max(
           ...submissions.map((sub: Submission) => sub.queuePosition ?? 0)
@@ -189,6 +196,7 @@ export async function restoreMissingTeamForAllJudges(team_id: string) {
       });
     }
 
+    // Once queues are restored, mark team present and clear all missing reports.
     const updateTeamRes = await UpdateTeam(team_id, {
       $set: {
         active: true,
