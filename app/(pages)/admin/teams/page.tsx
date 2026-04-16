@@ -11,6 +11,7 @@ import User from '@typeDefs/user';
 import BarChart from '../_components/BarChart/BarChart';
 import TeamForm from '../_components/Teams/TeamForm';
 import useFormContext from '../_hooks/useFormContext';
+import { restoreMissingTeamForAllJudges } from '@actions/teams/reportMissingTeam';
 import styles from './page.module.scss';
 
 interface TeamWithJudges extends Team {
@@ -23,6 +24,7 @@ export default function Teams() {
   const { data, setData } = useFormContext();
   const isEditing = Boolean(data._id);
   const [reportedTeamsDisplay, setReportedTeamsDisplay] = useState(false);
+  const [restoringTeamId, setRestoringTeamId] = useState<string | null>(null);
 
   if (loading) {
     return 'loading...';
@@ -63,6 +65,23 @@ export default function Teams() {
       `.${styles.teams_list}`
     ) as HTMLElement | null;
     listContainer?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleRestoreMissingTeam = async (team_id: string) => {
+    if (!team_id) return;
+    try {
+      setRestoringTeamId(team_id);
+      const restoreRes = await restoreMissingTeamForAllJudges(team_id);
+      if (!restoreRes.ok) {
+        throw new Error(restoreRes.error ?? 'Failed to restore missing team.');
+      }
+      await getTeams();
+    } catch (e) {
+      const error = e as Error;
+      alert(error.message);
+    } finally {
+      setRestoringTeamId(null);
+    }
   };
 
   return (
@@ -140,6 +159,8 @@ export default function Teams() {
                 <TeamCard
                   team={team}
                   onEditClick={() => handleEditTeam(team)}
+                  onRestoreMissingTeam={handleRestoreMissingTeam}
+                  restoringMissingTeam={restoringTeamId === team._id}
                 />
               </div>
             ))}
