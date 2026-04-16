@@ -85,9 +85,26 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       has_checked_in: true,
     });
   } else if (collectionName === 'teams') {
+    const row = faker.helpers.arrayElement([
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+    ]);
+    const maxSeat = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].includes(row)
+      ? 13
+      : 15;
     data = Array.from({ length: numDocuments }, () => ({
       teamNumber: faker.number.int({ min: 1, max: 200 }),
-      tableNumber: faker.number.int({ min: 1, max: 200 }),
+      tableNumber: `${row}${faker.number.int({ min: 1, max: maxSeat })}`,
       name: faker.lorem.word(),
       tracks: faker.helpers.arrayElements(
         tracks,
