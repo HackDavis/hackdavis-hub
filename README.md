@@ -87,6 +87,8 @@ Please refer to the Hackdavis Notion.
 
 # Getting Started
 
+Add your local `.env` file (refer to Slack secrets).
+
 Install all packages in package.json file:
 
 ```bash
