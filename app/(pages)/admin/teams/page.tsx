@@ -69,6 +69,12 @@ export default function Teams() {
 
   const handleRestoreMissingTeam = async (team_id: string) => {
     if (!team_id) return;
+
+    const confirmed = window.confirm(
+      "Are you sure this team is present now? This will restore the team to all missing judges' queues and clear missing reports."
+    );
+    if (!confirmed) return;
+
     try {
       setRestoringTeamId(team_id);
       const restoreRes = await restoreMissingTeamForAllJudges(team_id);

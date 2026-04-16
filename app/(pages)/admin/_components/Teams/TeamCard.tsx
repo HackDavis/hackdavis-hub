@@ -68,13 +68,21 @@ export default function TeamCard({
           ))}
         </div>
         {editable && reports.length > 0 && (
-          <button
-            className={styles.restore_button}
-            onClick={() => onRestoreMissingTeam(team._id ?? '')}
-            disabled={restoringMissingTeam}
-          >
-            {restoringMissingTeam ? 'Restoring...' : 'Restore to All Queues'}
-          </button>
+          <>
+            <button
+              className={styles.restore_button}
+              onClick={() => onRestoreMissingTeam(team._id ?? '')}
+              disabled={restoringMissingTeam}
+            >
+              {restoringMissingTeam
+                ? 'Marking as present...'
+                : 'Mark Team as Present'}
+            </button>
+            <p className={styles.restore_helper_text}>
+              Restores this team to all missing judges&apos; queues and clears
+              missing reports.
+            </p>
+          </>
         )}
       </div>
     </div>
