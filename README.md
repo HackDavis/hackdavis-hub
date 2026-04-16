@@ -82,13 +82,13 @@ MONGO_DB_HOST=127.0.0.1:27017/<DBNAME>
 ```
 Replace `<USERNAME>, <PASSWORD>, <DBNAME>` with the actual username, password, and database names. (Don't include the angle brackets).
 
-### 4.4 Seeding your Database
-Run `npx migrate-mongo up` to apply migrations (updates Validation).
+### 4.4 Initialize Database Schema
+Run `npx migrate-mongo up` to apply migrations.
 
 ### 4.5 Seeding your Database
 Please refer to the Hackdavis Notion.
 
-# Getting Started
+# 🚀 Getting Started
 
 Add your local `.env` file (refer to Slack secrets).
 
@@ -110,7 +110,7 @@ Run a linting test:
 npm run lint
 ```
 
-# Contributing to the Codebase
+# 🌱 Contributing to the Codebase
 ## React Resources
 - https://react.dev/learn/tutorial-tic-tac-toe
 - https://react.dev/reference/react/useState
@@ -214,5 +214,5 @@ You'll see that there are folders defined with square brackets around the name s
 - Austin Shih
 - Jay Jain
 
-# Documentation
+# 📄 Documentation
 Please refer to the HackDavis Notion.
