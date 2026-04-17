@@ -2,44 +2,20 @@
 
 import { useState } from 'react';
 import { HiLocationMarker } from 'react-icons/hi';
-import { PiStarFourFill } from 'react-icons/pi';
+import { Plus, Check, X } from 'lucide-react';
 import { createUserToEvent } from '@actions/userToEvents/createUserToEvent';
 import { deleteUserToEvent } from '@actions/userToEvents/deleteUserToEvent';
 import type { HackbotEvent } from '@typeDefs/hackbot';
 
-// Matches scheduleEventStyles.ts
-const TYPE_STYLE: Record<string, { bg: string; text: string; label: string }> =
-  {
-    WORKSHOPS: { bg: '#E9FBBA', text: '#1A3819', label: 'Workshop' },
-    GENERAL: { bg: '#CCFFFE', text: '#003D3D', label: 'General' },
-    ACTIVITIES: { bg: '#FFE2D5', text: '#52230C', label: 'Activity' },
-    MEALS: { bg: '#FFE7B2', text: '#572700', label: 'Meal' },
-  };
-
-const TAG_LABEL: Record<string, string> = {
-  developer: 'Dev',
-  designer: 'Design',
-  beginner: 'Beginner',
-  pm: 'PM',
-  other: 'Other',
+// Exact colors from scheduleEventStyles.ts + derived addButtonColor for types without one
+const TYPE_STYLE: Record<string, { bg: string; text: string; btn: string }> = {
+  WORKSHOPS:  { bg: '#E9FBBA', text: '#1A3819', btn: '#D1F76E' },
+  GENERAL:    { bg: '#CCFFFE', text: '#003D3D', btn: '#9EE7E5' },
+  ACTIVITIES: { bg: '#FFE2D5', text: '#52230C', btn: '#FFD5C2' },
+  MEALS:      { bg: '#FFE7B2', text: '#572700', btn: '#FFCC66' },
 };
 
-// Only show Add button for event types that make sense to save
 const ADDABLE_TYPES = new Set(['WORKSHOPS', 'ACTIVITIES']);
-
-function maskIconStyle(src: string): React.CSSProperties {
-  return {
-    backgroundColor: 'currentColor',
-    WebkitMaskImage: `url('${src}')`,
-    WebkitMaskRepeat: 'no-repeat',
-    WebkitMaskPosition: 'center',
-    WebkitMaskSize: 'contain',
-    maskImage: `url('${src}')`,
-    maskRepeat: 'no-repeat',
-    maskPosition: 'center',
-    maskSize: 'contain',
-  };
-}
 
 export default function HackbotEventCard({
   event,
@@ -58,10 +34,7 @@ export default function HackbotEventCard({
     setAddError(false);
     try {
       if (added) {
-        const result = await deleteUserToEvent({
-          user_id: userId,
-          event_id: event.id,
-        });
+        const result = await deleteUserToEvent({ user_id: userId, event_id: event.id });
         if (!result.ok) throw new Error('Failed to remove');
         setAdded(false);
       } else {
@@ -75,150 +48,72 @@ export default function HackbotEventCard({
     setAdding(false);
   };
 
-  const style = TYPE_STYLE[event.type ?? ''];
+  const style = TYPE_STYLE[event.type ?? ''] ?? { bg: '#F5F5F5', text: '#333', btn: '#ddd' };
   const canAdd = userId && ADDABLE_TYPES.has(event.type ?? '');
 
   return (
     <div
-      className="rounded-xl border border-[#9EE7E5]/60 text-xs overflow-hidden animate-hackbot-slide-in"
-      style={{ backgroundColor: style?.bg ?? '#FAFAFF' }}
+      className="rounded-2xl overflow-hidden animate-hackbot-slide-in"
+      style={{ backgroundColor: style.bg }}
     >
-      {/* Event name — full width */}
-      <div
-        className="px-3 pt-2.5 pb-1"
-        style={{ color: style?.text ?? '#005271' }}
-      >
-        <p className="font-semibold leading-snug">{event.name}</p>
-      </div>
+      <div className="px-4 py-4 flex items-center gap-3">
+        {/* Left: all event info */}
+        <div className="flex-1 min-w-0 space-y-1.5">
+          <p className="font-bold text-base leading-tight" style={{ color: style.text }}>
+            {event.name}
+          </p>
 
-      {/* Two-column body */}
-      <div
-        className="px-3 pb-1.5 flex gap-2 min-w-0"
-        style={{ color: style?.text ?? '#003D3D' }}
-      >
-        {/* Left: datetime, location, tags */}
-        <div className="flex-1 min-w-0 space-y-1">
-          {event.start && (
-            <p className="text-xs opacity-80">
-              {event.start}
-              {event.end ? ` - ${event.end}` : ''}
+          {(event.start || event.location) && (
+            <p className="text-sm flex items-center gap-1.5 flex-wrap" style={{ color: style.text }}>
+              {event.start && (
+                <span>{event.start}{event.end ? ` - ${event.end}` : ''}</span>
+              )}
+              {event.location && (
+                <>
+                  <HiLocationMarker className="shrink-0 w-3.5 h-3.5" />
+                  <span className="truncate">{event.location}</span>
+                </>
+              )}
             </p>
           )}
-          {event.location && (
-            <p className="text-xs opacity-80 flex items-center gap-1">
-              <HiLocationMarker className="shrink-0 w-3 h-3" />
-              <span className="truncate">{event.location}</span>
-            </p>
-          )}
-          {event.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1 pt-0.5">
-              {event.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-1.5 py-0.5 rounded-full font-medium"
-                  style={{
-                    backgroundColor: style ? style.text + '15' : '#00527115',
-                    color: style?.text ?? '#005271',
-                    border: `1px solid ${style?.text ?? '#005271'}25`,
-                  }}
-                >
-                  {TAG_LABEL[tag] ?? tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
 
-        {/* Right: type badge, hosted by, recommended */}
-        <div className="shrink-0 flex flex-col items-end gap-1.5 pt-0.5">
-          {style && (
-            <span
-              className="text-xs px-1.5 py-0.5 rounded-full font-semibold uppercase tracking-wide border whitespace-nowrap"
-              style={{
-                borderColor: style.text + '40',
-                color: style.text,
-              }}
-            >
-              {style.label}
-            </span>
-          )}
           {event.host && (
             <p
-              className="text-xs opacity-60 text-right leading-tight"
-              // style={{ maxWidth: '100px' }}
+              className="text-xs font-bold uppercase tracking-widest"
+              style={{ color: style.text + 'AA' }}
             >
               {event.host}
             </p>
           )}
-          {event.isRecommended && (
-            <p
-              className="text-xs font-semibold flex items-center gap-0.5 whitespace-nowrap"
-              style={{ color: '#A07000' }}
-            >
-              <PiStarFourFill className="w-2.5 h-2.5 shrink-0" />
-              Recommended
-            </p>
-          )}
-          {canAdd && (
-            <button
-              type="button"
-              onClick={handleAdd}
-              disabled={adding}
-              className="text-xs px-2.5 py-1 rounded-full font-semibold border transition-colors disabled:cursor-default group/addbtn"
-              style={
-                added
-                  ? {
-                      backgroundColor: '#005271',
-                      color: '#fff',
-                      borderColor: '#005271',
-                    }
-                  : addError
-                  ? {
-                      backgroundColor: '#fee2e2',
-                      color: '#991b1b',
-                      borderColor: '#fca5a5',
-                    }
-                  : {
-                      backgroundColor: 'white',
-                      color: '#005271',
-                      borderColor: '#9EE7E5',
-                    }
-              }
-            >
-              {adding ? (
-                '…'
-              ) : addError ? (
-                'Retry'
-              ) : added ? (
-                <>
-                  <span className="inline-flex items-center gap-1 group-hover/addbtn:hidden">
-                    <span
-                      aria-hidden
-                      className="inline-block w-2.5 h-2.5"
-                      style={maskIconStyle('/icons/check.svg')}
-                    />
-                    Added
-                  </span>
-                  <span
-                    className="hidden group-hover/addbtn:inline-flex items-center gap-1"
-                    style={{ color: '#fca5a5' }}
-                  >
-                    Remove
-                  </span>
-                </>
-              ) : (
-                <span className="inline-flex items-center gap-1">
-                  <span
-                    aria-hidden
-                    className="inline-block w-2.5 h-2.5"
-                    style={maskIconStyle('/icons/plus.svg')}
-                  />
-                  Add
-                </span>
-              )}
-            </button>
-          )}
         </div>
+
+        {/* Right: add button pill */}
+        {canAdd && (
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={adding}
+            className="shrink-0 h-10 w-10 min-w-[2.5rem] aspect-square rounded-full flex items-center justify-center transition-all disabled:opacity-60"
+            style={
+              addError
+                ? { backgroundColor: '#fca5a5', color: '#7f1d1d' }
+                : added
+                ? { backgroundColor: style.text, color: '#fff' }
+                : { backgroundColor: style.btn, color: style.text }
+            }
+            aria-label={added ? 'Remove from schedule' : 'Add to schedule'}
+          >
+            {adding ? (
+              <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+            ) : addError ? (
+              <X className="w-4 h-4" />
+            ) : added ? (
+              <Check className="w-4 h-4" />
+            ) : (
+              <Plus className="w-4 h-4" />
+            )}
+          </button>
+        )}
       </div>
     </div>
   );
