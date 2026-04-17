@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import rightArrow from '@public/hackers/table-number-checkin/arrow-right.svg';
-import devpostNumber from '@public/hackers/table-number-checkin/Filler.svg';
+import devpostNumber from '@public/hackers/table-number-checkin/devpost.svg';
 
 interface DevpostStageProps {
   teamNumber: string;
