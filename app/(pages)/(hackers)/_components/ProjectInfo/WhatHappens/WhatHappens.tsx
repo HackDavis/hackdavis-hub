@@ -12,10 +12,18 @@ export default function WhatHappens() {
 
   // Auto-switch tab based on URL hash on mount
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === '#judging') {
+    const hash = window.location.hash.replace('#', '');
+    const JUDGING_SLUGS = new Set([
+      'judging',
+      'submission-due',
+      'team-vs-table',
+      'demo-time',
+      'break',
+      'closing-ceremony',
+    ]);
+    if (JUDGING_SLUGS.has(hash)) {
       setActiveTab('judging');
-    } else if (hash === '#submission') {
+    } else if (hash === 'submission') {
       setActiveTab('submission');
     }
   }, []);
