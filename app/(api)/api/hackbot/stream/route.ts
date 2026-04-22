@@ -44,14 +44,20 @@ function normalizeGetEventsInputForQuery(input: any, query: string): any {
 
   // For meal queries, clamp to MEALS type, suppress activities, and inject
   // a specific search term so only the relevant meal is returned.
-  if (/\b(lunch|brunch|dinner|breakfast|food|meal|eat|eating|snack)\b/.test(q)) {
-    const specificMeal =
-      /\blunch\b/.test(q) ? 'lunch' :
-      /\bbrunch\b/.test(q) ? 'brunch' :
-      /\bdinner\b/.test(q) ? 'dinner' :
-      /\bbreakfast\b/.test(q) ? 'breakfast' :
-      /\bsnack\b/.test(q) ? 'snack' :
-      null;
+  if (
+    /\b(lunch|brunch|dinner|breakfast|food|meal|eat|eating|snack)\b/.test(q)
+  ) {
+    const specificMeal = /\blunch\b/.test(q)
+      ? 'lunch'
+      : /\bbrunch\b/.test(q)
+      ? 'brunch'
+      : /\bdinner\b/.test(q)
+      ? 'dinner'
+      : /\bbreakfast\b/.test(q)
+      ? 'breakfast'
+      : /\bsnack\b/.test(q)
+      ? 'snack'
+      : null;
 
     return {
       ...input,

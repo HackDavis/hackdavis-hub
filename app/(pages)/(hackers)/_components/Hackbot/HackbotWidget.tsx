@@ -131,7 +131,13 @@ export default function HackbotWidget({
             </span>
           </span>
         )}
-        <span className="block h-16 w-16 shrink-0 animate-hackbotWiggle group-hover:[animation-play-state:paused] group-focus:[animation-play-state:paused]">
+        <span
+          className={
+            'block h-16 w-16 shrink-0 ' +
+            (!open ? 'animate-hackbotWiggle' : '') +
+            ' group-hover:[animation-play-state:paused] group-focus:[animation-play-state:paused]'
+          }
+        >
           <Image
             src="/hackers/hackbot/cow.svg"
             alt="Hacky AI"

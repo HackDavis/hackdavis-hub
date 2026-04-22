@@ -91,12 +91,19 @@ export default function HackbotInputForm({
             type="submit"
             disabled={!canSend}
             className="shrink-0 h-9 w-9 rounded-full flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-            style={{ backgroundColor: canSend ? '#D5FDFF' : '#EBEBF0', color: '#005271' }}
+            style={{
+              backgroundColor: canSend ? '#D5FDFF' : '#EBEBF0',
+              color: '#005271',
+            }}
           >
             {loading ? (
               <span className="w-3.5 h-3.5 border-2 border-[#005271] border-t-transparent rounded-full animate-spin" />
             ) : (
-              <svg viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5">
+              <svg
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="w-3.5 h-3.5"
+              >
                 <path d="M1.5 1.5l13 6.5-13 6.5V9.5l9-3-9-3V1.5z" />
               </svg>
             )}

@@ -9,10 +9,10 @@ import type { HackbotEvent } from '@typeDefs/hackbot';
 
 // Exact colors from scheduleEventStyles.ts + derived addButtonColor for types without one
 const TYPE_STYLE: Record<string, { bg: string; text: string; btn: string }> = {
-  WORKSHOPS:  { bg: '#E9FBBA', text: '#1A3819', btn: '#D1F76E' },
-  GENERAL:    { bg: '#CCFFFE', text: '#003D3D', btn: '#9EE7E5' },
+  WORKSHOPS: { bg: '#E9FBBA', text: '#1A3819', btn: '#D1F76E' },
+  GENERAL: { bg: '#CCFFFE', text: '#003D3D', btn: '#9EE7E5' },
   ACTIVITIES: { bg: '#FFE2D5', text: '#52230C', btn: '#FFD5C2' },
-  MEALS:      { bg: '#FFE7B2', text: '#572700', btn: '#FFCC66' },
+  MEALS: { bg: '#FFE7B2', text: '#572700', btn: '#FFCC66' },
 };
 
 const ADDABLE_TYPES = new Set(['WORKSHOPS', 'ACTIVITIES']);
@@ -34,7 +34,10 @@ export default function HackbotEventCard({
     setAddError(false);
     try {
       if (added) {
-        const result = await deleteUserToEvent({ user_id: userId, event_id: event.id });
+        const result = await deleteUserToEvent({
+          user_id: userId,
+          event_id: event.id,
+        });
         if (!result.ok) throw new Error('Failed to remove');
         setAdded(false);
       } else {
@@ -48,7 +51,11 @@ export default function HackbotEventCard({
     setAdding(false);
   };
 
-  const style = TYPE_STYLE[event.type ?? ''] ?? { bg: '#F5F5F5', text: '#333', btn: '#ddd' };
+  const style = TYPE_STYLE[event.type ?? ''] ?? {
+    bg: '#F5F5F5',
+    text: '#333',
+    btn: '#ddd',
+  };
   const canAdd = userId && ADDABLE_TYPES.has(event.type ?? '');
 
   return (
@@ -59,14 +66,23 @@ export default function HackbotEventCard({
       <div className="px-4 py-4 flex items-center gap-3">
         {/* Left: all event info */}
         <div className="flex-1 min-w-0 space-y-1.5">
-          <p className="font-bold text-base leading-tight" style={{ color: style.text }}>
+          <p
+            className="font-bold text-base leading-tight"
+            style={{ color: style.text }}
+          >
             {event.name}
           </p>
 
           {(event.start || event.location) && (
-            <p className="text-sm flex items-center gap-1.5 flex-wrap" style={{ color: style.text }}>
+            <p
+              className="text-sm flex items-center gap-1.5 flex-wrap"
+              style={{ color: style.text }}
+            >
               {event.start && (
-                <span>{event.start}{event.end ? ` - ${event.end}` : ''}</span>
+                <span>
+                  {event.start}
+                  {event.end ? ` - ${event.end}` : ''}
+                </span>
               )}
               {event.location && (
                 <>

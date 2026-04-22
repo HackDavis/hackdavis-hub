@@ -33,7 +33,7 @@ export const FEW_SHOT_EXAMPLES: HackbotMessage[] = [
   },
   {
     role: 'assistant',
-    content: "Let me check the schedule for meal times!",
+    content: 'Let me check the schedule for meal times!',
   },
   {
     role: 'user',

@@ -17,7 +17,11 @@ function formatTimestamp(iso: string): string {
   const d = new Date(iso);
   const day = d.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
   const time = d
-    .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+    .toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
     .replace(' ', '')
     .toUpperCase();
   return `${day} ${time}`;
@@ -76,13 +80,20 @@ export default function HackbotMessageList({
       {messages.map((m, idx) => (
         <div
           key={idx}
-          className={`flex flex-col gap-1 ${m.role === 'user' ? 'items-end' : 'items-start'}`}
+          className={`flex flex-col gap-1 ${
+            m.role === 'user' ? 'items-end' : 'items-start'
+          }`}
         >
           {/* Text bubble */}
-          {(m.content || (m.role === 'assistant' && loading && idx === messages.length - 1)) && (
+          {(m.content ||
+            (m.role === 'assistant' &&
+              loading &&
+              idx === messages.length - 1)) && (
             <div
               className={`max-w-[88%] text-sm leading-relaxed whitespace-pre-wrap ${
-                m.role === 'user' ? 'rounded-2xl rounded-br-sm px-3.5 py-2.5' : 'px-0 py-0'
+                m.role === 'user'
+                  ? 'rounded-2xl rounded-br-sm px-3.5 py-2.5'
+                  : 'px-0 py-0'
               }`}
               style={
                 m.role === 'user'
@@ -91,46 +102,63 @@ export default function HackbotMessageList({
               }
             >
               {/* Typing dots */}
-              {m.role === 'assistant' && !m.content && loading && retrying === 0 && (
-                <span className="flex items-center gap-1 py-1">
-                  {[0, 150, 300].map((delay) => (
-                    <span
-                      key={delay}
-                      className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 animate-bounce"
-                      style={{ animationDelay: `${delay}ms` }}
-                    />
-                  ))}
-                </span>
-              )}
+              {m.role === 'assistant' &&
+                !m.content &&
+                loading &&
+                retrying === 0 && (
+                  <span className="flex items-center gap-1 py-1">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </span>
+                )}
 
-              {m.content && <p><MarkdownText text={m.content} /></p>}
+              {m.content && (
+                <p>
+                  <MarkdownText text={m.content} />
+                </p>
+              )}
 
               {/* Retrying */}
-              {m.role === 'assistant' && loading && retrying > 0 && idx === messages.length - 1 && (
-                <span className="flex items-center gap-1.5">
-                  {[0, 150, 300].map((delay) => (
-                    <span
-                      key={delay}
-                      className="inline-block w-1 h-1 rounded-full bg-gray-300 animate-bounce"
-                      style={{ animationDelay: `${delay}ms` }}
-                    />
-                  ))}
-                  <span className="text-[10px] text-gray-400">Retrying ({retrying}/2)…</span>
-                </span>
-              )}
+              {m.role === 'assistant' &&
+                loading &&
+                retrying > 0 &&
+                idx === messages.length - 1 && (
+                  <span className="flex items-center gap-1.5">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1 h-1 rounded-full bg-gray-300 animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                    <span className="text-[10px] text-gray-400">
+                      Retrying ({retrying}/2)…
+                    </span>
+                  </span>
+                )}
 
               {/* Mid-stream dots */}
-              {m.role === 'assistant' && m.content && loading && toolPending && retrying === 0 && idx === messages.length - 1 && (
-                <span className="flex items-center gap-1 mt-1.5">
-                  {[0, 150, 300].map((delay) => (
-                    <span
-                      key={delay}
-                      className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 animate-bounce"
-                      style={{ animationDelay: `${delay}ms` }}
-                    />
-                  ))}
-                </span>
-              )}
+              {m.role === 'assistant' &&
+                m.content &&
+                loading &&
+                toolPending &&
+                retrying === 0 &&
+                idx === messages.length - 1 && (
+                  <span className="flex items-center gap-1 mt-1.5">
+                    {[0, 150, 300].map((delay) => (
+                      <span
+                        key={delay}
+                        className="inline-block w-1.5 h-1.5 rounded-full bg-gray-300 animate-bounce"
+                        style={{ animationDelay: `${delay}ms` }}
+                      />
+                    ))}
+                  </span>
+                )}
 
               {/* Named links */}
               {m.links && m.links.length > 0 && (
@@ -153,7 +181,6 @@ export default function HackbotMessageList({
 
               {/* Legacy URL fallback */}
               {!m.links?.length && m.url && isSafeRelativeHref(m.url) && (
-                // eslint-disable-next-line @typescript-eslint/no-deprecated
                 <a
                   href={m.url}
                   className="mt-2 inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wide underline underline-offset-2"
@@ -167,8 +194,12 @@ export default function HackbotMessageList({
           )}
 
           {/* Cards-loading dots */}
-          {m.role === 'assistant' && m.content && retrying === 0 && idx === messages.length - 1 &&
-            (m.events?.length ?? 0) === 0 && ((loading && !toolPending) || cascading) && (
+          {m.role === 'assistant' &&
+            m.content &&
+            retrying === 0 &&
+            idx === messages.length - 1 &&
+            (m.events?.length ?? 0) === 0 &&
+            ((loading && !toolPending) || cascading) && (
               <span className="flex items-center gap-1 px-1">
                 {[0, 150, 300].map((delay) => (
                   <span
