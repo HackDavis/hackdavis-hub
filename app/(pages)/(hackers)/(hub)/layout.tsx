@@ -2,6 +2,7 @@ import { auth } from '@/auth';
 import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
 import Navbar from '@components/Navbar/Navbar';
 import HackbotWidgetWrapper from '../_components/Hackbot/HackbotWidgetWrapper';
+import { HackerProfile } from '@typeDefs/hackbot';
 
 export default async function Layout({
   children,
