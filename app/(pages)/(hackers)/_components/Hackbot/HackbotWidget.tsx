@@ -73,7 +73,7 @@ export default function HackbotWidget({
               className="shrink-0 w-[4.5rem] rounded-3xl bg-white shadow-lg border border-gray-100 flex items-center justify-center text-[#003D3D]/60 hover:bg-gray-50 transition-colors"
               aria-label="Close chat"
             >
-              <RxCross1 className="w-4 h-4" />
+              <RxCross1 className="w-6 h-6" />
             </button>
           </div>
 

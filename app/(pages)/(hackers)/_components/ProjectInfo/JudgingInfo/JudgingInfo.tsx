@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import ProjectInfoAccordion, {
   AccordionItemInt,
 } from '../ProjectInfoAccordion/ProjectInfoAccordion';
@@ -11,6 +11,7 @@ import Break from './JudgingSteps/Break/Break';
 import ClosingCeremony from './JudgingSteps/ClosingCeremony/ClosingCeremony';
 import ResourceHelp from '../SubmissionInfo/SubmissionSteps/ResourceHelp';
 import StarterKitSlide from '../SubmissionInfo/StarterKitSlide';
+import useHashChange from '@hooks/useHashChange';
 import styles from './JudgingInfo.module.scss';
 
 const accordionItems: AccordionItemInt[] = [
@@ -52,20 +53,35 @@ const JUDGING_ACCORDION_SLUGS = accordionItems
 
 export default function JudgingInfo() {
   const [openId, setOpenId] = useState<string | null>(null);
+  const scrollTimeoutRef = useRef<number | undefined>(undefined);
 
-  useEffect(() => {
+  const syncFromHash = useCallback(() => {
     const hash = window.location.hash.replace('#', '');
-    if (JUDGING_ACCORDION_SLUGS.includes(hash)) {
-      setOpenId(hash);
-      // Wait for the accordion to expand, then scroll the item into view.
-      const timeout = window.setTimeout(() => {
-        document
-          .getElementById(hash)
-          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 350);
-      return () => window.clearTimeout(timeout);
+    if (!JUDGING_ACCORDION_SLUGS.includes(hash)) return;
+    setOpenId(hash);
+    if (scrollTimeoutRef.current !== undefined) {
+      window.clearTimeout(scrollTimeoutRef.current);
     }
+    // Wait for the accordion to remount/expand, then scroll into view.
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      document
+        .getElementById(hash)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 350);
   }, []);
+
+  // Run on mount to honor the initial hash.
+  useEffect(() => {
+    syncFromHash();
+    return () => {
+      if (scrollTimeoutRef.current !== undefined) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [syncFromHash]);
+
+  // Run whenever the URL hash changes (including Next.js <Link> pushState nav).
+  useHashChange(syncFromHash);
 
   return (
     <div id="judging" className={styles.container}>
@@ -74,6 +90,7 @@ export default function JudgingInfo() {
         <h4>Judging Process</h4>
       </div>
       <ProjectInfoAccordion
+        key={openId ?? 'none'}
         accordionItems={accordionItems}
         initiallyOpenId={openId}
       />

@@ -1,32 +1,60 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import SubmissionInfo from '../SubmissionInfo/SubmissionInfo';
 import JudgingInfo from '../JudgingInfo/JudgingInfo';
+import useHashChange from '@hooks/useHashChange';
 import styles from './WhatHappens.module.scss';
+
+const JUDGING_SLUGS = new Set([
+  'judging',
+  'submission-due',
+  'team-vs-table',
+  'demo-time',
+  'break',
+  'closing-ceremony',
+]);
 
 export default function WhatHappens() {
   const [activeTab, setActiveTab] = useState<'submission' | 'judging'>(
     'submission'
   );
+  const scrollTimeoutRef = useRef<number | undefined>(undefined);
 
-  // Auto-switch tab based on URL hash on mount
-  useEffect(() => {
+  const scheduleScrollTo = useCallback((id: string) => {
+    if (scrollTimeoutRef.current !== undefined) {
+      window.clearTimeout(scrollTimeoutRef.current);
+    }
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }, []);
+
+  const syncTabFromHash = useCallback(() => {
     const hash = window.location.hash.replace('#', '');
-    const JUDGING_SLUGS = new Set([
-      'judging',
-      'submission-due',
-      'team-vs-table',
-      'demo-time',
-      'break',
-      'closing-ceremony',
-    ]);
     if (JUDGING_SLUGS.has(hash)) {
       setActiveTab('judging');
+      scheduleScrollTo(hash);
     } else if (hash === 'submission') {
       setActiveTab('submission');
+      scheduleScrollTo('submission');
     }
-  }, []);
+  }, [scheduleScrollTo]);
+
+  // Run on mount to honor the initial hash.
+  useEffect(() => {
+    syncTabFromHash();
+    return () => {
+      if (scrollTimeoutRef.current !== undefined) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [syncTabFromHash]);
+
+  // Run whenever the URL hash changes (including Next.js <Link> pushState nav).
+  useHashChange(syncTabFromHash);
 
   return (
     <div id="what-happens" className={styles.container}>
