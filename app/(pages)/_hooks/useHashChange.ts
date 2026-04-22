@@ -18,9 +18,7 @@ function ensureHistoryPatched() {
   // firing synchronously there triggers "useInsertionEffect must not schedule
   // updates" when subscribers call setState).
   const fire = () => {
-    queueMicrotask(() =>
-      window.dispatchEvent(new Event('locationchange'))
-    );
+    queueMicrotask(() => window.dispatchEvent(new Event('locationchange')));
   };
 
   const origPush = window.history.pushState;
