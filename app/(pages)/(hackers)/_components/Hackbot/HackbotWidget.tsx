@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { RxCross1 } from 'react-icons/rx';
 import type { HackerProfile } from '@typeDefs/hackbot';
 import HackbotMessageList from './HackbotMessageList';
@@ -56,7 +57,7 @@ export default function HackbotWidget({
             {/* Title pill */}
             <div className="flex-1 bg-white rounded-3xl shadow-lg border border-gray-100 px-4 py-3">
               <p className="text-sm font-bold text-[#003D3D] tracking-tight">
-                HackDavis Helper
+                Hacky AI
               </p>
               <p className="text-xs text-[#005271]/70 mt-0.5">
                 {firstName
@@ -120,11 +121,26 @@ export default function HackbotWidget({
       <button
         type="button"
         onClick={toggleOpen}
-        className="h-14 w-14 rounded-full text-white shadow-lg flex items-center justify-center hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#9EE7E5] focus:ring-offset-2 transition-all"
-        style={{ backgroundColor: '#005271' }}
-        aria-label="Open HackDavis Helper chat"
+        aria-label="Open Hacky AI chat"
+        className="group flex items-center rounded-full bg-transparent transition-colors duration-300 hover:bg-gray-100/80 hover:shadow-lg focus:bg-gray-100/80 focus:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9EE7E5]"
       >
-        <span className="text-xs font-extrabold tracking-tight">HD</span>
+        {!open && (
+          <span className="max-w-0 overflow-hidden whitespace-nowrap transition-[max-width] duration-500 ease-out group-hover:max-w-[240px] group-focus:max-w-[240px]">
+            <span className="block pl-5 pr-3 text-base font-semibold text-[#3F3F3F]">
+              Ask Hacky AI
+            </span>
+          </span>
+        )}
+        <span className="block h-16 w-16 shrink-0 animate-hackbotWiggle group-hover:[animation-play-state:paused] group-focus:[animation-play-state:paused]">
+          <Image
+            src="/hackers/hackbot/cow.svg"
+            alt="Hacky AI"
+            width={56}
+            height={56}
+            priority
+            className="h-16 w-16 opacity-100"
+          />
+        </span>
       </button>
     </div>
   );

@@ -8,7 +8,8 @@
 
 @font-face {
   font-family: 'Metropolis';
-  src: url('/fonts/Metropolis/TrueType/Metropolis-ExtraLight.ttf') format('truetype');
+  src: url('/fonts/Metropolis/TrueType/Metropolis-ExtraLight.ttf')
+    format('truetype');
   font-weight: 200;
   font-style: normal;
 }
@@ -22,21 +23,24 @@
 
 @font-face {
   font-family: 'Metropolis';
-  src: url('/fonts/Metropolis/TrueType/Metropolis-Regular.ttf') format('truetype');
+  src: url('/fonts/Metropolis/TrueType/Metropolis-Regular.ttf')
+    format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Metropolis';
-  src: url('/fonts/Metropolis/TrueType/Metropolis-Medium.ttf') format('truetype');
+  src: url('/fonts/Metropolis/TrueType/Metropolis-Medium.ttf')
+    format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Metropolis';
-  src: url('/fonts/Metropolis/TrueType/Metropolis-SemiBold.ttf') format('truetype');
+  src: url('/fonts/Metropolis/TrueType/Metropolis-SemiBold.ttf')
+    format('truetype');
   font-weight: 600;
   font-style: normal;
 }
@@ -50,23 +54,27 @@
 
 :root {
   /* variables */
-  --background-primary: #173A52;
+  --background-primary: #173a52;
   --background-secondary: #005271;
-  --background-secondary-light: #136E90;
-  --background-tertiary: #E5EEF1;
+  --background-secondary-light: #136e90;
+  --background-tertiary: #e5eef1;
   --background-light: white;
-
 
   --text-light: white;
   --text-gray: #868974;
-  --text-gray-light: #E0DFD8;
+  --text-gray-light: #e0dfd8;
   --text-dark: #123041;
-  --text-error: #F95A5A;
+  --text-error: #f95a5a;
 
-  --gradient-primary: linear-gradient(284deg, #FCFCD1 9.72%, #B2E7DD 44.61%, #76D6E6 79.5%);
+  --gradient-primary: linear-gradient(
+    284deg,
+    #fcfcd1 9.72%,
+    #b2e7dd 44.61%,
+    #76d6e6 79.5%
+  );
 
-  --hd-yellow: #F6D995;
-  --hd-orange: #FFC53D;
+  --hd-yellow: #f6d995;
+  --hd-orange: #ffc53d;
 
   /* spacers */
   --tiny-spacer: 8px;
@@ -86,22 +94,22 @@
   --navbar-height: 80px;
 
   // footer
-  --footer-color: #0B2638;
+  --footer-color: #0b2638;
 
   background-color: var(--background-light);
 
-  --sand-background-dark: #E6BB7B;
-  --sand-background-light: #E5C28E;
-  --sand-texture: #DFAF67;
-  --sky-background: #4DB7D9;
+  --sand-background-dark: #e6bb7b;
+  --sand-background-light: #e5c28e;
+  --sand-texture: #dfaf67;
+  --sky-background: #4db7d9;
   --sea-background: #123041;
-  --water-background: #4DB7D9;
-  --water-edge: #2BACD5;
-  --grass-background-dark: #7FB732;
-  --grass-background-darker: #7BAD34;
-  --grass-background-light: #AFD157;
-  --card-background: #3A9FC4;
-  --sand-text-color: #58452B;
+  --water-background: #4db7d9;
+  --water-edge: #2bacd5;
+  --grass-background-dark: #7fb732;
+  --grass-background-darker: #7bad34;
+  --grass-background-light: #afd157;
+  --card-background: #3a9fc4;
+  --sand-text-color: #58452b;
 }
 
 * {
@@ -140,14 +148,14 @@ p {
 }
 
 hr {
-    border-color: var(--background-primary);
+  border-color: var(--background-primary);
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type="number"],
-input[type="datetime-local"] {
+input[type='email'],
+input[type='password'],
+input[type='text'],
+input[type='number'],
+input[type='datetime-local'] {
   padding: 10px 8px;
   border-radius: var(--b-radius);
   border: 1px solid rgba(0, 0, 0, 0.27);
@@ -156,7 +164,7 @@ input[type="datetime-local"] {
 }
 
 ::placeholder {
-  color: #A7AEB0;
+  color: #a7aeb0;
   font-size: 18px;
   font-weight: 400;
 }
@@ -236,7 +244,7 @@ input[type="datetime-local"] {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-  
+
   .custom-scrollbar {
     overflow-y: scroll; /* Ensures scrollbar is always visible */
   }
@@ -279,7 +287,6 @@ input[type="datetime-local"] {
   }
 }
 
-
 @keyframes rotateVinyl {
   100% {
     transform: translate(-50%, -51%) rotate(0deg);
@@ -292,4 +299,26 @@ input[type="datetime-local"] {
 
 .animate-rotateVinyl {
   animation: rotateVinyl 15s linear infinite;
+}
+
+@keyframes hackbotWiggle {
+  0%,
+  85%,
+  100% {
+    transform: rotate(0deg);
+  }
+  88% {
+    transform: rotate(-15deg);
+  }
+  92% {
+    transform: rotate(15deg);
+  }
+  96% {
+    transform: rotate(-8deg);
+  }
+}
+
+.animate-hackbotWiggle {
+  animation: hackbotWiggle 5s ease-in-out infinite;
+  transform-origin: center;
 }
