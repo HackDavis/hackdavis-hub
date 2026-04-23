@@ -1,14 +1,15 @@
+import next from 'next';
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface Responsibility {
-  icon: StaticImageData;
+  dark_icon: StaticImageData;
+  light_icon: StaticImageData;
   title: string;
   description: string;
 }
 
-// shi figure out that bar!!!!!!
 export function Responsibilities({
   image,
   title,
@@ -23,41 +24,80 @@ export function Responsibilities({
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const [responsibilityIndex] = useState(0);
-  const [scrollPos] = useState(50);
+  const [responsibilityIndex, setResponsibilityIndex] = useState(0);
+  const [scrollPos, setScrollPos] = useState(50);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  /*useEffect(() => {
-    const onPageScroll = () => {
-      const section = sectionRef.current.scrollTo();
-      const scrollContainer = scrollRef.current;
-      if (!section) return;
+  useEffect(() => {
+    const snapToNearest = (pos: number) => {
+      const maxHeight = scrollRef.current?.clientHeight || 50;
+      const positions = [
+        maxHeight * 1 / 8,
+        maxHeight * 3 / 8,
+        maxHeight * 21 / 32,
+        maxHeight,
+      ];
 
-      const rect = section.getBoundingClientRect();
-      const anchorY = window.innerHeight * 0.35;
-      const traveled = anchorY - rect.top;
-      const rawProgress = traveled / Math.max(rect.height, 1);
-      const progress = Math.min(Math.max(rawProgress, 0), 0.999);
-      const nextIndex = Math.floor(progress * responsibilities.length);
-      const clampedIndex = Math.max(0, Math.min(responsibilities.length - 1, nextIndex));
+      let closest = positions[0];
 
-      setResponsibilityIndex(clampedIndex);
+      for (let p of positions) {
+        if (Math.abs(pos - p) < Math.abs(pos - closest)) {
+          closest = p;
+        }
+      }
 
-      if (scrollContainer) {
-        const maxHeight = scrollContainer.clientHeight;
-        const fillProgress = responsibilities.length > 1 ? clampedIndex / (responsibilities.length - 1) : 0;
-        setScrollPos(fillProgress * maxHeight);
+      setScrollPos(closest);
+    };
+
+    const onScroll = (e: WheelEvent) => {
+      if (!scrollRef.current) return;
+
+      const midpoint = (scrollRef.current.getBoundingClientRect().top + scrollRef.current.getBoundingClientRect().bottom) / 2;
+      const minHeight = scrollRef.current?.clientHeight * 1 / 8 || 50;
+
+      // Set scroll bar to whatever the user scrolled to
+      if (midpoint > window.innerHeight / 2 - 100 && midpoint < window.innerHeight / 2 + 100) {
+        const maxHeight = scrollRef.current ? scrollRef.current.clientHeight : minHeight;
+
+        setScrollPos((prev) => {
+          const next = Math.min(Math.max(minHeight, prev + e.deltaY), maxHeight);
+
+          if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+
+          scrollTimeout.current = setTimeout(() => {
+            snapToNearest(next);
+          }, 10);
+
+          if (next !== maxHeight && next !== minHeight) {
+            e.preventDefault();
+          } 
+
+          return next;
+        });
+
       }
     };
 
-    onPageScroll();
-    window.addEventListener("scroll", onPageScroll, { passive: true });
-    //window.addEventListener("resize", onPageScroll);
+    window.addEventListener("wheel", onScroll, { passive: false });
 
     return () => {
-      window.removeEventListener("scroll", onPageScroll);
-      //window.removeEventListener("resize", onPageScroll);
-    };
-  }, );//[responsibilities.length]);*/
+      window.removeEventListener("wheel", onScroll);
+    }
+  });
+
+  useEffect(() => {
+    const maxHeight = scrollRef.current?.clientHeight || 50;
+    const positions = [maxHeight * 1 / 8, maxHeight * 3 / 8, maxHeight * 21 / 32, maxHeight];
+
+    let min = 0;
+    for (let i = 1; i < positions.length; i++) {
+      if (Math.abs(scrollPos - positions[i]) < Math.abs(scrollPos - positions[min])) {
+        min = i;
+      }
+    }
+
+    setResponsibilityIndex(min);
+  }, [scrollPos]);
 
   return (
     <div ref={sectionRef}>
@@ -92,9 +132,9 @@ export function Responsibilities({
               <div key={index} className="flex flex-col gap-[4px]">
                 <div className="flex flex-row items-center gap-[4px]">
                   <Image
-                    src={responsibility.icon}
+                    src={index == responsibilityIndex ? responsibility.dark_icon : responsibility.light_icon}
                     alt={`${responsibility.title} icon`}
-                    className=""
+                    className={index == responsibilityIndex ? `w-[32px] h-[32px]` : `w-[24px] h-[24px]`}
                   />
                   {index == responsibilityIndex ? (
                     <p className="text-[20px] text-[#1F1F1F] font-semibold">
