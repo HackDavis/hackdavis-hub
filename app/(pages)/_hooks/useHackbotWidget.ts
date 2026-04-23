@@ -20,7 +20,7 @@ import type {
 export const MAX_USER_MESSAGE_CHARS = 200;
 const STORAGE_KEY = 'hackbot_chat_history';
 const MAX_STORED_MESSAGES = 20;
-const MIN_WIDTH = 360;
+const MIN_WIDTH = 430;
 const MAX_WIDTH_FRACTION = 0.5;
 const CASCADE_DELAY_MS = 150;
 

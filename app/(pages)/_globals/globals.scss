@@ -308,17 +308,39 @@ input[type='datetime-local'] {
     transform: rotate(0deg);
   }
   88% {
-    transform: rotate(-15deg);
+    transform: rotate(-30deg);
   }
   92% {
-    transform: rotate(15deg);
+    transform: rotate(30deg);
   }
   96% {
-    transform: rotate(-8deg);
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes hackbotFabReveal {
+  0%,
+  85%,
+  100% {
+    max-width: 4rem;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  88%,
+  96% {
+    max-width: 19rem;
+    background-color: rgb(243 244 246 / 0.8);
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 }
 
 .animate-hackbotWiggle {
   animation: hackbotWiggle 5s ease-in-out infinite;
   transform-origin: center;
+}
+
+.animate-hackbotFabReveal {
+  animation: hackbotFabReveal 10s ease-in-out infinite;
 }
