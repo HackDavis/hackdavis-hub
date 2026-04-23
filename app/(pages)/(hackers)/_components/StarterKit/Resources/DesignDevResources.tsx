@@ -8,10 +8,15 @@ import { Responsibilities } from './Responsibilities';
 import { Tips } from './Tips';
 
 // Icons
-import writing_sign from '@public/hackers/starter-kit/resources/tabler_writing-sign.svg';
-import presentation_analytics from '@public/hackers/starter-kit/resources/tabler_presentation-analytics.svg';
-import sparkles from '@public/hackers/starter-kit/resources/tabler_sparkles-2.svg';
-import figma from '@public/hackers/starter-kit/resources/tabler_brand-figma.svg';
+import dark_writing_sign from '@public/hackers/starter-kit/resources/tabler_dark-writing-sign.svg';
+import dark_presentation_analytics from '@public/hackers/starter-kit/resources/tabler_dark-presentation-analytics.svg';
+import dark_sparkles from '@public/hackers/starter-kit/resources/tabler_dark-sparkles-2.svg';
+import dark_figma from '@public/hackers/starter-kit/resources/tabler_dark-brand-figma.svg';
+
+import light_writing_sign from '@public/hackers/starter-kit/resources/tabler_light-writing-sign.svg';
+import light_presentation_analytics from '@public/hackers/starter-kit/resources/tabler_light-presentation-analytics.svg';
+import light_sparkles from '@public/hackers/starter-kit/resources/tabler_light-sparkles-2.svg';
+import light_figma from '@public/hackers/starter-kit/resources/tabler_light-brand-figma.svg';
 
 import github from '@public/hackers/starter-kit/resources/tabler_brand-github.svg';
 import desktop_code from '@public/hackers/starter-kit/resources/tabler_device-desktop-code.svg';
@@ -42,25 +47,29 @@ export default function DesignDevResources() {
   // Data
   const designer_responsibilities = [
     {
-      icon: writing_sign,
+      dark_icon: dark_writing_sign,
+      light_icon: light_writing_sign,
       title: 'Research problem statement',
       description:
         'A problem statement should include: background, people affected, and the impact of the problem.',
     },
     {
-      icon: figma,
+      dark_icon: dark_figma,
+      light_icon: light_figma,
       title: 'Craft UI/UX visuals',
       description:
         'Create wireframes, mockups, and prototypes that bring the product vision to life.',
     },
     {
-      icon: sparkles,
+      dark_icon: dark_sparkles,
+      light_icon: light_sparkles,
       title: 'Iterate on feedback & refine',
       description:
         'Collaborate with your team, gather insights, and polish the design through multiple iterations.',
     },
     {
-      icon: presentation_analytics,
+      dark_icon: dark_presentation_analytics,
+      light_icon: light_presentation_analytics,
       title: 'Create presentation & pitch',
       description:
         'Be prepared to present design decisions, rationale, and final deliverables to the judges!',
@@ -69,25 +78,29 @@ export default function DesignDevResources() {
 
   const developer_responsibilities = [
     {
-      icon: writing_sign,
+      dark_icon: dark_writing_sign,
+      light_icon: light_writing_sign,
       title: 'Plan out system design',
       description:
         'Figure out what tech stack and technologies you want to use for your product.',
     },
     {
-      icon: github,
+      dark_icon: github,
+      light_icon: github,
       title: 'Set up codebase scaffolding',
       description:
         'Create a GitHub repo and initialize the project so your team can collaborate.',
     },
     {
-      icon: message_chatbot,
+      dark_icon: message_chatbot,
+      light_icon: message_chatbot,
       title: 'Divide and conquer',
       description:
         'Split the product into features and assign tasks so teammates can build in parallel.',
     },
     {
-      icon: desktop_code,
+      dark_icon: desktop_code,
+      light_icon: desktop_code,
       title: 'Build a functioning demo',
       description:
         'Implement core features and ensure you have a working product ready for presentations.',
