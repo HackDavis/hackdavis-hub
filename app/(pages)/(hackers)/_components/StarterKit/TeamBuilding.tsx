@@ -5,7 +5,6 @@ import mascots from '@public/hackers/starter-kit/teamBuilding/mascotSquad.svg';
 import { CalendarItem } from '@pages/(hackers)/_components/Schedule/CalendarItem';
 import { MentorCalloutCard } from '@pages/(hackers)/_components/StarterKit/Ideate/IdeateMentorCallout';
 
-// TODO: Update with actual Team Mixer details
 const TEAM_MIXER_EVENT: Event = {
   name: 'Team Mixer',
   type: 'ACTIVITIES',
