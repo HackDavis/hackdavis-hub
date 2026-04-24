@@ -196,13 +196,12 @@ export async function restoreMissingTeam(team_id: string) {
       });
     }
 
-    // Once queues are restored, mark team present and clear all missing reports.
-    const updateTeamRes = await UpdateTeam(team_id, {
-      $set: {
-        active: true,
-        reports: [],
-      },
-    });
+    // Once queues are restored, clear reports and only set active when needed.
+    const teamUpdate = team.active
+      ? { $set: { reports: [] } }
+      : { $set: { reports: [], active: true } };
+
+    const updateTeamRes = await UpdateTeam(team_id, teamUpdate);
 
     if (!updateTeamRes.ok) {
       throw new Error(updateTeamRes.error ?? '');
