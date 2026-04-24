@@ -185,8 +185,8 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       const eventType = faker.helpers.arrayElement(eventTypes);
       const isWorkshop = eventType === 'WORKSHOPS';
       const startTime = faker.date.between({
-        from: '2025-04-19T00:00:00.000Z',
-        to: '2025-04-20T23:59:59.999Z',
+        from: '2025-05-09T00:00:00.000Z',
+        to: '2025-05-10T23:59:59.999Z',
       });
 
       return {
@@ -221,8 +221,8 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       title: faker.company.catchPhrase(),
       description: faker.commerce.productDescription(),
       time: faker.date.between({
-        from: '2025-04-19T00:00:00.000Z',
-        to: '2025-04-20T23:59:59.999Z',
+        from: '2025-05-09T00:00:00.000Z',
+        to: '2025-05-10T23:59:59.999Z',
       }),
     }));
   } else if (collectionName === 'rollouts') {
