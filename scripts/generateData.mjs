@@ -226,14 +226,45 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       }),
     }));
   } else if (collectionName === 'rollouts') {
-    data = Array.from({ length: numDocuments }, () => {
-      return {
+    data = [
+      {
+        _id: new ObjectId('6803bac4c863d82d7fb8cbd3'),
+        component_key: 'hero-hacking',
+        rollout_time: 1738396800000,
+        rollback_time: 1778482800000,
+      },
+      {
+        _id: new ObjectId('6803bb0fb20739dd4c03c4cb'),
+        component_key: 'hacking-starts',
+        rollout_time: 1778349600000,
+      },
+      {
+        _id: new ObjectId('6804792603c1da42ce2ef849'),
+        component_key: 'table-number-checkin',
+        rollout_time: 1778439000000,
+      },
+      {
+        _id: new ObjectId('6804d50451080dd618669de4'),
+        component_key: 'view-projects',
+        rollout_time: 1778439600000,
+        rollback_time: 1778446800000,
+      },
+      {
+        _id: new ObjectId('6803bb33b20739dd4c03c4cc'),
+        component_key: 'hero-judging',
+        rollout_time: 1778439000000,
+      },
+      {
+        _id: new ObjectId('6804e5f012c9a66bf0226cac'),
+        component_key: 'panels-are-live',
+        rollout_time: 1778447400000,
+      },
+      {
+        _id: new ObjectId('68031aad596ac7b67a9b2231'),
         component_key: 'judge-check-in',
-        // component_key: 'hackers-choice-link',
-        rollout_time: Date.now() + 1 * 60 * 1000,
-        rollback_time: Date.now() + 2 * 60 * 1000,
-      };
-    });
+        rollout_time: 1778431500000,
+      },
+    ];
   }
 
   return data;
