@@ -9,10 +9,12 @@ export default function judgeHubInviteTemplate(
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
   const MEETING_RECORDING_URL =
     'https://drive.google.com/file/d/1Lit5fvhev2q8mkv2QyDgTgeh3cfLeX9l/view?usp=sharing';
-  const JUDGING_GUIDE_URL =
-    'https://www.notion.so/hackdavis/HackDavis-2025-Judging-Guide-1c32d37fcae880b1ba3aeb0a9a7841b7?pvs=4';
-  const INVITATION_TO_REGISTER_GUIDE_URL =
-    'https://www.notion.so/hackdavis/HackDavis-2025-Judging-Guide-1c32d37fcae880b1ba3aeb0a9a7841b7?pvs=4#1cb2d37fcae880b6a5f4e3d793349bf6';
+  const JUDGE_ORIENTATION_SLIDES =
+    'https://docs.google.com/presentation/d/1UwKKN48FGZMDWg2gS5_RKATjMqBuUjdWmL04lKKqw3o/edit?usp=sharing';
+  const JUDGING_GUIDE =
+    'https://docs.google.com/document/d/1auzgbrT0KquoaTTAVGtKuc6afH4pfyfJvS9zJbpS5JM/edit?usp=sharing';
+  const WELCOME_TO_THE_JUDGING_APP_SLIDE =
+    'https://docs.google.com/presentation/d/1UwKKN48FGZMDWg2gS5_RKATjMqBuUjdWmL04lKKqw3o/edit?slide=id.g3dcbf5edc7b_0_200#slide=id.g3dcbf5edc7b_0_200';
   const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
   const DOE = 'May 9 - 10, 2026';
   const DOE_LOCATION = 'University Credit Union Center, UC Davis';
@@ -60,11 +62,12 @@ export default function judgeHubInviteTemplate(
             <br/>
             <p>Thank you again for joining us as a <span class="bold">judge</span>, we’re thrilled to have you on board! Here are some key resources from our virtual orientation:</p>
             <p>🔹 Meeting Recording: <a href="${MEETING_RECORDING_URL}">${MEETING_RECORDING_URL}</a></p>
-            <p>🔹 Judging Guide: <a href="${JUDGING_GUIDE_URL}">${JUDGING_GUIDE_URL}</a></p>
-            <p class="special-note">You are requested to carefully review the judging guide and familiarize yourself with its content before the event for a smooth judging experience. <span class="bold"><u>Kindly do not share the Judging Guide with anyone outside the judging team.</u></span></p>
+            <p>🔹 Judge Orientation Slides: <a href="${JUDGE_ORIENTATION_SLIDES}">${JUDGE_ORIENTATION_SLIDES}</a></p>
+            <p>🔹 Judging Guide: <a href="${JUDGING_GUIDE}">${JUDGING_GUIDE}</a></p>
+            <p class="special-note">You are requested to carefully review the judging guide + orientation slides and familiarize yourself with its content before the event for a smooth judging experience. <span class="bold"><u>Kindly do not share the Judging Guide with anyone outside the judging team.</u></span></p>
             <div class="bordered-section">
               <p class="bold">IMPORTANT NEXT STEP: Create an account on our Judging Application</p>
-              <p>⚠️ The Judging Application is a key prerequisite for the day of the event! Please carefully review the <a href="${INVITATION_TO_REGISTER_GUIDE_URL}">Invitation to Register</a> section of the Judging Guide before proceeding to create your account.</p>
+              <p>⚠️ The Judging Application is a key prerequisite for the day of the event! Please carefully review the <a href="${WELCOME_TO_THE_JUDGING_APP_SLIDE}">Welcome to the Judging App</a> slide from our virtual Judge Orientation before proceeding to create your account.</p>
               <p>👉 Invite Link: <a href="${inviteLink}">${inviteLink}</a></p>
               <p class="special-note">Please use this unique invite link below to create your judge account. <u>Do NOT share it with anyone else.</u></p>
             </div>
