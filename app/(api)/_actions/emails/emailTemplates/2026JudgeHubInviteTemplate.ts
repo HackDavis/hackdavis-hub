@@ -7,8 +7,6 @@ export default function judgeHubInviteTemplate(
 ) {
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
-  const MEETING_RECORDING_URL =
-    'https://drive.google.com/file/d/1Lit5fvhev2q8mkv2QyDgTgeh3cfLeX9l/view?usp=sharing';
   const JUDGE_ORIENTATION_SLIDES =
     'https://docs.google.com/presentation/d/1UwKKN48FGZMDWg2gS5_RKATjMqBuUjdWmL04lKKqw3o/edit?usp=sharing';
   const JUDGING_GUIDE =
@@ -61,7 +59,6 @@ export default function judgeHubInviteTemplate(
             <p>Hi ${fname},</p>
             <br/>
             <p>Thank you again for joining us as a <span class="bold">judge</span>, we’re thrilled to have you on board! Here are some key resources from our virtual orientation:</p>
-            <p>🔹 Meeting Recording: <a href="${MEETING_RECORDING_URL}">${MEETING_RECORDING_URL}</a></p>
             <p>🔹 Judge Orientation Slides: <a href="${JUDGE_ORIENTATION_SLIDES}">${JUDGE_ORIENTATION_SLIDES}</a></p>
             <p>🔹 Judging Guide: <a href="${JUDGING_GUIDE}">${JUDGING_GUIDE}</a></p>
             <p class="special-note">You are requested to carefully review the judging guide + orientation slides and familiarize yourself with its content before the event for a smooth judging experience. <span class="bold"><u>Kindly do not share the Judging Guide with anyone outside the judging team.</u></span></p>
@@ -79,7 +76,6 @@ export default function judgeHubInviteTemplate(
               <p>🔹 Stay in the loop on event updates</p>
               <p>🔹 Connect with other judges & participants</p>
             </div>
-            <p>Lastly, we are grateful for your thoughtful feedback during the orientation. As suggested, we will be sharing more details soon about the prize tracks and their eligibility criteria and rubrics to help you get a sense of the tracks ahead of time.</p>
             <p>Please feel free to reach out if you have any questions or concerns. Looking forward to seeing you at the event!</p>
             <br/>
             <p style="margin-bottom: 0;">Thank you,<br/>The HackDavis Team</p>
