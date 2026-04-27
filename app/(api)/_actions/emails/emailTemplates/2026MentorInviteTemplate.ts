@@ -56,7 +56,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
             <br/>
             <p>Thank you again for joining us as a <span class="bold">mentor</span>, we’re thrilled to have you on board! Here are some key resources for you:</p>
             <p>🔹 Slides: <a href="${MENTOR_SLIDES_URL}">${MENTOR_SLIDES_URL}</a></p>
-            <p class="special-note">Please ensure you go through the resources before the day of the event to familiarize yourself with the <span class="bold">expectations and responsibilities</span> of a mentor and with the <span class="bold">Discord bot</span> you will need to use during your shift.</p>
+            <p class="special-note">Please ensure you are familiar with the <span class="bold">expectations and responsibilities</span> of a mentor and the <span class="bold">Discord bot</span> you will be interacting with during your shift.</p>
             <p class="bold">Shift assignments have been emailed to you already, kindly mark your calendars!</p>
             <div class="bordered-section">
               <p class="bold">IMPORTANT NEXT STEPS:</p>
