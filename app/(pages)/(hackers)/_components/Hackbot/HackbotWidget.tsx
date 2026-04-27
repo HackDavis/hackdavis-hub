@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { RxCross1 } from 'react-icons/rx';
 import type { HackerProfile } from '@typeDefs/hackbot';
-import HackbotHeader from './HackbotHeader';
 import HackbotMessageList from './HackbotMessageList';
 import HackbotInputForm from './HackbotInputForm';
 import {
@@ -41,50 +41,74 @@ export default function HackbotWidget({
   } = useHackbotWidget({ initialProfile });
 
   return (
-    <div className="fixed bottom-4 right-0 sm:right-4 z-50 flex flex-col items-end gap-2">
-      {/* Chat panel */}
+    <div
+      className="fixed bottom-2 sm:bottom-4 right-2 sm:right-4 z-50 flex flex-col items-end gap-3"
+      style={{ fontFamily: 'var(--font-plus-jakarta-sans, sans-serif)' }}
+    >
       {open && (
+        /* Outer container — panelRef here so all children share the same width */
         <div
           ref={panelRef}
-          className="w-screen sm:w-[min(30vw,420px)] sm:min-w-[360px] max-h-[calc(100svh-5rem)] sm:max-h-[600px] min-h-[450px] rounded-none sm:rounded-2xl border-t sm:border border-[#9EE7E5] bg-[#FAFAFF] shadow-xl shadow-[#005271]/10 flex flex-col overflow-hidden relative"
-          style={{
-            fontFamily: 'var(--font-plus-jakarta-sans, sans-serif)',
-            ...panelStyle,
-          }}
+          className="flex flex-col gap-3 w-screen sm:w-[min(30vw,420px)] sm:min-w-[430px]"
+          style={panelStyle}
         >
-          {/* Resize handle — left edge, desktop only */}
-          <div
-            className="absolute left-0 top-0 bottom-0 w-1.5 cursor-ew-resize hidden sm:block hover:bg-[#9EE7E5]/50 transition-colors z-10"
-            onMouseDown={onResizeMouseDown}
-          />
+          {/* Top row: title pill + × pill, same height */}
+          <div className="flex gap-1 sm:gap-3 items-stretch">
+            {/* Title pill */}
+            <div className="flex-1 bg-white rounded-3xl shadow-lg border border-gray-100 px-4 py-3">
+              <p className="text-sm font-bold text-[#003D3D] tracking-tight md:whitespace-nowrap self-center">
+                Hi I'm Hacky! Ask me anything about Hackdavis.
+              </p>
+            </div>
 
-          <HackbotHeader firstName={firstName} onClose={toggleOpen} />
+            {/* Close × pill */}
+            <button
+              type="button"
+              onClick={toggleOpen}
+              className="shrink-0 w-[3rem] md:w-[3rem] aspect-square rounded-3xl bg-white shadow-lg border border-gray-100 flex items-center justify-center text-[#003D3D]/60 hover:bg-gray-50 transition-colors"
+              aria-label="Close chat"
+            >
+              <RxCross1 className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+          </div>
 
-          <HackbotMessageList
-            messages={messages}
-            loading={loading}
-            toolPending={toolPending}
-            retrying={retrying}
-            cascading={cascading}
-            suggestionChips={suggestionChips}
-            userId={userId}
-            onChipClick={(text) => void sendMessage(text)}
-            messagesEndRef={messagesEndRef}
-          />
+          {/* Message card — fixed height, resize handle on left edge */}
+          <div className="w-[100%] sm:w-full h-[460px] rounded-xl sm:rounded-3xl bg-white shadow-xl sm:border border-gray-100 flex flex-col overflow-hidden relative">
+            <div
+              className="absolute left-0 top-0 bottom-0 w-1.5 cursor-ew-resize hidden sm:block hover:bg-[#9EE7E5]/20 transition-colors z-10"
+              onMouseDown={onResizeMouseDown}
+            />
+            <HackbotMessageList
+              messages={messages}
+              loading={loading}
+              toolPending={toolPending}
+              retrying={retrying}
+              cascading={cascading}
+              suggestionChips={suggestionChips}
+              userId={userId}
+              firstName={firstName}
+              onChipClick={(text) => void sendMessage(text)}
+              messagesEndRef={messagesEndRef}
+            />
+          </div>
 
-          <HackbotInputForm
-            input={input}
-            setInput={setInput}
-            canSend={canSend}
-            loading={loading}
-            error={error}
-            maxChars={MAX_USER_MESSAGE_CHARS}
-            onSubmit={handleSubmit}
-            onSend={sendMessage}
-            onDismissError={() => setError(null)}
-            suggestionChips={suggestionChips}
-            onChipSend={(text) => void sendMessage(text)}
-          />
+          {/* Input pill */}
+          <div className="w-full">
+            <HackbotInputForm
+              input={input}
+              setInput={setInput}
+              canSend={canSend}
+              loading={loading}
+              error={error}
+              maxChars={MAX_USER_MESSAGE_CHARS}
+              onSubmit={handleSubmit}
+              onSend={sendMessage}
+              onDismissError={() => setError(null)}
+              suggestionChips={suggestionChips}
+              onChipSend={(text) => void sendMessage(text)}
+              hasMessages={messages.length > 0}
+            />
+          </div>
         </div>
       )}
 
@@ -92,14 +116,36 @@ export default function HackbotWidget({
       <button
         type="button"
         onClick={toggleOpen}
-        className="h-14 w-14 rounded-full text-white shadow-lg flex items-center justify-center font-bold text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#9EE7E5] focus:ring-offset-2 transition-all"
-        style={{ backgroundColor: '#005271' }}
-        aria-label="Open HackDavis Helper chat"
+        aria-label="Open Hacky chat"
+        className="group flex items-center rounded-full bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9EE7E5]"
       >
-        {open ? (
-          <RxCross1 className="w-5 h-5" />
+        {!open ? (
+          <span className="flex items-center justify-end max-w-16 overflow-hidden whitespace-nowrap rounded-full transition-[max-width,background-color,box-shadow] duration-500 ease-out animate-hackbotFabReveal group-hover:animate-none group-focus:animate-none group-hover:max-w-[19rem] group-focus:max-w-[19rem] group-hover:bg-gray-100/80 group-focus:bg-gray-100/80 group-hover:shadow-lg group-focus:shadow-lg">
+            <span className="block w-[8rem] pl-5 pr-3 text-base font-semibold text-[#3F3F3F]">
+              Ask Hacky
+            </span>
+            <span className="block h-16 w-16 shrink-0 transition-transform duration-300 animate-hackbotWiggle group-hover:animate-none group-focus:animate-none group-hover:rotate-0 group-focus:rotate-0">
+              <Image
+                src="/hackers/hackbot/cow.svg"
+                alt="Hacky"
+                width={56}
+                height={56}
+                priority
+                className="h-16 w-16 opacity-100"
+              />
+            </span>
+          </span>
         ) : (
-          <span className="text-xs font-extrabold tracking-tight">HD</span>
+          <span className="block h-16 w-16 shrink-0">
+            <Image
+              src="/hackers/hackbot/cow.svg"
+              alt="Hacky"
+              width={56}
+              height={56}
+              priority
+              className="h-16 w-16 opacity-100"
+            />
+          </span>
         )}
       </button>
     </div>

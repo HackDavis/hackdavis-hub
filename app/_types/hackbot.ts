@@ -65,6 +65,7 @@ export type HackbotLink = { label: string; url: string };
 export type HackbotChatMessage = {
   role: 'user' | 'assistant';
   content: string;
+  timestamp?: string;
   /** @deprecated use links[] instead; kept for localStorage backwards-compat */
   url?: string;
   links?: HackbotLink[];
