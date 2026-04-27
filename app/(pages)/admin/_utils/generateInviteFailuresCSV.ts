@@ -10,14 +10,18 @@ function escapeCell(value: string): string {
 
 export function buildFailureDownloadFilename(inputFileName: string): string {
   const trimmed = inputFileName.trim();
-  if (!trimmed) return 'invite_failures.csv';
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5); // YYYY-MM-DDTHH-MM-SS
+
+  if (!trimmed) return `invite_failures_${timestamp}Z.csv`;
 
   const dotIndex = trimmed.lastIndexOf('.');
   if (dotIndex > 0) {
-    return `${trimmed.slice(0, dotIndex)}_failures${trimmed.slice(dotIndex)}`;
+    return `${trimmed.slice(0, dotIndex)}_failures_${timestamp}Z${trimmed.slice(
+      dotIndex
+    )}`;
   }
 
-  return `${trimmed}_failures.csv`;
+  return `${trimmed}_failures_${timestamp}Z.csv`;
 }
 
 export function generateInviteFailuresCSV(
