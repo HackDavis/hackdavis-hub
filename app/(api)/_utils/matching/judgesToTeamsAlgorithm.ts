@@ -2,7 +2,11 @@
 import User from '@typeDefs/user';
 import JudgeToTeam from '@typeDefs/judgeToTeam';
 import Team from '@typeDefs/team';
-import { optedHDTracks, nonHDTracks } from '@data/tracks';
+import {
+  judgeVisibleTracks,
+  nonHDTracks,
+  sponsoredNotSendingJudges,
+} from '@data/tracks';
 
 import { GetManyUsers } from '@datalib/users/getUser';
 import { GetManyTeams } from '@datalib/teams/getTeam';
@@ -16,7 +20,20 @@ interface Judge {
 }
 
 const domainMap = new Map<string, string>(
-  Object.values(optedHDTracks).map((track) => [track.name, track.domain ?? ''])
+  Object.values(judgeVisibleTracks).map((track) => [
+    track.name,
+    track.domain ?? '',
+  ])
+);
+
+const sponsoredNotSendingJudgesTrackNames = new Set(
+  Object.keys(sponsoredNotSendingJudges)
+);
+
+const nonJudgeTrackNames = new Set(
+  Object.keys(nonHDTracks).filter(
+    (trackName) => !sponsoredNotSendingJudgesTrackNames.has(trackName)
+  )
 );
 
 // Helper: Get specialty match score for a given team and judge for the specified domain index.
@@ -118,7 +135,7 @@ export default async function matchAllTeams(options?: { alpha?: number }) {
     if (team.tracks && team.tracks.length) {
       // Remove any domains that are in the uncategorizedDomains keys.
       const filteredDomainNames = team.tracks.filter(
-        (domainName: string) => !Object.keys(nonHDTracks).includes(domainName)
+        (domainName: string) => !nonJudgeTrackNames.has(domainName)
       );
       team.tracks = Array.from(
         new Set(
