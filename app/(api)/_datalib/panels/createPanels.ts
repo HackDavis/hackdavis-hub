@@ -7,10 +7,12 @@ import {
 } from '@utils/response/Errors';
 import isBodyEmpty from '@utils/request/isBodyEmpty';
 import parseAndReplace from '@utils/request/parseAndReplace';
-import { optedHDTracks } from '@data/tracks';
+import { judgeVisibleTracks } from '@data/tracks';
 import type Panel from '@typeDefs/panel';
 
-const validTracks = Object.values(optedHDTracks).map((track) => track.name);
+const validTracks = Object.values(judgeVisibleTracks).map(
+  (track) => track.name
+);
 
 export const CreatePanel = async (trackName: string) => {
   try {
@@ -31,7 +33,7 @@ export const CreatePanel = async (trackName: string) => {
 
     const result = await db.collection('panels').insertOne({
       track: trackName,
-      domain: optedHDTracks[trackName].domain,
+      domain: judgeVisibleTracks[trackName].domain,
       user_ids: [],
     });
 

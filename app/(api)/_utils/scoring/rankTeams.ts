@@ -1,14 +1,14 @@
 import Submission from '@typeDefs/submission';
-import { optedHDTracks, bestHackForSocialGood } from '@data/tracks';
+import { bestHackForSocialGood, judgeVisibleTracks } from '@data/tracks';
 
 function calculateSubmissionScore(submission: Submission) {
   return submission.scores
     .map((track_score) => {
       const trackName = track_score.trackName;
 
-      // Only process the track if it exists in optedHDTracks
-      if (!optedHDTracks[trackName]) {
-        // For tracks not in optedHDTracks, return null or a score of 0
+      // Only process the track if it exists in the judge-visible track set.
+      if (!judgeVisibleTracks[trackName]) {
+        // For tracks not in the judge-visible set, return null or a score of 0
         // This will allow us to filter them out later
         return {
           track_name: trackName,
@@ -108,8 +108,8 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
       for (const trackScore of final_scores) {
         const { track_name, score } = trackScore;
 
-        // Skip if the track isn't in optedHDTracks (though this should be filtered already)
-        if (!optedHDTracks[track_name]) continue;
+        // Skip if the track isn't in the judge-visible set (though this should be filtered already)
+        if (!judgeVisibleTracks[track_name]) continue;
 
         // initialize the track in the results if haven't done yet
         if (!results[track_name]) {
@@ -148,7 +148,7 @@ export default function RankTeams({ submissions }: RankTeamsProps) {
     }
   }
 
-  // Best Hack for Social Good: automatic track (non-optedHDTracks) based on social_good scores
+  // Best Hack for Social Good: automatic track outside the judge-visible set based on social_good scores
   results[bestHackForSocialGood.name] = [];
   for (const team_id in submissionsByTeam) {
     const teamSubmissions = submissionsByTeam[team_id];
