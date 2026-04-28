@@ -315,7 +315,7 @@ export function Responsibilities({
     <div
       ref={sectionRef}
       id="sectionID"
-      className="w-[700px] min-[1250px]:w-[1200px]"
+      className="w-[700px] px-[16px] min-[1250px]:px-[0px] min-[1250px]:w-full"
     >
       <p className="opacity-[0.40] text-[16px] font-mono pb-[12px]">IDEATE</p>
       <p className="text-[32px] text-[#1F1F1F] font-semibold">{title}</p>
@@ -330,7 +330,7 @@ export function Responsibilities({
         <Image
           src={image}
           alt={`${title} image`}
-          className="w-full min-[1250px]:w-[300px] min-[1400px]:w-[440px]"
+          className="w-full min-[1250px]:w-[500px]"
         />
 
         <div className=" flex flex-row align-middle items-stretch">
