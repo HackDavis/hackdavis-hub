@@ -273,23 +273,23 @@ export function Responsibilities({
                   <Image
                     src={index == responsibilityIndex ? responsibility.dark_icon : responsibility.light_icon}
                     alt={`${responsibility.title} icon`}
-                    className={index == responsibilityIndex ? `w-[32px] h-[32px]` : `w-[24px] h-[24px]`}
+                    className={index == responsibilityIndex ? `w-[32px] h-[32px] transition-all` : `w-[24px] h-[24px] transition-all`}
                   />
                   {index == responsibilityIndex ? (
-                    <p className="text-[20px] text-[#1F1F1F] font-semibold">
+                    <p className="text-[20px] text-[#1F1F1F] font-semibold transition-all">
                       {responsibility.title}
                     </p>
                   ) : (
-                    <p className="text-[16px] text-[#ACACB9] font-semibold">
+                    <p className="text-[16px] text-[#ACACB9] font-semibold transition-all">
                       {responsibility.title}
                     </p>
                   )}
                 </div>
-                {index == responsibilityIndex && (
-                  <p className="opacity-[0.65] text-[16px]">
+                {index == responsibilityIndex ? (
+                  <p className="opacity-[0.65] text-[16px] transition-all">
                     {responsibility.description}
                   </p>
-                )}
+                ) : (<p className="text-[16px] transition-all"></p>)}
               </div>
             ))}
           </div>
