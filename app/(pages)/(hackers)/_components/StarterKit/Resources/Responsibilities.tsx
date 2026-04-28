@@ -29,13 +29,18 @@ export function Responsibilities({
   const enterFromTop = useRef<boolean | null>(true);
 
   const [responsibilityIndex, setResponsibilityIndex] = useState(0);
-  const [scrollPos, setScrollPos] = useState(50);
+  const [scrollPos, setScrollPos] = useState<number | null>(null);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // go to nearest responsibility
+    if (!scrollRef.current) return;
+    if (!scrollPos) {
+      setScrollPos(scrollRef.current.clientHeight * 1 / 8);
+    }
     const snapToNearest = (pos: number) => {
-      const maxHeight = scrollRef.current?.clientHeight || 50;
+      if (!scrollRef.current) return;
+      const maxHeight = scrollRef.current.clientHeight;
       const positions = [
         maxHeight * 1 / 8,
         maxHeight * 3 / 8,
@@ -59,9 +64,10 @@ export function Responsibilities({
       if (!scrollRef.current) return;
 
       const midpoint = (scrollRef.current.getBoundingClientRect().top + scrollRef.current.getBoundingClientRect().bottom) / 2;
-      const minScrollHeight = scrollRef.current?.clientHeight * 1 / 8 || 50;
+      const minScrollHeight = scrollRef.current.clientHeight * 1 / 8;
       const maxHeight = scrollRef.current ? scrollRef.current.clientHeight : minScrollHeight;
-      console.log(enterFromTop.current);
+      console.log("scroll pos" + scrollPos);
+      console.log("min" + minScrollHeight);
 
       // set scroll bar to whatever the user scrolled to
       if (midpoint > window.innerHeight / 2 - 50 && midpoint < window.innerHeight / 2 + 50) { // if component is within range...
@@ -69,7 +75,7 @@ export function Responsibilities({
 
         setScrollPos((prev) => {
           // 
-          const next = Math.min(Math.max(minScrollHeight, prev + e.deltaY), maxHeight);
+          const next = Math.min(Math.max(minScrollHeight, prev == null ? 0 : prev + e.deltaY), maxHeight);
 
           if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
@@ -123,7 +129,7 @@ export function Responsibilities({
         }
         setScrollPos((prev) => {
           // 
-          const next = Math.min(Math.max(minScrollHeight, prev + e.deltaY), maxHeight);
+          const next = Math.min(Math.max(minScrollHeight, prev == null ? 0 : prev + e.deltaY), maxHeight);
 
           if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
@@ -154,7 +160,7 @@ export function Responsibilities({
       if (!scrollRef.current) return;
 
       const midpoint = (scrollRef.current.getBoundingClientRect().top + scrollRef.current.getBoundingClientRect().bottom) / 2;
-      const minScrollHeight = scrollRef.current?.clientHeight * 1 / 8 || 50;
+      const minScrollHeight = scrollRef.current.clientHeight * 1 / 8;
 
       // set scroll bar to whatever the user scrolled to
       if (midpoint > window.innerHeight / 2 - 50 && midpoint < window.innerHeight / 2 + 50) { // if component is within range...
@@ -218,6 +224,7 @@ export function Responsibilities({
   });
 
   useEffect(() => {
+    if (!scrollPos) return;
     const maxHeight = scrollRef.current?.clientHeight || 50;
     const positions = [maxHeight * 1 / 8, maxHeight * 3 / 8, maxHeight * 21 / 32, maxHeight];
 
