@@ -1,3 +1,5 @@
+'use client';
+
 import next from 'next';
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
@@ -23,12 +25,15 @@ export function Responsibilities({
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const touchYRef = useRef<number>(0);
+  const enterFromTop = useRef<boolean | null>(true);
 
   const [responsibilityIndex, setResponsibilityIndex] = useState(0);
   const [scrollPos, setScrollPos] = useState(50);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    // go to nearest responsibility
     const snapToNearest = (pos: number) => {
       const maxHeight = scrollRef.current?.clientHeight || 50;
       const positions = [
@@ -49,39 +54,166 @@ export function Responsibilities({
       setScrollPos(closest);
     };
 
+    // scroll for computer
     const onScroll = (e: WheelEvent) => {
       if (!scrollRef.current) return;
 
       const midpoint = (scrollRef.current.getBoundingClientRect().top + scrollRef.current.getBoundingClientRect().bottom) / 2;
-      const minHeight = scrollRef.current?.clientHeight * 1 / 8 || 50;
+      const minScrollHeight = scrollRef.current?.clientHeight * 1 / 8 || 50;
+      const maxHeight = scrollRef.current ? scrollRef.current.clientHeight : minScrollHeight;
+      console.log(enterFromTop.current);
 
-      // Set scroll bar to whatever the user scrolled to
-      if (midpoint > window.innerHeight / 2 - 100 && midpoint < window.innerHeight / 2 + 100) {
-        const maxHeight = scrollRef.current ? scrollRef.current.clientHeight : minHeight;
+      // set scroll bar to whatever the user scrolled to
+      if (midpoint > window.innerHeight / 2 - 50 && midpoint < window.innerHeight / 2 + 50) { // if component is within range...
+        //console.log("igieirfjerer");
 
         setScrollPos((prev) => {
-          const next = Math.min(Math.max(minHeight, prev + e.deltaY), maxHeight);
+          // 
+          const next = Math.min(Math.max(minScrollHeight, prev + e.deltaY), maxHeight);
 
           if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
+          // makes it go to nearest responsibility
           scrollTimeout.current = setTimeout(() => {
             snapToNearest(next);
-          }, 10);
-
-          if (next !== maxHeight && next !== minHeight) {
-            e.preventDefault();
-          } 
+          }, 100);
 
           return next;
         });
 
+        if (enterFromTop.current == true && scrollPos != maxHeight) {
+          if (e.cancelable) {
+            e.preventDefault();
+          } else {
+            const sectionElement = document.getElementById("sectionID");
+            if (!sectionElement) return;
+            sectionElement.style.touchAction = 'none';
+          }
+        } else if (enterFromTop.current == false && scrollPos != minScrollHeight) {
+          if (e.cancelable) {
+            e.preventDefault();
+          } else {
+            const sectionElement = document.getElementById("sectionID");
+            if (!sectionElement) return;
+            sectionElement.style.touchAction = 'none';
+          }
+        } else if (enterFromTop.current == true && scrollPos == maxHeight + 5) {
+          enterFromTop.current = false;
+        } else if (enterFromTop.current == false && scrollPos == minScrollHeight - 5) {
+          enterFromTop.current = true;
+        }
+
+        /*if (scrollPos != minScrollHeight && scrollPos != maxHeight) {
+          if (e.cancelable) {
+            e.preventDefault();
+          } else {
+            const sectionElement = document.getElementById("sectionID");
+            if (!sectionElement) return;
+            sectionElement.style.touchAction = 'none';
+          }
+        }*/
+
+      } else if (scrollPos != maxHeight && scrollPos != minScrollHeight) { // if it it somehow not in range but not at where its supposed to be
+        if (e.cancelable) {
+          e.preventDefault();
+        } else {
+          const sectionElement = document.getElementById("sectionID");
+          if (!sectionElement) return;
+          sectionElement.style.touchAction = 'none';
+        }
+        setScrollPos((prev) => {
+          // 
+          const next = Math.min(Math.max(minScrollHeight, prev + e.deltaY), maxHeight);
+
+          if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+
+          // makes it go to nearest responsibility
+          scrollTimeout.current = setTimeout(() => {
+            snapToNearest(next);
+          }, 100);
+
+          return next;
+        });
+      } else {
+        if (midpoint < window.innerHeight / 2 - 50) {
+          enterFromTop.current = false;
+        } else if (midpoint > window.innerHeight / 2 + 50) {
+          enterFromTop.current = true;
+        } else {
+          enterFromTop.current = null;
+        }
       }
     };
 
+    // scroll for mobile
+    const onTouchStart = (e: TouchEvent) => {
+      touchYRef.current = e.touches[0].clientY
+    }
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!scrollRef.current) return;
+
+      const midpoint = (scrollRef.current.getBoundingClientRect().top + scrollRef.current.getBoundingClientRect().bottom) / 2;
+      const minScrollHeight = scrollRef.current?.clientHeight * 1 / 8 || 50;
+
+      // set scroll bar to whatever the user scrolled to
+      if (midpoint > window.innerHeight / 2 - 50 && midpoint < window.innerHeight / 2 + 50) { // if component is within range...
+        const maxHeight = scrollRef.current ? scrollRef.current.clientHeight : minScrollHeight;
+
+        const deltaY = touchYRef.current - e.touches[0].clientY;
+        touchYRef.current = e.touches[0].clientY
+
+        setScrollPos((prev) => {
+          // 
+          const next = Math.min(Math.max(minScrollHeight, prev + deltaY), maxHeight);
+
+          if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+
+          // makes it go to nearest responsibility
+          scrollTimeout.current = setTimeout(() => {
+            snapToNearest(next);
+          }, 100);
+
+          return next;
+        });
+
+        if (enterFromTop.current && scrollPos != maxHeight + 5) {
+          if (e.cancelable) {
+            e.preventDefault();
+          } else {
+            const sectionElement = document.getElementById("sectionID");
+            if (!sectionElement) return;
+            sectionElement.style.touchAction = 'none';
+          }
+        } else if (enterFromTop.current && scrollPos != minScrollHeight - 5) {
+          if (e.cancelable) {
+            e.preventDefault();
+          } else {
+            const sectionElement = document.getElementById("sectionID");
+            if (!sectionElement) return;
+            sectionElement.style.touchAction = 'none';
+          }
+        }
+      }
+    }
+
+    const onTouchEnd = (e: TouchEvent) => {
+      touchYRef.current = 0;
+      const sectionElement = document.getElementById("sectionID");
+      if (!sectionElement) return;
+      sectionElement.style.touchAction = 'auto';
+    }
+
     window.addEventListener("wheel", onScroll, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: false });
 
     return () => {
       window.removeEventListener("wheel", onScroll);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
     }
   });
 
@@ -100,7 +232,7 @@ export function Responsibilities({
   }, [scrollPos]);
 
   return (
-    <div ref={sectionRef}>
+    <div ref={sectionRef} id="sectionID">
       <p className="opacity-[0.40] text-[16px] font-mono pb-[12px]">IDEATE</p>
       <p className="text-[32px] text-[#1F1F1F] font-semibold">{title}</p>
       <div
