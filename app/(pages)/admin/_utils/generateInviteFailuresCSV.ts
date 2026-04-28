@@ -33,11 +33,16 @@ export function generateInviteFailuresCSV(
   );
 
   const headers = ['First Name', 'Last Name', 'Email', 'Failures'];
-  const csvRows = rows.map((row) => {
+
+  // Only include rows that actually failed (exclude successes)
+  const failedRows = rows.filter((row) => {
     const result = resultMap.get(row.email.toLowerCase());
-    const failureReason = result?.success
-      ? ''
-      : result?.error ?? 'Unknown error';
+    return !result?.success;
+  });
+
+  const csvRows = failedRows.map((row) => {
+    const result = resultMap.get(row.email.toLowerCase());
+    const failureReason = result?.error ?? 'Unknown error';
 
     return [row.firstName, row.lastName, row.email, failureReason]
       .map(escapeCell)
