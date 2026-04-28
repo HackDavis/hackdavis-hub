@@ -3,14 +3,14 @@
 import { GetManyPanels } from '@datalib/panels/getPanels';
 import { GetManyUsers } from '@datalib/users/getUser';
 import judgeToPanelAlgorithm from '@utils/matching/judgeToPanelAlgorithm';
-import { optedHDTracks } from '@data/tracks';
+import { judgeVisibleTracks } from '@data/tracks';
 import { CreateManyPanels } from '@datalib/panels/createPanels';
 import { UpdatePanel } from '@datalib/panels/updatePanel';
 import Panel from '@typeDefs/panel';
 import { DeleteManyPanels } from '@datalib/panels/deletePanel';
 
 async function initializeEmptyPanels() {
-  const panelData: Panel[] = Object.values(optedHDTracks).map((track) => ({
+  const panelData: Panel[] = Object.values(judgeVisibleTracks).map((track) => ({
     track: track.name,
     domain: track.domain ?? '',
     user_ids: [],
