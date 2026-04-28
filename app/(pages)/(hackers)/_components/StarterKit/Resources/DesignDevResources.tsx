@@ -12,15 +12,18 @@ import dark_writing_sign from '@public/hackers/starter-kit/resources/tabler_dark
 import dark_presentation_analytics from '@public/hackers/starter-kit/resources/tabler_dark-presentation-analytics.svg';
 import dark_sparkles from '@public/hackers/starter-kit/resources/tabler_dark-sparkles-2.svg';
 import dark_figma from '@public/hackers/starter-kit/resources/tabler_dark-brand-figma.svg';
+import dark_github from '@public/hackers/starter-kit/resources/tabler_dark-brand-github.svg';
+import dark_desktop_code from '@public/hackers/starter-kit/resources/tabler_dark-device-desktop-code.svg';
+import dark_message_chatbot from '@public/hackers/starter-kit/resources/tabler_dark-message-chatbot.svg';
 
 import light_writing_sign from '@public/hackers/starter-kit/resources/tabler_light-writing-sign.svg';
 import light_presentation_analytics from '@public/hackers/starter-kit/resources/tabler_light-presentation-analytics.svg';
 import light_sparkles from '@public/hackers/starter-kit/resources/tabler_light-sparkles-2.svg';
 import light_figma from '@public/hackers/starter-kit/resources/tabler_light-brand-figma.svg';
+import light_github from '@public/hackers/starter-kit/resources/tabler_light-brand-github.svg';
+import light_desktop_code from '@public/hackers/starter-kit/resources/tabler_light-device-desktop-code.svg';
+import light_message_chatbot from '@public/hackers/starter-kit/resources/tabler_light-message-chatbot.svg';
 
-import github from '@public/hackers/starter-kit/resources/tabler_brand-github.svg';
-import desktop_code from '@public/hackers/starter-kit/resources/tabler_device-desktop-code.svg';
-import message_chatbot from '@public/hackers/starter-kit/resources/tabler_message-chatbot.svg';
 
 import text_size from '@public/hackers/starter-kit/resources/tabler_text-size.svg';
 import image_in_picture from '@public/hackers/starter-kit/resources/tabler_image-in-picture.svg';
@@ -85,22 +88,22 @@ export default function DesignDevResources() {
         'Figure out what tech stack and technologies you want to use for your product.',
     },
     {
-      dark_icon: github,
-      light_icon: github,
+      dark_icon: dark_github,
+      light_icon: light_github,
       title: 'Set up codebase scaffolding',
       description:
         'Create a GitHub repo and initialize the project so your team can collaborate.',
     },
     {
-      dark_icon: message_chatbot,
-      light_icon: message_chatbot,
+      dark_icon: dark_message_chatbot,
+      light_icon: light_message_chatbot,
       title: 'Divide and conquer',
       description:
         'Split the product into features and assign tasks so teammates can build in parallel.',
     },
     {
-      dark_icon: desktop_code,
-      light_icon: desktop_code,
+      dark_icon: dark_desktop_code,
+      light_icon: light_desktop_code,
       title: 'Build a functioning demo',
       description:
         'Implement core features and ensure you have a working product ready for presentations.',
