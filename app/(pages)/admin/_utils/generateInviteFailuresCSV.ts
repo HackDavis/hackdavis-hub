@@ -4,8 +4,14 @@ function normalizeCell(value: string): string {
   return value.replace(/\r?\n+/g, ' ').trim();
 }
 
+function neutralizeSpreadsheetFormula(value: string): string {
+  return /^[=+\-@]/.test(value) ? `'${value}` : value;
+}
+
 function escapeCell(value: string): string {
-  return `"${normalizeCell(value).replace(/"/g, '""')}"`;
+  const normalized = normalizeCell(value);
+  const safeValue = neutralizeSpreadsheetFormula(normalized);
+  return `"${safeValue.replace(/"/g, '""')}"`;
 }
 
 export function buildFailureDownloadFilename(inputFileName: string): string {
@@ -32,7 +38,7 @@ export function generateInviteFailuresCSV(
     results.map((result) => [result.email.toLowerCase(), result])
   );
 
-  const headers = ['First Name', 'Last Name', 'Email', 'Failures'];
+  const headers = ['First Name', 'Last Name', 'Email', 'Failure'];
 
   // Only include rows that actually failed (exclude successes)
   const failedRows = rows.filter((row) => {

@@ -19,10 +19,21 @@ function previewCSV(
 ): { ok: true; rows: MentorInviteData[] } | { ok: false; error: string } {
   if (!text.trim()) return { ok: false, error: 'CSV is empty.' };
 
-  const parsedRows = parse(text, {
-    trim: true,
-    skip_empty_lines: true,
-  }) as string[][];
+  let parsedRows: string[][];
+  try {
+    parsedRows = parse(text, {
+      trim: true,
+      skip_empty_lines: true,
+    }) as string[][];
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error && error.message
+          ? `Could not parse CSV: ${error.message}`
+          : 'Could not parse CSV.',
+    };
+  }
 
   if (parsedRows.length === 0) return { ok: false, error: 'CSV is empty.' };
 

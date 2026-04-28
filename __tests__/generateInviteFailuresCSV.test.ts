@@ -17,7 +17,7 @@ describe('generateInviteFailuresCSV', () => {
     const lines = csv.split('\n');
 
     // Header + one failed row
-    expect(lines[0]).toBe('First Name,Last Name,Email,Failures');
+    expect(lines[0]).toBe('First Name,Last Name,Email,Failure');
     expect(lines).toHaveLength(2);
 
     // Successful row should not be present
@@ -26,5 +26,29 @@ describe('generateInviteFailuresCSV', () => {
     // Failed row should be present with the error message
     expect(csv).toContain('bob@example.com');
     expect(csv).toContain('Bounced');
+  });
+
+  it('neutralizes spreadsheet formulas in exported cells', () => {
+    const rows: InviteData[] = [
+      {
+        firstName: '=Alice',
+        lastName: '+Jones',
+        email: 'danger@example.com',
+      },
+    ];
+
+    const results: InviteResult[] = [
+      {
+        email: 'danger@example.com',
+        success: false,
+        error: '@cmd',
+      },
+    ];
+
+    const csv = generateInviteFailuresCSV(rows, results);
+
+    expect(csv).toContain('"\'=Alice"');
+    expect(csv).toContain('"\'+Jones"');
+    expect(csv).toContain('"\'@cmd"');
   });
 });
