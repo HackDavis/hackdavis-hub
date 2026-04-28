@@ -24,7 +24,6 @@ import light_github from '@public/hackers/starter-kit/resources/tabler_light-bra
 import light_desktop_code from '@public/hackers/starter-kit/resources/tabler_light-device-desktop-code.svg';
 import light_message_chatbot from '@public/hackers/starter-kit/resources/tabler_light-message-chatbot.svg';
 
-
 import text_size from '@public/hackers/starter-kit/resources/tabler_text-size.svg';
 import image_in_picture from '@public/hackers/starter-kit/resources/tabler_image-in-picture.svg';
 import shape from '@public/hackers/starter-kit/resources/tabler_shape.svg';
