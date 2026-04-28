@@ -239,7 +239,7 @@ export function Responsibilities({
   }, [scrollPos]);
 
   return (
-    <div ref={sectionRef} id="sectionID">
+    <div ref={sectionRef} id="sectionID" className='w-[700px] min-[1250px]:w-[1200px]'>
       <p className="opacity-[0.40] text-[16px] font-mono pb-[12px]">IDEATE</p>
       <p className="text-[32px] text-[#1F1F1F] font-semibold">{title}</p>
       <div
