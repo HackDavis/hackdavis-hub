@@ -475,6 +475,15 @@ const nonHDTracks: Tracks = {
   },
 };
 
+const sponsoredNotSendingJudges: Tracks = {
+  'Best AI/ML Hack': nonHDTracks['Best AI/ML Hack'],
+};
+
+const judgeVisibleTracks: Tracks = {
+  ...optedHDTracks,
+  ...sponsoredNotSendingJudges,
+};
+
 const allTracks: Tracks = {
   ...automaticTracks,
   ...optedHDTracks,
@@ -482,7 +491,7 @@ const allTracks: Tracks = {
 };
 
 const displayNameToDomainMap: Map<string, string> = new Map(
-  Object.entries(optedHDTracks).map(([_, value]) => [
+  Object.entries(judgeVisibleTracks).map(([_, value]) => [
     value.domainDisplayName ?? '',
     value.domain ?? '',
   ])
@@ -493,6 +502,8 @@ export {
   optedHDTracks,
   automaticTracks,
   nonHDTracks,
+  sponsoredNotSendingJudges,
+  judgeVisibleTracks,
   displayNameToDomainMap,
 };
 
