@@ -175,7 +175,7 @@ export default function DesignDevResources() {
   };
 
   return (
-    <div className="flex flex-col bg-[#D5FDFF] py-[7%] px-[4%] gap-[112px] md:gap-[144px] items-center">
+    <div className="flex flex-col bg-[#D5FDFF] py-[7%] px-[4%] gap-[112px] md:gap-[144px] items-center items-stretch w-full">
       {/** Section 1 */}
       <div id="design-resources">
         <Responsibilities

@@ -34,7 +34,7 @@ export function Responsibilities({
   useEffect(() => {
     // go to nearest responsibility
     if (!scrollRef.current) return;
-  
+
     const snapToIndex = (index: number) => {
       if (!scrollRef.current) return;
       const maxHeight = scrollRef.current.clientHeight;
@@ -49,7 +49,7 @@ export function Responsibilities({
         target = maxHeight;
       }
       setScrollPos(target);
-    }
+    };
 
     const snapToNearest = (pos: number) => {
       if (!scrollRef.current) return;
@@ -286,37 +286,37 @@ export function Responsibilities({
     window.addEventListener('touchstart', onTouchStart, { passive: false });
     window.addEventListener('touchmove', onTouchMove, { passive: false });
     window.addEventListener('touchend', onTouchEnd, { passive: false });
-    
+
     const responsibility0 = document.getElementById(title + 'responsibility-0');
     const responsibility0_onClick = () => {
-        snapToIndex(0);
+      snapToIndex(0);
     };
     if (responsibility0) {
-      responsibility0.addEventListener("click", responsibility0_onClick);
+      responsibility0.addEventListener('click', responsibility0_onClick);
     }
-    
+
     const responsibility1 = document.getElementById(title + 'responsibility-1');
     const responsibility1_onClick = () => {
-        snapToIndex(1);
+      snapToIndex(1);
     };
     if (responsibility1) {
-      responsibility1.addEventListener("click", responsibility1_onClick);
+      responsibility1.addEventListener('click', responsibility1_onClick);
     }
 
     const responsibility2 = document.getElementById(title + 'responsibility-2');
     const responsibility2_onClick = () => {
-        snapToIndex(2);
+      snapToIndex(2);
     };
     if (responsibility2) {
-      responsibility2.addEventListener("click", responsibility2_onClick);
+      responsibility2.addEventListener('click', responsibility2_onClick);
     }
 
     const responsibility3 = document.getElementById(title + 'responsibility-3');
     const responsibility3_onClick = () => {
-        snapToIndex(3);
+      snapToIndex(3);
     };
     if (responsibility3) {
-      responsibility3.addEventListener("click", responsibility3_onClick);
+      responsibility3.addEventListener('click', responsibility3_onClick);
     }
 
     return () => {
@@ -367,7 +367,7 @@ export function Responsibilities({
     <div
       ref={sectionRef}
       id="sectionID"
-      className="w-[700px] px-[16px] min-[1250px]:px-[0px] min-[1250px]:w-full"
+      className="w-full self-stretch px-[16px] min-[1250px]:px-[0px]"
     >
       <p className="opacity-[0.40] text-[16px] font-mono pb-[12px]">IDEATE</p>
       <p className="text-[32px] text-[#1F1F1F] font-semibold">{title}</p>
@@ -397,7 +397,11 @@ export function Responsibilities({
           </div>
           <div className="flex gap-[57px] flex-col h-min px-[12px]">
             {responsibilities.map((responsibility, index) => (
-              <div key={index} id={title + `responsibility-` + index} className="flex flex-col gap-[4px]">
+              <div
+                key={index}
+                id={title + `responsibility-` + index}
+                className="flex flex-col gap-[4px]"
+              >
                 <div className="flex flex-row items-center gap-[4px]">
                   <Image
                     src={
@@ -406,7 +410,11 @@ export function Responsibilities({
                         : responsibility.light_icon
                     }
                     alt={`${responsibility.title} icon`}
-                    className={`transition-all duration-300 ease-out ${index == responsibilityIndex ? 'w-[32px] h-[32px]' : 'w-[24px] h-[24px]'}`}
+                    className={`transition-all duration-300 ease-out ${
+                      index == responsibilityIndex
+                        ? 'w-[32px] h-[32px]'
+                        : 'w-[24px] h-[24px]'
+                    }`}
                   />
                   {index == responsibilityIndex ? (
                     <p className="text-[20px] text-[#1F1F1F] font-semibold transition-all">
