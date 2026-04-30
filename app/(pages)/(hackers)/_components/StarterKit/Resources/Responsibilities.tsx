@@ -34,6 +34,22 @@ export function Responsibilities({
   useEffect(() => {
     // go to nearest responsibility
     if (!scrollRef.current) return;
+  
+    const snapToIndex = (index: number) => {
+      if (!scrollRef.current) return;
+      const maxHeight = scrollRef.current.clientHeight;
+      let target = (maxHeight * 1) / 8;
+      if (index == 0) {
+        target = (maxHeight * 1) / 8;
+      } else if (index == 1) {
+        target = (maxHeight * 3) / 8;
+      } else if (index == 2) {
+        target = (maxHeight * 21) / 32;
+      } else if (index == 3) {
+        target = maxHeight;
+      }
+      setScrollPos(target);
+    }
 
     const snapToNearest = (pos: number) => {
       if (!scrollRef.current) return;
@@ -270,12 +286,48 @@ export function Responsibilities({
     window.addEventListener('touchstart', onTouchStart, { passive: false });
     window.addEventListener('touchmove', onTouchMove, { passive: false });
     window.addEventListener('touchend', onTouchEnd, { passive: false });
+    
+    const responsibility0 = document.getElementById('responsibility-0');
+    const responsibility0_onClick = () => {
+        snapToIndex(0);
+    };
+    if (responsibility0) {
+      responsibility0.addEventListener("click", responsibility0_onClick);
+    }
+    
+    const responsibility1 = document.getElementById('responsibility-1');
+    const responsibility1_onClick = () => {
+        snapToIndex(1);
+    };
+    if (responsibility1) {
+      responsibility1.addEventListener("click", responsibility1_onClick);
+    }
+
+    const responsibility2 = document.getElementById('responsibility-2');
+    const responsibility2_onClick = () => {
+        snapToIndex(2);
+    };
+    if (responsibility2) {
+      responsibility2.addEventListener("click", responsibility2_onClick);
+    }
+
+    const responsibility3 = document.getElementById('responsibility-3');
+    const responsibility3_onClick = () => {
+        snapToIndex(3);
+    };
+    if (responsibility3) {
+      responsibility3.addEventListener("click", responsibility3_onClick);
+    }
 
     return () => {
       window.removeEventListener('wheel', onScroll);
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('touchend', onTouchEnd);
+      document.removeEventListener('click', responsibility0_onClick);
+      document.removeEventListener('click', responsibility1_onClick);
+      document.removeEventListener('click', responsibility2_onClick);
+      document.removeEventListener('click', responsibility3_onClick);
     };
   });
 
@@ -345,7 +397,7 @@ export function Responsibilities({
           </div>
           <div className="flex gap-[57px] flex-col h-min px-[12px]">
             {responsibilities.map((responsibility, index) => (
-              <div key={index} className="flex flex-col gap-[4px]">
+              <div key={index} id={`responsibility-` + index} className="flex flex-col gap-[4px]">
                 <div className="flex flex-row items-center gap-[4px]">
                   <Image
                     src={
