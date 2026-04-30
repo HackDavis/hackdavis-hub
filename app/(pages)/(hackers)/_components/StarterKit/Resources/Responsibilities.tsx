@@ -333,7 +333,7 @@ export function Responsibilities({
           className="w-full min-[1250px]:w-[500px]"
         />
 
-        <div className=" flex flex-row align-middle items-stretch">
+        <div className=" flex flex-row align-middle items-stretch min-[1250px]:w-[700px]">
           <div
             ref={scrollRef}
             className="bg-[#E2E2E2] h-auto outline-[2px] outline-[#E2E2E2] rounded-full overflow-visible relative w-[8px]"
