@@ -5,11 +5,12 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
   const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
-  const MENTOR_NOTION =
-    'https://docs.google.com/presentation/d/1eBCl6OUdPhaR-eib8dXLaTHGFNqLR2ax4NFJqYtBBCw/edit?usp=sharing';
+  const MENTOR_GUIDE =
+    'https://www.notion.so/hackdavis/HackDavis-Mentor-Guide-3512d37fcae880c2916ff83fcde19565?source=copy_link';
   const CLAIM_TITO_TICKET_DEADLINE = '11:59pm on May 4th';
   const DOE_DATE = 'May 9th, 2026';
-  const DISCORD_OWNER = 'afifah';
+  const TECH_DIRECTOR = 'afifah';
+  const EXTERNAL_DIRECTOR = 'kelly';
   const DOE = 'May 9 - 10, 2026';
   const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
@@ -55,7 +56,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
             <p>Hi ${fname},</p>
             <br/>
             <p>Thank you again for joining us as a <span class="bold">mentor</span>, we’re thrilled to have you on board! Here is an important resource for you:</p>
-            <p>🔹 Mentor Guide: <a href="${MENTOR_NOTION}">${MENTOR_NOTION}</a></p>
+            <p>🔹 Mentor Guide: <a href="${MENTOR_GUIDE}">${MENTOR_GUIDE}</a></p>
             <p class="special-note">Please read through the Mentor Guide and ensure you are familiar with the <span class="bold">expectations and responsibilities</span> of a mentor and the <span class="bold">Discord bot</span> you will be interacting with during your shift.</p>
             <p class="bold">Shift assignments have been emailed to you already, kindly mark your calendars!</p>
             <p class="bold" style="color: #57dade;">IMPORTANT NEXT STEPS:</p>
@@ -67,7 +68,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
             <div class="bordered-section">
               <p class="bold">2️⃣ Join our Discord server by ${DOE_DATE}</p>
               <p>👉 Discord Server: <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a></p>
-              <p>⚠️ Once you join, DM the user "<i>${DISCORD_OWNER} [DIRECTOR]</i>" with your full name to request the Mentor role in the server.</p>
+              <p>⚠️ Once you join, DM the user "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" or "<i>${EXTERNAL_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Mentor role in the server.</p>
               <p>We’ll be using Discord server as our main space for announcements and support for all attendees during the event. You can use it to:</p>
               <p>🔹 Get quick answers from the team</p>
               <p>🔹 Stay in the loop on event updates</p>
