@@ -68,7 +68,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
             <div class="bordered-section">
               <p class="bold">2️⃣ Join our Discord server by ${DOE_DATE}</p>
               <p>👉 Discord Server: <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a></p>
-              <p>⚠️ Once you join, DM the user "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" or "<i>${EXTERNAL_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Mentor role in the server.</p>
+              <p>⚠️ Once you join, DM the user "<i>${EXTERNAL_DIRECTOR} [DIRECTOR]</i>" or "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Mentor role in the server.</p>
               <p>We’ll be using Discord server as our main space for announcements and support for all attendees during the event. You can use it to:</p>
               <p>🔹 Get quick answers from the team</p>
               <p>🔹 Stay in the loop on event updates</p>

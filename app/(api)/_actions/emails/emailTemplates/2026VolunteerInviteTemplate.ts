@@ -11,7 +11,7 @@ export default function volunteerInviteTemplate(
   const CLAIM_TITO_TICKET_DEADLINE = '11:59pm on May 4th';
   const DOE_DATE = 'May 9th, 2026';
   const TECH_DIRECTOR = 'afifah';
-  const EXTERNAL_DIRECTOR = 'kelly';
+  const OPS_DIRECTOR = 'Matthew';
   const DOE = 'May 9 - 10, 2026';
   const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
@@ -57,7 +57,7 @@ export default function volunteerInviteTemplate(
             <p>Hi ${fname},</p>
             <br/>
             <p>Thank you again for joining us as a <span class="bold">volunteer</span>, we're thrilled to have you on board!</p>
-            <p class="bold">Shift assignments have been emailed to you already, kindly mark your calendars!</p>
+            <p class="bold">Shift information have been emailed to you already, kindly select at least 1 shift and mark your calendars!</p>
             <p class="bold" style="color: #57dade;">IMPORTANT NEXT STEPS:</p>
             <div class="bordered-section">
               <p class="bold">1️⃣ Claim your E-Ticket here by ${CLAIM_TITO_TICKET_DEADLINE}</p>
@@ -67,7 +67,7 @@ export default function volunteerInviteTemplate(
             <div class="bordered-section">
               <p class="bold">2️⃣ Join our Discord server by ${DOE_DATE}</p>
               <p>👉 Discord Server: <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a></p>
-              <p>⚠️ Once you join, DM the user "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" or "<i>${EXTERNAL_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Volunteer role in the server.</p>
+              <p>⚠️ Once you join, DM the user "<i>${OPS_DIRECTOR} [DIRECTOR]</i>" or "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Volunteer role in the server.</p>
               <p>We'll be using Discord server as our main space for announcements and support for all attendees during the event. You can use it to:</p>
               <p>🔹 Get quick answers from the team</p>
               <p>🔹 Stay in the loop on event updates</p>
