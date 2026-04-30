@@ -406,11 +406,7 @@ export function Responsibilities({
                         : responsibility.light_icon
                     }
                     alt={`${responsibility.title} icon`}
-                    className={
-                      index == responsibilityIndex
-                        ? `w-[32px] h-[32px] transition-all`
-                        : `w-[24px] h-[24px] transition-all`
-                    }
+                    className={`transition-all duration-300 ease-out ${index == responsibilityIndex ? 'w-[32px] h-[32px]' : 'w-[24px] h-[24px]'}`}
                   />
                   {index == responsibilityIndex ? (
                     <p className="text-[20px] text-[#1F1F1F] font-semibold transition-all">
