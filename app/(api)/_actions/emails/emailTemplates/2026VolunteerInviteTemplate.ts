@@ -1,16 +1,17 @@
-export const MENTOR_EMAIL_SUBJECT =
-  '[ACTION REQUIRED] HackDavis 2026 Mentor Invite';
+export const VOLUNTEER_EMAIL_SUBJECT =
+  '[ACTION REQUIRED] HackDavis 2026 Volunteer Invite';
 
-export default function mentorInviteTemplate(fname: string, titoUrl: string) {
+export default function volunteerInviteTemplate(
+  fname: string,
+  titoUrl: string
+) {
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
   const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
-  const MENTOR_GUIDE =
-    'https://www.notion.so/hackdavis/HackDavis-Mentor-Guide-3512d37fcae880c2916ff83fcde19565?source=copy_link';
   const CLAIM_TITO_TICKET_DEADLINE = '11:59pm on May 4th';
   const DOE_DATE = 'May 9th, 2026';
   const TECH_DIRECTOR = 'afifah';
-  const EXTERNAL_DIRECTOR = 'kelly';
+  const OPS_DIRECTOR = 'Matthew';
   const DOE = 'May 9 - 10, 2026';
   const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
@@ -19,7 +20,7 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${MENTOR_EMAIL_SUBJECT}</title>
+    <title>${VOLUNTEER_EMAIL_SUBJECT}</title>
     <style>
         body { margin: 0; padding: 0; font-family: 'DM Mono', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff; }
         .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
@@ -55,25 +56,23 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
         <div class="content-box">
             <p>Hi ${fname},</p>
             <br/>
-            <p>Thank you again for joining us as a <span class="bold">mentor</span>, we’re thrilled to have you on board! Here is an important resource for you:</p>
-            <p>🔹 Mentor Guide: <a href="${MENTOR_GUIDE}">${MENTOR_GUIDE}</a></p>
-            <p class="special-note">Please read through the Mentor Guide and ensure you are familiar with the <span class="bold">expectations and responsibilities</span> of a mentor and the <span class="bold">Discord bot</span> you will be interacting with during your shift.</p>
-            <p class="bold">Shift assignments have been emailed to you already, kindly mark your calendars!</p>
+            <p>Thank you again for joining us as a <span class="bold">volunteer</span>, we're thrilled to have you on board!</p>
+            <p class="bold">Shift information have been emailed to you already, kindly select the shifts you want if you haven’t yet!</p>
             <p class="bold" style="color: #57dade;">IMPORTANT NEXT STEPS:</p>
             <div class="bordered-section">
               <p class="bold">1️⃣ Claim your E-Ticket here by ${CLAIM_TITO_TICKET_DEADLINE}</p>
               <p>👉 Tito Ticket: <a href="${titoUrl}">${titoUrl}</a></p>
-              <p class="special-note">Please use this unique invite link to claim your e-ticket. Do NOT share it with anyone else. <u>You will be asked to show your e-ticket at the check-in table to receive your mentor shirts and nametags and to enter the venue.</u></p>
+              <p class="special-note">Please use this unique invite link to claim your e-ticket. Do NOT share it with anyone else. <u>You will be asked to show your e-ticket at the check-in table to receive your volunteer shirts and nametags and to enter the venue.</u></p>
             </div>
             <div class="bordered-section">
               <p class="bold">2️⃣ Join our Discord server by ${DOE_DATE}</p>
               <p>👉 Discord Server: <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a></p>
-              <p>⚠️ Once you join, DM the user "<i>${EXTERNAL_DIRECTOR} [DIRECTOR]</i>" or "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Mentor role in the server.</p>
-              <p>We’ll be using Discord server as our main space for announcements and support for all attendees during the event. You can use it to:</p>
+              <p>⚠️ Once you join, DM the user "<i>${OPS_DIRECTOR} [DIRECTOR]</i>" or "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Volunteer role in the server.</p>
+              <p>We'll be using Discord server as our main space for announcements and support for all attendees during the event. You can use it to:</p>
               <p>🔹 Get quick answers from the team</p>
               <p>🔹 Stay in the loop on event updates</p>
-              <p>🔹 Connect with other mentors & participants</p>
-              <p class="special-note">You will be <u>monitoring the Discord for incoming mentor-request tickets</u> from hackers during your shift. Hence, it is necessary that you receive the Mentor role by <span class="bold">${DOE_DATE}</span>.</p>
+              <p>🔹 Connect with other volunteers & participants</p>
+              <p class="special-note">It is necessary that you receive the Volunteer role by <span class="bold">${DOE_DATE}</span>.</p>
             </div>
             <p>Please feel free to reach out if you have any questions or concerns. Looking forward to seeing you at the event!</p>
             <br/>
