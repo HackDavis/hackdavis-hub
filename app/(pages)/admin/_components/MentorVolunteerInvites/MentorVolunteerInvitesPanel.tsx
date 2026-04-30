@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import { Release, RsvpList } from '@typeDefs/tito';
-import MentorSingleInviteForm from './MentorSingleInviteForm';
-import MentorBulkInviteForm from './MentorBulkInviteForm';
+import MentorVolunteerSingleInviteForm from './MentorVolunteerSingleInviteForm';
+import MentorVolunteerBulkInviteForm from './MentorVolunteerBulkInviteForm';
 
 type Mode = 'single' | 'bulk';
 
@@ -13,7 +13,7 @@ interface Props {
   role: 'mentor' | 'volunteer';
 }
 
-export default function MentorInvitesPanel({ role }: Props) {
+export default function MentorVolunteerInvitesPanel({ role }: Props) {
   const [mode, setMode] = useState<Mode>('single');
   const [rsvpLists, setRsvpLists] = useState<RsvpList[]>([]);
   const [releases, setReleases] = useState<Release[]>([]);
@@ -85,7 +85,11 @@ export default function MentorInvitesPanel({ role }: Props) {
               Note: This template includes Mentor Orientation materials.
             </p>
           )}
-          <MentorSingleInviteForm rsvpLists={rsvpLists} releases={releases} role={role} />
+          <MentorVolunteerSingleInviteForm
+            rsvpLists={rsvpLists}
+            releases={releases}
+            role={role}
+          />
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -101,7 +105,11 @@ export default function MentorInvitesPanel({ role }: Props) {
               Note: This template includes Mentor Orientation materials.
             </p>
           )}
-          <MentorBulkInviteForm rsvpLists={rsvpLists} releases={releases} role={role} />
+          <MentorVolunteerBulkInviteForm
+            rsvpLists={rsvpLists}
+            releases={releases}
+            role={role}
+          />
         </div>
       )}
     </div>

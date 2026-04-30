@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import sendSingleMentorInvite from '@actions/emails/sendSingleMentorInvite';
+import sendSingleMentorOrVolunteerInvite from '@actions/emails/sendSingleMentorOrVolunteerInvite';
 import { Release, RsvpList } from '@typeDefs/tito';
 
 interface Props {
@@ -10,7 +10,11 @@ interface Props {
   role: 'mentor' | 'volunteer';
 }
 
-export default function MentorSingleInviteForm({ rsvpLists, releases, role }: Props) {
+export default function MentorSingleInviteForm({
+  rsvpLists,
+  releases,
+  role,
+}: Props) {
   const [loading, setLoading] = useState(false);
   const [titoUrl, setTitoUrl] = useState('');
   const [error, setError] = useState('');
@@ -40,7 +44,7 @@ export default function MentorSingleInviteForm({ rsvpLists, releases, role }: Pr
     setError('');
 
     const formData = new FormData(e.currentTarget);
-    const result = await sendSingleMentorInvite({
+    const result = await sendSingleMentorOrVolunteerInvite({
       firstName: formData.get('firstName') as string,
       lastName: formData.get('lastName') as string,
       email: formData.get('email') as string,

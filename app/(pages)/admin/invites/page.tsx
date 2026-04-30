@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import JudgeSingleInviteForm from '../_components/JudgeInvites/JudgeSingleInviteForm';
 import JudgeBulkInviteForm from '../_components/JudgeInvites/JudgeBulkInviteForm';
-import MentorInvitesPanel from '../_components/MentorInvites/MentorInvitesPanel';
+import MentorVolunteerInvitesPanel from '../_components/MentorVolunteerInvites/MentorVolunteerInvitesPanel';
 
 type Tab = 'judges' | 'mentors' | 'volunteers';
 
@@ -27,7 +27,11 @@ export default function InvitesPage() {
                 : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
-            {t === 'judges' ? 'Judges' : t === 'mentors' ? 'Mentors' : 'Volunteers'}
+            {t === 'judges'
+              ? 'Judges'
+              : t === 'mentors'
+              ? 'Mentors'
+              : 'Volunteers'}
           </button>
         ))}
       </div>
@@ -78,7 +82,7 @@ export default function InvitesPage() {
       {tab === 'mentors' && (
         <div className="flex flex-col gap-3">
           <h2 className="text-[1.75rem] font-semibold">Mentor Invites</h2>
-          <MentorInvitesPanel role="mentor" />
+          <MentorVolunteerInvitesPanel role="mentor" />
         </div>
       )}
 
@@ -86,7 +90,7 @@ export default function InvitesPage() {
       {tab === 'volunteers' && (
         <div className="flex flex-col gap-3">
           <h2 className="text-[1.75rem] font-semibold">Volunteer Invites</h2>
-          <MentorInvitesPanel role="volunteer" />
+          <MentorVolunteerInvitesPanel role="volunteer" />
         </div>
       )}
     </div>

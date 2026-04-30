@@ -21,7 +21,7 @@ type StaffRole = 'mentor' | 'volunteer';
 const TITO_CONCURRENCY = 20;
 const EMAIL_CONCURRENCY = 10;
 
-export default async function sendBulkMentorInvites(
+export default async function sendBulkMentorOrVolunteerInvites(
   csvText: string,
   rsvpListSlug: string,
   releaseIds: string,
@@ -69,10 +69,14 @@ export default async function sendBulkMentorInvites(
           transporter.sendMail({
             from: sender,
             to: mentor.email,
-            subject: role === 'volunteer' ? VOLUNTEER_EMAIL_SUBJECT : MENTOR_EMAIL_SUBJECT,
-            html: role === 'volunteer'
-              ? volunteerInviteTemplate(mentor.firstName, titoResult.titoUrl)
-              : mentorInviteTemplate(mentor.firstName, titoResult.titoUrl),
+            subject:
+              role === 'volunteer'
+                ? VOLUNTEER_EMAIL_SUBJECT
+                : MENTOR_EMAIL_SUBJECT,
+            html:
+              role === 'volunteer'
+                ? volunteerInviteTemplate(mentor.firstName, titoResult.titoUrl)
+                : mentorInviteTemplate(mentor.firstName, titoResult.titoUrl),
           })
         );
         return {

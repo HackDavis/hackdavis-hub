@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useState } from 'react';
 import { parse } from 'csv-parse/sync';
-import sendBulkMentorInvites from '@actions/emails/sendBulkMentorInvites';
+import sendBulkMentorOrVolunteerInvites from '@actions/emails/sendBulkMentorOrVolunteerInvites';
 import { BulkMentorInviteResponse, MentorInviteData } from '@typeDefs/emails';
 import { Release, RsvpList } from '@typeDefs/tito';
 import {
@@ -68,7 +68,11 @@ interface Props {
   role: 'mentor' | 'volunteer';
 }
 
-export default function MentorBulkInviteForm({ rsvpLists, releases, role }: Props) {
+export default function MentorVolunteerBulkInviteForm({
+  rsvpLists,
+  releases,
+  role,
+}: Props) {
   const [status, setStatus] = useState<Status>('idle');
   const [csvText, setCsvText] = useState('');
   const [fileName, setFileName] = useState('');
@@ -122,7 +126,7 @@ export default function MentorBulkInviteForm({ rsvpLists, releases, role }: Prop
     setStatus('sending');
     setResult(null);
 
-    const response = await sendBulkMentorInvites(
+    const response = await sendBulkMentorOrVolunteerInvites(
       csvText,
       selectedListSlug,
       selectedReleases.join(','),
