@@ -4,18 +4,24 @@ import getOrCreateTitoInvitation from '@actions/tito/getOrCreateTitoInvitation';
 import mentorInviteTemplate, {
   MENTOR_EMAIL_SUBJECT,
 } from './emailTemplates/2026MentorInviteTemplate';
+import volunteerInviteTemplate, {
+  VOLUNTEER_EMAIL_SUBJECT,
+} from './emailTemplates/2026VolunteerInviteTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import { MentorInviteData, SingleMentorInviteResponse } from '@typeDefs/emails';
+
+type StaffRole = 'mentor' | 'volunteer';
 
 interface MentorInviteOptions extends MentorInviteData {
   rsvpListSlug: string;
   releaseIds: string;
+  role: StaffRole;
 }
 
 export default async function sendSingleMentorInvite(
   options: MentorInviteOptions
 ): Promise<SingleMentorInviteResponse> {
-  const { firstName, lastName, email, rsvpListSlug, releaseIds } = options;
+  const { firstName, lastName, email, rsvpListSlug, releaseIds, role } = options;
 
   try {
     // Step 1: Get or create Tito invitation (with duplicate recovery)
@@ -39,8 +45,10 @@ export default async function sendSingleMentorInvite(
     await transporter.sendMail({
       from: DEFAULT_SENDER,
       to: email,
-      subject: MENTOR_EMAIL_SUBJECT,
-      html: mentorInviteTemplate(firstName, titoResult.titoUrl),
+      subject: role === 'volunteer' ? VOLUNTEER_EMAIL_SUBJECT : MENTOR_EMAIL_SUBJECT,
+      html: role === 'volunteer'
+        ? volunteerInviteTemplate(firstName, titoResult.titoUrl)
+        : mentorInviteTemplate(firstName, titoResult.titoUrl),
     });
 
     return { ok: true, titoUrl: titoResult.titoUrl, error: null };

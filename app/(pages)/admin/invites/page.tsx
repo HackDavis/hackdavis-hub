@@ -6,7 +6,7 @@ import JudgeSingleInviteForm from '../_components/JudgeInvites/JudgeSingleInvite
 import JudgeBulkInviteForm from '../_components/JudgeInvites/JudgeBulkInviteForm';
 import MentorInvitesPanel from '../_components/MentorInvites/MentorInvitesPanel';
 
-type Tab = 'judges' | 'mentors';
+type Tab = 'judges' | 'mentors' | 'volunteers';
 
 export default function InvitesPage() {
   const [tab, setTab] = useState<Tab>('judges');
@@ -17,7 +17,7 @@ export default function InvitesPage() {
 
       {/* Tab bar */}
       <div className="flex gap-2 border-b border-gray-200">
-        {(['judges', 'mentors'] as Tab[]).map((t) => (
+        {(['judges', 'mentors', 'volunteers'] as Tab[]).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -27,7 +27,7 @@ export default function InvitesPage() {
                 : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
-            {t === 'judges' ? 'Judges' : 'Mentors'}
+            {t === 'judges' ? 'Judges' : t === 'mentors' ? 'Mentors' : 'Volunteers'}
           </button>
         ))}
       </div>
@@ -78,7 +78,15 @@ export default function InvitesPage() {
       {tab === 'mentors' && (
         <div className="flex flex-col gap-3">
           <h2 className="text-[1.75rem] font-semibold">Mentor Invites</h2>
-          <MentorInvitesPanel />
+          <MentorInvitesPanel role="mentor" />
+        </div>
+      )}
+
+      {/* Volunteers panel */}
+      {tab === 'volunteers' && (
+        <div className="flex flex-col gap-3">
+          <h2 className="text-[1.75rem] font-semibold">Volunteer Invites</h2>
+          <MentorInvitesPanel role="volunteer" />
         </div>
       )}
     </div>

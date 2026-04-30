@@ -7,9 +7,10 @@ import { Release, RsvpList } from '@typeDefs/tito';
 interface Props {
   rsvpLists: RsvpList[];
   releases: Release[];
+  role: 'mentor' | 'volunteer';
 }
 
-export default function MentorSingleInviteForm({ rsvpLists, releases }: Props) {
+export default function MentorSingleInviteForm({ rsvpLists, releases, role }: Props) {
   const [loading, setLoading] = useState(false);
   const [titoUrl, setTitoUrl] = useState('');
   const [error, setError] = useState('');
@@ -45,6 +46,7 @@ export default function MentorSingleInviteForm({ rsvpLists, releases }: Props) {
       email: formData.get('email') as string,
       rsvpListSlug: selectedListSlug,
       releaseIds: selectedReleases.join(','),
+      role,
     });
 
     setLoading(false);

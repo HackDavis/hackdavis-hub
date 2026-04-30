@@ -65,9 +65,10 @@ type Status = 'idle' | 'previewing' | 'sending' | 'done';
 interface Props {
   rsvpLists: RsvpList[];
   releases: Release[];
+  role: 'mentor' | 'volunteer';
 }
 
-export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
+export default function MentorBulkInviteForm({ rsvpLists, releases, role }: Props) {
   const [status, setStatus] = useState<Status>('idle');
   const [csvText, setCsvText] = useState('');
   const [fileName, setFileName] = useState('');
@@ -124,7 +125,8 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
     const response = await sendBulkMentorInvites(
       csvText,
       selectedListSlug,
-      selectedReleases.join(',')
+      selectedReleases.join(','),
+      role
     );
     setResult(response);
     setStatus('done');
@@ -151,7 +153,7 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `mentor-invites-${
+    link.download = `${role}-invites-${
       new Date().toISOString().split('T')[0]
     }.csv`;
     link.click();
@@ -167,7 +169,7 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
     const link = document.createElement('a');
     link.href = url;
     link.download = buildFailureDownloadFilename(
-      fileName || 'mentor-invites.csv'
+      fileName || `${role}-invites.csv`
     );
     link.click();
     URL.revokeObjectURL(url);
@@ -217,7 +219,7 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
       {status === 'previewing' && preview.length > 0 && (
         <div className="flex flex-col gap-4">
           <p className="text-sm text-gray-600">
-            <span className="font-semibold">{preview.length}</span> mentor
+            <span className="font-semibold">{preview.length}</span> {role}
             {preview.length !== 1 ? 's' : ''} found. Configure Tito settings and
             review before sending:
           </p>
