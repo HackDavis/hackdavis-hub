@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
 import { useRef, useState, useEffect } from 'react';
+import useIdeateScroll from './useIdeateScroll';
 
 interface Responsibility {
   dark_icon: StaticImageData;
@@ -32,7 +33,6 @@ export function Responsibilities({
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // go to nearest responsibility
     if (!scrollRef.current) return;
 
     const snapToIndex = (index: number) => {
@@ -72,7 +72,6 @@ export function Responsibilities({
       setScrollPos(closest);
     };
 
-    // scroll for computer
     const onScroll = (e: WheelEvent) => {
       if (!scrollRef.current) return;
 
@@ -85,15 +84,12 @@ export function Responsibilities({
         ? scrollRef.current.clientHeight
         : minScrollHeight;
 
-      // set scroll bar to whatever the user scrolled to
       if (
         midpoint > window.innerHeight / 2 - 50 &&
         midpoint < window.innerHeight / 2 + 50
       ) {
-        // if component is within range...
 
         setScrollPos((prev) => {
-          //
           const next = Math.min(
             Math.max(minScrollHeight, prev == null ? 0 : prev + e.deltaY),
             maxHeight
@@ -101,7 +97,6 @@ export function Responsibilities({
 
           if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
-          // makes it go to nearest responsibility
           scrollTimeout.current = setTimeout(() => {
             snapToNearest(next);
           }, 100);
@@ -137,7 +132,6 @@ export function Responsibilities({
           enterFromTop.current = true;
         }
       } else if (scrollPos != maxHeight && scrollPos != minScrollHeight) {
-        // if it it somehow not in range but not at where its supposed to be
         if (e.cancelable) {
           e.preventDefault();
         } else {
@@ -146,7 +140,6 @@ export function Responsibilities({
           sectionElement.style.touchAction = 'none';
         }
         setScrollPos((prev) => {
-          //
           const next = Math.min(
             Math.max(minScrollHeight, prev == null ? 0 : prev + e.deltaY),
             maxHeight
@@ -154,7 +147,6 @@ export function Responsibilities({
 
           if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
-          // makes it go to nearest responsibility
           scrollTimeout.current = setTimeout(() => {
             snapToNearest(next);
           }, 100);
@@ -172,7 +164,6 @@ export function Responsibilities({
       }
     };
 
-    // scroll for mobile
     const onTouchStart = (e: TouchEvent) => {
       touchYRef.current = e.touches[0].clientY;
     };
@@ -191,15 +182,12 @@ export function Responsibilities({
       const deltaY = touchYRef.current - e.touches[0].clientY;
       touchYRef.current = e.touches[0].clientY;
 
-      // set scroll bar to whatever the user scrolled to
       if (
         midpoint > window.innerHeight / 2 - 50 &&
         midpoint < window.innerHeight / 2 + 50
       ) {
-        // if component is within range...
 
         setScrollPos((prev) => {
-          //
           const next = Math.min(
             Math.max(minScrollHeight, prev == null ? 0 : prev + deltaY),
             maxHeight
@@ -207,7 +195,6 @@ export function Responsibilities({
 
           if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
-          // makes it go to nearest responsibility
           scrollTimeout.current = setTimeout(() => {
             snapToNearest(next);
           }, 100);
@@ -240,7 +227,6 @@ export function Responsibilities({
           sectionElement.style.touchAction = 'auto';
         }
       } else if (scrollPos != maxHeight && scrollPos != minScrollHeight) {
-        // if it it somehow not in range but not at where its supposed to be
         if (e.cancelable) {
           e.preventDefault();
         } else {
@@ -249,7 +235,6 @@ export function Responsibilities({
           sectionElement.style.touchAction = 'none';
         }
         setScrollPos((prev) => {
-          //
           const next = Math.min(
             Math.max(minScrollHeight, prev == null ? 0 : prev + deltaY),
             maxHeight
@@ -257,7 +242,6 @@ export function Responsibilities({
 
           if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
 
-          // makes it go to nearest responsibility
           scrollTimeout.current = setTimeout(() => {
             snapToNearest(next);
           }, 100);
