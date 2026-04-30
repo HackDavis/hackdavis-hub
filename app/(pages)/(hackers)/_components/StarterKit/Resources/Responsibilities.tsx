@@ -287,7 +287,7 @@ export function Responsibilities({
     window.addEventListener('touchmove', onTouchMove, { passive: false });
     window.addEventListener('touchend', onTouchEnd, { passive: false });
     
-    const responsibility0 = document.getElementById('responsibility-0');
+    const responsibility0 = document.getElementById(title + 'responsibility-0');
     const responsibility0_onClick = () => {
         snapToIndex(0);
     };
@@ -295,7 +295,7 @@ export function Responsibilities({
       responsibility0.addEventListener("click", responsibility0_onClick);
     }
     
-    const responsibility1 = document.getElementById('responsibility-1');
+    const responsibility1 = document.getElementById(title + 'responsibility-1');
     const responsibility1_onClick = () => {
         snapToIndex(1);
     };
@@ -303,7 +303,7 @@ export function Responsibilities({
       responsibility1.addEventListener("click", responsibility1_onClick);
     }
 
-    const responsibility2 = document.getElementById('responsibility-2');
+    const responsibility2 = document.getElementById(title + 'responsibility-2');
     const responsibility2_onClick = () => {
         snapToIndex(2);
     };
@@ -311,7 +311,7 @@ export function Responsibilities({
       responsibility2.addEventListener("click", responsibility2_onClick);
     }
 
-    const responsibility3 = document.getElementById('responsibility-3');
+    const responsibility3 = document.getElementById(title + 'responsibility-3');
     const responsibility3_onClick = () => {
         snapToIndex(3);
     };
@@ -397,7 +397,7 @@ export function Responsibilities({
           </div>
           <div className="flex gap-[57px] flex-col h-min px-[12px]">
             {responsibilities.map((responsibility, index) => (
-              <div key={index} id={`responsibility-` + index} className="flex flex-col gap-[4px]">
+              <div key={index} id={title + `responsibility-` + index} className="flex flex-col gap-[4px]">
                 <div className="flex flex-row items-center gap-[4px]">
                   <Image
                     src={
