@@ -57,7 +57,7 @@ export default function volunteerInviteTemplate(
             <p>Hi ${fname},</p>
             <br/>
             <p>Thank you again for joining us as a <span class="bold">volunteer</span>, we're thrilled to have you on board!</p>
-            <p class="bold">Shift information have been emailed to you already, kindly select at least 1 shift and mark your calendars!</p>
+            <p class="bold">Shift information have been emailed to you already, kindly select the shifts you want if you haven’t yet!</p>
             <p class="bold" style="color: #57dade;">IMPORTANT NEXT STEPS:</p>
             <div class="bordered-section">
               <p class="bold">1️⃣ Claim your E-Ticket here by ${CLAIM_TITO_TICKET_DEADLINE}</p>
