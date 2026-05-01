@@ -36,7 +36,7 @@ export default function HackbotInputForm({
     <div className="relative">
       {/* Suggestions popup — overlays above, does not push layout */}
       {showSuggestions && hasMessages && (
-        <div className="absolute bottom-full mb-2 left-0 right-0 bg-white rounded-3xl border border-gray-100 shadow-xl p-3 space-y-2 z-20">
+        <div className="absolute bottom-full mb-2 left-0 right-0 bg-white rounded-4xl border border-gray-100 shadow-xl p-3 space-y-2 z-20">
           {suggestionChips.map((q) => (
             <button
               key={q}
