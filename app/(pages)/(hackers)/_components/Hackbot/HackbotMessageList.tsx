@@ -56,10 +56,10 @@ export default function HackbotMessageList({
       {messages.length === 0 && (
         <div className="space-y-3">
           <div className="pb-1">
-            <p className="text-2xl font-bold text-[#003D3D] leading-tight">
+            <p className="text-2xl font-bold text-[#003D3D] leading-tight font-jakarta">
               {firstName ? `Hi ${firstName}!` : 'Hi there!'}
             </p>
-            <p className="text-2xl font-bold text-[#003D3D] leading-tight">
+            <p className="text-2xl font-bold text-[#003D3D] leading-tight font-jakarta">
               How can I help you today?
             </p>
           </div>
@@ -68,7 +68,7 @@ export default function HackbotMessageList({
               key={q}
               type="button"
               onClick={() => onChipClick(q)}
-              className="block w-full text-left text-xs px-3.5 py-2.5 rounded-xl border border-[#9EE7E5]/60 text-[#003D3D] hover:brightness-95 transition-all"
+              className="block w-full text-left text-xs px-3.5 py-2.5 rounded-xl border border-[#9EE7E5]/60 text-[#003D3D] hover:brightness-95 transition-all font-jakarta"
               style={{ backgroundColor: '#D5FDFF99' }}
             >
               {q}

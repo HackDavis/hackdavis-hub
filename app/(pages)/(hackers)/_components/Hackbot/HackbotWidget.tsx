@@ -41,10 +41,7 @@ export default function HackbotWidget({
   } = useHackbotWidget({ initialProfile });
 
   return (
-    <div
-      className="fixed bottom-2 sm:bottom-4 right-2 sm:right-4 z-50 flex flex-col items-end gap-3"
-      style={{ fontFamily: 'var(--font-plus-jakarta-sans, sans-serif)' }}
-    >
+    <div className="fixed bottom-2 sm:bottom-4 right-2 sm:right-4 z-50 flex flex-col items-end gap-3 font-jakarta">
       {open && (
         /* Outer container — panelRef here so all children share the same width */
         <div
@@ -56,7 +53,7 @@ export default function HackbotWidget({
           <div className="flex gap-1 sm:gap-3 items-stretch">
             {/* Title pill */}
             <div className="flex-1 bg-white rounded-3xl shadow-lg border border-gray-100 px-4 py-3">
-              <p className="text-sm font-bold text-[#003D3D] tracking-tight md:whitespace-nowrap self-center">
+              <p className="text-sm font-bold text-[#003D3D] tracking-tight md:whitespace-nowrap self-center font-jakarta">
                 Hi I'm Hacky! Ask me anything about Hackdavis.
               </p>
             </div>
