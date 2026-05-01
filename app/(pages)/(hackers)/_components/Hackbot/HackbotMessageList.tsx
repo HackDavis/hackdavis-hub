@@ -51,15 +51,15 @@ export default function HackbotMessageList({
   messagesEndRef: RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <section className="flex-1 overflow-y-auto px-4 py-4 space-y-3 min-h-0 bg-white">
+    <section className="flex-1 flex flex-col overflow-y-auto px-4 py-4 min-h-0 bg-white">
       {/* Empty state */}
       {messages.length === 0 && (
-        <div className="space-y-3">
+        <div className="mt-auto space-y-3">
           <div className="pb-1">
-            <p className="text-2xl font-bold text-[#003D3D] leading-tight font-jakarta">
+            <p className="text-2xl font-semibold text-[#003D3D] leading-tight font-jakarta">
               {firstName ? `Hi ${firstName}!` : 'Hi there!'}
             </p>
-            <p className="text-2xl font-bold text-[#003D3D] leading-tight font-jakarta">
+            <p className="text-2xl font-semibold text-[#003D3D] leading-tight font-jakarta">
               How can I help you today?
             </p>
           </div>
@@ -68,7 +68,7 @@ export default function HackbotMessageList({
               key={q}
               type="button"
               onClick={() => onChipClick(q)}
-              className="block w-full text-left text-xs px-3.5 py-2.5 rounded-xl border border-[#9EE7E5]/60 text-[#003D3D] hover:brightness-95 transition-all font-jakarta"
+              className="block w-full text-left text-xs px-3.5 py-2.5 rounded-3xl border border-[#9EE7E5]/60 text-[#003D3D] hover:brightness-95 transition-all font-jakarta"
               style={{ backgroundColor: '#D5FDFF99' }}
             >
               {q}

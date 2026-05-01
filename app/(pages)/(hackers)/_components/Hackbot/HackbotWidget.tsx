@@ -53,7 +53,7 @@ export default function HackbotWidget({
           <div className="flex gap-1 sm:gap-3 items-stretch">
             {/* Title pill */}
             <div className="flex-1 bg-white rounded-3xl shadow-lg border border-gray-100 px-4 py-3">
-              <p className="text-sm font-bold text-[#003D3D] tracking-tight md:whitespace-nowrap self-center font-jakarta">
+              <p className="text-sm font-semibold text-[#003D3D] tracking-tight md:whitespace-nowrap self-center font-jakarta">
                 Hi I'm Hacky! Ask me anything about Hackdavis.
               </p>
             </div>
