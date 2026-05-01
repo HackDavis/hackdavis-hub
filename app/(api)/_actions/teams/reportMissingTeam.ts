@@ -37,7 +37,10 @@ export async function reportMissingProject(judge_id: string, team_id: string) {
     );
 
     if (!submissionsRes.ok) {
-      throw new Error(submissionsRes.error ?? '');
+      throw new Error(
+        submissionsRes.error ??
+          `Failed to fetch submissions for judge: ${judge_id}`
+      );
     }
 
     const submissions: Submission[] = submissionsRes.body ?? [];
@@ -206,7 +209,8 @@ export async function restoreMissingTeam(team_id: string) {
 
     if (!updateTeamRes.ok) {
       throw new Error(
-        updateTeamRes.error ?? `Failed to restore missing team with id: ${team_id}.`
+        updateTeamRes.error ??
+          `Failed to restore missing team with id: ${team_id}.`
       );
     }
 
