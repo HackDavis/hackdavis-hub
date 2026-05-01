@@ -15,7 +15,8 @@ export default async function getAllRsvpInvitations(
   const pageSize = 1000;
   let page = 1;
 
-  while (true) {
+  let hasMore = true;
+  while (hasMore) {
     try {
       const data = await TitoRequest<{
         release_invitations: ReleaseInvitation[];
@@ -31,11 +32,11 @@ export default async function getAllRsvpInvitations(
         }
       }
 
-      if (invitations.length < pageSize) break;
+      hasMore = invitations.length === pageSize;
       page++;
     } catch (e) {
       console.error('[Tito] getAllRsvpInvitations failed on page', page, e);
-      break;
+      hasMore = false;
     }
   }
 
