@@ -10,7 +10,7 @@ export default function volunteerInviteTemplate(
   const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
   const CLAIM_TITO_TICKET_DEADLINE = '11:59pm on May 4th';
   const DOE_DATE = 'May 9th, 2026';
-  const TECH_DIRECTOR = 'afifah';
+  const TECH_DIRECTOR = 'Afifah';
   const OPS_DIRECTOR = 'Matthew';
   const DOE = 'May 9 - 10, 2026';
   const DOE_LOCATION = 'University Credit Union Center, UC Davis';

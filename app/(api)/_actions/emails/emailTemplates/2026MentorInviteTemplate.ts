@@ -9,8 +9,8 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
     'https://www.notion.so/hackdavis/HackDavis-Mentor-Guide-3512d37fcae880c2916ff83fcde19565?source=copy_link';
   const CLAIM_TITO_TICKET_DEADLINE = '11:59pm on May 4th';
   const DOE_DATE = 'May 9th, 2026';
-  const TECH_DIRECTOR = 'afifah';
-  const EXTERNAL_DIRECTOR = 'kelly';
+  const TECH_DIRECTOR = 'Afifah';
+  const EXTERNAL_DIRECTOR = 'Kelly';
   const DOE = 'May 9 - 10, 2026';
   const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
