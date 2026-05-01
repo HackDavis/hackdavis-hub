@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import { z } from 'zod';
 import getOrCreateTitoInvitation from '@actions/tito/getOrCreateTitoInvitation';
 import getAllRsvpInvitations from '@actions/tito/getAllRsvpInvitations';
