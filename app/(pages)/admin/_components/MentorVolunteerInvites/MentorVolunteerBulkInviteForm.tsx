@@ -3,20 +3,42 @@
 import { ChangeEvent, useState } from 'react';
 import { parse } from 'csv-parse/sync';
 import sendBulkMentorOrVolunteerInvites from '@actions/emails/sendBulkMentorOrVolunteerInvites';
-import { BulkMentorInviteResponse, MentorInviteData } from '@typeDefs/emails';
+import sendBulkHackerInvites from '@actions/emails/sendBulkHackerInvites';
+import sendBulkJudgeHubInvites from '@actions/emails/sendBulkJudgeHubInvites';
+import { InviteData } from '@typeDefs/emails';
 import { Release, RsvpList } from '@typeDefs/tito';
 import {
   buildFailureDownloadFilename,
   generateInviteFailuresCSV,
 } from '../../_utils/generateInviteFailuresCSV';
-import { generateInviteResultsCSV } from '../../_utils/generateInviteResultsCSV';
+import {
+  generateInviteResultsCSV,
+  InviteResultRow,
+} from '../../_utils/generateInviteResultsCSV';
+import { InviteRole } from './MentorVolunteerInvitesPanel';
+
+interface DisplayResult {
+  email: string;
+  success: boolean;
+  error?: string;
+  titoUrl?: string;
+  inviteUrl?: string;
+}
+
+interface DisplayBulkResponse {
+  ok: boolean;
+  results: DisplayResult[];
+  successCount: number;
+  failureCount: number;
+  error: string | null;
+}
 
 /**
  * Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side.
  */
 function previewCSV(
   text: string
-): { ok: true; rows: MentorInviteData[] } | { ok: false; error: string } {
+): { ok: true; rows: InviteData[] } | { ok: false; error: string } {
   if (!text.trim()) return { ok: false, error: 'CSV is empty.' };
 
   let parsedRows: string[][];
@@ -44,7 +66,7 @@ function previewCSV(
   const dataRows = hasHeader ? parsedRows.slice(1) : parsedRows;
   if (dataRows.length === 0) return { ok: false, error: 'No data rows found.' };
 
-  const previewRows: MentorInviteData[] = [];
+  const previewRows: InviteData[] = [];
   for (let i = 0; i < dataRows.length; i++) {
     const cols = dataRows[i];
     if (cols.length < 3) {
@@ -65,7 +87,7 @@ type Status = 'idle' | 'previewing' | 'sending' | 'done';
 interface Props {
   rsvpLists: RsvpList[];
   releases: Release[];
-  role: 'mentor' | 'volunteer';
+  role: InviteRole;
 }
 
 export default function MentorVolunteerBulkInviteForm({
@@ -76,14 +98,16 @@ export default function MentorVolunteerBulkInviteForm({
   const [status, setStatus] = useState<Status>('idle');
   const [csvText, setCsvText] = useState('');
   const [fileName, setFileName] = useState('');
-  const [preview, setPreview] = useState<MentorInviteData[]>([]);
+  const [preview, setPreview] = useState<InviteData[]>([]);
   const [parseError, setParseError] = useState('');
-  const [result, setResult] = useState<BulkMentorInviteResponse | null>(null);
+  const [result, setResult] = useState<DisplayBulkResponse | null>(null);
   const [selectedListSlug, setSelectedListSlug] = useState(
     rsvpLists[0]?.slug ?? ''
   );
   const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
   const [configError, setConfigError] = useState('');
+
+  const hasTito = role !== 'judge';
 
   const toggleRelease = (id: string) =>
     setSelectedReleases((prev) =>
@@ -114,11 +138,11 @@ export default function MentorVolunteerBulkInviteForm({
   };
 
   const handleSend = async () => {
-    if (!selectedListSlug) {
+    if (hasTito && !selectedListSlug) {
       setConfigError('Please select an RSVP list.');
       return;
     }
-    if (selectedReleases.length === 0) {
+    if (hasTito && selectedReleases.length === 0) {
       setConfigError('Please select at least one release.');
       return;
     }
@@ -126,12 +150,53 @@ export default function MentorVolunteerBulkInviteForm({
     setStatus('sending');
     setResult(null);
 
-    const response = await sendBulkMentorOrVolunteerInvites(
-      csvText,
-      selectedListSlug,
-      selectedReleases.join(','),
-      role
-    );
+    let response: DisplayBulkResponse;
+
+    if (role === 'judge') {
+      const r = await sendBulkJudgeHubInvites(csvText);
+      response = {
+        ...r,
+        results: r.results.map((res) => ({
+          email: res.email,
+          success: res.success,
+          error: res.error,
+          inviteUrl: res.inviteUrl,
+        })),
+      };
+    } else if (role === 'hacker') {
+      const r = await sendBulkHackerInvites(
+        csvText,
+        selectedListSlug,
+        selectedReleases.join(',')
+      );
+      response = {
+        ...r,
+        results: r.results.map((res) => ({
+          email: res.email,
+          success: res.success,
+          error: res.error,
+          titoUrl: res.titoUrl,
+          inviteUrl: res.inviteUrl,
+        })),
+      };
+    } else {
+      const r = await sendBulkMentorOrVolunteerInvites(
+        csvText,
+        selectedListSlug,
+        selectedReleases.join(','),
+        role
+      );
+      response = {
+        ...r,
+        results: r.results.map((res) => ({
+          email: res.email,
+          success: res.success,
+          error: res.error,
+          titoUrl: res.titoUrl,
+        })),
+      };
+    }
+
     setResult(response);
     setStatus('done');
   };
@@ -141,18 +206,20 @@ export default function MentorVolunteerBulkInviteForm({
     const resultMap = new Map(
       result.results.map((r) => [r.email.toLowerCase(), r])
     );
-    const rows = preview.map((mentor) => {
-      const res = resultMap.get(mentor.email.toLowerCase());
+    const includeHub = role === 'hacker' || role === 'judge';
+    const rows: InviteResultRow[] = preview.map((person) => {
+      const res = resultMap.get(person.email.toLowerCase());
       return {
-        firstName: mentor.firstName,
-        lastName: mentor.lastName,
-        email: mentor.email,
+        firstName: person.firstName,
+        lastName: person.lastName,
+        email: person.email,
         titoUrl: res?.titoUrl,
+        hubUrl: res?.inviteUrl,
         success: res?.success ?? false,
         error: res?.error,
       };
     });
-    const csv = generateInviteResultsCSV(rows);
+    const csv = generateInviteResultsCSV(rows, includeHub);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -224,8 +291,10 @@ export default function MentorVolunteerBulkInviteForm({
         <div className="flex flex-col gap-4">
           <p className="text-sm text-gray-600">
             <span className="font-semibold">{preview.length}</span> {role}
-            {preview.length !== 1 ? 's' : ''} found. Configure Tito settings and
-            review before sending:
+            {preview.length !== 1 ? 's' : ''} found.{' '}
+            {hasTito
+              ? 'Configure Tito settings and review before sending:'
+              : 'Review before sending:'}
           </p>
 
           <div className="border border-gray-200 rounded-lg overflow-hidden">
@@ -245,19 +314,19 @@ export default function MentorVolunteerBulkInviteForm({
                   </tr>
                 </thead>
                 <tbody>
-                  {preview.map((mentor, i) => (
+                  {preview.map((person, i) => (
                     <tr
                       key={i}
                       className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
                     >
                       <td className="px-4 py-2 text-gray-800">
-                        {mentor.firstName}
+                        {person.firstName}
                       </td>
                       <td className="px-4 py-2 text-gray-800">
-                        {mentor.lastName}
+                        {person.lastName}
                       </td>
                       <td className="px-4 py-2 text-gray-600">
-                        {mentor.email}
+                        {person.email}
                       </td>
                     </tr>
                   ))}
@@ -266,68 +335,71 @@ export default function MentorVolunteerBulkInviteForm({
             </div>
           </div>
 
-          {/* RSVP List */}
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">
-              RSVP List
-            </label>
-            <select
-              value={selectedListSlug}
-              onChange={(e) => setSelectedListSlug(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#005271]"
-            >
-              {rsvpLists.map((list) => (
-                <option key={list.id} value={list.slug}>
-                  {list.title}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Releases */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-gray-700">
-                Releases (ticket types)
-              </label>
-              <button
-                type="button"
-                onClick={() =>
-                  setSelectedReleases(
-                    selectedReleases.length === releases.length
-                      ? []
-                      : releases.map((r) => r.id)
-                  )
-                }
-                className="text-xs text-[#005271] underline"
-              >
-                {selectedReleases.length === releases.length
-                  ? 'Deselect all'
-                  : 'Select all'}
-              </button>
-            </div>
-            <div className="flex flex-col gap-1">
-              {releases.map((release) => (
-                <label
-                  key={release.id}
-                  className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer text-sm"
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedReleases.includes(release.id)}
-                    onChange={() => toggleRelease(release.id)}
-                    className="w-4 h-4 accent-[#005271]"
-                  />
-                  <span className="text-gray-800 font-medium">
-                    {release.title}
-                  </span>
-                  <span className="text-gray-400 text-xs ml-auto">
-                    {release.id}
-                  </span>
+          {/* Tito config — hidden for judges */}
+          {hasTito && (
+            <>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium text-gray-700">
+                  RSVP List
                 </label>
-              ))}
-            </div>
-          </div>
+                <select
+                  value={selectedListSlug}
+                  onChange={(e) => setSelectedListSlug(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#005271]"
+                >
+                  {rsvpLists.map((list) => (
+                    <option key={list.id} value={list.slug}>
+                      {list.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium text-gray-700">
+                    Releases (ticket types)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelectedReleases(
+                        selectedReleases.length === releases.length
+                          ? []
+                          : releases.map((r) => r.id)
+                      )
+                    }
+                    className="text-xs text-[#005271] underline"
+                  >
+                    {selectedReleases.length === releases.length
+                      ? 'Deselect all'
+                      : 'Select all'}
+                  </button>
+                </div>
+                <div className="flex flex-col gap-1">
+                  {releases.map((release) => (
+                    <label
+                      key={release.id}
+                      className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer text-sm"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedReleases.includes(release.id)}
+                        onChange={() => toggleRelease(release.id)}
+                        className="w-4 h-4 accent-[#005271]"
+                      />
+                      <span className="text-gray-800 font-medium">
+                        {release.title}
+                      </span>
+                      <span className="text-gray-400 text-xs ml-auto">
+                        {release.id}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
 
           {configError && (
             <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">

@@ -2,26 +2,36 @@
 
 import { FormEvent, useState } from 'react';
 import sendSingleMentorOrVolunteerInvite from '@actions/emails/sendSingleMentorOrVolunteerInvite';
+import sendSingleHackerInvite from '@actions/emails/sendSingleHackerInvite';
+import sendSingleJudgeHubInvite from '@actions/emails/sendSingleJudgeHubInvite';
 import { Release, RsvpList } from '@typeDefs/tito';
+import { InviteRole } from './MentorVolunteerInvitesPanel';
 
 interface Props {
   rsvpLists: RsvpList[];
   releases: Release[];
-  role: 'mentor' | 'volunteer';
+  role: InviteRole;
 }
 
-export default function MentorSingleInviteForm({
+interface SuccessUrls {
+  titoUrl?: string;
+  inviteUrl?: string;
+}
+
+export default function MentorVolunteerSingleInviteForm({
   rsvpLists,
   releases,
   role,
 }: Props) {
   const [loading, setLoading] = useState(false);
-  const [titoUrl, setTitoUrl] = useState('');
+  const [successUrls, setSuccessUrls] = useState<SuccessUrls | null>(null);
   const [error, setError] = useState('');
   const [selectedListSlug, setSelectedListSlug] = useState(
     rsvpLists[0]?.slug ?? ''
   );
   const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
+
+  const hasTito = role !== 'judge';
 
   const toggleRelease = (id: string) =>
     setSelectedReleases((prev) =>
@@ -30,33 +40,57 @@ export default function MentorSingleInviteForm({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!selectedListSlug) {
+    if (hasTito && !selectedListSlug) {
       setError('Please select an RSVP list.');
       return;
     }
-    if (selectedReleases.length === 0) {
+    if (hasTito && selectedReleases.length === 0) {
       setError('Please select at least one release.');
       return;
     }
 
     setLoading(true);
-    setTitoUrl('');
+    setSuccessUrls(null);
     setError('');
 
     const formData = new FormData(e.currentTarget);
-    const result = await sendSingleMentorOrVolunteerInvite({
-      firstName: formData.get('firstName') as string,
-      lastName: formData.get('lastName') as string,
-      email: formData.get('email') as string,
-      rsvpListSlug: selectedListSlug,
-      releaseIds: selectedReleases.join(','),
-      role,
-    });
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
+    const email = formData.get('email') as string;
+
+    let result: {
+      ok: boolean;
+      titoUrl?: string;
+      inviteUrl?: string;
+      error: string | null;
+    };
+
+    if (role === 'judge') {
+      result = await sendSingleJudgeHubInvite({ firstName, lastName, email });
+    } else if (role === 'hacker') {
+      result = await sendSingleHackerInvite({
+        firstName,
+        lastName,
+        email,
+        rsvpListSlug: selectedListSlug,
+        releaseIds: selectedReleases.join(','),
+      });
+    } else {
+      const mentorResult = await sendSingleMentorOrVolunteerInvite({
+        firstName,
+        lastName,
+        email,
+        rsvpListSlug: selectedListSlug,
+        releaseIds: selectedReleases.join(','),
+        role,
+      });
+      result = { ...mentorResult, inviteUrl: undefined };
+    }
 
     setLoading(false);
 
     if (result.ok) {
-      setTitoUrl(result.titoUrl ?? '');
+      setSuccessUrls({ titoUrl: result.titoUrl, inviteUrl: result.inviteUrl });
       (e.target as HTMLFormElement).reset();
       setSelectedReleases([]);
     } else {
@@ -99,64 +133,71 @@ export default function MentorSingleInviteForm({
         />
       </div>
 
-      {/* RSVP List */}
-      <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-700">RSVP List</label>
-        <select
-          value={selectedListSlug}
-          onChange={(e) => setSelectedListSlug(e.target.value)}
-          className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#005271]"
-        >
-          {rsvpLists.map((list) => (
-            <option key={list.id} value={list.slug}>
-              {list.title}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Releases */}
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-gray-700">
-            Releases (ticket types)
-          </label>
-          <button
-            type="button"
-            onClick={() =>
-              setSelectedReleases(
-                selectedReleases.length === releases.length
-                  ? []
-                  : releases.map((r) => r.id)
-              )
-            }
-            className="text-xs text-[#005271] underline"
-          >
-            {selectedReleases.length === releases.length
-              ? 'Deselect all'
-              : 'Select all'}
-          </button>
-        </div>
-        <div className="flex flex-col gap-1">
-          {releases.map((release) => (
-            <label
-              key={release.id}
-              className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer text-sm"
-            >
-              <input
-                type="checkbox"
-                checked={selectedReleases.includes(release.id)}
-                onChange={() => toggleRelease(release.id)}
-                className="w-4 h-4 accent-[#005271]"
-              />
-              <span className="text-gray-800 font-medium">{release.title}</span>
-              <span className="text-gray-400 text-xs ml-auto">
-                {release.id}
-              </span>
+      {/* Tito config — hidden for judges */}
+      {hasTito && (
+        <>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              RSVP List
             </label>
-          ))}
-        </div>
-      </div>
+            <select
+              value={selectedListSlug}
+              onChange={(e) => setSelectedListSlug(e.target.value)}
+              className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#005271]"
+            >
+              {rsvpLists.map((list) => (
+                <option key={list.id} value={list.slug}>
+                  {list.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-gray-700">
+                Releases (ticket types)
+              </label>
+              <button
+                type="button"
+                onClick={() =>
+                  setSelectedReleases(
+                    selectedReleases.length === releases.length
+                      ? []
+                      : releases.map((r) => r.id)
+                  )
+                }
+                className="text-xs text-[#005271] underline"
+              >
+                {selectedReleases.length === releases.length
+                  ? 'Deselect all'
+                  : 'Select all'}
+              </button>
+            </div>
+            <div className="flex flex-col gap-1">
+              {releases.map((release) => (
+                <label
+                  key={release.id}
+                  className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedReleases.includes(release.id)}
+                    onChange={() => toggleRelease(release.id)}
+                    className="w-4 h-4 accent-[#005271]"
+                  />
+                  <span className="text-gray-800 font-medium">
+                    {release.title}
+                  </span>
+                  <span className="text-gray-400 text-xs ml-auto">
+                    {release.id}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
       <button
         type="submit"
@@ -171,10 +212,25 @@ export default function MentorSingleInviteForm({
           {error}
         </p>
       )}
-      {titoUrl && (
-        <div className="bg-green-50 border border-green-200 rounded-md px-3 py-2 flex flex-col gap-1">
+      {successUrls && (
+        <div className="bg-green-50 border border-green-200 rounded-md px-3 py-2 flex flex-col gap-2">
           <p className="text-sm font-medium text-green-700">Invite sent!</p>
-          <p className="text-xs text-green-600 break-all">{titoUrl}</p>
+          {successUrls.titoUrl && (
+            <div>
+              <p className="text-xs font-medium text-green-600">Tito ticket:</p>
+              <p className="text-xs text-green-600 break-all">
+                {successUrls.titoUrl}
+              </p>
+            </div>
+          )}
+          {successUrls.inviteUrl && (
+            <div>
+              <p className="text-xs font-medium text-green-600">Hub invite:</p>
+              <p className="text-xs text-green-600 break-all">
+                {successUrls.inviteUrl}
+              </p>
+            </div>
+          )}
         </div>
       )}
     </form>

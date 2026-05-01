@@ -9,18 +9,38 @@ import MentorVolunteerBulkInviteForm from './MentorVolunteerBulkInviteForm';
 
 type Mode = 'single' | 'bulk';
 
+export type InviteRole = 'hacker' | 'judge' | 'mentor' | 'volunteer';
+
 interface Props {
-  role: 'mentor' | 'volunteer';
+  role: InviteRole;
 }
+
+const ROLE_LABELS: Record<InviteRole, string> = {
+  hacker: 'Hacker',
+  judge: 'Judge',
+  mentor: 'Mentor',
+  volunteer: 'Volunteer',
+};
+
+const ROLE_NOTES: Partial<Record<InviteRole, string>> = {
+  judge: 'This template includes Judge Orientation materials.',
+  mentor: 'This template includes Mentor Orientation materials.',
+  hacker:
+    'This template includes both a Tito e-ticket link and a HackDavis Hub registration link.',
+};
+
+const needsTito = (role: InviteRole) => role !== 'judge';
 
 export default function MentorVolunteerInvitesPanel({ role }: Props) {
   const [mode, setMode] = useState<Mode>('single');
   const [rsvpLists, setRsvpLists] = useState<RsvpList[]>([]);
   const [releases, setReleases] = useState<Release[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(needsTito(role));
   const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
+    if (!needsTito(role)) return;
+
     (async () => {
       const [rsvpRes, relRes] = await Promise.all([
         getRsvpLists(),
@@ -36,7 +56,7 @@ export default function MentorVolunteerInvitesPanel({ role }: Props) {
       }
       setLoading(false);
     })();
-  }, []);
+  }, [role]);
 
   if (loading) {
     return (
@@ -54,6 +74,9 @@ export default function MentorVolunteerInvitesPanel({ role }: Props) {
       </p>
     );
   }
+
+  const label = ROLE_LABELS[role];
+  const note = ROLE_NOTES[role];
 
   return (
     <div className="flex flex-col gap-6">
@@ -77,14 +100,10 @@ export default function MentorVolunteerInvitesPanel({ role }: Props) {
       {mode === 'single' ? (
         <div className="flex flex-col gap-3">
           <p className="text-sm text-gray-500">
-            Send a Tito invite to a single {role} by entering their details
-            below.
+            Send an invite to a single {label.toLowerCase()} by entering their
+            details below.
           </p>
-          {role === 'mentor' && (
-            <p className="text-sm text-red-500">
-              Note: This template includes Mentor Orientation materials.
-            </p>
-          )}
+          {note && <p className="text-sm text-red-500">Note: {note}</p>}
           <MentorVolunteerSingleInviteForm
             rsvpLists={rsvpLists}
             releases={releases}
@@ -98,13 +117,9 @@ export default function MentorVolunteerInvitesPanel({ role }: Props) {
             <span className="font-mono bg-gray-100 px-1 rounded">
               First Name, Last Name, Email
             </span>{' '}
-            to send Tito invites to multiple {role}s at once.
+            to send invites to multiple {label.toLowerCase()}s at once.
           </p>
-          {role === 'mentor' && (
-            <p className="text-sm text-red-500">
-              Note: This template includes Mentor Orientation materials.
-            </p>
-          )}
+          {note && <p className="text-sm text-red-500">Note: {note}</p>}
           <MentorVolunteerBulkInviteForm
             rsvpLists={rsvpLists}
             releases={releases}
