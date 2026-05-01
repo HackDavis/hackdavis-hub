@@ -132,7 +132,7 @@ const optedHDTracks: Tracks = {
   },
   'Best Interdisciplinary Hack': {
     name: 'Best Interdisciplinary Hack',
-    filter: 'General',
+    filter: ['General'],
     prizes: ['$75 STEAM Giftcard'],
     images: [steamGiftcard],
     eligibility_criteria:
@@ -168,7 +168,7 @@ const optedHDTracks: Tracks = {
   },
   'Most Creative Hack': {
     name: 'Most Creative Hack',
-    filter: 'General',
+    filter: ['General'],
     prizes: ['Mini Projector'],
     images: [projector],
     eligibility_criteria:
@@ -204,7 +204,7 @@ const optedHDTracks: Tracks = {
   },
   'Best Hardware Hack': {
     name: 'Best Hardware Hack',
-    filter: 'Technical',
+    filter: ['Technical'],
     prizes: ['Raspberry Pi Kit'],
     images: [raspberryPi],
     eligibility_criteria:
@@ -240,7 +240,7 @@ const optedHDTracks: Tracks = {
   },
   'Best Hack for Social Justice': {
     name: 'Best Hack for Social Justice',
-    filter: 'General',
+    filter: ['General'],
     prizes: ['Kindle'],
     images: [kindle],
     eligibility_criteria:
@@ -276,7 +276,7 @@ const optedHDTracks: Tracks = {
   },
   'Best User Research': {
     name: 'Best User Research',
-    filter: 'Design',
+    filter: ['Design'],
     prizes: ['ChatGPT+ (4 month subscription)'],
     images: [chatgptLogo],
     eligibility_criteria:
@@ -312,7 +312,7 @@ const optedHDTracks: Tracks = {
   },
   'Best Entrepreneurship Hack': {
     name: 'Best Entrepreneurship Hack',
-    filter: 'Business',
+    filter: ['Business'],
     prizes: ['North Face Backpack'],
     images: [backpack],
     eligibility_criteria:
@@ -348,7 +348,7 @@ const optedHDTracks: Tracks = {
   },
   'Best Statistical Model': {
     name: 'Best Statistical Model',
-    filter: 'Business',
+    filter: ['Business'],
     prizes: ['Bluetooth Speaker'],
     images: [bluetoothSpeaker],
     eligibility_criteria:
@@ -387,7 +387,7 @@ const optedHDTracks: Tracks = {
 const nonHDTracks: Tracks = {
   'Best AI/ML Hack': {
     name: 'Best AI/ML Hack',
-    filter: 'Sponsor',
+    filter: ['Sponsor', 'Technical'],
     prizes: ['$750 in Claude API credits'],
     images: [claudeLogo],
     eligibility_criteria:
@@ -423,7 +423,7 @@ const nonHDTracks: Tracks = {
   },
   'Best UI/UX Design': {
     name: 'Best UI/UX Design',
-    filter: 'Sponsor',
+    filter: ['Sponsor', 'Design'],
     prizes: ['Figma Full Seat (4 month subscription)'],
     images: [figmaLogo],
     eligibility_criteria:
@@ -459,7 +459,7 @@ const nonHDTracks: Tracks = {
   },
   "Best Hack for Women's Center": {
     name: "Best Hack for Women's Center",
-    filter: 'Non-Profit',
+    filter: ['Non-Profit'],
     prizes: ['Aroma Diffuser'],
     images: [aromaDiffuser],
     eligibility_criteria:
@@ -467,7 +467,7 @@ const nonHDTracks: Tracks = {
   },
   'Best Hack for ASUCD Pantry': {
     name: 'Best Hack for ASUCD Pantry',
-    filter: 'Non-Profit',
+    filter: ['Non-Profit'],
     prizes: ['Pokemon Packs'],
     images: [pokemonPacks],
     eligibility_criteria:
