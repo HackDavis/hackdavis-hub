@@ -205,7 +205,9 @@ export async function restoreMissingTeam(team_id: string) {
     });
 
     if (!updateTeamRes.ok) {
-      throw new Error(updateTeamRes.error ?? '');
+      throw new Error(
+        updateTeamRes.error ?? `Failed to restore missing team with id: ${team_id}.`
+      );
     }
 
     return {
