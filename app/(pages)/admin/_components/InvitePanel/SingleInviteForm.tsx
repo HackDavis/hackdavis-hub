@@ -5,6 +5,12 @@ import sendSingleMentorOrVolunteerInvite from '@actions/emails/sendSingleMentorO
 import sendSingleHackerInvite from '@actions/emails/sendSingleHackerInvite';
 import sendSingleJudgeHubInvite from '@actions/emails/sendSingleJudgeHubInvite';
 import { Release, RsvpList } from '@typeDefs/tito';
+import {
+  HackerAdmissionType,
+  HACKER_ADMISSION_TYPES,
+  HACKER_ADMISSION_LABELS,
+  admissionNeedsTitoAndHub,
+} from '@typeDefs/emails';
 import { InviteRole } from './InvitePanel';
 
 interface Props {
@@ -14,6 +20,7 @@ interface Props {
 }
 
 interface SuccessUrls {
+  admissionType?: HackerAdmissionType;
   titoUrl?: string;
   inviteUrl?: string;
 }
@@ -26,8 +33,12 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
     rsvpLists[0]?.slug ?? ''
   );
   const [selectedReleases, setSelectedReleases] = useState<string[]>([]);
+  const [admissionType, setAdmissionType] =
+    useState<HackerAdmissionType>('accept');
 
   const hasTito = role !== 'judge';
+  const hackerNeedsLinks =
+    role === 'hacker' && admissionNeedsTitoAndHub(admissionType);
 
   const toggleRelease = (id: string) =>
     setSelectedReleases((prev) =>
@@ -36,11 +47,23 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (hasTito && !selectedListSlug) {
+    if (role === 'hacker' && hackerNeedsLinks && !selectedListSlug) {
       setError('Please select an RSVP list.');
       return;
     }
-    if (hasTito && selectedReleases.length === 0) {
+    if (
+      role === 'hacker' &&
+      hackerNeedsLinks &&
+      selectedReleases.length === 0
+    ) {
+      setError('Please select at least one release.');
+      return;
+    }
+    if (hasTito && role !== 'hacker' && !selectedListSlug) {
+      setError('Please select an RSVP list.');
+      return;
+    }
+    if (hasTito && role !== 'hacker' && selectedReleases.length === 0) {
       setError('Please select at least one release.');
       return;
     }
@@ -56,6 +79,7 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
 
     let result: {
       ok: boolean;
+      admissionType?: HackerAdmissionType;
       titoUrl?: string;
       inviteUrl?: string;
       error: string | null;
@@ -68,6 +92,7 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
         firstName,
         lastName,
         email,
+        admissionType,
         rsvpListSlug: selectedListSlug,
         releaseIds: selectedReleases.join(','),
       });
@@ -86,7 +111,11 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
     setLoading(false);
 
     if (result.ok) {
-      setSuccessUrls({ titoUrl: result.titoUrl, inviteUrl: result.inviteUrl });
+      setSuccessUrls({
+        admissionType: result.admissionType,
+        titoUrl: result.titoUrl,
+        inviteUrl: result.inviteUrl,
+      });
       (e.target as HTMLFormElement).reset();
       setSelectedReleases([]);
     } else {
@@ -96,6 +125,36 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-lg">
+      {/* Admission type selector — hackers only */}
+      {role === 'hacker' && (
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-700">
+            Admission Decision
+          </label>
+          <div className="flex gap-2 flex-wrap">
+            {HACKER_ADMISSION_TYPES.map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => setAdmissionType(type)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors border ${
+                  admissionType === type
+                    ? 'bg-[#005271] text-white border-[#005271]'
+                    : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                {HACKER_ADMISSION_LABELS[type]}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400 mt-0.5">
+            {hackerNeedsLinks
+              ? 'Sends a Tito e-ticket + Hub registration invite.'
+              : 'Sends an email only — no Tito or Hub invite.'}
+          </p>
+        </div>
+      )}
+
       {/* Name + Email */}
       <div className="flex gap-4">
         <div className="flex flex-col gap-1 flex-1">
@@ -129,8 +188,8 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
         />
       </div>
 
-      {/* Tito config — hidden for judges */}
-      {hasTito && (
+      {/* Tito config — shown for non-judges; for hackers only when type needs it */}
+      {hasTito && (role !== 'hacker' || hackerNeedsLinks) && (
         <>
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium text-gray-700">
@@ -200,7 +259,7 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
         disabled={loading}
         className="bg-[#005271] text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-[#003d54] disabled:opacity-50 disabled:cursor-not-allowed transition-colors self-start"
       >
-        {loading ? 'Sending…' : 'Send Invite'}
+        {loading ? 'Sending…' : 'Send Email'}
       </button>
 
       {error && (
@@ -210,7 +269,13 @@ export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
       )}
       {successUrls && (
         <div className="bg-green-50 border border-green-200 rounded-md px-3 py-2 flex flex-col gap-2">
-          <p className="text-sm font-medium text-green-700">Invite sent!</p>
+          <p className="text-sm font-medium text-green-700">
+            Email sent
+            {successUrls.admissionType
+              ? ` (${HACKER_ADMISSION_LABELS[successUrls.admissionType]})`
+              : ''}
+            !
+          </p>
           {successUrls.titoUrl && (
             <div>
               <p className="text-xs font-medium text-green-600">Tito ticket:</p>

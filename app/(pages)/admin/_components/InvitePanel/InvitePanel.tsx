@@ -26,7 +26,7 @@ const ROLE_NOTES: Partial<Record<InviteRole, string>> = {
   judge: 'This template includes Judge Orientation materials.',
   mentor: 'This template includes Mentor Orientation materials.',
   hacker:
-    'This template includes both a Tito e-ticket link and a HackDavis Hub registration link.',
+    'Accept and Waitlist Accept send a Tito e-ticket + Hub registration invite. Waitlist and Reject send an email only.',
 };
 
 const needsTito = (role: InviteRole) => role !== 'judge';
@@ -115,9 +115,20 @@ export default function InvitePanel({ role }: Props) {
           <p className="text-sm text-gray-500">
             Upload a CSV with columns{' '}
             <span className="font-mono bg-gray-100 px-1 rounded">
-              First Name, Last Name, Email
+              {role === 'hacker'
+                ? 'First Name, Last Name, Email, Type'
+                : 'First Name, Last Name, Email'}
             </span>{' '}
-            to send invites to multiple {label.toLowerCase()}s at once.
+            to send emails to multiple {label.toLowerCase()}s at once.
+            {role === 'hacker' && (
+              <>
+                {' '}
+                Valid types:{' '}
+                <span className="font-mono bg-gray-100 px-1 rounded">
+                  accept, waitlist_accept, waitlist, reject
+                </span>
+              </>
+            )}
           </p>
           {note && <p className="text-sm text-red-500">Note: {note}</p>}
           <BulkInviteForm

@@ -7,13 +7,24 @@ import { GetManyUsers } from '@datalib/users/getUser';
 import hackerInviteTemplate, {
   HACKER_EMAIL_SUBJECT,
 } from './emailTemplates/2026HackerInviteTemplate';
+import hackerWaitlistAcceptTemplate, {
+  HACKER_WAITLIST_ACCEPT_EMAIL_SUBJECT,
+} from './emailTemplates/2026HackerWaitlistAcceptTemplate';
+import hackerWaitlistTemplate, {
+  HACKER_WAITLIST_EMAIL_SUBJECT,
+} from './emailTemplates/2026HackerWaitlistTemplate';
+import hackerRejectionTemplate, {
+  HACKER_REJECTION_EMAIL_SUBJECT,
+} from './emailTemplates/2026HackerRejectionTemplate';
 import { DEFAULT_SENDER, transporter } from './transporter';
 import createLimiter from './createLimiter';
 import processBulkInvites from './processBulkInvites';
+import parseHackerAdmissionsCSV from './parseHackerAdmissionsCSV';
 import {
   BulkHackerInviteResponse,
   HackerInviteData,
   HackerInviteResult,
+  admissionNeedsTitoAndHub,
 } from '@typeDefs/emails';
 
 const TITO_CONCURRENCY = 20;
@@ -35,7 +46,7 @@ export default async function sendBulkHackerInvites(
   }
   const sender = DEFAULT_SENDER;
 
-  // Pre-fetch all existing Tito invitations so duplicate recovery avoids per-person API calls
+  // Pre-fetch all existing Tito invitations for rows that need them
   const existingInvitationsMap = await getAllRsvpInvitations(rsvpListSlug);
 
   const titoLimiter = createLimiter(TITO_CONCURRENCY);
@@ -43,24 +54,37 @@ export default async function sendBulkHackerInvites(
 
   return processBulkInvites<HackerInviteData, HackerInviteResult>(csvText, {
     label: 'Hacker',
+    parse: parseHackerAdmissionsCSV,
 
     async preprocess(hackers) {
-      // Batch Hub duplicate check upfront — skip anyone already registered
-      const allEmails = hackers.map((h) => h.email);
-      const existingUsers = await GetManyUsers({ email: { $in: allEmails } });
-      const existingEmailSet = new Set<string>(
-        existingUsers.ok
-          ? existingUsers.body.map((u: { email: string }) => u.email)
-          : []
-      );
+      // Only batch-check Hub duplicates for rows that will create Hub accounts
+      const acceptEmails = hackers
+        .filter((h) => admissionNeedsTitoAndHub(h.admissionType))
+        .map((h) => h.email);
+
+      const existingEmailSet = new Set<string>();
+      if (acceptEmails.length > 0) {
+        const existingUsers = await GetManyUsers({
+          email: { $in: acceptEmails },
+        });
+        if (existingUsers.ok) {
+          for (const u of existingUsers.body as { email: string }[]) {
+            existingEmailSet.add(u.email);
+          }
+        }
+      }
 
       const remaining: HackerInviteData[] = [];
       const earlyResults: HackerInviteResult[] = [];
 
       for (const hacker of hackers) {
-        if (existingEmailSet.has(hacker.email)) {
+        if (
+          admissionNeedsTitoAndHub(hacker.admissionType) &&
+          existingEmailSet.has(hacker.email)
+        ) {
           earlyResults.push({
             email: hacker.email,
+            admissionType: hacker.admissionType,
             success: false,
             error: 'User already exists.',
           });
@@ -73,62 +97,103 @@ export default async function sendBulkHackerInvites(
     },
 
     async processOne(hacker) {
-      // Stage 1: Tito — uses pre-fetched map to short-circuit duplicate lookups
-      const titoResult = await titoLimiter(() =>
-        getOrCreateTitoInvitation(
-          { ...hacker, rsvpListSlug, releaseIds },
-          existingInvitationsMap
-        )
-      );
+      const { firstName, lastName, email, admissionType } = hacker;
+      const needsLinks = admissionNeedsTitoAndHub(admissionType);
 
-      if (!titoResult.ok) {
-        return { email: hacker.email, success: false, error: titoResult.error };
-      }
-
-      // Stage 2: Generate Hub invite link
-      const invite = await GenerateInvite(
-        {
-          email: hacker.email,
-          name: `${hacker.firstName} ${hacker.lastName}`,
-          role: 'hacker',
-        },
-        'invite'
-      );
-      if (!invite.ok || !invite.body) {
-        return {
-          email: hacker.email,
-          success: false,
-          error: invite.error ?? 'Failed to generate Hub invite link.',
-        };
-      }
-
-      // Stage 3: Email — independent limiter
-      try {
-        await emailLimiter(() =>
-          transporter.sendMail({
-            from: sender,
-            to: hacker.email,
-            subject: HACKER_EMAIL_SUBJECT,
-            html: hackerInviteTemplate(
-              hacker.firstName,
-              titoResult.titoUrl,
-              invite.body!
-            ),
-          })
+      if (needsLinks) {
+        // Stage 1: Tito
+        const titoResult = await titoLimiter(() =>
+          getOrCreateTitoInvitation(
+            { firstName, lastName, email, rsvpListSlug, releaseIds },
+            existingInvitationsMap
+          )
         );
-        return {
-          email: hacker.email,
-          success: true,
-          titoUrl: titoResult.titoUrl,
-          inviteUrl: invite.body,
-        };
-      } catch (e) {
-        const errorMsg = e instanceof Error ? e.message : 'Unknown error';
-        return {
-          email: hacker.email,
-          success: false,
-          error: `Email send failed: ${errorMsg}`,
-        };
+        if (!titoResult.ok) {
+          return {
+            email,
+            admissionType,
+            success: false,
+            error: titoResult.error,
+          };
+        }
+
+        // Stage 2: Hub invite link
+        const invite = await GenerateInvite(
+          { email, name: `${firstName} ${lastName}`, role: 'hacker' },
+          'invite'
+        );
+        if (!invite.ok || !invite.body) {
+          return {
+            email,
+            admissionType,
+            success: false,
+            error: invite.error ?? 'Failed to generate Hub invite link.',
+          };
+        }
+
+        // Stage 3: Email
+        const subject =
+          admissionType === 'waitlist_accept'
+            ? HACKER_WAITLIST_ACCEPT_EMAIL_SUBJECT
+            : HACKER_EMAIL_SUBJECT;
+
+        const html =
+          admissionType === 'waitlist_accept'
+            ? hackerWaitlistAcceptTemplate(
+                firstName,
+                titoResult.titoUrl,
+                invite.body!
+              )
+            : hackerInviteTemplate(firstName, titoResult.titoUrl, invite.body!);
+
+        try {
+          await emailLimiter(() =>
+            transporter.sendMail({ from: sender, to: email, subject, html })
+          );
+          return {
+            email,
+            admissionType,
+            success: true,
+            titoUrl: titoResult.titoUrl,
+            inviteUrl: invite.body,
+          };
+        } catch (e) {
+          return {
+            email,
+            admissionType,
+            success: false,
+            error: `Email send failed: ${
+              e instanceof Error ? e.message : 'Unknown error'
+            }`,
+          };
+        }
+      } else {
+        // Waitlist / reject: email only
+        const subject =
+          admissionType === 'waitlist'
+            ? HACKER_WAITLIST_EMAIL_SUBJECT
+            : HACKER_REJECTION_EMAIL_SUBJECT;
+
+        const html =
+          admissionType === 'waitlist'
+            ? hackerWaitlistTemplate(firstName)
+            : hackerRejectionTemplate(firstName);
+
+        try {
+          await emailLimiter(() =>
+            transporter.sendMail({ from: sender, to: email, subject, html })
+          );
+          return { email, admissionType, success: true };
+        } catch (e) {
+          return {
+            email,
+            admissionType,
+            success: false,
+            error: `Email send failed: ${
+              e instanceof Error ? e.message : 'Unknown error'
+            }`,
+          };
+        }
       }
     },
   });

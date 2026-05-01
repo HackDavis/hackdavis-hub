@@ -5,7 +5,13 @@ import { parse } from 'csv-parse/sync';
 import sendBulkMentorOrVolunteerInvites from '@actions/emails/sendBulkMentorOrVolunteerInvites';
 import sendBulkHackerInvites from '@actions/emails/sendBulkHackerInvites';
 import sendBulkJudgeHubInvites from '@actions/emails/sendBulkJudgeHubInvites';
-import { InviteData } from '@typeDefs/emails';
+import {
+  InviteData,
+  HackerAdmissionType,
+  HACKER_ADMISSION_TYPES,
+  HACKER_ADMISSION_LABELS,
+  admissionNeedsTitoAndHub,
+} from '@typeDefs/emails';
 import { Release, RsvpList } from '@typeDefs/tito';
 import {
   buildFailureDownloadFilename,
@@ -21,6 +27,7 @@ interface DisplayResult {
   email: string;
   success: boolean;
   error?: string;
+  admissionType?: HackerAdmissionType;
   titoUrl?: string;
   inviteUrl?: string;
 }
@@ -33,8 +40,22 @@ interface DisplayBulkResponse {
   error: string | null;
 }
 
+// Extended preview row for hackers (includes admissionType)
+interface HackerPreviewRow extends InviteData {
+  admissionType: HackerAdmissionType;
+}
+
+const VALID_ADMISSION_TYPES = new Set<string>(HACKER_ADMISSION_TYPES);
+
+function normalizeAdmissionType(raw: string): HackerAdmissionType | null {
+  const normalized = raw.trim().toLowerCase().replace(/[- ]/g, '_');
+  return VALID_ADMISSION_TYPES.has(normalized)
+    ? (normalized as HackerAdmissionType)
+    : null;
+}
+
 /**
- * Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side.
+ * Browser-safe CSV preview parser for non-hacker roles (3 columns).
  */
 function previewCSV(
   text: string
@@ -82,6 +103,70 @@ function previewCSV(
   return { ok: true, rows: previewRows };
 }
 
+/**
+ * Browser-safe CSV preview parser for hackers (4 columns: First Name, Last Name, Email, Type).
+ */
+function previewHackerCSV(
+  text: string
+): { ok: true; rows: HackerPreviewRow[] } | { ok: false; error: string } {
+  if (!text.trim()) return { ok: false, error: 'CSV is empty.' };
+
+  let parsedRows: string[][];
+  try {
+    parsedRows = parse(text, {
+      trim: true,
+      skip_empty_lines: true,
+    }) as string[][];
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error && error.message
+          ? `Could not parse CSV: ${error.message}`
+          : 'Could not parse CSV.',
+    };
+  }
+
+  if (parsedRows.length === 0) return { ok: false, error: 'CSV is empty.' };
+
+  const firstCells = parsedRows[0].map((cell) => cell.toLowerCase());
+  const hasHeader =
+    firstCells.some((cell) => cell.includes('first')) ||
+    firstCells.some((cell) => cell.includes('email'));
+  const dataRows = hasHeader ? parsedRows.slice(1) : parsedRows;
+  if (dataRows.length === 0) return { ok: false, error: 'No data rows found.' };
+
+  const previewRows: HackerPreviewRow[] = [];
+  for (let i = 0; i < dataRows.length; i++) {
+    const cols = dataRows[i];
+    const rowNum = hasHeader ? i + 2 : i + 1;
+    if (cols.length < 4) {
+      return {
+        ok: false,
+        error: `Row ${rowNum}: expected 4 columns (First Name, Last Name, Email, Type), got ${cols.length}.`,
+      };
+    }
+    const admissionType = normalizeAdmissionType(cols[3] ?? '');
+    if (!admissionType) {
+      return {
+        ok: false,
+        error: `Row ${rowNum}: "${
+          cols[3]
+        }" is not a valid type. Must be one of: ${HACKER_ADMISSION_TYPES.join(
+          ', '
+        )}.`,
+      };
+    }
+    previewRows.push({
+      firstName: cols[0],
+      lastName: cols[1],
+      email: cols[2],
+      admissionType,
+    });
+  }
+  return { ok: true, rows: previewRows };
+}
+
 type Status = 'idle' | 'previewing' | 'sending' | 'done';
 
 interface Props {
@@ -95,6 +180,7 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
   const [csvText, setCsvText] = useState('');
   const [fileName, setFileName] = useState('');
   const [preview, setPreview] = useState<InviteData[]>([]);
+  const [hackerPreview, setHackerPreview] = useState<HackerPreviewRow[]>([]);
   const [parseError, setParseError] = useState('');
   const [result, setResult] = useState<DisplayBulkResponse | null>(null);
   const [selectedListSlug, setSelectedListSlug] = useState(
@@ -104,6 +190,11 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
   const [configError, setConfigError] = useState('');
 
   const hasTito = role !== 'judge';
+
+  // For hackers: Tito is only required when any row needs links
+  const hackerRowsNeedTito =
+    role === 'hacker' &&
+    hackerPreview.some((r) => admissionNeedsTitoAndHub(r.admissionType));
 
   const toggleRelease = (id: string) =>
     setSelectedReleases((prev) =>
@@ -119,29 +210,58 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
       const text = ev.target?.result as string;
       setFileName(file.name);
       setCsvText(text);
-      const parsed = previewCSV(text);
-      if (parsed.ok) {
-        setPreview(parsed.rows);
-        setParseError('');
-        setStatus('previewing');
+
+      if (role === 'hacker') {
+        const parsed = previewHackerCSV(text);
+        if (parsed.ok) {
+          setHackerPreview(parsed.rows);
+          setPreview(parsed.rows); // keep for result export
+          setParseError('');
+          setStatus('previewing');
+        } else {
+          setParseError(parsed.error);
+          setHackerPreview([]);
+          setPreview([]);
+          setStatus('idle');
+        }
       } else {
-        setParseError(parsed.error);
-        setPreview([]);
-        setStatus('idle');
+        const parsed = previewCSV(text);
+        if (parsed.ok) {
+          setPreview(parsed.rows);
+          setParseError('');
+          setStatus('previewing');
+        } else {
+          setParseError(parsed.error);
+          setPreview([]);
+          setStatus('idle');
+        }
       }
     };
     reader.readAsText(file);
   };
 
   const handleSend = async () => {
-    if (hasTito && !selectedListSlug) {
+    if (hackerRowsNeedTito && !selectedListSlug) {
+      setConfigError(
+        'Please select an RSVP list (required for Accept / Waitlist Accept rows).'
+      );
+      return;
+    }
+    if (hackerRowsNeedTito && selectedReleases.length === 0) {
+      setConfigError(
+        'Please select at least one release (required for Accept / Waitlist Accept rows).'
+      );
+      return;
+    }
+    if (hasTito && role !== 'hacker' && !selectedListSlug) {
       setConfigError('Please select an RSVP list.');
       return;
     }
-    if (hasTito && selectedReleases.length === 0) {
+    if (hasTito && role !== 'hacker' && selectedReleases.length === 0) {
       setConfigError('Please select at least one release.');
       return;
     }
+
     setConfigError('');
     setStatus('sending');
     setResult(null);
@@ -171,6 +291,7 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
           email: res.email,
           success: res.success,
           error: res.error,
+          admissionType: res.admissionType,
           titoUrl: res.titoUrl,
           inviteUrl: res.inviteUrl,
         })),
@@ -209,6 +330,7 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
         firstName: person.firstName,
         lastName: person.lastName,
         email: person.email,
+        admissionType: (person as HackerPreviewRow).admissionType,
         titoUrl: res?.titoUrl,
         hubUrl: res?.inviteUrl,
         success: res?.success ?? false,
@@ -229,7 +351,6 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
 
   const handleDownloadFailuresCSV = () => {
     if (!result || result.failureCount === 0) return;
-
     const csv = generateInviteFailuresCSV(preview, result.results);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -247,11 +368,15 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
     setCsvText('');
     setFileName('');
     setPreview([]);
+    setHackerPreview([]);
     setParseError('');
     setResult(null);
     setConfigError('');
     setSelectedReleases([]);
   };
+
+  const previewCount =
+    role === 'hacker' ? hackerPreview.length : preview.length;
 
   return (
     <div className="flex flex-col gap-4 max-w-2xl">
@@ -260,7 +385,9 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
         <label className="text-sm font-medium text-gray-700">
           Upload CSV{' '}
           <span className="text-gray-400 font-normal">
-            (columns: First Name, Last Name, Email)
+            {role === 'hacker'
+              ? '(columns: First Name, Last Name, Email, Type)'
+              : '(columns: First Name, Last Name, Email)'}
           </span>
         </label>
         <input
@@ -283,12 +410,12 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
       )}
 
       {/* Preview table */}
-      {status === 'previewing' && preview.length > 0 && (
+      {status === 'previewing' && previewCount > 0 && (
         <div className="flex flex-col gap-4">
           <p className="text-sm text-gray-600">
-            <span className="font-semibold">{preview.length}</span> {role}
-            {preview.length !== 1 ? 's' : ''} found.{' '}
-            {hasTito
+            <span className="font-semibold">{previewCount}</span> {role}
+            {previewCount !== 1 ? 's' : ''} found.{' '}
+            {hasTito && (role !== 'hacker' || hackerRowsNeedTito)
               ? 'Configure Tito settings and review before sending:'
               : 'Review before sending:'}
           </p>
@@ -307,33 +434,54 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
                     <th className="text-left px-4 py-2 font-medium text-gray-600 border-b border-gray-200">
                       Email
                     </th>
+                    {role === 'hacker' && (
+                      <th className="text-left px-4 py-2 font-medium text-gray-600 border-b border-gray-200">
+                        Type
+                      </th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
-                  {preview.map((person, i) => (
-                    <tr
-                      key={i}
-                      className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
-                    >
-                      <td className="px-4 py-2 text-gray-800">
-                        {person.firstName}
-                      </td>
-                      <td className="px-4 py-2 text-gray-800">
-                        {person.lastName}
-                      </td>
-                      <td className="px-4 py-2 text-gray-600">
-                        {person.email}
-                      </td>
-                    </tr>
-                  ))}
+                  {(role === 'hacker' ? hackerPreview : preview).map(
+                    (person, i) => (
+                      <tr
+                        key={i}
+                        className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
+                      >
+                        <td className="px-4 py-2 text-gray-800">
+                          {person.firstName}
+                        </td>
+                        <td className="px-4 py-2 text-gray-800">
+                          {person.lastName}
+                        </td>
+                        <td className="px-4 py-2 text-gray-600">
+                          {person.email}
+                        </td>
+                        {role === 'hacker' && (
+                          <td className="px-4 py-2">
+                            <AdmissionTypeBadge
+                              type={(person as HackerPreviewRow).admissionType}
+                            />
+                          </td>
+                        )}
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
 
-          {/* Tito config — hidden for judges */}
-          {hasTito && (
+          {/* Tito config — shown for non-judges; for hackers only when needed */}
+          {hasTito && (role !== 'hacker' || hackerRowsNeedTito) && (
             <>
+              {role === 'hacker' && (
+                <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
+                  Required for Accept and Waitlist Accept rows. Waitlist and
+                  Reject rows send email only.
+                </p>
+              )}
+
               <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-gray-700">
                   RSVP List
@@ -407,7 +555,7 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
             onClick={handleSend}
             className="bg-[#005271] text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-[#003d54] transition-colors self-start"
           >
-            Send {preview.length} Invite{preview.length !== 1 ? 's' : ''}
+            Send {previewCount} Email{previewCount !== 1 ? 's' : ''}
           </button>
         </div>
       )}
@@ -416,7 +564,7 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
       {status === 'sending' && (
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <div className="w-4 h-4 border-2 border-[#005271] border-t-transparent rounded-full animate-spin" />
-          Sending invites…
+          Sending emails…
         </div>
       )}
 
@@ -460,6 +608,11 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
                     >
                       <span className="text-sm font-medium text-gray-800">
                         {r.email}
+                        {r.admissionType && (
+                          <span className="ml-2">
+                            <AdmissionTypeBadge type={r.admissionType} />
+                          </span>
+                        )}
                       </span>
                       <span className="text-xs text-red-600">{r.error}</span>
                     </div>
@@ -493,5 +646,22 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
         </div>
       )}
     </div>
+  );
+}
+
+const BADGE_STYLES: Record<HackerAdmissionType, string> = {
+  accept: 'bg-green-100 text-green-700',
+  waitlist_accept: 'bg-teal-100 text-teal-700',
+  waitlist: 'bg-amber-100 text-amber-700',
+  reject: 'bg-red-100 text-red-700',
+};
+
+function AdmissionTypeBadge({ type }: { type: HackerAdmissionType }) {
+  return (
+    <span
+      className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${BADGE_STYLES[type]}`}
+    >
+      {HACKER_ADMISSION_LABELS[type]}
+    </span>
   );
 }
