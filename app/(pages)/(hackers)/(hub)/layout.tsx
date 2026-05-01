@@ -1,6 +1,7 @@
 // import { auth } from '@/auth';
 import ProtectedDisplay from '@components/ProtectedDisplay/ProtectedDisplay';
 import Navbar from '@components/Navbar/Navbar';
+import FeedbackButton from '../_components/FeedbackButton';
 // import HackbotWidgetWrapper from '../_components/Hackbot/HackbotWidgetWrapper';
 
 export default async function Layout({
@@ -25,6 +26,7 @@ export default async function Layout({
     >
       <Navbar />
       {children}
+      <FeedbackButton />
       {/* <HackbotWidgetWrapper initialProfile={profile} /> */}
     </ProtectedDisplay>
   );
