@@ -18,7 +18,10 @@ import hackerRejectionTemplate, {
 } from '@actions/emails/emailTemplates/2026HackerRejectionTemplate';
 import { DEFAULT_SENDER, transporter } from '@actions/emails/transporter';
 import createLimiter from '@actions/emails/createLimiter';
-import { HACKER_ADMISSION_TYPES, admissionNeedsTitoAndHub } from '@typeDefs/emails';
+import {
+  HACKER_ADMISSION_TYPES,
+  admissionNeedsTitoAndHub,
+} from '@typeDefs/emails';
 import type { HackerAdmissionType } from '@typeDefs/emails';
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
@@ -37,7 +40,9 @@ const HackerSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   email: z.string().email(),
-  type: z.enum(HACKER_ADMISSION_TYPES as [HackerAdmissionType, ...HackerAdmissionType[]]),
+  type: z.enum(
+    HACKER_ADMISSION_TYPES as [HackerAdmissionType, ...HackerAdmissionType[]]
+  ),
 });
 
 const RequestSchema = z.object({
@@ -69,20 +74,29 @@ const EMAIL_CONCURRENCY = 10;
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorized(request)) {
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: 'Unauthorized' },
+      { status: 401 }
+    );
   }
 
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid JSON body' }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'Invalid JSON body' },
+      { status: 400 }
+    );
   }
 
   const parsed = RequestSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { ok: false, error: parsed.error.issues.map((i) => i.message).join('; ') },
+      {
+        ok: false,
+        error: parsed.error.issues.map((i) => i.message).join('; '),
+      },
       { status: 400 }
     );
   }
@@ -131,7 +145,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const results: HackerResult[] = await Promise.all(
     hackers.map(async ({ firstName, lastName, email, type }) => {
-      const base: Omit<HackerResult, 'titoUrl' | 'hubUrl' | 'success' | 'notes'> = {
+      const base: Omit<
+        HackerResult,
+        'titoUrl' | 'hubUrl' | 'success' | 'notes'
+      > = {
         firstName,
         lastName,
         email,
@@ -159,7 +176,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             existingInvitationsMap
           )
         );
-        if (!titoResult.ok) return fail(titoResult.error ?? 'Tito invite failed.');
+        if (!titoResult.ok)
+          return fail(titoResult.error ?? 'Tito invite failed.');
 
         // Hub invite link
         const invite = await GenerateInvite(
@@ -177,7 +195,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             : HACKER_EMAIL_SUBJECT;
         const html =
           type === 'waitlist_accept'
-            ? hackerWaitlistAcceptTemplate(firstName, titoResult.titoUrl, invite.body)
+            ? hackerWaitlistAcceptTemplate(
+                firstName,
+                titoResult.titoUrl,
+                invite.body
+              )
             : hackerInviteTemplate(firstName, titoResult.titoUrl, invite.body);
 
         try {
@@ -192,7 +214,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             notes: null,
           };
         } catch (e) {
-          return fail(`Email send failed: ${e instanceof Error ? e.message : 'Unknown error'}`);
+          return fail(
+            `Email send failed: ${
+              e instanceof Error ? e.message : 'Unknown error'
+            }`
+          );
         }
       } else {
         // Waitlist / reject — email only
@@ -209,9 +235,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           await emailLimiter(() =>
             transporter.sendMail({ from: sender, to: email, subject, html })
           );
-          return { ...base, titoUrl: null, hubUrl: null, success: true, notes: null };
+          return {
+            ...base,
+            titoUrl: null,
+            hubUrl: null,
+            success: true,
+            notes: null,
+          };
         } catch (e) {
-          return fail(`Email send failed: ${e instanceof Error ? e.message : 'Unknown error'}`);
+          return fail(
+            `Email send failed: ${
+              e instanceof Error ? e.message : 'Unknown error'
+            }`
+          );
         }
       }
     })

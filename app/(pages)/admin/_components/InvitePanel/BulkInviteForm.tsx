@@ -352,7 +352,10 @@ export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
 
   const handleDownloadFailuresCSV = () => {
     if (!result || result.failureCount === 0) return;
-    const csv = generateInviteFailuresCSV(preview as InviteDataWithType[], result.results);
+    const csv = generateInviteFailuresCSV(
+      preview as InviteDataWithType[],
+      result.results
+    );
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
