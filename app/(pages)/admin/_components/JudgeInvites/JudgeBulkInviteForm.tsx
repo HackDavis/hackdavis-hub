@@ -1,33 +1,50 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
+import { parse } from 'csv-parse/sync';
 import sendBulkJudgeHubInvites from '@actions/emails/sendBulkJudgeHubInvites';
 import { BulkJudgeInviteResponse, JudgeInviteData } from '@typeDefs/emails';
+import {
+  buildFailureDownloadFilename,
+  generateInviteFailuresCSV,
+} from '../../_utils/generateInviteFailuresCSV';
 
 /**
  * Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side.
- * Note: uses simple comma-split, so quoted fields containing commas are not supported.
- * This is acceptable since judge names/emails rarely contain commas.
  */
 function previewCSV(
   text: string
 ): { ok: true; rows: JudgeInviteData[] } | { ok: false; error: string } {
-  const lines = text
-    .split(/\r?\n/)
-    .map((l) => l.trim())
-    .filter(Boolean);
-  if (lines.length === 0) return { ok: false, error: 'CSV is empty.' };
+  if (!text.trim()) return { ok: false, error: 'CSV is empty.' };
 
-  const firstCells = lines[0].toLowerCase();
+  let parsedRows: string[][];
+  try {
+    parsedRows = parse(text, {
+      trim: true,
+      skip_empty_lines: true,
+    }) as string[][];
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error && error.message
+          ? `Could not parse CSV: ${error.message}`
+          : 'Could not parse CSV.',
+    };
+  }
+
+  if (parsedRows.length === 0) return { ok: false, error: 'CSV is empty.' };
+
+  const firstCells = parsedRows[0].map((cell) => cell.toLowerCase());
   const hasHeader =
-    firstCells.includes('first') || firstCells.includes('email');
-  const dataLines = hasHeader ? lines.slice(1) : lines;
-  if (dataLines.length === 0)
-    return { ok: false, error: 'No data rows found.' };
+    firstCells.some((cell) => cell.includes('first')) ||
+    firstCells.some((cell) => cell.includes('email'));
+  const dataRows = hasHeader ? parsedRows.slice(1) : parsedRows;
+  if (dataRows.length === 0) return { ok: false, error: 'No data rows found.' };
 
-  const rows: JudgeInviteData[] = [];
-  for (let i = 0; i < dataLines.length; i++) {
-    const cols = dataLines[i].split(',').map((c) => c.trim());
+  const previewRows: JudgeInviteData[] = [];
+  for (let i = 0; i < dataRows.length; i++) {
+    const cols = dataRows[i];
     if (cols.length < 3) {
       return {
         ok: false,
@@ -36,9 +53,9 @@ function previewCSV(
         }.`,
       };
     }
-    rows.push({ firstName: cols[0], lastName: cols[1], email: cols[2] });
+    previewRows.push({ firstName: cols[0], lastName: cols[1], email: cols[2] });
   }
-  return { ok: true, rows };
+  return { ok: true, rows: previewRows };
 }
 
 type Status = 'idle' | 'previewing' | 'sending' | 'done';
@@ -46,6 +63,7 @@ type Status = 'idle' | 'previewing' | 'sending' | 'done';
 export default function JudgeBulkInviteForm() {
   const [status, setStatus] = useState<Status>('idle');
   const [csvText, setCsvText] = useState('');
+  const [fileName, setFileName] = useState('');
   const [preview, setPreview] = useState<JudgeInviteData[]>([]);
   const [parseError, setParseError] = useState('');
   const [result, setResult] = useState<BulkJudgeInviteResponse | null>(null);
@@ -57,6 +75,7 @@ export default function JudgeBulkInviteForm() {
     const reader = new FileReader();
     reader.onload = (ev) => {
       const text = ev.target?.result as string;
+      setFileName(file.name);
       setCsvText(text);
 
       const parsed = previewCSV(text);
@@ -82,9 +101,25 @@ export default function JudgeBulkInviteForm() {
     setStatus('done');
   };
 
+  const handleDownloadFailuresCSV = () => {
+    if (!result || result.failureCount === 0) return;
+
+    const csv = generateInviteFailuresCSV(preview, result.results);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = buildFailureDownloadFilename(
+      fileName || 'judge-invites.csv'
+    );
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleReset = () => {
     setStatus('idle');
     setCsvText('');
+    setFileName('');
     setPreview([]);
     setParseError('');
     setResult(null);
@@ -226,12 +261,22 @@ export default function JudgeBulkInviteForm() {
             </div>
           )}
 
-          <button
-            onClick={handleReset}
-            className="text-sm text-[#005271] underline self-start"
-          >
-            Send another batch
-          </button>
+          <div className="flex items-center gap-4">
+            {result.failureCount > 0 && (
+              <button
+                onClick={handleDownloadFailuresCSV}
+                className="bg-[#005271] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#003d54] transition-colors"
+              >
+                Download Failures CSV
+              </button>
+            )}
+            <button
+              onClick={handleReset}
+              className="text-sm text-[#005271] underline"
+            >
+              Send another batch
+            </button>
+          </div>
         </div>
       )}
     </div>

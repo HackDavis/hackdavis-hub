@@ -5,13 +5,12 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
   const DISCORD_SERVER_URL = 'https://discord.gg/wc6QQEc';
-  const MEETING_RECORDING_URL =
-    'https://drive.google.com/file/d/1UjiSArmOvlMlkfOSh8xpoAjEov1j92xx/view?usp=sharing';
-  const MENTOR_SLIDES_URL =
-    'https://docs.google.com/presentation/d/1eBCl6OUdPhaR-eib8dXLaTHGFNqLR2ax4NFJqYtBBCw/edit?usp=sharing';
+  const MENTOR_GUIDE =
+    'https://www.notion.so/hackdavis/HackDavis-Mentor-Guide-3512d37fcae880c2916ff83fcde19565?source=copy_link';
   const CLAIM_TITO_TICKET_DEADLINE = '11:59pm on May 4th';
   const DOE_DATE = 'May 9th, 2026';
-  const TECH_LEAD_NAME = 'michelle';
+  const TECH_DIRECTOR = 'Afifah';
+  const EXTERNAL_DIRECTOR = 'Kelly';
   const DOE = 'May 9 - 10, 2026';
   const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
@@ -56,13 +55,12 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
         <div class="content-box">
             <p>Hi ${fname},</p>
             <br/>
-            <p>Thank you again for joining us as a <span class="bold">mentor</span>, we’re thrilled to have you on board! Here are some key resources from our virtual orientation:</p>
-            <p>🔹 Meeting Recording: <a href="${MEETING_RECORDING_URL}">${MEETING_RECORDING_URL}</a></p>
-            <p>🔹 Slides: <a href="${MENTOR_SLIDES_URL}">${MENTOR_SLIDES_URL}</a></p>
-            <p class="special-note">If you were unable to attend the orientation, please ensure you watch the recording before the day of the event to familiarize yourself with the <u>expectations and responsibilities of a mentor</u> and with the <u>Discord bot</u> you will need to use during your shift.</p>
+            <p>Thank you again for joining us as a <span class="bold">mentor</span>, we’re thrilled to have you on board! Here is an important resource for you:</p>
+            <p>🔹 Mentor Guide: <a href="${MENTOR_GUIDE}">${MENTOR_GUIDE}</a></p>
+            <p class="special-note">Please read through the Mentor Guide and ensure you are familiar with the <span class="bold">expectations and responsibilities</span> of a mentor and the <span class="bold">Discord bot</span> you will be interacting with during your shift.</p>
             <p class="bold">Shift assignments have been emailed to you already, kindly mark your calendars!</p>
+            <p class="bold" style="color: #57dade;">IMPORTANT NEXT STEPS:</p>
             <div class="bordered-section">
-              <p class="bold">IMPORTANT NEXT STEPS:</p>
               <p class="bold">1️⃣ Claim your E-Ticket here by ${CLAIM_TITO_TICKET_DEADLINE}</p>
               <p>👉 Tito Ticket: <a href="${titoUrl}">${titoUrl}</a></p>
               <p class="special-note">Please use this unique invite link to claim your e-ticket. Do NOT share it with anyone else. <u>You will be asked to show your e-ticket at the check-in table to receive your mentor shirts and nametags and to enter the venue.</u></p>
@@ -70,12 +68,12 @@ export default function mentorInviteTemplate(fname: string, titoUrl: string) {
             <div class="bordered-section">
               <p class="bold">2️⃣ Join our Discord server by ${DOE_DATE}</p>
               <p>👉 Discord Server: <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a></p>
-              <p>⚠️ Once you join, DM the user <i>${TECH_LEAD_NAME} [DIRECTOR]</i> with your full name to request the Mentor role in the server.</p>
+              <p>⚠️ Once you join, DM the user "<i>${EXTERNAL_DIRECTOR} [DIRECTOR]</i>" or "<i>${TECH_DIRECTOR} [DIRECTOR]</i>" with your full name to request the Mentor role in the server.</p>
               <p>We’ll be using Discord server as our main space for announcements and support for all attendees during the event. You can use it to:</p>
               <p>🔹 Get quick answers from the team</p>
               <p>🔹 Stay in the loop on event updates</p>
               <p>🔹 Connect with other mentors & participants</p>
-              <p class="special-note">As demonstrated during the orientation, you will be <u>monitoring the Discord for incoming mentor-request tickets</u> from hackers during your shift. Hence, it is necessary that you receive the Mentor role by <span class="bold">${DOE_DATE}</span>.</p>
+              <p class="special-note">You will be <u>monitoring the Discord for incoming mentor-request tickets</u> from hackers during your shift. Hence, it is necessary that you receive the Mentor role by <span class="bold">${DOE_DATE}</span>.</p>
             </div>
             <p>Please feel free to reach out if you have any questions or concerns. Looking forward to seeing you at the event!</p>
             <br/>

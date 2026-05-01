@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import rightArrow from '@public/hackers/table-number-checkin/arrow-right.svg';
-import devpostNumber from '@public/hackers/table-number-checkin/Filler.svg';
+import devpostNumber from '@public/hackers/table-number-checkin/devpost.svg';
 
 interface DevpostStageProps {
   teamNumber: string;
@@ -23,17 +23,17 @@ export default function DevpostStage({
 
   return (
     <div
-      className="flex flex-col p-[20px] gap-4 rounded-[20px] bg-[#FAFAFF]
-                    md:flex-row md:items-center md:justify-between md:p-[60px]"
+      className="flex flex-col p-[20px] h-[569px] gap-10 rounded-[20px] bg-[#FAFAFF]
+                    md:flex-row md:items-center md:justify-between md:p-[60px] overflow-hidden"
     >
       {/* RIGHT column — first in DOM so image appears at top on mobile, right on desktop */}
-      <div className="flex flex-col flex-1 w-full gap-3 md:order-2">
+      <div className="flex flex-col flex-1 w-full h-full justify-between gap-4 md:order-2 min-w-0">
         {/* Screenshot image */}
         <div className="w-full rounded-[16px] overflow-hidden md:flex-1">
           <Image
             src={devpostNumber}
             alt="devpost number screenshot"
-            className="w-full h-auto object-contain"
+            className="w-full h-full object-fill"
           />
         </div>
 
