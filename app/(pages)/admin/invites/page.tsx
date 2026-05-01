@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import MentorVolunteerInvitesPanel from '../_components/MentorVolunteerInvites/MentorVolunteerInvitesPanel';
+import InvitePanel from '../_components/InvitePanel/InvitePanel';
 
 type Tab = 'hackers' | 'judges' | 'mentors' | 'volunteers';
 
@@ -50,7 +50,7 @@ export default function InvitesPage() {
           {TAB_LABELS[tab]} Invites
         </h2>
         <p className="text-sm text-gray-500">{TAB_DESCRIPTIONS[tab]}</p>
-        <MentorVolunteerInvitesPanel
+        <InvitePanel
           role={
             tab === 'hackers'
               ? 'hacker'

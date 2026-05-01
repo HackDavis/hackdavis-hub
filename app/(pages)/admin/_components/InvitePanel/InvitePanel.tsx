@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import { Release, RsvpList } from '@typeDefs/tito';
-import MentorVolunteerSingleInviteForm from './MentorVolunteerSingleInviteForm';
-import MentorVolunteerBulkInviteForm from './MentorVolunteerBulkInviteForm';
+import SingleInviteForm from './SingleInviteForm';
+import BulkInviteForm from './BulkInviteForm';
 
 type Mode = 'single' | 'bulk';
 
@@ -31,7 +31,7 @@ const ROLE_NOTES: Partial<Record<InviteRole, string>> = {
 
 const needsTito = (role: InviteRole) => role !== 'judge';
 
-export default function MentorVolunteerInvitesPanel({ role }: Props) {
+export default function InvitePanel({ role }: Props) {
   const [mode, setMode] = useState<Mode>('single');
   const [rsvpLists, setRsvpLists] = useState<RsvpList[]>([]);
   const [releases, setReleases] = useState<Release[]>([]);
@@ -104,7 +104,7 @@ export default function MentorVolunteerInvitesPanel({ role }: Props) {
             details below.
           </p>
           {note && <p className="text-sm text-red-500">Note: {note}</p>}
-          <MentorVolunteerSingleInviteForm
+          <SingleInviteForm
             rsvpLists={rsvpLists}
             releases={releases}
             role={role}
@@ -120,7 +120,7 @@ export default function MentorVolunteerInvitesPanel({ role }: Props) {
             to send invites to multiple {label.toLowerCase()}s at once.
           </p>
           {note && <p className="text-sm text-red-500">Note: {note}</p>}
-          <MentorVolunteerBulkInviteForm
+          <BulkInviteForm
             rsvpLists={rsvpLists}
             releases={releases}
             role={role}

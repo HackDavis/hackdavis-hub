@@ -5,7 +5,7 @@ import sendSingleMentorOrVolunteerInvite from '@actions/emails/sendSingleMentorO
 import sendSingleHackerInvite from '@actions/emails/sendSingleHackerInvite';
 import sendSingleJudgeHubInvite from '@actions/emails/sendSingleJudgeHubInvite';
 import { Release, RsvpList } from '@typeDefs/tito';
-import { InviteRole } from './MentorVolunteerInvitesPanel';
+import { InviteRole } from './InvitePanel';
 
 interface Props {
   rsvpLists: RsvpList[];
@@ -18,11 +18,7 @@ interface SuccessUrls {
   inviteUrl?: string;
 }
 
-export default function MentorVolunteerSingleInviteForm({
-  rsvpLists,
-  releases,
-  role,
-}: Props) {
+export default function SingleInviteForm({ rsvpLists, releases, role }: Props) {
   const [loading, setLoading] = useState(false);
   const [successUrls, setSuccessUrls] = useState<SuccessUrls | null>(null);
   const [error, setError] = useState('');

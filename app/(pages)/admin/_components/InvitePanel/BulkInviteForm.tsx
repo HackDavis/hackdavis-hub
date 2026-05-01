@@ -15,7 +15,7 @@ import {
   generateInviteResultsCSV,
   InviteResultRow,
 } from '../../_utils/generateInviteResultsCSV';
-import { InviteRole } from './MentorVolunteerInvitesPanel';
+import { InviteRole } from './InvitePanel';
 
 interface DisplayResult {
   email: string;
@@ -90,11 +90,7 @@ interface Props {
   role: InviteRole;
 }
 
-export default function MentorVolunteerBulkInviteForm({
-  rsvpLists,
-  releases,
-  role,
-}: Props) {
+export default function BulkInviteForm({ rsvpLists, releases, role }: Props) {
   const [status, setStatus] = useState<Status>('idle');
   const [csvText, setCsvText] = useState('');
   const [fileName, setFileName] = useState('');
