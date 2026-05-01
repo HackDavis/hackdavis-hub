@@ -1,6 +1,5 @@
 import type { HackerProfile } from '@typeDefs/hackbot';
 
-// TODO: StarterKit id's need to be updated
 export const PATH_CONTEXT_MAP: Record<string, string> = {
   '/': 'the Hub homepage (announcements, prize tracks, mentor/director help, Discord)',
   '/#prize-tracks': 'the Prize Tracks section of the Hub homepage',
@@ -12,14 +11,29 @@ export const PATH_CONTEXT_MAP: Record<string, string> = {
   '/project-info#submission':
     'the Submission Process tab of the Project Info page',
   '/project-info#judging': 'the Judging Process tab of the Project Info page',
+  '/project-info#submission-due':
+    'the "Submission Due" step of the Judging Process (11:00 AM deadline)',
+  '/project-info#team-vs-table':
+    'the "Team vs Table Number" step of the Judging Process',
+  '/project-info#demo-time':
+    'the "Demo Time" step of the Judging Process (12:00 – 2:00 PM)',
+  '/project-info#break':
+    'the "Break" step of the Judging Process (2:00 – 3:00 PM)',
+  '/project-info#closing-ceremony':
+    'the "Closing Ceremony" step of the Judging Process (3:00 – 4:00 PM)',
   '/starter-kit': 'the Starter Kit page',
-  '/starter-kit#lets-begin':
-    'the "Let\'s Begin" section of the Starter Kit (Hacking 101 intro)',
-  '/starter-kit#find-a-team': 'the "Find a Team" section of the Starter Kit',
+  '/starter-kit#introduction':
+    'the "Introduction" section of the Starter Kit (field guide to the weekend)',
+  '/starter-kit#team-building':
+    'the "Team Building" section of the Starter Kit (Team Mixer, Discord team-formation channel)',
   '/starter-kit#ideate':
-    'the "Ideate" section of the Starter Kit (brainstorming, previous hacks)',
-  '/starter-kit#resources':
-    'the "Resources" section of the Starter Kit (developer/designer/mentor resources)',
+    'the "Ideate" section of the Starter Kit (brainstorming principles, previous winning hacks)',
+  '/starter-kit#design-resources':
+    'the "Design Resources" section of the Starter Kit (designer responsibilities, Figma tips, plugins)',
+  '/starter-kit#dev-resources':
+    'the "Dev Resources" section of the Starter Kit (developer responsibilities, MLH starter kits for MongoDB and Auth0)',
+  '/starter-kit#more-tips':
+    'the "More Tips" section of the Starter Kit (last-minute tips for the weekend)',
   '/schedule': 'the Schedule page',
 };
 

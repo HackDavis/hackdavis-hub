@@ -36,15 +36,39 @@ function normalizeGetEventsInputForQuery(input: any, query: string): any {
   const q = query.trim().toLowerCase();
   if (!q) return input;
 
-  const asksForWorkshops = /\bworkshops?\b/.test(q);
-  if (!asksForWorkshops) return input;
-
   // If the user explicitly asks for workshops, enforce WORKSHOPS so
   // generic schedule items (e.g. "Hacking Ends") are not returned.
-  return {
-    ...input,
-    type: 'WORKSHOPS',
-  };
+  if (/\bworkshops?\b/.test(q)) {
+    return { ...input, type: 'WORKSHOPS' };
+  }
+
+  // For meal queries, clamp to MEALS type, suppress activities, and inject
+  // a specific search term so only the relevant meal is returned.
+  if (
+    /\b(lunch|brunch|dinner|breakfast|food|meal|eat|eating|snack)\b/.test(q)
+  ) {
+    const specificMeal = /\blunch\b/.test(q)
+      ? 'lunch'
+      : /\bbrunch\b/.test(q)
+      ? 'brunch'
+      : /\bdinner\b/.test(q)
+      ? 'dinner'
+      : /\bbreakfast\b/.test(q)
+      ? 'breakfast'
+      : /\bsnack\b/.test(q)
+      ? 'snack'
+      : null;
+
+    return {
+      ...input,
+      type: 'MEALS',
+      include_activities: false,
+      // Only override search if the model didn't already provide a tighter one
+      ...(specificMeal && !input.search ? { search: specificMeal } : {}),
+    };
+  }
+
+  return input;
 }
 
 export async function POST(request: Request) {
