@@ -18,7 +18,7 @@ import claudeLogo from '@public/prizes/claude_logo.png';
 
 interface TrackData {
   name: string;
-  filter: string;
+  filter: string[];
   prizes: string[];
   images: StaticImport[];
   eligibility_criteria: string;
@@ -41,7 +41,7 @@ interface Tracks {
 const automaticTracks: Tracks = {
   'Best Hack for Social Good': {
     name: 'Best Hack for Social Good',
-    filter: 'General',
+    filter: ['General'],
     prizes: ['VR Headset', 'Electric Scooter'],
     images: [vrHeadset, electricScooter],
     eligibility_criteria:
@@ -49,7 +49,7 @@ const automaticTracks: Tracks = {
   },
   "Hacker's Choice Award": {
     name: "Hacker's Choice Award",
-    filter: 'General',
+    filter: ['General'],
     prizes: ['HackDavis Swag Bag'],
     images: [hdSwag],
     eligibility_criteria:
@@ -60,7 +60,7 @@ const automaticTracks: Tracks = {
 const optedHDTracks: Tracks = {
   'Most Technically Challenging Hack': {
     name: 'Most Technically Challenging Hack',
-    filter: 'Technical',
+    filter: ['Technical'],
     prizes: ['Backlit Keyboard'],
     images: [keyboard],
     eligibility_criteria:
@@ -96,7 +96,7 @@ const optedHDTracks: Tracks = {
   },
   'Best Beginner Hack': {
     name: 'Best Beginner Hack',
-    filter: 'General',
+    filter: ['General'],
     prizes: ['24 Inch Monitor'],
     images: [monitor],
     eligibility_criteria:
@@ -274,42 +274,6 @@ const optedHDTracks: Tracks = {
       },
     ],
   },
-  'Best UI/UX Design': {
-    name: 'Best UI/UX Design',
-    filter: 'Design',
-    prizes: ['Figma Full Seat (4 month subscription)'],
-    images: [figmaLogo],
-    eligibility_criteria:
-      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing in Figma, responsive design and promotes intuitive user experiences.',
-    domain: 'design',
-    domainDisplayName: 'UI/UX Design',
-    scoring_criteria: [
-      {
-        attribute: 'Visual Design',
-        guidelines: {
-          1: 'Inconsistent style; cluttered or dull; poor accessibility.',
-          3: 'Mostly clean design with some inconsistencies; some inclusive features.',
-          5: 'Beautiful, cohesive, polished; thoughtful inclusivity.',
-        },
-      },
-      {
-        attribute: 'Navigation Flow',
-        guidelines: {
-          1: 'Confusing user journey; hard to find key actions.',
-          3: 'Clear pathways through the interface with minor issues.',
-          5: 'Effortless, intuitive navigation throughout.',
-        },
-      },
-      {
-        attribute: 'Design Process',
-        guidelines: {
-          1: 'Limited evidence of design planning.',
-          3: 'Some wireframes or design iterations shown.',
-          5: 'Comprehensive design process with wireframes to final product.',
-        },
-      },
-    ],
-  },
   'Best User Research': {
     name: 'Best User Research',
     filter: 'Design',
@@ -453,6 +417,42 @@ const nonHDTracks: Tracks = {
           1: 'Surface-level use of tools; no customization or tuning.',
           3: 'Proper use of libraries with some tuning or data pipeline effort.',
           5: 'Deep technical execution with custom methods, advanced techniques, or strong tool mastery.',
+        },
+      },
+    ],
+  },
+  'Best UI/UX Design': {
+    name: 'Best UI/UX Design',
+    filter: 'Sponsor',
+    prizes: ['Figma Full Seat (4 month subscription)'],
+    images: [figmaLogo],
+    eligibility_criteria:
+      'Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful, demonstrates wireframing in Figma, responsive design and promotes intuitive user experiences.',
+    domain: 'design',
+    domainDisplayName: 'UI/UX Design',
+    scoring_criteria: [
+      {
+        attribute: 'Visual Design',
+        guidelines: {
+          1: 'Inconsistent style; cluttered or dull; poor accessibility.',
+          3: 'Mostly clean design with some inconsistencies; some inclusive features.',
+          5: 'Beautiful, cohesive, polished; thoughtful inclusivity.',
+        },
+      },
+      {
+        attribute: 'Navigation Flow',
+        guidelines: {
+          1: 'Confusing user journey; hard to find key actions.',
+          3: 'Clear pathways through the interface with minor issues.',
+          5: 'Effortless, intuitive navigation throughout.',
+        },
+      },
+      {
+        attribute: 'Design Process',
+        guidelines: {
+          1: 'Limited evidence of design planning.',
+          3: 'Some wireframes or design iterations shown.',
+          5: 'Comprehensive design process with wireframes to final product.',
         },
       },
     ],
