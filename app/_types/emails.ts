@@ -35,6 +35,24 @@ export interface SingleJudgeInviteResponse {
   error: string | null;
 }
 
+// Hacker invite types
+
+export type HackerInviteData = InviteData;
+
+export interface HackerInviteResult extends InviteResult {
+  titoUrl?: string;
+  inviteUrl?: string;
+}
+
+export type BulkHackerInviteResponse = BulkInviteResponse<HackerInviteResult>;
+
+export interface SingleHackerInviteResponse {
+  ok: boolean;
+  titoUrl?: string;
+  inviteUrl?: string;
+  error: string | null;
+}
+
 // Mentor Hub invite types
 
 export type MentorInviteData = InviteData;
