@@ -27,8 +27,10 @@ export default function PrizeTracks() {
       if (selectedFilter.toLowerCase() === 'all') {
         return prizes;
       }
-      return prizes.filter(
-        (prize) => prize.filter.toLowerCase() === selectedFilter.toLowerCase()
+      return prizes.filter((prize) =>
+        prize.filter.some(
+          (f) => f.toLowerCase() === selectedFilter.toLowerCase()
+        )
       );
     });
   };
