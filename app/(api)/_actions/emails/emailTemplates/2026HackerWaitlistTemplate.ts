@@ -1,11 +1,9 @@
 export const HACKER_WAITLIST_EMAIL_SUBJECT =
-  "HackDavis 2026 — You're on the Waitlist";
+  '[IMPORTANT] HackDavis 2026 Application Update';
 
 export default function hackerWaitlistTemplate(fname: string) {
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
-  const DOE = 'May 9 - 10, 2026';
-  const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -35,20 +33,18 @@ export default function hackerWaitlistTemplate(fname: string) {
     <div class="container">
         <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2026 header" class="header-image">
         <h1 class="title">
-          <span style="color: #173a52;">HackDavis 2026 — </span>
-          <span style="color: #57dade;">Waitlist Update</span>
+          <span style="color: #173a52;">Update from </span>
+          <span style="color: #57dade;">HackDavis 2026</span>
         </h1>
-        <p style="color: #173a52; text-align: center; font-size: 14px;">✦ ${DOE}    ✦ ${DOE_LOCATION}</p>
         <div class="divider"></div>
         <div class="content-box">
             <p>Hi ${fname},</p>
             <br/>
-            <p>Thank you so much for applying to <span class="bold">HackDavis 2026</span> — California's largest social good hackathon!</p>
-            <p>After reviewing your application, we've placed you on our waitlist. While we weren't able to offer you a spot right away, you're still in the running — we'll reach out if a place opens up.</p>
-            <p>We know this isn't the news you were hoping for, and we genuinely appreciate your interest in HackDavis. The quality of applications we received this year made decisions incredibly difficult.</p>
-            <p>If you have any questions, feel free to reply to this email. We hope to see you at HackDavis!</p>
+            <p>Thank you for applying! Unfortunately, due to a high volume of applications, you have been <span class="bold">waitlisted</span> for HackDavis 2026.</p>
+            <p>We are unable to offer you admission currently, but spots may open up later! Just hang in there, we will get back to you about a change in your status as soon as possible.</p>
+            <p>If you have any questions, concerns, or comments, please reach out to <a href="mailto:hello@hackdavis.io">hello@hackdavis.io</a>.</p>
             <br/>
-            <p style="margin-bottom: 0;">Thank you,<br/>The HackDavis Team</p>
+            <p style="margin-bottom: 0;">Warmly,<br/>The HackDavis Team</p>
         </div>
         <div class="divider"></div>
         <img src="${FOOTER_IMAGE_URL}" alt="HackDavis 2026 footer" class="footer-image">

@@ -1,5 +1,5 @@
 export const HACKER_WAITLIST_ACCEPT_EMAIL_SUBJECT =
-  "[ACTION REQUIRED] You're off the waitlist — HackDavis 2026";
+  "[ACTION REQUIRED] You're Off The HackDavis 2026 Waitlist";
 
 export default function hackerWaitlistAcceptTemplate(
   fname: string,
@@ -46,33 +46,32 @@ export default function hackerWaitlistAcceptTemplate(
     <div class="container">
         <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2026 header" class="header-image">
         <h1 class="title">
-          <span style="color: #173a52;">You're off the waitlist — </span>
-          <span style="color: #57dade;">Welcome to HackDavis 2026!</span>
+          <span style="color: #173a52;">Welcome to </span>
+          <span style="color: #57dade;">HackDavis 2026!</span>
         </h1>
         <p style="color: #173a52; text-align: center; font-size: 14px;">✦ ${DOE}    ✦ ${DOE_LOCATION}</p>
         <div class="divider"></div>
         <div class="content-box">
-            <p>Hi ${fname},</p>
+            <p>Hi ${fname}, you're in!</p>
             <br/>
-            <p>Great news — a spot has opened up and you've been let off the waitlist for <span class="bold">HackDavis 2026</span>! We're thrilled to have you join us for a weekend of building, learning, and making an impact.</p>
-            <p class="bold" style="color: #57dade;">IMPORTANT NEXT STEPS:</p>
+            <p><span class="bold">Congrats — you’re off the waitlist!</span> We can't wait to see the amazing ideas you’ll bring. Before you arrive, there are a few things you’ll need to complete. 💕</p>
+            <p class="bold" style="color: #57dade;">COMPLETE BEFORE THE EVENT</p>
             <div class="bordered-section">
-              <p class="bold">1️⃣ Claim your E-Ticket by ${CLAIM_TITO_TICKET_DEADLINE}</p>
+              <p class="bold">1️⃣ Claim your Ticket by ${CLAIM_TITO_TICKET_DEADLINE}</p>
+              <p>You must claim a ticket to attend — no ticket, no entry. Check in on your friends too and make sure everyone has theirs. </p>
               <p>👉 Tito Ticket: <a href="${titoUrl}">${titoUrl}</a></p>
-              <p class="special-note">Please use this unique invite link to claim your e-ticket. Do NOT share it with anyone else. <u>You will be asked to show your e-ticket at the check-in table to enter the venue.</u></p>
+              <p class="special-note">Do NOT share your unique link with anyone else.</p>
             </div>
             <div class="bordered-section">
-              <p class="bold">2️⃣ Register on HackDavis Hub by ${DOE_DATE}</p>
+              <p class="bold">2️⃣ Create a HackDavis Hub Account by ${DOE_DATE}</p>
+              <p>HackDavis Hub is where you'll find exciting information like prizes, workshops, starter kit, demo tips, live judging info and more!</p>
               <p>👉 Hub Invite: <a href="${hubInviteUrl}">${hubInviteUrl}</a></p>
-              <p class="special-note">HackDavis Hub is where you'll get prize and track information, view the schedule, and track judging. Use this unique link to create your account. Do NOT share it with anyone else.</p>
+              <p class="special-note">Use this unique link to create your account. Do NOT share it with anyone else.</p>
             </div>
             <div class="bordered-section">
               <p class="bold">3️⃣ Join our Discord server</p>
+              <p>All event communication happens here. After joining, follow <span class="bold">#read-me-first</span> to get your Hacker role and unlock day-of channels.</p>
               <p>👉 Discord Server: <a href="${DISCORD_SERVER_URL}">${DISCORD_SERVER_URL}</a></p>
-              <p>We'll be using Discord as our main space for announcements, updates, and support during the event. You can use it to:</p>
-              <p>🔹 Get quick answers from the HackDavis team</p>
-              <p>🔹 Stay in the loop on event updates</p>
-              <p>🔹 Connect with other hackers, mentors &amp; sponsors</p>
             </div>
             <p>Please feel free to reach out if you have any questions or concerns. We can't wait to see what you build!</p>
             <br/>

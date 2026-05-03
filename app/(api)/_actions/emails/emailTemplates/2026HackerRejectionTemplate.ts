@@ -1,11 +1,9 @@
 export const HACKER_REJECTION_EMAIL_SUBJECT =
-  'HackDavis 2026 — Application Update';
+  'Update to Your Status for HackDavis 2026';
 
 export default function hackerRejectionTemplate(fname: string) {
   const HEADER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_header.png`;
   const FOOTER_IMAGE_URL = `${process.env.BASE_URL}/email/2026_footer.png`;
-  const DOE = 'May 9 - 10, 2026';
-  const DOE_LOCATION = 'University Credit Union Center, UC Davis';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -35,20 +33,18 @@ export default function hackerRejectionTemplate(fname: string) {
     <div class="container">
         <img src="${HEADER_IMAGE_URL}" alt="HackDavis 2026 header" class="header-image">
         <h1 class="title">
-          <span style="color: #173a52;">HackDavis 2026 — </span>
-          <span style="color: #57dade;">Application Update</span>
+          <span style="color: #173a52;">Update from </span>
+          <span style="color: #57dade;">HackDavis 2026</span>
         </h1>
-        <p style="color: #173a52; text-align: center; font-size: 14px;">✦ ${DOE}    ✦ ${DOE_LOCATION}</p>
         <div class="divider"></div>
         <div class="content-box">
             <p>Hi ${fname},</p>
             <br/>
-            <p>Thank you for applying to <span class="bold">HackDavis 2026</span> — California's largest social good hackathon. We truly appreciate the time and effort you put into your application.</p>
-            <p>After careful review, we're sorry to let you know that we're unable to offer you a spot at HackDavis 2026. We received an overwhelming number of applications this year, and the decisions were incredibly difficult.</p>
-            <p>We hope this doesn't discourage you — the hackathon community is always growing, and we'd love to see you apply again in the future. Keep building!</p>
-            <p>If you have any questions, feel free to reply to this email.</p>
+            <p>Thank you so much for your interest in HackDavis 2026. We appreciate your enthusiasm and patience throughout this process.</p>
+            <p>Unfortunately, due to overwhelming interest and limited capacity, <span class="bold">we’re no longer able to accommodate hackers currently on the waitlist.</span> We know this is disappointing, and we’re just as bummed out as you are.</p>
+            <p>If you have any questions, concerns, or comments, please reach out to <a href="mailto:hello@hackdavis.io">hello@hackdavis.io</a>.</p>
             <br/>
-            <p style="margin-bottom: 0;">Thank you,<br/>The HackDavis Team</p>
+            <p style="margin-bottom: 0;">Warmly,<br/>The HackDavis Team</p>
         </div>
         <div class="divider"></div>
         <img src="${FOOTER_IMAGE_URL}" alt="HackDavis 2026 footer" class="footer-image">
