@@ -1,19 +1,24 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import type Event from '@typeDefs/event';
+import { getTeamMixerEvent } from '@actions/events/getTeamMixer';
 import teamMixer from '@public/hackers/starter-kit/teamBuilding/teamMixer.svg';
 import mascots from '@public/hackers/starter-kit/teamBuilding/mascotSquad.svg';
 import { CalendarItem } from '@pages/(hackers)/_components/Schedule/CalendarItem';
 import { MentorCalloutCard } from '@pages/(hackers)/_components/StarterKit/Ideate/IdeateMentorCallout';
 
-const TEAM_MIXER_EVENT: Event = {
-  name: 'Team Mixer',
-  type: 'ACTIVITIES',
-  location: 'ARC Ballroom A',
-  start_time: new Date('2026-05-09T08:30:00'),
-  end_time: new Date('2026-05-09T09:30:00'),
-};
-
 export default function TeamBuilding() {
+  const [teamMixerEvent, setTeamMixerEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getTeamMixerEvent().then((event) => {
+      setTeamMixerEvent(event);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <section className="flex flex-col py-[7%] px-[4%] bg-[#FAFAFF] gap-[112px] md:gap-[144px]">
       {/* Header */}
@@ -36,11 +41,19 @@ export default function TeamBuilding() {
 
         {/* Event Card */}
         <div className="mt-[40px] md:mt-[60px]">
-          <CalendarItem
-            event={TEAM_MIXER_EVENT}
-            attendeeCount={15}
-            hideAddButton
-          />
+          {loading ? (
+            <p className="text-center text-gray-600 py-4">Loading event...</p>
+          ) : teamMixerEvent ? (
+            <CalendarItem
+              event={teamMixerEvent}
+              attendeeCount={15}
+              hideAddButton
+            />
+          ) : (
+            <p className="text-center text-gray-600 py-4">
+              Team Mixer event not found
+            </p>
+          )}
         </div>
       </div>
 
