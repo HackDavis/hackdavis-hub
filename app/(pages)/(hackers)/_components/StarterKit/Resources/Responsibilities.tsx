@@ -1,14 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
-import { useRef, useState } from 'react';
+import useIdeateScroll from '@hooks/useIdeateScroll';
 
 interface Responsibility {
-  icon: StaticImageData;
+  dark_icon: StaticImageData;
+  light_icon: StaticImageData;
   title: string;
   description: string;
 }
 
-// shi figure out that bar!!!!!!
 export function Responsibilities({
   image,
   title,
@@ -20,47 +22,18 @@ export function Responsibilities({
   responsibilities: Responsibility[];
   reverse: boolean;
 }) {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const [responsibilityIndex] = useState(0);
-  const [scrollPos] = useState(50);
-
-  /*useEffect(() => {
-    const onPageScroll = () => {
-      const section = sectionRef.current.scrollTo();
-      const scrollContainer = scrollRef.current;
-      if (!section) return;
-
-      const rect = section.getBoundingClientRect();
-      const anchorY = window.innerHeight * 0.35;
-      const traveled = anchorY - rect.top;
-      const rawProgress = traveled / Math.max(rect.height, 1);
-      const progress = Math.min(Math.max(rawProgress, 0), 0.999);
-      const nextIndex = Math.floor(progress * responsibilities.length);
-      const clampedIndex = Math.max(0, Math.min(responsibilities.length - 1, nextIndex));
-
-      setResponsibilityIndex(clampedIndex);
-
-      if (scrollContainer) {
-        const maxHeight = scrollContainer.clientHeight;
-        const fillProgress = responsibilities.length > 1 ? clampedIndex / (responsibilities.length - 1) : 0;
-        setScrollPos(fillProgress * maxHeight);
-      }
-    };
-
-    onPageScroll();
-    window.addEventListener("scroll", onPageScroll, { passive: true });
-    //window.addEventListener("resize", onPageScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onPageScroll);
-      //window.removeEventListener("resize", onPageScroll);
-    };
-  }, );//[responsibilities.length]);*/
+  const { sectionRef, scrollRef, responsibilityIndex, scrollPos } =
+    useIdeateScroll({
+      title,
+      responsibilities,
+    });
 
   return (
-    <div ref={sectionRef}>
+    <div
+      ref={sectionRef}
+      id="sectionID"
+      className="w-full self-stretch px-[16px] min-[1250px]:px-[0px]"
+    >
       <p className="opacity-[0.40] text-[16px] font-mono pb-[12px]">IDEATE</p>
       <p className="text-[32px] text-[#1F1F1F] font-semibold">{title}</p>
       <div
@@ -74,10 +47,10 @@ export function Responsibilities({
         <Image
           src={image}
           alt={`${title} image`}
-          className="w-full min-[1250px]:w-[300px] min-[1400px]:w-[440px]"
+          className="w-full min-[1250px]:w-[500px]"
         />
 
-        <div className=" flex flex-row align-middle items-stretch">
+        <div className=" flex flex-row align-middle items-stretch min-[1250px]:w-[700px]">
           <div
             ref={scrollRef}
             className="bg-[#E2E2E2] h-auto outline-[2px] outline-[#E2E2E2] rounded-full overflow-visible relative w-[8px]"
@@ -89,27 +62,41 @@ export function Responsibilities({
           </div>
           <div className="flex gap-[57px] flex-col h-min px-[12px]">
             {responsibilities.map((responsibility, index) => (
-              <div key={index} className="flex flex-col gap-[4px]">
+              <div
+                key={index}
+                id={title + `responsibility-` + index}
+                className="flex flex-col gap-[4px]"
+              >
                 <div className="flex flex-row items-center gap-[4px]">
                   <Image
-                    src={responsibility.icon}
+                    src={
+                      index == responsibilityIndex
+                        ? responsibility.dark_icon
+                        : responsibility.light_icon
+                    }
                     alt={`${responsibility.title} icon`}
-                    className=""
+                    className={`transition-all duration-300 ease-out ${
+                      index == responsibilityIndex
+                        ? 'w-[32px] h-[32px]'
+                        : 'w-[24px] h-[24px]'
+                    }`}
                   />
                   {index == responsibilityIndex ? (
-                    <p className="text-[20px] text-[#1F1F1F] font-semibold">
+                    <p className="text-[20px] text-[#1F1F1F] font-semibold transition-all">
                       {responsibility.title}
                     </p>
                   ) : (
-                    <p className="text-[16px] text-[#ACACB9] font-semibold">
+                    <p className="text-[16px] text-[#ACACB9] font-semibold transition-all">
                       {responsibility.title}
                     </p>
                   )}
                 </div>
-                {index == responsibilityIndex && (
-                  <p className="opacity-[0.65] text-[16px]">
+                {index == responsibilityIndex ? (
+                  <p className="opacity-[0.65] text-[16px] transition-all">
                     {responsibility.description}
                   </p>
+                ) : (
+                  <p className="text-[16px] transition-all"></p>
                 )}
               </div>
             ))}
