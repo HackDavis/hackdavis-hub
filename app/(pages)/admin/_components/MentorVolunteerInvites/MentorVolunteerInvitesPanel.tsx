@@ -4,12 +4,16 @@ import { useEffect, useState } from 'react';
 import getRsvpLists from '@actions/tito/getRsvpLists';
 import getReleases from '@actions/tito/getReleases';
 import { Release, RsvpList } from '@typeDefs/tito';
-import MentorSingleInviteForm from './MentorSingleInviteForm';
-import MentorBulkInviteForm from './MentorBulkInviteForm';
+import MentorVolunteerSingleInviteForm from './MentorVolunteerSingleInviteForm';
+import MentorVolunteerBulkInviteForm from './MentorVolunteerBulkInviteForm';
 
 type Mode = 'single' | 'bulk';
 
-export default function MentorInvitesPanel() {
+interface Props {
+  role: 'mentor' | 'volunteer';
+}
+
+export default function MentorVolunteerInvitesPanel({ role }: Props) {
   const [mode, setMode] = useState<Mode>('single');
   const [rsvpLists, setRsvpLists] = useState<RsvpList[]>([]);
   const [releases, setReleases] = useState<Release[]>([]);
@@ -73,13 +77,19 @@ export default function MentorInvitesPanel() {
       {mode === 'single' ? (
         <div className="flex flex-col gap-3">
           <p className="text-sm text-gray-500">
-            Send a Tito invite to a single mentor by entering their details
+            Send a Tito invite to a single {role} by entering their details
             below.
           </p>
-          <p className="text-sm text-red-500">
-            Note: This template includes Mentor Orientation materials.
-          </p>
-          <MentorSingleInviteForm rsvpLists={rsvpLists} releases={releases} />
+          {role === 'mentor' && (
+            <p className="text-sm text-red-500">
+              Note: This template includes Mentor Orientation materials.
+            </p>
+          )}
+          <MentorVolunteerSingleInviteForm
+            rsvpLists={rsvpLists}
+            releases={releases}
+            role={role}
+          />
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -88,12 +98,18 @@ export default function MentorInvitesPanel() {
             <span className="font-mono bg-gray-100 px-1 rounded">
               First Name, Last Name, Email
             </span>{' '}
-            to send Tito invites to multiple mentors at once.
+            to send Tito invites to multiple {role}s at once.
           </p>
-          <p className="text-sm text-red-500">
-            Note: This template includes Mentor Orientation materials.
-          </p>
-          <MentorBulkInviteForm rsvpLists={rsvpLists} releases={releases} />
+          {role === 'mentor' && (
+            <p className="text-sm text-red-500">
+              Note: This template includes Mentor Orientation materials.
+            </p>
+          )}
+          <MentorVolunteerBulkInviteForm
+            rsvpLists={rsvpLists}
+            releases={releases}
+            role={role}
+          />
         </div>
       )}
     </div>

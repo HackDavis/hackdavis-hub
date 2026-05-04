@@ -20,7 +20,7 @@ import type {
 export const MAX_USER_MESSAGE_CHARS = 200;
 const STORAGE_KEY = 'hackbot_chat_history';
 const MAX_STORED_MESSAGES = 20;
-const MIN_WIDTH = 360;
+const MIN_WIDTH = 430;
 const MAX_WIDTH_FRACTION = 0.5;
 const CASCADE_DELAY_MS = 150;
 
@@ -164,7 +164,11 @@ export function useHackbotWidget({
     addSeparatorRef.current = false;
     setCascading(false);
 
-    const userMessage: HackbotChatMessage = { role: 'user', content: text };
+    const userMessage: HackbotChatMessage = {
+      role: 'user',
+      content: text,
+      timestamp: new Date().toISOString(),
+    };
 
     // Capture conversation history before state updates so the same API messages
     // are sent on every retry attempt.
@@ -173,7 +177,11 @@ export function useHackbotWidget({
     setMessages((prev) => [
       ...prev,
       userMessage,
-      { role: 'assistant', content: '' } as HackbotChatMessage,
+      {
+        role: 'assistant',
+        content: '',
+        timestamp: new Date().toISOString(),
+      } as HackbotChatMessage,
     ]);
     setInput('');
     setError(null);

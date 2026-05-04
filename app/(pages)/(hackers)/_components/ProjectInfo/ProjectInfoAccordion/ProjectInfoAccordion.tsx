@@ -5,6 +5,7 @@ import styles from './ProjectInfoAccordion.module.scss';
 import { Chevron, Star } from './AccordionAssets';
 
 export interface AccordionItemInt {
+  id?: string;
   subtitle: string;
   title: string;
   content: React.ReactNode;
@@ -12,19 +13,26 @@ export interface AccordionItemInt {
 
 export default function ProjectInfoAccordion({
   accordionItems,
+  initiallyOpenId,
 }: {
   accordionItems: AccordionItemInt[];
+  initiallyOpenId?: string | null;
 }) {
   return (
     <Accordion transition transitionTimeout={250} allowMultiple>
       {accordionItems.map((accordionItem, index) => (
         <AccordionItem
-          key={index}
+          key={accordionItem.id ?? index}
+          initialEntered={
+            accordionItem.id != null && accordionItem.id === initiallyOpenId
+          }
           header={
             <div
+              id={accordionItem.id}
               className={styles.item_header}
               style={{
                 backgroundColor: index % 2 == 0 ? '#005271' : '#9EE7E5',
+                scrollMarginTop: '100px',
               }}
             >
               <div className={styles.left}>
