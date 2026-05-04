@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
-import useIdeateScroll from './useIdeateScroll';
+import useIdeateScroll from '@hooks/useIdeateScroll';
 
 interface Responsibility {
   dark_icon: StaticImageData;
