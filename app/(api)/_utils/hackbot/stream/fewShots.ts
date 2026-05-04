@@ -29,6 +29,14 @@ export const FEW_SHOT_EXAMPLES: HackbotMessage[] = [
   },
   {
     role: 'user',
+    content: 'When is lunch?',
+  },
+  {
+    role: 'assistant',
+    content: 'Let me check the schedule for meal times!',
+  },
+  {
+    role: 'user',
     content: 'What prize tracks should I enter?',
   },
   {

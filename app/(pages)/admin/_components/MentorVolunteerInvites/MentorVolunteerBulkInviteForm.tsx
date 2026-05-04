@@ -1,34 +1,52 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
-import sendBulkMentorInvites from '@actions/emails/sendBulkMentorInvites';
+import { parse } from 'csv-parse/sync';
+import sendBulkMentorOrVolunteerInvites from '@actions/emails/sendBulkMentorOrVolunteerInvites';
 import { BulkMentorInviteResponse, MentorInviteData } from '@typeDefs/emails';
 import { Release, RsvpList } from '@typeDefs/tito';
+import {
+  buildFailureDownloadFilename,
+  generateInviteFailuresCSV,
+} from '../../_utils/generateInviteFailuresCSV';
 import { generateInviteResultsCSV } from '../../_utils/generateInviteResultsCSV';
 
 /**
  * Browser-safe CSV preview parser (no Node.js deps). Full validation runs server-side.
- * Note: uses simple comma-split — quoted fields containing commas are not supported.
  */
 function previewCSV(
   text: string
 ): { ok: true; rows: MentorInviteData[] } | { ok: false; error: string } {
-  const lines = text
-    .split(/\r?\n/)
-    .map((l) => l.trim())
-    .filter(Boolean);
-  if (lines.length === 0) return { ok: false, error: 'CSV is empty.' };
+  if (!text.trim()) return { ok: false, error: 'CSV is empty.' };
 
-  const firstCells = lines[0].toLowerCase();
+  let parsedRows: string[][];
+  try {
+    parsedRows = parse(text, {
+      trim: true,
+      skip_empty_lines: true,
+    }) as string[][];
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error && error.message
+          ? `Could not parse CSV: ${error.message}`
+          : 'Could not parse CSV.',
+    };
+  }
+
+  if (parsedRows.length === 0) return { ok: false, error: 'CSV is empty.' };
+
+  const firstCells = parsedRows[0].map((cell) => cell.toLowerCase());
   const hasHeader =
-    firstCells.includes('first') || firstCells.includes('email');
-  const dataLines = hasHeader ? lines.slice(1) : lines;
-  if (dataLines.length === 0)
-    return { ok: false, error: 'No data rows found.' };
+    firstCells.some((cell) => cell.includes('first')) ||
+    firstCells.some((cell) => cell.includes('email'));
+  const dataRows = hasHeader ? parsedRows.slice(1) : parsedRows;
+  if (dataRows.length === 0) return { ok: false, error: 'No data rows found.' };
 
-  const rows: MentorInviteData[] = [];
-  for (let i = 0; i < dataLines.length; i++) {
-    const cols = dataLines[i].split(',').map((c) => c.trim());
+  const previewRows: MentorInviteData[] = [];
+  for (let i = 0; i < dataRows.length; i++) {
+    const cols = dataRows[i];
     if (cols.length < 3) {
       return {
         ok: false,
@@ -37,9 +55,9 @@ function previewCSV(
         }.`,
       };
     }
-    rows.push({ firstName: cols[0], lastName: cols[1], email: cols[2] });
+    previewRows.push({ firstName: cols[0], lastName: cols[1], email: cols[2] });
   }
-  return { ok: true, rows };
+  return { ok: true, rows: previewRows };
 }
 
 type Status = 'idle' | 'previewing' | 'sending' | 'done';
@@ -47,11 +65,17 @@ type Status = 'idle' | 'previewing' | 'sending' | 'done';
 interface Props {
   rsvpLists: RsvpList[];
   releases: Release[];
+  role: 'mentor' | 'volunteer';
 }
 
-export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
+export default function MentorVolunteerBulkInviteForm({
+  rsvpLists,
+  releases,
+  role,
+}: Props) {
   const [status, setStatus] = useState<Status>('idle');
   const [csvText, setCsvText] = useState('');
+  const [fileName, setFileName] = useState('');
   const [preview, setPreview] = useState<MentorInviteData[]>([]);
   const [parseError, setParseError] = useState('');
   const [result, setResult] = useState<BulkMentorInviteResponse | null>(null);
@@ -73,6 +97,7 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
     const reader = new FileReader();
     reader.onload = (ev) => {
       const text = ev.target?.result as string;
+      setFileName(file.name);
       setCsvText(text);
       const parsed = previewCSV(text);
       if (parsed.ok) {
@@ -101,10 +126,11 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
     setStatus('sending');
     setResult(null);
 
-    const response = await sendBulkMentorInvites(
+    const response = await sendBulkMentorOrVolunteerInvites(
       csvText,
       selectedListSlug,
-      selectedReleases.join(',')
+      selectedReleases.join(','),
+      role
     );
     setResult(response);
     setStatus('done');
@@ -131,9 +157,24 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `mentor-invites-${
+    link.download = `${role}-invites-${
       new Date().toISOString().split('T')[0]
     }.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadFailuresCSV = () => {
+    if (!result || result.failureCount === 0) return;
+
+    const csv = generateInviteFailuresCSV(preview, result.results);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = buildFailureDownloadFilename(
+      fileName || `${role}-invites.csv`
+    );
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -141,6 +182,7 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
   const handleReset = () => {
     setStatus('idle');
     setCsvText('');
+    setFileName('');
     setPreview([]);
     setParseError('');
     setResult(null);
@@ -181,7 +223,7 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
       {status === 'previewing' && preview.length > 0 && (
         <div className="flex flex-col gap-4">
           <p className="text-sm text-gray-600">
-            <span className="font-semibold">{preview.length}</span> mentor
+            <span className="font-semibold">{preview.length}</span> {role}
             {preview.length !== 1 ? 's' : ''} found. Configure Tito settings and
             review before sending:
           </p>
@@ -359,6 +401,14 @@ export default function MentorBulkInviteForm({ rsvpLists, releases }: Props) {
           )}
 
           <div className="flex items-center gap-4">
+            {result.failureCount > 0 && (
+              <button
+                onClick={handleDownloadFailuresCSV}
+                className="bg-[#005271] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#003d54] transition-colors"
+              >
+                Download Failures CSV
+              </button>
+            )}
             <button
               onClick={handleDownloadCSV}
               className="bg-[#005271] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#003d54] transition-colors"

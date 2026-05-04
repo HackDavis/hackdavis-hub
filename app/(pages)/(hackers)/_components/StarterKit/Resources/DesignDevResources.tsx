@@ -223,7 +223,7 @@ export default function DesignDevResources() {
       </div>
 
       {/** Section 5 */}
-      <div id="dev-resources">
+      <div id="dev-resources" className="scroll-mt-[100px]">
         <Responsibilities
           image={developer_responsibilities_image}
           title="Developer Responsibilities"
