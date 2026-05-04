@@ -11,6 +11,7 @@ import { TitoRequest } from './titoClient';
 export default async function getAllRsvpInvitations(
   rsvpListSlug: string
 ): Promise<Map<string, string>> {
+  if (!rsvpListSlug) return new Map();
   const map = new Map<string, string>();
   const pageSize = 1000;
   let page = 1;

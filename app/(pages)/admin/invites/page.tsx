@@ -14,7 +14,7 @@ const TAB_LABELS: Record<Tab, string> = {
 
 const TAB_DESCRIPTIONS: Record<Tab, string> = {
   hackers:
-    'Send a Tito e-ticket and HackDavis Hub registration invite to hackers.',
+    'Send admission emails to hackers. Accepted (and waitlist accepted) hackers receive a Tito e-ticket and HackDavis Hub registration invite; waitlisted and rejected hackers receive email notifications only.',
   judges:
     'Send HackDavis Hub invites to judges. Navigate to emergency-invites for one-time links.',
   mentors: 'Send Tito e-ticket invites to mentors.',

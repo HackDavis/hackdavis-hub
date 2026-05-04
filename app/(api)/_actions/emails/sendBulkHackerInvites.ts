@@ -46,11 +46,10 @@ export default async function sendBulkHackerInvites(
   }
   const sender = DEFAULT_SENDER;
 
-  // Pre-fetch all existing Tito invitations for rows that need them
-  const existingInvitationsMap = await getAllRsvpInvitations(rsvpListSlug);
-
   const titoLimiter = createLimiter(TITO_CONCURRENCY);
   const emailLimiter = createLimiter(EMAIL_CONCURRENCY);
+
+  let existingInvitationsMap = new Map<string, string>();
 
   return processBulkInvites<HackerInviteData, HackerInviteResult>(csvText, {
     label: 'Hacker',
@@ -61,6 +60,10 @@ export default async function sendBulkHackerInvites(
       const acceptEmails = hackers
         .filter((h) => admissionNeedsTitoAndHub(h.admissionType))
         .map((h) => h.email);
+
+      if (acceptEmails.length > 0) {
+        existingInvitationsMap = await getAllRsvpInvitations(rsvpListSlug);
+      }
 
       const existingEmailSet = new Set<string>();
       if (acceptEmails.length > 0) {
