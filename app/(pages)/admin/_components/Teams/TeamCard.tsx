@@ -16,12 +16,16 @@ interface TeamCardProps {
   team: TeamWithJudges;
   onEditClick?: () => void;
   editable?: boolean;
+  onRestoreMissingTeam?: (team_id: string) => void | Promise<void>;
+  restoringMissingTeam?: boolean;
 }
 
 export default function TeamCard({
   team,
   onEditClick = () => {},
   editable = true,
+  onRestoreMissingTeam = () => {},
+  restoringMissingTeam = false,
 }: TeamCardProps) {
   const reports = team.reports ?? [];
   return (
@@ -63,6 +67,23 @@ export default function TeamCard({
             </div>
           ))}
         </div>
+        {editable && reports.length > 0 && (
+          <>
+            <button
+              className={styles.restore_button}
+              onClick={() => onRestoreMissingTeam(team._id ?? '')}
+              disabled={restoringMissingTeam}
+            >
+              {restoringMissingTeam
+                ? 'Marking as present...'
+                : 'Mark Team as Present'}
+            </button>
+            <p className={styles.restore_helper_text}>
+              Restores this team to all missing judges&apos; queues and clears
+              missing reports.
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
