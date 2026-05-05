@@ -14,6 +14,7 @@ const PRIZE_TRACK_FILTERS = [
   'BUSINESS',
   'SPONSOR',
   'NON-PROFIT',
+  'MLH',
 ] as const;
 
 export default function PrizeTracks() {
@@ -69,7 +70,7 @@ function Header() {
         Prize Tracks
       </h3>
       <h6 className="text-lg text-gray-500 mb-1">
-        Prizes are subject to change *
+        Prizes are subject to change
       </h6>
     </div>
   );
