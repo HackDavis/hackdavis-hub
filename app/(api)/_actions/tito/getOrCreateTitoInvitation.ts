@@ -20,18 +20,36 @@ function isDuplicateTicketError(error: string | null | undefined): boolean {
 }
 
 /**
- * Wrapper function to create a Tito invitation with duplicate handling:
- * If duplicate error detected, it will first try to reuse the existing invitation URL.
- * If that fails, it will delete the existing invitation and attempt to create a new one.
+ * Wrapper function to create a Tito invitation with duplicate handling.
+ *
+ * When a pre-fetched existingInvitationsMap is provided (email→url):
+ *   - If the email is already in the map, return the cached URL immediately
+ *     without hitting the Tito API at all.
+ *   - Otherwise, create normally.
+ *
+ * When no map is provided (single invites):
+ *   - Attempt to create; on duplicate error, fall back to a live
+ *     getRsvpInvitationByEmail lookup, then delete+recreate if no URL found.
+ *
+ * For non-duplicate failures, the error is returned as-is (caller may retry).
  */
 export default async function getOrCreateTitoInvitation(
-  data: ReleaseInvitationRequest
+  data: ReleaseInvitationRequest,
+  existingInvitationsMap?: Map<string, string>
 ): Promise<{ ok: true; titoUrl: string } | { ok: false; error: string }> {
   const { email, rsvpListSlug } = data;
 
+  // Skip the create call entirely if we already know this email has a ticket
+  if (existingInvitationsMap) {
+    const cached = existingInvitationsMap.get(email.toLowerCase());
+    if (cached) {
+      return { ok: true, titoUrl: cached };
+    }
+  }
+
   let titoResponse = await createRsvpInvitation(data);
 
-  // Duplicate recovery: reuse existing URL if possible, otherwise delete + recreate
+  // Duplicate recovery for single-invite path (no pre-fetched map)
   if (!titoResponse.ok && isDuplicateTicketError(titoResponse.error)) {
     console.warn(`[Tito] Duplicate detected for ${email}, attempting recovery`);
 
