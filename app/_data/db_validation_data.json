@@ -1,11 +1,5 @@
 {
-  "domains": [
-    "swe",
-    "business",
-    "aiml",
-    "hardware",
-    "design"
-  ],
+  "domains": ["swe", "business", "aiml", "hardware", "design"],
   "tracks": [
     "Best Hack for Social Good",
     "Hacker's Choice Award",
@@ -21,6 +15,14 @@
     "Best Entrepreneurship Hack",
     "Best Statistical Model",
     "Best Hack for Women's Center",
-    "Best Hack for ASUCD Pantry"
+    "Best Use of DAC Materials",
+    "Best Open Data Hack",
+    "Best Use of Gemini API",
+    "Best Use of ElevenLabs",
+    "Best Use of Solana",
+    "Best Use of Backboard",
+    "Best Use of Vultr",
+    "Best Use of MongoDB Atlas",
+    "Best Domain Name from GoDaddy Registry"
   ]
 }
