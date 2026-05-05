@@ -51,6 +51,7 @@ jobs:
           printf "${{ secrets.CHECK_IN_CODE }}" | vercel env add CHECK_IN_CODE production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ secrets.TITO_API_TOKEN }}" | vercel env add TITO_API_TOKEN production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ secrets.OPENAI_API_KEY }}" | vercel env add OPENAI_API_KEY production --force --token=${{ secrets.VERCEL_TOKEN }}
+          printf "${{ secrets.HUB_ADMIN_EMAIL }}" | vercel env add HUB_ADMIN_EMAIL production --force --token=${{ secrets.VERCEL_TOKEN }}
 
           printf "${{ vars.ENV_URL }}" | vercel env add BASE_URL production --force --token=${{ secrets.VERCEL_TOKEN }}
           printf "${{ vars.INVITE_DEADLINE }}" | vercel env add INVITE_DEADLINE production --force --token=${{ secrets.VERCEL_TOKEN }}
