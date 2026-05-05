@@ -11,7 +11,7 @@ import projector from '@public/prizes/projector.png';
 // import raspberryPi from '@public/prizes/raspberry_pi.png';
 import mouse from '@public/prizes/mouse.png';
 import keyboard from '@public/prizes/keyboard.png';
-import figmaLogo from '@public/prizes/figma_logo.png';
+// import figmaLogo from '@public/prizes/figma_logo.png';
 import chatgptLogo from '@public/prizes/chatgpt_logo.png';
 import backpack from '@public/prizes/backpack.png';
 import bluetoothSpeaker from '@public/prizes/bluetooth_speaker.png';
@@ -29,6 +29,7 @@ import portableScreens from '@public/prizes/portableScreens.png';
 import m5StackIotKit from '@public/prizes/m5StackIotKit.png';
 import digitalGiftCard from '@public/prizes/digitalGiftCard.png';
 import sonyHeadphones from '@public/prizes/sony_headphones.webp';
+import datalab from '@public/prizes/datalab.png';
 
 interface TrackData {
   name: string;
@@ -291,8 +292,8 @@ const optedHDTracks: Tracks = {
   'Best User Research': {
     name: 'Best User Research',
     filter: ['Design'],
-    prizes: ['North Face Backpack'],
-    images: [backpack],
+    prizes: ['ChatGPT+ (4 month subscription)'],
+    images: [chatgptLogo],
     eligibility_criteria:
       'Awarded to a well-researched project that keeps its userbase in mind with an inclusive design aimed to maximize accessibility.',
     domain: 'design',
@@ -327,8 +328,8 @@ const optedHDTracks: Tracks = {
   'Best Entrepreneurship Hack': {
     name: 'Best Entrepreneurship Hack',
     filter: ['Business'],
-    prizes: ['ChatGPT+ (4 month subscription)'],
-    images: [chatgptLogo],
+    prizes: ['North Face Backpack'],
+    images: [backpack],
     eligibility_criteria:
       "No Code Required. A project that focuses on viability and persuasive power through presentation on the product/service you're trying to sell, relevant customer segments, distribution channels, and associated revenue/profit models.",
     domain: 'business',
@@ -487,6 +488,14 @@ const nonHDTracks: Tracks = {
     eligibility_criteria:
       'Projects must create a digital system to track donations as they come in and go out. Wellspring is looking for a straightforward, easy-to-use digital tool that helps staff and volunteers quickly log donated items, track how they are distributed, and generate basic reports when needed.',
   },
+  'Best Open Data Hack': {
+    name: 'Best Open Data Hack',
+    filter: ['Sponsor', 'Technical'],
+    prizes: ['DataLab Internship'],
+    images: [datalab],
+    eligibility_criteria:
+      "Teams must identify a question or topic that, when addressed, produces an insight or product that promotes social good for the UC Davis community. To qualify for this challenge, you must find and use one or more Open and Publicly Accessible Datasets to complete your hack. Finding and appropriately using the right data to address your question or topic is one of the biggest hurdles in data science.\n\nThe Spotlight:\n• Your visualization will be professionally printed and permanently displayed in the DataLab at Shields Library.\n• An invitation to present your work at DataLab's talk series.\n• A spot in DataLab's summer mentored Internship Program (non-paid) to jumpstart your career, where you'll work alongside expert data scientists to level up your portfolio.\n\nSponsored by DataLab.",
+  },
   // 'Best Hack for ASUCD Pantry': {
   //   name: 'Best Hack for ASUCD Pantry',
   //   filter: 'Non-Profit',
@@ -525,7 +534,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Tile Essentials Pack'],
     images: [tileEssentialsPack],
     eligibility_criteria:
-      "Every AI model API is stateless by default. That means your app forgets everything the second a session ends. State management should be the first step of any AI build, regardless of what LLM you are using, and Backboard gives you that for free. But Backboard is not just state management. It is a single, unified API built on the world's #1 AI memory that gives you everything you need in one place: long-term memory, RAG, embeddings, tool calls, model routing across 17,000+ LLMs, and persistent context that stays alive across every page refresh, session, and user. No stitching together five different services. One API. One integration. Built on the best memory in AI.\n\nHere's just a small list of things Backboard can make possible for your AI app!\n• AI-powered Travel Guide: Remembers allergies and preferences from past trips.\n• Personalized Fitness Coach: Adjusts workouts based on progress and injury history.\n• Smart Home Controller: Learns routines over time to anticipate lighting and climate preferences!\n\nUse Backboard to build a seamless, persistent user experience without the usual infrastructure headache! Each winning team member will receive a Tiles Essentials Pack because, just like AI, we all need an occasional reminder of where things are!\n\nSponsored by MLH.",
+      "Every AI model API is stateless by default. That means your app forgets everything the second a session ends. State management should be the first step of any AI build, regardless of what LLM you are using, and Backboard gives you that for free. But Backboard is not just state management. It is a single, unified API built on the world's #1 AI memory that gives you everything you need in one place: long-term memory, RAG, embeddings, tool calls, model routing across 17,000+ LLMs, and persistent context that stays alive across every page refresh, session, and user. No stitching together five different services. One API. One integration. Built on the best memory in AI.\n\nHere's just a small list of things Backboard can make possible for your AI app!\n\n• AI-powered Travel Guide: Remembers allergies and preferences from past trips.\n• Personalized Fitness Coach: Adjusts workouts based on progress and injury history.\n• Smart Home Controller: Learns routines over time to anticipate lighting and climate preferences!\n\nUse Backboard to build a seamless, persistent user experience without the usual infrastructure headache! Each winning team member will receive a Tiles Essentials Pack because, just like AI,  we all need an occasional reminder of where things are!\n\nSponsored by MLH.",
   },
   'Best Use of Vultr': {
     name: 'Best Use of Vultr',
@@ -549,7 +558,7 @@ const nonHDTracks: Tracks = {
     prizes: ['Digital Gift Card'],
     images: [digitalGiftCard],
     eligibility_criteria:
-      'GoDaddy Registry is giving you everything you need to be the best hacker no matter where you are. Register your domain name with GoDaddy Registry for a chance to win some amazing prizes!\n\nSponsored by MLH.',
+      'GoDaddy Registry is giving you everything you need to be the best hacker no matter where you are. Register your domain name with GoDaddy Registry for a chance to win some amazing prizes! \n\nSponsored by MLH.',
   },
 };
 
