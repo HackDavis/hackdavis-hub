@@ -24,7 +24,7 @@ export default function AdminLayout({
   return (
     <ProtectedDisplay
       allowedRoles={['admin']}
-      allowedUser={[parsedAdminEmail]}
+      allowedUser={parsedAdminEmail}
       failRedirectRoute="/login"
     >
       {children}
