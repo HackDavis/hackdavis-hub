@@ -564,6 +564,7 @@ const nonHDTracks: Tracks = {
 
 const sponsoredNotSendingJudges: Tracks = {
   'Best AI/ML Hack': nonHDTracks['Best AI/ML Hack'],
+  'Best UI/UX Design': nonHDTracks['Best UI/UX Design'],
 };
 
 const judgeVisibleTracks: Tracks = {
