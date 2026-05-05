@@ -9,6 +9,9 @@ import styles from './DetailForm.module.scss';
 import Loader from '@pages/_components/Loader/Loader';
 import { optedHDTracks, displayNameToDomainMap } from '@data/tracks';
 
+import loginDrumstick from '@public/judges/login/LogIn_DrumStick.svg';
+import loginFroggie from '@public/judges/login/LogIn_Froggy.svg';
+
 interface OptionItem {
   id: number;
   text: string;
@@ -172,14 +175,14 @@ export default function DetailForm({ id }: any) {
         <div className={styles.submit_button_container}>
           <div className={styles.froggie_container}>
             <Image
-              src="/login/LogIn_DrumStick.svg"
+              src={loginDrumstick}
               alt="froggie_drumstick"
               width={10}
               height={10}
               className={styles.drumstick}
             />
             <Image
-              src="/login/LogIn_Froggy.svg"
+              src={loginFroggie}
               alt="froggie"
               width={50}
               height={50}

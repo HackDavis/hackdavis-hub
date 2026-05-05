@@ -25,6 +25,20 @@ const sections = [
     activeColor: '#1A3819',
     background: 'rgba(255, 255, 255, 0.50)',
   },
+  {
+    id: 'starter-kit',
+    page: '/starter-kit',
+    baseColor: '#1A3819',
+    activeColor: '#1A3819',
+    background: 'rgba(255, 255, 255, 0.50)',
+  },
+  {
+    id: 'project-info',
+    page: '/project-info',
+    baseColor: '#1A3819',
+    activeColor: '#1A3819',
+    background: 'rgba(255, 255, 255, 0.50)',
+  },
 ];
 
 export default function Navbar() {
@@ -60,6 +74,18 @@ export default function Navbar() {
       body: 'Schedule',
       page: '/schedule',
       path: '/schedule',
+    },
+    {
+      ids: ['starter-kit'],
+      body: 'Starter Kit',
+      page: '/starter-kit',
+      path: '/starter-kit',
+    },
+    {
+      ids: ['project-info'],
+      body: 'Project Info',
+      page: '/project-info',
+      path: '/project-info',
     },
     {
       ids: [],

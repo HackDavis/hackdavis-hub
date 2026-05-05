@@ -18,8 +18,12 @@ export default function Page() {
       setMissingTeams(null);
 
       const formData = new FormData(e.currentTarget);
-      const secondFloor = parseInt(formData.get('secondFloor') as string);
-      if (isNaN(secondFloor)) throw new Error('Enter an integer.');
+      const secondFloor = String(formData.get('secondFloor') ?? '')
+        .trim()
+        .toUpperCase();
+      if (!/^[A-L]$/.test(secondFloor)) {
+        throw new Error('Enter a single row letter from A to L, e.g. I.');
+      }
 
       const submissionsWithoutTeams = await randomizeProjects(secondFloor);
       setMissingTeams(JSON.stringify(submissionsWithoutTeams.body, null, 2));
@@ -39,9 +43,9 @@ export default function Page() {
         style={{ display: 'flex', flexDirection: 'column' }}
       >
         <label htmlFor="secondFloor">
-          Input the smallest (first) table number on the second floor:
+          Input the first row letter on the second floor (e.g. I):
         </label>
-        <input name="secondFloor" type="text" />
+        <input id="secondFloor" name="secondFloor" type="text" />
         <button type="submit">Randomize Projects</button>
       </form>
       <p>The following submissions don't have a team associated with them:</p>

@@ -3,6 +3,13 @@
 import Image from 'next/image';
 import { GoArrowRight } from 'react-icons/go';
 import Countdown from './_components/Countdown';
+import clouds from '@public/hackers/hero/Clouds.svg';
+import starLeft from '@public/hackers/hero/StarLeft.svg';
+import startRight from '@public/hackers/hero/StarRight.svg';
+import peepingBunny from '@public/hackers/hero/PeepingBunny.gif';
+import peepingCow from '@public/hackers/hero/PeepingCow.gif';
+import peepingDuck from '@public/hackers/hero/PeepingDuck.gif';
+import peepingFrog from '@public/hackers/hero/PeepingFrog.gif';
 
 interface HeroHackingProps {
   rolloutTime?: number;
@@ -35,7 +42,7 @@ export default function HeroHacking({
             >
               {/* background */}
               <Image
-                src="/Hero/Clouds.svg"
+                src={clouds}
                 alt="Background"
                 fill
                 className="object-cover pointer-events-none select-none -z-10"
@@ -59,8 +66,8 @@ export default function HeroHacking({
             <div className="relative min-h-0">
               {/* Decorative stars */}
               <Image
-                src="/hackers/hero/StarLeft.svg"
-                alt=""
+                src={starLeft}
+                alt="sparkling star"
                 width={120}
                 height={120}
                 className="
@@ -73,14 +80,14 @@ export default function HeroHacking({
               />
 
               <Image
-                src="/hackers/hero/StarRight.svg"
-                alt=""
+                src={startRight}
+                alt="sparkling star"
                 width={120}
                 height={120}
                 className="
                     pointer-events-none select-none
                     absolute z-20
-                    -right-2 top-[10%]
+                    -right-2 top-[0%]
                     w-[56px] sm:w-[70px] md:w-[84px] lg:w-[96px]
                     rotate-[10deg]
                   "
@@ -90,46 +97,46 @@ export default function HeroHacking({
                 {/* 2x2 animals */}
                 <div className="grid grid-cols-2 gap-2">
                   {/* Cow */}
-                  <div className="relative rounded-[20px] bg-[#93F5F3] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#CCFFFE] overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingCow.svg"
+                      src={peepingCow}
                       alt="Peeking cow"
                       width={520}
                       height={320}
-                      className="w-[85%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Duck */}
-                  <div className="relative rounded-[20px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingDuck.svg"
+                      src={peepingDuck}
                       alt="Peeking duck"
                       width={520}
                       height={320}
-                      className="w-[100%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Frog */}
-                  <div className="relative rounded-[20px] bg-[#E9FBBA] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#E9FBBA] overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingFrog.svg"
+                      src={peepingFrog}
                       alt="Peeking frog"
                       width={520}
                       height={320}
-                      className="w-[65%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Bunny */}
-                  <div className="relative rounded-[20px] bg-[#FFD2D2] overflow-hidden flex items-end justify-center">
+                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#FFD2D2] overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingBunny.svg"
+                      src={peepingBunny}
                       alt="Peeking bunny"
                       width={520}
                       height={320}
-                      className="w-[85%] h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
                 </div>
@@ -147,7 +154,7 @@ export default function HeroHacking({
                 >
                   {/* background */}
                   <Image
-                    src="/Hero/Clouds.svg"
+                    src={clouds}
                     alt="Background"
                     fill
                     className="object-cover pointer-events-none select-none -z-10 overflow-hidden"
@@ -167,35 +174,35 @@ export default function HeroHacking({
                 {/* Row 1: 3 tiles */}
                 <div className="min-h-0 grid grid-cols-[50fr_30fr_20fr] gap-5">
                   {/* Cow */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#93F5F3] backdrop-blur-xl overflow-hidden flex items-end justify-center">
+                  <div className="min-h-0 relative rounded-[28px] bg-[#CCFFFE] backdrop-blur-xl overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingCow.svg"
+                      src={peepingCow}
                       alt="Peeking cow"
                       width={520}
                       height={320}
-                      className="w-[55%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Duck */}
                   <div className="min-h-0 relative rounded-[28px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingDuck.svg"
+                      src={peepingDuck}
                       alt="Peeking duck"
                       width={520}
                       height={320}
-                      className="w-[100%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
                   {/* Frog */}
                   <div className="min-h-0 relative rounded-[28px] bg-[#E9FBBA] backdrop-blur-xl overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingFrog.svg"
+                      src={peepingFrog}
                       alt="Peeking frog"
                       width={520}
                       height={320}
-                      className="w-[90%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
                 </div>
@@ -205,11 +212,11 @@ export default function HeroHacking({
                   {/* Bunny */}
                   <div className="min-h-0 relative rounded-[28px] bg-[#FFD2D2] backdrop-blur-xl overflow-hidden flex items-end justify-center">
                     <Image
-                      src="/hackers/hero/PeepingBunny.svg"
+                      src={peepingBunny}
                       alt="Peeking bunny"
                       width={520}
                       height={320}
-                      className="w-[85%] max-h-full h-auto pointer-events-none select-none"
+                      className="h-full w-auto max-w-none pointer-events-none select-none"
                     />
                   </div>
 
@@ -226,7 +233,7 @@ export default function HeroHacking({
                   >
                     {/* background */}
                     <Image
-                      src="/Hero/Clouds.svg"
+                      src={clouds}
                       alt="Background"
                       fill
                       className="object-cover pointer-events-none select-none -z-10"
@@ -238,7 +245,7 @@ export default function HeroHacking({
                       <span
                         className="text-white font-medium tracking-[4.601px]"
                         style={{
-                          fontSize: 'clamp(28px, 6vw, 90px)',
+                          fontSize: 'clamp(30px, 10.2vw, 195px)', // a bit smaller than to countown timer font
                           textShadow: '0 0 31.729px rgba(255, 255, 255, 0.30)',
                         }}
                       >

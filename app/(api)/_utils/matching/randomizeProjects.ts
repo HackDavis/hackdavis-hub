@@ -29,8 +29,29 @@ const groupByJudge = (
   return acc;
 };
 
+// Helper to convert table letter-number format to a comparable numeric value (ex: A1 -> 1001, B3 -> 2003)
+function toComparableTableNumber(tableNumber: string): number | null {
+  const raw = tableNumber.trim();
+  if (!raw) return null;
+
+  // If table number is already numeric
+  const numeric = Number(raw);
+  if (Number.isFinite(numeric)) return numeric;
+
+  // Expect a single row letter (A–L) followed by a positive seat number
+  const match = raw.match(/^([A-L])(\d+)$/i);
+  if (!match) return null;
+
+  const row = match[1].toUpperCase();
+  const seat = Number(match[2]);
+  if (!Number.isInteger(seat) || seat < 1) return null;
+  const rowValue = row.charCodeAt(0) - 64;
+  return rowValue * 1000 + seat;
+}
+
 export default async function randomizeProjects(
-  secondFloorStart: number = 100
+  // I1 is the first table on floor 2.
+  secondFloorStartLabel: string = 'I'
 ) {
   try {
     const subRes = await getManySubmissions();
@@ -54,7 +75,7 @@ export default async function randomizeProjects(
 
     const teams: Team[] = teamRes.body;
 
-    const tableNumbers = new Map<string, number>();
+    const tableNumbers = new Map<string, string>();
     for (const team of teams) {
       if (team._id) tableNumbers.set(team._id, team.tableNumber);
     }
@@ -62,11 +83,17 @@ export default async function randomizeProjects(
     const updatedSubmissions: object[] = [];
     const submissionsWithoutTeams: Submission[] = [];
 
+    const rowLetter = secondFloorStartLabel.trim().toUpperCase().charAt(0);
+    const secondFloorStart = (rowLetter.charCodeAt(0) - 64) * 1000;
     for (const submissions of Object.values(submissionsByJudge)) {
       const floor = Object.groupBy(submissions, ({ team_id }) => {
         const tableNumber = tableNumbers.get(team_id);
         if (!tableNumber) return 'missing';
-        return tableNumber < secondFloorStart ? 'first' : 'second';
+
+        const comparable = toComparableTableNumber(tableNumber);
+        if (comparable === null) return 'missing';
+
+        return comparable < secondFloorStart ? 'first' : 'second';
       });
 
       const missing = floor.missing;

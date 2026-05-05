@@ -15,28 +15,32 @@ const action_links = [
   },
   {
     href: '/admin/score',
-    body: 'Score and Shortlist',
+    body: 'Shortlisted Teams',
   },
   {
     href: '/admin/panels',
     body: 'Create Panels',
   },
   {
-    href: '/admin/invite-judges',
-    body: 'Invite Judges',
+    href: '/admin/invites',
+    body: 'Invites',
   },
   {
-    href: '/admin/invite-hackers',
-    body: 'Invite Hackers',
+    href: '/admin/emergency-invites',
+    body: 'One-Time Invites',
   },
   {
     href: '/admin/randomize-projects',
     body: 'Randomize Projects',
   },
   {
-    href: '/admin/announcements',
-    body: 'Announcements',
+    href: '/admin/hackbot',
+    body: 'HackBot Knowledge',
   },
+  // {
+  //   href: '/admin/announcements',
+  //   body: 'Announcements',
+  // },
 ];
 
 const data_links = [
