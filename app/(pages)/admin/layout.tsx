@@ -18,12 +18,13 @@ export default function AdminLayout({
     );
   }
 
+  // Assuming only one admin email
   const parsedAdminEmail = adminEmail ? adminEmail : '';
 
   return (
     <ProtectedDisplay
       allowedRoles={['admin']}
-      allowedUsers={[parsedAdminEmail]}
+      allowedUser={[parsedAdminEmail]}
       failRedirectRoute="/login"
     >
       {children}
