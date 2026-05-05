@@ -20,7 +20,8 @@ export default async function ProtectedDisplay({
     const userEmail = String(user.email ?? '')
       .trim()
       .toLowerCase();
-    if (!normalizedAllowedUser.includes(userEmail)) {
+
+    if (!userEmail || normalizedAllowedUser !== userEmail) {
       redirect(failRedirectRoute);
     }
   }
