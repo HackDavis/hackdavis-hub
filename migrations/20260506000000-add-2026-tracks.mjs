@@ -8,36 +8,6 @@ const dataPath = path.resolve(
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const tracks = [...new Set(data.tracks)];
 
-// Track list as of commit 52684b55 (2025 tracks)
-const previousTracks = [
-  'Best Hack for Social Good',
-  'Best Beginner Hack',
-  'Best Interdisciplinary Hack',
-  'Most Creative Hack',
-  'Best Hack for Social Justice',
-  'Best Hardware Hack',
-  'Most Technically Challenging Hack',
-  'Best Open Data Hack',
-  'Best AI/ML Hack',
-  'Best UI/UX Design',
-  'Best User Research',
-  'Best Statistical Model',
-  'Best Medical Hack',
-  'Best Entrepreneurship Hack',
-  "Hacker's Choice Award",
-  'Best Hack for California GovOps Agency',
-  'Best Hack for NAMI Yolo',
-  'Best Hack for Fourth and Hope',
-  'Best Use of Cerebras API',
-  'Best Use of Vectara',
-  'Best Use of Gemini API',
-  'Best Use of MongoDB Atlas',
-  'Best .Tech Domain Name',
-  'Best Use of Auth0',
-  'Best Use of Snowflake API',
-  'Best Assistive Technology',
-];
-
 const teamsSchema = (trackList) => ({
   $jsonSchema: {
     bsonType: 'object',
@@ -104,6 +74,6 @@ export const up = async (db) => {
 export const down = async (db) => {
   await db.command({
     collMod: 'teams',
-    validator: teamsSchema(previousTracks),
+    validator: teamsSchema(tracks),
   });
 };
