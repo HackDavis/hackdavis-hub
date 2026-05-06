@@ -29,7 +29,7 @@ import portableScreens from '@public/prizes/portableScreens.png';
 import m5StackIotKit from '@public/prizes/m5StackIotKit.png';
 import digitalGiftCard from '@public/prizes/digitalGiftCard.png';
 import sonyHeadphones from '@public/prizes/sony_headphones.webp';
-import datalab from '@public/prizes/datalab.png';
+// import datalab from '@public/prizes/datalab.png';
 
 interface TrackData {
   name: string;
@@ -485,6 +485,26 @@ const nonHDTracks: Tracks = {
     eligibility_criteria:
       "Project must incorporate one or more of DAC's materials with a vision-based AI pipeline, implementing and/or configuring concepts such as Vision-Language Models (VLMs) or Vision-Language-Action Models (VLAs) to connect real-world visual perception to physical robotic behavior.\n\nSponsored by the Davis Autonomy Club.",
   },
+  // 'Best Open Data Hack': {
+  //   name: 'Best Open Data Hack',
+  //   displayName: 'Best Open Data Hack (Sponsored by DataLab)',
+  //   filter: ['Sponsor', 'Technical'],
+  //   prizes: ['DataLab Internship'],
+  //   images: [datalab],
+  //   eligibility_criteria:
+  //     "Teams must identify a question or topic that, when addressed, produces an insight or product that promotes social good for the UC Davis community. To qualify for this challenge, you must find and use one or more Open and Publicly Accessible Datasets to complete your hack. Finding and appropriately using the right data to address your question or topic is one of the biggest hurdles in data science.\n\nYou must follow the guidelines provided at the link below to be eligible for this track.\n\nWinners receive:\n• The Spotlight: Your visualization will be professionally printed and permanently displayed in the DataLab at Shields Library.\n• An invitation to present your work at DataLab's talk series.\n• A spot in DataLab's summer mentored Internship Program (non-paid) to jumpstart your career, where you'll work alongside expert data scientists to level up your portfolio.\n\nSponsored by DataLab.",
+  //   eligibility_link:
+  //     'https://docs.google.com/document/d/143apy8JsrJ4VYwxiI-bu2kNPAyL-1f2FweM9gpgXZFM/edit?tab=t.0',
+  // },
+  'Best use of Reconstruct': {
+    name: 'Best use of Reconstruct',
+    displayName: 'Best use of Reconstruct (Sponsored by Reconstruct)',
+    filter: ['Sponsor', 'Technical'],
+    prizes: ['$125 Visa Gift Card per team member'],
+    images: [digitalGiftCard],
+    eligibility_criteria:
+      'Most creative use of Rescontruct in their project. Project must use Reconstruct in a prominant and efficient way to qualify for this prize track.\n\nSponsored by Reconstruct.',
+  },
   "Best Hack for Women's Center": {
     name: "Best Hack for Women's Center",
     filter: ['Non-Profit'],
@@ -492,17 +512,6 @@ const nonHDTracks: Tracks = {
     images: [ankerCharger],
     eligibility_criteria:
       'Projects must create a digital system to track donations as they come in and go out. Wellspring is looking for a straightforward, easy-to-use digital tool that helps staff and volunteers quickly log donated items, track how they are distributed, and generate basic reports when needed.',
-  },
-  'Best Open Data Hack': {
-    name: 'Best Open Data Hack',
-    displayName: 'Best Open Data Hack (Sponsored by DataLab)',
-    filter: ['Sponsor', 'Technical'],
-    prizes: ['DataLab Internship'],
-    images: [datalab],
-    eligibility_criteria:
-      "Teams must identify a question or topic that, when addressed, produces an insight or product that promotes social good for the UC Davis community. To qualify for this challenge, you must find and use one or more Open and Publicly Accessible Datasets to complete your hack. Finding and appropriately using the right data to address your question or topic is one of the biggest hurdles in data science.\n\nYou must follow the guidelines provided at the link below to be eligible for this track.\n\nWinners receive:\n• The Spotlight: Your visualization will be professionally printed and permanently displayed in the DataLab at Shields Library.\n• An invitation to present your work at DataLab's talk series.\n• A spot in DataLab's summer mentored Internship Program (non-paid) to jumpstart your career, where you'll work alongside expert data scientists to level up your portfolio.\n\nSponsored by DataLab.",
-    eligibility_link:
-      'https://docs.google.com/document/d/143apy8JsrJ4VYwxiI-bu2kNPAyL-1f2FweM9gpgXZFM/edit?tab=t.0',
   },
   // 'Best Hack for ASUCD Pantry': {
   //   name: 'Best Hack for ASUCD Pantry',
