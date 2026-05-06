@@ -16,12 +16,8 @@ const sections = [
     id: 'design-resources',
     Component: DesignDevResources,
   },
+  { title: 'Dev Resources', id: 'dev-resources', Component: null },
   { title: 'More Tips', id: 'more-tips', Component: MoreTips },
-];
-
-const designResourceLinks = [
-  { title: 'Design Resources', id: 'design-resources' },
-  { title: 'Dev Resources', id: 'dev-resources' },
 ];
 
 function scrollToSection(id: string) {
@@ -35,7 +31,7 @@ export default function StarterKit() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sectionIds = [...sections.map((s) => s.id)];
+      const sectionIds = sections.map((s) => s.id);
 
       // If we're at the bottom of the page, highlight the last section
       if (
@@ -74,37 +70,25 @@ export default function StarterKit() {
   return (
     <div className="flex flex-row">
       <div className="hidden md:flex px-[20px] mt-[100px] gap-[30px] flex-col sticky top-[100px] self-start">
-        {sections.map((section) =>
-          // Render separate link for Design and Dev Resources in sidebar
-          section.id === 'design-resources' ? (
-            designResourceLinks.map((link) => (
-              <button
-                key={link.id}
-                type="button"
-                onClick={() => scrollToSection(link.id)}
-                className={buttonClass(link.id)}
-              >
-                {link.title}
-              </button>
-            ))
-          ) : (
-            <button
-              key={section.id}
-              type="button"
-              onClick={() => scrollToSection(section.id)}
-              className={buttonClass(section.id)}
-            >
-              {section.title}
-            </button>
-          )
-        )}
+        {sections.map((section) => (
+          <button
+            key={section.id}
+            type="button"
+            onClick={() => scrollToSection(section.id)}
+            className={buttonClass(section.id)}
+          >
+            {section.title}
+          </button>
+        ))}
       </div>
       <div>
-        {sections.map(({ id, Component }) => (
-          <section key={id} id={id} className="scroll-mt-[100px]">
-            <Component />
-          </section>
-        ))}
+        {sections
+          .filter(({ Component }) => Component !== null)
+          .map(({ id, Component }) => (
+            <section key={id} id={id} className="scroll-mt-[100px]">
+              <Component />
+            </section>
+          ))}
       </div>
     </div>
   );
