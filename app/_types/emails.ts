@@ -35,6 +35,53 @@ export interface SingleJudgeInviteResponse {
   error: string | null;
 }
 
+// Hacker invite types
+
+export type HackerAdmissionType =
+  | 'accept'
+  | 'waitlist_accept'
+  | 'waitlist'
+  | 'reject';
+
+export const HACKER_ADMISSION_TYPES: HackerAdmissionType[] = [
+  'accept',
+  'waitlist_accept',
+  'waitlist',
+  'reject',
+];
+
+export const HACKER_ADMISSION_LABELS: Record<HackerAdmissionType, string> = {
+  accept: 'Accept',
+  waitlist_accept: 'Waitlist Accept',
+  waitlist: 'Waitlist',
+  reject: 'Reject',
+};
+
+/** Accept and waitlist_accept require Tito + Hub invite; the others email only. */
+export function admissionNeedsTitoAndHub(type: HackerAdmissionType): boolean {
+  return type === 'accept' || type === 'waitlist_accept';
+}
+
+export interface HackerInviteData extends InviteData {
+  admissionType: HackerAdmissionType;
+}
+
+export interface HackerInviteResult extends InviteResult {
+  admissionType?: HackerAdmissionType;
+  titoUrl?: string;
+  inviteUrl?: string;
+}
+
+export type BulkHackerInviteResponse = BulkInviteResponse<HackerInviteResult>;
+
+export interface SingleHackerInviteResponse {
+  ok: boolean;
+  admissionType?: HackerAdmissionType;
+  titoUrl?: string;
+  inviteUrl?: string;
+  error: string | null;
+}
+
 // Mentor Hub invite types
 
 export type MentorInviteData = InviteData;

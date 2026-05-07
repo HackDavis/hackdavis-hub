@@ -1,4 +1,12 @@
-import { InviteData, InviteResult } from '@typeDefs/emails';
+import {
+  InviteData,
+  InviteResult,
+  HackerAdmissionType,
+} from '@typeDefs/emails';
+
+export interface InviteDataWithType extends InviteData {
+  admissionType?: HackerAdmissionType;
+}
 
 function normalizeCell(value: string): string {
   return value.replace(/\r?\n+/g, ' ').trim();
@@ -30,17 +38,29 @@ export function buildFailureDownloadFilename(inputFileName: string): string {
   return `${trimmed}_failures_${timestamp}Z.csv`;
 }
 
+/**
+ * Generates a CSV of failed rows only.
+ *
+ * When rows include an admissionType (hacker admissions), a Type column is
+ * included so the file can be re-uploaded directly to retry failed sends.
+ * The parsers skip any extra trailing columns, so the appended Failure column
+ * does not interfere with re-uploading.
+ */
 export function generateInviteFailuresCSV(
-  rows: InviteData[],
+  rows: InviteDataWithType[],
   results: InviteResult[]
 ): string {
-  const resultMap = new Map(
-    results.map((result) => [result.email.toLowerCase(), result])
-  );
+  const resultMap = new Map(results.map((r) => [r.email.toLowerCase(), r]));
 
-  const headers = ['First Name', 'Last Name', 'Email', 'Failure'];
+  const includeType = rows.some((r) => r.admissionType != null);
+  const headers = [
+    'First Name',
+    'Last Name',
+    'Email',
+    ...(includeType ? ['Type'] : []),
+    'Failure',
+  ];
 
-  // Only include rows that actually failed (exclude successes)
   const failedRows = rows.filter((row) => {
     const result = resultMap.get(row.email.toLowerCase());
     return !result?.success;
@@ -50,7 +70,13 @@ export function generateInviteFailuresCSV(
     const result = resultMap.get(row.email.toLowerCase());
     const failureReason = result?.error ?? 'Unknown error';
 
-    return [row.firstName, row.lastName, row.email, failureReason]
+    return [
+      row.firstName,
+      row.lastName,
+      row.email,
+      ...(includeType ? [row.admissionType ?? ''] : []),
+      failureReason,
+    ]
       .map(escapeCell)
       .join(',');
   });

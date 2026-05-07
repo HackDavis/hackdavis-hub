@@ -1,6 +1,7 @@
 'use server';
 
 import getOrCreateTitoInvitation from '@actions/tito/getOrCreateTitoInvitation';
+import getAllRsvpInvitations from '@actions/tito/getAllRsvpInvitations';
 import mentorInviteTemplate, {
   MENTOR_EMAIL_SUBJECT,
 } from './emailTemplates/2026MentorInviteTemplate';
@@ -39,6 +40,9 @@ export default async function sendBulkMentorOrVolunteerInvites(
   }
   const sender = DEFAULT_SENDER;
 
+  // Pre-fetch all existing invitations so duplicate recovery skips per-person API calls
+  const existingInvitationsMap = await getAllRsvpInvitations(rsvpListSlug);
+
   const titoLimiter = createLimiter(TITO_CONCURRENCY);
   const emailLimiter = createLimiter(EMAIL_CONCURRENCY);
 
@@ -48,11 +52,10 @@ export default async function sendBulkMentorOrVolunteerInvites(
     async processOne(mentor) {
       // Stage 1: Tito — slot released before email starts
       const titoResult = await titoLimiter(() =>
-        getOrCreateTitoInvitation({
-          ...mentor,
-          rsvpListSlug,
-          releaseIds,
-        })
+        getOrCreateTitoInvitation(
+          { ...mentor, rsvpListSlug, releaseIds },
+          existingInvitationsMap
+        )
       );
 
       if (!titoResult.ok) {

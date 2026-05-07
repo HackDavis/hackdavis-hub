@@ -2,11 +2,17 @@ import parseInviteCSV from './parseInviteCSV';
 import createLimiter from './createLimiter';
 import { InviteData, InviteResult, BulkInviteResponse } from '@typeDefs/emails';
 
+type ParseFn<TData> = (
+  csvText: string
+) => { ok: true; body: TData[] } | { ok: false; error: string };
+
 export interface BulkInviteConfig<
   TData extends InviteData,
   TResult extends InviteResult,
 > {
   label: string;
+  /** Override the default CSV parser (parseInviteCSV) with a custom one. */
+  parse?: ParseFn<TData>;
   preprocess?: (items: TData[]) => Promise<{
     remaining: TData[];
     earlyResults: TResult[];
@@ -22,10 +28,12 @@ export default async function processBulkInvites<
   csvText: string,
   config: BulkInviteConfig<TData, TResult>
 ): Promise<BulkInviteResponse<TResult>> {
-  const { label, preprocess, processOne, concurrency } = config;
+  const { label, parse, preprocess, processOne, concurrency } = config;
 
-  // Parse CSV
-  const parsed = parseInviteCSV(csvText);
+  // Parse CSV — use custom parser if provided, otherwise fall back to generic
+  const parsed = parse
+    ? parse(csvText)
+    : (parseInviteCSV(csvText) as ReturnType<ParseFn<TData>>);
   if (!parsed.ok) {
     return {
       ok: false,
