@@ -7,7 +7,11 @@ import Introduction from './Introduction';
 import MoreTips from './MoreTips';
 import TeamBuilding from './TeamBuilding';
 
-const sections = [
+const sections: {
+  title: string;
+  id: string;
+  Component: React.ComponentType | null;
+}[] = [
   { title: 'Introduction', id: 'introduction', Component: Introduction },
   { title: 'Team Building', id: 'team-building', Component: TeamBuilding },
   { title: 'Ideate', id: 'ideate', Component: Ideate },
@@ -33,7 +37,6 @@ export default function StarterKit() {
     const handleScroll = () => {
       const sectionIds = sections.map((s) => s.id);
 
-      // If we're at the bottom of the page, highlight the last section
       if (
         window.innerHeight + window.scrollY >=
         document.body.scrollHeight - 10
@@ -84,11 +87,14 @@ export default function StarterKit() {
       <div>
         {sections
           .filter(({ Component }) => Component !== null)
-          .map(({ id, Component }) => (
-            <section key={id} id={id} className="scroll-mt-[100px]">
-              <Component />
-            </section>
-          ))}
+          .map(({ id, Component }) => {
+            const C = Component as React.ComponentType;
+            return (
+              <section key={id} id={id} className="scroll-mt-[100px]">
+                <C />
+              </section>
+            );
+          })}
       </div>
     </div>
   );
