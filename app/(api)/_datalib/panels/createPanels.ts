@@ -10,9 +10,7 @@ import parseAndReplace from '@utils/request/parseAndReplace';
 import { panelTracks } from '@data/tracks';
 import type Panel from '@typeDefs/panel';
 
-const validTracks = Object.values(panelTracks).map(
-  (track) => track.name
-);
+const validTracks = Object.values(panelTracks).map((track) => track.name);
 
 export const CreatePanel = async (trackName: string) => {
   try {
