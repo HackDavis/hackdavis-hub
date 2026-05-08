@@ -37,6 +37,7 @@ export default function UnscoredPage({
       <EmptyState
         title="You're Done!"
         subtitle={"You've judged all your projects.\n Thank you so much!"}
+        feedbackLink="https://forms.gle/kdRHdEp6u4y4Cc5S6"
       />
     );
   }
