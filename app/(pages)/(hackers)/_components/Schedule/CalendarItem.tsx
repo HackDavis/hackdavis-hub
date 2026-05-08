@@ -6,7 +6,7 @@ import { SCHEDULE_EVENT_STYLES } from './scheduleEventStyles';
 import { formatScheduleTimeRange } from './scheduleTime';
 
 import location_icon from 'public/hackers/schedule/location.svg';
-import attendee_icon from 'public/hackers/schedule/attendee.svg';
+import attendee_icon from 'public/hackers/schedule/attendee-cow.svg';
 
 interface CalendarItemProps {
   event: Event & { originalType?: string };
