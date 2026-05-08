@@ -1,17 +1,20 @@
+const mockTracks = {
+  'Best AI/ML Hack': {
+    name: 'Best AI/ML Hack',
+    domain: 'aiml',
+    domainDisplayName: 'Data Science or AI/ML',
+  },
+  'Most Technically Challenging Hack': {
+    name: 'Most Technically Challenging Hack',
+    domain: 'swe',
+    domainDisplayName: 'Software Engineering',
+  },
+};
+
 jest.mock('@data/tracks', () => ({
   __esModule: true,
-  judgeVisibleTracks: {
-    'Best AI/ML Hack': {
-      name: 'Best AI/ML Hack',
-      domain: 'aiml',
-      domainDisplayName: 'Data Science or AI/ML',
-    },
-    'Most Technically Challenging Hack': {
-      name: 'Most Technically Challenging Hack',
-      domain: 'swe',
-      domainDisplayName: 'Software Engineering',
-    },
-  },
+  judgeVisibleTracks: mockTracks,
+  panelTracks: mockTracks,
 }));
 
 jest.mock('@utils/mongodb/mongoClient.mjs', () => ({
