@@ -653,6 +653,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       warningRows: 0,
       unknownTracks: [],
       issues: [],
+      rowContacts: [],
       globalWarnings: [],
     };
     return {
