@@ -6,7 +6,7 @@ const dataPath = path.resolve(
   'app/_data/db_validation_data.json'
 );
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-const judgeVisibleTracks = [...new Set(data.judgeVisibleTracks)];
+const panelTracks = [...new Set(data.panelTracks)];
 const domains = [...new Set(data.domains)];
 
 const panelsSchema = (trackList) => ({
@@ -46,7 +46,7 @@ const panelsSchema = (trackList) => ({
 export const up = async (db) => {
   await db.command({
     collMod: 'panels',
-    validator: panelsSchema(judgeVisibleTracks),
+    validator: panelsSchema(panelTracks),
     validationLevel: 'strict',
     validationAction: 'error',
   });
@@ -55,7 +55,7 @@ export const up = async (db) => {
 export const down = async (db) => {
   await db.command({
     collMod: 'panels',
-    validator: panelsSchema(judgeVisibleTracks),
+    validator: panelsSchema(panelTracks),
     validationLevel: 'strict',
     validationAction: 'error',
   });
