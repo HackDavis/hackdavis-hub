@@ -8,7 +8,7 @@ const dataPath = path.resolve(
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const tracks = [...new Set(data.tracks)];
 
-const teamsSchema = (tableNumberType) => ({
+const teamsSchema = {
   $jsonSchema: {
     bsonType: 'object',
     title: 'Teams Object Validation',
@@ -23,8 +23,8 @@ const teamsSchema = (tableNumberType) => ({
         description: 'teamNumber must be an integer',
       },
       tableNumber: {
-        bsonType: tableNumberType,
-        description: `tableNumber must be a ${tableNumberType}`,
+        bsonType: 'string',
+        description: 'tableNumber must be an string',
       },
       name: {
         bsonType: 'string',
@@ -62,22 +62,15 @@ const teamsSchema = (tableNumberType) => ({
     },
     additionalProperties: false,
   },
-});
+};
 
-export const up = async (db) => {
-  await db.command({
+const applySchema = (db) =>
+  db.command({
     collMod: 'teams',
-    validator: teamsSchema('string'),
+    validator: teamsSchema,
     validationLevel: 'strict',
     validationAction: 'error',
   });
-};
 
-export const down = async (db) => {
-  await db.command({
-    collMod: 'teams',
-    validator: teamsSchema('int'),
-    validationLevel: 'strict',
-    validationAction: 'error',
-  });
-};
+export const up = (db) => applySchema(db);
+export const down = (db) => applySchema(db);
