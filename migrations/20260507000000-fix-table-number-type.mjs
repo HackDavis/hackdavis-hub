@@ -24,7 +24,7 @@ const teamsSchema = {
       },
       tableNumber: {
         bsonType: 'string',
-        description: 'tableNumber must be an string',
+        description: 'tableNumber must be a string',
       },
       name: {
         bsonType: 'string',

@@ -141,7 +141,9 @@ export default function ProcessedTeamsTable({
               'valid'
           ];
       } else if (sortKey === 'teamNumber') {
-        cmp = (a.teamNumber ?? 0) - (b.teamNumber ?? 0);
+        const aNum = Number.isFinite(a.teamNumber) ? a.teamNumber : 0;
+        const bNum = Number.isFinite(b.teamNumber) ? b.teamNumber : 0;
+        cmp = aNum - bNum;
       } else if (sortKey === 'tableNumber') {
         cmp = (a.tableNumber ?? '').localeCompare(
           b.tableNumber ?? '',

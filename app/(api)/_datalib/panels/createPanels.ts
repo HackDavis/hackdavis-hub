@@ -29,9 +29,10 @@ export const CreatePanel = async (trackName: string) => {
       );
     }
 
+    const domain = panelTracks[trackName].domain;
     const result = await db.collection('panels').insertOne({
       track: trackName,
-      domain: panelTracks[trackName].domain,
+      ...(domain !== undefined && { domain }),
       user_ids: [],
     });
 
