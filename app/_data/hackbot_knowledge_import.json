@@ -2,7 +2,7 @@
   {
     "type": "submission",
     "title": "Submission Process Overview",
-    "content": "The HackDavis project submission process has 6 steps and is done through Devpost. Step 1: Login to Devpost \u2014 when you click the Devpost link, click 'Join Hackathon' and log in or sign up for a Devpost account if you don't have one already. Step 2: Register for the Event \u2014 register for the HackDavis hackathon on Devpost. Step 3: Create a Project \u2014 click 'Create project'. Only one person per team needs to create a project and complete the remaining steps. Step 4: Invite Teammates \u2014 invite your teammates to join the Devpost project so everyone is correctly associated with the submission. Step 5: Fill Out Details \u2014 fill out required information such as project overview, description, technical details, and any other requested fields. Step 6: Submit Project \u2014 once all information is filled out and teammates are added, submit the project on Devpost before the deadline.",
+    "content": "The HackDavis project submission process has 6 steps and is done through Devpost. Step 1: Login to Devpost \u2014 when you click the Devpost link, click 'Join Hackathon' and log in or sign up for a Devpost account if you don't have one already. Step 2: Register for the Event \u2014 register for the HackDavis hackathon on Devpost. Step 3: Create a Project \u2014 click 'Create project'. Only one person per team needs to create a project and complete the remaining steps. Step 4: Invite Teammates \u2014 invite your teammates to join the Devpost project so everyone is correctly associated with the submission. Step 5: Fill Out Details \u2014 fill out required information such as project overview, description, technical details, prize tracks, and any other requested fields. Step 6: Submit Project \u2014 once all information is filled out and teammates are added, submit the project on Devpost before the deadline.",
     "url": "/project-info#submission"
   },
   {
@@ -32,7 +32,7 @@
   {
     "type": "submission",
     "title": "Step 5: Fill Out Project Details on Devpost",
-    "content": "Fill out all required information for your project on Devpost. This includes your project overview, description, technical details, and any other requested fields. Make sure every section is complete before submitting.",
+    "content": "Fill out all required information for your project on Devpost. This includes your project overview, description, technical details, prize tracks, and any other requested fields. Make sure every section is complete before submitting.",
     "url": "/project-info#submission"
   },
   {
@@ -44,7 +44,13 @@
   {
     "type": "submission",
     "title": "Devpost Submission Tips and Checklist",
-    "content": "Before submitting on Devpost, make sure you have done the following: (1) Picked 4 relevant prize tracks \u2014 choose up to 4 prize tracks that best describe your project. (2) Added your GitHub and/or Figma links \u2014 include links to your code repository and any design files. (3) Inserted a demo video \u2014 upload or link a video demonstrating your project in action. The HackDavis 2026 Devpost page is at https://hackdavis-2026.devpost.com/",
+    "content": "Before submitting on Devpost, make sure you have done the following: (1) Selected your prize tracks correctly — on Devpost, Tracks 1-3 show only HackDavis prize tracks; select up to 4 HackDavis tracks total. The Opt-in Prizes section shows Sponsor, NPO, and MLH tracks — you may select as many of these as your project genuinely qualifies for. (2) Added your GitHub and/or Figma links — include links to your code repository and any design files. (3) Inserted a demo video — upload or link a video demonstrating your project in action. The HackDavis 2026 Devpost page is at https://hackdavis-2026.devpost.com/",
+    "url": "/project-info#submission"
+  },
+  {
+    "type": "submission",
+    "title": "Prize Track Selection: HackDavis Tracks vs. Opt-in Prizes",
+    "content": "On Devpost, prize tracks are split into two sections. Tracks 1-3 show only HackDavis prize tracks — these include both automatic tracks (Best Hack for Social Good and Hacker's Choice Award, which every team is considered for automatically) and opted HackDavis tracks (Most Technically Challenging Hack, Best Beginner Hack, Most Creative Hack, Best Hack for Social Justice, Best User Research, Best Entrepreneurship Hack, Best Statistical Model, Best Interdisciplinary Hack, Best Hardware Hack). You are encouraged to select up to 4 HackDavis tracks in total across Tracks 1-3. The Opt-in Prizes section includes Sponsor tracks (e.g. Best AI/ML Hack sponsored by Anthropic, Best UI/UX Design sponsored by Figma, Best Use of DAC Materials, Best use of Reconstruct), NPO tracks (e.g. Best Hack for Women's Center), and MLH tracks (e.g. Best Use of Gemini API, Best Use of ElevenLabs, Best Use of Solana, Best Use of Backboard, Best Use of Vultr, Best Use of MongoDB Atlas, Best Domain Name from GoDaddy Registry). There is no hard limit on Sponsor, NPO, or MLH opt-in tracks — but only select the ones your project genuinely uses or qualifies for.",
     "url": "/project-info#submission"
   },
   {
@@ -116,91 +122,139 @@
   {
     "type": "track",
     "title": "Prize Track: Hacker's Choice Award",
-    "content": "Track: Hacker's Choice Award. Filter category: General. Prize: HackDavis Swag Bag. Eligibility: Awarded to the project with the most votes from 2026 hackers. All entries are automatically considered for this prize category. Vote for any project but your own! Voting happens during the break period after demos.",
+    "content": "Track: Hacker's Choice Award. Filter category: General (Automatic — all entries considered, no opt-in required). Prize: HackDavis Swag Bag (Tote, Stickers, Keychains). Eligibility: Awarded to the project with the most votes from 2026 hackers. All entries are automatically considered for this prize category. Vote for any project but your own! Voting happens during the break period after demos.",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Most Technically Challenging Hack",
-    "content": "Track: Most Technically Challenging Hack. Filter category: Technical. Domain: Software Engineering. Prize: Backlit Keyboard. Eligibility: Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced technical tools and algorithms/data structures, integration of multiple technologies, quality of implementation, technical depth, and performance/scalability. Scoring criteria: (1) Technical Complexity of the Problem \u2014 from basic/well-known problems (score 1) to highly complex or novel problems requiring significant technical insight (score 5). (2) Quality of Engineering \u2014 from incomplete/poorly structured project (score 1) to exceptionally well-engineered, modular, scalable, fault-tolerant and efficient (score 5). (3) Integration of Tools or Techniques \u2014 from minimal external tools (score 1) to skillful integration of multiple advanced technologies like parallelism and optimization (score 5).",
+    "content": "Track: Most Technically Challenging Hack. Filter category: Technical (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Software Engineering. Prize: AULA F75 75% Wireless Mechanical Keyboard. Eligibility: Projects must showcase breadth and application of technical knowledge. Focuses on use of advanced technical tools and algorithms/data structures, integration of multiple technologies, quality of implementation, technical depth, and performance/scalability. Scoring criteria: (1) Technical Complexity of the Problem — from basic/well-known problems (score 1) to highly complex or novel problems requiring significant technical insight (score 5). (2) Quality of Engineering — from incomplete/poorly structured project (score 1) to exceptionally well-engineered, modular, scalable, fault-tolerant and efficient (score 5). (3) Integration of Tools or Techniques — from minimal external tools (score 1) to skillful integration of multiple advanced technologies like parallelism and optimization (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best Beginner Hack",
-    "content": "Track: Best Beginner Hack. Filter category: General. Domain: Software Engineering. Prize: 24 Inch Monitor. Eligibility: Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project, foster creativity and collaboration within the team, and display a commitment to building skills. Scoring criteria: (1) Evidence of Learning and Growth \u2014 from little learning shown and reused known skills (score 1) to a strong grasp of entirely new topics applied effectively (score 5). (2) Team Collaboration \u2014 from disjointed teamwork with unclear roles (score 1) to strong team balance with active support across roles (score 5). (3) Problem-Solving and Persistence \u2014 from giving up easily (score 1) to tackling tough issues with creative persistence (score 5).",
+    "content": "Track: Best Beginner Hack. Filter category: General (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Software Engineering. Prize: 24 Inch Monitor. Eligibility: Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project, foster creativity and collaboration within the team, and display a commitment to building skills. Scoring criteria: (1) Evidence of Learning and Growth — from little learning shown and reused known skills (score 1) to a strong grasp of entirely new topics applied effectively (score 5). (2) Team Collaboration — from disjointed teamwork with unclear roles (score 1) to strong team balance with active support across roles (score 5). (3) Problem-Solving and Persistence — from giving up easily (score 1) to tackling tough issues with creative persistence (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best Interdisciplinary Hack",
-    "content": "Track: Best Interdisciplinary Hack. Filter category: General. Domain: Software Engineering. Prize: $75 STEAM Giftcard. Eligibility: Leverage multiple perspectives across different disciplines to create a more well-rounded project. At least one member of the team must be a non-CS/CSE/otherwise CS-related major in order to qualify. Scoring criteria: (1) Problem Selection \u2014 from a problem solvable within one discipline (score 1) to a highly original problem that requires all members' disciplines (score 5). (2) Disciplinary Balance \u2014 from all CS-related majors or one discipline dominating (score 1) to disciplines being deeply interwoven with equal importance (score 5). (3) Cross-Field Innovation \u2014 from disciplines barely connected (score 1) to a true blend creating something impossible within one field (score 5).",
+    "content": "Track: Best Interdisciplinary Hack. Filter category: General (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Software Engineering. Prize: $50 Amazon Giftcard. Eligibility: Leverage multiple perspectives across different disciplines to create a more well-rounded project. At least one member of the team must be a non-CS/CSE/otherwise CS-related major in order to qualify. Scoring criteria: (1) Problem Selection — from a problem solvable within one discipline (score 1) to a highly original problem that requires all members' disciplines (score 5). (2) Disciplinary Balance — from all CS-related majors or one discipline dominating (score 1) to disciplines being deeply interwoven with equal importance (score 5). (3) Cross-Field Innovation — from disciplines barely connected (score 1) to a true blend creating something impossible within one field (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Most Creative Hack",
-    "content": "Track: Most Creative Hack. Filter category: General. Domain: Business. Prize: Mini Projector. Eligibility: Projects should demonstrate originality, showcase out-of-the-box thinking, and captivate their audience. Scoring criteria: (1) Originality of Concept \u2014 from a common idea similar to known projects (score 1) to a fresh, unexpected concept (score 5). (2) Creative Execution \u2014 from a conventional build with little imagination (score 1) to inventive design with imaginative features (score 5). (3) User Engagement \u2014 from uninspiring or hard to connect with (score 1) to a memorable and captivating experience (score 5).",
+    "content": "Track: Most Creative Hack. Filter category: General (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Business. Prize: Mini Projector. Eligibility: Projects should demonstrate originality, showcase out-of-the-box thinking, and captivate their audience. Scoring criteria: (1) Originality of Concept — from a common idea similar to known projects (score 1) to a fresh, unexpected concept (score 5). (2) Creative Execution — from a conventional build with little imagination (score 1) to inventive design with imaginative features (score 5). (3) User Engagement — from uninspiring or hard to connect with (score 1) to a memorable and captivating experience (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best Hardware Hack",
-    "content": "Track: Best Hardware Hack. Filter category: Technical. Domain: Hardware or Embedded Systems. Prize: Raspberry Pi Kit. Eligibility: Effectively integrate a hardware component into your final project. The final project should be functional, user-friendly, and interactive. Scoring criteria: (1) Hardware Integration \u2014 from disconnected or non-functional hardware (score 1) to seamless integration that is essential to the project (score 5). (2) Feasibility and Technical Soundness \u2014 from an unrealistic approach (score 1) to a well-grounded and executable design that is feasible to reproduce or extend (score 5). (3) User Interaction \u2014 from difficult to operate or requiring technical knowledge (score 1) to intuitive, responsive interaction that feels natural and engaging (score 5).",
+    "content": "Track: Best Hardware Hack. Filter category: Technical (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Hardware or Embedded Systems. Prize: Logitech G305 Lightspeed Wireless Gaming Mouse. Eligibility: Effectively integrate a hardware component into your final project. The final project should be functional, user-friendly, and interactive. Scoring criteria: (1) Hardware Integration — from disconnected or non-functional hardware (score 1) to seamless integration that is essential to the project (score 5). (2) Feasibility and Technical Soundness — from an unrealistic approach (score 1) to a well-grounded and executable design that is feasible to reproduce or extend (score 5). (3) User Interaction — from difficult to operate or requiring technical knowledge (score 1) to intuitive, responsive interaction that feels natural and engaging (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best Hack for Social Justice",
-    "content": "Track: Best Hack for Social Justice. Filter category: General. Domain: Business. Prize: Kindle. Eligibility: Hack must address a social justice issue such as racial inequality, economic injustice, environmental justice, etc. The project should develop tangible solutions and/or raise awareness on these topics. Scoring criteria: (1) Issue Understanding and Community Consideration \u2014 from surface-level grasp with minimal community thought (score 1) to deep insight centered on the voices and needs of affected groups (score 5). (2) Advocacy Effectiveness \u2014 from a passive presentation with no engagement strategy (score 1) to a compelling call to action with practical pathways for audience involvement (score 5). (3) Implementation Feasibility and Impact \u2014 from a conceptual solution with significant barriers (score 1) to a ready-to-launch solution with demonstrated potential for measurable impact (score 5).",
+    "content": "Track: Best Hack for Social Justice. Filter category: General (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Business. Prize: Google TV Streamer 4K. Eligibility: Hack must address a social justice issue such as racial inequality, economic injustice, environmental justice, etc. The project should develop tangible solutions and/or raise awareness on these topics. Scoring criteria: (1) Issue Understanding and Community Consideration — from surface-level grasp with minimal community thought (score 1) to deep insight centered on the voices and needs of affected groups (score 5). (2) Advocacy Effectiveness — from a passive presentation with no engagement strategy (score 1) to a compelling call to action with practical pathways for audience involvement (score 5). (3) Implementation Feasibility and Impact — from a conceptual solution with significant barriers (score 1) to a ready-to-launch solution with demonstrated potential for measurable impact (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best UI/UX Design",
-    "content": "Track: Best UI/UX Design. Filter category: Design. Domain: UI/UX Design. Prize: Figma Full Seat (4-month subscription). Eligibility: Project includes beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful; demonstrates wireframing in Figma, responsive design, and promotes intuitive user experiences. Scoring criteria: (1) Visual Design \u2014 from inconsistent style with poor accessibility (score 1) to beautiful, cohesive, polished design with thoughtful inclusivity (score 5). (2) Navigation Flow \u2014 from confusing user journey with hard-to-find key actions (score 1) to effortless, intuitive navigation throughout (score 5). (3) Design Process \u2014 from limited evidence of planning (score 1) to a comprehensive process with wireframes through to a final product (score 5).",
+    "content": "Track: Best UI/UX Design (Sponsored by Figma). Filter category: Sponsor / Design (Opt-in prize on Devpost — select in the Opt-in Prizes section). Domain: UI/UX Design. Prize: Sony WH-1000XM5 Wireless Noise-Canceling Headphones. Eligibility: Project uses Figma to create beautiful design and intuitive web experiences that bring joy to users. Shows that the project is not only functional but also delightful; demonstrates wireframing in Figma, responsive design, and promotes intuitive user experiences. Sponsored by Figma. Scoring criteria: (1) Visual Design — from inconsistent style with poor accessibility (score 1) to beautiful, cohesive, polished design with thoughtful inclusivity (score 5). (2) Navigation Flow — from confusing user journey with hard-to-find key actions (score 1) to effortless, intuitive navigation throughout (score 5). (3) Design Process — from limited evidence of planning (score 1) to a comprehensive process with wireframes through to a final product (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best User Research",
-    "content": "Track: Best User Research. Filter category: Design. Domain: UI/UX Design. Prize: ChatGPT+ (4-month subscription). Eligibility: Awarded to a well-researched project that keeps its userbase in mind with an inclusive design aimed to maximize accessibility. Scoring criteria: (1) User Understanding \u2014 from assumptions made with minimal research (score 1) to comprehensive insights into user needs and behaviors (score 5). (2) Depth of Research Methods \u2014 from few or irrelevant data points (score 1) to a thoughtful combination of multiple research methods (score 5). (3) Design Application and Feedback Integration \u2014 from research/feedback ignored or misaligned with design (score 1) to each design element directly tied to research findings (score 5).",
+    "content": "Track: Best User Research. Filter category: Design (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: UI/UX Design. Prize: ChatGPT+ (4 month subscription). Eligibility: Awarded to a well-researched project that keeps its userbase in mind with an inclusive design aimed to maximize accessibility. Scoring criteria: (1) User Understanding — from assumptions made with minimal research (score 1) to comprehensive insights into user needs and behaviors (score 5). (2) Depth of Research Methods — from few or irrelevant data points (score 1) to a thoughtful combination of multiple research methods (score 5). (3) Design Application and Feedback Integration — from research/feedback ignored or misaligned with design (score 1) to each design element directly tied to research findings (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best Entrepreneurship Hack",
-    "content": "Track: Best Entrepreneurship Hack. Filter category: Business. Domain: Business. Prize: North Face Backpack. Eligibility: No code required. A project that focuses on viability and persuasive power through presentation on the product/service you are trying to sell, relevant customer segments, distribution channels, and associated revenue/profit models. Scoring criteria: (1) Target Customer Clarity \u2014 from vague ideas of potential users (score 1) to detailed customer profiles with validated pain points (score 5). (2) Business Model \u2014 from unclear how the project would make money (score 1) to a well-thought-out pricing and monetization strategy (score 5). (3) Market Differentiation \u2014 from little distinction from existing solutions (score 1) to a clear competitive advantage with strong market positioning (score 5).",
+    "content": "Track: Best Entrepreneurship Hack. Filter category: Business (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Business. Prize: North Face Backpack. Eligibility: No code required. A project that focuses on viability and persuasive power through presentation on the product/service you are trying to sell, relevant customer segments, distribution channels, and associated revenue/profit models. Scoring criteria: (1) Target Customer Clarity — from vague ideas of potential users (score 1) to detailed customer profiles with validated pain points (score 5). (2) Business Model — from unclear how the project would make money (score 1) to a well-thought-out pricing and monetization strategy (score 5). (3) Market Differentiation — from little distinction from existing solutions (score 1) to a clear competitive advantage with strong market positioning (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best Statistical Model",
-    "content": "Track: Best Statistical Model. Filter category: Business. Domain: Data Science or AI/ML. Prize: Bluetooth Speaker. Eligibility: Projects must use exploratory data analysis (EDA) to guide their modeling decisions and hypotheses. Final models should include significance tests and be evaluated with metrics like MSE, R\u00b2, adjusted R\u00b2, precision, or recall, demonstrating clear statistical reasoning aligned with the project's core question or goal. Scoring criteria: (1) Exploratory Data Analysis \u2014 from minimal data exploration (score 1) to comprehensive EDA with insightful visualizations that directly inform model design (score 5). (2) Use of Statistical Tests \u2014 from inappropriate or missing tests (score 1) to proper tests applied correctly to the data and analyzed thoroughly (score 5). (3) Results Interpretation \u2014 from unclear numbers with little explanation (score 1) to insightful interpretation connecting statistics to the real world (score 5).",
+    "content": "Track: Best Statistical Model. Filter category: Business (HackDavis track — opt-in, select via Tracks 1-3 on Devpost). Domain: Data Science or AI/ML. Prize: Bluetooth Speaker. Eligibility: Projects must use exploratory data analysis (EDA) to guide their modeling decisions and hypotheses. Final models should include significance tests and be evaluated with metrics like MSE, R², adjusted R², precision, or recall, demonstrating clear statistical reasoning aligned with the project's core question or goal. Scoring criteria: (1) Exploratory Data Analysis — from minimal data exploration (score 1) to comprehensive EDA with insightful visualizations that directly inform model design (score 5). (2) Use of Statistical Tests — from inappropriate or missing tests (score 1) to proper tests applied correctly to the data and analyzed thoroughly (score 5). (3) Results Interpretation — from unclear numbers with little explanation (score 1) to insightful interpretation connecting statistics to the real world (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best AI/ML Hack",
-    "content": "Track: Best AI/ML Hack. Filter category: Sponsor. Domain: Data Science or AI/ML. Prize: $750 in Claude API credits. Eligibility: Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms and ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. Models should work accurately on unseen circumstances (displays versatility). Scoring criteria: (1) Necessity of AI/ML for Solving the Problem \u2014 from a problem obviously solvable with deterministic algorithms (score 1) to one where deterministic algorithms are unable to solve the problem and AI/ML is the only solution (score 5). (2) Model Performance and Evaluation \u2014 from poor accuracy with minimal metrics (score 1) to strong results backed by solid metrics tested on unseen data or edge cases (score 5). (3) Technical Execution and Use of Tools \u2014 from surface-level tool use with no customization (score 1) to deep technical execution with custom methods and advanced techniques (score 5).",
+    "content": "Track: Best AI/ML Hack (Sponsored by Anthropic). Filter category: Sponsor / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section). Domain: Data Science or AI/ML. Prize: $750 in Claude API credits. Eligibility: Project must have unique/creative AI functionality, clean data, accuracy in metrics, presence of high-quality data, utilizing relevant algorithms and ML libraries and/or cloud platforms for development. Participants should show how they collected their data and explain how their AI imitates the human mind. Models should work accurately on unseen circumstances (displays versatility). Sponsored by Anthropic. Scoring criteria: (1) Necessity of AI/ML for Solving the Problem — from a problem obviously solvable with deterministic algorithms (score 1) to one where deterministic algorithms are unable to solve the problem and AI/ML is the only solution (score 5). (2) Model Performance and Evaluation — from poor accuracy with minimal metrics (score 1) to strong results backed by solid metrics tested on unseen data or edge cases (score 5). (3) Technical Execution and Use of Tools — from surface-level tool use with no customization (score 1) to deep technical execution with custom methods and advanced techniques (score 5).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track: Best Hack for Women's Center",
-    "content": "Track: Best Hack for Women's Center. Filter category: Non-Profit. Prize: Aroma Diffuser. Eligibility criteria will be announced \u2014 check the prize tracks page or Devpost for the latest details.",
+    "content": "Track: Best Hack for Women's Center. Filter category: Non-Profit (Opt-in prize on Devpost — select in the Opt-in Prizes section). Prize: Anker Nano 3-in-1 Portable iPhone Charger. Eligibility: Projects must create a digital system to track donations as they come in and go out. Wellspring (Women's Center) is looking for a straightforward, easy-to-use digital tool that helps staff and volunteers quickly log donated items, track how they are distributed, and generate basic reports when needed.",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
-    "title": "Prize Track: Best Hack for ASUCD Pantry",
-    "content": "Track: Best Hack for ASUCD Pantry. Filter category: Non-Profit. Prize: Pokemon Packs. Eligibility criteria will be announced \u2014 check the prize tracks page or Devpost for the latest details.",
+    "title": "Prize Track: Best Use of DAC Materials",
+    "content": "Track: Best Use of DAC Materials (Sponsored by Davis Autonomy Club). Filter category: Sponsor / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section). Prize: $10,000 Daytona infrastructure credits. Eligibility: Project must incorporate one or more of DAC's materials with a vision-based AI pipeline, implementing and/or configuring concepts such as Vision-Language Models (VLMs) or Vision-Language-Action Models (VLAs) to connect real-world visual perception to physical robotic behavior. Sponsored by the Davis Autonomy Club.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best use of Reconstruct",
+    "content": "Track: Best use of Reconstruct (Sponsored by Reconstruct). Filter category: Sponsor / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section). Prize: $125 Visa Gift Card per team member. Eligibility: Most creative use of Reconstruct in their project. Project must use Reconstruct in a prominent and efficient way to qualify for this prize track. Sponsored by Reconstruct.",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Use of Gemini API",
+    "content": "Track: Best Use of Gemini API. Filter category: MLH / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section, judged by MLH). Prize: Google Swag Kits. Eligibility: Use the Google Gemini API to build AI-powered apps. Gemini can understand language like a human, analyze info like a supercomputer, and generate creative content like code, scripts, and music. Build a chatbot that gives personalized advice, an app that summarizes complex research papers, or any other creative AI-powered application. Judged by MLH (Major League Hacking).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Use of ElevenLabs",
+    "content": "Track: Best Use of ElevenLabs. Filter category: MLH / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section, judged by MLH). Prize: Wireless Earbuds. Eligibility: Deploy natural, human-sounding audio with ElevenLabs. Create realistic, dynamic, and emotionally expressive voices for any project — from interactive AI companions to narrated stories and voice-enabled apps. Integrate fully autonomous audio experiences into your hack with ElevenLabs and give your project a voice. Judged by MLH (Major League Hacking).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Use of Solana",
+    "content": "Track: Best Use of Solana. Filter category: MLH / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section, judged by MLH). Prize: Ledger Nano S Plus. Eligibility: Build applications using the Solana blockchain, which is built for high speed and near-zero transaction costs. Create a game, social app, or consumer product that relies on instant high-frequency transactions; design a decentralized exchange (DEX); or build a prototype for supply chain, identity, or payments. Judged by MLH (Major League Hacking).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Use of Backboard",
+    "content": "Track: Best Use of Backboard. Filter category: MLH / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section, judged by MLH). Prize: Tile Essentials Pack. Eligibility: Use Backboard — a unified API for AI state management — in your project. Backboard provides long-term memory, RAG, embeddings, tool calls, model routing across 17,000+ LLMs, and persistent context across sessions. Every AI model API is stateless by default; Backboard solves this. Build seamless, persistent user experiences like an AI travel guide that remembers preferences or a fitness coach that adapts over time. Judged by MLH (Major League Hacking).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Use of Vultr",
+    "content": "Track: Best Use of Vultr. Filter category: MLH / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section, judged by MLH). Prize: Portable Screens. Eligibility: Use Vultr cloud infrastructure in your project. Vultr provides one-click deployment, scalable cloud compute, and specialized Cloud GPUs for AI-driven applications. Sign up for a Vultr account and claim free cloud credits to take your hack to the cloud. Judged by MLH (Major League Hacking).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Use of MongoDB Atlas",
+    "content": "Track: Best Use of MongoDB Atlas. Filter category: MLH / Technical (Opt-in prize on Devpost — select in the Opt-in Prizes section, judged by MLH). Prize: M5Stack IoT Kit. Eligibility: Build a hack using MongoDB Atlas. Get started with a $50 credit for students or the Atlas free forever tier (no credit card required). Atlas offers a full suite of cloud database services and functionality. Free resources are available through MongoDB University. Judged by MLH (Major League Hacking).",
+    "url": "/#prize-tracks"
+  },
+  {
+    "type": "track",
+    "title": "Prize Track: Best Domain Name from GoDaddy Registry",
+    "content": "Track: Best Domain Name from GoDaddy Registry. Filter category: MLH (Opt-in prize on Devpost — select in the Opt-in Prizes section, judged by MLH). Prize: Digital Gift Card. Eligibility: Register your domain name with GoDaddy Registry for your hackathon project to be eligible for this prize. Judged by MLH (Major League Hacking).",
     "url": "/#prize-tracks"
   },
   {
     "type": "track",
     "title": "Prize Track Categories Overview",
-    "content": "HackDavis 2026 prize tracks are organized into the following filter categories: General (Best Hack for Social Good, Hacker's Choice Award, Best Beginner Hack, Best Interdisciplinary Hack, Most Creative Hack, Best Hack for Social Justice), Technical (Most Technically Challenging Hack, Best Hardware Hack), Design (Best UI/UX Design, Best User Research), Business (Best Entrepreneurship Hack, Best Statistical Model), Sponsor (Best AI/ML Hack), Non-Profit (Best Hack for Women's Center, Best Hack for ASUCD Pantry). You can select up to 4 relevant prize tracks for your Devpost submission.",
+    "content": "HackDavis 2026 prize tracks fall into two groups on Devpost. HackDavis Tracks (select via Tracks 1-3 on Devpost, up to 4 total): General — Best Hack for Social Good (automatic), Hacker's Choice Award (automatic), Best Beginner Hack, Best Interdisciplinary Hack, Most Creative Hack, Best Hack for Social Justice; Technical — Most Technically Challenging Hack, Best Hardware Hack; Design — Best UI/UX Design (see also Sponsor), Best User Research; Business — Best Entrepreneurship Hack, Best Statistical Model. Opt-in Prizes (select in the Opt-in Prizes section, no hard limit — choose only tracks your project qualifies for): Sponsor — Best AI/ML Hack (Anthropic), Best UI/UX Design (Figma), Best Use of DAC Materials (Davis Autonomy Club), Best use of Reconstruct; Non-Profit — Best Hack for Women's Center; MLH — Best Use of Gemini API, Best Use of ElevenLabs, Best Use of Solana, Best Use of Backboard, Best Use of Vultr, Best Use of MongoDB Atlas, Best Domain Name from GoDaddy Registry.",
     "url": "/#prize-tracks"
   },
   {
@@ -236,7 +290,7 @@
   {
     "type": "faq",
     "title": "FAQ: How do I submit my project?",
-    "content": "To submit your project, follow the 6-step Devpost process: (1) Login or sign up on Devpost and click 'Join Hackathon' on the HackDavis Devpost page. (2) Register for the event. (3) Click 'Create project' \u2014 only one team member needs to do this. (4) Invite your teammates to the project. (5) Fill out all project details including overview, description, and technical information. (6) Click 'Submit Project' before the 11:00 AM deadline on the second day. The Devpost link is https://hackdavis-2026.devpost.com/",
+    "content": "To submit your project, follow the 6-step Devpost process: (1) Login or sign up on Devpost and click 'Join Hackathon' on the HackDavis Devpost page. (2) Register for the event. (3) Click 'Create project' — only one team member needs to do this. (4) Invite your teammates to the project. (5) Fill out all project details including overview, description, technical information, and select your prize tracks. (6) Click 'Submit Project' before the 11:00 AM deadline on the second day. The Devpost link is https://hackdavis-2026.devpost.com/",
     "url": "/project-info#submission"
   },
   {
@@ -248,7 +302,7 @@
   {
     "type": "faq",
     "title": "FAQ: What should I include in my Devpost submission?",
-    "content": "Your Devpost submission should include: a project overview and detailed description, technical details, up to 4 relevant prize tracks you are entering, your GitHub repository link and/or Figma design file link, and a demo video showing your project in action. Be thorough \u2014 judges review your Devpost submission.",
+    "content": "Your Devpost submission should include: a project overview and detailed description, technical details, your selected prize tracks (see below for how to pick), your GitHub repository link and/or Figma design file link, and a demo video showing your project in action. Be thorough — judges review your Devpost submission. For prize tracks: select up to 4 HackDavis tracks via Tracks 1-3 on Devpost, and use the Opt-in Prizes section for any Sponsor, NPO, or MLH tracks your project qualifies for.",
     "url": "/project-info#submission"
   },
   {
@@ -260,7 +314,7 @@
   {
     "type": "faq",
     "title": "FAQ: How are projects judged?",
-    "content": "Projects are judged using a rubric with four components: 60% Track-Specific criteria (based on the prize tracks you chose), 20% Social Good (how well the project benefits society), 10% Creativity (originality), and 10% Presentation. During demo time (12:00-2:00 PM), judges visit your table \u2014 each of the first 3 judges gets 3 minutes of demo time and 3 minutes of Q&A. Panels of judges then select winners from the top 5 shortlisted projects per track during the break.",
+    "content": "Projects are judged using a rubric with four components: 60% Track-Specific criteria (based on the prize tracks you chose), 20% Social Good (how well the project benefits society), 10% Creativity (originality), and 10% Presentation. During demo time (12:00-2:00 PM), judges visit your table — each of the first 3 judges gets 3 minutes of demo time and 3 minutes of Q&A. Panels of judges then select winners from the top 5 shortlisted projects per track during the break.",
     "url": "/project-info#judging"
   },
   {
@@ -278,7 +332,7 @@
   {
     "type": "faq",
     "title": "FAQ: What is the Hacker's Choice Award?",
-    "content": "The Hacker's Choice Award is voted on by fellow hackers \u2014 not judges. After demo time ends (during the 2:00-3:00 PM break), you can visit other teams and vote for the project you think deserves this award. All entries are automatically considered. You can vote for any project but your own. The winner receives a HackDavis Swag Bag. The voting form link will be available on the Hub when voting opens.",
+    "content": "The Hacker's Choice Award is voted on by fellow hackers — not judges. After demo time ends (during the 2:00-3:00 PM break), you can visit other teams and vote for the project you think deserves this award. All entries are automatically considered. You can vote for any project but your own. The winner receives a HackDavis Swag Bag (Tote, Stickers, Keychains). The voting form link will be available on the Hub when voting opens.",
     "url": "/project-info#break"
   },
   {
@@ -314,7 +368,7 @@
   {
     "type": "faq",
     "title": "FAQ: How many prize tracks can I enter?",
-    "content": "You can select up to 4 relevant prize tracks on your Devpost submission. Choose the tracks that best match your project. Some tracks (Best Hack for Social Good and Hacker's Choice Award) automatically include all entries \u2014 no opt-in required.",
+    "content": "On Devpost, prize tracks are split into two groups. For HackDavis tracks (shown under Tracks 1-3 on Devpost), you can select up to 4 total — this includes both automatic tracks (Best Hack for Social Good and Hacker's Choice Award, which every team is already considered for) and opted HackDavis tracks. For Opt-in Prizes (Sponsor, NPO, and MLH tracks shown in the Opt-in Prizes section), there is no hard limit — select as many as your project genuinely qualifies for. Only opt into tracks that are truly relevant to your project.",
     "url": "/#prize-tracks"
   },
   {

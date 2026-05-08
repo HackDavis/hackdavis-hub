@@ -7,8 +7,12 @@ import arrow from 'public/hackers/project-info/arrow.svg';
 
 const questions = [
   {
-    text: 'PICKED 4 RELEVANT PRIZE TRACKS',
+    text: 'SELECTED UP TO 4 HACKDAVIS TRACKS',
     color: styles.qboxGreen,
+  },
+  {
+    text: 'ADDED OPT-IN PRIZES IF RELEVANT (SPONSOR, NPO, OR MLH TRACKS - NO LIMIT)',
+    color: styles.qboxBlue,
   },
   {
     text: 'ADDED YOUR GITHUB AND/OR FIGMA LINKS',

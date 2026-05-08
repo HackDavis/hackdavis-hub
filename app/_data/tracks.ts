@@ -589,6 +589,11 @@ const judgeVisibleTracks: Tracks = {
   ...sponsoredNotSendingJudges,
 };
 
+const panelTracks: Tracks = {
+  ...judgeVisibleTracks,
+  'Best Hack for Social Good': automaticTracks['Best Hack for Social Good'],
+};
+
 const allTracks: Tracks = {
   ...automaticTracks,
   ...optedHDTracks,
@@ -609,6 +614,7 @@ export {
   nonHDTracks,
   sponsoredNotSendingJudges,
   judgeVisibleTracks,
+  panelTracks,
   displayNameToDomainMap,
 };
 

@@ -8,7 +8,7 @@ const dataPath = path.resolve(
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const tracks = [...new Set(data.tracks)];
 
-const teamsSchema = (trackList) => ({
+const teamsSchema = {
   $jsonSchema: {
     bsonType: 'object',
     title: 'Teams Object Validation',
@@ -23,8 +23,8 @@ const teamsSchema = (trackList) => ({
         description: 'teamNumber must be an integer',
       },
       tableNumber: {
-        bsonType: 'int',
-        description: 'tableNumber must be an integer',
+        bsonType: 'string',
+        description: 'tableNumber must be a string',
       },
       name: {
         bsonType: 'string',
@@ -33,7 +33,7 @@ const teamsSchema = (trackList) => ({
       tracks: {
         bsonType: 'array',
         items: {
-          enum: trackList,
+          enum: tracks,
           description: 'track must be one of the valid tracks',
         },
         description: 'tracks must be an array of strings',
@@ -62,18 +62,15 @@ const teamsSchema = (trackList) => ({
     },
     additionalProperties: false,
   },
-});
-
-export const up = async (db) => {
-  await db.command({
-    collMod: 'teams',
-    validator: teamsSchema(tracks),
-  });
 };
 
-export const down = async (db) => {
-  await db.command({
+const applySchema = (db) =>
+  db.command({
     collMod: 'teams',
-    validator: teamsSchema(tracks),
+    validator: teamsSchema,
+    validationLevel: 'strict',
+    validationAction: 'error',
   });
-};
+
+export const up = (db) => applySchema(db);
+export const down = (db) => applySchema(db);

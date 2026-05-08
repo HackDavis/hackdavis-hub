@@ -10,7 +10,13 @@ export default function FillOutDetails() {
   return (
     <div className={styles.container}>
       <p className={styles.text}>
-        Fill out respective information - project overview, details, etc
+        Fill out respective information — project overview, details, etc. <br />
+        When selecting prize tracks: pick{' '}
+        <strong>up to 4 HackDavis tracks</strong> via{' '}
+        <strong>Tracks #1–#3</strong> on Devpost, and use the{' '}
+        <strong>Opt-in Prizes</strong> section for any{' '}
+        <strong>Sponsor, NPO, or MLH tracks</strong> your project qualifies for
+        (no limit, but keep it relevant).
       </p>
 
       <div className={styles.imageWrapper}>

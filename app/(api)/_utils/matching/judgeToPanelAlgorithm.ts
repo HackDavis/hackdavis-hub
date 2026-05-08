@@ -9,11 +9,12 @@ export default async function judgeToPanelAlgorithm(
   for (const panel of panels) {
     if (judges.length < panelSize) return null;
 
-    judges = judges.sort(
-      (a, b) =>
-        (a.specialties?.indexOf(panel.domain ?? '') ?? 0) -
-        (b.specialties?.indexOf(panel.domain ?? '') ?? 0)
-    );
+    judges = judges.sort((a, b) => {
+      const domain = panel.domain ?? '';
+      const aIdx = a.specialties?.indexOf(domain) ?? -1;
+      const bIdx = b.specialties?.indexOf(domain) ?? -1;
+      return (aIdx === -1 ? Infinity : aIdx) - (bIdx === -1 ? Infinity : bIdx);
+    });
 
     panel.user_ids = judges
       .splice(0, panelSize)
