@@ -8,6 +8,7 @@ import {
   CsvValidationReport,
   CsvRowIssue,
 } from '@utils/csv-ingestion/csvAlgorithm';
+import ProcessedTeamsTable from '../_components/CsvIngestion/ProcessedTeamsTable';
 
 type ValidationResponse = {
   ok: boolean;
@@ -194,7 +195,7 @@ export default function CsvIngestion() {
   };
 
   return (
-    <div>
+    <div className="px-6 py-3">
       {teamsAlreadyPopulated?.populated ? (
         <div className="mb-4 rounded border border-red-500 bg-red-50 p-3 text-red-800">
           <div className="font-semibold">Teams database already populated</div>
@@ -345,6 +346,14 @@ export default function CsvIngestion() {
                     })}
                 </ul>
               </div>
+            )}
+
+            {validation.body && validation.body.length > 0 && (
+              <ProcessedTeamsTable
+                records={validation.body}
+                issues={validation.report.issues}
+                rowContacts={validation.report.rowContacts ?? []}
+              />
             )}
 
             <details className="py-2">

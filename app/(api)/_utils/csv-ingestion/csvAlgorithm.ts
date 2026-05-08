@@ -33,6 +33,16 @@ export type CsvRowIssue = {
   duplicateTeamNumber?: number;
 };
 
+export type CsvRowContact = {
+  teamNumber: number | undefined;
+  projectTitle: string;
+  contactEmails: string[];
+  contactNames: string[];
+  memberEmails: string[];
+  memberNames: string[];
+  memberColumnsFromTeamMember1: Array<{ header: string; value: string }>;
+};
+
 export type CsvValidationReport = {
   totalTeamsParsed: number;
   validTeams: number;
@@ -40,6 +50,7 @@ export type CsvValidationReport = {
   warningRows: number;
   unknownTracks: string[];
   issues: CsvRowIssue[];
+  rowContacts: CsvRowContact[];
   globalWarnings?: string[];
 };
 
@@ -416,6 +427,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
   error: string | null;
 }> {
   const issues: CsvRowIssue[] = [];
+  const rowContacts: CsvRowContact[] = [];
   const unknownTrackSet = new Set<string>();
   const output: ParsedRecord[] = [];
   const seenTeamNumbers = new Map<number, number>(); // teamNumber -> first rowIndex where seen
@@ -495,6 +507,18 @@ export async function validateCsvBlob(blob: Blob): Promise<{
                   seenTeamNumbers.set(parsedTeamNumber, rowIndex);
                 }
               }
+
+              rowContacts.push({
+                teamNumber: Number.isFinite(parsedTeamNumber)
+                  ? parsedTeamNumber
+                  : undefined,
+                projectTitle,
+                contactEmails,
+                contactNames,
+                memberEmails,
+                memberNames,
+                memberColumnsFromTeamMember1,
+              });
 
               if (
                 invalidTracks.length > 0 ||
@@ -608,6 +632,7 @@ export async function validateCsvBlob(blob: Blob): Promise<{
       warningRows,
       unknownTracks: Array.from(unknownTrackSet).sort(),
       issues,
+      rowContacts,
       globalWarnings,
     };
 
