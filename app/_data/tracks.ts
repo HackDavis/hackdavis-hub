@@ -114,7 +114,7 @@ const optedHDTracks: Tracks = {
   'Best Beginner Hack': {
     name: 'Best Beginner Hack',
     filter: ['General'],
-    prizes: ['24 Inch Monitor'],
+    prizes: ['KOORUI 24 Inch Curved Monitor'],
     images: [monitor],
     eligibility_criteria:
       'Every team member must be a first-time hacker in order to qualify. Demonstrate a high level of growth through this project. Foster creativity and collaboration within the team and display a commitment to building skills.',
@@ -330,7 +330,7 @@ const optedHDTracks: Tracks = {
   'Best Entrepreneurship Hack': {
     name: 'Best Entrepreneurship Hack',
     filter: ['Business'],
-    prizes: ['North Face Backpack'],
+    prizes: ['The North Face Borealis Backpack'],
     images: [backpack],
     eligibility_criteria:
       "No Code Required. A project that focuses on viability and persuasive power through presentation on the product/service you're trying to sell, relevant customer segments, distribution channels, and associated revenue/profit models.",
@@ -503,7 +503,7 @@ const nonHDTracks: Tracks = {
     prizes: ['$125 Visa Gift Card per team member'],
     images: [digitalGiftCard],
     eligibility_criteria:
-      'Most creative use of Rescontruct in their project. Project must use Reconstruct in a prominant and efficient way to qualify for this prize track.\n\nSponsored by Reconstruct.',
+      'Most creative use of Reconstruct in their project. Project must use Reconstruct in a prominent and efficient way to qualify for this prize track.\n\nSponsored by Reconstruct.',
   },
   "Best Hack for Women's Center": {
     name: "Best Hack for Women's Center",
