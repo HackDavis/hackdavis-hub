@@ -62,7 +62,7 @@ const automaticTracks: Tracks = {
     prizes: ['2026 Macbook Neo', 'Electric Scooter'],
     images: [macbookNeo, electricScooter],
     eligibility_criteria:
-      'Encapsulate your authentic idea of what "social good" can look like. All entries are automatically considered for this prize category.',
+      'Encapsulate your authentic idea of what "social good" can look like. All entries are automatically considered for this prize category.\n\nThe Student Startup Center believes that a great idea can go a long way with the right support. They are offering an automatic interview for their Entrepreneur in Residence (EIR) program to the winning team of the Best Hack for Social Good. This opportunity is designed to help students continue building their project into a viable business throughout the school year.\n• The Prize: A guaranteed interview for the EIR program, which includes milestone-based funding to support your startup\'s growth.\n• Eligibility: To be eligible for this specific prize, the entire team must consist of current UC Davis students.',
   },
   "Hacker's Choice Award": {
     name: "Hacker's Choice Award",
