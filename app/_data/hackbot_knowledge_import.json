@@ -86,7 +86,7 @@
   {
     "type": "judging",
     "title": "Demo Time: Judge Queue and Visit Estimates",
-    "content": "The HackerHub will show an estimate of when your team will be judged (your position in each judge's queue). Please note these are estimates only \u2014 unforeseen situations may delay or hasten a judge's arrival at your table. You will not be visited by a judge in every round. Some tracks are judged by MLH, partner NPOs, or sponsors selecting their own winners \u2014 if your team did not choose those tracks, you will be judged by the standard three judges. Extra judges from MLH/NPO/sponsor groups do not affect your chances in other tracks; having more than three judges does not give an advantage or disadvantage. MLH = Major League Hacking. NPO = Non-Profit Organizations.",
+    "content": "The HackerHub will show an estimate of when your team will be judged (your position in each judge's queue). Please note these are estimates only \u2014 unforeseen situations may delay or hasten a judge's arrival at your table. You will not be visited by a judge in every round. Some tracks are judged by MLH, partner NPOs, or sponsors selecting their own winners \u2014 if your team did not choose those tracks, you will be judged by the standard four judges. Extra judges from MLH/NPO/sponsor groups do not affect your chances in other tracks; having more than four judges does not give an advantage or disadvantage. MLH = Major League Hacking. NPO = Non-Profit Organizations.",
     "url": "/project-info#demo-time"
   },
   {
@@ -320,7 +320,7 @@
   {
     "type": "faq",
     "title": "FAQ: Why might some teams get more judges than others?",
-    "content": "Some tracks are judged by MLH (Major League Hacking), partner NPOs (Non-Profit Organizations), or sponsors who select their own winners. If your team has selected those tracks, you may receive additional judges. If your team has not chosen those tracks, you will be judged by the standard three judges. Extra judges from MLH, NPO, or sponsor groups do not affect your chances in other tracks. Having more than three judges does not give an advantage or disadvantage.",
+    "content": "Some tracks are judged by MLH (Major League Hacking), partner NPOs (Non-Profit Organizations), or sponsors who select their own winners. If your team has selected those tracks, you may receive additional judges. If your team has not chosen those tracks, you will be judged by the standard four judges. Extra judges from MLH, NPO, or sponsor groups do not affect your chances in other tracks. Having more than four judges does not give an advantage or disadvantage.",
     "url": "/project-info#demo-time"
   },
   {

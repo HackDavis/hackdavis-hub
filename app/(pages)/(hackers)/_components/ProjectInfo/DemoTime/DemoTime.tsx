@@ -33,13 +33,13 @@ export default function DemoTime() {
             </div>
             <div className={styles.text}>
               <p className={styles.individual_text}>
-                3 MINS of demo <br /> 3 MINS of Q&A
+                4 MINS of demo <br /> 4 MINS of Q&A
               </p>
               <p className={styles.individual_text_dissapear}>
-                3 MINS of demo <br /> 3 MINS of Q&A
+                4 MINS of demo <br /> 4 MINS of Q&A
               </p>
               <p className={styles.individual_text_dissapear}>
-                3 MINS of demo <br /> 3 MINS of Q&A
+                4 MINS of demo <br /> 4 MINS of Q&A
               </p>
               <p
                 className={styles.individual_text}
@@ -63,9 +63,9 @@ export default function DemoTime() {
             <b>Why do some teams get more judges? Isn’t it unfair?</b> <br />
             Some tracks are judged by MLH, partner NPOs, or sponsors selecting
             their own winners. If your team hasn’t chosen these tracks, you’ll
-            be judged by the standard three judges. Extra judges from these
+            be judged by the standard four judges. Extra judges from these
             groups won’t affect your chances in other tracks, so having more
-            than three judges doesn’t give an advantage or disadvantage.
+            than four judges doesn’t give an advantage or disadvantage.
           </p>
           <p>MLH = Major League Hacking</p>
           <p>NPO = Non-Profit Organizations</p>
