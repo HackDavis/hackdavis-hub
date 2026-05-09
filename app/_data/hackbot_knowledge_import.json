@@ -44,13 +44,13 @@
   {
     "type": "submission",
     "title": "Devpost Submission Tips and Checklist",
-    "content": "Before submitting on Devpost, make sure you have done the following: (1) Selected your prize tracks correctly — on Devpost, Tracks 1-3 show only HackDavis prize tracks; select up to 4 HackDavis tracks total. The Opt-in Prizes section shows Sponsor, NPO, and MLH tracks — you may select as many of these as your project genuinely qualifies for. (2) Added your GitHub and/or Figma links — include links to your code repository and any design files. (3) Inserted a demo video — upload or link a video demonstrating your project in action. The HackDavis 2026 Devpost page is at https://hackdavis-2026.devpost.com/",
+    "content": "Before submitting on Devpost, make sure you have done the following: (1) Selected your prize tracks correctly — on Devpost, Tracks 1-3 show only HackDavis prize tracks; select up to 3 HackDavis tracks total. The Opt-in Prizes section shows Sponsor, NPO, and MLH tracks — you may select as many of these as your project genuinely qualifies for. (2) Added your GitHub and/or Figma links — include links to your code repository and any design files. (3) Inserted a demo video — upload or link a video demonstrating your project in action. The HackDavis 2026 Devpost page is at https://hackdavis-2026.devpost.com/",
     "url": "/project-info#submission"
   },
   {
     "type": "submission",
     "title": "Prize Track Selection: HackDavis Tracks vs. Opt-in Prizes",
-    "content": "On Devpost, prize tracks are split into two sections. Tracks 1-3 show only HackDavis prize tracks — these include both automatic tracks (Best Hack for Social Good and Hacker's Choice Award, which every team is considered for automatically) and opted HackDavis tracks (Most Technically Challenging Hack, Best Beginner Hack, Most Creative Hack, Best Hack for Social Justice, Best User Research, Best Entrepreneurship Hack, Best Statistical Model, Best Interdisciplinary Hack, Best Hardware Hack). You are encouraged to select up to 4 HackDavis tracks in total across Tracks 1-3. The Opt-in Prizes section includes Sponsor tracks (e.g. Best AI/ML Hack sponsored by Anthropic, Best UI/UX Design sponsored by Figma, Best Use of DAC Materials, Best use of Reconstruct), NPO tracks (e.g. Best Hack for Women's Center), and MLH tracks (e.g. Best Use of Gemini API, Best Use of ElevenLabs, Best Use of Solana, Best Use of Backboard, Best Use of Vultr, Best Use of MongoDB Atlas, Best Domain Name from GoDaddy Registry). There is no hard limit on Sponsor, NPO, or MLH opt-in tracks — but only select the ones your project genuinely uses or qualifies for.",
+    "content": "On Devpost, prize tracks are split into two sections. Tracks 1-3 show only HackDavis prize tracks — these include both automatic tracks (Best Hack for Social Good and Hacker's Choice Award, which every team is considered for automatically) and opted HackDavis tracks (Most Technically Challenging Hack, Best Beginner Hack, Most Creative Hack, Best Hack for Social Justice, Best User Research, Best Entrepreneurship Hack, Best Statistical Model, Best Interdisciplinary Hack, Best Hardware Hack). You are encouraged to select up to 3 HackDavis tracks in total across Tracks 1-3. The Opt-in Prizes section includes Sponsor tracks (e.g. Best AI/ML Hack sponsored by Anthropic, Best UI/UX Design sponsored by Figma, Best Use of DAC Materials, Best use of Reconstruct), NPO tracks (e.g. Best Hack for Women's Center), and MLH tracks (e.g. Best Use of Gemini API, Best Use of ElevenLabs, Best Use of Solana, Best Use of Backboard, Best Use of Vultr, Best Use of MongoDB Atlas, Best Domain Name from GoDaddy Registry). There is no hard limit on Sponsor, NPO, or MLH opt-in tracks — but only select the ones your project genuinely uses or qualifies for.",
     "url": "/project-info#submission"
   },
   {
@@ -254,7 +254,7 @@
   {
     "type": "track",
     "title": "Prize Track Categories Overview",
-    "content": "HackDavis 2026 prize tracks fall into two groups on Devpost. HackDavis Tracks (select via Tracks 1-3 on Devpost, up to 4 total): General — Best Hack for Social Good (automatic), Hacker's Choice Award (automatic), Best Beginner Hack, Best Interdisciplinary Hack, Most Creative Hack, Best Hack for Social Justice; Technical — Most Technically Challenging Hack, Best Hardware Hack; Design — Best UI/UX Design (see also Sponsor), Best User Research; Business — Best Entrepreneurship Hack, Best Statistical Model. Opt-in Prizes (select in the Opt-in Prizes section, no hard limit — choose only tracks your project qualifies for): Sponsor — Best AI/ML Hack (Anthropic), Best UI/UX Design (Figma), Best Use of DAC Materials (Davis Autonomy Club), Best use of Reconstruct; Non-Profit — Best Hack for Women's Center; MLH — Best Use of Gemini API, Best Use of ElevenLabs, Best Use of Solana, Best Use of Backboard, Best Use of Vultr, Best Use of MongoDB Atlas, Best Domain Name from GoDaddy Registry.",
+    "content": "HackDavis 2026 prize tracks fall into two groups on Devpost. HackDavis Tracks (select via Tracks 1-3 on Devpost, up to 3 total): General — Best Hack for Social Good (automatic), Hacker's Choice Award (automatic), Best Beginner Hack, Best Interdisciplinary Hack, Most Creative Hack, Best Hack for Social Justice; Technical — Most Technically Challenging Hack, Best Hardware Hack; Design — Best UI/UX Design (see also Sponsor), Best User Research; Business — Best Entrepreneurship Hack, Best Statistical Model. Opt-in Prizes (select in the Opt-in Prizes section, no hard limit — choose only tracks your project qualifies for): Sponsor — Best AI/ML Hack (Anthropic), Best UI/UX Design (Figma), Best Use of DAC Materials (Davis Autonomy Club), Best use of Reconstruct; Non-Profit — Best Hack for Women's Center; MLH — Best Use of Gemini API, Best Use of ElevenLabs, Best Use of Solana, Best Use of Backboard, Best Use of Vultr, Best Use of MongoDB Atlas, Best Domain Name from GoDaddy Registry.",
     "url": "/#prize-tracks"
   },
   {
@@ -302,7 +302,7 @@
   {
     "type": "faq",
     "title": "FAQ: What should I include in my Devpost submission?",
-    "content": "Your Devpost submission should include: a project overview and detailed description, technical details, your selected prize tracks (see below for how to pick), your GitHub repository link and/or Figma design file link, and a demo video showing your project in action. Be thorough — judges review your Devpost submission. For prize tracks: select up to 4 HackDavis tracks via Tracks 1-3 on Devpost, and use the Opt-in Prizes section for any Sponsor, NPO, or MLH tracks your project qualifies for.",
+    "content": "Your Devpost submission should include: a project overview and detailed description, technical details, your selected prize tracks (see below for how to pick), your GitHub repository link and/or Figma design file link, and a demo video showing your project in action. Be thorough — judges review your Devpost submission. For prize tracks: select up to 3 HackDavis tracks via Tracks 1-3 on Devpost, and use the Opt-in Prizes section for any Sponsor, NPO, or MLH tracks your project qualifies for.",
     "url": "/project-info#submission"
   },
   {
@@ -368,7 +368,7 @@
   {
     "type": "faq",
     "title": "FAQ: How many prize tracks can I enter?",
-    "content": "On Devpost, prize tracks are split into two groups. For HackDavis tracks (shown under Tracks 1-3 on Devpost), you can select up to 4 total — this includes both automatic tracks (Best Hack for Social Good and Hacker's Choice Award, which every team is already considered for) and opted HackDavis tracks. For Opt-in Prizes (Sponsor, NPO, and MLH tracks shown in the Opt-in Prizes section), there is no hard limit — select as many as your project genuinely qualifies for. Only opt into tracks that are truly relevant to your project.",
+    "content": "On Devpost, prize tracks are split into two groups. For HackDavis tracks (shown under Tracks 1-3 on Devpost), you can select up to 3 total — this includes both automatic tracks (Best Hack for Social Good and Hacker's Choice Award, which every team is already considered for) and opted HackDavis tracks. For Opt-in Prizes (Sponsor, NPO, and MLH tracks shown in the Opt-in Prizes section), there is no hard limit — select as many as your project genuinely qualifies for. Only opt into tracks that are truly relevant to your project.",
     "url": "/#prize-tracks"
   },
   {

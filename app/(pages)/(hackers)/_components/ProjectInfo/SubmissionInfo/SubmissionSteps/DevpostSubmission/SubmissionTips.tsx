@@ -7,7 +7,7 @@ import arrow from 'public/hackers/project-info/arrow.svg';
 
 const questions = [
   {
-    text: 'SELECTED UP TO 4 HACKDAVIS TRACKS',
+    text: 'SELECTED UP TO 3 HACKDAVIS TRACKS',
     color: styles.qboxGreen,
   },
   {
