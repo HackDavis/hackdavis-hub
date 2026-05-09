@@ -6,7 +6,7 @@ import Image from 'next/image';
 import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
 import {
   EventEntry,
-  // useScheduleSneakPeekData,
+  useScheduleSneakPeekData,
 } from '@hooks/useScheduleSneakPeekData';
 import { useSharedNow } from '@pages/_hooks/useScheduleSharedNow';
 
@@ -231,101 +231,97 @@ function Panel({
 export default function ScheduleSneakPeek({
   className,
 }: ScheduleSneakPeekProps) {
-  // TODO: TEMPORARY TEST DATA - Remove when done testing text sizes
-  const mockLiveEvents: EventEntry[] = [
-    {
-      event: {
-        _id: '680026b09d521a51759d7e83',
-        name: 'GitHub Copilot Workshop',
-        type: 'WORKSHOPS',
-        start_time: new Date('2026-05-09T22:00:00.000Z'),
-        end_time: new Date('2026-05-09T23:00:00.000Z'),
-        host: 'Major League Hacking',
-        tags: ['beginner', 'developer', 'pm'],
-        location: 'ARC Ballroom A',
-      },
-      attendeeCount: 42,
-      inPersonalSchedule: false,
-    },
-    {
-      event: {
-        _id: '67f7a5de3eaf1040a69ac6ad',
-        name: 'Bracelet Making',
-        type: 'ACTIVITIES',
-        start_time: new Date('2026-05-09T22:30:00.000Z'),
-        end_time: new Date('2026-05-10T00:30:00.000Z'),
-        host: undefined,
-        tags: [],
-        location: 'North Wing',
-      },
-      attendeeCount: 28,
-      inPersonalSchedule: false,
-    },
-  ];
+  // TEMPORARY TEST DATA
+  // const mockLiveEvents: EventEntry[] = [
+  //   {
+  //     event: {
+  //       _id: '680026b09d521a51759d7e83',
+  //       name: 'GitHub Copilot Workshop',
+  //       type: 'WORKSHOPS',
+  //       start_time: new Date('2026-05-09T22:00:00.000Z'),
+  //       end_time: new Date('2026-05-09T23:00:00.000Z'),
+  //       host: 'Major League Hacking',
+  //       tags: ['beginner', 'developer', 'pm'],
+  //       location: 'ARC Ballroom A',
+  //     },
+  //     attendeeCount: 42,
+  //     inPersonalSchedule: false,
+  //   },
+  //   {
+  //     event: {
+  //       _id: '67f7a5de3eaf1040a69ac6ad',
+  //       name: 'Bracelet Making',
+  //       type: 'ACTIVITIES',
+  //       start_time: new Date('2026-05-09T22:30:00.000Z'),
+  //       end_time: new Date('2026-05-10T00:30:00.000Z'),
+  //       host: undefined,
+  //       tags: [],
+  //       location: 'North Wing',
+  //     },
+  //     attendeeCount: 28,
+  //     inPersonalSchedule: false,
+  //   },
+  // ];
 
-  const mockUpcomingEvents: EventEntry[] = [
-    {
-      event: {
-        _id: '67f7a60f3eaf1040a69ac6ae',
-        name: 'Therapy Dogs',
-        type: 'ACTIVITIES',
-        start_time: new Date('2026-05-09T22:30:00.000Z'),
-        end_time: new Date('2026-05-10T00:00:00.000Z'),
-        host: undefined,
-        tags: [],
-        location: 'South Wing',
-      },
-      attendeeCount: 85,
-      inPersonalSchedule: false,
-    },
-    {
-      event: {
-        _id: '680027589d521a51759d7e86',
-        name: 'Tech Together Meetup',
-        type: 'WORKSHOPS',
-        start_time: new Date('2026-05-09T23:00:00.000Z'),
-        end_time: new Date('2026-05-10T00:00:00.000Z'),
-        host: 'Major League Hacking',
-        tags: ['beginner', 'developer', 'pm', 'designer', 'other'],
-        location: 'ARC Ballroom A',
-      },
-      attendeeCount: 64,
-      inPersonalSchedule: false,
-    },
-    {
-      event: {
-        _id: '680028219d521a51759d7e8a',
-        name: 'Intro to UI/UX',
-        type: 'WORKSHOPS',
-        start_time: new Date('2026-05-09T23:00:00.000Z'),
-        end_time: new Date('2026-05-10T00:00:00.000Z'),
-        host: 'Design Interactive',
-        tags: ['beginner', 'designer'],
-        location: 'ARC Ballroom B',
-      },
-      attendeeCount: 37,
-      inPersonalSchedule: false,
-    },
-  ];
+  // const mockUpcomingEvents: EventEntry[] = [
+  //   {
+  //     event: {
+  //       _id: '67f7a60f3eaf1040a69ac6ae',
+  //       name: 'Therapy Dogs',
+  //       type: 'ACTIVITIES',
+  //       start_time: new Date('2026-05-09T22:30:00.000Z'),
+  //       end_time: new Date('2026-05-10T00:00:00.000Z'),
+  //       host: undefined,
+  //       tags: [],
+  //       location: 'South Wing',
+  //     },
+  //     attendeeCount: 85,
+  //     inPersonalSchedule: false,
+  //   },
+  //   {
+  //     event: {
+  //       _id: '680027589d521a51759d7e86',
+  //       name: 'Tech Together Meetup',
+  //       type: 'WORKSHOPS',
+  //       start_time: new Date('2026-05-09T23:00:00.000Z'),
+  //       end_time: new Date('2026-05-10T00:00:00.000Z'),
+  //       host: 'Major League Hacking',
+  //       tags: ['beginner', 'developer', 'pm', 'designer', 'other'],
+  //       location: 'ARC Ballroom A',
+  //     },
+  //     attendeeCount: 64,
+  //     inPersonalSchedule: false,
+  //   },
+  //   {
+  //     event: {
+  //       _id: '680028219d521a51759d7e8a',
+  //       name: 'Intro to UI/UX',
+  //       type: 'WORKSHOPS',
+  //       start_time: new Date('2026-05-09T23:00:00.000Z'),
+  //       end_time: new Date('2026-05-10T00:00:00.000Z'),
+  //       host: 'Design Interactive',
+  //       tags: ['beginner', 'designer'],
+  //       location: 'ARC Ballroom B',
+  //     },
+  //     attendeeCount: 37,
+  //     inPersonalSchedule: false,
+  //   },
+  // ];
 
-  // Use mock data temporarily for testing
-  const liveAll = mockLiveEvents;
-  const upcomingAll = mockUpcomingEvents;
-  // const livePersonal: EventEntry[] = [];
-  // const upcomingPersonal: EventEntry[] = [];
+  // // Use mock data temporarily for testing
+  // const liveAll = mockLiveEvents;
+  // const upcomingAll = mockUpcomingEvents;
+  // // const livePersonal: EventEntry[] = [];
+  // // const upcomingPersonal: EventEntry[] = [];
 
-  const addToPersonalSchedule = async () => true;
-  const removeFromPersonalSchedule = async () => true;
-
-  // Uncomment below to use real data from hook:
-  // const {
-  //   liveAll,
-  //   upcomingAll,
-  //   livePersonal,
-  //   upcomingPersonal,
-  //   addToPersonalSchedule,
-  //   removeFromPersonalSchedule,
-  // } = useScheduleSneakPeekData();
+  // const addToPersonalSchedule = async () => true;
+  // const removeFromPersonalSchedule = async () => true;
+  const {
+    liveAll,
+    upcomingAll,
+    addToPersonalSchedule,
+    removeFromPersonalSchedule,
+  } = useScheduleSneakPeekData();
 
   return (
     <div
