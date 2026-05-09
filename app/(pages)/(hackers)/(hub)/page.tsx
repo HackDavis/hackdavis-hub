@@ -27,8 +27,8 @@ export default function Page() {
         <ClientTimeProtectedDisplay featureId="hero-hacking">
           <HeroHacking rolloutTime={rolloutTime} loading={loading} />
           <ScheduleSneakPeek />
-          <BeginnersSection />
-          <MDHelp />
+          {/* <BeginnersSection /> */}
+          {/* <MDHelp /> */}
         </ClientTimeProtectedDisplay>
         {/* temporarilty set featureId below to "hero-hacking" to test */}
         <ClientTimeProtectedDisplay featureId="hero-judging">
@@ -40,9 +40,9 @@ export default function Page() {
           <TableNumberCheckin />
         </ClientTimeProtectedDisplay>
       </TableNumberContextProvider>
-      <Discord />
-      <PrizeTracks />
-      <Footer />
+      {/* <Discord />
+      <PrizeTracks /> */}
+      {/* <Footer /> */}
     </main>
   );
 }

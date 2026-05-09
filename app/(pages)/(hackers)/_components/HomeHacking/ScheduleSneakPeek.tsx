@@ -90,6 +90,8 @@ function Panel({
       />
     ));
 
+  const isHappeningNow = title === 'Happening now';
+
   const upcomingGroups = useMemo(() => {
     const groupsMap = new Map<number, EventEntry[]>();
     for (const entry of upcomingEvents) {
@@ -110,87 +112,103 @@ function Panel({
   }, [upcomingEvents]);
 
   return (
-    <div className="rounded-[16px] bg-[#FFFFFF] p-5 lg:p-6">
-      <h2 className="font-jakarta text-[clamp(1.1rem,3vw,2.25rem)] font-semibold leading-tight tracking-[0.64px] text-[#3F3F3F] mb-4">
-        {title}
+    <div className="rounded-[16px] bg-[#FFFFFF] p-5 lg:p-6 max-h-[60vh] overflow-y-clip">
+      <h2 className="font-jakarta text-[clamp(1.1rem,3vw,2.25rem)] font-semibold leading-tight tracking-[0.64px] text-[#3F3F3F]">
+        Schedule
       </h2>
-      <div className="border-b border-[#E3E3E3] mb-6" />
+      {/* <div className="border-b border-[#E3E3E3] mb-2" /> */}
 
-      <SectionLabel label="• LIVE" />
-      <div className="space-y-3 mb-[3vw]">
-        {liveEvents.length > 0 ? (
-          renderEventItems(liveEvents, 'live')
-        ) : (
-          <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
-            <Image
-              src={title === 'Happening now' ? cucumber_cow : duckbunny}
-              alt={
-                title === 'Happening now'
-                  ? 'Cow with cucumber over their eyes'
-                  : 'Duck on top of bunny'
-              }
-            />
-            <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
-              {title === 'Your schedule'
-                ? 'No live events on your schedule'
-                : 'No live events'}
-            </p>
-            <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
-              This is where you’ll see live events. Seems like there’s nothing
-              going on at the moment!
-            </p>
-            <Link
-              href="/schedule"
-              className="hover:brightness-[97%] hover:saturate-[140%]"
-            >
-              {title === 'Your schedule' ? (
-                <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
-                  Add to your schedule
-                </button>
-              ) : null}
-            </Link>
+      <div
+        className={
+          isHappeningNow ? 'grid grid-cols-1 lg:grid-cols-2 gap-6' : ''
+        }
+      >
+        <div>
+          <SectionLabel label="• LIVE" />
+          <div className="space-y-3 mb-[3vw]">
+            {liveEvents.length > 0 ? (
+              renderEventItems(liveEvents, 'live')
+            ) : (
+              <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+                <Image
+                  src={title === 'Happening now' ? cucumber_cow : duckbunny}
+                  alt={
+                    title === 'Happening now'
+                      ? 'Cow with cucumber over their eyes'
+                      : 'Duck on top of bunny'
+                  }
+                />
+                <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+                  {title === 'Your schedule'
+                    ? 'No live events on your schedule'
+                    : 'No live events'}
+                </p>
+                <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
+                  This is where you’ll see live events. Seems like there’s
+                  nothing going on at the moment!
+                </p>
+                <Link
+                  href="/schedule"
+                  className="hover:brightness-[97%] hover:saturate-[140%]"
+                >
+                  {title === 'Your schedule' ? (
+                    <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                      Add to your schedule
+                    </button>
+                  ) : null}
+                </Link>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      {upcomingGroups.length > 0 ? (
-        upcomingGroups.map((group) => (
-          <div key={group.startTime}>
-            <CountdownLabel targetTime={group.startTime} />
-            <div className="space-y-3">
-              {renderEventItems(group.entries, `upcoming-${group.startTime}`)}
-            </div>
-          </div>
-        ))
-      ) : (
-        <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
-          <Image
-            src={title === 'Happening now' ? sleeping_cow : duckfrog}
-            alt={
-              title === 'Happening now' ? 'Sleeping cow' : 'Duck on top of frog'
-            }
-          />
-          <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
-            {title === 'Your schedule'
-              ? 'No upcoming events on your schedule'
-              : 'No upcoming events'}
-          </p>
-          <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
-            {title === 'Your schedule'
-              ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
-              : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
-          </p>
-          <Link
-            href="/schedule"
-            className="hover:brightness-[97%] hover:saturate-[140%]"
-          >
-            {title === 'Your schedule' ? (
-              <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
-                Explore events
-              </button>
-            ) : null}
-          </Link>
         </div>
-      )}
+
+        <div>
+          {upcomingGroups.length > 0 ? (
+            upcomingGroups.map((group) => (
+              <div key={group.startTime}>
+                <CountdownLabel targetTime={group.startTime} />
+                <div className="space-y-3">
+                  {renderEventItems(
+                    group.entries,
+                    `upcoming-${group.startTime}`
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+              <Image
+                src={title === 'Happening now' ? sleeping_cow : duckfrog}
+                alt={
+                  title === 'Happening now'
+                    ? 'Sleeping cow'
+                    : 'Duck on top of frog'
+                }
+              />
+              <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+                {title === 'Your schedule'
+                  ? 'No upcoming events on your schedule'
+                  : 'No upcoming events'}
+              </p>
+              <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
+                {title === 'Your schedule'
+                  ? 'This is where you’ll see upcoming events. Seems like there’s nothing coming up! Take a look to see if there’s anything you want to check out.'
+                  : 'This is where you’ll  see upcoming events. Seems like there’s nothing coming up!'}
+              </p>
+              <Link
+                href="/schedule"
+                className="hover:brightness-[97%] hover:saturate-[140%]"
+              >
+                {title === 'Your schedule' ? (
+                  <button className="bg-[#CCFFFE] text-[#003D3D] rounded-full p-[12px] font-semibold text-center px-[24px] text-[14px] tracking-[0.64px]">
+                    Explore events
+                  </button>
+                ) : null}
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -208,9 +226,12 @@ export default function ScheduleSneakPeek({
   } = useScheduleSneakPeekData();
 
   return (
-    <div id="schedule-sneak-peek" className="w-full bg-[#FAFAFF]">
-      <section className={`w-[90%] mx-auto py-[5vw] ${className ?? ''}`}>
-        <div className="inline-flex items-center group font-jakarta text-[clamp(1.25rem,4.2vw,3rem)] font-semibold leading-tight tracking-[0.72px] text-[#3F3F3F] whitespace-nowrap">
+    <div
+      id="schedule-sneak-peek"
+      className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FFFFFF]"
+    >
+      <section className={`w-full px-[4vw] py-[5vw] ${className ?? ''}`}>
+        {/* <div className="inline-flex items-center group font-jakarta text-[clamp(1.25rem,4.2vw,3rem)] font-semibold leading-tight tracking-[0.72px] text-[#3F3F3F] whitespace-nowrap">
           <span className="w-0 group-hover:w-[20px] md:group-hover:w-[35px]  overflow-hidden transition-all duration-300 ease-out shrink-0">
             <Image
               src="/icons/arrow-right.svg"
@@ -226,11 +247,11 @@ export default function ScheduleSneakPeek({
               Schedule
             </Link>
           </span>
-        </div>
+        </div> */}
 
-        <div className="border-b border-[#E3E3E3] mt-4 mb-[2.5rem]" />
+        {/* <div className="border-b border-[#E3E3E3] mt-4 mb-[2.5rem]" /> */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5">
+        <div className="grid grid-cols-1 gap-4 lg:gap-5">
           <Panel
             title="Happening now"
             liveEvents={liveAll}
@@ -238,13 +259,13 @@ export default function ScheduleSneakPeek({
             onAddToSchedule={addToPersonalSchedule}
             onRemoveFromSchedule={removeFromPersonalSchedule}
           />
-          <Panel
+          {/* <Panel
             title="Your schedule"
             liveEvents={livePersonal}
             upcomingEvents={upcomingPersonal}
             onAddToSchedule={addToPersonalSchedule}
             onRemoveFromSchedule={removeFromPersonalSchedule}
-          />
+          /> */}
         </div>
       </section>
     </div>
