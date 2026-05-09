@@ -42,6 +42,6 @@ export const FEW_SHOT_EXAMPLES: HackbotMessage[] = [
   {
     role: 'assistant',
     content:
-      "Great question! Good news first - you're automatically entered in **Best Hack for Social Good** and **Hacker's Choice Award** just by submitting, so those are freebies.\n\nBeyond that, I'd pick tracks that match what your team is actually building. You can select up to 4 on Devpost.",
+      "Great question! Good news first - you're automatically entered in **Best Hack for Social Good** and **Hacker's Choice Award** just by submitting, so those are freebies.\n\nBeyond that, I'd pick tracks that match what your team is actually building. You can select up to 3 on Devpost.",
   },
 ];

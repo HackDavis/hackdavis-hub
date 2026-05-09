@@ -13,7 +13,7 @@ export function TimelineTile1() {
       <h2>Here is a breakdown of the 2 hour demo time.</h2>
       <div className={styles.breakdown}>
         <div className={styles.judges}>
-          {[1, 2, 3].map((number) => (
+          {[1, 2, 3, 4].map((number) => (
             <div key={number} className={styles.judge}>
               <div className={styles.label}>
                 <p>JUDGE {number}</p>
@@ -21,15 +21,15 @@ export function TimelineTile1() {
               <div className={styles.range} />
               <div className={styles.text} style={{ color: '#173A52' }}>
                 <p>
-                  <span>3 MINS</span> of demo <br />
-                  <span>3 MINS</span> of Q&amp;A
+                  <span>4 MINS</span> of demo <br />
+                  <span>4 MINS</span> of Q&amp;A
                 </p>
               </div>
             </div>
           ))}
           <div className={styles.judge}>
             <div className={styles.label}>
-              <p>JUDGE 4+</p>
+              <p>JUDGE 5+</p>
             </div>
             <div className={styles.range} />
             <div className={styles.text} style={{ color: '#005271' }}>
@@ -47,8 +47,8 @@ export function TimelineTile1() {
         <div className={styles.section}>
           <div className={styles.text}>
             <p>
-              <span>3 MINS</span> of demo <br />
-              <span>3 MINS</span> of Q&amp;A
+              <span>4 MINS</span> of demo <br />
+              <span>4 MINS</span> of Q&amp;A
             </p>
           </div>
           <div className={styles.bracket} />
@@ -93,9 +93,9 @@ export function TimelineTile2() {
         <br />
         Some tracks are judged by MLH, partner NPOs, or sponsors selecting their
         own winners. If your team hasn&apos;t chosen these tracks, you&apos;ll
-        be judged by the standard three judges. Extra judges from these groups
-        won&apos;t affect your chances in other tracks, so having more than
-        three judges doesn&apos;t give an advantage or disadvantage.
+        be judged by the standard four judges. Extra judges from these groups
+        won&apos;t affect your chances in other tracks, so having more than four
+        judges doesn&apos;t give an advantage or disadvantage.
       </p>
       <div className={styles.acronyms}>
         <p>
