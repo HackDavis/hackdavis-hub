@@ -6,7 +6,7 @@ import Image from 'next/image';
 import CalendarItem from '@pages/(hackers)/_components/Schedule/CalendarItem';
 import {
   EventEntry,
-  useScheduleSneakPeekData,
+  // useScheduleSneakPeekData,
 } from '@hooks/useScheduleSneakPeekData';
 import { useSharedNow } from '@pages/_hooks/useScheduleSharedNow';
 
@@ -24,7 +24,7 @@ function SectionLabel({ label }: { label: string }) {
   const displayLabel = isLiveLabel ? 'LIVE' : label;
 
   return (
-    <div className="font-dm-mono text-lg leading-[100%] tracking-[0.36px] text-[#7C7C85] mt-5 mb-4 inline-flex items-center gap-2">
+    <div className="font-dm-mono text-3xl leading-[100%] tracking-[0.36px] text-[#3F3F3F] mx-4 mt-3 mb-3 inline-flex items-center gap-2">
       {isLiveLabel && (
         <span
           aria-hidden
@@ -81,6 +81,7 @@ function Panel({
         inPersonalSchedule={entry.inPersonalSchedule}
         tags={entry.event.tags}
         host={entry.event.host}
+        hideAddButton={true}
         onAddToSchedule={() => {
           void onAddToSchedule(entry.event._id || '');
         }}
@@ -112,24 +113,32 @@ function Panel({
   }, [upcomingEvents]);
 
   return (
-    <div className="rounded-[16px] bg-[#FFFFFF] p-5 lg:p-6 max-h-[60vh] overflow-y-clip">
-      <h2 className="font-jakarta text-[clamp(1.1rem,3vw,2.25rem)] font-semibold leading-tight tracking-[0.64px] text-[#3F3F3F]">
+    <div className="rounded-[16px] bg-[#FFFFFF] px-5 lg:px-6 py-0">
+      <h2 className="font-jakarta text-[clamp(1.1rem,3vw,2.25rem)] font-semibold leading-tight tracking-[0.64px] text-[#3F3F3F] pb-2">
         Schedule
       </h2>
       {/* <div className="border-b border-[#E3E3E3] mb-2" /> */}
 
       <div
         className={
-          isHappeningNow ? 'grid grid-cols-1 lg:grid-cols-2 gap-6' : ''
+          isHappeningNow
+            ? 'grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch'
+            : ''
         }
       >
-        <div>
+        <div
+          className={
+            isHappeningNow
+              ? 'rounded-3xl bg-[#FAFAFF] px-4 pb-4 overflow-hidden'
+              : undefined
+          }
+        >
           <SectionLabel label="• LIVE" />
           <div className="space-y-3 mb-[3vw]">
             {liveEvents.length > 0 ? (
               renderEventItems(liveEvents, 'live')
             ) : (
-              <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+              <div className=" rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
                 <Image
                   src={title === 'Happening now' ? cucumber_cow : duckbunny}
                   alt={
@@ -138,12 +147,12 @@ function Panel({
                       : 'Duck on top of bunny'
                   }
                 />
-                <p className="font-semibold text-center text-[#3F3F3F] text-[16px] tracking-[0.64px]">
+                <p className="font-semibold text-center text-[#3F3F3F] text-[24px] tracking-[0.64px]">
                   {title === 'Your schedule'
                     ? 'No live events on your schedule'
                     : 'No live events'}
                 </p>
-                <p className="text-center text-[#7C7C85] md:w-[70%] text-[14px] tracking-[0.64px]">
+                <p className="text-center text-[#3F3F3F] md:w-[70%] text-[22px] tracking-[0.64px]">
                   This is where you’ll see live events. Seems like there’s
                   nothing going on at the moment!
                 </p>
@@ -162,7 +171,13 @@ function Panel({
           </div>
         </div>
 
-        <div>
+        <div
+          className={
+            isHappeningNow
+              ? 'rounded-xl bg-[#FAFAFF] px-4 pb-4 overflow-hidden'
+              : undefined
+          }
+        >
           {upcomingGroups.length > 0 ? (
             upcomingGroups.map((group) => (
               <div key={group.startTime}>
@@ -176,7 +191,7 @@ function Panel({
               </div>
             ))
           ) : (
-            <div className="bg-[#F3F3FC] rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
+            <div className="rounded-[12px] flex flex-col items-center p-[36px] gap-[12px]">
               <Image
                 src={title === 'Happening now' ? sleeping_cow : duckfrog}
                 alt={
@@ -216,21 +231,108 @@ function Panel({
 export default function ScheduleSneakPeek({
   className,
 }: ScheduleSneakPeekProps) {
-  const {
-    liveAll,
-    upcomingAll,
-    livePersonal,
-    upcomingPersonal,
-    addToPersonalSchedule,
-    removeFromPersonalSchedule,
-  } = useScheduleSneakPeekData();
+  // TODO: TEMPORARY TEST DATA - Remove when done testing text sizes
+  const mockLiveEvents: EventEntry[] = [
+    {
+      event: {
+        _id: '680026b09d521a51759d7e83',
+        name: 'GitHub Copilot Workshop',
+        type: 'WORKSHOPS',
+        start_time: new Date('2026-05-09T22:00:00.000Z'),
+        end_time: new Date('2026-05-09T23:00:00.000Z'),
+        host: 'Major League Hacking',
+        tags: ['beginner', 'developer', 'pm'],
+        location: 'ARC Ballroom A',
+      },
+      attendeeCount: 42,
+      inPersonalSchedule: false,
+    },
+    {
+      event: {
+        _id: '67f7a5de3eaf1040a69ac6ad',
+        name: 'Bracelet Making',
+        type: 'ACTIVITIES',
+        start_time: new Date('2026-05-09T22:30:00.000Z'),
+        end_time: new Date('2026-05-10T00:30:00.000Z'),
+        host: undefined,
+        tags: [],
+        location: 'North Wing',
+      },
+      attendeeCount: 28,
+      inPersonalSchedule: false,
+    },
+  ];
+
+  const mockUpcomingEvents: EventEntry[] = [
+    {
+      event: {
+        _id: '67f7a60f3eaf1040a69ac6ae',
+        name: 'Therapy Dogs',
+        type: 'ACTIVITIES',
+        start_time: new Date('2026-05-09T22:30:00.000Z'),
+        end_time: new Date('2026-05-10T00:00:00.000Z'),
+        host: undefined,
+        tags: [],
+        location: 'South Wing',
+      },
+      attendeeCount: 85,
+      inPersonalSchedule: false,
+    },
+    {
+      event: {
+        _id: '680027589d521a51759d7e86',
+        name: 'Tech Together Meetup',
+        type: 'WORKSHOPS',
+        start_time: new Date('2026-05-09T23:00:00.000Z'),
+        end_time: new Date('2026-05-10T00:00:00.000Z'),
+        host: 'Major League Hacking',
+        tags: ['beginner', 'developer', 'pm', 'designer', 'other'],
+        location: 'ARC Ballroom A',
+      },
+      attendeeCount: 64,
+      inPersonalSchedule: false,
+    },
+    {
+      event: {
+        _id: '680028219d521a51759d7e8a',
+        name: 'Intro to UI/UX',
+        type: 'WORKSHOPS',
+        start_time: new Date('2026-05-09T23:00:00.000Z'),
+        end_time: new Date('2026-05-10T00:00:00.000Z'),
+        host: 'Design Interactive',
+        tags: ['beginner', 'designer'],
+        location: 'ARC Ballroom B',
+      },
+      attendeeCount: 37,
+      inPersonalSchedule: false,
+    },
+  ];
+
+  // Use mock data temporarily for testing
+  const liveAll = mockLiveEvents;
+  const upcomingAll = mockUpcomingEvents;
+  // const livePersonal: EventEntry[] = [];
+  // const upcomingPersonal: EventEntry[] = [];
+
+  const addToPersonalSchedule = async () => true;
+  const removeFromPersonalSchedule = async () => true;
+
+  // Uncomment below to use real data from hook:
+  // const {
+  //   liveAll,
+  //   upcomingAll,
+  //   livePersonal,
+  //   upcomingPersonal,
+  //   addToPersonalSchedule,
+  //   removeFromPersonalSchedule,
+  // } = useScheduleSneakPeekData();
 
   return (
     <div
       id="schedule-sneak-peek"
-      className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FFFFFF]"
+      className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#FFFFFF] max-h-[65vw] overflow-x-clip"
     >
-      <section className={`w-full px-[4vw] py-[5vw] ${className ?? ''}`}>
+      <section className={`w-full ${className ?? ''}`}>
         {/* <div className="inline-flex items-center group font-jakarta text-[clamp(1.25rem,4.2vw,3rem)] font-semibold leading-tight tracking-[0.72px] text-[#3F3F3F] whitespace-nowrap">
           <span className="w-0 group-hover:w-[20px] md:group-hover:w-[35px]  overflow-hidden transition-all duration-300 ease-out shrink-0">
             <Image
