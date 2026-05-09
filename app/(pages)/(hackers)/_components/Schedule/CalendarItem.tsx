@@ -62,7 +62,7 @@ export function CalendarItem({
         color: eventStyle.textColor,
       }}
     >
-      <div className="flex items-start justify-between sm:items-center gap-[10px] relative flex-col">
+      <div className="flex items-start justify-between sm:items-center gap-[5px] relative flex-col">
         {/* Name and Host in two columns */}
         <div className="flex flex-row justify-between items-start w-full">
           <h2 className="font-metropolis text-[32px] font-semibold tracking-[0.72px] text-balance w-[65%]">
