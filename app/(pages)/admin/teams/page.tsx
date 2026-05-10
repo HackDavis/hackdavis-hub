@@ -38,12 +38,26 @@ export default function Teams() {
     setReportedTeamsDisplay(!reportedTeamsDisplay);
   }
 
+  function compareTableNumbers(a: string, b: string): number {
+    const parse = (t: string) => {
+      const m = String(t ?? '').match(/^([A-Za-z]+)(\d+)$/);
+      return m ? { row: m[1].toUpperCase(), seat: parseInt(m[2], 10) } : null;
+    };
+    const pa = parse(a);
+    const pb = parse(b);
+    if (!pa && !pb) return 0;
+    if (!pa) return 1;
+    if (!pb) return -1;
+    if (pa.row !== pb.row) return pa.row < pb.row ? -1 : 1;
+    return pa.seat - pb.seat;
+  }
+
   const teamData: TeamWithJudges[] = teams.body
     .filter((team: TeamWithJudges) =>
       JSON.stringify(team).toLowerCase().includes(search.toLowerCase())
     )
-    .sort(
-      (a: TeamWithJudges, b: TeamWithJudges) => a.teamNumber - b.teamNumber
+    .sort((a: TeamWithJudges, b: TeamWithJudges) =>
+      compareTableNumbers(a.tableNumber, b.tableNumber)
     );
 
   const chartData = teamData.map((team) => ({
@@ -154,7 +168,10 @@ export default function Teams() {
           {teamData
             .sort((a, b) => {
               if (a.active !== b.active) return b.active ? 1 : -1;
-              return (b.reports?.length || 0) - (a.reports?.length || 0);
+              const reportDiff =
+                (b.reports?.length || 0) - (a.reports?.length || 0);
+              if (reportDiff !== 0) return reportDiff;
+              return compareTableNumbers(a.tableNumber, b.tableNumber);
             })
             .map((team: TeamWithJudges) => (
               <div
