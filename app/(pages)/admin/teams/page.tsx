@@ -168,7 +168,8 @@ export default function Teams() {
           {teamData
             .sort((a, b) => {
               if (a.active !== b.active) return b.active ? 1 : -1;
-              const reportDiff = (b.reports?.length || 0) - (a.reports?.length || 0);
+              const reportDiff =
+                (b.reports?.length || 0) - (a.reports?.length || 0);
               if (reportDiff !== 0) return reportDiff;
               return compareTableNumbers(a.tableNumber, b.tableNumber);
             })
