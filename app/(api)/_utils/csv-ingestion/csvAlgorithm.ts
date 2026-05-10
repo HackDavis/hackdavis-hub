@@ -107,6 +107,7 @@ function isSubmittedNonDraft(status: unknown): boolean {
     .toLowerCase();
   if (!s) return false;
   if (s.includes('draft')) return false;
+  if (s.includes('hidden')) return false;
   return s.includes('submitted');
 }
 
