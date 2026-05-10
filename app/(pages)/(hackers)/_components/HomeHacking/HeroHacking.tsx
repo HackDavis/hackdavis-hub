@@ -1,15 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { GoArrowRight } from 'react-icons/go';
+// import { GoArrowRight } from 'react-icons/go';
 import Countdown from './_components/Countdown';
 import clouds from '@public/hackers/hero/Clouds.svg';
-import starLeft from '@public/hackers/hero/StarLeft.svg';
-import startRight from '@public/hackers/hero/StarRight.svg';
-import peepingBunny from '@public/hackers/hero/PeepingBunny.gif';
-import peepingCow from '@public/hackers/hero/PeepingCow.gif';
-import peepingDuck from '@public/hackers/hero/PeepingDuck.gif';
-import peepingFrog from '@public/hackers/hero/PeepingFrog.gif';
+// import starLeft from '@public/hackers/hero/StarLeft.svg';
+// import startRight from '@public/hackers/hero/StarRight.svg';
+// import peepingBunny from '@public/hackers/hero/PeepingBunny.gif';
+// import peepingCow from '@public/hackers/hero/PeepingCow.gif';
+// import peepingDuck from '@public/hackers/hero/PeepingDuck.gif';
+// import peepingFrog from '@public/hackers/hero/PeepingFrog.gif';
 
 interface HeroHackingProps {
   rolloutTime?: number;
@@ -26,247 +26,42 @@ export default function HeroHacking({
   const countdownTarget = rolloutTime ? rolloutTime + ONE_DAY_MS : undefined;
 
   return (
-    <div className="w-full h-screen p-4 md:p-10">
-      <div className="relative w-full min-h-[86vh] overflow-hidden">
+    <div className="w-full pt-5 pl-5 pb-2">
+      <div className="relative w-full max-h-[25vh] overflow-hidden">
         {/* content wrapper */}
-        <div className="relative z-10 w-full">
-          {/* Main grid area */}
-          <div className="mx-auto h-[90vh] min-h-0 flex flex-col justify-center gap-3 md:grid md:grid-rows-[minmax(1,1fr)] md:gap-5">
-            {/* Countdown bar */}
-            <div
-              className="relative flex flex-col justify-center rounded-[20px] md:rounded-[32px] bg-white/25 backdrop-blur-xl px-6 md:px-10 py-8 md:py-10 overflow-hidden"
-              style={{
-                background:
-                  'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
-              }}
-            >
-              {/* background */}
-              <Image
-                src={clouds}
-                alt="Background"
-                fill
-                className="object-cover pointer-events-none select-none -z-10"
-              />
+        <div className="relative z-10 w-full mx-auto h-[25vh] min-h-0 flex flex-col justify-start gap-3 md:grid md:grid-rows-[minmax(1,1fr)] md:gap-5">
+          {/* Countdown bar */}
+          <div
+            className="relative flex flex-col justify-center rounded-[20px] md:rounded-[32px] backdrop-blur-xl px-4 py-4 overflow-hidden"
+            style={{
+              background:
+                'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
+            }}
+          >
+            {/* background */}
+            <Image
+              src={clouds}
+              alt="Background"
+              fill
+              className="object-cover pointer-events-none select-none -z-10"
+            />
 
-              <div className="flex items-start justify-between gap-2">
-                {/* Right: countdown (big) */}
-                <div className="flex-1 flex justify-center">
-                  <div className="text-white relative">
-                    <Countdown countdownTarget={countdownTarget} />
-                    {loading && (
-                      <div className="absolute top-full mt-2 text-white/90 text-sm">
-                        loading…
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Everything below countdown must fit remaining height */}
-            <div className="relative min-h-0">
-              {/* Decorative stars */}
-              <Image
-                src={starLeft}
-                alt="sparkling star"
-                width={120}
-                height={120}
-                className="
-                    pointer-events-none select-none
-                    absolute z-20
-                    -left-2 top-[35%] md:top-[50%]
-                    w-[56px] sm:w-[70px] md:w-[84px] lg:w-[96px]
-                    rotate-[-8deg]
-                  "
-              />
-
-              <Image
-                src={startRight}
-                alt="sparkling star"
-                width={120}
-                height={120}
-                className="
-                    pointer-events-none select-none
-                    absolute z-20
-                    -right-2 top-[0%]
-                    w-[56px] sm:w-[70px] md:w-[84px] lg:w-[96px]
-                    rotate-[10deg]
-                  "
-              />
-              {/* ===================== MOBILE (2x2 animals) ===================== */}
-              <div className="md:hidden h-full flex flex-col justify-center">
-                {/* 2x2 animals */}
-                <div className="grid grid-cols-2 gap-2">
-                  {/* Cow */}
-                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#CCFFFE] overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingCow}
-                      alt="Peeking cow"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-
-                  {/* Duck */}
-                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingDuck}
-                      alt="Peeking duck"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-
-                  {/* Frog */}
-                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#E9FBBA] overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingFrog}
-                      alt="Peeking frog"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-
-                  {/* Bunny */}
-                  <div className="relative aspect-[5/3] rounded-[20px] bg-[#FFD2D2] overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingBunny}
-                      alt="Peeking bunny"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Submit pill under grid on mobile */}
-                <a
-                  href="https://hackdavis-2026.devpost.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 group relative rounded-[1000px] bg-white/25 backdrop-blur-xl min-h-[110px] flex items-center justify-center overflow-hidden"
-                  style={{
-                    background:
-                      'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
-                  }}
-                >
-                  {/* background */}
-                  <Image
-                    src={clouds}
-                    alt="Background"
-                    fill
-                    className="object-cover pointer-events-none select-none -z-10 overflow-hidden"
-                  />
-                  <div className="absolute inset-0 opacity-70 pointer-events-none bg-gradient-to-r from-white/0 via-white/10 to-white/0" />
-                  <div className="relative flex items-center gap-2">
-                    <span className="text-white text-4xl md:text-5xl font-extrabold tracking-wide drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)]">
-                      SUBMIT!
-                    </span>
-                    <GoArrowRight className="text-white text-4xl md:text-5xl drop-shadow-[0_6px_14px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </a>
-              </div>
-
-              {/* ===================== DESKTOP (dynamically fits remaining height) ===================== */}
-              <div className="hidden md:grid min-h-0 h-full grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-5">
-                {/* Row 1: 3 tiles */}
-                <div className="min-h-0 grid grid-cols-[50fr_30fr_20fr] gap-5">
-                  {/* Cow */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#CCFFFE] backdrop-blur-xl overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingCow}
-                      alt="Peeking cow"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-
-                  {/* Duck */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#FFF3B6] overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingDuck}
-                      alt="Peeking duck"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-
-                  {/* Frog */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#E9FBBA] backdrop-blur-xl overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingFrog}
-                      alt="Peeking frog"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Row 2: bunny + submit pill */}
-                <div className="min-h-0 grid grid-cols-[1fr_2fr] gap-5 items-stretch">
-                  {/* Bunny */}
-                  <div className="min-h-0 relative rounded-[28px] bg-[#FFD2D2] backdrop-blur-xl overflow-hidden flex items-end justify-center">
-                    <Image
-                      src={peepingBunny}
-                      alt="Peeking bunny"
-                      width={520}
-                      height={320}
-                      className="h-full w-auto max-w-none pointer-events-none select-none"
-                    />
-                  </div>
-
-                  {/* Submit pill */}
-                  <a
-                    href="https://hackdavis-2026.devpost.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative rounded-full bg-white/25 backdrop-blur-xl flex items-center justify-center overflow-hidden"
-                    style={{
-                      background:
-                        'linear-gradient(172deg, #46D8E9 43.03%, #76DEEB 63.28%, #FCFCD1 112.36%)',
-                    }}
-                  >
-                    {/* background */}
-                    <Image
-                      src={clouds}
-                      alt="Background"
-                      fill
-                      className="object-cover pointer-events-none select-none -z-10"
-                    />
-
-                    <div className="absolute inset-0 opacity-70 pointer-events-none bg-gradient-to-r from-white/0 via-white/10 to-white/0" />
-
-                    <div className="relative flex items-center gap-6">
-                      <span
-                        className="text-white font-medium tracking-[4.601px]"
-                        style={{
-                          fontSize: 'clamp(30px, 10.2vw, 195px)', // a bit smaller than to countown timer font
-                          textShadow: '0 0 31.729px rgba(255, 255, 255, 0.30)',
-                        }}
-                      >
-                        SUBMIT
-                      </span>
-
-                      <GoArrowRight
-                        className="text-white transition-transform duration-300 group-hover:translate-x-3"
-                        style={{
-                          fontSize: 'clamp(40px, 5vw, 120px)',
-                          textShadow: '0 0 31.729px rgba(255, 255, 255, 0.30)',
-                        }}
-                      />
+            <div className="flex items-start justify-between">
+              {/* Right: countdown (big) */}
+              <div className="flex-1 flex justify-center">
+                <div className="text-white relative">
+                  <Countdown countdownTarget={countdownTarget} />
+                  {loading && (
+                    <div className="absolute top-full mt-2 text-white/90 text-sm">
+                      loading…
                     </div>
-                  </a>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-          {/* end main grid area */}
         </div>
+        {/* end main grid area */}
       </div>
     </div>
   );
