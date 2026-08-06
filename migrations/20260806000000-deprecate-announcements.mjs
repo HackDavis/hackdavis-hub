@@ -1,6 +1,6 @@
 export const up = async (db) => {
   const collectionExists = await db
-    .listCollections({ name: "announcements" }, { nameOnly: true })
+    .listCollections({ name: 'announcements' }, { nameOnly: true })
     .hasNext();
 
   if (collectionExists) {
