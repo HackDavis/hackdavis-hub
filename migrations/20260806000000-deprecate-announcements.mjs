@@ -1,11 +1,5 @@
 export const up = async (db) => {
-  const collectionExists = await db
-    .listCollections({ name: 'announcements' }, { nameOnly: true })
-    .hasNext();
-
-  if (collectionExists) {
-    await db.collection('announcements').drop();
-  }
+  await db.collection('announcements').drop();
 };
 
 export const down = async (db) => {
