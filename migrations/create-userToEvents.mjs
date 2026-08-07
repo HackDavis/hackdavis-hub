@@ -1,4 +1,6 @@
 export async function up(db) {
+  if (await db.listCollections({ name: 'userToEvents' }).hasNext()) return;
+
   await db.createCollection('userToEvents', {
     validator: {
       $jsonSchema: {

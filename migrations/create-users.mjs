@@ -9,6 +9,8 @@ const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const domains = [...new Set(data.domains)];
 
 export async function up(db) {
+  if (await db.listCollections({ name: 'users' }).hasNext()) return;
+
   await db.createCollection('users', {
     validator: {
       $jsonSchema: {

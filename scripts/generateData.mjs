@@ -4,6 +4,7 @@ import data from '../app/_data/db_validation_data.json' with { type: 'json' };
 
 const specialties = [...new Set(data.domains)];
 const tracks = [...new Set(data.tracks)];
+const panelTracks = [...new Set(data.panelTracks)];
 
 function shuffleSpecialties(specialties) {
   const shuffledSpecialties = [...specialties];
@@ -204,7 +205,7 @@ function generateData(collectionName, numDocuments, existingData = {}) {
       };
     });
   } else if (collectionName === 'panels') {
-    const trackNames = tracks;
+    const trackNames = panelTracks;
 
     const trackTypes = trackNames.reduce((acc, trackName) => {
       acc[trackName] = faker.helpers.arrayElement(specialties);
