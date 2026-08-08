@@ -53,14 +53,14 @@ export default function Countdown({
     fontStyle: 'normal',
     fontWeight: 500,
     lineHeight: 'normal',
-    letterSpacing: '4.601px',
+    letterSpacing: '0px',
     textShadow: '0 0 31.729px rgba(255, 255, 255, 0.30)',
   };
 
   return (
     <div className="flex flex-col items-end text-white">
       {/* BIG TIMER */}
-      <div className="flex items-end gap-3 md:gap-6" style={timerStyle}>
+      <div className="flex items-end gap-0" style={timerStyle}>
         <span className="leading-none">
           {timeLeft.hours.toString().padStart(2, '0')}
         </span>
